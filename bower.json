@@ -1,0 +1,24 @@
+{
+  "name": "blank-project",
+  "version": "0.0.0",
+  "authors": [
+    "Uros Lates <uroslates@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "angular": "latest",
+    "angular-resource": "latest",
+    "angular-cookies": "latest",
+    "angular-ui-router": "~0.2.8"
+  }
+}

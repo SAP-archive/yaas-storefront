@@ -1,0 +1,6 @@
+.sass-cache
+bower_components
+node_modules
+*sublime*
+public/js/vendor
+.tmp/

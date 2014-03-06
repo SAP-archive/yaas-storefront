@@ -1,0 +1,11 @@
+<h2>Products</h2>
+
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="product in products.products">
+  	<span class="badge">{{product.price.formattedValue}}</span>
+  	<a href="{{CONTEXT_ROOT}}{{product.url}}" target="_blank" title="{{product.description}}">
+  		<img src="{{CONTEXT_ROOT}}{{product.images[0].url}}" alt="{{product.name}}" width="30">
+  		<span>{{product.name}}</span>
+  	</a>
+  </li>
+</ul>
