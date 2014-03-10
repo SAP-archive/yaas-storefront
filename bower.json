@@ -19,6 +19,7 @@
     "angular": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",
-    "angular-ui-router": "~0.2.8"
+    "angular-ui-router": "~0.2.8",
+    "angular-translate": "~2.0.1"
   }
 }
