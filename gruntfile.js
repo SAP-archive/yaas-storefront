@@ -126,7 +126,14 @@ module.exports = function(grunt) {
         usemin: {
             html: ['dist/index.html']
         },
- 
+
+         karma: {
+            unit: { configFile: 'config/karma.conf.js', keepalive: true },
+            // TODO: get protractor working with grunt
+            // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
+            // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
+        },
+        
         uglify: {
             options: {
                 report: 'min',
