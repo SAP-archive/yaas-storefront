@@ -19,6 +19,8 @@
     "angular": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",
-    "angular-ui-router": "~0.2.8"
+    "angular-ui-router": "~0.2.8",
+    "angular-mocks": "~1.2.14"
+
   }
 }
