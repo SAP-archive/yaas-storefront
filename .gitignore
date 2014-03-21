@@ -4,3 +4,5 @@ node_modules
 *sublime*
 public/js/vendor
 .tmp/
+*.iml
+.idea

@@ -19,14 +19,14 @@ module.exports = function(grunt) {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             html: {
                 files: ['public/views/**'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             css: {
                 files: [CSS_DIR + '/**'],
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
             compass: {
                 files: [SCSS_DIR + '/**'],
                 tasks: ['compass:dev']
-            },
+            }
         },
 
         jshint: {
@@ -47,8 +47,8 @@ module.exports = function(grunt) {
             all: [
                 'gruntfile.js',
                 'public/js/{,**/}*.js',
-                '!public/js/vendor/{,**/}*.js',
-            ],
+                '!public/js/vendor/{,**/}*.js'
+            ]
         },
 
         concurrent: {

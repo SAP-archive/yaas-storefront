@@ -2,9 +2,9 @@
   "name": "blank-project",
   "version": "0.0.0",
   "authors": [
-    "Uros Lates <uroslates@gmail.com>"
+    "hybris"
   ],
-  "license": "MIT",
+  "license": "",
   "private": true,
   "ignore": [
     "**/.*",
@@ -14,8 +14,6 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "latest",
-    "bootstrap": "latest",
     "angular": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",

@@ -1,3 +1,4 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.utils', []);
+angular.module('rice.utils', [
+    'rice.utils.cors']);

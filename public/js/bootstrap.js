@@ -2,5 +2,7 @@
 
 // Bootstrap the application
 angular.element(document).ready(function() {
-    angular.bootstrap(document, ['hybris.bs&d.newborn']);
+    angular.bootstrap(document, [
+        'rice.router',
+        'rice.utils']);
 });
