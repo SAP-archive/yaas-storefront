@@ -108,7 +108,7 @@ module.exports = function(grunt) {
             main: {
                 expand: true,
                 cwd: 'public/',
-                src: ['**', '!js/**', '../index.html', '!scss/**',],
+                src: ['**', '!js/**', '../index.html', '!scss/**'],
                 dest: 'dist/'
             }
         },
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
         },
 
          karma: {
-            unit: { configFile: 'config/karma.conf.js', keepalive: true },
+            unit: { configFile: 'config/karma.conf.js', keepalive: true }
             // TODO: get protractor working with grunt
             // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
             // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }

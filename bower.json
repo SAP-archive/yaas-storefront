@@ -16,9 +16,15 @@
   "dependencies": {
     "angular": "latest",
     "angular-resource": "latest",
-    "angular-cookies": "latest",
     "angular-ui-router": "~0.2.8",
-    "angular-mocks": "~1.2.14"
-
-  }
+    "angular-mocks": "~1.2.14",
+    "y-blue": "https://github.com/coberleyv/y-blue.git"
+	
+  },
+  "install" : {
+    "path" : {
+      "css": "public/css/vendor",
+      "js": "public/js/vendor"
+    }  
+  } 
 }
