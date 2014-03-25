@@ -9,6 +9,8 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    grunt.loadNpmTasks('grunt-mustache-render');
+
     // Project Configuration
     grunt.initConfig({
 
@@ -139,6 +141,24 @@ module.exports = function(grunt) {
                 report: 'min',
                 mangle: false
             }
+        },
+
+        mustache_render: {
+            options: {
+                // Task global options go here
+            },
+            injectDependencies: {
+                options: {
+                    // Target specific options go here
+                },
+                files : [
+                    {
+                        data: 'template_replacements.json',  // template snippet to replace
+                        template: 'bower.json.template', // Path to template file
+                        dest: 'bower.json' // Path to output destination
+                    }
+                ]
+            }
         }
 
     });
@@ -163,4 +183,6 @@ module.exports = function(grunt) {
         'rev',
         'usemin'
     ]);
+
+
 };
