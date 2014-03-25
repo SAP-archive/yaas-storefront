@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.utils')
+angular.module('rice.utils.cors',[])
 
 	.provider('CORSProvider', ['$httpProvider',
 		function ($httpProvider) {

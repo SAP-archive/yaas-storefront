@@ -2,9 +2,9 @@
   "name": "blank-project",
   "version": "0.0.0",
   "authors": [
-    "Uros Lates <uroslates@gmail.com>"
+    "hybris"
   ],
-  "license": "MIT",
+  "license": "",
   "private": true,
   "ignore": [
     "**/.*",
@@ -14,11 +14,16 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "latest",
-    "bootstrap": "latest",
     "angular": "latest",
     "angular-resource": "latest",
-    "angular-cookies": "latest",
-    "angular-ui-router": "~0.2.8"
-  }
+    "angular-ui-router": "~0.2.8",
+    "angular-mocks": "~1.2.14"
+
+  },
+  "install" : {
+    "path" : {
+      "css": "public/css/vendor",
+      "js": "public/js/vendor"
+    }  
+  } 
 }

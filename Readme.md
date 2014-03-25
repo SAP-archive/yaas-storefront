@@ -65,6 +65,3 @@ Then on index.html page only add a references to 2 generated static files from *
 
 
 
-## Author
-
-[Uros Lates](http://uroslates.com)

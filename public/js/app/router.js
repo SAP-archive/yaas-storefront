@@ -1,11 +1,10 @@
 'use strict';
 
-window.app = angular.module('hybris.bs&d.newborn', [
-        'ngCookies',
-        'ngResource',
+// ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
+window.app = angular.module('rice.router', [
         'ui.router',
-        'hybris.bs&d.newborn.products',
-        'hybris.bs&d.newborn.utils'
+        'rice.utils',
+        'rice.constants'
     ])
 
     //Setting up routes
@@ -26,25 +25,22 @@ window.app = angular.module('hybris.bs&d.newborn', [
                     url: '/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/home/templates/body.html'
+                            templateUrl: 'public/js/app/home/templates/home.html'
                         }
                     }
-                })
-                .state('base.products', {
-                    url: '/products',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/products/templates/products.html',
-                            controller: 'ProductsCtrl'
-                        }
-                    }
-                });
+                }) ;
 
             $urlRouterProvider.otherwise('/');
             $locationProvider.hashPrefix('!');
         }
     ])
-    
-    .run(['CORSProvider', function (CORSProvider) {
-        CORSProvider.enableCORS();
-    }]);
+
+    .run(['CORSProvider', '$rootScope', 'Constants',
+        function (CORSProvider, $rootScope, Constants) {
+            /* enabling CORS to allow testing from localhost */
+            CORSProvider.enableCORS();
+            $rootScope.CONTEXT_ROOT = Constants.baseUrl;
+        }
+    ])
+
+    ;
