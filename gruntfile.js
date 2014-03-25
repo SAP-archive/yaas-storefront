@@ -9,6 +9,8 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    grunt.loadNpmTasks('grunt-mustache-render');
+
     // Project Configuration
     grunt.initConfig({
 
@@ -108,7 +110,7 @@ module.exports = function(grunt) {
             main: {
                 expand: true,
                 cwd: 'public/',
-                src: ['**', '!js/**', '../index.html', '!scss/**',],
+                src: ['**', '!js/**', '../index.html', '!scss/**'],
                 dest: 'dist/'
             }
         },
@@ -128,7 +130,7 @@ module.exports = function(grunt) {
         },
 
          karma: {
-            unit: { configFile: 'config/karma.conf.js', keepalive: true },
+            unit: { configFile: 'config/karma.conf.js', keepalive: true }
             // TODO: get protractor working with grunt
             // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
             // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
@@ -138,6 +140,24 @@ module.exports = function(grunt) {
             options: {
                 report: 'min',
                 mangle: false
+            }
+        },
+
+        mustache_render: {
+            options: {
+                // Task global options go here
+            },
+            injectDependencies: {
+                options: {
+                    // Target specific options go here
+                },
+                files : [
+                    {
+                        data: 'template_replacements.json',  // template snippet to replace
+                        template: 'bower.json.template', // Path to template file
+                        dest: 'bower.json' // Path to output destination
+                    }
+                ]
             }
         }
 
@@ -163,4 +183,6 @@ module.exports = function(grunt) {
         'rev',
         'usemin'
     ]);
+
+
 };
