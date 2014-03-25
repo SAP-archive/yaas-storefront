@@ -141,24 +141,6 @@ module.exports = function(grunt) {
                 report: 'min',
                 mangle: false
             }
-        },
-
-        mustache_render: {
-            options: {
-                // Task global options go here
-            },
-            injectDependencies: {
-                options: {
-                    // Target specific options go here
-                },
-                files : [
-                    {
-                        data: 'template_replacements.json',  // template snippet to replace
-                        template: 'bower.json.template', // Path to template file
-                        dest: 'bower.json' // Path to output destination
-                    }
-                ]
-            }
         }
 
     });
