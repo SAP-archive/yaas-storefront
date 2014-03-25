@@ -10,7 +10,6 @@
 
     <title>Blank Project</title>
 
-    <link href="./public/css/vendor/styles.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -39,13 +38,27 @@
     <!-- ============================================== -->
     <!-- build:js js/app.js -->
 
+
     <script src="public/js/vendor/angular.js"></script>
     <script src="public/js/vendor/angular-resource.js"></script>
     <script src="public/js/vendor/angular-ui-router.js"></script>
+    <script src="public/js/vendor/angular-translate.js"></script>
+
     <script src="public/js/app/shared/shared-index.js"></script>
+    <script src="public/js/app/shared/services/global-data.js"></script>
+    <script src="public/js/app/shared/controllers/navigation-ctrl.js"></script>
+    <script src="public/js/app/shared/i18n/i18-index.js"></script>
+    <script src="public/js/app/shared/i18n/i18-constants.js"></script>
+    <script src="public/js/app/shared/i18n/lang/en.js"></script>
+    <script src="public/js/app/shared/i18n/lang/de.js"></script>
+    <script src="public/js/app/shared/i18n/providers/translation-provider.js"></script>
+
     <script src="public/js/app/shared/utils/cors.js"></script>
+
     <script src="public/js/app/router.js"></script>
     <script src="public/js/app/constants.js"></script>
+    <script src="public/js/app/settings.js"></script>
+
     <script src="public/js/bootstrap.js"></script>
 
     <!-- endbuild -->

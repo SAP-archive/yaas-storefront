@@ -4,5 +4,6 @@
 angular.element(document).ready(function() {
     angular.bootstrap(document, [
         'rice.router',
-        'rice.utils']);
+
+        'rice.i18n']);
 });

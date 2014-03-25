@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.utils.cors',[])
+angular.module('rice.utils',[])
 
 	.provider('CORSProvider', ['$httpProvider',
 		function ($httpProvider) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.constants',[])
+angular.module('rice.shared')
     .constant('Constants', {
 
         baseUrl: 'http://responsive.hybris.com:9001',

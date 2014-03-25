@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "bower install"
+    "postinstall": "bower-installer"
   },
   "dependencies": {
     "bower": "latest",
@@ -45,8 +45,9 @@
     "protractor": "~0.20.1",
     "phantomcss": "^0.4.5",
     "resemblejs": "^1.0.1",
-    "grunt-mustache-render": "~1.2.4"
+    "grunt-mustache-render": "~1.2.4",
+    "bower-installer": "~0.6.2"
   },
-  "author": "Uros Lates",
-  "license": "BSD"
+  "author": "hybris",
+  "license": "proprietary"
 }

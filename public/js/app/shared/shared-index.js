@@ -1,4 +1,6 @@
 'use strict';
 
-angular.module('rice.utils', [
-    'rice.utils.cors']);
+angular.module('rice.shared', [
+    'rice.utils',
+    'rice.i18n'
+    ]);

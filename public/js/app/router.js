@@ -3,20 +3,27 @@
 // ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
 window.app = angular.module('rice.router', [
         'ui.router',
+        'rice.shared',
         'rice.utils',
-        'rice.constants'
+        'rice.i18n'
     ])
 
     //Setting up routes
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, settings) {
+
+            // Set default language
+            TranslationProvider.setPreferredLanguage( settings.languageCode );
 
             // States definition
             $stateProvider
                 .state('base', {
                     abstract: true,
                     views: {
-                        'navigation@': { templateUrl: 'public/js/app/shared/templates/navigation.html' },
+                        'navigation@': {
+                            templateUrl: 'public/js/app/shared/templates/navigation.html',
+                            controller: 'NavigationCtrl'
+                        },
                         'header@': { templateUrl: 'public/js/app/shared/templates/header.html' },
                         'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' }
                     }
@@ -35,6 +42,7 @@ window.app = angular.module('rice.router', [
         }
     ])
 
+
     .run(['CORSProvider', '$rootScope', 'Constants',
         function (CORSProvider, $rootScope, Constants) {
             /* enabling CORS to allow testing from localhost */
@@ -44,3 +52,4 @@ window.app = angular.module('rice.router', [
     ])
 
     ;
+

@@ -1,9 +1,0 @@
-
-- inject project title into index.html
-- inject Branding specific info
-- inject footer
-- should nav bar be built dynamically?
-- clean up yng - remove product specific info
-- should CORS be optional?
-- Constants.js should not have any hard-coded URLs
-- reference style sheet in index.html
