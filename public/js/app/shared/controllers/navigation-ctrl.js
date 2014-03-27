@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.shared')
+angular.module('ds.shared')
 	.controller('NavigationCtrl', ['$scope', '$translate', 'GlobalData', 'i18nConstants',
 		function ($scope, $translate, GlobalData, i18nConstants) {
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.shared')
+angular.module('ds.shared')
 
 	/**
 	 * Defaults settings for the application.

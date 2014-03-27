@@ -1,11 +1,11 @@
 'use strict';
 
 // ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
-window.app = angular.module('rice.router', [
+window.app = angular.module('ds.router', [
         'ui.router',
-        'rice.shared',
-        'rice.utils',
-        'rice.i18n'
+        'ds.shared',
+        'ds.utils',
+        'ds.i18n'
     ])
 
     //Setting up routes

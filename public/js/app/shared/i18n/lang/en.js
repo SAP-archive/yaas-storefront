@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('rice.i18n')
+angular.module('ds.i18n')
 	.constant('TranslationsEN', {
 
-		HOME: 'Home',
+		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
 		en: 'English',
 		de: 'German'

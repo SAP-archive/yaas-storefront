@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.utils',[])
+angular.module('ds.utils',[])
 
 	.provider('CORSProvider', ['$httpProvider',
 		function ($httpProvider) {

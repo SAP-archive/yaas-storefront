@@ -3,7 +3,7 @@
 // Bootstrap the application
 angular.element(document).ready(function() {
     angular.bootstrap(document, [
-        'rice.router',
+        'ds.router',
 
-        'rice.i18n']);
+        'ds.i18n']);
 });

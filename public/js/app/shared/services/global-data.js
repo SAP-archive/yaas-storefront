@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rice.shared')
+angular.module('ds.shared')
     .service('GlobalData', ['settings', function (settings) {
       
 		this.languageCode = settings.languageCode;
