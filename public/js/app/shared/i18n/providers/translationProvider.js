@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ds.i18n')
+angular.module('hybris.bs&d.newborn.i18n')
 	.provider('Translation', ['$translateProvider', 'i18nConstantsProvider',
 		function TranslationProvider($translateProvider, i18nConstantsProvider) {
 			var defaultLang = i18nConstantsProvider.languages.en.code;

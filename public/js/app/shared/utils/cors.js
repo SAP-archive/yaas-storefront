@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('ds.utils',[])
+angular.module('hybris.bs&d.newborn.utils')
 
 	.provider('CORSProvider', ['$httpProvider',
-		function ($httpProvider) {
+		function($httpProvider) {
 
 			var CORSProvider = {
 				

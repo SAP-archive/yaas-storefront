@@ -1,0 +1,20 @@
+<div class="sign-in popover bottom ng-scope" style="display: none;" popover>
+    <div class="arrow"></div>
+    <h3 class="popover-title">Sign in</h3>
+    <div class="popover-content">
+        <div class="signin-container">
+            <img class="profile-img" src="./public/img/user.png" alt="">
+            <form class="form-signin" ng-submit="onSubmit(signinModel)">
+                <input type="text" class="form-control" placeholder="Username" required="" autofocus="" ng-model="signinModel.username">
+                <input type="password" class="form-control" placeholder="Password" required="" disabled ng-model="signinModel.password">
+                
+                <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+                <label class="checkbox pull-left">
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+                <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+            </form>
+            <a href="#" class="text-center signup-btn">Sign up</a>  
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ds.shared')
+angular.module('hybris.bs&d.newborn.shared')
 	.controller('NavigationCtrl', ['$scope', '$translate', 'GlobalData', 'i18nConstants',
 		function ($scope, $translate, GlobalData, i18nConstants) {
 

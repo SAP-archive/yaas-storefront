@@ -1,5 +1,5 @@
 'use strict';
 
-angular.module('ds.i18n', [
+angular.module('hybris.bs&d.newborn.i18n', [
 		'pascalprecht.translate'
 	]);

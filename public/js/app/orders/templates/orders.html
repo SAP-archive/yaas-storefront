@@ -1,0 +1,38 @@
+<form name="orders_filter"></form>
+
+<div class="panel panel-default">
+  
+	<div class="panel-heading clearfix">
+		{{'ORDERS' | translate}}
+	</div>
+  
+	<div class="panel-body">
+		<p ng-if="!orders.length">{{'NO_ORDERS' | translate}}</p>
+		<ul class="order-list list-group" ng-class="{ loading: loading, hidden: !orders.length }">
+			<div class="loader"></div>
+
+			<li class="list-group-item" ng-repeat="order in orders">
+				<a class="order-id" ui-sref="base.orders.order({ id: order._id })">
+					<span class="label label-primary">{{order._id}}</span>
+				</a>
+				{{'FROM' | translate}} 
+				<small class="order-created"><em>({{order.created | date:'short'}})</em></small>
+				{{'BY' | translate}}
+				<a class="order-buyer" href="mailto:{{order.buyerId}}">
+					<span><i class="glyphicon glyphicon-user glyphicon"></i> {{order.buyerId}}</span>
+				</a>
+
+				<span class="order-status pull-right label label-info">{{order.status}}</span>
+
+				<a ng-if="order.entries.length" ng-click="order.showEntries=!order.showEntries" class="show-entries-btn pull-right btn btn-default btn-xs">Show Entries</a>
+
+				<!-- Entries -->
+				<div ng-if="order.showEntries">
+					<div ng-include="modulePath+'templates/partials/order_entries.html'"></div> 
+				</div>
+
+			</li>
+		</ul>
+	</div>
+
+</div>

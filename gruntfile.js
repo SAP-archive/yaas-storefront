@@ -9,8 +9,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.loadNpmTasks('grunt-mustache-render');
-
     // Project Configuration
     grunt.initConfig({
 
@@ -21,14 +19,14 @@ module.exports = function(grunt) {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all'],
                 options: {
-                    livereload: true
-                }
+                    livereload: true,
+                },
             },
             html: {
                 files: ['public/views/**'],
                 options: {
-                    livereload: true
-                }
+                    livereload: true,
+                },
             },
             css: {
                 files: [CSS_DIR + '/**'],
@@ -39,7 +37,7 @@ module.exports = function(grunt) {
             compass: {
                 files: [SCSS_DIR + '/**'],
                 tasks: ['compass:dev']
-            }
+            },
         },
 
         jshint: {
@@ -49,8 +47,8 @@ module.exports = function(grunt) {
             all: [
                 'gruntfile.js',
                 'public/js/{,**/}*.js',
-                '!public/js/vendor/{,**/}*.js'
-            ]
+                '!public/js/vendor/{,**/}*.js',
+            ],
         },
 
         concurrent: {
@@ -88,7 +86,7 @@ module.exports = function(grunt) {
             all: {
                 options:{
                     port: 9000,
-                    hostname: '0.0.0.0',
+                    hostname: 'localhost',
                     keepalive: true
                 }
             }
@@ -110,7 +108,7 @@ module.exports = function(grunt) {
             main: {
                 expand: true,
                 cwd: 'public/',
-                src: ['**', '!js/**', '../index.html', '!scss/**'],
+                src: ['**', '!js/**', '../index.html', '!scss/**',],
                 dest: 'dist/'
             }
         },
@@ -128,14 +126,7 @@ module.exports = function(grunt) {
         usemin: {
             html: ['dist/index.html']
         },
-
-         karma: {
-            unit: { configFile: 'config/karma.conf.js', keepalive: true }
-            // TODO: get protractor working with grunt
-            // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
-            // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
-        },
-        
+ 
         uglify: {
             options: {
                 report: 'min',
@@ -165,6 +156,4 @@ module.exports = function(grunt) {
         'rev',
         'usemin'
     ]);
-
-
 };

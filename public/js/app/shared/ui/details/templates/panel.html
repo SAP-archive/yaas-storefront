@@ -1,0 +1,40 @@
+<div class="row product-infos cyruxx">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+        <div class="panel panel-primary">
+            
+            <header class="panel-heading">
+                <h3 ng-if="product.isNew()" class="panel-title">New Product</h3>
+                <h3 ng-if="!product.isNew()" class="panel-title">{{product.name}}</h3>
+            </header>
+            
+            <div class="panel-body" ng-if="!editMode && !product.isNew()" ng-include="template.details.templateUrl"></div>
+            <div class="panel-body" ng-if="editMode || product.isNew()"  ng-include="template.form.templateUrl"></div>
+
+            <footer class="panel-footer clearfix">
+                <span class="pull-right">
+                    <button class="btn btn-sm btn-primary" 
+                            data-toggle="tooltip"
+                            ng-if="editMode || product.isNew()"
+                            ng-click="submit(product)"
+                            data-original-title="Submit">
+                                <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                    <button class="btn btn-sm btn-warning" type="button"
+                            data-toggle="tooltip"
+                            ng-if="!editMode && !product.isNew()"
+                            ng-click="edit(product)"
+                            data-original-title="Edit this product">
+                                <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            data-toggle="tooltip"
+                            ng-if="!product.isNew()"
+                            ng-click="remove(product)"
+                            data-original-title="Remove this product">
+                                <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </span>
+            </footer>
+        </div>
+    </div>
+</div>
