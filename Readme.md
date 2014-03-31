@@ -1,8 +1,6 @@
 # About
 
-You can find all relevant information about the project within this document.
-
-*Please try keeping this document up to date as much as possible.*
+Hybris App  Store Demo
 
 
 ## Install
