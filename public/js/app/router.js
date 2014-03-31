@@ -7,7 +7,7 @@ window.app = angular.module('hybris.bs&d.newborn', [
         'hybris.bs&d.newborn.i18n',
         'hybris.bs&d.newborn.products',
         'hybris.bs&d.newborn.orders',
-        'hybris.bs&d.newborn.card',
+        'hybris.bs&d.newborn.cart',
         'hybris.bs&d.newborn.utils',
         'hybris.bs&d.newborn.shared',
         'hybris.bs&d.newborn.auth',
@@ -30,9 +30,9 @@ window.app = angular.module('hybris.bs&d.newborn', [
                             templateUrl: 'public/js/app/shared/templates/navigation.html',
                             controller: 'NavigationCtrl',
                         },
-                        'shoppingcard@': {
-                            templateUrl: 'public/js/app/card/templates/card.html',
-                            controller: 'CardCtrl'
+                        'shoppingcart@': {
+                            templateUrl: 'public/js/app/cart/templates/cart.html',
+                            controller: 'cartCtrl'
                         },
                         'signin@': {
                             templateUrl: 'public/js/app/auth/templates/signin.html',
@@ -68,12 +68,12 @@ window.app = angular.module('hybris.bs&d.newborn', [
                 .state('base.products.list', {
                     url: '/products',
                     resolve: {
-                        products: ['Products', 'Card', function(Products, Card) {
+                        products: ['Products', 'cart', function(Products, cart) {
                             var products = Products.API.query(function() {
                                 angular.forEach(products, function(product) {
                                     product.showDetails = false;
                                     product.featuredImage = product.images.length && product.images[0].url || 'http://placehold.it/100x100/27394f/FFFFFF/&amp;text=No+Preview';
-                                    var ci = Card.getItem(product.code);
+                                    var ci = cart.getItem(product.code);
                                     product.quantity = ci ? ci.quantity : 0;
                                 });
                             });

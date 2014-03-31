@@ -3,17 +3,17 @@
 <ul class="products-list list-group" ng-class="{ loading: loading }">
 	<div class="loader"></div>
 
-	<li class="list-group-item clearfix" ng-repeat="product in products.products" ng-class="{ 'list-group-item-info': isInCard(product) }">
+	<li class="list-group-item clearfix" ng-repeat="product in products.products" ng-class="{ 'list-group-item-info': isIncart(product) }">
 
 	  	<form class="form-inline pull-right" role="form">
-	  		<a class="btn btn-default btn-xs" ng-if="isInCard(product)" ng-click="removeFromCard(product)">
+	  		<a class="btn btn-default btn-xs" ng-if="isIncart(product)" ng-click="removeFromcart(product)">
 				<span class="glyphicon glyphicon-trash"></span> Remove
 			</a>
 			<div class="form-group">
 				<input type="text" class="form-control input-sm xs" name="quantity" placeholder="0" ng-model="product.quantity">
 			</div>
 	  	  	
-			<a class="add-to-cart btn btn-default btn-xs" ng-click="addToCard(product, product.quantity)" ng-disabled="!product.quantity || product.quantity == 0">
+			<a class="add-to-cart btn btn-default btn-xs" ng-click="addTocart(product, product.quantity)" ng-disabled="!product.quantity || product.quantity == 0">
 				<i class="glyphicon glyphicon-plus"></i> 
 				<span>Add to cart</span>
 			</a>	

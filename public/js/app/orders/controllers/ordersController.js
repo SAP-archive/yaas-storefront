@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('hybris.bs&d.newborn.orders.controllers.orders', [])
-	.controller('OrdersCtrl', ['$scope', 'Orders', 'settings', 'Card', 'orders', '$state',
-		function ($scope, Orders, settings, Card, orders, $state) {
+	.controller('OrdersCtrl', ['$scope', 'Orders', 'settings', 'cart', 'orders', '$state',
+		function ($scope, Orders, settings, cart, orders, $state) {
 
 			var refresh = function() {
 				$state.reload();
@@ -12,9 +12,9 @@ angular.module('hybris.bs&d.newborn.orders.controllers.orders', [])
 			$scope.modulePath = settings.apis.orders.modulePath;
 
 			$scope.createOrder = function() {
-				Orders.createOrder(Card.serialize()).then(function() {
+				Orders.createOrder(cart.serialize()).then(function() {
 					refresh();
-					Card.clear();
+					cart.clear();
 				});
 			};
 

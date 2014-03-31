@@ -11,14 +11,16 @@ angular.module('hybris.bs&d.newborn.products.services.products')
                     stateName: 'base.products.list',
                     active: $state.is('base.products.list'),
                     closeable: false
-                }, {
+                }
+
+                /*, {
                     id: 'newproduct',
                     label: 'Create Product',
                     url: $state.href('base.products.new'),
                     stateName: 'base.products.new',
                     active: $state.is('base.products.new'),
                     closeable: false
-                }];
+                }*/];
 
             this.tabs = defaultTabs;
 

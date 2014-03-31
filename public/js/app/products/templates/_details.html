@@ -5,7 +5,7 @@
              alt="Product Image">
 
         <br><br>
-        <form ng-submit="addToCard(product, product.quantity)">
+        <form ng-submit="addTocart(product, product.quantity)">
             <div class="input-group input-group-sm">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default btn-number" data-type="minus" data-field="quant[1]">
@@ -19,7 +19,7 @@
                     </button>
                 </span>
             </div>
-            <button class="add-to-cart btn-sm btn-primary btn-block" ng-if="isInCard(product)" ng-click="removeFromCard(product)">
+            <button class="add-to-cart btn-sm btn-primary btn-block" ng-if="isIncart(product)" ng-click="removeFromcart(product)">
                 <span class="glyphicon glyphicon-trash"></span> Remove from cart
             </button>
             <button class="add-to-cart btn-sm btn-primary btn-block" type="submit" ng-disabled="!product.quantity || product.quantity == 0">

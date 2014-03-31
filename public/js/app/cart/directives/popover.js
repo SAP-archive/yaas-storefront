@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.card')
-	.directive('cardpopover', [
+angular.module('hybris.bs&d.newborn.cart')
+	.directive('cartpopover', [
 		function () {
 			return {
 				restrict: 'A',

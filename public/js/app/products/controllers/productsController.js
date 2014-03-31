@@ -3,8 +3,8 @@
 angular.module('hybris.bs&d.newborn.products.controllers.products', [
         'hybris.bs&d.newborn.products.services.products'
     ])
-    .controller('ProductsCtrl', ['$scope', 'Products', 'ProductsConstants', 'Card', 'products', 'template', '$state', '$controller',
-        function ($scope, Products, ProductsConstants, Card, products, template, $state, $controller) {
+    .controller('ProductsCtrl', ['$scope', 'Products', 'ProductsConstants', 'cart', 'products', 'template', '$state', '$controller',
+        function ($scope, Products, ProductsConstants, cart, products, template, $state, $controller) {
 
             angular.extend(this, $controller('ProductRemoveCtrl', {$scope: $scope}));
 
@@ -12,20 +12,20 @@ angular.module('hybris.bs&d.newborn.products.controllers.products', [
             $scope.CONTEXT_ROOT = ProductsConstants.baseUrl;
             $scope.products = products;
             $scope.quantity = 0;
-            $scope.card = Card;
+            $scope.cart = cart;
 
-            $scope.addToCard = function(product, quantity) {
+            $scope.addTocart = function(product, quantity) {
                 quantity = parseInt(quantity, 10) || 1;
-                Card.addToCard(product, quantity);
+                cart.addTocart(product, quantity);
             };
 
-            $scope.removeFromCard = function(product) {
-                Card.removeFromCard(product);
+            $scope.removeFromcart = function(product) {
+                cart.removeFromcart(product);
                 product.quantity = 0;
             };
             
-            $scope.isInCard = function(product) {
-                return !!Card.getItem(product.sku);
+            $scope.isIncart = function(product) {
+                return !!cart.getItem(product.sku);
             };
 
             $scope.toggleDetails = function(product) {

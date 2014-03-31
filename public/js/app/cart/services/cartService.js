@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.card.services.card', [])
-    .service('Card', ['$rootScope', '$q',
-		function Card($rootScope, $q) {
+angular.module('hybris.bs&d.newborn.cart.services.cart', [])
+    .service('cart', ['$rootScope', '$q',
+		function cart($rootScope, $q) {
 
 			var items = null;
 
@@ -14,7 +14,7 @@ angular.module('hybris.bs&d.newborn.card.services.card', [])
 				return items && items[productCode];
 			};
 
-			this.addToCard = function(product, quantity) {
+			this.addTocart = function(product, quantity) {
 				items = items || {};
 				if (!product.sku) {
 					throw new Error('product.sku not found!');
@@ -23,10 +23,10 @@ angular.module('hybris.bs&d.newborn.card.services.card', [])
 					product: product,
 					quantity: quantity || 0
 				};
-				$rootScope.$broadcast('card:add', this);
+				$rootScope.$broadcast('cart:add', this);
 			};
 
-			this.removeFromCard = function(product) {
+			this.removeFromcart = function(product) {
 				var deferred = $q.defer();
 				if (!product.sku) {
 					deferred.reject('product.sku not found!');
@@ -60,11 +60,11 @@ angular.module('hybris.bs&d.newborn.card.services.card', [])
 			this.serialize = function() {
 				var itemsJson = [];
 
-				angular.forEach(items, function(cardItem) {
+				angular.forEach(items, function(cartItem) {
 					itemsJson.push({
-							amount: cardItem.quantity,
-							productCode: cardItem.product.sku,
-							unitPrice: cardItem.product.price
+							amount: cartItem.quantity,
+							productCode: cartItem.product.sku,
+							unitPrice: cartItem.product.price
 						});
 				});
 
