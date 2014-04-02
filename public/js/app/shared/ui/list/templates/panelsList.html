@@ -1,0 +1,37 @@
+<div class="container">
+    
+    <div ui-view="product-tabs"></div><br>
+
+    <div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+        <div class="alert alert-warning" ng-if="!products.length">{{ 'NO_PRODUCTS' | translate }}</div>
+        
+        <ul class="products-list">
+            <li class="product-item" ng-repeat="product in products" ng-class="{ 'selected': isIncart(product) }">
+                
+                <div class="row product-row" ng-click="toggleDetails(product)">
+                    <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                        <img class="img-circle small"
+                             src="{{product.featuredImage}}"
+                             alt="Product Image">
+                    </div>
+                    <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                        <strong>{{product.name}}</strong><br>
+                        <span class="text-muted">SKU: {{product.sku}}</span>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".cyruxx">
+                        <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div class="row product-infos cyruxx" 
+                    ng-if="product.showDetails" 
+                    ng-include="'public/js/app/shared/ui/details/templates/panel.html'">
+                </div>
+
+            </li>
+        </ul>
+        
+    </div>
+</div>

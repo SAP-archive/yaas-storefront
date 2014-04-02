@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs col-lg-offset-2 col-lg-8">
+  	<li ng-repeat="tab in tabs" ng-class="{ active: tab.active }">
+  		<a href="{{tab.url}}">
+  			{{tab.label}}
+  			<i ng-if="tab.closeable" ng-click="removeTab($event, tab)" class="glyphicon glyphicon-remove"></i>
+  		</a>
+  	</li>
+</ul>

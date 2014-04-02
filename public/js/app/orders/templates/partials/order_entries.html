@@ -1,0 +1,25 @@
+<div ng-if="order.entries">
+	<br/>
+	<div class="panel panel-default">
+		<div class="panel-heading">{{'ENTRIES' | translate}}</div>
+
+		<div class="panel-body">
+			<ul>
+				<li ng-repeat="entry in order.entries">
+					<p>
+						<strong>{{'PRODUCT_CODE' | translate}}</strong> <span class="">{{entry.productCode}}</span>	
+					</p>
+					<p>
+						<strong>{{'QUANTITY' | translate}}</strong> <span>{{entry.amount}}</span>
+					</p>
+					<p>
+						<strong>{{'UNIT_PRICE' | translate}}</strong> <span class="">{{entry.unitPrice | currency : amount : symbol}}</span>
+					</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div ng-if="!order.entries || !order.entries.length">
+	<p>{{'NO_ENTRIES' | translate}}</p>
+</div>

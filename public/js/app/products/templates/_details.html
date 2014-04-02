@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+        <img class="img-circle big"
+             src="{{product.featuredImage}}"
+             alt="Product Image">
+
+        <br><br>
+        <form ng-submit="addTocart(product, product.quantity)">
+            <div class="input-group input-group-sm">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-number" data-type="minus" data-field="quant[1]">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </span>
+                <input type="text" name="quantity" class="form-control input-number" min="1" max="10" placeholder="0" ng-model="product.quantity">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+            <button class="add-to-cart btn-sm btn-primary btn-block" ng-if="isIncart(product)" ng-click="removeFromcart(product)">
+                <span class="glyphicon glyphicon-trash"></span> Remove from cart
+            </button>
+            <button class="add-to-cart btn-sm btn-primary btn-block" type="submit" ng-disabled="!product.quantity || product.quantity == 0">
+                <i class="glyphicon glyphicon-plus"></i> 
+                <span>Add to cart</span>
+            </button>
+        </form>
+    </div>
+    <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+        <img class="img-circle"
+             src="{{product.featuredImage}}"
+             alt="Product Image">
+    </div>
+    <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
+        <strong>{{product.name}}</strong><br>
+        <dl>
+            <dt>Description:</dt>
+            <dd>{{product.description}}</dd>
+            <dt>Created on:</dt>
+            <dd>{{product.created | date:'short'}}</dd>
+            <dt>In stock</dt>
+            <dd>{{product.inStock | boolean}}</dd>
+            <dt>Price</dt>
+            <dd>{{product.price | currency}}</dd>
+            <dt>Specification</dt>
+            <dd><a target="_blank" href="{{product.url}}">{{product.url}}</a></dd>
+        </dl>
+    </div>
+    <div class="col-md-9 col-lg-9 hidden-xs hidden-sm">
+        <strong>{{product.name}}</strong><br>
+        <table class="table table-user-information">
+            <tbody>
+            <tr>
+                <td>Description:</td>
+                <td>{{product.description}}</td>
+            </tr>
+            <tr>
+                <td>Created on:</td>
+                <td>{{product.created | date:'short'}}</td>
+            </tr>
+            <tr>
+                <td>In stock</td>
+                <td>{{product.inStock | boolean}}</td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td>{{product.price | currency}}</td>
+            </tr>
+            <tr>
+                <td>Specification</td>
+                <td><a target="_blank" href="{{product.url}}">{{product.url}}</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

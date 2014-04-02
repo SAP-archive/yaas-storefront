@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+  
+	<div class="panel-heading">
+		{{'ORDER' | translate}} <strong>{{order._id}}</strong>
+
+		<div class="pull-right">
+			<small class="order-created">{{'FROM' | translate}}: <em>({{order.created | date:'short'}})</em></small>
+			<small>{{'BY' | translate}}:</small>
+			<a class="order-buyer" href="mailto:{{order.buyerId}}">
+				<span><i class="glyphicon glyphicon-user glyphicon"></i> {{order.buyerId}}</span>
+			</a>
+		</div>
+	</div>
+  
+	<div class="panel-body">
+		<div class="clearfix">
+			<span class="pull-right order-status label label-info">{{order.status}}</span>	
+		</div>
+		
+		<!-- Entries -->
+		<div ng-include="modulePath+'templates/partials/order_entries.html'"></div>
+	</div>
+
+</div>

@@ -1,0 +1,47 @@
+<div class="shopping-cart popover bottom">
+	<div class="arrow"></div>
+	<h3 class="popover-title">Selected items</h3>
+	<div class="popover-content">
+		
+		<strong ng-if="!cart">No selected items!</strong>
+
+		<table class="table table-striped" ng-if="cart">
+			<tbody>
+				<tr ng-repeat="citem in cart">
+					<td>
+						<a href="#" class="thumbnail">
+							<img src="{{citem.product.images[0].url}}" alt="{{citem.product.name}}" width="80">
+						</a>
+					</td>
+					<td>
+						<a href="{{citem.product.url}}">{{citem.product.name}}</a>
+					</td>
+					<td>
+						<span>{{citem.quantity}}</span>
+					</td>
+					<td>
+						<button type="button" class="btn btn-default btn-xs" ng-click="removeItem(citem)"><i class="glyphicon glyphicon-trash"></i></button>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<div class="pull-right">
+							<strong>Total: </strong>
+							<span>{{total | currency}}</span>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div class="clearfix" ng-if="cart">
+			<div class="pull-right">
+				<button type="button" class="btn btn-success btn-xs" ng-click="createOrder()"><i class="glyphicon glyphicon-ok"></i> Create Order</button>
+				<button type="button" class="btn btn-danger btn-xs" ng-click="cancelOrder()"><i class="glyphicon glyphicon-trash"></i> Cancel Order</button>
+			</div>
+		</div>
+
+	</div>
+</div>
