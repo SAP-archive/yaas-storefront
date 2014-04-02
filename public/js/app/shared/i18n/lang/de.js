@@ -1,24 +1,11 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.i18n')
+angular.module('ds.i18n')
     .constant('TranslationsDE', {
 
-        HOME: 'Startseite',
-		PRODUCTS: 'Produkte',
-		ORDERS: 'Bestellungen',
+        EMPTY_MSG: 'Demo Geschäft - Kommt Bald',
 		LANGUAGES: 'Sprachen',
 		en: 'Englisch',
-		de: 'Deutsch',
-		// ORDERS
-		NO_ORDERS: 'Keine Aufträge gefunden!',
-		ENTRIES: 'Einträge',
-		FROM: 'Aus',
-		BY: 'von',
-		QUANTITY: 'Quantität',
-		PRODUCT_CODE: 'Produkt-Code',
-		UNIT_PRICE: 'Einheitspreis',
-		NO_ENTRIES: 'Keine Einträge gefunden!',
-		// PRODUCTS
-		NO_PRODUCTS: 'Kenie Produkte gefunden!'
+		de: 'Deutsch'
 
     });

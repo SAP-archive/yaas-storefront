@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('hybris.bs&d.newborn.i18n')
+angular.module('ds.i18n')
 
 	.provider('i18nConstants', ['TranslationsEN', 'TranslationsDE',
 		function i18nConstantsProvider(TranslationsEN, TranslationsDE) {
