@@ -3,6 +3,12 @@ module.exports = function(config){
     basePath : '../',
 
     files : [
+        'public/js/vendor/angular.js',
+        'public/js/vendor/angular-mocks.js',
+        'public/js/vendor/angular-resource.js',
+        'public/js/vendor/angular-ui-router.js',
+        'public/js/vendor/angular-translate.js',
+
         'public/js/vendor/**/*.js',
         'public/js/app/**/*index.js',
         'public/js/app/**/*.js',
