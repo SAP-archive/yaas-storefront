@@ -6,7 +6,8 @@ window.app = angular.module('ds.router', [
         'ds.shared',
         'ds.utils',
         'ds.i18n',
-        'ds.products'
+        'ds.products',
+        'yng.core'
     ])
 
     //Setting up routes
@@ -44,6 +45,15 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
+                    },
+                    resolve: {
+                        products: function(caas) {
+                            return caas.products.API.get().$promise
+                                .then(function(result){
+                                return result.products;
+                            });
+                        }
+
                     }
                 });
 
