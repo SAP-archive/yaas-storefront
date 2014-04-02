@@ -31,12 +31,6 @@
       <footer ui-view="footer"></footer>
 
     </div><!--/.container-->
-    <div ng-controller="BrowseProductsCtrl">
-        <li ng-repeat="product in products" class="media">
-            {{ product.name }}
-        </li>
-        </ng-repeat>
-    </div>
 
     <!-- ============================================== -->
     <!-- Vendor Specific -->
@@ -60,7 +54,7 @@
     <script src="public/js/app/shared/utils/cors.js"></script>
 
     <script src="public/js/app/products/products-index.js"></script>
-    <script src="public/js/app/products/browse-products-ctrl.js"></script>
+    <script src="public/js/app/products/controllers/browse-products-ctrl.js"></script>
 
     <script src="public/js/app/router.js"></script>
     <script src="public/js/app/constants.js"></script>

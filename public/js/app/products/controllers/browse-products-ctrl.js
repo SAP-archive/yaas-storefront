@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('ds.products')
    .controller('BrowseProductsCtrl', [ '$scope', 'caas', function($scope, caas) {
 

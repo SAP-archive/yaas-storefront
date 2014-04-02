@@ -36,7 +36,16 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/home/templates/home.html'
                         }
                     }
-                }) ;
+                })
+                .state('base.products', {
+                    url: '/products/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-list.html',
+                            controller: 'BrowseProductsCtrl'
+                        }
+                    }
+                });
 
             $urlRouterProvider.otherwise('/');
             $locationProvider.hashPrefix('!');
