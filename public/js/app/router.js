@@ -5,7 +5,8 @@ window.app = angular.module('ds.router', [
         'ui.router',
         'ds.shared',
         'ds.utils',
-        'ds.i18n'
+        'ds.i18n',
+        'ds.products'
     ])
 
     //Setting up routes
@@ -42,6 +43,15 @@ window.app = angular.module('ds.router', [
         }
     ])
 
+    // Configure the API Provider - specify the base route and configure the end point with route and name
+    .config(function(caasProvider) {
+        caasProvider.setBaseRoute('http://responsive.hybris.com:9001/rest/v1/apparel-uk');
+
+        // create a specific endpoint name and configure the route
+        caasProvider.endpoint('products').
+            route('/products');
+        // in addition, custom headers and interceptors can be added to this endpoint
+    })
 
     .run(['CORSProvider', '$rootScope', 'Constants',
         function (CORSProvider, $rootScope, Constants) {
