@@ -18,7 +18,8 @@
     "angular-resource": "latest",
     "angular-ui-router": "~0.2.8",
     "angular-mocks": "~1.2.14",
-    "angular-translate": "~2.0.1"
+    "angular-translate": "~2.0.1",
+    "ng-infinite-scroller": "1.0.0"
 
   },
   "install" : {
