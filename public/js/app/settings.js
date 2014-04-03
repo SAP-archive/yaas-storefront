@@ -14,6 +14,20 @@ angular.module('ds.shared')
 		languageCode: 'en',
 
         tenantId: 'onlineshop',
-        authorizationId: 'polo_auth'
+        authorizationId: 'polo_auth',
 
-	});
+        apis: {
+
+            products: {
+                baseUrl: 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/',
+                route: '/products',
+                pageSize: 15
+            },
+            headers: {
+                tenant: 'X-tenantId',
+                authorization: 'Authorization'
+            }
+        }
+
+
+    });

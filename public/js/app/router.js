@@ -47,8 +47,8 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        products: function(caas) {
-                            return caas.products.API.query().$promise
+                        products: function(caas) {    /* */
+                            return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
                                 .then(function(result){
                                 return result;
                             });
@@ -63,22 +63,22 @@ window.app = angular.module('ds.router', [
     ])
 
     // Configure the API Provider - specify the base route and configure the end point with route and name
-    .config(function(caasProvider) {
-        caasProvider.setBaseRoute('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com');
+    .config(function(caasProvider, settings) {
+        caasProvider.setBaseRoute(settings.apis.products.baseUrl);
 
         // create a specific endpoint name and configure the route
         caasProvider.endpoint('products').
-            route('/products');
+            route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
     })
 
-    .factory('interceptor', ['$q', 'GlobalData',
-        function ($q, GlobalData) {
+    .factory('interceptor', ['$q', 'settings',
+        function ($q, settings) {
             return {
                 request: function (config) {
 
-                    config.headers['X-tenantId'] = GlobalData.tenant.id;
-                    config.headers['Authorization'] = GlobalData.authorization.id;
+                    config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    config.headers[settings.apis.headers.authorization] = settings.authorizationId;
 
                     return config || $q.when(config);
                 },
@@ -106,11 +106,11 @@ window.app = angular.module('ds.router', [
         $httpProvider.interceptors.push('interceptor');
     }])
 
-    .run(['CORSProvider', '$rootScope', 'Constants',
-        function (CORSProvider, $rootScope, Constants) {
+    .run(['CORSProvider',
+        function (CORSProvider) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-            $rootScope.CONTEXT_ROOT = Constants.baseUrl;
+
         }
     ])
 
