@@ -11,6 +11,9 @@ angular.module('ds.shared')
 	.constant('settings', {
 
 		// Set default language code for the application
-		languageCode: 'en'
+		languageCode: 'en',
+
+        tenantId: 'onlineshop',
+        authorizationId: 'polo_auth'
 
 	});
