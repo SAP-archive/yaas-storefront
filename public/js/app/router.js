@@ -48,9 +48,9 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         products: function(caas) {
-                            return caas.products.API.get().$promise
+                            return caas.products.API.query().$promise
                                 .then(function(result){
-                                return result.products;
+                                return result;
                             });
                         }
 
@@ -64,13 +64,47 @@ window.app = angular.module('ds.router', [
 
     // Configure the API Provider - specify the base route and configure the end point with route and name
     .config(function(caasProvider) {
-        caasProvider.setBaseRoute('http://responsive.hybris.com:9001/rest/v1/apparel-uk');
+        caasProvider.setBaseRoute('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com');
 
         // create a specific endpoint name and configure the route
         caasProvider.endpoint('products').
             route('/products');
         // in addition, custom headers and interceptors can be added to this endpoint
     })
+
+    .factory('interceptor', ['$q', 'GlobalData',
+        function ($q, GlobalData) {
+            return {
+                request: function (config) {
+
+                    config.headers['X-tenantId'] = GlobalData.tenant.id;
+                    config.headers['Authorization'] = GlobalData.authorization.id;
+
+                    return config || $q.when(config);
+                },
+                requestError: function(request){
+                    return $q.reject(request);
+                },
+                response: function (response) {
+                    return response || $q.when(response);
+                },
+                responseError: function (response) {
+                    if (response) {
+                        switch(response.status) {
+                            /* TBD
+                             case 401:
+                             $rootScope.$broadcast('auth:loginRequired');
+                             break;
+                             */
+                        }
+                    }
+                    return $q.reject(response);
+                }
+            };
+        }])
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('interceptor');
+    }])
 
     .run(['CORSProvider', '$rootScope', 'Constants',
         function (CORSProvider, $rootScope, Constants) {

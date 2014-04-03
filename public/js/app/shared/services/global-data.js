@@ -5,4 +5,13 @@ angular.module('ds.shared')
       
 		this.languageCode = settings.languageCode;
 
+        this.tenant = {
+            id: settings.tenantId
+        };
+
+        this.authorization = {
+            id: settings.authorizationId
+        };
+
+
     }]);
