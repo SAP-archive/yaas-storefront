@@ -8,10 +8,10 @@ angular.module('ds.products', ['infinite-scroll', 'yng.core'])
 
 
           $scope.addMore = function(){
-                caas.products.API.query({pagesize: 15, pageNumber: ++$scope.pageNumber}).$promise.then(
+                caas.products.API.query({pageSize: 5, pageNumber: ++$scope.pageNumber}).$promise.then(
                     function (products) {
-                        if (products.products){
-                            $scope.products = $scope.products.concat(products.products);
+                        if (products){
+                            $scope.products = $scope.products.concat(products);
                         }
                     }
                 );
