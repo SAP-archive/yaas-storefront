@@ -1,6 +1,6 @@
 <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
   <li ng-repeat="product in products" class="media">
-    {{ product.name }}
+    <a href="#!/prodetail/{{product.sku}}"> {{ product.name }} </a>
   </li>
   </ng-repeat>
 </div>

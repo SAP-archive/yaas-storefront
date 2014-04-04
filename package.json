@@ -1,7 +1,7 @@
 {
-  "name": "blank-project",
-  "version": "0.0.0",
-  "description": "Single page javascript application.",
+  "name": "caas-demo-store",
+  "version": "0.0.1",
+  "description": "Single page javascript application to demonstrate CAAS APIs.",
   "main": "public/js/shared-index.js",
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
