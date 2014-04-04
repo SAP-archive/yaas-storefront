@@ -10,6 +10,7 @@
 
     <title>Blank Project</title>
 
+   <link href="public/css/app/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -20,7 +21,8 @@
 
   <body>
 
-    <div class="container">
+    <div class="container off-canvas">
+      <div class="mainContent">
 
       <nav ui-view="navigation"></nav>
 
@@ -29,7 +31,7 @@
       <section class="main" ui-view="body"></section>
 
       <footer ui-view="footer"></footer>
-
+      </div>
     </div><!--/.container-->
 
     <!-- ============================================== -->
@@ -37,6 +39,14 @@
     <!-- ============================================== -->
     <!-- build:js js/app.js -->
 
+    <script src="public/js/vendor-static/jquery.min.js"></script>
+    <script src="public/js/vendor-static/bootstrap.min.js"></script>
+    <script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
+    <script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
+    <script src="public/js/vendor-static/owl.carousel.min.js"></script>
+    <script src="public/js/vendor-static/img-touch-canvas.js"></script>
+    <script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
+    <script src="main.js"></script>
 
     <script src="public/js/vendor/angular.js"></script>
     <script src="public/js/vendor/angular-resource.js"></script>
