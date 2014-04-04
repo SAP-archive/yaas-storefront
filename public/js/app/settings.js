@@ -20,7 +20,7 @@ angular.module('ds.shared')
 
             products: {
                 baseUrl: 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/',
-                route: '/products',
+                route: '/products/:productSku',
                 pageSize: 15
             },
             headers: {

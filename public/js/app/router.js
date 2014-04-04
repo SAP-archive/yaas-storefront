@@ -50,8 +50,26 @@ window.app = angular.module('ds.router', [
                         products: function(caas) {    /* */
                             return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
                                 .then(function(result){
-                                return result;
-                            });
+                                    return result;
+                                });
+                        }
+
+                    }
+                })
+                .state('base.product-detail', {
+                    url: '/prodetail/:productSku',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-detail.html',
+                            controller: 'ProductDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        product: function( $stateParams, caas) {
+                            return caas.products.API.get({productSku: $stateParams.productSku }).$promise
+                                .then(function(result){
+                                    return result;
+                                });
                         }
 
                     }
@@ -67,7 +85,7 @@ window.app = angular.module('ds.router', [
         caasProvider.setBaseRoute(settings.apis.products.baseUrl);
 
         // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products').
+        caasProvider.endpoint('products', { productSku: '@productSku' }).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
     })
