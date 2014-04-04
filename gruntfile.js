@@ -49,7 +49,8 @@ module.exports = function(grunt) {
             all: [
                 'gruntfile.js',
                 'public/js/{,**/}*.js',
-                '!public/js/vendor/{,**/}*.js'
+                '!public/js/vendor/{,**/}*.js',
+                '!public/js/vendor-static/{,**/}*.js'
             ]
         },
 
