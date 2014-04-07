@@ -11,6 +11,24 @@ angular.module('ds.shared')
 	.constant('settings', {
 
 		// Set default language code for the application
-		languageCode: 'en'
+		languageCode: 'en',
 
-	});
+        tenantId: 'onlineshop',
+        authorizationId: 'polo_auth',
+
+        apis: {
+
+            products: {
+                baseUrl: 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/',
+
+                route: '/products/:productSku',
+                pageSize: 45
+            },
+            headers: {
+                tenant: 'X-tenantId',
+                authorization: 'Authorization'
+            }
+        }
+
+
+    });

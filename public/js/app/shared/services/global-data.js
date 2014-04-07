@@ -5,4 +5,6 @@ angular.module('ds.shared')
       
 		this.languageCode = settings.languageCode;
 
+
+
     }]);

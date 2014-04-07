@@ -6,3 +6,4 @@ public/js/vendor
 .tmp/
 *.iml
 .idea
+coverage/
