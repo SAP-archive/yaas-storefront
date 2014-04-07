@@ -16,40 +16,14 @@
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
     <div class="image">
-        <div><img class="lazyOwl" data-src="{{product.images[0].url}}" data-zoom="{{product.images[0].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[1].url}}" data-zoom="{{product.images[1].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[2].url}}" data-zoom="{{product.images[2].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[3].url}}" data-zoom="{{product.images[3].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[4].url}}" data-zoom="{{product.images[4].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[5].url}}" data-zoom="{{product.images[5].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[6].url}}" data-zoom="{{product.images[6].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[7].url}}" data-zoom="{{product.images[7].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[8].url}}" data-zoom="{{product.images[8].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[9].url}}" data-zoom="{{product.images[9].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[10].url}}" data-zoom="{{product.images[10].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[11].url}}" data-zoom="{{product.images[11].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[12].url}}" data-zoom="{{product.images[12].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[13].url}}" data-zoom="{{product.images[13].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[14].url}}" data-zoom="{{product.images[14].url}}" alt=""></div>
-        <div><img class="lazyOwl" data-src="{{product.images[15 ].url}}" data-zoom="{{product.images[15].url}}" alt=""></div>
+        <div ng-repeat="image in product.images">
+            <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
+        </div>
     </div>
     <div class=" thumbnails">
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[0].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[1].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[2].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[3].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[4].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[5].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[6].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[7].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[8].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[9].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[10].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[11].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[12].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[13].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[14].url}}" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="{{product.images[15].url}}" alt=""></a>
+        <a ng-repeat="image in product.images" class="item" href="#">
+            <img class="lazyOwl" data-src="{{image.url}}" alt="">
+        </a>
     </div>
 </div>
  
