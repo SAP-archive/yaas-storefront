@@ -27,8 +27,12 @@
     "bootstrap": "latest",
     "masonry": "3.1.5",
     "lodash": "2.4.1"
-
   },
+  
+  "resolutions": {
+    "imagesloaded": "3.1.4"
+  },
+
   "install" : {
     "path" : {
       "css": "public/css/vendor",
