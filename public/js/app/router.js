@@ -6,7 +6,8 @@ window.app = angular.module('ds.router', [
         'ds.shared',
         'ds.utils',
         'ds.i18n',
-        'ds.products'
+        'ds.products',
+        'yng.core'
     ])
 
     //Setting up routes
@@ -36,7 +37,43 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/home/templates/home.html'
                         }
                     }
-                }) ;
+                })
+                .state('base.products', {
+                    url: '/products/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-list.html',
+                            controller: 'BrowseProductsCtrl'
+                        }
+                    },
+                    resolve: {
+                        products: function(caas) {    /* */
+                            return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
+                                .then(function(result){
+                                    return result;
+                                });
+                        }
+
+                    }
+                })
+                .state('base.product-detail', {
+                    url: '/prodetail/:productSku',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-detail.html',
+                            controller: 'ProductDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        product: function( $stateParams, caas) {
+                            return caas.products.API.get({productSku: $stateParams.productSku }).$promise
+                                .then(function(result){
+                                    return result;
+                                });
+                        }
+
+                    }
+                });
 
             $urlRouterProvider.otherwise('/');
             $locationProvider.hashPrefix('!');
@@ -44,20 +81,54 @@ window.app = angular.module('ds.router', [
     ])
 
     // Configure the API Provider - specify the base route and configure the end point with route and name
-    .config(function(caasProvider) {
-        caasProvider.setBaseRoute('http://responsive.hybris.com:9001/rest/v1/apparel-uk');
+    .config(function(caasProvider, settings) {
+        caasProvider.setBaseRoute(settings.apis.products.baseUrl);
 
         // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products').
-            route('/products');
+        caasProvider.endpoint('products', { productSku: '@productSku' }).
+            route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
     })
 
-    .run(['CORSProvider', '$rootScope', 'Constants',
-        function (CORSProvider, $rootScope, Constants) {
+    .factory('interceptor', ['$q', 'settings',
+        function ($q, settings) {
+            return {
+                request: function (config) {
+
+                    config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    config.headers[settings.apis.headers.authorization] = settings.authorizationId;
+
+                    return config || $q.when(config);
+                },
+                requestError: function(request){
+                    return $q.reject(request);
+                },
+                response: function (response) {
+                    return response || $q.when(response);
+                },
+                responseError: function (response) {
+                    if (response) {
+                        switch(response.status) {
+                            /* TBD
+                             case 401:
+                             $rootScope.$broadcast('auth:loginRequired');
+                             break;
+                             */
+                        }
+                    }
+                    return $q.reject(response);
+                }
+            };
+        }])
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('interceptor');
+    }])
+
+    .run(['CORSProvider',
+        function (CORSProvider) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-            $rootScope.CONTEXT_ROOT = Constants.baseUrl;
+
         }
     ])
 
