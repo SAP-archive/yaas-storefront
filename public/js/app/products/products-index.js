@@ -2,5 +2,7 @@
 
 angular.module('ds.products', [
     'yng.core',
-    'wu.masonry'
+    'masonry',
+    'imagesLoaded',
+    'lodash'
 ]);

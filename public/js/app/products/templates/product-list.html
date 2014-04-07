@@ -177,8 +177,12 @@
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
     <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
 
-        <div masonry item-selector=".item" class="row product-grid gridMasonry">
-            <div class="masonry-brick item" ng-repeat="product in products">
+        <div class="row product-grid gridMasonry wall_container"  infinite-masonry=".item"
+             masonry-options="{
+            gutter: 0,
+            transitionDuration: '0.3s'
+        }">
+            <div class="item" ng-repeat="product in products" masonry-item>
                 <a href="#!/prodetail/{{product.sku}}">
                     <div class="thumb">
                         <img src="{{ product.images[0].url }}" alt="">
@@ -189,14 +193,7 @@
             </div>
         </div>
     </div>
-
 </section>
-<script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
-<script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
-<script src="public/js/vendor-static/owl.carousel.min.js"></script>
-<script src="public/js/vendor-static/img-touch-canvas.js"></script>
-<script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
-<script src="public/js/vendor-static/main.js"></script>
 
 
 

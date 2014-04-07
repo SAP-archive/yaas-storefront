@@ -9,6 +9,7 @@ window.app = angular.module('ds.router', [
         'ds.products',
         'yng.core'
     ])
+    .constant('_', window._)
 
     //Setting up routes
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',

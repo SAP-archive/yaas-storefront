@@ -25,7 +25,8 @@
     "imagesloaded": "3.1.4",
     "jquery": "latest",
     "bootstrap": "latest",
-    "masonry": "3.1.5"
+    "masonry": "3.1.5",
+    "lodash": "2.4.1"
 
   },
   "install" : {
