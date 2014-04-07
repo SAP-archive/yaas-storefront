@@ -6757,7 +6757,7 @@ section .hero-unit {
   float: none;
   display: inline-block;
 }
-.refine-section .viewingContainer .page-indicator {
+.refine-section .viewing  .page-indicator {
   display: inline-block;
   font: italic 20px Georgia, "Times New Roman", Times, serif, sans-serif;
   color: #0079ff;

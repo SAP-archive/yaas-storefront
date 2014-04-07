@@ -11,6 +11,14 @@ angular.module('ds.products', ['infinite-scroll', 'yng.core'])
                 caas.products.API.query({pageSize: 5, pageNumber: ++$scope.pageNumber}).$promise.then(
                     function (products) {
                         if (products){
+
+                            var count=1;
+                            var images = ['http://placekitten.com/400/150', 'http://placekitten.com/400/300', 'http://placekitten.com/400/400', 'http://placekitten.com/400/200'];
+                            angular.forEach(products, function(product) {
+                                product.images[0].url = images[count % 4];
+                                product.currency = '$';
+                                count++;
+                            });
                             $scope.products = $scope.products.concat(products);
                         }
                     }

@@ -1,3 +1,4 @@
+
 <nav class="top-navigation">
     <button data-toggle="offcanvas" type="button" class="btn btn-link navbar-btn pull-left menu">
         <span class="hyicon hyicon-menu"></span>
@@ -9,6 +10,7 @@
         <a href=""><img src="public/img/logo.png" alt=""></a>
     </div>
 </nav>
+
 <section class="gray">
 <div class="hero-unit">
     <blockquote style="background-image: url(http://placekitten.com/1200/450);">
@@ -172,25 +174,30 @@
         </div>
     </div>
 </div>
-
-<div class="row product-grid gridMasonry">
-
+    <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
     <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
 
-
-
-<div class="item" ng-repeat="product in products">
-    <a href="#!/prodetail/{{product.sku}}">
-        <div class="thumb">
-            <img src="{{ product.images[0].url }}" alt="">
+        <div masonry item-selector=".item" class="row product-grid gridMasonry">
+            <div class="masonry-brick item" ng-repeat="product in products">
+                <a href="#!/prodetail/{{product.sku}}">
+                    <div class="thumb">
+                        <img src="{{ product.images[0].url }}" alt="">
+                    </div>
+                    <div class="name">{{ product.name }}</div>
+                    <div class="price">{{ product.currency }} {{ product.price }}</div>
+                </a>
+            </div>
         </div>
-        <div class="name">{{ product.name }} </div>
-        <div class="price">${{ product.price }}</div>
-    </a>
-</div>
     </div>
 
-</div>
-
 </section>
+<script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
+<script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
+<script src="public/js/vendor-static/owl.carousel.min.js"></script>
+<script src="public/js/vendor-static/img-touch-canvas.js"></script>
+<script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
+<script src="public/js/vendor-static/main.js"></script>
+
+
+
 

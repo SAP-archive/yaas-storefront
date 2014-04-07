@@ -47,12 +47,31 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        products: function(caas) {    /* */
+                        products: function(caas) {
+                            /*
                             return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
                                 .then(function(result){
                                     return result;
                                 });
+                            */
+
+
+                            return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
+                                .then(function(result){
+
+                                    var count=1;
+                                    var images = ['http://placekitten.com/400/150', 'http://placekitten.com/400/300', 'http://placekitten.com/400/400', 'http://placekitten.com/400/200'];
+                                    angular.forEach(result, function(product) {
+                                        product.images[0].url = images[count % 4];
+                                        product.currency = '$';
+                                        count++;
+                                    });
+                                    return result;
+                                });
+
+
                         }
+
 
                     }
                 })
