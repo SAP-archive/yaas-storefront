@@ -16,6 +16,7 @@ module.exports = function(config){
 
 
         'public/js/vendor/angular.js',
+        'public/js/vendor/angular-mocks.js',
         'public/js/vendor/angular-resource.js',
         'public/js/vendor/angular-ui-router.js',
         'public/js/vendor/angular-translate.js',
@@ -38,7 +39,9 @@ module.exports = function(config){
         'public/js/app/settings.js',
         'public/js/app/core-resource.js',
 
-        'public/js/bootstrap.js'
+        'public/js/bootstrap.js',
+
+        'test/unit/*.js'
     
     ],
 
