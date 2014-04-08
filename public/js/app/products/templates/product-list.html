@@ -1,15 +1,5 @@
 
-<nav class="top-navigation">
-    <button data-toggle="offcanvas" type="button" class="btn btn-link navbar-btn pull-left menu">
-        <span class="hyicon hyicon-menu"></span>
-    </button>
-    <button type="button" class="btn btn-link navbar-btn pull-right search">
-        <span class="hyicon hyicon-search"></span>
-    </button>
-    <div class="logo">
-        <a href=""><img src="public/img/logo.png" alt=""></a>
-    </div>
-</nav>
+
 
 <section class="gray">
 <div class="hero-unit">
@@ -188,7 +178,7 @@
                         <img src="{{ product.images[0].url }}" alt="">
                     </div>
                     <div class="name">{{ product.name }}</div>
-                    <div class="price">{{ product.currency }} {{ product.price }}</div>
+                    <div class="price">{{ product.price | currency}}</div>
                 </a>
             </div>
         </div>
