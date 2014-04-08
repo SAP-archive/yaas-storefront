@@ -6561,6 +6561,7 @@ section footer button {
   margin-right: auto;
   height: auto;
   max-height: 200px;
+  max-width: 200px;
 }
 .owl-carousel.thumbnails a.active {
   border-bottom: 3px solid #0079ff;
