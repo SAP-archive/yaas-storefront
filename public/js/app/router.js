@@ -39,8 +39,9 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-                .state('base.products', {
-                    url: '/products/',
+
+                .state('base.product', {
+                    url: '/products',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-list.html',
@@ -66,15 +67,11 @@ window.app = angular.module('ds.router', [
                                     });
                                     return result;
                                 });
-
-
                         }
-
-
                     }
                 })
-                .state('base.product-detail', {
-                    url: '/prodetail/:productSku',
+                .state('base.product.detail', {
+                    url: '/:productSku',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-detail.html',
