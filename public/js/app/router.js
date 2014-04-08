@@ -47,27 +47,6 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
-                    },
-                    resolve: {
-                        products: function(caas) {
-                            /*
-                            return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
-                                .then(function(result){
-                                    return result;
-                                });
-                            */
-
-
-                            return caas.products.API.query({'pageSize': settings.apis.products.pageSize, 'pageNumber': 1}).$promise
-                                .then(function(result){
-
-                                    angular.forEach(result, function(product) {
-                                      // HARD-CODED FOR NOW - API does not yet support
-                                        product.currency = '$';
-                                    });
-                                    return result;
-                                });
-                        }
                     }
                 })
                 .state('base.product.detail', {
@@ -80,14 +59,14 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function( $stateParams, caas) {
-                            return caas.products.API.get({productSku: $stateParams.productSku }).$promise
-                                .then(function(result){
-                                    return result;
-                                });
-                        }
-
+                             return caas.products.API.get({productSku: $stateParams.productSku }).$promise
+                                          .then(function(result){
+                                                     return result;
+                                               });
+                                       }
                     }
-                });
+                })
+                ;
 
             $urlRouterProvider.otherwise('/');
             $locationProvider.hashPrefix('!');

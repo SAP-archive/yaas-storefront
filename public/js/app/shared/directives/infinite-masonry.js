@@ -6,7 +6,7 @@
      * This directive is intended to be used along with ng-repeat directive.
      * Pass in a class selector for each item to be laid out.
      * Pass in optional options via masonryOptions.
-     * Put the masonryItemr next to ng-repeat directive on the item to be repeated.
+     * Put the masonryItem next to ng-repeat directive on the item to be repeated.
      *
      *
      * @param {String} infinite-masonry       Class selector of each item

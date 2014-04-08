@@ -44,7 +44,7 @@ describe('Product list router test', function () {
     });
 
     it('state change should trigger URL change', function() {
-       expect($state.href('base.products')).toEqualData('#!/products/');
+       expect($state.href('base.product')).toEqualData('#!/products');
     });
 
     /*
