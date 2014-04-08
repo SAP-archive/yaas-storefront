@@ -167,7 +167,7 @@
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
     <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
 
-        <div class="row product-grid gridMasonry wall_container"  infinite-masonry=".item"
+        <div class="row product-grid gridMasonry"  infinite-masonry=".item"
              masonry-options="{
             gutter: 0,
             transitionDuration: '0.3s'
@@ -178,7 +178,7 @@
                         <img src="{{ product.images[0].url }}" alt="">
                     </div>
                     <div class="name">{{ product.name }}</div>
-                    <div class="price">{{ product.price | currency}}</div>
+                    <div class="price">{{ product.price | currency: '$'}}</div>
                 </a>
             </div>
         </div>
