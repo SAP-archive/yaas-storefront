@@ -2,6 +2,6 @@
 
 angular.module('ds.shared', [
     'ds.utils',
-    'ds.i18n'
-
-    ]);
+    'ds.i18n',
+    'infinite-scroll'
+]);

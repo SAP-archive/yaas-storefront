@@ -21,6 +21,7 @@
   "globals": {
     "angular": false,
       "Masonry": false
+
   },
   "laxcomma": true
 }

@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.0",
+    "jquery": "latest",
     "angular": "latest",
     "angular-resource": "latest",
     "angular-ui-router": "~0.2.8",
@@ -22,21 +22,14 @@
     "angular-translate": "~2.0.1",
     "angular-masonry": "0.8.1",
     "ng-infinite-scroller": "1.0.0",
-    "imagesloaded": "3.1.4",
-    "jquery": "latest",
     "bootstrap": "latest",
     "masonry": "3.1.5",
     "lodash": "2.4.1"
   },
-  
-  "resolutions": {
-    "imagesloaded": "3.1.4"
-  },
-
-  "install" : {
-    "path" : {
+  "install": {
+    "path": {
       "css": "public/css/vendor",
       "js": "public/js/vendor"
-    }  
+    }
   }
 }

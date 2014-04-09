@@ -1,51 +1,16 @@
-/* Source partially from https://gist.github.com/jelbourn/6276338
- *
+/*
+ * JS endpoint provider for easily creating new REST endpoints.
  */
 
 'use strict';
 
+
 /** Namespace for the application. */
 var yngApp = {};
 
-/******************************************************************************/
+yngApp.core = angular.module('yng.core', ['ngResource']);
 
-/**
- * Interface for a model objects used with the api service.
- * @interface
- */
-yngApp.ApiModel = function() {
 
-};
-
-/**
- * Data transformation done after fetching data from the server.
- * @type {Function}
- */
-yngApp.ApiModel.prototype.afterLoad = function(){
-
-};
-
-/**
- * Data transformation done before posting / putting data to the server.
- * @type {Function}
- */
-yngApp.ApiModel.prototype.beforeSave = function() {
-
-};
-
-yngApp.ApiModel.prototype.validate = function() {
-
-};
-
-/** Returns true if the current model state is valid. */
-yngApp.ApiModel.prototype.isValid = function() {
-
-};
-
-/** Returns true if the model has not yet been persisted. */
-yngApp.ApiModel.prototype.isNew = function() {
-
-};
 
 /******************************************************************************/
 
@@ -109,16 +74,6 @@ yngApp.ApiEndpointConfig.prototype.route = function(route) {
 };
 
 
-/**
- * Set the route for this endpoint. This is relative to the server's base route.
- * @param {function(): yngApp.ApiModel} model
- * @return {yngApp.ApiEndpointConfig}
- */
-yngApp.ApiEndpointConfig.prototype.model = function(model) {
-    this.model = model;
-    return this;
-};
-
 yngApp.ApiEndpointConfig.prototype.customHeaders = function (customHeaders) {
     this.customHeaders = customHeaders;
     return this;
@@ -134,6 +89,18 @@ yngApp.ApiEndpointConfig.prototype.enableCors = function () {
     this.corsEnabled = true;
     return this;
 };
+
+/******************************************************************************/
+
+/**
+ * Configuration object for a query.
+ * @constructor
+ */
+yngApp.QueryConfig = function() {
+
+     this.parmMap = {};
+};
+
 
 
 
@@ -232,50 +199,6 @@ yngApp.ApiEndpoint.prototype.request = function(action, params, data) {
     return this.API[action](params, data).$promise;
 };
 
-/**
- * Perform an HTTP GET request and performs a post-response transformation
- * on the data as defined in the model object.
- *
- * @param {string} action The name of the action.
- * @param {Object=} params The parameters for the request.
- * @return {angular.$q.Promise} A promise resolved when the http request has
- *     a response.
- */
-yngApp.ApiEndpoint.prototype.getRequestWithModel = function(action, params) {
-    return this.request(action, params);
-    //var instantiateModel = this.instantiateModel.bind(this);
-
-    // Wrap the raw server response data in an instantiated model object
-    // (or multiple, if response data is an array).
-    //return promise.then(function(response) {
-
-       //instantiateModel(response);
-        //return response.products;
-    //});
-};
-
-/**
- * Performs an HTTP PUT or POST after performing a pre-request transformation
- * on the data as defined in the model object.
- *
- * @param {string} action The name of the action.
- * @param {Object=} params The parameters for the request.
- * @param {Object=} data The request data (for PUT / POST requests).
- * @return {angular.$q.Promise} A promise resolved when the http request has
- *     a response.
- */
-yngApp.ApiEndpoint.prototype.saveRequestWithModel = function(action, params, data) {
-    // Copy the given data so that the beforeSave operation doesn't alter the
-    // object state from wherever the request was triggered.
-    var model = angular.copy(data);
-
-    if (model && model.beforeSave) {
-        model.beforeSave();
-    }
-
-    return this.request(action, params, model);
-};
-
 /******************************************************************************/
 
 /**
@@ -327,16 +250,33 @@ yngApp.ApiProvider.prototype.$get = ['$injector', function($injector) {
     return api;
 }];
 
-
-// Example of creating an angular module to house "core" functionality. It is
-// here that you add any custom providers.
-yngApp.core = angular.module('yng.core', ['ngResource']);
-
+// Create CAAS API provider
 yngApp.core.config(function($provide) {
     $provide.provider('caas', yngApp.ApiProvider);
-})
+});
 
-;
+
+yngApp.apis = angular.module('yng.apis',[] );
+
+/**
+ * Constants for accessing the CAAS APIs
+ */
+    yngApp.apis.constant('settings', {
+        apis: {
+
+            product: {
+                route: '/products/:productSku',
+                // query parameters
+                PAGE_NUMBER: 'pageNumber',
+                PAGE_SIZE: 'pageSize'
+            },
+            headers: {
+                tenant: 'X-tenantId',
+                authorization: 'Authorization'
+            }
+        }
+    });
+
 
 
 

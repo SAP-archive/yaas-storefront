@@ -62,8 +62,8 @@ window.app = angular.module('ds.router', [
                              return caas.products.API.get({productSku: $stateParams.productSku }).$promise
                                           .then(function(result){
                                                      return result;
-                                               });
-                                       }
+                                          });
+                        }
                     }
                 })
                 ;

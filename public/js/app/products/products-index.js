@@ -2,7 +2,5 @@
 
 angular.module('ds.products', [
     'yng.core',
-    'masonry',
-    'imagesLoaded',
-    'lodash'
+    'ds.shared'
 ]);
