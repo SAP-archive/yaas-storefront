@@ -9,27 +9,33 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
-'use strict';
 
 describe('Product list router test', function () {
 
-    var scope, ctrl, $state, $injector, $httpBackend;
+    var scope, $state, $stateParams, $httpBackend, createController;
 
     beforeEach(module('ds.router'));
 
-    beforeEach(function () {
+    beforeEach(inject(function($injector) {
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
             }
         });
 
-        inject(function(_$httpBackend_, $rootScope, _$state_, _$injector_) {
-            $httpBackend = _$httpBackend_;
-            scope = $rootScope.$new();
-            $state = _$state_;
-            $injector = _$injector_;
-        });
+        $httpBackend = $injector.get('$httpBackend');
+        $rootScope = $injector.get('$rootScope');
+        scope = $rootScope.$new();
+        $state = $injector.get('$state');
+        $stateParams = $injector.get('$stateParams');
+        var $controller = $injector.get('$controller');
+
+        createController = function () {
+            return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': $stateParams});
+        }
+
+        $httpBackend.whenGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products?pageNumber=1&pageSize=5')
+            .respond([{name: 'Shirt'}, {name: 'Hat'}]);
 
         $httpBackend.whenGET('public/js/app/products/templates/product-list.html').respond({});
         $httpBackend.whenGET('public/js/app/shared/templates/navigation.html').respond({});
@@ -38,17 +44,18 @@ describe('Product list router test', function () {
         $httpBackend.whenGET('public/js/app/home/templates/body.html').respond({});
         $httpBackend.whenGET('public/js/app/home/templates/home.html').respond({});
 
-        $httpBackend.whenGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com//products?pageNumber=1&pageSize=15')
-            .respond([{name: 'Shirt'}, {name: 'Hat'}]);
+    }));
 
+    afterEach(function () {
+       $httpBackend.verifyNoOutstandingExpectation();
+       $httpBackend.verifyNoOutstandingRequest();
     });
 
     it('state change should trigger URL change', function() {
        expect($state.href('base.product')).toEqualData('#!/products');
+       //flush is necessary here because the beforeEach sets up some expected requests for every test
+       var controller = createController();
+       $httpBackend.flush();
     });
-
-    /*
-        We need a test to make sure the state's resolve populates the shirt and hat into scope.products
-     */
 
 });
