@@ -6,10 +6,10 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'phantomjs'
+    'browserName': 'chrome'
   },
 
-  baseUrl: 'http://sand-bsd-1.yrdrt.fra.hybris.com:9000/',
+  baseUrl: 'http://dev-bsd-1.yrdrt.fra.hybris.com:9000/',
 
   framework: 'jasmine',
 

@@ -22,7 +22,7 @@ angular.module('ds.shared')
                 baseUrl: 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com',
 
                 route: '/products/:productSku',
-                pageSize: 15
+                pageSize: 5
             },
             headers: {
                 tenant: 'X-tenantId',
