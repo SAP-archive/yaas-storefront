@@ -12,4 +12,4 @@ angular.module('ds.products')
                 return getProducts(parms);
             }
         };
-    }]);
+}]);
