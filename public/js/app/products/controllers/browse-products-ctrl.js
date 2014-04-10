@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ds.products.ctrl')
+angular.module('ds.products')
    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', function($scope, ProductSvc) {
 
    $scope.pageNumber = ($scope.pageNumber || 1);
