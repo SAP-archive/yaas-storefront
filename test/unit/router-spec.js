@@ -10,13 +10,21 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Product list router test', function () {
+describe('Router test', function () {
 
-    var scope, $state, $stateParams, $httpBackend, createController;
+    var scope, $state, $stateParams, $httpBackend, createController, ProductSvc;
 
     beforeEach(module('ds.router'));
 
-    beforeEach(inject(function($injector) {
+    beforeEach(module('ds.products', function($provide) {
+        mockedProductSvc = {
+            query: jasmine.createSpy()
+        };
+
+        $provide.value('ProductSvc', mockedProductSvc);
+    }));
+
+    beforeEach(inject(function($injector) {              //, _ProductSvc
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
@@ -24,18 +32,19 @@ describe('Product list router test', function () {
         });
 
         $httpBackend = $injector.get('$httpBackend');
-        $rootScope = $injector.get('$rootScope');
-        scope = $rootScope.$new();
+        scope = $injector.get('$rootScope').$new();
         $state = $injector.get('$state');
         $stateParams = $injector.get('$stateParams');
+        ProductSvc = $injector.get('ProductSvc');
         var $controller = $injector.get('$controller');
 
+
         createController = function () {
-            return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': $stateParams});
+            return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': $stateParams, 'ProductSvc': ProductSvc});
         }
 
-        $httpBackend.whenGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products?pageNumber=1&pageSize=5')
-            .respond([{name: 'Shirt'}, {name: 'Hat'}]);
+
+        //$httpBackend.whenGET(/[a-z]*/).passThrough();
 
         $httpBackend.whenGET('public/js/app/products/templates/product-list.html').respond({});
         $httpBackend.whenGET('public/js/app/shared/templates/navigation.html').respond({});
@@ -46,16 +55,26 @@ describe('Product list router test', function () {
 
     }));
 
+
+
     afterEach(function () {
        $httpBackend.verifyNoOutstandingExpectation();
        $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('state change should trigger URL change', function() {
+    it('states.should be mapped', function() {
        expect($state.href('base.product')).toEqualData('#!/products');
-       //flush is necessary here because the beforeEach sets up some expected requests for every test
-       var controller = createController();
+       $state.go('base.product');
        $httpBackend.flush();
+        //expect(mockedProductSvc.query).toHaveBeenCalled();
+    });
+
+    it('Route change to base.product should trigger product load', function() {
+
+        $state.go('base.product');
+        $httpBackend.flush();
+        // not working
+        //expect(mockedProductSvc.query).toHaveBeenCalled();
     });
 
 });
