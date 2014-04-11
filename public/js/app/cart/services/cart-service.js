@@ -13,11 +13,13 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['caas', function(caas){
+    .factory('CartSvc', ['$rootScope', function($rootScope){
 
         /*
             until the cart API has been implemented, we
             will just save items to the scope.
          */
+
+        $rootScope.cart = [];
 
     }]);
