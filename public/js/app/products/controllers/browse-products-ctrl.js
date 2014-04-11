@@ -16,7 +16,7 @@ angular.module('ds.products')
     $scope.products = getProducts();
 
     $scope.showProducts = function(){
-        $scope.products = getProducts();
+        $scope.products = getProducts($scope.pageNumber = 1);
 
     };
 
