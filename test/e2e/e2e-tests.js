@@ -17,6 +17,14 @@ describe("product page", function () {
         	expect(element(by.repeater('product in products').row(number).column('product.name')).getText());
         }
 
+        var assertTextByRepeaterRow = function findProductByRepeaterRow(number, productName) {
+          var number, productName
+          expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
+        }
+
+        function selectOption(option) {
+          element(by.css('select option[value="'+ option +'"]')).click()
+        }
 
         function scrollToBottomOfProducts(end) {
           for(y=500; y < end; y+=500) {
@@ -29,7 +37,7 @@ describe("product page", function () {
       
 
       it('should scroll to load more products', function () {
-        browser.sleep(10000);
+        browser.sleep(5000);
         getTextByRepeaterRow(0)
         scrollToBottomOfProducts(3500);
         getTextByRepeaterRow(15)
@@ -39,12 +47,29 @@ describe("product page", function () {
       });
 
       it("should get product detail page", function () {
-        browser.sleep(8000);
+        browser.sleep(5000);
         scrollToBottomOfProducts(3500);
         testProduct.click();
         browser.sleep(8000);
 
         expect(testProductDescription.getText()).toEqual('Description:\nA bicycle, often called a bike, is a human-powered, pedal-driven, single-track vehicle, having two wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist, or bicyclist.');
+
+    });
+
+      it("should get order products correctly", function () {
+        browser.sleep(5000);
+        //default load
+        assertTextByRepeaterRow(0, 'BROKEN LOOKING BOWLS');
+        selectOption('price');
+        assertTextByRepeaterRow(0, 'RING HEART BOWL');
+        selectOption('-price');
+        assertTextByRepeaterRow(0, 'VINYL RECORDS');
+        selectOption('name');
+        assertTextByRepeaterRow(0, 'BIRDHOUSE');
+        selectOption('-name');
+        assertTextByRepeaterRow(0, 'WHITE AND BLUE FLOWER POT');
+        selectOption('created');
+        assertTextByRepeaterRow(0, 'BROKEN LOOKING BOWLS');
 
     });
 
