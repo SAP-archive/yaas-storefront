@@ -117,11 +117,12 @@
                     <label for="" class="sr-only">Sort by:</label>
 
                     <div>
-                        <select ng-model="sort" ng-change="productFilter()" class="form-control">
+                        <select ng-model="sort" ng-change="showProducts()" class="form-control">
                             <option value="price">price low - high</option>
-                            <option>price high - low</option>
-                            <option value="name">popularity</option>
-                            <option>relevance</option>
+                            <option value="-price">price high - low</option>
+                            <option value="name">A-Z</option>
+                            <option value="-name">Z-A</option>
+                            <option value="created">Newest</option>
                         </select>
                     </div>
                 </div>
