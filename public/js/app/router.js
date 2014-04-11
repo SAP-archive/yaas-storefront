@@ -7,6 +7,7 @@ window.app = angular.module('ds.router', [
         'ds.utils',
         'ds.i18n',
         'ds.products',
+        'ds.cart',
         'yng.core'
     ])
     .constant('_', window._)
@@ -29,14 +30,6 @@ window.app = angular.module('ds.router', [
                         },
                         'header@': { templateUrl: 'public/js/app/shared/templates/header.html' },
                         'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' }
-                    }
-                })
-                .state('base.home', {
-                    url: '/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/home/templates/home.html'
-                        }
                     }
                 })
 
@@ -68,9 +61,19 @@ window.app = angular.module('ds.router', [
                             }
                     }
                 })
+
+                .state('base.cart', {
+                    url: '/cart',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/cart/templates/cart-template-to-be-replaced.html',
+                            controller: 'CartCtrl'
+                        }
+                    }
+                })
                 ;
 
-            $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/products');
             $locationProvider.hashPrefix('!');
         }
     ])
