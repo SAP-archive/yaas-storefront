@@ -32,14 +32,6 @@ window.app = angular.module('ds.router', [
                         'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' }
                     }
                 })
-                .state('base.home', {
-                    url: '/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/home/templates/home.html'
-                        }
-                    }
-                })
 
                 .state('base.product', {
                     url: '/products',
@@ -71,7 +63,7 @@ window.app = angular.module('ds.router', [
                 })
                 ;
 
-            $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/products');
             $locationProvider.hashPrefix('!');
         }
     ])
