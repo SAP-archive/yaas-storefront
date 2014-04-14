@@ -2,6 +2,11 @@ describe('BrowseProductsCtrl Test', function () {
 
     var $scope, $rootScope, $controller;
 
+    //***********************************************************************
+    // Common Setup
+    // - shared setup between constructor validation and method validation
+    //***********************************************************************
+
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
 
@@ -16,6 +21,26 @@ describe('BrowseProductsCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
     }));
+
+    describe('BrowseProductsCtrl - constructor', function () {
+        var mockedProductSvc, browseProdCtrl;
+
+        beforeEach(function () {
+
+            // creating the mocked service
+            mockedProductSvc = {
+                query: jasmine.createSpy()
+            };
+
+        });
+
+        it('should query products on initialization', function () {
+            // manual injection of the mocked service into the controller
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+            expect(mockedProductSvc.query).toHaveBeenCalled();
+        })
+
+    });
 
     describe('BrowseProductsCtrl - addMore', function () {
 
