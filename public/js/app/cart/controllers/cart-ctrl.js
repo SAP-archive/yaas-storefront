@@ -14,5 +14,5 @@
 
 angular.module('ds.cart')
     .controller('CartCtrl', ['$rootScope', function($rootScope) {
-        var cart = $rootScope.cart;
+
     }]);
