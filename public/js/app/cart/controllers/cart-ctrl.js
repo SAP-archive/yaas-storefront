@@ -13,6 +13,6 @@
 'use strict';
 
 angular.module('ds.cart')
-    .controller('CartCtrl', ['$rootScope', function($rootScope) {
+    .controller('CartCtrl', [ function() {
 
     }]);

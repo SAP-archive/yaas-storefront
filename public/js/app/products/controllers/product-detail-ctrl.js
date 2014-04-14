@@ -6,7 +6,7 @@ angular.module('ds.products')
     $scope.product = product;
 
     $scope.addProductToCart = function () {
-        $rootScope.cart.push(product);
+        CartSvc.pushProductToRootScope(product);
     };
 
 }]);

@@ -22,4 +22,10 @@ angular.module('ds.cart')
 
         $rootScope.cart = [];
 
+        return {
+            pushProductToRootScope: function (product) {
+                $rootScope.cart.push(product);
+            }
+        };
+
     }]);
