@@ -30,8 +30,6 @@ describe('CartCtrl Test', function () {
 
     }));
 
-    //beforeEach(module('ds.products'));
-
     beforeEach(inject(function(_$rootScope_, $controller) {
         $scope = _$rootScope_.$new();
         cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
