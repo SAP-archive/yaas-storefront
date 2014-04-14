@@ -15,21 +15,11 @@
 angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', 'CartSvc', function($scope, CartSvc) {
 
-        var calculateSubtotal = function () {
-            var subtotal = 0;
-
-            angular.forEach(CartSvc.getCart(), function(value) {
-               subtotal = subtotal + value.price;
-            });
-
-            return subtotal;
-        };
-
-        $scope.subtotal = calculateSubtotal();
+        $scope.subtotal = CartSvc.calculateSubtotal();
 
         $scope.removeProductFromCart = function (sku) {
             CartSvc.removeProductFromCart(sku);
-            $scope.subtotal = calculateSubtotal();
+            $scope.subtotal = CartSvc.calculateSubtotal();
         };
 
     }]);

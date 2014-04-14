@@ -44,8 +44,4 @@ describe('CartCtrl Test', function () {
 
     }));
 
-    it('Should calculate subtotal', function() {
-        expect($scope.subtotal).toEqualData(105.00);
-    });
-
 });

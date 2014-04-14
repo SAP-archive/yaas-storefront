@@ -23,6 +23,15 @@ angular.module('ds.cart')
         $rootScope.cart = [];
 
         return {
+            calculateSubtotal: function () {
+                var subtotal = 0;
+
+                angular.forEach($rootScope.cart, function(value) {
+                    subtotal = subtotal + value.price;
+                });
+
+                return subtotal;
+            },
             getCart: function () {
                 return $rootScope.cart;
             },
