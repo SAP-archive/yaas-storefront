@@ -20,7 +20,7 @@ angular.module('ds.products')
 
     };
 
-    $scope.addMore = function(){
+    $scope.addMore = $.throttle(500, function(){
         getProducts({pageNumber: ++$scope.pageNumber, pageSize: 5, sort: $scope.sort}).$promise.then(
             function (products) {
                 if (products){
@@ -28,7 +28,7 @@ angular.module('ds.products')
                 }
             }
         );
-    };
+    });
 
 
 }]);
