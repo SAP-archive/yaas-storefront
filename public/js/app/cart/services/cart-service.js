@@ -23,6 +23,9 @@ angular.module('ds.cart')
         $rootScope.cart = [];
 
         return {
+            getCart: function () {
+                return $rootScope.cart;
+            },
             pushProductToRootScope: function (product, productDetailQty) {
                 for (var i = 0; i < productDetailQty; i++) {
                     $rootScope.cart.push(product);
