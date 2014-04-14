@@ -18,7 +18,7 @@ angular.module('ds.cart')
         var calculateSubtotal = function () {
             var subtotal = 0;
 
-            angular.forEach($rootScope.cart, function(value, key) {
+            angular.forEach($rootScope.cart, function(value) {
                subtotal = subtotal + value.price;
             });
 
