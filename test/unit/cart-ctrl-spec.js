@@ -20,8 +20,8 @@ describe('CartCtrl Test', function () {
         mockedCartSvc = {
             getCart: function() {
                 return [
-                    {'name': 'Coffee Mug', 'price': 5.00},
-                    {'name': 'Bike', 'price': 100.00}
+                    {'name': 'Coffee Mug', 'price': 5.00, 'sku': 'mug123'},
+                    {'name': 'Bike', 'price': 100.00, 'sku': 'bike456'}
                 ];
             }
         };

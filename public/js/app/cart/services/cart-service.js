@@ -31,10 +31,9 @@ angular.module('ds.cart')
                     $rootScope.cart.push(product);
                 }
             },
-            removeProductFromCart: function (name) {
-                console.log('in Remove Product From Cart');
+            removeProductFromCart: function (sku) {
                 angular.forEach($rootScope.cart, function (value, key) {
-                   if(value.name === name) {
+                   if(value.sku === sku) {
                        $rootScope.cart.splice(key, 1);
                        return false;
                    }
