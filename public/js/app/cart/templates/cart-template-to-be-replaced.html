@@ -20,7 +20,7 @@ Welcome to the cart page!  Here's your cart.
 
 <br>
 
-<div ng-repeat="product in cart">
+<div ng-repeat="product in cart track by $index">
 	{{product.name}}
 </div>
 
