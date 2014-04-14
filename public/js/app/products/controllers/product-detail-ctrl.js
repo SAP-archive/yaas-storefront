@@ -8,8 +8,8 @@ angular.module('ds.products')
     //input default values must be defined in controller, not html, if tied to ng-model
     $scope.productDetailQty = 1;
 
-    $scope.addProductToCart = function () {
-        CartSvc.pushProductToRootScope(product, $scope.productDetailQty);
+    $scope.addToCartFromDetailPage = function () {
+        CartSvc.pushProductToCart(product, $scope.productDetailQty);
     };
 
 }]);

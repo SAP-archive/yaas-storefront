@@ -26,10 +26,19 @@ angular.module('ds.cart')
             getCart: function () {
                 return $rootScope.cart;
             },
-            pushProductToRootScope: function (product, productDetailQty) {
+            pushProductToCart: function (product, productDetailQty) {
                 for (var i = 0; i < productDetailQty; i++) {
                     $rootScope.cart.push(product);
                 }
+            },
+            removeProductFromCart: function (name) {
+                console.log('in Remove Product From Cart');
+                angular.forEach($rootScope.cart, function (value, key) {
+                   if(value.name === name) {
+                       $rootScope.cart.splice(key, 1);
+                       return false;
+                   }
+                });
             }
         };
 
