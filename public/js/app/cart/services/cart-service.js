@@ -23,10 +23,30 @@ angular.module('ds.cart')
         $rootScope.cart = [];
 
         return {
-            pushProductToRootScope: function (product, productDetailQty) {
+            calculateSubtotal: function () {
+                var subtotal = 0;
+
+                angular.forEach($rootScope.cart, function(value) {
+                    subtotal = subtotal + value.price;
+                });
+
+                return subtotal;
+            },
+            getCart: function () {
+                return $rootScope.cart;
+            },
+            pushProductToCart: function (product, productDetailQty) {
                 for (var i = 0; i < productDetailQty; i++) {
                     $rootScope.cart.push(product);
                 }
+            },
+            removeProductFromCart: function (sku) {
+                angular.forEach($rootScope.cart, function (value, key) {
+                   if(value.sku === sku) {
+                       $rootScope.cart.splice(key, 1);
+                       return false;
+                   }
+                });
             }
         };
 

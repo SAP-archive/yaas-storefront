@@ -13,18 +13,13 @@
 'use strict';
 
 angular.module('ds.cart')
-    .controller('CartCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
+    .controller('CartCtrl', ['$scope', 'CartSvc', function($scope, CartSvc) {
 
-        var calculateSubtotal = function () {
-            var subtotal = 0;
+        $scope.subtotal = CartSvc.calculateSubtotal();
 
-            angular.forEach($rootScope.cart, function(value) {
-               subtotal = subtotal + value.price;
-            });
-
-            return subtotal;
+        $scope.removeProductFromCart = function (sku) {
+            CartSvc.removeProductFromCart(sku);
+            $scope.subtotal = CartSvc.calculateSubtotal();
         };
-
-        $scope.subtotal = calculateSubtotal();
 
     }]);

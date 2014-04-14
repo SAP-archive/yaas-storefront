@@ -22,6 +22,7 @@ Welcome to the cart page!  Here's your cart.
 
 <div ng-repeat="product in cart track by $index">
 	{{product.name}}
+	<a ng-click="removeProductFromCart(product.sku)">Remove From Cart</a>
 </div>
 
 Subtotal: {{subtotal}}
