@@ -12,7 +12,7 @@
 
 describe('CartCtrl Test', function () {
 
-    var $scope, $rootScope;
+    var mockBackend, $scope, $rootScope, cartSvc;
 
     //***********************************************************************
     // Common Setup
@@ -22,7 +22,7 @@ describe('CartCtrl Test', function () {
     // configure the target service's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.cart'));
 
-    beforeEach(inject(function (_$rootScope_) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, CartSvc) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -31,7 +31,33 @@ describe('CartCtrl Test', function () {
         });
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
+        mockBackend = _$httpBackend_;
+        cartSvc = CartSvc;
     }));
+
+    describe('CartSvc - add to cart', function () {
+
+        var products, newProduct;
+
+        beforeEach(function () {
+
+            products = [
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+            ];
+
+            newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
+
+            $rootScope.cart = products;
+
+        });
+
+        it(' should add the product to the cart', function () {
+            cartSvc.pushProductToCart(newProduct, 1);
+            expect($rootScope.cart.length).toEqualData(3);
+        });
+
+    });
 
     describe('CartSvc - remove from cart', function () {
 
@@ -44,10 +70,34 @@ describe('CartCtrl Test', function () {
                 {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
             ];
 
+            $rootScope.cart = products;
+
         });
 
-        it(' should remove the product', function () {
-            expect('yes').toEqualData('yes');
+        it(' should remove the product from the cart', function () {
+            cartSvc.removeProductFromCart('guitar5678');
+            expect($rootScope.cart.length).toEqualData(1);
+        });
+
+    });
+
+    describe('CartSvc - should calculate the subtotal', function () {
+
+        var products;
+
+        beforeEach(function () {
+
+            products = [
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+            ];
+
+            $rootScope.cart = products;
+
+        });
+
+        it(' should properly calculate subtotal', function () {
+            expect(cartSvc.calculateSubtotal()).toEqualData(1800.00);
         });
 
     });
