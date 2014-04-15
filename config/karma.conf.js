@@ -33,11 +33,14 @@ module.exports = function(config){
         'public/js/app/shared/utils/cors.js',
 
         'public/js/app/products/products-index.js',
+        'public/js/app/products/services/product-service.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
+
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
         'public/js/app/cart/services/cart-service.js',
+
         'public/js/app/router.js',
         'public/js/app/settings.js',
         'public/js/app/core-resource.js',

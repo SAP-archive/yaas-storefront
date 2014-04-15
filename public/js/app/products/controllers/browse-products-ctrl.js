@@ -7,12 +7,11 @@ angular.module('ds.products')
         $scope.products = ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: 5});
 
         $scope.addMore = function () {
-            ProductSvc.query({pageNumber: ++$scope.pageNumber, pageSize: 5}, function (products) {
+            ProductSvc.queryWithResultHandler({pageNumber: ++$scope.pageNumber, pageSize: 5}, function (products) {
                     if (products) {
                         $scope.products = $scope.products.concat(products);
                     }
                 }
-
             );
         };
 

@@ -10,7 +10,7 @@ describe('BrowseProductsCtrl Test', function () {
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
+    beforeEach(inject(function(_$rootScope_, _$controller_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -54,12 +54,11 @@ describe('BrowseProductsCtrl Test', function () {
 
             // stubbing a service with callback
             stubbedProductSvc = {
-
-                query: function (parms, callback) {
-                    if (callback) {
-                        callback(products);
-                    }
-                    return products;
+                queryWithResultHandler: function (parms, callback) {
+                    callback(products);
+                },
+                query: function (parms) {
+                    return [];
                 }
             };
 
