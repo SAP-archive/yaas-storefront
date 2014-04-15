@@ -20,7 +20,7 @@ describe('CartCtrl Test', function () {
     //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.products'));
+    beforeEach(angular.mock.module('ds.cart'));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
 
