@@ -16,7 +16,7 @@ describe('ProductSvc Test', function () {
     var $scope, $rootScope, $httpBackend, productSvc;
 
 
-    //beforeEach(angular.module('yng.core'));
+    beforeEach(angular.module('ds.products'));
 
     //beforeEach(angular.module('ds.products'));
     /*
@@ -56,8 +56,8 @@ describe('ProductSvc Test', function () {
           //  productSvc = ProductSvc;
         //}));
 
-        it('query returns product array', function () {
-            expect('test').toBeTruthy();
+        it('query returns product array', inject(function (ProductSvc) {
+            expect(ProductSvc).toBeTruthy();
             /*
             $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond([
                 {name: 'Shirt'},
@@ -75,7 +75,7 @@ describe('ProductSvc Test', function () {
                 {name: 'Hat'}
             ]});
             */
-        })
+        }));
 
         /*
          it('query with callback invokes it on resolved promise', function () {
