@@ -50,7 +50,7 @@ describe('CartCtrl Test', function () {
             // manual injection of the mocked service into the controller
             cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
             expect(mockedCartSvc.calculateSubtotal).toHaveBeenCalled();
-        })
+        });
 
     });
 
@@ -72,18 +72,18 @@ describe('CartCtrl Test', function () {
             };
 
             cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc})
-        })
+        });
 
         it(' should remove the product', function () {
 
-            $scope.products = products;
+            $rootScope.cart = products;
             $scope.removeProductFromCart('guitar5678');
             // validate that the service's remove function has been called
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
             // validate that the service's recalculate function has been called
             expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
-        })
+        });
 
-    })
+    });
 
 });
