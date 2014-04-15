@@ -124,7 +124,7 @@ yngApp.ApiEndpoint = function(baseRoute, endpointConfig, $injector, $resource) {
         endpointConfig.actions);
 
 
-
+    /*
     // Extend this endpoint objects with methods for all of the actions defined
     // in the configuration object. The action performed depends on whether or
     // not there is a model defined in the configuration; when there is a model
@@ -133,15 +133,6 @@ yngApp.ApiEndpoint = function(baseRoute, endpointConfig, $injector, $resource) {
     var self = this;
     angular.forEach(endpointConfig.actions, function(action, actionName) {
         var actionMethod = self.request;
-
-        /*
-        if (action.model) {
-            if (action.method === 'GET') {
-                actionMethod = self.getRequestWithModel;
-            } else if (action.method === 'PUT' || action.method === 'POST') {
-                actionMethod = self.saveRequestWithModel;
-            }
-        }*/
 
         action.headers = angular.extend(action.headers || {}, endpointConfig.customHeaders || {});
 
@@ -163,41 +154,10 @@ yngApp.ApiEndpoint = function(baseRoute, endpointConfig, $injector, $resource) {
         }
 
         self[actionName] = angular.bind(self, actionMethod, actionName);
-    });
+    });   */
 
-    /*
-    if(endpointConfig.corsEnabled) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }  */
 };
 
-
-/**
- * Instantiates a model object from the raw server response data.
- * @param {Object} response The raw server response data.
- * @return {app.ApiModel} The server response data wrapped in a model object.
- */
-yngApp.ApiEndpoint.prototype.instantiateModel = function(response) {
-    var model = this.$injector.instantiate(this.config.model);
-    angular.extend(model, response);
-    model.afterLoad();
-
-    return model;
-};
-
-/**
- * Perform a standard http request.
- *
- * @param {string} action The name of the action.
- * @param {Object=} params The parameters for the request.
- * @param {Object=} data The request data (for PUT / POST requests).
- * @return {angular.$q.Promise} A promise resolved when the http request has
- *     a response.
- */
-yngApp.ApiEndpoint.prototype.request = function(action, params, data) {
-    return this.API[action](params, data).$promise;
-};
 
 /******************************************************************************/
 
