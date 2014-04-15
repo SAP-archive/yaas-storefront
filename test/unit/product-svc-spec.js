@@ -43,8 +43,6 @@ describe('ProductSvc Test', function () {
 
         it('query returns product array', function () {
             expect(productSvc).toBeTruthy();
-        });
-            /*
             $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond([
                 {name: 'Shirt'},
                 {name: 'Hat'}
@@ -60,6 +58,9 @@ describe('ProductSvc Test', function () {
                 {name: 'Shirt'},
                 {name: 'Hat'}
             ]});
+        });
+            /*
+
             */
 
 
