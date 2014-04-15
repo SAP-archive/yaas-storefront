@@ -12,34 +12,78 @@
 
 describe('CartCtrl Test', function () {
 
-    var $scope, mockedCartSvc, cartCtrl;
+    var $scope, $rootScope, $controller;
 
-    beforeEach(module('ds.cart'));
+    //***********************************************************************
+    // Common Setup
+    // - shared setup between constructor validation and method validation
+    //***********************************************************************
 
-    beforeEach(module(function($provide) {
-        mockedCartSvc = {
-            getCart: function() {
-                return [
-                    {'name': 'Coffee Mug', 'price': 5.00, 'sku': 'mug123'},
-                    {'name': 'Bike', 'price': 100.00, 'sku': 'bike456'}
-                ];
-            }
-        };
+    // configure the target controller's module for testing - see angular.mock
+    beforeEach(angular.mock.module('ds.products'));
 
-        $provide.value('CartSvc', mockedCartSvc);
-
-    }));
-
-    beforeEach(inject(function(_$rootScope_, $controller) {
-        $scope = _$rootScope_.$new();
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
+    beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
 
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
             }
         });
-
+        $rootScope =  _$rootScope_;
+        $scope = _$rootScope_.$new();
+        $controller = _$controller_;
     }));
+
+    describe('CartCtrl - constructor', function () {
+        var mockedCartSvc, cartCtrl;
+
+        beforeEach(function () {
+
+            // creating the mocked service
+            mockedCartSvc = {
+                calculateSubtotal: jasmine.createSpy()
+            };
+
+        });
+
+        it('should calculate subtotal on initialization', function () {
+            // manual injection of the mocked service into the controller
+            cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
+            expect(mockedCartSvc.calculateSubtotal).toHaveBeenCalled();
+        })
+
+    });
+
+    describe('CartCtrl - remove from cart', function () {
+
+        var products, cartCtrl, stubbedCartSvc;
+
+        beforeEach(function () {
+
+            products = [
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+            ];
+
+            // stubbing a service with callback
+            stubbedCartSvc = {
+                removeProductFromCart: jasmine.createSpy(),
+                calculateSubtotal: jasmine.createSpy()
+            };
+
+            cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc})
+        })
+
+        it(' should remove the product', function () {
+
+            $scope.products = products;
+            $scope.removeProductFromCart('guitar5678');
+            // validate that the service's remove function has been called
+            expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
+            // validate that the service's recalculate function has been called
+            expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
+        })
+
+    })
 
 });
