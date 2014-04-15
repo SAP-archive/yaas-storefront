@@ -2,6 +2,7 @@
 
 angular.module('ds.products', [
     'yng.core',
-    'ds.shared'
+    'ds.shared',
+    'ds.cart'
 ]);
 
