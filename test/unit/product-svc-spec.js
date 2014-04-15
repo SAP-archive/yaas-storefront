@@ -12,11 +12,15 @@
 describe('ProductSvc Test', function () {
 
     var productUrl = 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com';
-    var productRoute = 'products' ;
+    var productRoute = '/products';
     var $scope, $rootScope, $httpBackend, productSvc;
 
+    var prodList = [
+        {name: 'Shirt'},
+        {name: 'Hat'}
+    ];
 
-    beforeEach(angular.mock.module('ds.products', function(caasProvider) {
+    beforeEach(angular.mock.module('ds.products', function (caasProvider) {
 
         caasProvider.setBaseRoute(productUrl);
         caasProvider.endpoint('products', { productSku: '@productSku' }).route(productRoute);
@@ -30,44 +34,35 @@ describe('ProductSvc Test', function () {
             }
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _ProductSvc_) {
+        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
 
-            $httpBackend  = _$httpBackend_;
+            $httpBackend = _$httpBackend_;
             productSvc = _ProductSvc_;
         });
     });
 
 
+    it('query returns product array', function () {
+        $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond(prodList);
 
-        it('query returns product array', function () {
-            expect(productSvc).toBeTruthy();
-            $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond([
-                {name: 'Shirt'},
-                {name: 'Hat'}
-            ]);
+        var products = productSvc.query();
 
-            var products = productSvc.query();
+        $httpBackend.flush();
+        expect(products).toEqualData(prodList);
+    });
 
-            expect(products).toBeUndefined();
+     it('query with success handler invokes callback on resolved promise', function () {
+         var products;
+         $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond(prodList);
 
-            $httpBackend.flush();
+         var myCallback = function(result) {
+             products = result;
+         }
 
-            expect(products).toEqualData({"products": [
-                {name: 'Shirt'},
-                {name: 'Hat'}
-            ]});
-        });
-            /*
-
-            */
-
-
-        /*
-         it('query with callback invokes it on resolved promise', function () {
-
-         })   */
-
-
+         productSvc.queryWithResultHandler({}, myCallback);
+         $httpBackend.flush();
+         expect(products).toEqualData(prodList);
+     });
 });
