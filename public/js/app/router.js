@@ -71,6 +71,8 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+
+
                 ;
 
             $urlRouterProvider.otherwise('/products');
