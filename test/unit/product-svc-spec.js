@@ -16,16 +16,11 @@ describe('ProductSvc Test', function () {
     var $scope, $rootScope, $httpBackend, productSvc;
 
 
-    beforeEach(angular.module('ds.products'));
-
-    //beforeEach(angular.module('ds.products'));
-    /*
-    , function(caasProvider) {
+    beforeEach(angular.mock.module('ds.products', function(caasProvider) {
 
         caasProvider.setBaseRoute(productUrl);
-        caasProvider.endpoint('products', { productSku: '@productSku' }).
-            route(productRoute);
-    }));    */
+        caasProvider.endpoint('products', { productSku: '@productSku' }).route(productRoute);
+    }));
 
 
     beforeEach(function () {
@@ -35,29 +30,20 @@ describe('ProductSvc Test', function () {
             }
         });
 
-        inject(function(_$httpBackend_, _$rootScope_) {
+        inject(function(_$httpBackend_, _$rootScope_, _ProductSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
 
             $httpBackend  = _$httpBackend_;
-
+            productSvc = _ProductSvc_;
         });
     });
 
 
 
-
-
-        //var productSvc;
-
-
-
-        //beforeEach(inject(function(ProductSvc){
-          //  productSvc = ProductSvc;
-        //}));
-
-        it('query returns product array', inject(function (ProductSvc) {
-            expect(ProductSvc).toBeTruthy();
+        it('query returns product array', function () {
+            expect(productSvc).toBeTruthy();
+        });
             /*
             $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond([
                 {name: 'Shirt'},
@@ -75,7 +61,7 @@ describe('ProductSvc Test', function () {
                 {name: 'Hat'}
             ]});
             */
-        }));
+
 
         /*
          it('query with callback invokes it on resolved promise', function () {
