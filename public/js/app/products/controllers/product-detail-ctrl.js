@@ -5,8 +5,11 @@ angular.module('ds.products')
 
     $scope.product = product;
 
-    $scope.addProductToCart = function () {
-        $rootScope.cart.push(product);
+    //input default values must be defined in controller, not html, if tied to ng-model
+    $scope.productDetailQty = 1;
+
+    $scope.addToCartFromDetailPage = function () {
+        CartSvc.pushProductToCart(product, $scope.productDetailQty);
     };
 
 }]);

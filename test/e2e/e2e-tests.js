@@ -26,12 +26,11 @@ describe("product page", function () {
         }
 
 
-      
 
       it('should scroll to load more products', function () {
-        browser.sleep(10000);
+        browser.sleep(8000);
         getTextByRepeaterRow(0)
-        scrollToBottomOfProducts(3500);
+        scrollToBottomOfProducts(8000);
         getTextByRepeaterRow(15)
         testProduct.click();
         browser.sleep(5000);
