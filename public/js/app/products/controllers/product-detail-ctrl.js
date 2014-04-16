@@ -10,6 +10,7 @@ angular.module('ds.products')
 
     $scope.addToCartFromDetailPage = function () {
         CartSvc.pushProductToCart(product, $scope.productDetailQty);
+        CartSvc.calculateSubtotal();
     };
 
 }]);

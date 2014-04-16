@@ -35,6 +35,9 @@ angular.module('ds.cart')
             getCart: function () {
                 return $rootScope.cart;
             },
+            getTax: function () {
+                return 0;
+            },
             pushProductToCart: function (product, productDetailQty) {
                 for (var i = 0; i < productDetailQty; i++) {
                     $rootScope.cart.push(product);

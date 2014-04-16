@@ -17,6 +17,8 @@ angular.module('ds.cart')
 
         $scope.subtotal = CartSvc.calculateSubtotal();
 
+        $scope.estTax = CartSvc.getTax();
+
         $scope.removeProductFromCart = function (sku) {
             CartSvc.removeProductFromCart(sku);
             $scope.subtotal = CartSvc.calculateSubtotal();
