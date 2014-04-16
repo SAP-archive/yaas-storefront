@@ -1,10 +1,12 @@
 $(document).ready(function () {
 	$('[data-toggle=offcanvas]').click(function () {
 		$('.off-canvas').toggleClass('left');
+        console.log('toggle left');
 	});
 
 	$('[data-toggle=offcanvas-cart]').click(function () {
 		$('.off-canvas').toggleClass('right');
+        console.log('toggle right');
 	});
 
 
