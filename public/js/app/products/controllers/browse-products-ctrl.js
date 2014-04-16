@@ -8,7 +8,7 @@ angular.module('ds.products')
     $scope.sort = 'sort';
 
     function getProducts(){
-        return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: 5, sort: $scope.sort});
+        return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: 6, sort: $scope.sort});
 
     }
 
@@ -20,7 +20,7 @@ angular.module('ds.products')
     };
 
     $scope.addMore = function(){
-        getProducts({pageNumber: ++$scope.pageNumber, pageSize: 5, sort: $scope.sort}).$promise.then(
+        getProducts({pageNumber: ++$scope.pageNumber, pageSize: 6 , sort: $scope.sort}).$promise.then(
             function (products) {
                 if (products){
                     $scope.products = $scope.products.concat(products);
@@ -28,6 +28,21 @@ angular.module('ds.products')
             }
         );
     };
+
+
+    $scope.prevPage = function () {
+        if ($scope.pageNumber > 1) {
+            $scope.products = getProducts({pageNumber: --$scope.pageNumber, pageSize: 6 , sort: $scope.sort});
+        }
+    };
+    
+    $scope.nextPage = function (products) {
+        if (!products){
+            $scope.products = getProducts({pageNumber: ++$scope.pageNumber, pageSize: 6 , sort: $scope.sort});
+        }
+    };
+
+
 
 
 }]);
