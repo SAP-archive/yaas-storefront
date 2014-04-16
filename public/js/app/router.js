@@ -29,7 +29,11 @@ window.app = angular.module('ds.router', [
                             controller: 'NavigationCtrl'
                         },
                         'header@': { templateUrl: 'public/js/app/shared/templates/header.html' },
-                        'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' }
+                        'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' },
+                        'cart@': {
+                            templateUrl: 'public/js/app/cart/templates/cart.html',
+                            controller: 'CartCtrl'
+                        }
                     }
                 })
 

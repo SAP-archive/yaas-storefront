@@ -21,18 +21,23 @@
 
   <body>
 
-    <div class="off-canvas">
-      <div class="mainContent">
+	<div class="off-canvas">
+		<div class="mainContent">
 
-      <div ui-view="navigation"></div>
+			<div ui-view="navigation"></div>
 
-      <header ui-view="header"></header>
+			<header ui-view="header"></header>
 
-      <section class="main" ui-view="body"></section>
+			<section class="main" ui-view="body"></section>
 
-      <footer ui-view="footer"></footer>
-      </div>
-    </div><!--/.container-->
+			<footer ui-view="footer"></footer>
+		</div>
+
+		<button data-toggle="offcanvas-cart" type="button" class="btn btn-link navbar-btn pull-right cart">
+			<span class="hyicon hyicon-cart"></span>
+		</button>
+		
+	</div><!--/.container-->
 
     <!-- ============================================== -->
     <!-- Vendor Specific -->
