@@ -1,12 +1,6 @@
 $(document).ready(function () {
 	$('[data-toggle=offcanvas]').click(function () {
 		$('.off-canvas').toggleClass('active');
-			$(".gridMasonry").imagesLoaded( function() {
-			$(".gridMasonry").masonry({
-				itemSelector: '.item',
-				isInitLayout: true
-		});
-	}); 
 	});
 
 
