@@ -163,7 +163,7 @@
     </div>
 </div>
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <!--div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0"-->
+    <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
 
         <div class="row product-grid gridMasonry"  infinite-masonry=".item"
              masonry-options="{
@@ -180,7 +180,7 @@
                 </a>
             </div>
         </div>
-    <!--/div-->
+    </div>
             <div ng-hide="sort == 'sort'" ng-class="{disabled: pageNumber == 1}" class="pagination pull-right">
             <ul>
                 <li ng-class="{disabled: pageNumber == 1}">

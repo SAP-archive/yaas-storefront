@@ -22,7 +22,7 @@ angular.module('ds.products')
     $scope.addMore = function(){
         getProducts({pageNumber: ++$scope.pageNumber, pageSize: 6 , sort: $scope.sort}).$promise.then(
             function (products) {
-                if (products){
+                if (products && $scope.sort === 'sort'){
                     $scope.products = $scope.products.concat(products);
                 }
             }
