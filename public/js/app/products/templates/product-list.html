@@ -180,24 +180,27 @@
                 </a>
             </div>
         </div>
-    </div>
-            <div ng-hide="sort == 'sort'" ng-class="{disabled: pageNumber == 1}" class="pagination pull-right">
+        <div ng-hide="sort == 'sort'" ng-class="{disabled: pageNumber == 1}" class="row">
+        <div class="col-md-2 col-md-offset-5">
             <ul>
                 <li ng-class="{disabled: pageNumber == 1}">
                     <a href ng-click="prevPage()">« Prev</a>
                 </li>
                             
-                <li ng-repeat="n in range(products.length, pageNumber, pageNumber + gap) "
-                ng-class="{active: n == pageNumber  }"
-                ng-click="setPage()">
-                    <a href ng-bind="n + 1">1</a>
+                <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) "
+                    ng-class="{active: n == currentPage}"
+                    ng-click="setPage()">
+                        <a href ng-bind="n + 1">1</a>
                 </li>
-                             
                 <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
                     <a href ng-click="nextPage()">Next »</a>
                 </li>
             </ul>
         </div>
+        </div>
+    </div>
+
+
 </section>
 
 <script src="public/js/vendor-static/jquery.min.js"></script>
