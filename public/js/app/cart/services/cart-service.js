@@ -20,6 +20,10 @@ angular.module('ds.cart')
             will just save items to the scope.
          */
 
+        $rootScope.subtotal = 0;
+
+        $rootScope.estTax = 0;
+
         $rootScope.cart = [];
 
         return {
@@ -30,26 +34,27 @@ angular.module('ds.cart')
                     subtotal = subtotal + value.price;
                 });
 
-                return subtotal;
+                $rootScope.subtotal = subtotal;
             },
             getCart: function () {
                 return $rootScope.cart;
             },
             getTax: function () {
-                return 0;
+                $rootScope.estTax = 0;
             },
             pushProductToCart: function (product, productDetailQty) {
                 for (var i = 0; i < productDetailQty; i++) {
                     $rootScope.cart.push(product);
                 }
+                this.calculateSubtotal();
             },
             removeProductFromCart: function (sku) {
                 angular.forEach($rootScope.cart, function (value, key) {
                    if(value.sku === sku) {
                        $rootScope.cart.splice(key, 1);
-                       return false;
                    }
                 });
+                this.calculateSubtotal();
             }
         };
 

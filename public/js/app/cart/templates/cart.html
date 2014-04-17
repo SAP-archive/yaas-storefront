@@ -41,7 +41,7 @@
 	<div class="alert alert-success">Free Shipping & Returns in the US</div>
 	<section>
 		<!-- Cart Item -->
-		<div ng-repeat="product in cart">
+		<div ng-repeat="product in cart track by $index">
 			<div class="item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
 					<img src="{{product.images[0].url}}" class="img-responsive"/>
@@ -64,7 +64,7 @@
 						</div>
 						<button class="btn btn-link pull-left btn-update">Update</button>
 					</div>
-					<div class="price-total item-attr">Total Price: <span>${{subtotal}}</span></div>
+					<div class="price-total item-attr">Total Price: <span>${{product.price}}</span></div>
 				</div>
 			</div>
 		</div>
