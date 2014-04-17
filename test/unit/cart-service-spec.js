@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('CartCtrl Test', function () {
+describe('CartSvc Test', function () {
 
     var mockBackend, $scope, $rootScope, cartSvc;
 
@@ -66,8 +66,8 @@ describe('CartCtrl Test', function () {
         beforeEach(function () {
 
             products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
             ];
 
             $rootScope.cart = products;
@@ -88,8 +88,8 @@ describe('CartCtrl Test', function () {
         beforeEach(function () {
 
             products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
             ];
 
             $rootScope.cart = products;

@@ -37,12 +37,14 @@ angular.module('ds.cart')
                 });
 
                 $rootScope.subtotal = subtotal;
+                return subtotal;
             },
             getCart: function () {
                 return $rootScope.cart;
             },
             getTax: function () {
                 $rootScope.estTax = 0;
+                return 0;
             },
             pushProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
@@ -58,8 +60,8 @@ angular.module('ds.cart')
                     cartProductToPush.name = product.name;
                     cartProductToPush.quantity = productDetailQty;
                     cartProductToPush.price = product.price;
-                    if (product.images[0].url && product.images[0].url !== '') {
-                        cartProductToPush.imageUrl = product.images[0].url;
+                    if (product.images) {
+                        cartProductToPush.imageUrl = product.images[0].url || '';
                     }
 
                     $rootScope.cart.push(cartProductToPush);
