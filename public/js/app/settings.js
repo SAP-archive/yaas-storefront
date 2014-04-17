@@ -24,11 +24,15 @@ angular.module('ds.shared')
                 route: '/products/:productSku',
                 pageSize: 5
             },
+
+            orders: {
+                baseUrl: 'http://order-service-dprod.deis-dev-01.ytech.fra.hybris.com',
+                route: '/orders/:orderId'
+            },
+
             headers: {
                 tenant: 'X-tenantId',
                 authorization: 'Authorization'
             }
         }
-
-
     });

@@ -13,8 +13,18 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('OrderSvc', ['$rootScope', function($rootScope){
+    .factory('OrderSvc', ['caas', function(caas){
 
+        return {
+            /**
+             * Issues a query request on the product resource.
+             * @param {parms} query parameters - optional
+             * @return The result array as returned by Angular $resource.query().
+             */
+            createOrder: function(order) {
+                order.id = caas.orders.API.save(order);
 
+            }
+        }
 
     }]);

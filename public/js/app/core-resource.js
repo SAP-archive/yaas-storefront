@@ -10,7 +10,13 @@ var yngApp = {};
 
 yngApp.core = angular.module('yng.core', ['ngResource']);
 
+/********
+ * General business objects
+ */
+yngApp.Address = function () {
 
+
+}
 
 /******************************************************************************/
 
@@ -232,7 +238,8 @@ yngApp.apis = angular.module('yng.apis',[] );
             },
             headers: {
                 tenant: 'X-tenantId',
-                authorization: 'Authorization'
+                authorization: 'Authorization',
+                buyer: 'X-buyerId'
             }
         }
     });

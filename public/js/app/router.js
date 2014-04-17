@@ -61,7 +61,15 @@ window.app = angular.module('ds.router', [
                             }
                     }
                 })
-
+                .state('base.checkout', {
+                    url: '/checkout',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/checkout/templates/checkout-to-be-replaced.html',
+                            controller: 'CheckoutCtrl'
+                        }
+                    }
+                })
                 .state('base.cart', {
                     url: '/cart',
                     views: {
@@ -88,6 +96,9 @@ window.app = angular.module('ds.router', [
         caasProvider.endpoint('products', { productSku: '@productSku' }).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
+
+        caasProvider.endpoint('orders', {orderId: '@orderId'}).
+            route(settings.apis.orders.route);
     })
 
     .factory('interceptor', ['$q', 'settings',

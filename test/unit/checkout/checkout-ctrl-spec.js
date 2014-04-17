@@ -23,20 +23,24 @@ describe('CheckoutCtrl Test', function () {
     }));
 
     describe('CheckoutCtrl - constructor', function () {
-        var checkoutCtrl;
+        var mockedCartSvc, checkoutCtrl;
+        var cart = {
+            'products': [{'name': 'Awesome Bike'}]
+        }
 
         beforeEach(function () {
-
-
-
+            var mockCartSvc = $injector.get( 'CartSvc' );
+            mockCartSvc.getCart = jasmine.createSpy("getCart").andReturn(cart);
         });
 
         it('should initialize', function () {
-
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
             expect(checkoutCtrl).toBeTruthy();
+            expect($scope.cart).toEqualData(cart);
         })
 
     });
+
+
 
 });

@@ -13,7 +13,17 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', 'CartSvc', function ($scope, CartSvc) {
+    .controller('CheckoutCtrl', [ '$scope', 'CartSvc', 'OrderSvc', function ($scope, CartSvc, OrderSvc) {
 
+        $scope.cart = CartSvc.getCart();
+        $scope.order = {
+            shipToAddress: {},
+            billingAddress: {}
+        };
+
+
+        $scope.placeOrder = function (order) {
+              OrderSvc.create(order);
+        }
 
     }]);
