@@ -50,7 +50,7 @@ angular.module('ds.cart')
                 var alreadyInCart = false;
                 for (var i = 0; i < $rootScope.cart.length; i++) {
                     if (product.sku === $rootScope.cart[i].sku) {
-                        $rootScope.cart[i].quantity++;
+                        $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
                         $rootScope.cartLength = $rootScope.cartLength + productDetailQty;
                         alreadyInCart = true;
                     }
