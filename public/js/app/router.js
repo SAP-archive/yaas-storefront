@@ -65,16 +65,6 @@ window.app = angular.module('ds.router', [
                             }
                     }
                 })
-
-                .state('base.cart', {
-                    url: '/cart',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart-template-to-be-replaced.html',
-                            controller: 'CartCtrl'
-                        }
-                    }
-                })
                 ;
 
             $urlRouterProvider.otherwise('/products');
