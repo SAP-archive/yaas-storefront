@@ -48,9 +48,10 @@ angular.module('ds.cart')
             },
             pushProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < $rootScope.cartLength; i++) {
+                for (var i = 0; i < $rootScope.cart.length; i++) {
                     if (product.sku === $rootScope.cart[i].sku) {
                         $rootScope.cart[i].quantity++;
+                        $rootScope.cartLength = $rootScope.cartLength + productDetailQty;
                         alreadyInCart = true;
                     }
                 }
