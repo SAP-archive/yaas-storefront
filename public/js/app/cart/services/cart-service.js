@@ -26,12 +26,14 @@ angular.module('ds.cart')
 
         $rootScope.cart = [];
 
+        $rootScope.cartLength = 0;
+
         return {
             calculateSubtotal: function () {
                 var subtotal = 0;
 
-                angular.forEach($rootScope.cart, function(value) {
-                    subtotal = subtotal + value.price;
+                angular.forEach($rootScope.cart, function(product) {
+                    subtotal = subtotal + (product.price * product.quantity);
                 });
 
                 $rootScope.subtotal = subtotal;
@@ -43,14 +45,32 @@ angular.module('ds.cart')
                 $rootScope.estTax = 0;
             },
             pushProductToCart: function (product, productDetailQty) {
-                for (var i = 0; i < productDetailQty; i++) {
-                    $rootScope.cart.push(product);
+                var alreadyInCart = false;
+                for (var i = 0; i < $rootScope.cartLength; i++) {
+                    if (product.sku === $rootScope.cart[i].sku) {
+                        $rootScope.cart[i].quantity++;
+                        alreadyInCart = true;
+                    }
                 }
-                this.calculateSubtotal();
+                if (productDetailQty > 0 && !alreadyInCart) {
+                    var cartProductToPush = {};
+                    cartProductToPush.sku = product.sku;
+                    cartProductToPush.name = product.name;
+                    cartProductToPush.quantity = productDetailQty;
+                    cartProductToPush.price = product.price;
+                    if (product.images[0].url && product.images[0].url !== '') {
+                        cartProductToPush.imageUrl = product.images[0].url;
+                    }
+
+                    $rootScope.cart.push(cartProductToPush);
+
+                    $rootScope.cartLength = $rootScope.cartLength + productDetailQty;
+                }
             },
             removeProductFromCart: function (sku) {
-                angular.forEach($rootScope.cart, function (value, key) {
-                   if(value.sku === sku) {
+                angular.forEach($rootScope.cart, function (product, key) {
+                   if(product.sku === sku) {
+                       $rootScope.cartLength = $rootScope.cartLength - product.quantity;
                        $rootScope.cart.splice(key, 1);
                    }
                 });

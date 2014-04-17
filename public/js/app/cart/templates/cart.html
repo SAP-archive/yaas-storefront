@@ -28,7 +28,7 @@
 			</thead>
 			<tbody>
 			<tr>
-				<td>{{cart.length}} Items</td>
+				<td>{{cartLength}} Items</td>
 				<td class="text-right">${{subtotal}}</td>
 			</tr>
 			<tr>
@@ -44,7 +44,7 @@
 		<div ng-repeat="product in cart track by $index">
 			<div class="item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
-					<img src="{{product.images[0].url}}" class="img-responsive"/>
+					<img src="{{product.imageUrl}}" class="img-responsive"/>
 					<button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 				</div>
 				<div class="col-xs-8 col-md-8  detail-col">
@@ -60,11 +60,11 @@
 					<div class="clearfix">
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
-							<input type="text" class="form-control" value="1">
+							<input type="text" class="form-control" value="{{product.quantity}}">
 						</div>
 						<button class="btn btn-link pull-left btn-update">Update</button>
 					</div>
-					<div class="price-total item-attr">Total Price: <span>${{product.price}}</span></div>
+					<div class="price-total item-attr">Total Price: <span>${{product.price * product.quantity}}</span></div>
 				</div>
 			</div>
 		</div>
