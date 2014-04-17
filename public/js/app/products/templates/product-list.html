@@ -181,21 +181,9 @@
             </div>
         </div>
         <div ng-hide="sort == 'sort'" ng-class="{disabled: pageNumber == 1}" class="row">
-        <div class="col-md-2 col-md-offset-5">
-            <ul>
-                <li ng-class="{disabled: pageNumber == 1}">
-                    <a href ng-click="prevPage()">« Prev</a>
-                </li>
-                            
-                <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) "
-                    ng-class="{active: n == currentPage}"
-                    ng-click="setPage()">
-                        <a href ng-bind="n + 1">1</a>
-                </li>
-                <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
-                    <a href ng-click="nextPage()">Next »</a>
-                </li>
-            </ul>
+        <div class="col-md-2 col-md-offset-5">                            
+                <pagination ng-model="setpage" total-items="30" 
+                 class="pagination-sm" num-pages="numPages" previous-text="<" next-text=">"></pagination>   
         </div>
         </div>
     </div>
@@ -205,6 +193,7 @@
 
 <script src="public/js/vendor-static/jquery.min.js"></script>
 <script src="public/js/vendor-static/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 <script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
 <script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
 <script src="public/js/vendor-static/owl.carousel.js"></script>
