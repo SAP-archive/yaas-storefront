@@ -29,6 +29,11 @@ angular.module('ds.cart')
         $rootScope.itemCount = 0;
 
         return {
+            /*
+                saves subtotal to $rootScope
+
+                @return subtotal
+             */
             calculateSubtotal: function () {
                 var subtotal = 0;
 
@@ -39,13 +44,24 @@ angular.module('ds.cart')
                 $rootScope.subtotal = subtotal;
                 return subtotal;
             },
+            /*
+                @return cart array
+             */
             getCart: function () {
                 return $rootScope.cart;
             },
+            /*
+                saves estimated tax to $rootScope
+
+                @return estTax
+             */
             getTax: function () {
                 $rootScope.estTax = 0;
                 return 0;
             },
+            /*
+                converts product object to line item object and pushes it to the cart
+             */
             pushProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
                 for (var i = 0; i < $rootScope.cart.length; i++) {
@@ -68,8 +84,12 @@ angular.module('ds.cart')
                     $rootScope.cart.push(cartProductToPush);
 
                     $rootScope.itemCount = $rootScope.itemCount + productDetailQty;
+                    this.calculateSubtotal();
                 }
             },
+            /*
+                removes a product from the cart
+             */
             removeProductFromCart: function (sku) {
                 angular.forEach($rootScope.cart, function (product, key) {
                    if(product.sku === sku) {
