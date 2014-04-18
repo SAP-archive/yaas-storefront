@@ -51,7 +51,8 @@ module.exports = function(config){
 
         'public/js/bootstrap.js',
         'public/js/vendor-static/ui-bootstrap-tpls.js',
-        'test/unit/*.js'
+        'test/unit/*.js',
+        'test/unit/checkout/*.js'
     
     ],
 

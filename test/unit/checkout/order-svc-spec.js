@@ -15,7 +15,7 @@ describe('OrderSvc Test', function () {
     var ordersRoute = '/orders';
     var $scope, $rootScope, $httpBackend, orderSvc;
 
-    var cart = { entries: [{'amount':1, }]};
+    var cart =  [{'quantity':1, 'price':2.99, 'sku': '1bcd123'}];
 
     var orderId = 456;
 
@@ -43,14 +43,14 @@ describe('OrderSvc Test', function () {
     });
 
 
-    it('createOrder issues POST and update last order id', function () {
-        /*
-        $httpBackend.expectPOST('http://myorders/orders');
+    xit('createOrder issues POST and update last order id', function () {
 
-        var products = orderService.query();
+        $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).andReturn({'orderId': 456});
+
+        orderSvc.createOrder(cart);
 
         $httpBackend.flush();
-        expect(products).toEqualData(prodList); */
+        expect(orderSvc.getLastOrderId()).toEqualData(orderId);
     });
 
 

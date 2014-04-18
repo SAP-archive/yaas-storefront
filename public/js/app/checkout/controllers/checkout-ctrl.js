@@ -17,7 +17,7 @@ angular.module('ds.checkout')
 
 
         $scope.placeOrder = function () {
-              OrderSvc.create(CartSvc.getCart());
+              OrderSvc.createOrder(CartSvc.getCart());
         }
 
     }]);
