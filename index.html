@@ -21,18 +21,23 @@
 
   <body>
 
-    <div class="container off-canvas">
-      <div class="mainContent">
+	<div class="off-canvas">
 
-      <div ui-view="navigation"></div>
+		<div ui-view="navigation"></div>
 
-      <header ui-view="header"></header>
+		<div class="mainContent">
 
-      <section class="main" ui-view="body"></section>
+			<header ui-view="header"></header>
 
-      <footer ui-view="footer"></footer>
-      </div>
-    </div><!--/.container-->
+			<div ui-view="cart"></div>
+
+			<section class="main" ui-view="body"></section>
+
+			<footer ui-view="footer"></footer>
+
+		</div>
+		
+	</div><!--/.container-->
 
     <!-- ============================================== -->
     <!-- Vendor Specific -->
@@ -48,7 +53,6 @@
     <script src="public/js/vendor-static/owl.carousel.js"></script>
     <script src="public/js/vendor-static/img-touch-canvas.js"></script>
     <script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
-    <script src="public/js/vendor-static/main.js"></script>
 
 
     <script src="public/js/vendor/angular.js"></script>
@@ -88,6 +92,9 @@
     <script src="public/js/app/core-resource.js"></script>
 
     <script src="public/js/bootstrap.js"></script>
+    <script src="public/js/vendor-static/ui-bootstrap-tpls.js"></script>
+
+    <script src="public/js/vendor-static/main.js"></script>
 
     <!-- endbuild -->
 

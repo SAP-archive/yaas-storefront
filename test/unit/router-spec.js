@@ -47,6 +47,7 @@ describe('Router test', function () {
         //$httpBackend.whenGET(/[a-z]*/).passThrough();
 
         $httpBackend.whenGET('public/js/app/products/templates/product-list.html').respond({});
+        $httpBackend.whenGET('public/js/app/cart/templates/cart.html').respond({});
         $httpBackend.whenGET('public/js/app/shared/templates/navigation.html').respond({});
         $httpBackend.whenGET('public/js/app/shared/templates/header.html').respond({});
         $httpBackend.whenGET('public/js/app/shared/templates/footer.html').respond({});

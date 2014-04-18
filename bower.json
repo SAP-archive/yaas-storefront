@@ -24,7 +24,8 @@
     "ng-infinite-scroller": "1.0.0",
     "bootstrap": "latest",
     "masonry": "3.1.5",
-    "lodash": "2.4.1"
+    "lodash": "2.4.1",
+    "angular-bootstrap": "~0.10.0"
   },
   "install": {
     "path": {
