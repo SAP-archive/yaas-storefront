@@ -21,9 +21,7 @@ describe('ProductSvc Test', function () {
     ];
 
     beforeEach(angular.mock.module('ds.products', function (caasProvider) {
-
-        caasProvider.setBaseRoute(productUrl);
-        caasProvider.endpoint('products', { productSku: '@productSku' }).route(productRoute);
+        caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(productUrl).route(productRoute);
     }));
 
 

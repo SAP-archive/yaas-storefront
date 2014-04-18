@@ -55,11 +55,30 @@ describe('CartSvc Test', function () {
         newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
 
         it(' should add the product to the cart', function () {
-            cartSvc.pushProductToCart(newProduct, 1);
+            cartSvc.addProductToCart(newProduct, 1);
             expect($rootScope.cart.length).toEqualData(3);
         });
 
+        it(' should increment the item qty if same item is added again', function(){
+             var same = {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00};
+             var updated =   [ {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 5},
+                 {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}];
+            cartSvc.addProductToCart(same, 4);
+            expect(cartSvc.getCart()).toEqualData(updated);
+        });
+
+        it(' should create cart line item with image if product has image', function(){
+             var withImage = {'name': 'bunny', 'sku': 'bunny134', 'price': 10.59, 'images':[{'url':'imgurl'}]};
+
+             var updated =   [ {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+                 {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1},
+                 {'name': 'bunny', 'sku': 'bunny134', 'price': 10.59, 'quantity': 1, 'imageUrl':'imgurl'}];
+             cartSvc.addProductToCart(withImage, 1);
+             expect(cartSvc.getCart()).toEqualData(updated);
+        });
     });
+
+
 
     describe('CartSvc - remove from cart', function () {
 
@@ -76,6 +95,14 @@ describe('CartSvc Test', function () {
             expect(cartSvc.calculateSubtotal()).toEqualData(1800.00);
         });
 
+    });
+
+    describe('CartSvc - getCart', function(){
+
+        if('should return cart items', function(){
+           var cart = cartSvc.getCart();
+           expect(cart).toEqualData(products);
+        });
     });
 
 });
