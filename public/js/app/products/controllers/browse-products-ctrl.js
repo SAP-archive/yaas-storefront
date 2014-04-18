@@ -6,40 +6,32 @@ angular.module('ds.products', ['ui.bootstrap'])
 
     $scope.pageSize = 5;
     $scope.pageNumber = 1;
-    $scope.sort = 'sort';
+    $scope.sort = 'default'; // no sorting - pagination is off and infinite scroll is turned on
 
-    function getProducts(){
+    var getProducts = function() {
         return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort});
-
-    }
+    };
 
     $scope.products = getProducts();
 
-    $scope.showProducts = function(){
-        $scope.pageNumber = 1;
-        $scope.products = getProducts();
-    };
 
     $scope.addMore = function (){
-        if ($scope.sort === 'sort'){
+        // if sorting is turned off, infinite scroll is turned on ---
+        if ($scope.sort === 'default'){
             ++$scope.pageNumber;
-        getProducts().$promise.then(
-            function (products) {
-                if (products && $scope.sort === 'sort'){
-                    $scope.products = $scope.products.concat(products);
-                }
-            }
-        );
-    }
+            ProductSvc.queryWithResultHandler( {pageNumber: $scope.pageNumber, pageSize: $scope.pageSize},
+                function (products) {
+                    if (products){
+                        $scope.products = $scope.products.concat(products);
+                    }
+            });
+        }
     };
 
 
-
-    $scope.setPage = function (pageNo) {
-
+    $scope.setSortedPage = function (pageNo) {
         $scope.pageNumber = pageNo;
         $scope.products = getProducts();
-        //console.log('page nbr is '+$scope.pageNumber);
     };
 
 }]);
