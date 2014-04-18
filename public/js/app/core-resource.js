@@ -10,8 +10,6 @@ var yngApp = {};
 
 yngApp.core = angular.module('yng.core', ['ngResource']);
 
-
-
 /******************************************************************************/
 
 /**
@@ -62,6 +60,15 @@ yngApp.ApiEndpointConfig.prototype.addHttpAction = function(alias, method, param
     this.actions[name] = {method: method, params: params};
 };
 
+/**
+ * Set the base URL for this endpoint, exclusive of path.
+ * @param {string} url
+ * @return {yngApp.ApiEndpointConfig}
+ */
+yngApp.ApiEndpointConfig.prototype.baseUrl = function(url) {
+    this.baseUrl = url;
+    return this;
+};
 
 /**
  * Set the route for this endpoint. This is relative to the server's base route.
@@ -116,11 +123,11 @@ yngApp.QueryConfig = function() {
  * @param {!Object} $injector The angular $injector service.
  * @param {!Function} $resource The angular $resource service.
  */
-yngApp.ApiEndpoint = function(baseRoute, endpointConfig, $injector, $resource) {
+yngApp.ApiEndpoint = function(endpointConfig, $injector, $resource) {
     this.config = endpointConfig;
     this.$injector = $injector;
 
-    this.API = $resource(baseRoute + endpointConfig.route, {},
+    this.API = $resource(endpointConfig.baseUrl + endpointConfig.route, {},
         endpointConfig.actions);
 
 
@@ -167,17 +174,10 @@ yngApp.ApiEndpoint = function(baseRoute, endpointConfig, $injector, $resource) {
  * @constructor
  */
 yngApp.ApiProvider = function() {
-    this.baseRoute = '';
+
     this.endpoints = {};
 };
 
-/**
- * Sets the base server api route.
- * @param {string} route The base server route.
- */
-yngApp.ApiProvider.prototype.setBaseRoute = function(route) {
-    this.baseRoute = route;
-};
 
 /**
  * Creates an api endpoint. The endpoint is returned so that configuration of
@@ -233,7 +233,8 @@ yngApp.apis = angular.module('yng.apis',[] );
             },
             headers: {
                 tenant: 'X-tenantId',
-                authorization: 'Authorization'
+                authorization: 'Authorization',
+                buyer: 'X-buyerId'
             }
         }
     });

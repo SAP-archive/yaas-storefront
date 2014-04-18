@@ -15,6 +15,7 @@ angular.module('ds.shared')
 
         tenantId: 'onlineshop',
         authorizationId: 'polo_auth',
+        buyerId: 'buyer@example.com',
 
         apis: {
 
@@ -24,11 +25,16 @@ angular.module('ds.shared')
                 route: '/products/:productSku',
                 pageSize: 10
             },
+
+            orders: {
+                baseUrl: 'http://order-service-dprod.deis-dev-01.ytech.fra.hybris.com',
+                route: '/orders/:orderId'
+            },
+
             headers: {
                 tenant: 'X-tenantId',
-                authorization: 'Authorization'
+                authorization: 'Authorization',
+                customer: 'X-buyerId'
             }
         }
-
-
     });
