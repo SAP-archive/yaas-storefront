@@ -117,11 +117,12 @@
                     <label for="" class="sr-only">Sort by:</label>
 
                     <div>
-                        <select class="form-control">
-                            <option>price low - high</option>
-                            <option>price high - low</option>
-                            <option>popularity</option>
-                            <option>relevance</option>
+                        <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
+                            <option value="price">price low - high</option>
+                            <option value="-price">price high - low</option>
+                            <option value="name">A-Z</option>
+                            <option value="-name">Z-A</option>
+                            <option value="created">Newest</option>
                         </select>
                     </div>
                 </div>
@@ -162,9 +163,9 @@
     </div>
 </div>
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <div infinite-scroll="addMore(pageSize, pageNumber)" infinite-scroll-distance="0">
+    <div infinite-scroll="addMore()" infinite-scroll-distance="0">
 
-        <div class="row product-grid gridMasonry"  infinite-masonry=".item"
+        <div class="row product-grid gridMasonry" infinite-masonry=".item"
              masonry-options="{
             gutter: 0,
             transitionDuration: '0.3s'
@@ -179,13 +180,28 @@
                 </a>
             </div>
         </div>
+        <div ng-hide="sort == 'default'" ng-class="{disabled: pageNumber === 1}" class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <pagination on-select-page="setSortedPage(page)" total-items="30"
+                            page="pageNumber"
+                            items-per-page="pageSize"
+                            rotate="false"
+                            max-size="3"
+                            class="pagination-sm" previous-text="<" next-text=">"></pagination>
+
+
+            </div>
+        </div>
     </div>
+
+
 </section>
 
 <script src="public/js/vendor-static/jquery.min.js"></script>
 <script src="public/js/vendor-static/bootstrap.min.js"></script>
-<script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 <script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
+<script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
 <script src="public/js/vendor-static/owl.carousel.js"></script>
 <script src="public/js/vendor-static/img-touch-canvas.js"></script>
 <script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>

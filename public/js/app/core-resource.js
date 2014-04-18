@@ -228,7 +228,8 @@ yngApp.apis = angular.module('yng.apis',[] );
                 route: '/products/:productSku',
                 // query parameters
                 PAGE_NUMBER: 'pageNumber',
-                PAGE_SIZE: 'pageSize'
+                PAGE_SIZE: 'pageSize',
+                SORT: 'sort'
             },
             headers: {
                 tenant: 'X-tenantId',

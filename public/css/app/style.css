@@ -6313,7 +6313,7 @@ section footer button {
 }
 .product-grid .item a .thumb img {
   width: 100%;
-  height: auto;
+  max-height: 210px;
 }
 .product-grid .item a .name {
   margin: 0 20px;
