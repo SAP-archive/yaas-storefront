@@ -22,23 +22,27 @@ describe('CheckoutCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    describe('CheckoutCtrl - constructor', function () {
-        var mockedCartSvc, checkoutCtrl;
-        var cart = {
-            'products': [{'name': 'Awesome Bike'}]
-        }
+    describe('CheckoutCtrl', function () {
+        var mockedOrderSvc, mockedCartSvc, checkoutCtrl;
 
         beforeEach(function () {
-            var mockCartSvc = $injector.get( 'CartSvc' );
-            mockCartSvc.getCart = jasmine.createSpy("getCart").andReturn(cart);
+            var mockedOrderSvc = $injector.get( 'OrderSvc' );
+            mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
+            var mockedCartSvc = $injector.get('CartSvc');
+            mockedCartSvc.getCart = jasmine.createSpy('getCart');
         });
 
         it('should initialize', function () {
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc});
             expect(checkoutCtrl).toBeTruthy();
-            expect($scope.cart).toEqualData(cart);
         })
 
+        it('should invoke OrderSvc on placeOrder', function(){
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc});
+            checkoutCtrl.placeOrder();
+            expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
+            expect(mockedCartSvc.getCart).toHaveBeenCalled();
+        });
     });
 
 

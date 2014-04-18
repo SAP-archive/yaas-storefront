@@ -15,15 +15,9 @@
 angular.module('ds.checkout')
     .controller('CheckoutCtrl', [ '$scope', 'CartSvc', 'OrderSvc', function ($scope, CartSvc, OrderSvc) {
 
-        $scope.cart = CartSvc.getCart();
-        $scope.order = {
-            shipToAddress: {},
-            billingAddress: {}
-        };
 
-
-        $scope.placeOrder = function (order) {
-              OrderSvc.create(order);
+        $scope.placeOrder = function () {
+              OrderSvc.create(CartSvc.getCart());
         }
 
     }]);

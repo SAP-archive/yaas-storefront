@@ -13,17 +13,41 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('OrderSvc', ['caas', function(caas){
+    .factory('OrderSvc',  ['caas', function(caas){
 
         return {
+            setLastOrderId: function(id){
+                this.lastOrderId = id;
+            },
+
+            getLastOrderId: function() {
+                return this.lastOrderId;
+            },
+
             /**
-             * Issues a query request on the product resource.
-             * @param {parms} query parameters - optional
+             * Issues a Orders 'save' (POST) on the order resource.
+             * Uses the CartSvc to retrieve the current set of line items.
              * @return The result array as returned by Angular $resource.query().
              */
-            createOrder: function(order) {
-                order.id = caas.orders.API.save(order);
+            createOrder: function(cartItems) {
 
+                var OrderLine = function(amount, unitPrice, productCode) {
+                    this.amount = amount;
+                    this.unitPrice = unitPrice;
+                    this.productCode = productCode;
+                }
+
+                var order = function(){
+                    this.entries = [];
+                };
+
+                angular.forEach(cartItems, function(item){
+                     entries.push(new OrderLine(item.quantity, item.price, item.sku));
+                });
+
+                caas.orders.API.save(order).$promise.then(function(order){
+                    setLastOrderId(order.id);
+                });
             }
         }
 
