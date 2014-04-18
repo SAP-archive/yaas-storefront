@@ -39,25 +39,25 @@ describe("product page", function () {
 
       
 
-    //   it('should scroll to load more products', function () {
-    //     browser.sleep(5000);
-    //     getTextByRepeaterRow(0)
-    //     scrollToBottomOfProducts(3500);
-    //     getTextByRepeaterRow(15)
-    //     testProduct.click();
-    //     browser.sleep(5000);
+      it('should scroll to load more products', function () {
+        browser.sleep(5000);
+        getTextByRepeaterRow(0)
+        scrollToBottomOfProducts(3500);
+        getTextByRepeaterRow(15)
+        testProduct.click();
+        browser.sleep(5000);
         
-    //   });
+      });
 
-    //   it("should get product detail page", function () {
-    //     browser.sleep(5000);
-    //     scrollToBottomOfProducts(3500);
-    //     testProduct.click();
-    //     browser.sleep(8000);
+      it("should get product detail page", function () {
+        browser.sleep(5000);
+        scrollToBottomOfProducts(3500);
+        testProduct.click();
+        browser.sleep(8000);
 
-    //     expect(testProductDescription.getText()).toEqual('Description:\nA bicycle, often called a bike, is a human-powered, pedal-driven, single-track vehicle, having two wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist, or bicyclist.');
+        expect(testProductDescription.getText()).toEqual('Description:\nA bicycle, often called a bike, is a human-powered, pedal-driven, single-track vehicle, having two wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist, or bicyclist.');
 
-    // });
+    });
 
       it("should get order products correctly", function () {
         browser.sleep(5000);
