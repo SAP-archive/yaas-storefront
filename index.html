@@ -21,19 +21,19 @@
 
   <body>
 
-	<div class="off-canvas">
+	<div ng-model="container" class="off-canvas" ng-class="{'right': showCart}">
 
 		<div ui-view="navigation"></div>
 
 		<div class="mainContent">
 
-			<header ui-view="header"></header>
+
 
 			<div ui-view="cart"></div>
 
 			<section class="main" ui-view="body"></section>
 
-			<footer ui-view="footer"></footer>
+
 
 		</div>
 		
@@ -82,6 +82,10 @@
 	<script src="public/js/app/cart/cart-index.js"></script>
 	<script src="public/js/app/cart/controllers/cart-ctrl.js"></script>
 	<script src="public/js/app/cart/services/cart-service.js"></script>
+
+    <script src="public/js/app/checkout/checkout-index.js"></script>
+    <script src="public/js/app/checkout/controllers/checkout-ctrl.js"></script>
+    <script src="public/js/app/checkout/services/order-service.js"></script>
 
     <script src="public/js/app/router.js"></script>
     <script src="public/js/app/settings.js"></script>

@@ -3,6 +3,7 @@ $(document).ready(function () {
 		$('.off-canvas').toggleClass('active');
 	});
 
+
 	$('[data-toggle=offcanvas-cart]').click(function () {
 		$('.off-canvas').toggleClass('right');
 	});

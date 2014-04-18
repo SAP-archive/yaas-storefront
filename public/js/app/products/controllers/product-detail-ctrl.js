@@ -9,7 +9,7 @@ angular.module('ds.products')
     $scope.productDetailQty = 1;
 
     $scope.addToCartFromDetailPage = function () {
-        CartSvc.pushProductToCart(product, $scope.productDetailQty);
+        CartSvc.addProductToCart(product, $scope.productDetailQty);
     };
 
 }]);
