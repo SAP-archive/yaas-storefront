@@ -1,16 +1,11 @@
 $(document).ready(function () {
 	$('[data-toggle=offcanvas]').click(function () {
-		$('.off-canvas').toggleClass('left');
+		$('.off-canvas').toggleClass('active');
 	});
 
 	$('[data-toggle=offcanvas-cart]').click(function () {
 		$('.off-canvas').toggleClass('right');
 	});
-
-
-
-
-
 
 	$(".gridMasonry").imagesLoaded( function() {
 			$(".gridMasonry").masonry({

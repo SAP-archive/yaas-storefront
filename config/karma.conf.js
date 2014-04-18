@@ -46,7 +46,7 @@ module.exports = function(config){
         'public/js/app/core-resource.js',
 
         'public/js/bootstrap.js',
-
+        'public/js/vendor-static/ui-bootstrap-tpls.js',
         'test/unit/*.js'
     
     ],

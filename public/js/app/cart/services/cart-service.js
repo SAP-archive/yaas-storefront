@@ -29,6 +29,11 @@ angular.module('ds.cart')
         $rootScope.itemCount = 0;
 
         return {
+
+            getCart: function() {
+                return $rootScope.cart;
+            },
+
             /*
                 saves subtotal to $rootScope
 
