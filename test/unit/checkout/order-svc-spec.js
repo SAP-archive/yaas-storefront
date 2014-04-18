@@ -15,6 +15,8 @@ describe('OrderSvc Test', function () {
     var ordersRoute = '/orders';
     var $scope, $rootScope, $httpBackend, orderSvc;
 
+    var cart = { entries: [{'amount':1, }]};
+
     var orderId = 456;
 
     beforeEach(angular.mock.module('ds.checkout', function (caasProvider) {

@@ -33,11 +33,11 @@ describe('CheckoutCtrl Test', function () {
         });
 
         it('should initialize', function () {
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
             expect(checkoutCtrl).toBeTruthy();
         })
 
-        it('should invoke OrderSvc on placeOrder', function(){
+        it('should invoke pass cart from CartSvc to OrderSvc on placeOrder', function(){
             checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc});
             checkoutCtrl.placeOrder();
             expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
