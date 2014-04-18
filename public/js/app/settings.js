@@ -15,6 +15,7 @@ angular.module('ds.shared')
 
         tenantId: 'onlineshop',
         authorizationId: 'polo_auth',
+        buyerId: 'buyer@example.com',
 
         apis: {
 
@@ -32,7 +33,8 @@ angular.module('ds.shared')
 
             headers: {
                 tenant: 'X-tenantId',
-                authorization: 'Authorization'
+                authorization: 'Authorization',
+                customer: 'X-buyerId'
             }
         }
     });

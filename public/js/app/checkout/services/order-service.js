@@ -37,12 +37,12 @@ angular.module('ds.checkout')
                     this.amount = amount;
                     this.unitPrice = unitPrice;
                     this.productCode = productCode;
-                }
+                };
 
 
                 var Order = function(){
                     this.entries = [];
-                }
+                };
 
                 var newOrder = new Order();
 
@@ -54,6 +54,6 @@ angular.module('ds.checkout')
                     self.setLastOrderId(order.id);
                 });
             }
-        }
+        };
 
     }]);

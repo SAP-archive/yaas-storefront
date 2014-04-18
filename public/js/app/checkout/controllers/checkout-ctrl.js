@@ -18,6 +18,6 @@ angular.module('ds.checkout')
 
         $scope.placeOrder = function () {
               OrderSvc.createOrder(CartSvc.getCart());
-        }
+        };
 
     }]);
