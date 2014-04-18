@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ds.products', ['ui.bootstrap'])
+angular.module('ds.products')
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', function($scope, ProductSvc) {
 
 
