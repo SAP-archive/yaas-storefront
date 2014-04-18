@@ -45,21 +45,6 @@ angular.module('ds.cart')
                 return subtotal;
             },
             /*
-                @return cart array
-             */
-            getCart: function () {
-                return $rootScope.cart;
-            },
-            /*
-                saves estimated tax to $rootScope
-
-                @return estTax
-             */
-            getTax: function () {
-                $rootScope.estTax = 0;
-                return 0;
-            },
-            /*
                 converts product object to line item object and pushes it to the cart
              */
             pushProductToCart: function (product, productDetailQty) {

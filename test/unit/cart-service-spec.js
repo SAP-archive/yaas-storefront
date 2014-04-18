@@ -35,22 +35,24 @@ describe('CartSvc Test', function () {
         cartSvc = CartSvc;
     }));
 
+    var products;
+
+    beforeEach(function () {
+
+        products = [
+            {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+            {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
+        ];
+
+        $rootScope.cart = products;
+
+    });
+
     describe('CartSvc - add to cart', function () {
 
-        var products, newProduct;
+        var newProduct;
 
-        beforeEach(function () {
-
-            products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
-            ];
-
-            newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
-
-            $rootScope.cart = products;
-
-        });
+        newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
 
         it(' should add the product to the cart', function () {
             cartSvc.pushProductToCart(newProduct, 1);
@@ -61,19 +63,6 @@ describe('CartSvc Test', function () {
 
     describe('CartSvc - remove from cart', function () {
 
-        var products;
-
-        beforeEach(function () {
-
-            products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
-            ];
-
-            $rootScope.cart = products;
-
-        });
-
         it(' should remove the product from the cart', function () {
             cartSvc.removeProductFromCart('guitar5678');
             expect($rootScope.cart.length).toEqualData(1);
@@ -82,19 +71,6 @@ describe('CartSvc Test', function () {
     });
 
     describe('CartSvc - should calculate the subtotal', function () {
-
-        var products;
-
-        beforeEach(function () {
-
-            products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
-            ];
-
-            $rootScope.cart = products;
-
-        });
 
         it(' should properly calculate subtotal', function () {
             expect(cartSvc.calculateSubtotal()).toEqualData(1800.00);
