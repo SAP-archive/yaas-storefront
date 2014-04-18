@@ -26,7 +26,7 @@ angular.module('ds.cart')
 
         $rootScope.cart = [];
 
-        $rootScope.cartLength = 0;
+        $rootScope.itemCount = 0;
 
         return {
             calculateSubtotal: function () {
@@ -51,7 +51,7 @@ angular.module('ds.cart')
                 for (var i = 0; i < $rootScope.cart.length; i++) {
                     if (product.sku === $rootScope.cart[i].sku) {
                         $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
-                        $rootScope.cartLength = $rootScope.cartLength + productDetailQty;
+                        $rootScope.itemCount = $rootScope.itemCount + productDetailQty;
                         alreadyInCart = true;
                     }
                 }
@@ -67,13 +67,13 @@ angular.module('ds.cart')
 
                     $rootScope.cart.push(cartProductToPush);
 
-                    $rootScope.cartLength = $rootScope.cartLength + productDetailQty;
+                    $rootScope.itemCount = $rootScope.itemCount + productDetailQty;
                 }
             },
             removeProductFromCart: function (sku) {
                 angular.forEach($rootScope.cart, function (product, key) {
                    if(product.sku === sku) {
-                       $rootScope.cartLength = $rootScope.cartLength - product.quantity;
+                       $rootScope.itemCount = $rootScope.itemCount - product.quantity;
                        $rootScope.cart.splice(key, 1);
                    }
                 });
