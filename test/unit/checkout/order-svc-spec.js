@@ -20,9 +20,7 @@ describe('OrderSvc Test', function () {
     var orderId = 456;
 
     beforeEach(angular.mock.module('ds.checkout', function (caasProvider) {
-
-        caasProvider.setBaseRoute(orderUrl);
-        caasProvider.endpoint('orders', { orderId: '@orderId' }).route(ordersRoute);
+        caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(orderUrl).route(ordersRoute);
     }));
 
 

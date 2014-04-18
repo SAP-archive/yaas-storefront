@@ -52,7 +52,7 @@ angular.module('ds.cart')
             /*
                 converts product object to line item object and pushes it to the cart
              */
-            pushProductToCart: function (product, productDetailQty) {
+            addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
                 for (var i = 0; i < $rootScope.cart.length; i++) {
                     if (product.sku === $rootScope.cart[i].sku) {

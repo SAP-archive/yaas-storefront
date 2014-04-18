@@ -40,6 +40,14 @@ describe('BrowseProductsCtrl Test', function () {
             expect(mockedProductSvc.query).toHaveBeenCalled();
         })
 
+        it('setSortedPage should update current page and query products', function(){
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+            var page = 4;
+            $scope.setSortedPage(page);
+            expect(mockedProductSvc.query).toHaveBeenCalled();
+            expect($scope.pageNumber).toEqualData(page);
+        })
+
     });
 
     describe('BrowseProductsCtrl - addMore', function () {
@@ -57,20 +65,25 @@ describe('BrowseProductsCtrl Test', function () {
                 queryWithResultHandler: function (parms, callback) {
                     callback(products);
                 },
-                query: function (parms) {
-                    return [];
-                }
+                query: jasmine.createSpy()
+
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc})
         })
 
-        it(' queries products and adds them to the scope', function () {
-
+        it(' should query products and add them to the scope if no sorting', function () {
             $scope.products = [];
             $scope.addMore();
             // validate that "add more" added products returned by query to the scope
             expect($scope.products).toEqualData(products);
+        })
+
+        it(' should not query products if sorting enabled', function(){
+            $scope.sort = 'price';
+            stubbedProductSvc.query.reset();
+            $scope.addMore();
+            expect(stubbedProductSvc.query.callCount).toBe(0);
         })
 
     })
