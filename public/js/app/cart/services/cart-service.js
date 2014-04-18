@@ -77,6 +77,13 @@ angular.module('ds.cart')
                     this.calculateSubtotal();
                 }
             },
+            updateItemCount: function () {
+                var count = 0, thisCart = this.getCart();
+                for (var i = 0; i < thisCart.length; i++) {
+                    count = count + thisCart[i].quantity;
+                }
+                $rootScope.itemCount = count;
+            },
             /*
                 removes a product from the cart
              */

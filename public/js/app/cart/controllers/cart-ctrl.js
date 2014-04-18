@@ -19,4 +19,13 @@ angular.module('ds.cart')
             CartSvc.removeProductFromCart(sku);
         };
 
+        $scope.updateItemCount = function () {
+            CartSvc.updateItemCount();
+        };
+
+        $scope.updateSubtotal = function () {
+            CartSvc.calculateSubtotal();
+        };
+
+
     }]);

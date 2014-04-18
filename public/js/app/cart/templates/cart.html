@@ -62,9 +62,8 @@
 					<div class="clearfix">
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
-							<input type="number" class="form-control" value="{{product.quantity}}">
+							<input type="number" min="0" class="form-control" ng-model="product.quantity" ng-change="updateSubtotal(); updateItemCount()">
 						</div>
-						<button class="btn btn-link pull-left btn-update">Update</button>
 					</div>
 					<div class="price-total item-attr">Total Price: <span>${{product.price * product.quantity}}</span></div>
 				</div>
