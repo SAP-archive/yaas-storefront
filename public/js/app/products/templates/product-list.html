@@ -182,12 +182,10 @@
         </div>
         <div ng-hide="sort == 'default'" ng-class="{disabled: pageNumber === 1}" class="row">
             <div class="col-md-2 col-md-offset-5">
-                <pagination on-select-page="setSortedPage(page)" total-items="30"
+                <pagination on-select-page="setPage(page)" total-items="80" max-size="3" rotate="false"
                             page="pageNumber"
                             items-per-page="pageSize"
-                            class="pagination-sm" previous-text="<" next-text=">"></pagination>
-
-
+                 class="pagination-sm" previous-text="<" next-text=">"></pagination>
             </div>
         </div>
     </div>
