@@ -3,25 +3,27 @@
 angular.module('ds.products', ['ui.bootstrap'])
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', function($scope, ProductSvc) {
 
-    $scope.pageNumber = ($scope.pageNumber || 1);
 
+    $scope.pageSize = 5;
+    $scope.pageNumber = 1;
     $scope.sort = 'sort';
 
     function getProducts(){
-        return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: 12, sort: $scope.sort});
+        return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort});
 
     }
 
     $scope.products = getProducts();
 
     $scope.showProducts = function(){
-        $scope.products = getProducts($scope.pageNumber = 1);
-
+        $scope.pageNumber = 1;
+        $scope.products = getProducts();
     };
 
     $scope.addMore = function (){
         if ($scope.sort === 'sort'){
-        getProducts({pageNumber: ++$scope.pageNumber, pageSize: 12 , sort: $scope.sort}).$promise.then(
+            ++$scope.pageNumber;
+        getProducts().$promise.then(
             function (products) {
                 if (products && $scope.sort === 'sort'){
                     $scope.products = $scope.products.concat(products);
@@ -31,8 +33,13 @@ angular.module('ds.products', ['ui.bootstrap'])
     }
     };
 
-    $scope.setPage = function (pageNumber) {
-            $scope.products = getProducts({pageNumber: $scope.pageNumber, pageSize: 12 , sort: $scope.sort});
+
+
+    $scope.setPage = function (pageNo) {
+
+        $scope.pageNumber = pageNo;
+        $scope.products = getProducts();
+        //console.log('page nbr is '+$scope.pageNumber);
     };
 
 }]);
