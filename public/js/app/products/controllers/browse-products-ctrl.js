@@ -4,7 +4,7 @@ angular.module('ds.products', ['ui.bootstrap'])
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', function($scope, ProductSvc) {
 
 
-    $scope.pageSize = 5;
+    $scope.pageSize = 12;
     $scope.pageNumber = 1;
     $scope.sort = 'default'; // no sorting - pagination is off and infinite scroll is turned on
 
