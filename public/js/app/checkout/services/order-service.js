@@ -16,6 +16,7 @@ angular.module('ds.checkout')
     .factory('OrderSvc',  ['caas', function(caas){
 
         return {
+
             setLastOrderId: function(id){
                 this.lastOrderId = id;
             },
@@ -30,6 +31,7 @@ angular.module('ds.checkout')
              * @return The result array as returned by Angular $resource.query().
              */
             createOrder: function(cartItems) {
+                var self = this;
 
                 var OrderLine = function(amount, unitPrice, productCode) {
                     this.amount = amount;
@@ -37,16 +39,19 @@ angular.module('ds.checkout')
                     this.productCode = productCode;
                 }
 
-                var order = function(){
+
+                var Order = function(){
                     this.entries = [];
-                };
+                }
+
+                var newOrder = new Order();
 
                 angular.forEach(cartItems, function(item){
-                     entries.push(new OrderLine(item.quantity, item.price, item.sku));
+                     newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
-                caas.orders.API.save(order).$promise.then(function(order){
-                    setLastOrderId(order.id);
+                caas.orders.API.save(newOrder).$promise.then(function(order){
+                    self.setLastOrderId(order.id);
                 });
             }
         }
