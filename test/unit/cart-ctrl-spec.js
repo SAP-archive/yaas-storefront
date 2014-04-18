@@ -34,26 +34,6 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    describe('CartCtrl - constructor', function () {
-        var mockedCartSvc, cartCtrl;
-
-        beforeEach(function () {
-
-            // creating the mocked service
-            mockedCartSvc = {
-                calculateSubtotal: jasmine.createSpy()
-            };
-
-        });
-
-        it('should calculate subtotal on initialization', function () {
-            // manual injection of the mocked service into the controller
-            cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': mockedCartSvc});
-            expect(mockedCartSvc.calculateSubtotal).toHaveBeenCalled();
-        });
-
-    });
-
     describe('CartCtrl - remove from cart', function () {
 
         var products, cartCtrl, stubbedCartSvc;
@@ -61,8 +41,8 @@ describe('CartCtrl Test', function () {
         beforeEach(function () {
 
             products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00}
+                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
             ];
 
             // stubbing a service with callback
@@ -80,8 +60,6 @@ describe('CartCtrl Test', function () {
             $scope.removeProductFromCart('guitar5678');
             // validate that the service's remove function has been called
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
-            // validate that the service's recalculate function has been called
-            expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
         });
 
     });

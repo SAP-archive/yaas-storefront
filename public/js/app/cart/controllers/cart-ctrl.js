@@ -15,11 +15,8 @@
 angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', 'CartSvc', function($scope, CartSvc) {
 
-        $scope.subtotal = CartSvc.calculateSubtotal();
-
         $scope.removeProductFromCart = function (sku) {
             CartSvc.removeProductFromCart(sku);
-            $scope.subtotal = CartSvc.calculateSubtotal();
         };
 
     }]);

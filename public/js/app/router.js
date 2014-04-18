@@ -29,7 +29,11 @@ window.app = angular.module('ds.router', [
                             controller: 'NavigationCtrl'
                         },
                         'header@': { templateUrl: 'public/js/app/shared/templates/header.html' },
-                        'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' }
+                        'footer@': { templateUrl: 'public/js/app/shared/templates/footer.html' },
+                        'cart@': {
+                            templateUrl: 'public/js/app/cart/templates/cart.html',
+                            controller: 'CartCtrl'
+                        }
                     }
                 })
 
@@ -59,16 +63,6 @@ window.app = angular.module('ds.router', [
                                     return result;
                                 });
                             }
-                    }
-                })
-
-                .state('base.cart', {
-                    url: '/cart',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart-template-to-be-replaced.html',
-                            controller: 'CartCtrl'
-                        }
                     }
                 })
                 ;

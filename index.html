@@ -21,18 +21,23 @@
 
   <body>
 
-    <div class="container off-canvas">
-      <div class="mainContent">
+	<div class="off-canvas">
 
-      <div ui-view="navigation"></div>
+		<div ui-view="navigation"></div>
 
-      <header ui-view="header"></header>
+		<div class="mainContent">
 
-      <section class="main" ui-view="body"></section>
+			<header ui-view="header"></header>
 
-      <footer ui-view="footer"></footer>
-      </div>
-    </div><!--/.container-->
+			<div ui-view="cart"></div>
+
+			<section class="main" ui-view="body"></section>
+
+			<footer ui-view="footer"></footer>
+
+		</div>
+		
+	</div><!--/.container-->
 
     <!-- ============================================== -->
     <!-- Vendor Specific -->
