@@ -36,14 +36,14 @@
         <div class="col-sm-12 col-md-5">
             <div class="refineContainer">
                 <div class="name">Refine by:</div>
-                <button class="btn btn-link pull-right showRefineContainer">
+                <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
                     <span class="hyicon hyicon-chevron-bold-down"></span>
                 </button>
                 <div class="itemList">
                     Brand <span class="count">(1)</span>, Size <span class="count">(1)</span>
                     <a class="clearall" href="#">Clear All</a>
                 </div>
-                <div id="refinePanelAffix" class="refinePanel refine-panel responsive-absolute">
+                <div id="refinePanelAffix" ng-class="{'active': refineContainerShowing}" class="refinePanel refine-panel responsive-absolute">
                     <button class="btn btn-link close-button closeRefineContainer">
                         <span class="hyicon hyicon-chevron-bold-up"></span>
                     </button>
@@ -142,7 +142,7 @@
         <div class="col-xs-6">
             <div class="refineContainer">
                 <div class="name">Refine by:</div>
-                <button class="btn btn-link pull-right showRefineContainer">
+                <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
                     <span class="hyicon hyicon-chevron-bold-down"></span>
                 </button>
                 <div class="itemList">
@@ -171,7 +171,7 @@
             transitionDuration: '0.3s'
         }">
             <div class="item" ng-repeat="product in products" masonry-item>
-                <a href="#!/products/{{product.sku}}">
+                <a ui-sref="base.product.detail( {productSku: product.sku} )">
                     <div class="thumb">
                         <img src="{{ product.images[0].url }}" alt="">
                     </div>
@@ -194,8 +194,12 @@
         </div>
     </div>
 
+	<div class="back-to-top-button">
+		<img src="public/img/btn_backToTop.png" alt="Back To Top" ng-click="backToTop()">
+	</div>
 
 </section>
+
 
 <script src="public/js/vendor-static/jquery.min.js"></script>
 <script src="public/js/vendor-static/bootstrap.min.js"></script>

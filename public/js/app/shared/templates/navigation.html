@@ -1,5 +1,5 @@
-<nav>
-	<button data-toggle="offcanvas-cart" type="button" class="btn btn-link navbar-btn pull-right cart" ng-click="toggleCart()">
+<nav class="full-nav">
+	<button type="button" class="btn btn-link navbar-btn pull-right cart" ng-click="toggleCart()">
 		<span class="hyicon hyicon-cart"></span>
 	</button>
 	<div class="sidebar-offcanvas" id="sidebar" role="navigation">
@@ -30,10 +30,10 @@
 	</div>
 </nav>
 <nav class="top-navigation">
-    <button data-toggle="offcanvas" type="button" class="btn btn-link navbar-btn pull-left menu">
+    <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
         <span class="hyicon hyicon-menu"></span>
     </button>
-	<button data-toggle="offcanvas-cart" type="button" class="btn btn-link navbar-btn pull-right cart" ng-click="toggleCart()">
+	<button type="button" class="btn btn-link navbar-btn pull-right cart" ng-click="toggleCart()">
 		<span class="hyicon hyicon-cart"></span>
 	</button>
 	<button type="button" class="btn btn-link navbar-btn pull-right search">

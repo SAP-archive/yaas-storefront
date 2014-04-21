@@ -1,12 +1,4 @@
 $(document).ready(function () {
-	$('[data-toggle=offcanvas]').click(function () {
-		$('.off-canvas').toggleClass('active');
-	});
-
-    /*
-	$('[data-toggle=offcanvas-cart]').click(function () {
-		$('.off-canvas').toggleClass('right');
-	});  */
 
 	$(".gridMasonry").imagesLoaded( function() {
 			$(".gridMasonry").masonry({
@@ -15,7 +7,7 @@ $(document).ready(function () {
 		});
 	});
 
-
+/*
  	$(document).on("click",".showRefineContainer",function(e){
 	 	e.preventDefault();
 
@@ -35,7 +27,7 @@ $(document).ready(function () {
 	 	$(".refinePanel").removeClass("active")
 
 	 })
-
+*/
 
 //productGrid
 	$('#refineAffix').affix({

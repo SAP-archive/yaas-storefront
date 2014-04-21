@@ -37,7 +37,7 @@ window.app = angular.module('ds.router', [
                 })
 
                 .state('base.product', {
-                    url: '/products',
+                    url: '/products/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-list.html',
@@ -46,7 +46,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.product.detail', {
-                    url: '/:productSku',
+                    url: ':productSku/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-detail.html',
@@ -66,7 +66,7 @@ window.app = angular.module('ds.router', [
                 })
 
                 .state('base.checkout', {
-                    url: '/checkout',
+                    url: '/checkout/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/checkout/templates/checkout-to-be-replaced.html',
@@ -75,7 +75,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.cart', {
-                    url: '/cart',
+                    url: '/cart/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/cart/templates/cart-template-to-be-replaced.html',
@@ -88,7 +88,33 @@ window.app = angular.module('ds.router', [
 
                 ;
 
-            $urlRouterProvider.otherwise('/products');
+            $urlRouterProvider.otherwise('/products/');
+
+            /* Code from angular ui-router to make trailing slash conditional */
+            $urlRouterProvider.rule(function($injector, $location) {
+                var path = $location.path()
+                // Note: misnomer. This returns a query object, not a search string
+                    , search = $location.search()
+                    , params
+                    ;
+
+                // check to see if the path already ends in '/'
+                if (path[path.length - 1] === '/') {
+                    return;
+                }
+
+                // If there was no search string / query params, return with a `/`
+                if (Object.keys(search).length === 0) {
+                    return path + '/';
+                }
+
+                // Otherwise build the search string and return a `/?` prefix
+                params = [];
+                angular.forEach(search, function(v, k){
+                    params.push(k + '=' + v);
+                });
+                return path + '/?' + params.join('&');
+            });
             $locationProvider.hashPrefix('!');
         }
     ])
