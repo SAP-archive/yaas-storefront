@@ -21,20 +21,12 @@
 
   <body>
 
-	<div ng-model="container" class="off-canvas" ng-class="{'right': showCart}">
+	<div class="off-canvas" ng-class="{'right': showCart}">
 
 		<div ui-view="navigation"></div>
-
 		<div class="mainContent">
-
-
-
-			<div ui-view="cart"></div>
-
-			<section class="main" ui-view="body"></section>
-
-
-
+		<div ui-view="cart"></div>
+		<section class="main" ui-view="body"></section>
 		</div>
 		
 	</div><!--/.container-->
