@@ -35,4 +35,8 @@ angular.module('ds.products')
             $scope.products = getProducts();
         };
 
+        $scope.showRefineContainer = function () {
+            $scope.refineContainerShowing = !$scope.refineContainerShowing;
+        };
+
     }]);
