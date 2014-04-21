@@ -39,50 +39,63 @@
 
       it('should load one product into cart', function () {
         clickButtonByXpath(cartButton);
-        verifyCartTotal("$0");
+        verifyCartTotal("$0.00");
         clickButtonByXpath(contineShopping);
         clickButtonByXpath(testProduct1);
         clickButtonByXpath(buyButton);
         browser.sleep(500);
-        // expect(element(by.css("span.input-group-addon > input.form-control.product.quantity")).getAttribute()).toEqual(1);
         verifyCartAmount("1");
-        verifyCartTotal("$9.5");
+        verifyCartTotal("$9.50");
         clickButtonByXpath(removeFromCart);
-        verifyCartTotal("$0");
+        verifyCartTotal("$0.00");
       });
 
       it('should load multiple products into cart', function () {
         clickButtonByXpath(cartButton);
-        verifyCartTotal("$0");
+        verifyCartTotal("$0.00");
         clickButtonByXpath(contineShopping);  
         clickButtonByXpath(testProduct1);
         clickButtonByXpath(buyButton);
         browser.sleep(500);
-        // expect(element(by.css("span.input-group-addon > input.form-control.product.quantity")).getAttribute()).toEqual(1);
         verifyCartAmount("1");
-        verifyCartTotal("$9.5");
+        verifyCartTotal("$9.50");
         clickButtonByXpath(contineShopping);
         clickByCss("img");
         clickButtonByXpath(testProduct3);
         clickButtonByXpath(buyButton);
-        verifyCartTotal("$11.5");
+        verifyCartTotal("$11.50");
 
       });
 
-      it('should load one product into cart', function () {
+      it('should update quantity', function () {
         clickButtonByXpath(cartButton);
-        verifyCartTotal("$0");
+        verifyCartTotal("$0.00");
         clickButtonByXpath(contineShopping);
         clickButtonByXpath(testProduct1);
         clickButtonByXpath(buyButton);
         browser.sleep(500);
-        // expect(element(by.css("span.input-group-addon > input.form-control.product.quantity")).getAttribute()).toEqual(1);
         verifyCartAmount("1");
-        verifyCartTotal("$9.5");
-        clickButtonByXpath(removeFromCart);
-        verifyCartTotal("$0");
+        verifyCartTotal("$9.50");
+        clickButtonByXpath(contineShopping);
+        clickButtonByXpath(buyButton);
+        verifyCartAmount("2");
+        verifyCartTotal("$19.00");
+        element(by.xpath("//input[@type='number']")).clear();
+        element(by.xpath("//input[@type='number']")).sendKeys("5");
+        verifyCartAmount("5");
+        verifyCartTotal("$47.50");
       });
 
+      it('should not add out of stock item', function () {
+        clickButtonByXpath(cartButton);
+        verifyCartTotal("$0.00");
+        clickButtonByXpath(contineShopping);
+        clickButtonByXpath(testProduct2);
+        clickButtonByXpath("//div[2]/button"); //out of stock button
+        clickButtonByXpath(cartButton);
+        verifyCartTotal("$0.00");
+        clickButtonByXpath(contineShopping);
+      });
 
   }); 
 }); 
