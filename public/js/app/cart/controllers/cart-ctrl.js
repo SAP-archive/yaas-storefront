@@ -13,10 +13,23 @@
 'use strict';
 
 angular.module('ds.cart')
-    .controller('CartCtrl', ['$scope', 'CartSvc', function($scope, CartSvc) {
+    .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
         $scope.removeProductFromCart = function (sku) {
             CartSvc.removeProductFromCart(sku);
         };
+
+        $scope.toggleCart = function (){
+            $rootScope.showCart = false;
+        };
+
+        $scope.updateItemCount = function () {
+            CartSvc.updateItemCount();
+        };
+
+        $scope.updateSubtotal = function () {
+            CartSvc.calculateSubtotal();
+        };
+
 
     }]);

@@ -99,9 +99,24 @@ describe('CartSvc Test', function () {
 
     describe('CartSvc - getCart', function(){
 
-        if('should return cart items', function(){
+        it('should return cart items', function(){
            var cart = cartSvc.getCart();
            expect(cart).toEqualData(products);
+        });
+    });
+
+    describe('CartSvc - update item count', function () {
+
+        it('should update the item count', function () {
+            var newProduct;
+
+            newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
+
+            cartSvc.addProductToCart(newProduct, 1);
+
+            cartSvc.updateItemCount();
+
+            expect($rootScope.itemCount).toEqualData(3);
         });
     });
 
