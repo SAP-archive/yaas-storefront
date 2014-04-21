@@ -22,26 +22,24 @@ describe('BrowseProductsCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    describe('BrowseProductsCtrl - constructor', function () {
+    describe('BrowseProductsCtrl ', function () {
         var mockedProductSvc, browseProdCtrl;
 
         beforeEach(function () {
 
             // creating the mocked service
             mockedProductSvc = {
-                query: jasmine.createSpy()
+                query: jasmine.createSpy(),
+                queryWithResultHandler: jasmine.createSpy()
             };
 
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+            expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
         });
 
-        it('should query products on initialization', function () {
-            // manual injection of the mocked service into the controller
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
-            expect(mockedProductSvc.query).toHaveBeenCalled();
-        })
 
         it('setSortedPage should update current page and query products', function(){
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+
             var page = 4;
             $scope.setSortedPage(page);
             expect(mockedProductSvc.query).toHaveBeenCalled();
@@ -70,6 +68,13 @@ describe('BrowseProductsCtrl Test', function () {
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc})
+        })
+
+        it('should query products on initialization', function () {
+            $scope.products = [];
+            // manual injection of the mocked service into the controller
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc});
+            expect($scope.products).toEqualData(products);
         })
 
         it(' should query products and add them to the scope if no sorting', function () {
