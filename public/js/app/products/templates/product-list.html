@@ -171,7 +171,7 @@
             transitionDuration: '0.3s'
         }">
             <div class="item" ng-repeat="product in products" masonry-item>
-                <a href="#!/products/{{product.sku}}">
+                <a ui-sref="base.product.detail( {productSku: product.sku} )">
                     <div class="thumb">
                         <img src="{{ product.images[0].url }}" alt="">
                     </div>

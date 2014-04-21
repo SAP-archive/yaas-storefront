@@ -25,17 +25,17 @@
 			<thead>
 			<tr>
 				<th>est. order total</th>
-				<th class="text-right">${{subtotal + estTax}}</th>
+				<th class="text-right">{{subtotal + estTax | currency: '$'}}</th>
 			<tr>
 			</thead>
 			<tbody>
 			<tr>
 				<td>{{itemCount}} Items</td>
-				<td class="text-right">${{subtotal}}</td>
+				<td class="text-right">{{subtotal | currency: '$'}}</td>
 			</tr>
 			<tr>
 				<td>Tax</td>
-				<td class="text-right"> ${{estTax}}</td>
+				<td class="text-right"> {{estTax | currency: '$'}}</td>
 			</tr>
 			</tbody>
 		</table>
