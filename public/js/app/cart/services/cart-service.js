@@ -57,7 +57,6 @@ angular.module('ds.cart')
                 for (var i = 0; i < $rootScope.cart.length; i++) {
                     if (product.sku === $rootScope.cart[i].sku) {
                         $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
-                        $rootScope.itemCount = $rootScope.itemCount + productDetailQty;
                         alreadyInCart = true;
                     }
                 }
@@ -72,10 +71,10 @@ angular.module('ds.cart')
                     }
 
                     $rootScope.cart.push(cartProductToPush);
-
-                    $rootScope.itemCount = $rootScope.itemCount + productDetailQty;
                     this.calculateSubtotal();
                 }
+
+                this.updateItemCount();
             },
             updateItemCount: function () {
                 var count = 0, thisCart = this.getCart();

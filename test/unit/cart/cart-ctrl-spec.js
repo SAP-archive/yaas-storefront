@@ -34,34 +34,49 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
+    var products, cartCtrl, stubbedCartSvc;
+
+    beforeEach(function () {
+
+        products = [
+            {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+            {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
+        ];
+
+        // stubbing a service with callback
+        stubbedCartSvc = {
+            removeProductFromCart: jasmine.createSpy(),
+            calculateSubtotal: jasmine.createSpy(),
+            updateItemCount: jasmine.createSpy()
+        };
+
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc});
+
+        $rootScope.cart = products;
+    });
+
     describe('CartCtrl - remove from cart', function () {
 
-        var products, cartCtrl, stubbedCartSvc;
-
-        beforeEach(function () {
-
-            products = [
-                {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-                {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
-            ];
-
-            // stubbing a service with callback
-            stubbedCartSvc = {
-                removeProductFromCart: jasmine.createSpy(),
-                calculateSubtotal: jasmine.createSpy()
-            };
-
-            cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc})
-        });
-
         it(' should remove the product', function () {
-
-            $rootScope.cart = products;
             $scope.removeProductFromCart('guitar5678');
             // validate that the service's remove function has been called
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
         });
 
+    });
+
+    describe('CartCtrl - should update item count', function () {
+        it(' should call function in service', function () {
+            $scope.updateItemCount();
+            expect(stubbedCartSvc.updateItemCount).toHaveBeenCalled();
+        });
+    });
+
+    describe('CartCtrl - should update subtotal', function () {
+        it(' should call function in service', function () {
+            $scope.updateSubtotal();
+            expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
+        });
     });
 
 });
