@@ -71,10 +71,10 @@ angular.module('ds.cart')
                     }
 
                     $rootScope.cart.push(cartProductToPush);
-                    this.calculateSubtotal();
                 }
 
                 this.updateItemCount();
+                this.calculateSubtotal();
             },
             updateItemCount: function () {
                 var count = 0, thisCart = this.getCart();
