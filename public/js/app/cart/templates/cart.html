@@ -52,7 +52,7 @@
 				<div class="col-xs-8 col-md-8  detail-col">
 					<button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 					<div class="name">{{product.name}}</div>
-					<div class="price item-attr">Item Price:<span>{{product.price | currency: '$'}}</span> </div>
+					<div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span> </div>
 					<div class="variants row item-attr">
 						<div class="variant col-md-6 ">Color: <span>Stone</span></div>
 						<div class="variant col-md-6 ">Size: <span>30 ml</span></div>
@@ -65,7 +65,7 @@
 							<input type="number" min="0" class="form-control" ng-model="product.quantity" ng-change="updateSubtotal(); updateItemCount()">
 						</div>
 					</div>
-					<div class="price-total item-attr">Total Price: <span>${{product.price * product.quantity}}</span></div>
+					<div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span></div>
 				</div>
 			</div>
 		</div>
