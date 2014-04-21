@@ -1,4 +1,4 @@
-    describe("cart", function () {
+    describe("cart:", function () {
 
   beforeEach(function () {
     browser.get('#!/products');
@@ -18,6 +18,7 @@
         var buyButton = "//div[2]/div/button";
         var contineShopping = "//div[@id='cart']/div/div/button";
         var removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
+        var cartButton2 = "div.ng-scope > nav.full-nav.ng-scope > button.btn.btn-link.navbar-btn.pull-right.cart"
 
         function verifyCartAmount(amount) {
           expect(element(by.xpath("//input[@type='number']")).getAttribute("value")).toEqual(amount);
@@ -38,7 +39,9 @@
 
 
       it('should load one product into cart', function () {
+        element(by.css(cartButton2)).click()
         clickButtonByXpath(cartButton);
+        browser.sleep(500);
         verifyCartTotal("$0.00");
         clickButtonByXpath(contineShopping);
         clickButtonByXpath(testProduct1);
