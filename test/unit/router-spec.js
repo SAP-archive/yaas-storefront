@@ -64,7 +64,7 @@ describe('Router test', function () {
     });
 
     it('states.should be mapped', function() {
-       expect($state.href('base.product')).toEqualData('#!/products');
+       expect($state.href('base.product')).toEqualData('#!/products/');
        $state.go('base.product');
        $httpBackend.flush();
         //expect(mockedProductSvc.query).toHaveBeenCalled();
