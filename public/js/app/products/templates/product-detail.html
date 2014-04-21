@@ -54,7 +54,14 @@
                         <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
                             <div class="form-group qty">
                                 <label for="" >Qty:</label>
-                                <input type="number" class="form-control col-xs-12" ng-model="productDetailQty">
+                                <input type="number" min="1" step="1" pattern="\d*" class="form-control col-xs-12"
+									ng-model="productDetailQty"
+									onkeydown="return ( event.ctrlKey || event.altKey
+                    					|| (48<event.keyCode && event.keyCode<58 && event.shiftKey==false)
+                    					|| (95<event.keyCode && event.keyCode<106)
+                    					|| (event.keyCode==8) || (event.keyCode==9)
+                    					|| (event.keyCode>34 && event.keyCode<40)
+                    					|| (event.keyCode==46) )">
                             </div>
                         </div>
                     </div>  
