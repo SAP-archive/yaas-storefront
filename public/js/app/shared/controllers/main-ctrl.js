@@ -21,5 +21,9 @@ angular.module('ds.shared')
                 $scope.showCart = data;
             });
 
+            $scope.$on('offcanvas.active', function(event, data) {
+
+                $scope.offCanvasActive = data;
+            });
 
         }]);
