@@ -43,12 +43,11 @@ describe('NavigationCtrl Test', function () {
             navCtrl = $controller('NavigationCtrl', {$scope: $scope});
         });
 
-        it('should invoke emit event cart.toggle on toggleCart() with toggling boolean', function(){
-            spyOn($scope, "$emit");
+        it('should change showCart value', function(){
             $scope.toggleCart();
-            expect($scope.$emit).toHaveBeenCalledWith('cart.toggle', true);
+            expect($rootScope.showCart).toEqualData(true);
             $scope.toggleCart();
-            expect($scope.$emit).toHaveBeenCalledWith('cart.toggle', false);
+            expect($rootScope.showCart).toEqualData(false);
         });
     });
 
