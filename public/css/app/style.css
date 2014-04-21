@@ -7382,3 +7382,8 @@ section .hero-unit {
   font-weight: bold;
   padding: 7px;
 }
+.back-to-top-button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}

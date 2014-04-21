@@ -29,6 +29,10 @@ angular.module('ds.products')
             return ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort});
         };
 
+        $scope.backToTop = function () {
+            window.scrollTo(0, 0);
+        };
+
 
         $scope.setSortedPage = function (pageNo) {
             $scope.pageNumber = pageNo;
