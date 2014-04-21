@@ -21,7 +21,6 @@ angular.module('ds.cart')
 
         $scope.toggleCart = function (){
             $rootScope.showCart = false;
-            $scope.$emit('cart.toggle', false);
         };
 
         $scope.updateItemCount = function () {

@@ -16,7 +16,6 @@ angular.module('ds.shared')
 
             $scope.toggleCart = function (){
                 $rootScope.showCart=!$rootScope.showCart;
-                $scope.$emit('cart.toggle', $rootScope.showCart);
             };
 
 	}]);
