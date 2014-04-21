@@ -12,4 +12,11 @@ angular.module('ds.shared')
 				$scope.languageCode = GlobalData.languageCode = languageCode;
 			};
 
+            $scope.showCart = false;
+
+            $scope.toggleCart = function (){
+                $scope.showCart=!$scope.showCart;
+                $scope.$emit('cart.toggle', $scope.showCart);
+            };
+
 	}]);

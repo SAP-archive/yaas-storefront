@@ -25,6 +25,7 @@ module.exports = function(config){
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/controllers/navigation-ctrl.js',
+        'public/js/app/shared/controllers/main-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
         'public/js/app/shared/i18n/i18-constants.js',
         'public/js/app/shared/i18n/lang/en.js',
@@ -54,7 +55,8 @@ module.exports = function(config){
         'test/unit/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
-        'test/unit/products/*.js'
+        'test/unit/products/*.js',
+        'test/unit/shared/*.js'
     
     ],
 
