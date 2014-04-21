@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('ds.shared')
-	.controller('NavigationCtrl', ['$scope', '$rootScope', '$translate', 'GlobalData', 'i18nConstants',
+
+	.controller('NavigationCtrl', ['$scope', '$rootScope','$translate', 'GlobalData', 'i18nConstants',
+
 		function ($scope, $rootScope, $translate, GlobalData, i18nConstants) {
 
 			$scope.languageCode = GlobalData.languageCode;
@@ -12,10 +14,16 @@ angular.module('ds.shared')
 				$scope.languageCode = GlobalData.languageCode = languageCode;
 			};
 
-            $rootScope.showCart = false;
+
 
             $scope.toggleCart = function (){
                 $rootScope.showCart=!$rootScope.showCart;
+
+            };
+
+            $scope.toggleOffCanvas = function(){
+                $rootScope.showMobileNav = !$rootScope.showMobileNav;
+
             };
 
 	}]);
