@@ -15,7 +15,7 @@ $(document).ready(function () {
 		});
 	});
 
-
+/*
  	$(document).on("click",".showRefineContainer",function(e){
 	 	e.preventDefault();
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
 	 	$(".refinePanel").removeClass("active")
 
 	 })
-
+*/
 
 //productGrid
 	$('#refineAffix').affix({
