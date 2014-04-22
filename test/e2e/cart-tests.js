@@ -128,6 +128,10 @@ describe("cart:", function () {
            element(by.xpath("//input[@type='number']")).sendKeys("5");
            verifyCartAmount("5");
            verifyCartTotal("$47.50");
+            element(by.xpath("//input[@type='number']")).clear();
+           element(by.xpath("//input[@type='number']")).sendKeys("10");
+           verifyCartAmount("10");
+           verifyCartTotal("$95.00");
          });
 
          it('should not add out of stock item', function () {
@@ -139,6 +143,23 @@ describe("cart:", function () {
            clickCartButton();
            verifyCartTotal("$0.00");
            clickButtonByXpath(contineShopping);
+         });
+
+         it('should not allow negative numbers', function () {
+           clickCartButton();
+           verifyCartTotal("$0.00");
+           clickButtonByXpath(contineShopping);
+           clickButtonByXpath(testProduct1);
+           clickButtonByXpath(buyButton); 
+           verifyCartTotal("$9.50");
+            element(by.xpath("//input[@type='number']")).clear();
+           element(by.xpath("//input[@type='number']")).sendKeys("-5");
+           verifyCartAmount("5");
+           verifyCartTotal("$47.50");
+            element(by.xpath("//input[@type='number']")).clear();
+           element(by.xpath("//input[@type='number']")).sendKeys("it should not accept alpha");
+           verifyCartAmount("");
+           verifyCartTotal("$0.00");
          });
 
    });
