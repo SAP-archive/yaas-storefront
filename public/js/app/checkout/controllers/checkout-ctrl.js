@@ -16,6 +16,7 @@ angular.module('ds.checkout')
     .controller('CheckoutCtrl', [ '$scope', '$rootScope', 'CartSvc', 'OrderSvc', function ($scope, $rootScope, CartSvc, OrderSvc) {
 
         $rootScope.showCart = false;
+        $scope.shipTo = {};
 
         $scope.placeOrder = function () {
               OrderSvc.createOrder(CartSvc.getCart());
