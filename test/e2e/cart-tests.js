@@ -18,7 +18,7 @@
         var buyButton = "//div[2]/div/button";
         var contineShopping = "//div[@id='cart']/div/div/button";
         var removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
-        var cartButton2 = "div.ng-scope > nav.full-nav.ng-scope > button.btn.btn-link.navbar-btn.pull-right.cart"
+        var cartButton2 = "div.off-canvas > div.ng-scope > nav.full-nav.ng-scope > button.btn.btn-link.navbar-btn.pull-right.cart"
 
         function verifyCartAmount(amount) {
           expect(element(by.xpath("//input[@type='number']")).getAttribute("value")).toEqual(amount);
@@ -39,7 +39,7 @@
 
 
       it('should load one product into cart', function () {
-        element(by.css(cartButton2)).click()
+        // element(by.css(cartButton2)).click()
         clickButtonByXpath(cartButton);
         browser.sleep(500);
         verifyCartTotal("$0.00");
@@ -53,52 +53,52 @@
         verifyCartTotal("$0.00");
       });
 
-      it('should load multiple products into cart', function () {
-        clickButtonByXpath(cartButton);
-        verifyCartTotal("$0.00");
-        clickButtonByXpath(contineShopping);  
-        clickButtonByXpath(testProduct1);
-        clickButtonByXpath(buyButton);
-        browser.sleep(500);
-        verifyCartAmount("1");
-        verifyCartTotal("$9.50");
-        clickButtonByXpath(contineShopping);
-        clickByCss("img");
-        clickButtonByXpath(testProduct3);
-        clickButtonByXpath(buyButton);
-        verifyCartTotal("$11.50");
+        it('should load multiple products into cart', function () {
+          clickButtonByXpath(cartButton);
+          verifyCartTotal("$0.00");
+          clickButtonByXpath(contineShopping);  
+          clickButtonByXpath(testProduct1);
+          clickButtonByXpath(buyButton);
+          browser.sleep(500);
+          verifyCartAmount("1");
+          verifyCartTotal("$9.50");
+          clickButtonByXpath(contineShopping);
+          clickByCss("img");
+          clickButtonByXpath(testProduct3);
+          clickButtonByXpath(buyButton);
+          verifyCartTotal("$11.50");
 
-      });
+        });
 
-      it('should update quantity', function () {
-        clickButtonByXpath(cartButton);
-        verifyCartTotal("$0.00");
-        clickButtonByXpath(contineShopping);
-        clickButtonByXpath(testProduct1);
-        clickButtonByXpath(buyButton);
-        browser.sleep(500);
-        verifyCartAmount("1");
-        verifyCartTotal("$9.50");
-        clickButtonByXpath(contineShopping);
-        clickButtonByXpath(buyButton);
-        verifyCartAmount("2");
-        verifyCartTotal("$19.00");
-        element(by.xpath("//input[@type='number']")).clear();
-        element(by.xpath("//input[@type='number']")).sendKeys("5");
-        verifyCartAmount("5");
-        verifyCartTotal("$47.50");
-      });
+        it('should update quantity', function () {
+          clickButtonByXpath(cartButton);
+          verifyCartTotal("$0.00");
+          clickButtonByXpath(contineShopping);
+          clickButtonByXpath(testProduct1);
+          clickButtonByXpath(buyButton);
+          browser.sleep(500);
+          verifyCartAmount("1");
+          verifyCartTotal("$9.50");
+          clickButtonByXpath(contineShopping);
+          clickButtonByXpath(buyButton);
+          verifyCartAmount("2");
+          verifyCartTotal("$19.00");
+          element(by.xpath("//input[@type='number']")).clear();
+          element(by.xpath("//input[@type='number']")).sendKeys("5");
+          verifyCartAmount("5");
+          verifyCartTotal("$47.50");
+        });
 
-      it('should not add out of stock item', function () {
-        clickButtonByXpath(cartButton);
-        verifyCartTotal("$0.00");
-        clickButtonByXpath(contineShopping);
-        clickButtonByXpath(testProduct2);
-        clickButtonByXpath("//div[2]/button"); //out of stock button
-        clickButtonByXpath(cartButton);
-        verifyCartTotal("$0.00");
-        clickButtonByXpath(contineShopping);
-      });
+        it('should not add out of stock item', function () {
+          clickButtonByXpath(cartButton);
+          verifyCartTotal("$0.00");
+          clickButtonByXpath(contineShopping);
+          clickButtonByXpath(testProduct2);
+          clickButtonByXpath("//div[2]/button"); //out of stock button
+          clickButtonByXpath(cartButton);
+          verifyCartTotal("$0.00");
+          clickButtonByXpath(contineShopping);
+        });
 
   }); 
 }); 
