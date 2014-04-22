@@ -9,6 +9,7 @@ describe("cart:", function () {
    describe("verify cart functionality", function () {
 
      beforeEach(function () {
+         // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
        browser.driver.manage().window().maximize();
        browser.get('#!/products/');
        browser.sleep(8000);
@@ -17,7 +18,7 @@ describe("cart:", function () {
          var testProduct1 = "//img[contains(@src,'http://img.wonderhowto.com/img/26/99/63418592294146/0/fancy-bike-folds-into-handy-tote-bag.w654.jpg')]";
          var testProduct2 = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/Chemex.jpg')]";
          var testProduct3 = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/image_16.jpg')]";
-         var cartButton = "//button[@id='full-cart-btn']";
+         var cartButtonId = 'full-cart-btn';
          var buyButton = "//div[2]/div/button";
          var contineShopping = "//div[@id='cart']/div/div/button";
          var removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
@@ -35,9 +36,12 @@ describe("cart:", function () {
            element(by.xpath(path)).click();
          }
 
+         function clickCartButton() {
+             clickButtonById(cartButtonId);
+         }
         function clickButtonById(id) {
            element(by.id(id)).click();
-       }
+        }
 
          function clickByCss(link) {
            element(by.css(link)).click();
@@ -64,6 +68,7 @@ describe("cart:", function () {
 
 
        it('should load one product into cart', function () {
+           /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
 
            item.getInnerHtml().then(function(result){
@@ -72,10 +77,10 @@ describe("cart:", function () {
 
            browser.takeScreenshot().then(function (png) {
                writeScreenShot(png, '/Users/vera.coberley/code/barebones-product-service/demo-store/main-page.png');
-           });
-         // element(by.css(cartButton2)).click()
-         clickButtonById('full-cart-btn');
-           /*
+           });   */
+
+         clickCartButton();
+
          browser.sleep(500);
          verifyCartTotal("$0.00");
          clickButtonByXpath(contineShopping);
@@ -86,11 +91,11 @@ describe("cart:", function () {
          verifyCartTotal("$9.50");
          clickButtonByXpath(removeFromCart);
          verifyCartTotal("$0.00");
-         */
+
        });
 
-         xit('should load multiple products into cart', function () {
-           clickButtonByXpath(cartButton);
+         it('should load multiple products into cart', function () {
+           clickCartButton();
            verifyCartTotal("$0.00");
            clickButtonByXpath(contineShopping);
            clickButtonByXpath(testProduct1);
@@ -106,8 +111,8 @@ describe("cart:", function () {
 
          });
 
-         xit('should update quantity', function () {
-           clickButtonByXpath(cartButton);
+         it('should update quantity', function () {
+           clickCartButton();
            verifyCartTotal("$0.00");
            clickButtonByXpath(contineShopping);
            clickButtonByXpath(testProduct1);
@@ -125,13 +130,13 @@ describe("cart:", function () {
            verifyCartTotal("$47.50");
          });
 
-         xit('should not add out of stock item', function () {
-           clickButtonByXpath(cartButton);
+         it('should not add out of stock item', function () {
+           clickCartButton();
            verifyCartTotal("$0.00");
            clickButtonByXpath(contineShopping);
            clickButtonByXpath(testProduct2);
            clickButtonByXpath("//div[2]/button"); //out of stock button
-           clickButtonByXpath(cartButton);
+           clickCartButton();
            verifyCartTotal("$0.00");
            clickButtonByXpath(contineShopping);
          });
