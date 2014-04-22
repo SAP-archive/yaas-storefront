@@ -62,10 +62,10 @@
 					<div class="clearfix">
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
-							<input type="number" min="1" step="1" pattern="\d*" class="form-control" ng-model="product.quantity"
+							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="product.quantity"
 								   ng-change="updateSubtotal(); updateItemCount()" ng-blur="qtyInputBlurred()"
 								   onkeydown="return ( event.ctrlKey || event.altKey
-                    					|| (48<event.keyCode && event.keyCode<58 && event.shiftKey==false)
+                    					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                     					|| (95<event.keyCode && event.keyCode<106)
                     					|| (event.keyCode==8) || (event.keyCode==9)
                     					|| (event.keyCode>34 && event.keyCode<40)

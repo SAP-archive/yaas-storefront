@@ -43,7 +43,9 @@ angular.module('ds.cart')
                 var subtotal = 0;
 
                 angular.forEach($rootScope.cart, function(product) {
-                    subtotal = subtotal + (product.price * product.quantity);
+                    if (product.price && product.quantity) {
+                        subtotal = subtotal + (product.price * product.quantity);
+                    }
                 });
 
                 $rootScope.subtotal = subtotal;
@@ -79,7 +81,9 @@ angular.module('ds.cart')
             updateItemCount: function () {
                 var count = 0, thisCart = this.getCart();
                 for (var i = 0; i < thisCart.length; i++) {
-                    count = count + thisCart[i].quantity;
+                    if (thisCart[i].quantity) {
+                        count = count + thisCart[i].quantity;
+                    }
                 }
                 $rootScope.itemCount = count;
             },
@@ -93,6 +97,7 @@ angular.module('ds.cart')
                        $rootScope.cart.splice(key, 1);
                    }
                 });
+                this.updateItemCount();
                 this.calculateSubtotal();
             }
         };
