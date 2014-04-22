@@ -9,7 +9,7 @@ exports.config = {
     'browserName': 'phantomjs'
   },
 
-  baseUrl: 'http://localhost:9000/',
+  baseUrl: 'http://qa-bsd-1.yrdrt.fra.hybris.com:9000/',
 
   framework: 'jasmine',
 
