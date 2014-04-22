@@ -16,7 +16,7 @@ angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
         $scope.qtyInputBlurred = function () {
-            if (!this.product.quantity) {
+            if (!this.product.quantity || this.product.quantity === 0) {
                 CartSvc.removeProductFromCart(this.product.sku);
             }
         };
