@@ -5,99 +5,108 @@
     <small>Simple 3 Step Checkout</small>
     secure checkout
 </h1>
+<ng-form name="billToForm" novalidate>
+    <div class="step step-1" ng-class="{'done': step1Done}">
+        <h2> Step 1. My Details <span class="glyphicon glyphicon-pencil"></span></h2>
 
-<div class="step step-1 done">
-    <h2> Step 1. My Details <span class="glyphicon glyphicon-pencil"></span></h2>
-
-    <div class="row step-detail">
-
-        <form role="form" name="checkoutForm" novalidate ng-submit="placeOrder()">
-            <div class="col-lg-6 col">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billFirstName.$dirty && checkoutForm.billFirstName.$invalid}">
+        <div class="row step-detail">
+          <!--
+            <form role="form" novalidate>
+               -->
+                <div class="col-lg-6 col">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billFirstName.$dirty && billToForm.billFirstName.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="firstname">First
                         Name</label></span>
-                    <input type="text" class="form-control" id="firstname" name="billFirstName"
-                           ng-model="billTo.firstName" required>
+                        <input type="text" class="form-control" id="firstname" name="billFirstName"
+                               ng-model="billTo.firstName" required>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billLastName.$dirty && checkoutForm.billLastName.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">Last Name</label></span>
-                    <input type="text" class="form-control" name="billLastName" ng-model="billTo.lastName" required>
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billLastName.$dirty && billToForm.billLastName.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">Last Name</label></span>
+                        <input type="text" class="form-control" name="billLastName" ng-model="billTo.lastName" required>
+                    </div>
                 </div>
-            </div>
+                <div class="col-lg-12">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billEmail.$dirty && billToForm.billEmail.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">Email</label></span>
+                        <input type="email" type="email" class="form-control" value="" name="billEmail"
+                               ng-model="billTo.email" required>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12">
+                    <span class="form-block-headline">Billing Address</span>
+                </div>
+
+
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billAddress1.$dirty && billToForm.billAddress1.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
+                        <input type="text" class="form-control" name="billAddress1" ng-model="billTo.address1" required>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
+                        <input type="text" class="form-control" placeholder="(Optional)" name="billAddress2"
+                               ng-model="billTo.address2">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billCountry.$dirty && billToForm.billCountry.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
+                        <select class="form-control" ng-model="billTo.country" required>
+                            <option>USA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billCity.$dirty && billToForm.billCity.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">City</label></span>
+                        <input type="text" class="form-control" placeholder="" name="billCity" required
+                               ng-model="billTo.city">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billState.$dirty && billToForm.billState.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">State</label></span>
+                        <select class="form-control" required ng-model="billTo.state">
+                            <option>Illinois</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.billPostal.$dirty && billToForm.billPostal.$invalid}">
+                        <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
+                        <input type="text" class="form-control" placeholder="" ng-model="billTo.zip" required>
+                    </div>
+                </div>
+            <!--
+            </form>
+            -->
             <div class="col-lg-12">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billEmail.$dirty && checkoutForm.billEmail.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">Email</label></span>
-                    <input type="email" type="email" class="form-control" value="" name="billEmail"
-                           ng-model="billTo.email" required>
-                </div>
+                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
+                        ng-disabled="billToForm.$pristine || billToForm.$invalid" ng-click="billToDone()">continue <span
+                        class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
 
-            <div class="col-lg-12">
-                <span class="form-block-headline">Billing Address</span>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billAddress1.$dirty && checkoutForm.billAddress1.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
-                    <input type="text" class="form-control" name="billAddress1" ng-model="billTo.address1" required>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group input-group">
-                    <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
-                    <input type="text" class="form-control" placeholder="(Optional)" name="billAddress2" ng-model="billTo.address2">
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billCountry.$dirty && checkoutForm.billCountry.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
-                    <select class="form-control" ng-model="billTo.country" required>
-                        <option>USA</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billCity.$dirty && checkoutForm.billCity.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">City</label></span>
-                    <input type="text" class="form-control" placeholder="" name="billCountry" required ng-model="billTo.country">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billState.$dirty && checkoutForm.billState.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">State</label></span>
-                    <select class="form-control" required ng-model="billTo.state">
-                        <option>Illinois</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': checkoutForm.billPostal.$dirty && checkoutForm.billPostal.$invalid}">
-                    <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
-                    <input type="text" class="form-control" placeholder="" ng-model="billTo.zip" required>
-                </div>
-            </div>
-        </form>
-        <div class="col-lg-12">
-            <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs">continue <span
-                    class="hyicon hyicon-chevron-thin-right"></span></button>
         </div>
     </div>
-</div>
+</ng-form>
 
-
-<div class="step step-2">
+<div class="step step-2" ng-class="{'disabled' : !step1.done}">
     <h2> Step 2. Shipping Information</h2>
 
     <div class="row step-detail">
@@ -127,7 +136,8 @@
             <div class="col-lg-6">
                 <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
-                    <input type="text" class="form-control" placeholder="(Optional)" name="shipAddress2" ng-model="shipTo.address2">
+                    <input type="text" class="form-control" placeholder="(Optional)" name="shipAddress2"
+                           ng-model="shipTo.address2">
                 </div>
             </div>
 
@@ -144,7 +154,8 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': checkoutForm.shipCity.$dirty && checkoutForm.shipCity.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="">City</label></span>
-                    <input type="text" class="form-control" placeholder="" name="shipCountry" required ng-model="shipTo.country">
+                    <input type="text" class="form-control" placeholder="" name="shipCountry" required
+                           ng-model="shipTo.country">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -165,17 +176,17 @@
             </div>
         </form>
 
-            <div class="col-lg-12">
-                <span class="form-block-headline">Delivery Method</span>
+        <div class="col-lg-12">
+            <span class="form-block-headline">Delivery Method</span>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group input-group">
+                <span class="input-group-addon"><label class="control-label" for="">Method</label></span>
+                <select class="form-control">
+                    <option>Flat Rate - $3.00</option>
+                </select>
             </div>
-            <div class="col-lg-12">
-                <div class="form-group input-group">
-                    <span class="input-group-addon"><label class="control-label" for="">Method</label></span>
-                    <select class="form-control">
-                        <option>Flat Rate - $3.00</option>
-                    </select>
-                </div>
-            </div>
+        </div>
         </form>
         <div class="col-lg-12">
             <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs">continue <span
@@ -285,18 +296,21 @@
             <div class="cart-item row">
                 <div class="col-xs-4 col-md-4 text-center img-col">
                     <img src="{{product.imageUrl}}" class="img-responsive"/>
-                    <button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+                    <button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span
+                            class="hyicon hyicon-remove"></span></button>
                 </div>
                 <div class="col-xs-8 col-md-8  detail-col">
-                    <button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+                    <button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span
+                            class="hyicon hyicon-remove"></span></button>
                     <div class="name">{{product.name}}</div>
-                    <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span> </div>
+                    <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span></div>
                     <div class="variants row item-attr">
                         <div class="variant col-md-6 ">Color: <span>Stone</span></div>
                         <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
                         <div class="variant col-md-6 ">Qty: <span>1</span></div>
                     </div>
-                    <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span></div>
+                    <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span>
+                    </div>
                 </div>
             </div>
         </div>

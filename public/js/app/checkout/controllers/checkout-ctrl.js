@@ -18,6 +18,15 @@ angular.module('ds.checkout')
         $rootScope.showCart = false;
         $scope.shipTo = {};
 
+        $scope.billToDone = function () {
+            $scope.step1Done = true;
+        };
+
+        $scope.editBillTo = function() {
+            $scope.step1Done = false;
+
+        };
+
         $scope.placeOrder = function () {
               OrderSvc.createOrder(CartSvc.getCart());
         };
