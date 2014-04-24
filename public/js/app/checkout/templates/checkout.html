@@ -277,8 +277,8 @@
 <div class="col-md-5 col-sm-5 order-detail">
     <h2>Order Details</h2>
     <section class="excerpt‎">
-        <div class="pull-left">3 Items</div>
-        <div class="pull-right">total: $180.90</div>
+        <div class="pull-left">{{itemCount}} Items</div>
+        <div class="pull-right">total: {{subtotal + estTax | currency: '$'}}</div>
     </section>
     <section>
         <div ng-repeat="product in cart track by $index">
@@ -306,7 +306,7 @@
             <tbody>
             <tr>
                 <td>Subtotal</td>
-                <td class="text-right">$77.00</td>
+                <td class="text-right">{{subtotal | currency: '$'}}</td>
             </tr>
             <tr>
                 <td>shipping</td>
@@ -314,13 +314,13 @@
             </tr>
             <tr>
                 <td>Tax</td>
-                <td class="text-right">$4.90</td>
+                <td class="text-right">{{estTax | currency: '$'}}</td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td>order total</td>
-                <td class="text-right">$180.90</td>
+                <td class="text-right">{{subtotal + estTax | currency: '$'}}</td>
             <tr>
             </tfoot>
         </table>
