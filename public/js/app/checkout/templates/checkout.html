@@ -5,94 +5,96 @@
     <small>Simple 3 Step Checkout</small>
     secure checkout
 </h1>
+<ng-form name="checkoutForm" novalidate>
 <ng-form name="billToForm" novalidate>
     <div class="step step-1" ng-class="{'done': step1Done}">
         <h2> Step 1. My Details <span class="glyphicon glyphicon-pencil"></span></h2>
 
         <div class="row step-detail">
-          <!--
-            <form role="form" novalidate>
-               -->
-                <div class="col-lg-6 col">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billFirstName.$dirty && billToForm.billFirstName.$invalid}">
+            <!--
+              <form role="form" novalidate>
+                 -->
+            <div class="col-lg-6 col">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billFirstName.$dirty && billToForm.billFirstName.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="firstname">First
                         Name</label></span>
-                        <input type="text" class="form-control" id="firstname" name="billFirstName"
-                               ng-model="billTo.firstName" required>
-                    </div>
+                    <input type="text" class="form-control" id="firstname" name="billFirstName"
+                           ng-model="billTo.firstName" required>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billLastName.$dirty && billToForm.billLastName.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">Last Name</label></span>
-                        <input type="text" class="form-control" name="billLastName" ng-model="billTo.lastName" required>
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billLastName.$dirty && billToForm.billLastName.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Last Name</label></span>
+                    <input type="text" class="form-control" name="billLastName" ng-model="billTo.lastName" required>
                 </div>
-                <div class="col-lg-12">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billEmail.$dirty && billToForm.billEmail.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">Email</label></span>
-                        <input type="email" type="email" class="form-control" value="" name="billEmail"
-                               ng-model="billTo.email" required>
-                    </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billEmail.$dirty && billToForm.billEmail.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Email</label></span>
+                    <input type="email" type="email" class="form-control" value="" name="billEmail"
+                           ng-model="billTo.email" required>
                 </div>
+            </div>
 
 
-                <div class="col-lg-12">
-                    <span class="form-block-headline">Billing Address</span>
-                </div>
+            <div class="col-lg-12">
+                <span class="form-block-headline">Billing Address</span>
+            </div>
 
 
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billAddress1.$dirty && billToForm.billAddress1.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
-                        <input type="text" class="form-control" name="billAddress1" ng-model="billTo.address1" required>
-                    </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billAddress1.$dirty && billToForm.billAddress1.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
+                    <input type="text" class="form-control" name="billAddress1" ng-model="billTo.address1" required>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
+                    <input type="text" class="form-control" placeholder="(Optional)" name="billAddress2"
+                           ng-model="billTo.address2">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billCountry.$dirty && billToForm.billCountry.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
+                    <select class="form-control" ng-model="billTo.country" required>
+                        <option>USA</option>
+                    </select>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="form-group input-group">
-                        <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
-                        <input type="text" class="form-control" placeholder="(Optional)" name="billAddress2"
-                               ng-model="billTo.address2">
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billCity.$dirty && billToForm.billCity.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">City</label></span>
+                    <input type="text" class="form-control" placeholder="" name="billCity" required
+                           ng-model="billTo.city">
                 </div>
-
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billCountry.$dirty && billToForm.billCountry.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
-                        <select class="form-control" ng-model="billTo.country" required>
-                            <option>USA</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billState.$dirty && billToForm.billState.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">State</label></span>
+                    <select class="form-control" required ng-model="billTo.state">
+                        <option>Illinois</option>
+                    </select>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billCity.$dirty && billToForm.billCity.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">City</label></span>
-                        <input type="text" class="form-control" placeholder="" name="billCity" required
-                               ng-model="billTo.city">
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.billPostal.$dirty && billToForm.billPostal.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
+                    <input type="text" class="form-control" placeholder="" ng-model="billTo.zip" required>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billState.$dirty && billToForm.billState.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">State</label></span>
-                        <select class="form-control" required ng-model="billTo.state">
-                            <option>Illinois</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group input-group"
-                         ng-class="{'has-error': billToForm.billPostal.$dirty && billToForm.billPostal.$invalid}">
-                        <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
-                        <input type="text" class="form-control" placeholder="" ng-model="billTo.zip" required>
-                    </div>
-                </div>
+            </div>
             <!--
             </form>
             -->
@@ -154,8 +156,9 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': checkoutForm.shipCity.$dirty && checkoutForm.shipCity.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="">City</label></span>
+
                     <input type="text" class="form-control" placeholder="" name="shipCountry" required
-                           ng-model="shipTo.country">
+                           ng-model="shipTo.city">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -284,12 +287,12 @@
     </div>
 </div>
 
-</div>
+</ng-form>
 <div class="col-md-5 col-sm-5 order-detail">
     <h2>Order Details</h2>
     <section class="excerpt‎">
-        <div class="pull-left">3 Items</div>
-        <div class="pull-right">total: $180.90</div>
+        <div class="pull-left">{{itemCount}} Items</div>
+        <div class="pull-right">total: {{subtotal + estTax | currency: '$'}}</div>
     </section>
     <section>
         <div ng-repeat="product in cart track by $index">
@@ -320,7 +323,7 @@
             <tbody>
             <tr>
                 <td>Subtotal</td>
-                <td class="text-right">$77.00</td>
+                <td class="text-right">{{subtotal | currency: '$'}}</td>
             </tr>
             <tr>
                 <td>shipping</td>
@@ -328,13 +331,13 @@
             </tr>
             <tr>
                 <td>Tax</td>
-                <td class="text-right">$4.90</td>
+                <td class="text-right">{{estTax | currency: '$'}}</td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td>order total</td>
-                <td class="text-right">$180.90</td>
+                <td class="text-right">{{subtotal + estTax | currency: '$'}}</td>
             <tr>
             </tfoot>
         </table>
