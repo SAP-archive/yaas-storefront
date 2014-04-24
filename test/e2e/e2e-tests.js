@@ -15,14 +15,14 @@ describe("product page", function () {
         tu.getTextByRepeaterRow(0)
         tu.scrollToBottomOfProducts(5000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
-        tu.clickElementByXpath(tu.backToTopButton);        
-        tu.clickElementByXpath(tu.bicycle);
+        tu.clickElement('xpath', tu.backToTopButton);        
+        tu.clickElement('xpath', tu.bicycle);
         
       });
 
       it("should get product detail page", function () {
         tu.scrollToBottomOfProducts(3500);
-        tu.clickElementByXpath(tu.bicycle);
+        tu.clickElement('xpath', tu.bicycle);
         browser.sleep(8000);
         expect(tu.bicycleDescription.getText()).toEqual('Description:\nA bicycle, often called a bike, is a human-powered, pedal-driven, single-track vehicle, having two wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist, or bicyclist.');
 

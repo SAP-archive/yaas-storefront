@@ -6,10 +6,10 @@
         exports.buyButton = "//div[2]/div/button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
-        exports.cartButton2 = "div.off-canvas > div.ng-scope > nav.full-nav.ng-scope > button.btn.btn-link.navbar-btn.pull-right.cart"
         exports.bicycleDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
-
+        exports.cartQuantity = "//input[@type='number']"
+        exports.outOfStockButton = "//div[2]/button"
 
          exports.verifyCartAmount = function(amount) {
            expect(element(by.xpath("//input[@type='number']")).getAttribute("value")).toEqual(amount);
@@ -17,14 +17,6 @@
 
          exports.verifyCartTotal = function(total) {
            expect(element(by.css("td.text-right.ng-binding")).getText()).toEqual(total);
-         }
-
-         exports.clickElementByXpath = function(path) {
-           element(by.xpath(path)).click();
-         }
-
-         exports.clickByCss = function(link) {
-           element(by.css(link)).click();
          }
 
        // abstract writing screen shot to a file
@@ -41,10 +33,6 @@
            stream.write(new Buffer(data, 'utf8'));
            stream.end();
        }
-
-        exports.clickElementById = function (id) {
-           element(by.id(id)).click();
-        }
 
        var clickElement = exports.clickElement = function(type, pageElement) {
           if (type === 'id'){
@@ -66,8 +54,6 @@
            }     
         }        
 
-
-
         exports.getTextByRepeaterRow = function findProductByRepeaterRow(number) {
         var number
           expect(element(by.repeater('product in products').row(number).column('product.name')).getText());
@@ -82,10 +68,6 @@
           element(by.css('select option[value="'+ option +'"]')).click()
         }
 
-        exports.clickByLinkText = function(link) {
-          element(by.linkText(link)).click()
-        }
-
         exports.sortAndVerifyPagination = function(sort, product1, product2){
             selectOption(sort);
             browser.sleep(250);
@@ -98,7 +80,10 @@
             assertTextByRepeaterRow(0, product1);
         }
 
-
+        exports.sendKeysByXpath = function(pageElement, keys) {
+          element(by.xpath(pageElement)).clear();
+          element(by.xpath(pageElement)).sendKeys(keys);
+        }
            /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
 

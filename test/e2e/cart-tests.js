@@ -23,7 +23,7 @@ describe("cart:", function () {
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.bicycle);
          tu.clickElement('xpath', tu.buyButton);
-         browser.sleep(500);
+         browser.sleep(250);
          tu.verifyCartAmount("1");
          tu.verifyCartTotal("$9.50");
          tu.clickElement('xpath', tu.removeFromCart);
@@ -52,23 +52,21 @@ describe("cart:", function () {
          it('should update quantity', function () {
            tu.clickElement('id', tu.cartButtonId);
           browser.sleep(250);
-           tu.verifyCartTotal("$0.00");
+           tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.bicycle);
            tu.clickElement('xpath', tu.buyButton);
            browser.sleep(250);
-           tu.verifyCartAmount("1");
-           tu.verifyCartTotal("$9.50");
+           tu.verifyCartAmount('1');
+           tu.verifyCartTotal('$9.50');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.buyButton);
-           tu.verifyCartAmount("2");
-           tu.verifyCartTotal("$19.00");
-           element(by.xpath("//input[@type='number']")).clear();
-           element(by.xpath("//input[@type='number']")).sendKeys("5");
+           tu.verifyCartAmount('2');
+           tu.verifyCartTotal('$19.00');
+           tu.sendKeysByXpath(tu.cartQuantity, '5');
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$47.50");
-          element(by.xpath("//input[@type='number']")).clear();
-           element(by.xpath("//input[@type='number']")).sendKeys("10");
+           tu.sendKeysByXpath(tu.cartQuantity, '10');
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$95.00");
          });
@@ -76,30 +74,29 @@ describe("cart:", function () {
          it('should not add out of stock item', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-           tu.verifyCartTotal("$0.00");
+           tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.testProduct2);
-           tu.clickElement('xpath', "//div[2]/button"); //out of stock button
+           tu.clickElement('xpath', tu.outOfStockButton); //out of stock button
            tu.clickElement('id',tu.cartButtonId);
-           tu.verifyCartTotal("$0.00");
+           tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
          });
 
          it('should not allow negative numbers', function () {
-           tu.clickElement('id', tu.cartButtonId);
-           tu.verifyCartTotal("$0.00");
-           tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.bicycle);
-           tu.clickElement('xpath', tu.buyButton); 
-           tu.verifyCartTotal("$9.50");
-            element(by.xpath("//input[@type='number']")).clear();
-           element(by.xpath("//input[@type='number']")).sendKeys("-5");
-           tu.verifyCartAmount("5");
-           tu.verifyCartTotal("$47.50");
-            element(by.xpath("//input[@type='number']")).clear();
-           element(by.xpath("//input[@type='number']")).sendKeys("it should not accept alpha");
-           tu.verifyCartAmount("");
-           tu.verifyCartTotal("$0.00");
+          tu.clickElement('id', tu.cartButtonId);
+          browser.sleep(250);
+          tu.verifyCartTotal('$0.00');
+          tu.clickElement('xpath', tu.contineShopping);
+          tu.clickElement('xpath', tu.bicycle);
+          tu.clickElement('xpath', tu.buyButton); 
+          tu.verifyCartTotal("$9.50");
+          tu.sendKeysByXpath(tu.cartQuantity, '-5');
+          tu.verifyCartAmount('5');
+          tu.verifyCartTotal('$47.50');
+          tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
+          tu.verifyCartAmount('');
+          tu.verifyCartTotal('$0.00');
          });
 
    });
