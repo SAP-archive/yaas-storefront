@@ -74,11 +74,16 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+                .state('base.checkout.orderitems', {
+                    //url: '/cc/',
+                   // controller: 'CartCtrl',
+                    templateUrl: 'public/js/app/checkout/templates/boo.html'
+                })
                 .state('base.cart', {
                     url: '/cart/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart-template-to-be-replaced.html',
+                            templateUrl: 'public/js/app/cart/templates/cart',
                             controller: 'CartCtrl'
                         }
                     }

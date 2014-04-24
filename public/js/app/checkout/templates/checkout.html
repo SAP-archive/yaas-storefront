@@ -69,7 +69,7 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': checkoutForm.billCity.$dirty && checkoutForm.billCity.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="">City</label></span>
-                    <input type="text" class="form-control" placeholder="(Optional)" name="billCountry" required ng-model="billTo.country">
+                    <input type="text" class="form-control" placeholder="" name="billCountry" required ng-model="billTo.country">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -85,7 +85,7 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': checkoutForm.billPostal.$dirty && checkoutForm.billPostal.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
-                    <input type="text" class="form-control" placeholder="(Optional)">
+                    <input type="text" class="form-control" placeholder="" ng-model="billTo.zip" required>
                 </div>
             </div>
         </form>
@@ -112,10 +112,58 @@
                     <label>
                         <input type="checkbox" value="option1">
                         <span class="option">same as billing address</span>
-                        <span class="adress">1234 Street Name Boulevard, Chicago IL</span>
+                        <span class="adress">{{ shipTo.address1 }}</span>
                     </label>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': checkoutForm.shipAddress1.$dirty && checkoutForm.shipAddress1.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
+                    <input type="text" class="form-control" name="shipAddress1" ng-model="shipTo.address1" required>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><label class="control-label" for="">Address 2</label></span>
+                    <input type="text" class="form-control" placeholder="(Optional)" name="shipAddress2" ng-model="shipTo.address2">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': checkoutForm.shipCountry.$dirty && checkoutForm.shipCountry.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
+                    <select class="form-control" ng-model="shipTo.country" required>
+                        <option>USA</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': checkoutForm.shipCity.$dirty && checkoutForm.shipCity.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">City</label></span>
+                    <input type="text" class="form-control" placeholder="" name="shipCountry" required ng-model="shipTo.country">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': checkoutForm.shipState.$dirty && checkoutForm.shipState.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">State</label></span>
+                    <select class="form-control" required ng-model="shipTo.state">
+                        <option>Illinois</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': checkoutForm.shipPostal.$dirty && checkoutForm.shipPostal.$invalid}">
+                    <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
+                    <input type="text" class="form-control" placeholder="" ng-model="shipTo.zip" required>
+                </div>
+            </div>
+        </form>
 
             <div class="col-lg-12">
                 <span class="form-block-headline">Delivery Method</span>
@@ -143,7 +191,7 @@
         <form role="form">
 
             <div class="col-lg-12">
-                <span class="form-block-headline">Shipping Address</span>
+                <span class="form-block-headline">Payment</span>
             </div>
             <div class="col-lg-12">
                 <div class="radio">
@@ -233,10 +281,8 @@
         <div class="pull-right">total: $180.90</div>
     </section>
     <section>
-
-        <!-- /Cart Item -->
         <div ng-repeat="product in cart track by $index">
-            <div class="item row">
+            <div class="cart-item row">
                 <div class="col-xs-4 col-md-4 text-center img-col">
                     <img src="{{product.imageUrl}}" class="img-responsive"/>
                     <button ng-click="removeProductFromCart(product.sku)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
@@ -250,8 +296,6 @@
                         <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
                         <div class="variant col-md-6 ">Qty: <span>1</span></div>
                     </div>
-
-
                     <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span></div>
                 </div>
             </div>
