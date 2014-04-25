@@ -10,3 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
+angular.module('ds.confirmation')
+    .factory('ConfirmationSvc', [function () {
+
+    }]);
