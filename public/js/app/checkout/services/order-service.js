@@ -48,8 +48,9 @@ angular.module('ds.checkout')
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
+                var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function(order){
-                    this.setLastOrderId(order.id);
+                    self.setLastOrderId(order.id);
                 });
             }
         };
