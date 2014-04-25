@@ -86,6 +86,7 @@ angular.module('ds.cart')
                     }
                 }
                 $rootScope.itemCount = count;
+                return count;
             },
             /*
                 removes a product from the cart
