@@ -84,6 +84,16 @@ window.app = angular.module('ds.router', [
                     }
                 })
 
+                .state('base.confirmation', {
+                    url: '/confirmation/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
+                            controller: 'ConfirmationCtrl'
+                        }
+                    }
+                })
+
 
 
                 ;
