@@ -36,4 +36,16 @@ describe ("Checkout Form Acceptance Test", function() {
 
     });
 
+    it('Should show pen icon on step 1 if step 1 done', function(){
+
+    })
+
+    it('Should show pen icon on step2 if step2 done', function(){
+
+    })
+
+    it('Should set subsequent steps to undone if done step is edited', function(){
+
+    })
+
 });
