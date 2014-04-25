@@ -36,9 +36,7 @@ angular.module('ds.checkout')
 
         $scope.billToDone = function () {
             $scope.wiz.step1Done = true;
-            if($scope.wiz.shipToSameAsBillTo){
-                $scope.setShipToSameAsBillTo(true);
-            }
+
         };
 
         $scope.shipToDone = function () {
@@ -70,7 +68,11 @@ angular.module('ds.checkout')
         };
 
         $scope.placeOrder = function () {
-              OrderSvc.createOrder(CartSvc.getCart());
+            // do again to ensure copy in full-screen mode
+            if($scope.wiz.shipToSameAsBillTo){
+                $scope.setShipToSameAsBillTo(true);
+            }
+            OrderSvc.createOrder(CartSvc.getCart());
         };
 
     }]);

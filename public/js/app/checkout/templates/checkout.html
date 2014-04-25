@@ -13,16 +13,13 @@
                                       ng-click="editBillTo()"></span></h2>
 
         <div class="row step-detail">
-            <!--
-              <form role="form" novalidate>
-                 -->
             <div class="col-lg-6 col">
                 <div class="form-group input-group"
                      ng-class="{'has-error': billToForm.billFirstName.$dirty && billToForm.billFirstName.$invalid}">
                     <span class="input-group-addon"><label class="control-label" for="firstname">First
                         Name</label></span>
                     <input type="text" class="form-control" id="firstname" name="billFirstName"
-                           ng-model="order.billTo.firstName" required>
+                           ng-model="order.billTo.firstName" required ng-blur="">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -149,9 +146,6 @@
                     <input type="text" class="form-control" placeholder="" ng-model="order.billTo.zip" required>
                 </div>
             </div>
-            <!--
-            </form>
-            -->
             <div class="col-lg-12">
                 <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
                         ng-disabled="billToForm.$pristine || billToForm.$invalid" ng-click="billToDone()">continue <span
@@ -177,10 +171,10 @@
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" ng-model="wiz.shipToSameAsBillTo"
-                               ng-change="setShipToSameAsBillTo(wiz.shipToSameAsBillTo)">
+                               ng-change="setShipToSameAsBillTo(true)">
                         <span class="option">same as billing address</span>
 
-                        <span class="adress" ng-show="wiz.shipToSameAsBillTo">{{ order.shipTo.address1 }}</span>
+                        <span class="adress" ng-show="wiz.shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
 
                     </label>
                 </div>
