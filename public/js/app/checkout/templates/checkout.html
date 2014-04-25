@@ -188,7 +188,7 @@
             <div id="ship-to-fields" ng-hide="wiz.shipToSameAsBillTo">
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': checkoutForm.shipAddress1.$dirty && checkoutForm.shipAddress1.$invalid}">
+                         ng-class="{'has-error': shipToForm.shipAddress1.$dirty && shipToForm.shipAddress1.$invalid}">
                         <span class="input-group-addon"><label class="control-label" for="">Address</label></span>
                         <input type="text" class="form-control" name="shipAddress1" ng-model="order.shipTo.address1"
                                required>
@@ -205,7 +205,7 @@
 
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': checkoutForm.shipCountry.$dirty && checkoutForm.shipCountry.$invalid}">
+                         ng-class="{'has-error': shipToForm.shipCountry.$dirty && shipToForm.shipCountry.$invalid}">
                         <span class="input-group-addon"><label class="control-label" for="">Country</label></span>
                         <select class="form-control" ng-model="order.shipTo.country" required>
                             <option>USA</option>
@@ -214,7 +214,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': checkoutForm.shipCity.$dirty && checkoutForm.shipCity.$invalid}">
+                         ng-class="{'has-error': shipToForm.shipCity.$dirty && shipToForm.shipCity.$invalid}">
                         <span class="input-group-addon"><label class="control-label" for="">City</label></span>
 
                         <input type="text" class="form-control" placeholder="" name="shipCountry" required
@@ -223,7 +223,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': checkoutForm.shipState.$dirty && checkoutForm.shipState.$invalid}">
+                         ng-class="{'has-error': shipToForm.shipState.$dirty && shipToForm.shipState.$invalid}">
                         <span class="input-group-addon"><label class="control-label" for="">State</label></span>
                         <select class="form-control" required ng-model="order.shipTo.state">
                             <option value="AL">Alabama</option>
@@ -282,7 +282,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': checkoutForm.shipPostal.$dirty && checkoutForm.shipPostal.$invalid}">
+                         ng-class="{'has-error': shipToForm.shipPostal.$dirty && shipToForm.shipPostal.$invalid}">
                         <span class="input-group-addon"><label class="control-label" for="">ZIP Code</label></span>
                         <input type="text" class="form-control" placeholder="" ng-model="order.shipTo.zip" required>
                     </div>
@@ -309,7 +309,7 @@
         </div>
     </div>
 </ng-form>
-<ng-form name="payment" novalidate>
+<ng-form name="paymentForm" novalidate>
     <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done':wiz.step3Done}">
         <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
                                   ng-click="editPayment()"></span></h2>
@@ -383,7 +383,7 @@
         </div>
     </div>
 </ng-form>
-<nf-form name="review">
+
     <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
         <h2 class="visible-sm visible-xs">Step 4. Review & Payment</h2>
 
@@ -395,13 +395,15 @@
                 <span class="value">{{subtotal + estTax | currency: '$'}}</span>
             </div>
             <div class="col-xs-12">
+
                 <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-                        ng-disabled="checkoutForm.$invalid" ng-click="placeOrder()">Place Order
+                        ng-disabled="checkoutForm.billToForm.$invalid || (! wiz.shipToSameAsBillTo && checkoutForm.shipToForm.$invalid )"
+                         ng-click="placeOrder()">Place Order
                 </button>
             </div>
         </div>
     </div>
-</nf-form>
+
 </ng-form>
 <div class="col-md-5 col-sm-5 order-detail">
     <h2>Order Details</h2>
