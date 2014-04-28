@@ -37,11 +37,10 @@ describe('CheckoutCtrl Test', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
+
+            expect($scope.order.shippingCost).toEqualData(3);
         })
     });
-
-
-
 
     describe('Wizard in Mobile - step completion', function () {
         beforeEach(function () {
@@ -70,8 +69,6 @@ describe('CheckoutCtrl Test', function () {
             $scope.paymentDone();
             expect($scope.wiz.step3Done).toEqualData(true);
         });
-
-
 
     });
 

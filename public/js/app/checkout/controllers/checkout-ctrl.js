@@ -37,7 +37,6 @@ angular.module('ds.checkout')
 
         $scope.billToDone = function () {
             $scope.wiz.step1Done = true;
-
         };
 
         $scope.shipToDone = function () {
