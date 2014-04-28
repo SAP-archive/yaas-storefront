@@ -28,6 +28,7 @@ angular.module('ds.checkout')
         var Order = function(){
             this.shipTo = {};
             this.billTo = {};
+            this.shippingCost = 3;
         };
 
         $scope.wiz = new Wiz();
