@@ -13,17 +13,9 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('OrderSvc',  ['caas', function(caas){
+    .factory('OrderSvc',  ['caas', '$rootScope', '$timeout', '$state', function(caas, $rootScope, $timeout, $state){
 
         return {
-
-            setLastOrderId: function(id){
-                this.lastOrderId = id;
-            },
-
-            getLastOrderId: function() {
-                return this.lastOrderId;
-            },
 
             /**
              * Issues a Orders 'save' (POST) on the order resource.
@@ -48,10 +40,17 @@ angular.module('ds.checkout')
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
-                var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function(order){
-                    self.setLastOrderId(order.id);
+
+                    var event = {};
+                    event.orderId = order.id;
+                    // broadcast event
+                    $timeout(function(){
+                        $rootScope.$broadcast('order.placed', event);
+                    },500);
+                    $state.go('base.confirmation');
                 });
+
             }
         };
 

@@ -6,7 +6,7 @@
 				thank you</br> for your order!
 			</h1>
 
-			<p>Your order is <span class="highlight">Order# 7154</span></p>
+			<p>Your order is <span class="highlight">Order# {{ orderInfo.orderId }}</span></p>
 			<hr/>
 			<div class="well">
 				<h3>One more step to Create an Account</h3>
@@ -33,18 +33,20 @@
 			<address>
 				your.name@email.com
 			</address>
-			<p>The Shipment is sheduled to arrive at the following location:</p>
+			<p>The Shipment is scheduled to arrive at the following location:</p>
 
 			<address>
-				recipiants name<br>
+				recipient name<br>
 				shipping address<br>
 				city, state and zip<br>
 			</address>
 
 			<h3>Enjoy your items!</h3>
+            <div data-ui-sref="base.product">
 			<button class="btn btn-primary btn-lg">
 				return to shopping
 			</button>
+            </div>
 			<p class="support-box">If you have any questions about your order, we’re happy
 				to take your call <strong>(888) 5550-1222</strong>.
 		</div>

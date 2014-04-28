@@ -9,6 +9,7 @@ window.app = angular.module('ds.router', [
         'ds.products',
         'ds.cart',
         'ds.checkout',
+        'ds.confirmation',
         'yng.core'
     ])
     .constant('_', window._)
@@ -95,6 +96,10 @@ window.app = angular.module('ds.router', [
                         'body@': {
                             templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
+                        },
+                        'navigation@': {
+                            templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
+                            controller: 'NavigationCtrl'
                         }
                     }
                 })
