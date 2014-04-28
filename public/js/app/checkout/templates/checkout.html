@@ -32,10 +32,10 @@
             </div>
             <div class="col-lg-12">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.email.$dirty && billToForm.email.$invalid}">
+                     ng-class="{'has-error': badEmailAddress}">
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
-                    <input type="email" type="email" class="form-control" id="email" name="email"
-                           ng-model="order.billTo.email" required autocomplete="on">
+                    <input type="text" class="form-control" id="email" name="email"
+                           ng-model="order.billTo.email" required autocomplete="on" ng-blur="emailBlurred()">
                 </div>
             </div>
 

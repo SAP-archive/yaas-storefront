@@ -17,6 +17,8 @@ angular.module('ds.checkout')
 
         $rootScope.showCart = false;
 
+        $scope.badEmailAddress = false;
+
 
         var Wiz = function(){
             this.step1Done = false;
@@ -60,6 +62,15 @@ angular.module('ds.checkout')
 
         $scope.editPayment = function() {
             $scope.wiz.step3Done = false;
+        };
+
+        $scope.emailBlurred = function (isValid) {
+            if (isValid) {
+                $scope.badEmailAddress = false;
+            }
+            else {
+                $scope.badEmailAddress = true;
+            }
         };
 
         $scope.setShipToSameAsBillTo = function (same){
