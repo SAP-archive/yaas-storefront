@@ -6,7 +6,7 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'phantomjs'
+    'browserName': 'chrome'
   },
 
   baseUrl: 'http://dev-bsd-1.yrdrt.fra.hybris.com:9000/',

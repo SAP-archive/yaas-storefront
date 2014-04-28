@@ -10,6 +10,7 @@
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "//input[@type='number']"
         exports.outOfStockButton = "//div[2]/button"
+        exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
 
          exports.verifyCartAmount = function(amount) {
            expect(element(by.xpath("//input[@type='number']")).getAttribute("value")).toEqual(amount);
@@ -83,6 +84,11 @@
         exports.sendKeysByXpath = function(pageElement, keys) {
           element(by.xpath(pageElement)).clear();
           element(by.xpath(pageElement)).sendKeys(keys);
+        }
+
+        exports.sendKeysById = function(pageElement, keys) {
+          element(by.id(pageElement)).clear();
+          element(by.id(pageElement)).sendKeys(keys);
         }
            /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
