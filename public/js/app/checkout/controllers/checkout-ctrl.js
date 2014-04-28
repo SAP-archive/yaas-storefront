@@ -28,6 +28,7 @@ angular.module('ds.checkout')
         var Order = function(){
             this.shipTo = {};
             this.billTo = {};
+            this.shippingCost = 3; // hard-coded for now
         };
 
         $scope.wiz = new Wiz();
@@ -36,9 +37,6 @@ angular.module('ds.checkout')
 
         $scope.billToDone = function () {
             $scope.wiz.step1Done = true;
-            if($scope.wiz.shipToSameAsBillTo){
-                $scope.setShipToSameAsBillTo(true);
-            }
         };
 
         $scope.shipToDone = function () {
@@ -52,6 +50,7 @@ angular.module('ds.checkout')
         $scope.editBillTo = function() {
             $scope.wiz.step1Done = false;
             $scope.wiz.step2Done = false;
+            $scope.wiz.step3Done = false;
         };
 
         $scope.editShipTo = function() {
@@ -63,14 +62,16 @@ angular.module('ds.checkout')
             $scope.wiz.step3Done = false;
         };
 
-        $scope.setShipToSameAsBillTo = function (same){
-            if(same) {
-                angular.copy($scope.order.billTo, $scope.order.shipTo);
-            }
+        $scope.setShipToSameAsBillTo = function (){
+            angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
 
         $scope.placeOrder = function () {
-              OrderSvc.createOrder(CartSvc.getCart());
+            // do again to ensure copy in full-screen mode
+            if($scope.wiz.shipToSameAsBillTo){
+                $scope.setShipToSameAsBillTo();
+            }
+            OrderSvc.createOrder(CartSvc.getCart());
         };
 
     }]);
