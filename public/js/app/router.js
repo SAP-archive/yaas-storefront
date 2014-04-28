@@ -101,6 +101,12 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
                             controller: 'NavigationCtrl'
                         }
+                    },
+                    resolve: {
+                        orderInfo: function( OrderSvc) {
+
+                            return OrderSvc.getLastOrderId();
+                        }
                     }
                 })
 

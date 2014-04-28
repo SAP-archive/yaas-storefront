@@ -17,6 +17,13 @@ angular.module('ds.checkout')
 
         return {
 
+            setLastOrderId: function(id){
+                this.lastOrderId = id;
+            },
+            getLastOrderId: function() {
+                return this.lastOrderId;
+            },
+
             /**
              * Issues a Orders 'save' (POST) on the order resource.
              * Uses the CartSvc to retrieve the current set of line items.
@@ -40,14 +47,16 @@ angular.module('ds.checkout')
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
+                var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function(order){
-
-                    var event = {};
-                    event.orderId = order.id;
-                    // broadcast event
+                   self.setLastOrderId(order.id);
+                    //var event = {};
+                    //event.orderId = order.id;
+                   /*
                     $timeout(function(){
                         $rootScope.$broadcast('order.placed', event);
-                    },500);
+                    },500); */
+
                     $state.go('base.confirmation');
                 });
 
