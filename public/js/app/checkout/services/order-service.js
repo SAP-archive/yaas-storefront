@@ -31,14 +31,12 @@ angular.module('ds.checkout')
              * @return The result array as returned by Angular $resource.query().
              */
             createOrder: function(cartItems) {
-                var self = this;
 
                 var OrderLine = function(amount, unitPrice, productCode) {
                     this.amount = amount;
                     this.unitPrice = unitPrice;
                     this.productCode = productCode;
                 };
-
 
                 var Order = function(){
                     this.entries = [];
@@ -50,6 +48,7 @@ angular.module('ds.checkout')
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
+                var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function(order){
                     self.setLastOrderId(order.id);
                 });
