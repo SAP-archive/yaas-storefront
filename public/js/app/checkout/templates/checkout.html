@@ -171,7 +171,7 @@
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" ng-model="wiz.shipToSameAsBillTo"
-                               ng-change="setShipToSameAsBillTo(true)">
+                               ng-change="setShipToSameAsBillTo()">
                         <span class="option">same as billing address</span>
 
                         <span class="adress" ng-show="wiz.shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
