@@ -34,8 +34,8 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': badEmailAddress}">
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
-                    <input type="text" class="form-control" id="email" name="email"
-                           ng-model="order.billTo.email" required autocomplete="on" ng-blur="emailBlurred()">
+                    <input type="email" class="form-control" id="email" name="email"
+                           ng-model="order.billTo.email" required autocomplete="on" ng-blur="emailBlurred(billToForm.email.$valid)">
                 </div>
             </div>
 
