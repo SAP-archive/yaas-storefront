@@ -7,7 +7,7 @@ describe("product page", function () {
 
     beforeEach(function () {
       browser.get('#!/products');
-      browser.sleep(5000);
+      browser.sleep(8000);
     });
 
       
