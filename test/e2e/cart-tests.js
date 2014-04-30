@@ -77,7 +77,7 @@ describe("cart:", function () {
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.testProduct2);
-           tu.clickElement('xpath', tu.outOfStockButton); //out of stock button
+           tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
