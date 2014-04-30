@@ -12,7 +12,7 @@ describe("checkout:", function () {
          // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
        browser.driver.manage().window().maximize();
        browser.get('#!/products/');
-       browser.sleep(8000);
+       browser.sleep(10000);
      });
 
 
@@ -66,10 +66,21 @@ describe("checkout:", function () {
             tu.sendKeysById('address1Bill', '123');
             tu.sendKeysById('address2Bill', '321');
             tu.sendKeysById('cityBill', 'Boulder');
+            element(by.id('countryBill')).sendKeys('USA');
             element(by.id('stateBill')).sendKeys('colorado');
-            // tu.sendKeysById('stateBill', 'colorado');
             tu.sendKeysById('zipCodeBill', '80301');
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+            tu.clickElement('id', 'shipTo');
+            tu.sendKeysById('firstNameShip', 'John');
+            tu.sendKeysById('lastNameShip', 'night');
+            tu.sendKeysById('address1Ship', '456');
+            tu.sendKeysById('address2Ship', '654');
+            tu.sendKeysById('cityShip', 'Boulder');
+            element(by.id('countryShip')).sendKeys('USA');
+            element(by.id('stateShip')).sendKeys('colorado');
+            tu.sendKeysById('zipCodeShip', '80301');
+            tu.clickElement('id', 'place-order-btn');
+            expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
 
@@ -108,10 +119,19 @@ describe("mobile checkout:", function () {
         browser.sleep(8000);
         tu.clickElement('xpath', "//div[11]/button"); //continueButton
         expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+        tu.clickElement('id', 'shipTo');
+        tu.sendKeysById('firstNameShip', 'John');
+        tu.sendKeysById('lastNameShip', 'night');
+        tu.sendKeysById('address1Ship', '456');
+        tu.sendKeysById('address2Ship', '654');
+        tu.sendKeysById('cityShip', 'Boulder');
+        element(by.id('countryShip')).sendKeys('USA');
+        element(by.id('stateShip')).sendKeys('colorado');
+        tu.sendKeysById('zipCodeShip', '80301');
         tu.clickElement('xpath', "//div[6]/button");
         tu.clickElement('xpath', "//div[5]/button");
         tu.clickElement('id', "place-order-btn");
-        tu.clickElement('xpath', "//div[321]/button");
+            expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
 
        });
 
