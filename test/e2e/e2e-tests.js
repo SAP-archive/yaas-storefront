@@ -7,6 +7,7 @@ describe("product page", function () {
 
     beforeEach(function () {
       browser.get('#!/products');
+      browser.driver.manage().window().maximize();
       browser.sleep(8000);
     });
 
