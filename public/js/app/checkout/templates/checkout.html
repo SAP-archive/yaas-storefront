@@ -15,7 +15,7 @@
         <div class="row step-detail">
             <div class="col-lg-6 col">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.firstName.$dirty && billToForm.firstName.$invalid}">
+                     ng-class="{'has-error': billToForm.firstName.$invalid && (billToForm.firstName.$dirty  || showPristineErrors)}">
                     <span class="input-group-addon"><label class="control-label" for="firstNameBill">First
                         Name</label></span>
                     <input type="text" class="form-control ui-autocomplete" id="firstNameBill" name="firstName"
@@ -24,18 +24,20 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.lastName.$dirty && billToForm.lastName.$invalid}">
+                     ng-class="{'has-error': billToForm.lastName.$invalid && (billToForm.lastName.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="lastNameBill">Last Name</label></span>
                     <input type="text" class="form-control" id="lastNameBill" name="lastName" ng-model="order.billTo.lastName"
                            required autocomplete="on">
                 </div>
             </div>
             <div class="col-lg-12">
+
                 <div class="form-group input-group"
-                     ng-class="{'has-error': badEmailAddress}">
+                     ng-class="{'has-error': badEmailAddress || (billToForm.email.$invalid && showPristineErrors)}">
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
-                    <input type="email" class="form-control" id="email" name="email"
-                           ng-model="order.billTo.email" required autocomplete="on" ng-blur="emailBlurred(billToForm.email.$valid)">
+                    <input type="text" class="form-control" id="email" name="email"
+                           ng-model="order.billTo.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,4} -->
+            </div>$/" required autocomplete="on" ng-blur="emailBlurred(billToForm.email.$valid)">
                 </div>
             </div>
 
@@ -47,7 +49,7 @@
 
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.address1.$dirty && billToForm.address1.$invalid}">
+                     ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="address1Bill">Address</label></span>
                     <input type="text" class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
                            required autocomplete="on">
@@ -64,17 +66,17 @@
 
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.country.$dirty && billToForm.country.$invalid}">
+                     ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="countryBill">Country</label></span>
-                    <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" required autocomplete="on">
-                        <option>USA</option>
+                    <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" required>
+                        <option value="USA">USA</option>
                     </select>
                 </div>
 
             </div>
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.city.$dirty && billToForm.city.$invalid}">
+                     ng-class="{'has-error': billToForm.city.$invalid && (billToForm.city.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="cityBill">City</label></span>
                     <input type="text" class="form-control" id="cityBill" name="city" required autocomplete="on"
                            ng-model="order.billTo.city">
@@ -82,7 +84,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.state.$dirty && billToForm.state.$invalid}">
+                     ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="stateBill">State</label></span>
                     <select class="form-control" required ng-model="order.billTo.state" id="stateBill" name="state" autocomplete="on">
                         <option value="AL">Alabama</option>
@@ -141,25 +143,26 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.zipCode.$dirty && billToForm.zipCode.$invalid}">
+                     ng-class="{'has-error': billToForm.zipCode.$invalid && (billToForm.zipCode.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="zipCodeBill">ZIP Code</label></span>
                     <input type="text" class="form-control" placeholder="" ng-model="order.billTo.zip" id="zipCodeBill" name="zipCode" required autocomplete="on">
                 </div>
             </div>
             <div class="col-lg-12">
                 <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
-                        ng-disabled="billToForm.$pristine || billToForm.$invalid" ng-click="billToDone()">continue <span
+                        ng-click="billToDone(billToForm.$valid)">continue <span
                         class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
 
         </div>
     </div>
 </ng-form>
-<ng-form name="shipToForm" novalidate>
+<ng-form name="shipToForm" novalidate  >
     <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
+        <a id="step2">
         <h2> Step 2. Shipping Information <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil"
                                                 ng-click="editBillTo()"></span></h2>
-
+        </a>
         <div class="row step-detail">
 
 
@@ -170,7 +173,7 @@
             <div class="col-lg-12">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" ng-model="wiz.shipToSameAsBillTo"
+                        <input type="checkbox" id="shipTo" ng-model="wiz.shipToSameAsBillTo"
                                ng-change="setShipToSameAsBillTo()">
                         <span class="option">same as billing address</span>
 
@@ -182,27 +185,27 @@
             <div id="ship-to-fields" ng-hide="wiz.shipToSameAsBillTo">
                 <div class="col-lg-6 col">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.firstName.$dirty && shipToForm.firstName.$invalid}">
+                         ng-class="{'has-error': !wiz.shipToSameAsBillTo && shipToForm.firstName.$invalid && (shipToForm.firstName.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="firstNameShip">First
                         Name</label></span>
                         <input type="text" class="form-control ui-autocomplete" id="firstNameShip" name="firstName"
-                               ng-model="order.shipTo.firstName" required autocomplete="on">
+                               ng-model="order.shipTo.firstName" ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.lastName.$dirty && shipToForm.lastName.$invalid}">
+                         ng-class="{'has-error': !wiz.shipToSameAsBillTo && shipToForm.lastName.$invalid && (shipToForm.lastName.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="lastNameShip">Last Name</label></span>
                         <input type="text" class="form-control" id="lastNameShip" name="lastName" ng-model="order.shipTo.lastName"
-                               required autocomplete="on">
+                               ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.address1.$dirty && shipToForm.address1.$invalid}">
+                         ng-class="{'has-error': shipToForm.address1.$invalid && (shipToForm.address1.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="address1Ship">Address</label></span>
                         <input type="text" class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                               required autocomplete="on">
+                               ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
                     </div>
                 </div>
 
@@ -216,27 +219,27 @@
 
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.country.$dirty && shipToForm.country.$invalid}">
+                         ng-class="{'has-error': shipToForm.country.$invalid && (shipToForm.country.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="countryShip">Country</label></span>
-                        <select class="form-control" ng-model="order.shipTo.country" name="country" id="countryShip" required autocomplete="on">
+                        <select class="form-control" ng-model="order.shipTo.country" name="country" id="countryShip" ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
                             <option>USA</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.city.$dirty && shipToForm.city.$invalid}">
+                         ng-class="{'has-error': shipToForm.city.$invalid && (shipToForm.city.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="cityShip">City</label></span>
 
-                        <input type="text" class="form-control" placeholder="" id="cityShip" name="city" required
+                        <input type="text" class="form-control" placeholder="" id="cityShip" name="city" ng-required="!wiz.shipToSameAsBillTo"
                                ng-model="order.shipTo.city" autocomplete="on">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.state.$dirty && shipToForm.state.$invalid}">
+                         ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="stateShip">State</label></span>
-                        <select class="form-control" required ng-model="order.shipTo.state" id="stateShip" name="state">
+                        <select class="form-control" ng-required="!wiz.shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -293,9 +296,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.zipCode.$dirty && shipToForm.zipCode.$invalid}">
+                         ng-class="{'has-error': shipToForm.zipCode.$invalid && ( shipToForm.zipCode.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="zipCodeShip">ZIP Code</label></span>
-                        <input type="text" class="form-control" placeholder="" ng-model="order.shipTo.zip" name="zipCode" id="zipCodeShip" autocomplete="on" required>
+                        <input type="text" class="form-control" placeholder="" ng-model="order.shipTo.zip" name="zipCode" id="zipCodeShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
                     </div>
                 </div>
             </div>
@@ -314,7 +317,7 @@
             </div>
             </form>
             <div class="col-lg-12">
-                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone()">continue <span
+                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid)">continue <span
                         class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
         </div>
@@ -322,9 +325,10 @@
 </ng-form>
 <ng-form name="paymentForm" novalidate>
     <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done':wiz.step3Done}">
+        <a id="step3">
         <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
                                   ng-click="editPayment()"></span></h2>
-
+        </a>
         <div class="row step-detail">
 
 
@@ -349,7 +353,8 @@
                 </div>
             </div>
 
-            <div class="cc-details" ng-hide="true">   <!-- disabled for now - out of scope -->
+            <!--
+            <div class="cc-details" ng-hide="true">
                 <div class="col-lg-12">
                     <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
@@ -385,7 +390,7 @@
                 <div class="col-xs-3">
                     <img src="public/img/cvv.png" alt=""/>
                 </div>
-            </div>
+            </div>  -->
 
             <div class="col-xs-12">
                 <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone()">continue <span
@@ -396,8 +401,9 @@
 </ng-form>
 
     <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
+        <a id="step4">
         <h2 class="visible-sm visible-xs">Step 4. Review & Payment</h2>
-
+        </a>
         <div class="row step-detail">
             <div class="col-xs-6">
                 <span class="description">TOTAL</span>
@@ -406,16 +412,15 @@
                 <span class="value">{{subtotal + estTax + order.shippingCost | currency: '$'}}</span>
             </div>
             <div class="col-xs-12">
-
                 <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-                        ng-disabled="checkoutForm.billToForm.$invalid || (! wiz.shipToSameAsBillTo && checkoutForm.shipToForm.$invalid )"
-                         ng-click="placeOrder()">Place Order
+                         ng-click="placeOrder(checkoutForm.$valid)">Place Order
                 </button>
             </div>
         </div>
     </div>
 
 </ng-form>
+</div>
 <div class="col-md-5 col-sm-5 order-detail">
     <h2>Order Details</h2>
     <section class="excerpt‎">
@@ -468,6 +473,5 @@
             </tfoot>
         </table>
     </section>
-</div>
 </div>
 </div>
