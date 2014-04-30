@@ -13,7 +13,7 @@ describe('OrderSvc Test', function () {
 
     var orderUrl = 'http://myorders';
     var ordersRoute = '/orders';
-    var $scope, $rootScope, $httpBackend, $state, $timeout, orderSvc;
+    var $scope, $rootScope, $httpBackend, $state, orderSvc;
 
     var cart =  [{'quantity':1, 'price':2.99, 'sku': '1bcd123'}];
 
@@ -31,13 +31,13 @@ describe('OrderSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _$timeout_, _$state_, _OrderSvc_) {
+        inject(function (_$httpBackend_, _$rootScope_, _$state_, _OrderSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             orderSvc = _OrderSvc_;
             $state = _$state_;
-            $timeout = _$timeout_;
+
         });
     });
 
