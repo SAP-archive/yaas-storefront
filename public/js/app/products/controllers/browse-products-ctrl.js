@@ -32,11 +32,12 @@ angular.module('ds.products')
         $scope.addMore();
 
         var getProducts = function () {
-            var products = ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort});
-            products.$promise.then(function(products) {
-                $scope.productsFrom = (($scope.pageNumber-1) * $scope.pageSize)+ 1;
-                $scope.productsTo = $scope.pageNumber * $scope.pageSize;
-            });
+
+            var products = ProductSvc.queryWithResultHandler({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort},
+                function(){
+                    $scope.productsFrom = (($scope.pageNumber-1) * $scope.pageSize)+ 1;
+                    $scope.productsTo = $scope.pageNumber * $scope.pageSize;
+                } );
             return products;
         };
 

@@ -29,9 +29,11 @@ angular.module('ds.products')
              * @param {callback} success callback function
              */
             queryWithResultHandler: function(parms, callback) {
-                getProducts(parms).$promise.then(function (result) {
+                 var products = getProducts(parms);
+                 products.$promise.then(function (result) {
                     callback(result);
                 });
+                return products;
             }
 
         };

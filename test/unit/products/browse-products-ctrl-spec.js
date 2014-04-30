@@ -42,7 +42,7 @@ describe('BrowseProductsCtrl Test', function () {
 
             var page = 4;
             $scope.setSortedPage(page);
-            expect(mockedProductSvc.query).toHaveBeenCalled();
+            expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
             expect($scope.pageNumber).toEqualData(page);
         })
 
