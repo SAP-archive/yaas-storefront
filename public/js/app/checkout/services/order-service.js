@@ -50,13 +50,6 @@ angular.module('ds.checkout')
                 var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function(order){
                    self.setLastOrderId(order.id);
-                    //var event = {};
-                    //event.orderId = order.id;
-                   /*
-                    $timeout(function(){
-                        $rootScope.$broadcast('order.placed', event);
-                    },500); */
-
                     $state.go('base.confirmation');
                 });
 

@@ -1,4 +1,4 @@
-xdescribe('CheckoutCtrl Test', function () {
+describe('CheckoutCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, checkoutCtrl;
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
@@ -8,9 +8,16 @@ xdescribe('CheckoutCtrl Test', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
+    beforeEach(module('ds.checkout', function($provide) {
+        mockedOrderSvc =  {}
+        mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
 
-    // configure the target controller's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.checkout'));
+        mockedCartSvc = {};
+        mockedCartSvc.getCart = jasmine.createSpy('getCart');
+        $provide.value('OrderSvc', mockedOrderSvc);
+        $provide.value('CartSvc', mockedCartSvc);
+    }));
+
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
 
@@ -23,14 +30,11 @@ xdescribe('CheckoutCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
+
     }));
 
     beforeEach(function () {
-        mockedOrderSvc = $injector.get( 'OrderSvc' );
-        mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
-        mockedCartSvc = $injector.get('CartSvc');
-        mockedCartSvc.getCart = jasmine.createSpy('getCart');
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, $rootScope: $rootScope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
     });
 
     describe('Initialization', function () {
@@ -43,24 +47,39 @@ xdescribe('CheckoutCtrl Test', function () {
         })
     });
 
-    describe('Wizard in Mobile - step completion', function () {
+    describe('Mobile Wizard Step completion ', function () {
         beforeEach(function () {
             $scope.wiz.step1Done = false;
             $scope.wiz.step2Done = false;
             $scope.wiz.step3Done = false;
+            $scope.showPristineErrors = false;
         });
 
-        it('should set Step 1 Done when bill to entered', function(){
-            $scope.wiz.step1Done = false;
-            $scope.billToDone();
+        it('should set Step 1 Done when Bill-To to entered', function(){
+            $scope.billToDone(true);
             expect($scope.wiz.step1Done).toEqualData(true);
             expect($scope.wiz.step2Done).toEqualData(false);
             expect($scope.wiz.step2Done).toEqualData(false);
+            expect($scope.showPristineErrors).toEqualData(false);
+        });
+
+        it('should leave Step 1 In Progress when invalid Bill-To entered', function(){
+            $scope.billToDone(false);
+            expect($scope.wiz.step1Done).toEqualData(false);
+            expect($scope.wiz.step2Done).toEqualData(false);
+            expect($scope.wiz.step2Done).toEqualData(false);
+            expect($scope.showPristineErrors).toEqualData(true);
+        });
+
+        it('should remove PRISTINE_ERRORS upon valid re-edit of Bill-To', function(){
+            $scope.showPristineErrors = true;
+            $scope.billToDone(true);
+            expect($scope.showPristineErrors).toEqualData(false);
         });
 
         it('should set Step 2 Done when ship to to entered', function(){
             $scope.wiz.step2Done = false;
-            $scope.shipToDone();
+            $scope.shipToDone(true);
             expect($scope.wiz.step2Done).toEqualData(true);
             expect($scope.wiz.step3Done).toEqualData(false);
         });
@@ -117,30 +136,35 @@ xdescribe('CheckoutCtrl Test', function () {
     });
 
     describe('Place Order ', function () {
-        var mockedOrderSvc, mockedCartSvc, checkoutCtrl;
 
         beforeEach(function () {
-            mockedOrderSvc = $injector.get( 'OrderSvc' );
-            mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
-            mockedCartSvc = $injector.get('CartSvc');
-            mockedCartSvc.getCart = jasmine.createSpy('getCart');
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc, '$timeout': $timeout});
+            $scope.showPristineErrors = false;
         });
 
         it('should initialize', function () {
             expect(checkoutCtrl).toBeTruthy();
         })
 
-        it('should invoke pass cart from CartSvc to OrderSvc on placeOrder', function(){
-            $scope.placeOrder();
+        it('should invoke pass cart from CartSvc to OrderSvc if form valid', function(){
+            $scope.placeOrder(true);
             expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
             expect(mockedCartSvc.getCart).toHaveBeenCalled();
+        });
+
+        it('should not place order if form invalid', function(){
+            $scope.placeOrder(false);
+            expect(mockedOrderSvc.createOrder).wasNotCalled();
+        });
+
+        it('should show pristine errors if form invalid', function(){
+            $scope.placeOrder(false);
+            expect($scope.showPristineErrors).toEqualData(true);
         });
 
         it('should ensure ship to copy', function(){
             $scope.order.billTo = mockBillTo;
             $scope.wiz.shipToSameAsBillTo = true;
-            $scope.placeOrder();
+            $scope.placeOrder(true);
             expect($scope.order.shipTo).toEqualData(mockBillTo);
         });
     });

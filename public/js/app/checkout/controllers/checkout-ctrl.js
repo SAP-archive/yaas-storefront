@@ -18,6 +18,7 @@ angular.module('ds.checkout')
         $rootScope.showCart = false;
 
         $scope.badEmailAddress = false;
+        $scope.showPristineErrors = false;
 
 
         var Wiz = function(){
@@ -30,6 +31,7 @@ angular.module('ds.checkout')
         var Order = function(){
             this.shipTo = {};
             this.billTo = {};
+            this.billTo.country = 'USA';
             this.shippingCost = 3; // hard-coded for now
         };
 
@@ -37,16 +39,30 @@ angular.module('ds.checkout')
         $scope.order = new Order();
 
 
-        $scope.billToDone = function () {
-            $scope.wiz.step1Done = true;
+        $scope.billToDone = function (billToFormValid) {
+            if(billToFormValid) {
+                $scope.wiz.step1Done = true;
+                $scope.showPristineErrors = false;
+                if($scope.wiz.shipToSameAsBillTo){
+                    $scope.setShipToSameAsBillTo();
+                }
+            } else {
+                $scope.showPristineErrors = true;
+            }
         };
 
-        $scope.shipToDone = function () {
-            $scope.wiz.step2Done = true;
+        $scope.shipToDone = function (shipToFormValid) {
+            // if the ship to form fields are hidden, angular considers them empty - work around that:
+            if(shipToFormValid || $scope.wiz.shipToSameAsBillTo) {
+                $scope.wiz.step2Done = true;
+                $scope.showPristineErrors = false;
+            } else {
+                $scope.showPristineErrors = true;
+            }
         };
 
         $scope.paymentDone = function (){
-            $scope.wiz.step3Done = true;
+             $scope.wiz.step3Done = true;
         };
 
         $scope.editBillTo = function() {
@@ -76,14 +92,20 @@ angular.module('ds.checkout')
 
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
+            //$scope.shipToForm.firstName.$setViewValue('Bob');
+            //var errors = $scope.shipToForm.$error;
         };
 
-        $scope.placeOrder = function () {
-            // do again to ensure copy in full-screen mode
-            if($scope.wiz.shipToSameAsBillTo){
-                $scope.setShipToSameAsBillTo();
+        $scope.placeOrder = function (formValid) {
+            if (formValid) {
+                // do again to ensure copy in full-screen mode
+                if ($scope.wiz.shipToSameAsBillTo) {
+                    $scope.setShipToSameAsBillTo();
+                }
+                OrderSvc.createOrder(CartSvc.getCart());
+            }  else {
+                $scope.showPristineErrors = true;
             }
-            OrderSvc.createOrder(CartSvc.getCart());
         };
 
     }]);
