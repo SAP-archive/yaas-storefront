@@ -83,6 +83,68 @@ describe("checkout:", function () {
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
+           it('should have basic validation on all fields', function () {
+            tu.clickElement('xpath', tu.bicycle);
+            browser.sleep(200);
+            tu.clickElement('xpath', tu.buyButton);
+            browser.sleep(200);
+            tu.clickElement('css', tu.checkoutButton);
+            tu.sendKeysById('firstNameBill', 'Mike');
+            tu.sendKeysById('lastNameBill', 'night');
+            tu.sendKeysById('email', 'mike@night.com');
+            tu.sendKeysById('address1Bill', '123');
+            tu.sendKeysById('address2Bill', '321');
+            tu.sendKeysById('cityBill', 'Boulder');
+            element(by.id('countryBill')).sendKeys('USA');
+            element(by.id('stateBill')).sendKeys('colorado');
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('zipCodeBill', '80301');
+            element(by.id('firstNameBill')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('firstNameBill', 'Mike');
+            element(by.id('lastNameBill')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('lastNameBill', 'night');
+            element(by.id('email')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('email', 'mike@night.com');
+            element(by.id('address1Bill')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('address1Bill', '123');
+            element(by.id('cityBill')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('cityBill', 'Boulder');
+            expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+            tu.clickElement('id', 'shipTo');
+            tu.sendKeysById('firstNameShip', 'John');
+            tu.sendKeysById('lastNameShip', 'night');
+            tu.sendKeysById('address1Ship', '456');
+            tu.sendKeysById('address2Ship', '654');
+            tu.sendKeysById('cityShip', 'Boulder');
+            element(by.id('countryShip')).sendKeys('USA');
+            element(by.id('stateShip')).sendKeys('colorado');
+            element(by.id('zipCodeShip')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('zipCodeShip', '80301');
+            element(by.id('firstNameShip')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('firstNameShip', 'Mike');
+            element(by.id('lastNameShip')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('lastNameShip', 'night');
+            element(by.id('email')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('email', 'mike@night.com');
+            element(by.id('address1Ship')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('address1Ship', '123');
+            element(by.id('cityShip')).clear();
+            tu.clickElement('id', 'place-order-btn');
+            tu.sendKeysById('cityShip', 'Boulder');
+            tu.clickElement('id', 'place-order-btn');
+            expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+           });
+
 
 
    });
@@ -129,7 +191,7 @@ describe("mobile checkout:", function () {
         element(by.id('stateShip')).sendKeys('colorado');
         tu.sendKeysById('zipCodeShip', '80301');
         tu.clickElement('xpath', "//div[6]/button");
-        tu.clickElement('xpath', "//div[5]/button");
+        tu.clickElement('xpath', "//div[4]/button");
         tu.clickElement('id', "place-order-btn");
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
 
