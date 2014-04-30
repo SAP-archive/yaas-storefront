@@ -34,7 +34,10 @@ angular.module('ds.shared')
             headers: {
                 tenant: 'X-tenantId',
                 authorization: 'Authorization',
-                customer: 'X-buyerId'
+                customer: 'X-buyerId',
+                paging: {
+                    total: 'X-count'
+                }
             }
         }
     });

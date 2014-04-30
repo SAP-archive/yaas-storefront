@@ -4,10 +4,12 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('ProductSvc', ['caas', function(caas){
+    .factory('ProductSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
 
         var getProducts = function (parms) {
-            return caas.products.API.query(parms);
+            return caas.products.API.query(parms, function(response, headers) {
+                GlobalData.products.meta.total = parseInt(headers(settings.apis.headers.paging.total), 10) || 0;
+            });
         };
 
         return {
