@@ -5,6 +5,10 @@ angular.module('ds.shared')
       
 		this.languageCode = settings.languageCode;
 
-
+		this.products = {
+			meta: {
+				total: 0
+			}
+		};
 
     }]);
