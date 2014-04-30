@@ -14,7 +14,7 @@ describe("product page", function () {
       
       it('should scroll to load more products', function () {
         tu.getTextByRepeaterRow(0)
-        tu.scrollToBottomOfProducts(5000);
+        tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
         tu.clickElement('xpath', tu.bicycle);
