@@ -13,7 +13,8 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', 'CartSvc', 'OrderSvc', function ($scope, $rootScope, CartSvc, OrderSvc) {
+    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc',
+        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc) {
 
         $rootScope.showCart = false;
 
@@ -46,6 +47,10 @@ angular.module('ds.checkout')
                 if($scope.wiz.shipToSameAsBillTo){
                     $scope.setShipToSameAsBillTo();
                 }
+
+                // guarantee correct scrolling for mobile
+                $location.hash('step2');
+                $anchorScroll();
             } else {
                 $scope.showPristineErrors = true;
             }
@@ -56,6 +61,9 @@ angular.module('ds.checkout')
             if(shipToFormValid || $scope.wiz.shipToSameAsBillTo) {
                 $scope.wiz.step2Done = true;
                 $scope.showPristineErrors = false;
+                // guarantee correct scrolling for mobile
+                $location.hash('step3');
+                $anchorScroll();
             } else {
                 $scope.showPristineErrors = true;
             }
@@ -63,6 +71,9 @@ angular.module('ds.checkout')
 
         $scope.paymentDone = function (){
              $scope.wiz.step3Done = true;
+            // guarantee correct scrolling for mobile
+            $location.hash('step4');
+            $anchorScroll();
         };
 
         $scope.editBillTo = function() {

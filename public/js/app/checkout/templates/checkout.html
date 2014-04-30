@@ -159,9 +159,10 @@
 </ng-form>
 <ng-form name="shipToForm" novalidate  >
     <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
+        <a id="step2">
         <h2> Step 2. Shipping Information <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil"
                                                 ng-click="editBillTo()"></span></h2>
-
+        </a>
         <div class="row step-detail">
 
 
@@ -324,9 +325,10 @@
 </ng-form>
 <ng-form name="paymentForm" novalidate>
     <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done':wiz.step3Done}">
+        <a id="step3">
         <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
                                   ng-click="editPayment()"></span></h2>
-
+        </a>
         <div class="row step-detail">
 
 
@@ -399,8 +401,9 @@
 </ng-form>
 
     <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
+        <a id="step4">
         <h2 class="visible-sm visible-xs">Step 4. Review & Payment</h2>
-
+        </a>
         <div class="row step-detail">
             <div class="col-xs-6">
                 <span class="description">TOTAL</span>
