@@ -78,17 +78,6 @@ describe('CartSvc Test', function () {
         });
     });
 
-
-
-    describe('CartSvc - remove from cart', function () {
-
-        it(' should remove the product from the cart', function () {
-            cartSvc.removeProductFromCart('guitar5678');
-            expect($rootScope.cart.length).toEqualData(1);
-        });
-
-    });
-
     describe('CartSvc - should calculate the subtotal', function () {
 
         it(' should properly calculate subtotal', function () {
