@@ -14,7 +14,7 @@ describe('CheckoutCtrl Test', function () {
 
         mockedCartSvc = {};
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
-        mockedCartSvc.removeProductFromCart = jasmine.createSpy('removeProductFromCart');
+        mockedCartSvc.emptyCart = jasmine.createSpy('removeProductFromCart');
         $provide.value('OrderSvc', mockedOrderSvc);
         $provide.value('CartSvc', mockedCartSvc);
     }));
@@ -171,7 +171,7 @@ describe('CheckoutCtrl Test', function () {
 
         it('should remove products from the cart after placing order', function() {
             $scope.placeOrder(true);
-            expect(mockedCartSvc.removeProductFromCart).toHaveBeenCalled();
+            expect(mockedCartSvc.emptyCart).toHaveBeenCalled();
         });
     });
 

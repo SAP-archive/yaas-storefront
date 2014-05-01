@@ -99,6 +99,12 @@ angular.module('ds.cart')
                 });
                 this.updateItemCount();
                 this.calculateSubtotal();
+            },
+
+            emptyCart: function () {
+                for (var i = 0; i < $rootScope.cart.length; i++) {
+                    $rootScope.cart[i].quantity = 0;
+                }
             }
         };
 

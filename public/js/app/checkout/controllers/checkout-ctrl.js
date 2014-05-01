@@ -108,16 +108,13 @@ angular.module('ds.checkout')
         };
 
         $scope.placeOrder = function (formValid) {
-            var cart = CartSvc.getCart();
             if (formValid) {
                 // do again to ensure copy in full-screen mode
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
-                OrderSvc.createOrder(cart);
-                for (var i = 0; i < cart.length; i++) {
-                    CartSvc.removeProductFromCart(cart[i].sku);
-                }
+                OrderSvc.createOrder(CartSvc.getCart());
+                CartSvc.emptyCart();
             }  else {
                 $scope.showPristineErrors = true;
             }
