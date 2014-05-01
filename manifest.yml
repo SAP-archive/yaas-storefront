@@ -1,0 +1,11 @@
+---
+applications:
+- name: demo-store
+  command: npm start
+  buildpack: https://github.com/cloudfoundry/heroku-buildpack-nodejs.git
+  memory: 512M
+  host: demo-store
+  domain: dev.cf.hybris.com
+  instances: 1
+  url: demo-store.cf1.hybris.com
+  path: .
