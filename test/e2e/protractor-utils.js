@@ -68,7 +68,7 @@
           expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
         }
 
-        function selectOption(option) {
+        var selectOption =  exports.selectOption= function(option) {
           element(by.css('select option[value="'+ option +'"]')).click()
         }
 
