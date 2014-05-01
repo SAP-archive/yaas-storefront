@@ -92,12 +92,19 @@ angular.module('ds.cart')
                 removes a product from the cart
              */
             removeProductFromCart: function (sku) {
-                angular.forEach($rootScope.cart, function (product, key) {
+                angular.forEach($rootScope.cart, function (product) {
                    if(product.sku === sku) {
-                       $rootScope.itemCount = $rootScope.itemCount - product.quantity;
-                       $rootScope.cart.splice(key, 1);
+                       product.quantity = 0;
                    }
                 });
+                this.updateItemCount();
+                this.calculateSubtotal();
+            },
+
+            emptyCart: function () {
+                for (var i = 0; i < $rootScope.cart.length; i++) {
+                    $rootScope.cart[i].quantity = 0;
+                }
                 this.updateItemCount();
                 this.calculateSubtotal();
             }

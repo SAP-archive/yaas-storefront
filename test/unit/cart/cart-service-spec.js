@@ -78,17 +78,6 @@ describe('CartSvc Test', function () {
         });
     });
 
-
-
-    describe('CartSvc - remove from cart', function () {
-
-        it(' should remove the product from the cart', function () {
-            cartSvc.removeProductFromCart('guitar5678');
-            expect($rootScope.cart.length).toEqualData(1);
-        });
-
-    });
-
     describe('CartSvc - should calculate the subtotal', function () {
 
         it(' should properly calculate subtotal', function () {
@@ -102,6 +91,13 @@ describe('CartSvc Test', function () {
         it('should return cart items', function(){
            var cart = cartSvc.getCart();
            expect(cart).toEqualData(products);
+        });
+    });
+
+    describe('CartSvc - emptyCart', function() {
+        it('should empty out the cart', function () {
+            cartSvc.emptyCart();
+            expect(cartSvc.updateItemCount()).toEqualData(0);
         });
     });
 

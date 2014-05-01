@@ -114,6 +114,7 @@ angular.module('ds.checkout')
                     $scope.setShipToSameAsBillTo();
                 }
                 OrderSvc.createOrder(CartSvc.getCart());
+                CartSvc.emptyCart();
             }  else {
                 $scope.showPristineErrors = true;
             }
