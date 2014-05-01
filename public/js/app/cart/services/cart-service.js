@@ -105,6 +105,8 @@ angular.module('ds.cart')
                 for (var i = 0; i < $rootScope.cart.length; i++) {
                     $rootScope.cart[i].quantity = 0;
                 }
+                this.updateItemCount();
+                this.calculateSubtotal();
             }
         };
 

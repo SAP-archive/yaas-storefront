@@ -105,6 +105,13 @@ describe('CartSvc Test', function () {
         });
     });
 
+    describe('CartSvc - emptyCart', function() {
+        it('should empty out the cart', function () {
+            cartSvc.emptyCart();
+            expect(cartSvc.updateItemCount()).toEqualData(0);
+        });
+    });
+
     describe('CartSvc - update item count', function () {
 
         it('should update the item count', function () {
