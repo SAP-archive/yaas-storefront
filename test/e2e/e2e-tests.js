@@ -20,12 +20,21 @@ describe("product page", function () {
         tu.clickElement('xpath', tu.bicycle);
       });
 
+      //should be # of 36, but overall product count doesn't work in phantomjs
       it('should show the user how many products loaded', function () {
         tu.getTextByRepeaterRow(0)
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); //should be # of 36, but won't work in phantomjs
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
         expect(element(by.css('div.col-xs-6 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-36 of 0'); //should be # of 36, but won't work in phantomjs
+        tu.selectOption('price');
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
+        tu.clickElement('linkText','>');
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('13-24 of 0'); 
+        tu.clickElement('linkText','>');
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('25-36 of 0'); 
+        tu.clickElement('linkText','<');
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('13-24 of 0'); 
       });
 
       it("should get product detail page", function () {
@@ -45,6 +54,7 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-name', 'WOOD-BOUND CHEMEX COFFEE MAKER', 'SET OF 92 CUPS');
         tu.sortAndVerifyPagination('created', 'TATTERED BOWLS', 'BIRDHOUSE');
     });
+
 
   }); 
 }); 
