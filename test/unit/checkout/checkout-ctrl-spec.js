@@ -14,6 +14,7 @@ describe('CheckoutCtrl Test', function () {
 
         mockedCartSvc = {};
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
+        mockedCartSvc.removeProductFromCart = jasmine.createSpy('removeProductFromCart');
         $provide.value('OrderSvc', mockedOrderSvc);
         $provide.value('CartSvc', mockedCartSvc);
     }));
@@ -166,6 +167,11 @@ describe('CheckoutCtrl Test', function () {
             $scope.wiz.shipToSameAsBillTo = true;
             $scope.placeOrder(true);
             expect($scope.order.shipTo).toEqualData(mockBillTo);
+        });
+
+        it('should remove products from the cart after placing order', function() {
+            $scope.placeOrder(true);
+            expect(mockedCartSvc.removeProductFromCart).toHaveBeenCalled();
         });
     });
 

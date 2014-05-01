@@ -94,7 +94,6 @@ angular.module('ds.cart')
             removeProductFromCart: function (sku) {
                 angular.forEach($rootScope.cart, function (product, key) {
                    if(product.sku === sku) {
-                       $rootScope.itemCount = $rootScope.itemCount - product.quantity;
                        $rootScope.cart.splice(key, 1);
                    }
                 });
