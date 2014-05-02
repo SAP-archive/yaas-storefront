@@ -91,11 +91,11 @@ angular.module('ds.checkout')
             $scope.wiz.step3Done = false;
         };
 
-        $scope.emailBlurred = function (isValid) {
+        $scope.emailBlurred = function (isValid, isDirty) {
             if (isValid) {
                 $scope.badEmailAddress = false;
             }
-            else {
+            else if (isDirty) {
                 $scope.badEmailAddress = true;
             }
         };
