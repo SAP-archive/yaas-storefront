@@ -16,7 +16,7 @@ angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
         $scope.qtyGreaterThanZero = function (product) {
-            return product.quantity > 0;
+            return (product.quantity > 0 || product.quantity === null);
         };
 
         $scope.qtyInputBlurred = function () {
