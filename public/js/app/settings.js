@@ -27,7 +27,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'http://order-service-dprod.deis-dev-01.ytech.fra.hybris.com',
+                baseUrl: 'http://order-service.dprod.cf.hybris.com',
                 route: '/orders/:orderId'
             },
 
