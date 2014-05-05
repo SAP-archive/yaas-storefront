@@ -7,6 +7,7 @@ module.exports = function(config){
         'public/js/vendor/jquery.js',
         'public/js/vendor-static/jquery.min.js',
         'public/js/vendor-static/bootstrap.min.js',
+        'public/js/vendor/lodash.compat.js',
         'public/js/vendor-static/masonry.pkgd.min.js',
         'public/js/vendor-static/imagesloaded.pkgd.min.js',
         'public/js/vendor-static/owl.carousel.min.js',
@@ -44,6 +45,7 @@ module.exports = function(config){
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
         'public/js/app/checkout/services/order-service.js',
+        'public/js/app/checkout/directives/inline-error-input.js',
 
         'public/js/app/confirmation/confirmation-index.js',
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
