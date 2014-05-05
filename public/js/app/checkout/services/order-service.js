@@ -39,6 +39,9 @@ angular.module('ds.checkout')
 
                 var Order = function(){
                     this.entries = [];
+                    this.customer = 'customer account reference';
+                    this.billingAddress = 'billing Address reference';
+                    this.shippingAddress = 'shipping Address reference';
                 };
 
                 var newOrder = new Order();
