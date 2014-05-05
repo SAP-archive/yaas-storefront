@@ -106,6 +106,13 @@ window.app = angular.module('ds.router', [
                         orderInfo: function( OrderSvc) {
 
                             return OrderSvc.getLastOrderId();
+                        },
+                        orderDetails: function(OrderSvc, caas) {
+                            return caas.orderDetails.API.get({orderDetailId: OrderSvc.getLastOrderId() }).$promise
+                                .then(function(result){
+                                    window.scrollTo(0, 0);
+                                    return result;
+                                });
                         }
                     }
                 })
@@ -168,6 +175,12 @@ window.app = angular.module('ds.router', [
                     if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
+
+                    if(config.url.indexOf('order-mashup')>-1) {
+                        config.headers[settings.apis.headers.mashupTenant] = settings.orderMashupTenantId;
+                        config.headers[settings.apis.headers.mashupUser] = settings.orderMashupUser;
+                    }
+
                     return config || $q.when(config);
                 },
                 requestError: function(request){
