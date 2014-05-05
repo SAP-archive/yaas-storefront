@@ -27,13 +27,15 @@ angular.module('ds.checkout')
         link: function(scope, element, attrs, ngModel) {
           // element's (input's) clone -> error input
           var elementClone = element.clone(),
+            submitted = false,
             onInputFocus = function() {
               elementClone.hide();
               element.show();
               element.focus();
             },
             onInputBlur = function() {
-              if (!ngModel.$pristine) {
+              console.log('onInputBlur');
+              if (!ngModel.$pristine || submitted) {
                 validate();
               }
             },
@@ -59,7 +61,10 @@ angular.module('ds.checkout')
                 elementClone.attr('value', errorMsgs.join(', '));
                 element.hide();
                 elementClone.show();
+              } else {
+                elementClone.attr('value', '');
               }
+
             };
 
           elementClone.addClass('error-input');
@@ -67,10 +72,17 @@ angular.module('ds.checkout')
           elementClone.hide();
           elementClone.on('focus', onInputFocus);
           element.on('blur', onInputBlur);
+          var sfh = scope.$on('submitting:form', function(e, formName) {
+            submitted = true;
+            if (element.parents('[name="'+formName+'"]').length) {
+              validate();
+            }
+          });
           
           scope.$on('$destroy', function() {
             elementClone.off('focus', onInputFocus);
             element.off('blur', onInputBlur);
+            sfh();
           });
         }
       };

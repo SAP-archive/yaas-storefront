@@ -107,7 +107,8 @@ angular.module('ds.checkout')
             //var errors = $scope.shipToForm.$error;
         };
 
-        $scope.placeOrder = function (formValid) {
+        $scope.placeOrder = function (formValid, form) {
+            $scope.$broadcast('submitting:form', form);
             if (formValid) {
                 // do again to ensure copy in full-screen mode
                 if ($scope.wiz.shipToSameAsBillTo) {
