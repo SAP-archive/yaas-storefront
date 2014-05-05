@@ -28,6 +28,7 @@ angular.module('ds.confirmation')
         });
 
         $scope.getOrderItemCount = function () {
+            console.log('getOrderItemCount');
             var amount = 0;
             for (var i = 0; i < orderDetails.entries.length; i++) {
                 amount = amount + orderDetails.entries[i].amount;

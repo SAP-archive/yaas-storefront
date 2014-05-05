@@ -108,6 +108,7 @@ window.app = angular.module('ds.router', [
                             return OrderSvc.getLastOrderId();
                         },
                         orderDetails: function(OrderSvc, caas) {
+                            console.log('resolve - orderDetails');
                             return caas.orderDetails.API.get({orderDetailId: OrderSvc.getLastOrderId() }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
@@ -160,6 +161,8 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('orderDetails', {orderDetailId: '@orderDetailId'}).baseUrl(settings.apis.orderDetails.baseUrl).
+            route(settings.apis.orderDetails.route);
     })
 
     .factory('interceptor', ['$q', 'settings',
@@ -176,7 +179,7 @@ window.app = angular.module('ds.router', [
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
 
-                    if(config.url.indexOf('order-mashup')>-1) {
+                    if(config.url.indexOf('order/details')>-1) {
                         config.headers[settings.apis.headers.mashupTenant] = settings.orderMashupTenantId;
                         config.headers[settings.apis.headers.mashupUser] = settings.orderMashupUser;
                     }
