@@ -22,7 +22,7 @@ angular.module('ds.shared')
         apis: {
 
             products: {
-                baseUrl: 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com',
+                baseUrl: 'http://product-service.staged.cf.hybris.com',
 
                 route: '/products/:productSku',
                 pageSize: 10
