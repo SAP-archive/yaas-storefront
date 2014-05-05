@@ -13,9 +13,7 @@
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-env": "latest",
-    "angular-bootstrap": "0.0.4"
-  },
-  "devDependencies": {
+    "angular-bootstrap": "0.0.4",
     "grunt-contrib-watch": "0.5.3",
     "grunt-contrib-jshint": "~0.7.1",
     "grunt-concurrent": "~0.4.3",
@@ -29,7 +27,11 @@
     "grunt-contrib-cssmin": "~0.7.0",
     "grunt-usemin": "~2.0.2",
     "grunt-contrib-copy": "~0.5.0",
-    "grunt-rev": "~0.1.0",
+    "resemblejs": "^1.0.1",
+    "grunt-mustache-render": "~1.2.4",
+    "grunt-rev": "~0.1.0"
+  },
+  "devDependencies": {
     "grunt-karma": "~0.5",
     "karma-script-launcher": "^0.1.0",
     "karma-chrome-launcher": "^0.1.2",
@@ -45,8 +47,6 @@
     "karma-coverage": "^0.2.0",
     "protractor": "~0.20.1",
     "phantomcss": "^0.4.5",
-    "resemblejs": "^1.0.1",
-    "grunt-mustache-render": "~1.2.4",
     "bower-installer": "~0.6.2"
   },
   "author": "hybris",

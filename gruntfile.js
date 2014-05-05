@@ -2,6 +2,8 @@
 
 module.exports = function(grunt) {
 
+    var host = process.env.VCAP_APP_HOST || '0.0.0.0';
+    var port = process.env.VCAP_APP_PORT || 9000;
     var CSS_DIR = 'public/css',
         SCSS_DIR = 'public/scss',
         IMG_DIR = 'public/img',
@@ -88,8 +90,8 @@ module.exports = function(grunt) {
         connect: {
             all: {
                 options:{
-                    port: 9000,
-                    hostname: '0.0.0.0',
+                    port: port,
+                    hostname: host,
                     keepalive: true
                 }
             }
