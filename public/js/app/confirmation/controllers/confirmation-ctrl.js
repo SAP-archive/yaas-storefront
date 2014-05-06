@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.confirmation')
-    .controller('ConfirmationCtrl', ['$scope',  'orderInfo', 'orderDetails', function ($scope, orderInfo, orderDetails) {
+    .controller('ConfirmationCtrl', ['$scope',  'orderInfo', function ($scope, orderInfo) {
 
         var OrderInfo = function(){
             this.orderId = null;
@@ -21,20 +21,8 @@ angular.module('ds.confirmation')
         $scope.orderInfo = new OrderInfo();
         $scope.orderInfo.orderId = orderInfo;
 
-        $scope.orderDetailsItemCount = this.getOrderItemCount();
-
         $scope.$on('order.placed', function(eve, eveObj){
             $scope.orderInfo.orderId = eveObj.orderId;
         });
-
-        $scope.getOrderItemCount = function () {
-            console.log('getOrderItemCount');
-            var amount = 0;
-            for (var i = 0; i < orderDetails.entries.length; i++) {
-                amount = amount + orderDetails.entries[i].amount;
-            }
-
-            return amount;
-        };
 
     }]);

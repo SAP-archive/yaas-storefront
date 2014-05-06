@@ -15,7 +15,7 @@
 					<div class="col-lg-12">
 						<div class="form-group input-group">
 							<span class="input-group-addon"><label class="control-label" for="">Email</label></span>
-							<input type="email" class="form-control" value="{{orderDetails.email}}">
+							<input type="email" class="form-control" value="franz.josef@hybris.com">
 						</div>
 					</div>
 					<div class="col-lg-12">
@@ -31,14 +31,14 @@
 			</div>
 			<p>A copy of your order details has been sent to:</p>
 			<address>
-				{{orderDetails.email}}
+				your.name@email.com
 			</address>
 			<p>The Shipment is scheduled to arrive at the following location:</p>
 
 			<address>
-				{{orderDetails.shippingAddress.contactName}}<br>
-				{{orderDetails.shippingAddress.streetNumber}}, {{orderDetails.shippingAddress.street}}<br>
-				{{orderDetails.shippingAddress.city}}, {{orderDetails.shippingAddress.state}}, {{orderDetails.shippingAddress.zip}}<br>
+				recipient name<br>
+				shipping address<br>
+				city, state and zip<br>
 			</address>
 
 			<h3>Enjoy your items!</h3>
@@ -52,7 +52,7 @@
 		</div>
 		<div class="col-md-5 col-sm-5 order-detail ">
 			<section class="similar">
-				<div class="subheadline">{{orderDetailsItemCount}} Items in Your Order</div>
+				<div class="subheadline">3 Items in Your Order</div>
 				<div class="row">
 					<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=3"></div>
 					<div class="col-sm-12  col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"></div>
