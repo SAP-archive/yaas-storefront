@@ -93,7 +93,7 @@ describe('Checkout InlineErrorInput directive Test', function () {
             input.val(value);
             controller.$setViewValue(value);
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('');
+            expect(clonedInput.val()).toEqual('Field is required!');
         });        
 
     });
