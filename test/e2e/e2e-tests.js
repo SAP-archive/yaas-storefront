@@ -26,7 +26,7 @@ describe("product page", function () {
         expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
-        expect(element(by.css('div.col-xs-6 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-36 of 0'); //should be # of 36, but won't work in phantomjs
+        expect(element(by.css('div.col-xs-6 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-45 of 0'); //should be # of 36, but won't work in phantomjs
         tu.selectOption('price');
         expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
         tu.clickElement('linkText','>');
@@ -48,11 +48,11 @@ describe("product page", function () {
       it("should get order of products correctly", function () {
         //default load
         tu.getTextByRepeaterRow(0);
-        tu.sortAndVerifyPagination('price', 'RING HEART BOWL', 'TALK TO ME COFFEE MUGS');
-        tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE', 'BIRDHOUSE');
-        tu.sortAndVerifyPagination('name', 'BIRDHOUSE', 'DIFFERENT CERAMIC BIRDS (5)');
-        tu.sortAndVerifyPagination('-name', 'WOOD-BOUND CHEMEX COFFEE MAKER', 'SET OF 92 CUPS');
-        tu.sortAndVerifyPagination('created', 'TATTERED BOWLS', 'BIRDHOUSE');
+        tu.sortAndVerifyPagination('price', 'GIFT TAGS', 'BLACK RING HOLDER');
+        tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE', 'WOOD-BOUND CHEMEX COFFEE MAKER');
+        tu.sortAndVerifyPagination('name', 'BEADED NECKLACE', 'FLOWER CLAY POT');
+        tu.sortAndVerifyPagination('-name', 'CREAM AND SUGAR SET WITH HEARTS', 'TEST');
+        tu.sortAndVerifyPagination('created', 'TATTERED BOWLS', 'BEAUTIFUL CHINA');
     });
 
 
