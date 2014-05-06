@@ -73,13 +73,6 @@ angular.module('ds.checkout')
                 element.hide();
                 elementClone.show();
               }
-               /*else {
-                  elementClone.hide();
-                  element.attr('value', elementClone.value);
-                  element.show();
-                  element.focus();
-
-              }  */
 
             };
 
