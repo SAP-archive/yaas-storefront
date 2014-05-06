@@ -2,7 +2,7 @@
 applications:
 - name: demo-store
   command: npm start
-  buildpack: https://github.com/cloudfoundry/heroku-buildpack-nodejs.git
+  buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
   memory: 512M
   host: demo-store
   domain: dev.cf.hybris.com
