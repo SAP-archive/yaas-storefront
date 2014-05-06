@@ -185,7 +185,7 @@ window.app = angular.module('ds.router', [
 
                     if(config.url.indexOf('order/details')>-1) {
                         config.headers[settings.apis.headers.mashupTenant] = settings.orderMashupTenantId;
-                        config.headers[settings.apis.headers.mashupBuyerId] = settings.orderMashupBuyerId;
+                        config.headers[settings.apis.headers.mashupUser] = settings.orderMashupUser;
                     }
 
                     return config || $q.when(config);
