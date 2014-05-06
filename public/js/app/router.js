@@ -170,7 +170,11 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
 
-                    config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    //order mashup does not support this header, so only add it
+                    //  if the url doesn't contain order/details
+                    if(config.url.indexOf('order/details')<=-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    }
                     if(config.url.indexOf('products')>-1) {
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
