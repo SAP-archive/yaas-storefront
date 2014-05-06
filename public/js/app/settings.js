@@ -17,7 +17,7 @@ angular.module('ds.shared')
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
         orderMashupTenantId: 'me@example.com',
-        orderMashupUser: 'me',
+        orderMashupBuyerId: 'me',
 
         apis: {
 
@@ -46,7 +46,7 @@ angular.module('ds.shared')
                     total: 'X-count'
                 },
                 mashupTenant: 'hybris-tenantId',
-                mashupUser: 'hybris-user'
+                mashupBuyerId: 'hybris-buyerId'
             }
         }
     });
