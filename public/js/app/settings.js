@@ -16,6 +16,8 @@ angular.module('ds.shared')
         tenantId: 'onlineshop',
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
+        orderMashupTenantId: 'me@example.com',
+        orderMashupUser: 'me',
 
         apis: {
 
@@ -31,13 +33,20 @@ angular.module('ds.shared')
                 route: '/orders/:orderId'
             },
 
+            orderDetails: {
+                baseUrl: 'http://order-mashup-service.dprod.cf.hybris.com',
+                route: '/order/details/:orderDetailId'
+            },
+
             headers: {
                 tenant: 'X-tenantId',
                 authorization: 'Authorization',
                 customer: 'X-buyerId',
                 paging: {
                     total: 'X-count'
-                }
+                },
+                mashupTenant: 'hybris-tenantId',
+                mashupUser: 'hybris-user'
             }
         }
     });

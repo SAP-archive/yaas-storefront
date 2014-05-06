@@ -106,6 +106,14 @@ window.app = angular.module('ds.router', [
                         orderInfo: function( OrderSvc) {
 
                             return OrderSvc.getLastOrderId();
+                        },
+                        orderDetails: function(OrderSvc, caas) {
+                            console.log('resolve - orderDetails');
+                            return caas.orderDetails.API.get({orderDetailId: OrderSvc.getLastOrderId() }).$promise
+                                .then(function(result){
+                                    window.scrollTo(0, 0);
+                                    return result;
+                                });
                         }
                     }
                 })
@@ -153,6 +161,8 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('orderDetails', {orderDetailId: '@orderDetailId'}).baseUrl(settings.apis.orderDetails.baseUrl).
+            route(settings.apis.orderDetails.route);
     })
 
     .factory('interceptor', ['$q', 'settings',
@@ -160,7 +170,11 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
 
-                    config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    //order mashup does not support this header, so only add it
+                    //  if the url doesn't contain order/details
+                    if(config.url.indexOf('order/details')<=-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                    }
                     if(config.url.indexOf('products')>-1) {
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
@@ -168,6 +182,12 @@ window.app = angular.module('ds.router', [
                     if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
+
+                    if(config.url.indexOf('order/details')>-1) {
+                        config.headers[settings.apis.headers.mashupTenant] = settings.orderMashupTenantId;
+                        config.headers[settings.apis.headers.mashupUser] = settings.orderMashupUser;
+                    }
+
                     return config || $q.when(config);
                 },
                 requestError: function(request){
