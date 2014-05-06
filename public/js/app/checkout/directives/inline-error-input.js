@@ -31,6 +31,7 @@ angular.module('ds.checkout')
             submitted = false,
             onInputFocus = function() {
               elementClone.hide();
+              elementClone.attr('value', '');
               element.show();
               element.focus();
             },
