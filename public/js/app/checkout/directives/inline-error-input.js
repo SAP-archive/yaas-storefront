@@ -15,8 +15,9 @@
 angular.module('ds.checkout')
 		/**
 		 * inline-error-input
-		 * Errors are displayed within the input fields. When user focuses input field
-		 * which contians the error the original input is shown.
+		 * "Required" errors are displayed within the input fields. Other errors are showed in the tooltip.
+         * When user focuses input field
+		 * which contains the error the original input is shown.
 		 * 
 		 * @return {Object}
 		 */
@@ -42,28 +43,43 @@ angular.module('ds.checkout')
             validate = function() {
               if (ngModel.$invalid) {
                 // errors loop
-                var errorMsgs = [];
+                var inlineErrorMsgs = [];
+                var tooltipErrorMsg = [];
                 var errorsJSON = window._.keys(ngModel.$error);
                 for(var errorKey in errorsJSON) {
                   switch(errorsJSON[errorKey]) {
                     case 'required':
                       if (ngModel.$error.required) {
-                        errorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
+                        inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
                       }
                       break;
+
                     case 'pattern':
-                        errorMsgs.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
-                      break;
+                        tooltipErrorMsg.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
+                        break;
                     default:
-                      errorMsgs.push('Field value invalid!');
+                      tooltipErrorMsg.push('Field value invalid!');
                   }
                 }
-                elementClone.attr('value', errorMsgs.join(', '));
+                if(inlineErrorMsgs.length > 0) {
+                    elementClone.attr('value', inlineErrorMsgs.join(', '));
+                }
+                if(tooltipErrorMsg.length > 0) {
+                    elementClone.attr('title', tooltipErrorMsg.join(', '));
+                }
+                if (!elementClone[0].value) {
+                    elementClone.attr('value', element[0].value);
+                }
                 element.hide();
                 elementClone.show();
-              } else {
-                elementClone.attr('value', '');
               }
+               /*else {
+                  elementClone.hide();
+                  element.attr('value', elementClone.value);
+                  element.show();
+                  element.focus();
+
+              }  */
 
             };
 
