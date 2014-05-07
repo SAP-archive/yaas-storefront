@@ -72,14 +72,8 @@
           element(by.css('select option[value="'+ option +'"]')).click()
         }
 
-        exports.sortAndVerifyPagination = function(sort, product1, product2){
+        exports.sortAndVerifyPagination = function(sort, product1){
             selectOption(sort);
-            browser.sleep(250);
-            assertTextByRepeaterRow(0, product1);
-            clickElement('linkText','>');
-            browser.sleep(250);
-            assertTextByRepeaterRow(0, product2);
-            clickElement('linkText', '<');
             browser.sleep(250);
             assertTextByRepeaterRow(0, product1);
         }

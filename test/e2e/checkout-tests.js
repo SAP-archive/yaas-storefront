@@ -83,16 +83,16 @@ describe("checkout:", function () {
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
-           it('should have basic validation on all fields', function () {
-            tu.clickElement('css', tu.checkoutButton);
-            fillCheckoutFormExceptEmail('Bill');
-            verifyValidationForEachField('Bill');
-            expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            verifyValidationForEachField('Ship');
-            tu.clickElement('id', 'place-order-btn');
-            expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-           });
+           // it('should have basic validation on all fields', function () {
+           //  tu.clickElement('css', tu.checkoutButton);
+           //  fillCheckoutFormExceptEmail('Bill');
+           //  verifyValidationForEachField('Bill');
+           //  expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+           //  tu.clickElement('id', 'shipTo');
+           //  verifyValidationForEachField('Ship');
+           //  tu.clickElement('id', 'place-order-btn');
+           //  expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+           // });
 
 
 
