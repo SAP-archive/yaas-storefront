@@ -4,7 +4,7 @@ angular.module('ds.products')
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'GlobalData', function ($scope, ProductSvc, GlobalData) {
 
 
-        $scope.pageSize = 3;
+        $scope.pageSize = 10;
         $scope.pageNumber = 1;
         $scope.sort = '';
         $scope.products = [];
