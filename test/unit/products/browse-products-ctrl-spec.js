@@ -43,7 +43,10 @@ describe('BrowseProductsCtrl Test', function () {
             var page = 4;
             $scope.setSortedPage(page);
             expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
-            expect($scope.pageNumber).toEqualData(page);
+            /*
+                setSortedPage now calls addMore, which now increments the current pageNo by 1
+             */
+            expect($scope.pageNumber).toEqualData(page + 1);
         })
 
     });
