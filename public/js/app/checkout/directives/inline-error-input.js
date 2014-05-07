@@ -34,40 +34,60 @@ angular.module('ds.checkout')
               element.focus();
             },
             onInputBlur = function() {
-              console.log('onInputBlur');
               if (!ngModel.$pristine || submitted) {
                 validate();
               }
             },
+            getErrorMessages = function() {
+              var errorMsgs = [],
+                errorsJSON = window._.keys(ngModel.$error);
+              for(var errorKey in errorsJSON) {
+                switch(errorsJSON[errorKey]) {
+                  case 'required':
+                    if (ngModel.$error.required) {
+                      errorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
+                    }
+                    break;
+                  case 'pattern':
+                      errorMsgs.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
+                    break;
+                  default:
+                    errorMsgs.push('Field value invalid!');
+                }
+              }
+              return errorMsgs;
+            },
             validate = function() {
               if (ngModel.$invalid) {
-                // errors loop
-                var errorMsgs = [];
-                var errorsJSON = window._.keys(ngModel.$error);
-                for(var errorKey in errorsJSON) {
-                  switch(errorsJSON[errorKey]) {
-                    case 'required':
-                      if (ngModel.$error.required) {
-                        errorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
-                      }
-                      break;
-                    case 'pattern':
-                        errorMsgs.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
-                      break;
-                    default:
-                      errorMsgs.push('Field value invalid!');
-                  }
+                if (elementClone.is('select')) {
+                  element.find('option[value=""]').text(getErrorMessages().join(', '));
+                } else {
+                  elementClone.attr('value', getErrorMessages().join(', '));
+                  element.hide();
+                  elementClone.show();
                 }
-                elementClone.attr('value', errorMsgs.join(', '));
-                element.hide();
-                elementClone.show();
               } else {
                 elementClone.attr('value', '');
               }
-
             };
 
           elementClone.addClass('error-input');
+          elementClone.removeAttr('id');
+
+          if (element.is('select')) {
+            // Requires emptyOption(errors placeholder) in the markup
+            var emptyOption = element.find('option[value=""]');
+            if (!emptyOption.length) {
+              element.prepend('<option value=""></option>');
+            } else {
+              emptyOption.data('original-label', emptyOption.html());
+            }
+            element.on('change', function() {
+              emptyOption.html( element.val() !== '' ? emptyOption.data('original-label') || '' : getErrorMessages().join(', ') );
+            });
+          }
+          
+
           element.after(elementClone);
           elementClone.hide();
           elementClone.on('focus', onInputFocus);

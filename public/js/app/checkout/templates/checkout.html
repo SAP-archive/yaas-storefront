@@ -84,7 +84,8 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="stateBill">State</label></span>
-                    <select class="form-control" inline-error-input required ng-model="order.billTo.state" id="stateBill" name="state" autocomplete="on">
+                    <select class="form-control" inline-error-input required ng-model="order.billTo.state" id="stateBill" name="state">
+                        <option value=""></option>
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
                         <option value="AZ">Arizona</option>
@@ -148,7 +149,7 @@
             </div>
             <div class="col-lg-12">
                 <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
-                        ng-click="billToDone(billToForm.$valid)">continue <span
+                        ng-click="billToDone(billToForm.$valid, billToForm.$name)">continue <span
                         class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
 
@@ -236,6 +237,7 @@
                          ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="stateShip">State</label></span>
                         <select class="form-control" inline-error-input ng-required="!wiz.shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
+                            <option value=""></option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -313,7 +315,7 @@
             </div>
             </form>
             <div class="col-lg-12">
-                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid)">continue <span
+                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">continue <span
                         class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
         </div>
