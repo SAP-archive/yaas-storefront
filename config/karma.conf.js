@@ -17,6 +17,7 @@ module.exports = function(config){
 
 
         'public/js/vendor/angular.js',
+        'public/js/vendor/angular-masonry.js',
         'public/js/vendor/angular-mocks.js',
         'public/js/vendor/angular-resource.js',
         'public/js/vendor/angular-ui-router.js',
