@@ -40,7 +40,8 @@ angular.module('ds.checkout')
         $scope.order = new Order();
 
 
-        $scope.billToDone = function (billToFormValid) {
+        $scope.billToDone = function (billToFormValid, form) {
+            $scope.$broadcast('submitting:form', form);
             if(billToFormValid) {
                 $scope.wiz.step1Done = true;
                 $scope.showPristineErrors = false;
@@ -56,7 +57,8 @@ angular.module('ds.checkout')
             }
         };
 
-        $scope.shipToDone = function (shipToFormValid) {
+        $scope.shipToDone = function (shipToFormValid, form) {
+            $scope.$broadcast('submitting:form', form);
             // if the ship to form fields are hidden, angular considers them empty - work around that:
             if(shipToFormValid || $scope.wiz.shipToSameAsBillTo) {
                 $scope.wiz.step2Done = true;
