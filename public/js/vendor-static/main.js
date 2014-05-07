@@ -1,11 +1,11 @@
 $(document).ready(function () {
 
-	// $(".gridMasonry").imagesLoaded( function() {
-	// 		$(".gridMasonry").masonry({
-	// 			itemSelector: '.item',
-	// 			isInitLayout: true
-	// 	});
-	// });
+	$(".gridMasonry").imagesLoaded( function() {
+			$(".gridMasonry").masonry({
+				itemSelector: '.item',
+				isInitLayout: true
+		});
+	});
 
 /*
  	$(document).on("click",".showRefineContainer",function(e){
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
 
 
-	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
+
 		$(".gallery .image").owlCarousel({
 			singleItem : true,
 			navigation:false,
@@ -66,8 +66,6 @@ $(document).ready(function () {
 			afterAction : syncPosition,
 			afterInit: setupZoom
 		});
-	}
-	if ($(".gallery .thumbnails").length && $(".gallery .thumbnails").owlCarousel) {
 		$(".gallery .thumbnails").owlCarousel({
 			items : 5,
 			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 10]],
@@ -77,7 +75,7 @@ $(document).ready(function () {
 			pagination:false,
 			itemsScaleUp:true
 		});
-	}
+	
 
 
 	 $(document).on("click",".gallery .thumbnails a.item",function(e){
@@ -233,7 +231,7 @@ $(document).ready(function () {
 
 
 
-	if ($(".carousel").length && $(".carousel").owlCarousel) {
+
 		$(".carousel").owlCarousel({
 			items : 5,
 			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 16]],
@@ -244,7 +242,7 @@ $(document).ready(function () {
 			itemsScaleUp:true,
 			responsiveBaseWidth:$(".carousel")
 		});
-	}
+
 	
 	
 

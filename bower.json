@@ -20,20 +20,12 @@
     "angular-ui-router": "~0.2.8",
     "angular-mocks": "~1.2.14",
     "angular-translate": "~2.0.1",
-    "angular-masonry": "~0.8.1",
+    "angular-masonry": "0.8.1",
     "ng-infinite-scroller": "1.0.0",
     "bootstrap": "latest",
     "masonry": "3.1.5",
     "lodash": "2.4.1",
-    "angular-bootstrap": "~0.10.0",
-    "jquery-bridget": "~1.0.1",
-    "get-style-property": "desandro/get-style-property#~1.0.3",
-    "get-size": "desandro/get-size#~1.1.7",
-    "eventie": "~1.0.5",
-    "doc-ready": "desandro/doc-ready#~1.0.3",
-    "matches-selector": "desandro/matches-selector#~1.0.2",
-    "outlayer": "~1.2.0",
-    "eventEmitter": "~4.2.7"
+    "angular-bootstrap": "~0.10.0"
   },
   "install": {
     "path": {

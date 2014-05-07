@@ -2,186 +2,213 @@
 
 
 <section class="gray">
-    <div class="hero-unit">
-        <blockquote style="background-image: url(http://sand-bsd-2.yrdrt.fra.hybris.com/Products/hero_1.jpg);">
-            <p>hybris Kitchen Series</p>
-            <footer>Bowls, Bikes and Coffee Mugs</footer>
-        </blockquote>
+<div class="hero-unit">
+    <blockquote style="background-image: url(http://sand-bsd-2.yrdrt.fra.hybris.com/Products/hero_1.jpg);">
+        <p>hybris Kitchen Series</p>
+        <footer>Bowls, Bikes and Coffee Mugs</footer>
+    </blockquote>
 
-        <img src="http://sand-bsd-2.yrdrt.fra.hybris.com/Products/hero_2.jpg" alt="" width="70" height="70" class="img-circle">
+    <img src="http://sand-bsd-2.yrdrt.fra.hybris.com/Products/hero_2.jpg" alt="" width="70" height="70" class="img-circle">
+</div>
+
+
+<div class="refine-section">
+
+    <div class="row ">
+        <div class="col-xs-12 col-sm-6  title">Refine Category</div>
+        <div class="hidden-xs hidden-lg col-sm-6 ">
+            <div class="gridButtons">
+                <button class="btn btn-link hidden-sm">
+                    <span class="hyicon hyicon-grid-four"></span>
+                </button>
+                <button class="btn btn-link active ">
+                    <span class="hyicon hyicon-grid-three"></span>
+                </button>
+                <button class="btn btn-link  hidden-md">
+                    <span class="hyicon hyicon-grid-two"></span>
+                </button>
+            </div>
+        </div>
     </div>
 
 
-    <div class="refine-section">
-
-        <div class="row ">
-            <div class="col-xs-12 col-sm-6  title">Refine Category</div>
-            <div class="hidden-xs hidden-lg col-sm-6 ">
-                <div class="gridButtons">
-                    <button class="btn btn-link hidden-sm">
-                        <span class="hyicon hyicon-grid-four"></span>
-                    </button>
-                    <button class="btn btn-link active ">
-                        <span class="hyicon hyicon-grid-three"></span>
-                    </button>
-                    <button class="btn btn-link  hidden-md">
-                        <span class="hyicon hyicon-grid-two"></span>
-                    </button>
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="refineContainer">
+                <div class="name">Refine by:</div>
+                <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
+                    <span class="hyicon hyicon-chevron-bold-down"></span>
+                </button>
+                <div class="itemList">
+                    Brand <span class="count">(1)</span>, Size <span class="count">(1)</span>
+                    <a class="clearall" href="#">Clear All</a>
                 </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-sm-12 col-md-5">
-                <div class="refineContainer">
-                    <div class="name">Refine by:</div>
-                    <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
-                        <span class="hyicon hyicon-chevron-bold-down"></span>
+                <div id="refinePanelAffix" ng-class="{'active': refineContainerShowing}" class="refinePanel refine-panel responsive-absolute">
+                    <button class="btn btn-link close-button closeRefineContainer">
+                        <span class="hyicon hyicon-chevron-bold-up"></span>
                     </button>
-                    <div class="itemList">
-                        Brand <span class="count">(1)</span>, Size <span class="count">(1)</span>
-                        <a class="clearall" href="#">Clear All</a>
-                    </div>
-                    <div id="refinePanelAffix" ng-class="{'active': refineContainerShowing}" class="refinePanel refine-panel responsive-absolute">
-                        <button class="btn btn-link close-button closeRefineContainer">
-                            <span class="hyicon hyicon-chevron-bold-up"></span>
-                        </button>
-                        <div class="row">
-                            <div class="col-sm-4 facet">
-                                <div class="facetName">Brand:</div>
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" id="facet1">
-                                        <label for="facet1"><span></span>Fender</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet2">
-                                        <label for="facet2"><span></span>Gibson</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet3">
-                                        <label for="facet3"><span></span>Ibanez</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet4">
-                                        <label for="facet4"><span></span>PRS</label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-4 facet">
-                                <div class="facetName">Price</div>
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" id="facet5">
-                                        <label for="facet5"><span></span>0$ - 50$</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet6">
-                                        <label for="facet6"><span></span>50$ - 100$</label>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <div class="col-sm-4 facet">
-                                <div class="facetName">Type</div>
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" id="facet7">
-                                        <label for="facet7"><span></span>Breakfast</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet8">
-                                        <label for="facet8"><span></span>Lunch</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet9">
-                                        <label for="facet9"><span></span>Dinner</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="facet10">
-                                        <label for="facet10"><span></span>2 am snacks</label>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-4 facet">
+                            <div class="facetName">Brand:</div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="facet1">
+                                    <label for="facet1"><span></span>Fender</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet2">
+                                    <label for="facet2"><span></span>Gibson</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet3">
+                                    <label for="facet3"><span></span>Ibanez</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet4">
+                                    <label for="facet4"><span></span>PRS</label>
+                                </li>
+                            </ul>
                         </div>
+                        <div class="col-sm-4 facet">
+                            <div class="facetName">Price</div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="facet5">
+                                    <label for="facet5"><span></span>0$ - 50$</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet6">
+                                    <label for="facet6"><span></span>50$ - 100$</label>
+                                </li>
 
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-sm-8 col-md-4">
-                <div class="sortContainer">
-                    <div class="name">Sort by:</div>
-                    <div class="form-group">
-                        <label for="" class="sr-only">Sort by:</label>
-
-                        <div>
-                            <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
-                                <option value="price">price low - high</option>
-                                <option value="-price">price high - low</option>
-                                <option value="name">A-Z</option>
-                                <option value="-name">Z-A</option>
-                                <option value="created">Newest</option>
-                            </select>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 facet">
+                            <div class="facetName">Type</div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="facet7">
+                                    <label for="facet7"><span></span>Breakfast</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet8">
+                                    <label for="facet8"><span></span>Lunch</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet9">
+                                    <label for="facet9"><span></span>Dinner</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="facet10">
+                                    <label for="facet10"><span></span>2 am snacks</label>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+
                 </div>
-            </div>
-            <div class="col-sm-4 col-md-3">
-                <div class="viewingContainer">
-                    <div class="name">Viewing:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
-                </div>
+
             </div>
         </div>
-    </div>
+        <div class="col-sm-8 col-md-4">
+            <div class="sortContainer">
+                <div class="name">Sort by:</div>
+                <div class="form-group">
+                    <label for="" class="sr-only">Sort by:</label>
 
-    <div id="refineAffix" class=" refine-section responsive-fixed">
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="refineContainer">
-                    <div class="name">Refine by:</div>
-                    <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
-                        <span class="hyicon hyicon-chevron-bold-down"></span>
-                    </button>
-                    <div class="itemList">
-                        Brand <span class="count">(1)</span>, Size <span class="count">(1)</span>
-                        <a class="clearall" href="#">Clear All</a>
+                    <div>
+                        <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
+                            <option value="price">price low - high</option>
+                            <option value="-price">price high - low</option>
+                            <option value="name">A-Z</option>
+                            <option value="-name">Z-A</option>
+                            <option value="created">Newest</option>
+                        </select>
                     </div>
-
-                </div>
-            </div>
-
-            <div class="col-xs-6">
-                <div class="viewingContainer">
-                    <div class="name">Viewing:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
-
                 </div>
             </div>
         </div>
+        <div class="col-sm-4 col-md-3">
+            <div class="viewingContainer">
+                <div class="name">Viewing:</div>
+                <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
+            </div>
+        </div>
     </div>
+</div>
 
+<div id="refineAffix" class=" refine-section responsive-fixed">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="refineContainer">
+                <div class="name">Refine by:</div>
+                <button ng-click="showRefineContainer()" class="btn btn-link pull-right showRefineContainer">
+                    <span class="hyicon hyicon-chevron-bold-down"></span>
+                </button>
+                <div class="itemList">
+                    Brand <span class="count">(1)</span>, Size <span class="count">(1)</span>
+                    <a class="clearall" href="#">Clear All</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="viewingContainer">
+                <div class="name">Viewing:</div>
+                <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
+
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <div class="row product-grid gridMasonry" masonry item-selector=".item" masonry-options="{ transitionDuration: '0.4s', gutter: 0 }" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" preserve-order>
-        <div class="item masonry-brick" ng-repeat="product in products">
-            <a ui-sref="base.product.detail( {productSku: product.sku} )">
-                <div class="thumb">
-                    <img src="{{ product.images[0].url }}" alt="">
-                </div>
-                <div class="name">{{ product.name }}</div>
-                <div class="price">{{ product.price | currency: '$'}}</div>
-            </a>
+    <div infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+
+        <div class="row product-grid gridMasonry" infinite-masonry=".item"
+             masonry-options="{
+            gutter: 0,
+            transitionDuration: '0.3s'
+        }">
+            <div class="item" ng-repeat="product in products" masonry-item>
+                <a ui-sref="base.product.detail( {productSku: product.sku} )">
+                    <div class="thumb">
+                        <img src="{{ product.images[0].url }}" alt="">
+                    </div>
+                    <div class="name">{{ product.name }}</div>
+                    <div class="price">{{ product.price | currency: '$'}}</div>
+                </a>
+            </div>
+        </div>
+        <div ng-hide="sort == 'default'" ng-class="{disabled: pageNumber === 1}" class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <pagination on-select-page="setSortedPage(page)" total-items="26"
+                            page="pageNumber"
+                            items-per-page="pageSize"
+                            rotate="false"
+                            max-size="3"
+                            class="pagination-sm" previous-text="<" next-text=">"></pagination>
+
+
+            </div>
         </div>
     </div>
-
+<!--
+	<div class="back-to-top-button">
+		<img src="public/img/btn_backToTop.png" alt="Back To Top" ng-click="backToTop()">
+	</div>
+-->
 	<button type="button" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
 		<span class="hyicon hyicon-chevron-bold-up" />
 	</button>
 </section>
 
 
+<script src="public/js/vendor-static/jquery.min.js"></script>
+<script src="public/js/vendor-static/bootstrap.min.js"></script>
+<script src="public/js/vendor-static/ui-bootstrap-tpls.js"></script>
+<script src="public/js/vendor-static/imagesloaded.pkgd.min.js"></script>
+<script src="public/js/vendor-static/masonry.pkgd.min.js"></script>
 <script src="public/js/vendor-static/img-touch-canvas.js"></script>
 <script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
 <script src="public/js/vendor-static/main.js"></script>
