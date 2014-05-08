@@ -1,0 +1,51 @@
+<h2>Order Details</h2>
+<section class="excerpt‎">
+    <div class="pull-left">{{cart.itemCount}} Items</div>
+    <div class="pull-right">total: {{cart.subtotal + cart.estTax + order.shippingCost| currency: '$'}}</div>
+</section>
+<section>
+    <div ng-repeat="product in cart.items track by $index">
+        <div class="cart-item row">
+            <div class="col-xs-4 col-md-4 text-center img-col">
+                <img src="{{product.imageUrl}}" class="img-responsive"/>
+
+            </div>
+            <div class="col-xs-8 col-md-8  detail-col">
+
+                <div class="name">{{product.name}}</div>
+                <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span></div>
+                <div class="variants row item-attr">
+                    <div class="variant col-md-6 ">Color: <span>Stone</span></div>
+                    <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
+                    <div class="variant col-md-6 ">Qty: <span>{{ product.quantity }}</span></div>
+                </div>
+                <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="summary">
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Subtotal</td>
+            <td class="text-right">{{cart.subtotal | currency: '$'}}</td>
+        </tr>
+        <tr>
+            <td>shipping</td>
+            <td class="text-right">{{ order.shippingCost | currency: '$' }}</td>
+        </tr>
+        <tr>
+            <td>Tax</td>
+            <td class="text-right">{{order.estTax | currency: '$'}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>order total</td>
+            <td class="text-right">{{cart.subtotal + estTax + order.shippingCost | currency: '$'}}</td>
+        <tr>
+        </tfoot>
+    </table>
+</section>
