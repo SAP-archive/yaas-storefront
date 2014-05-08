@@ -10,8 +10,10 @@
             <div class="name">{{product.name}}</div>
             <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span> </div>
             <div class="variants row item-attr">
+				<!--
                 <div class="variant col-md-6 ">Color: <span>Stone</span></div>
                 <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
+                -->
                 <div class="variant col-md-6 ">Qty: <span>1</span></div>
             </div>
             <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span></div>
