@@ -39,6 +39,7 @@ describe("checkout:", function () {
           function validateField(field, form, text) {
             element(by.id(field + form)).clear();
             tu.clickElement('id', 'place-order-btn');
+            browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
             tu.sendKeysById(field + form, text);
           }
 
@@ -46,7 +47,7 @@ describe("checkout:", function () {
             validateField('zipCode', form, '80301');
             validateField('firstName', form, 'Mike');
             validateField('lastName', form, 'Night');
-            validateField('email', '', 'mike@night');
+            validateField('email', '', 'mike@night.com');
             validateField('address1', form, '123');
             validateField('city', form, 'Boulder');
           }
@@ -83,16 +84,17 @@ describe("checkout:", function () {
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
-           // it('should have basic validation on all fields', function () {
-           //  tu.clickElement('css', tu.checkoutButton);
-           //  fillCheckoutFormExceptEmail('Bill');
-           //  verifyValidationForEachField('Bill');
-           //  expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
-           //  tu.clickElement('id', 'shipTo');
-           //  verifyValidationForEachField('Ship');
-           //  tu.clickElement('id', 'place-order-btn');
-           //  expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-           // });
+           it('should have basic validation on all fields', function () {
+            tu.clickElement('css', tu.checkoutButton);
+            fillCheckoutFormExceptEmail('Bill');
+            tu.sendKeysById('email', 'mike@place.com'); 
+            verifyValidationForEachField('Bill'); 
+            expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+            tu.clickElement('id', 'shipTo');
+            verifyValidationForEachField('Ship');
+            tu.clickElement('id', 'place-order-btn');
+            expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+           });
 
 
 
