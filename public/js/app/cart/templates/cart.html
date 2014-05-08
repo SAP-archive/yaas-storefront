@@ -15,7 +15,7 @@
 			<button ng-click="toggleCart()" class="btn  btn-default continue"><span class="hyicon hyicon-chevron-thin-left"></span> Continue Shopping</button>
 		</div>
 		<div class="btn-group checkout">
-            <a data-ui-sref="base.checkout">
+            <a data-ui-sref="base.checkout.details">
 			    <button class="btn  btn-primary ">Checkout <span class="hyicon hyicon-chevron-thin-right"></span> </button>
             </a>
 		</div>
@@ -25,17 +25,17 @@
 			<thead>
 			<tr>
 				<th>est. order total</th>
-				<th class="text-right">{{subtotal + estTax | currency: '$'}}</th>
+				<th class="text-right">{{cart.subtotal + cart.estTax | currency: '$'}}</th>
 			<tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td>{{itemCount}} Items</td>
-				<td class="text-right">{{subtotal | currency: '$'}}</td>
+				<td>{{cart.itemCount}} Items</td>
+				<td class="text-right">{{cart.subtotal | currency: '$'}}</td>
 			</tr>
 			<tr>
 				<td>Tax</td>
-				<td class="text-right"> {{estTax | currency: '$'}}</td>
+				<td class="text-right"> {{cart.estTax | currency: '$'}}</td>
 			</tr>
 			</tbody>
 		</table>
@@ -43,7 +43,7 @@
 	<div class="alert alert-success">Free Shipping & Returns in the US</div>
 	<section>
 		<!-- Cart Item -->
-		<div ng-repeat="product in cart | filter:qtyGreaterThanZero ">
+		<div ng-repeat="product in cart.items | filter:qtyGreaterThanZero ">
 			<div class="cart-item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
 					<img src="{{product.imageUrl}}" class="img-responsive"/>
@@ -63,7 +63,7 @@
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
 							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="product.quantity"
-								   ng-change="updateSubtotal(); updateItemCount()" ng-blur="qtyInputBlurred()"
+								   ng-change="updateCartItem(product)" ng-blur="qtyInputBlurred()"
 								   onkeydown="return ( event.ctrlKey || event.altKey
                     					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                     					|| (95<event.keyCode && event.keyCode<106)

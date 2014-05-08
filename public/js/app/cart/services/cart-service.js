@@ -13,52 +13,54 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', function($rootScope){
+    .factory('CartSvc', [function(){
 
         /*
             until the cart API has been implemented, we
             will just save items to the scope.
          */
 
-        $rootScope.subtotal = 0;
+        var Cart = function(){
+           this.subtotal = 0;
+           this.estTax = 0;
+           this.items = [];
+           this.itemCount = 0;
+           this.subtotal = 0;
+        };
 
-        $rootScope.estTax = 0;
+        var cart = new Cart();
 
-        $rootScope.cart = [];
 
-        $rootScope.itemCount = 0;
 
         return {
 
             getCart: function() {
-                return $rootScope.cart;
+                return cart;
             },
 
             /*
-                saves subtotal to $rootScope
+                Calculates the subtotal, saves it to the cart and also returns the value.
 
                 @return subtotal
              */
             calculateSubtotal: function () {
                 var subtotal = 0;
 
-                angular.forEach($rootScope.cart, function(product) {
+                angular.forEach(cart.items, function(product) {
                     if (product.price && product.quantity) {
-                        subtotal = subtotal + (product.price * product.quantity);
+                        cart.subtotal = subtotal + (product.price * product.quantity);
                     }
                 });
 
-                $rootScope.subtotal = subtotal;
-                return subtotal;
             },
             /*
                 converts product object to line item object and pushes it to the cart
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    if (product.sku === $rootScope.cart[i].sku) {
-                        $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (product.sku === cart.items[i].sku) {
+                        cart.items[i].quantity = cart.items[i].quantity + productDetailQty;
                         alreadyInCart = true;
                     }
                 }
@@ -72,7 +74,7 @@ angular.module('ds.cart')
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
 
-                    $rootScope.cart.push(cartProductToPush);
+                    cart.items.push(cartProductToPush);
                 }
 
                 this.updateItemCount();
@@ -81,18 +83,18 @@ angular.module('ds.cart')
             updateItemCount: function () {
                 var count = 0, thisCart = this.getCart();
                 for (var i = 0; i < thisCart.length; i++) {
-                    if (thisCart[i].quantity) {
-                        count = count + thisCart[i].quantity;
+                    if (thisCart.items[i].quantity) {
+                        count = count + thisCart.items[i].quantity;
                     }
                 }
-                $rootScope.itemCount = count;
-                return count;
+                thisCart.itemCount = count;
+
             },
             /*
                 removes a product from the cart
              */
             removeProductFromCart: function (sku) {
-                angular.forEach($rootScope.cart, function (product) {
+                angular.forEach(cart.items, function (product) {
                    if(product.sku === sku) {
                        product.quantity = 0;
                    }
@@ -102,8 +104,8 @@ angular.module('ds.cart')
             },
 
             emptyCart: function () {
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    $rootScope.cart[i].quantity = 0;
+                for (var i = 0; i < cart.items.length; i++) {
+                    cart.items[i].quantity = 0;
                 }
                 this.updateItemCount();
                 this.calculateSubtotal();

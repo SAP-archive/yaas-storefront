@@ -68,18 +68,38 @@ window.app = angular.module('ds.router', [
 
                 .state('base.checkout', {
                     url: '/checkout/',
+
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout.html',
-                            controller: 'CheckoutCtrl'
+                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
                         }
                     }
                 })
-                .state('base.checkout.orderitems', {
-                    //url: '/cc/',
-                   // controller: 'CartCtrl',
-                    templateUrl: 'public/js/app/checkout/templates/boo.html'
+                .state('base.checkout.details', {
+
+
+                    views: {
+
+                        'orderdetails':{
+                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
+                            controller:  'OrderDetailCtrl'
+                        },
+                        'checkoutform':{
+                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
+                            controller: 'CheckoutCtrl'
+                        },
+
+                    resolve: {
+                        cart: function( CartSvc) {
+
+                            return CartSvc.getCart();
+                        }
+                        }
+
+                    }
                 })
+
+
                 .state('base.cart', {
                     url: '/cart/',
                     views: {
