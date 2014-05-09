@@ -12,6 +12,28 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('zipCode' + form, '80301');
           }
 
+          function verifyCartContents(itemPrice, totalPrice, quantity) {
+            expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
+            expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual(totalPrice);
+            expect(element(by.xpath("//div[2]/div[3]/div[3]")).getText()).toEqual(quantity);
+
+          }
+
+          function validateField(field, form, text, buttonType, button) {
+            element(by.id(field + form)).clear();
+            tu.clickElement(buttonType, button);
+            browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
+            tu.sendKeysById(field + form, text);
+          }
+
+          function verifyValidationForEachField(form, buttonType, button) {
+            validateField('zipCode', form, '80301', buttonType, button);
+            validateField('firstName', form, 'Mike', buttonType, button);
+            validateField('lastName', form, 'Night', buttonType, button);
+            validateField('address1', form, '123', buttonType, button);
+            validateField('city', form, 'Boulder', buttonType, button);
+          }
+
 describe("checkout:", function () {
 
 
@@ -29,27 +51,7 @@ describe("checkout:", function () {
      });
 
 
-          function verifyCartContents(itemPrice, totalPrice, quantity) {
-            expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual(totalPrice);
-            expect(element(by.xpath("//div[2]/div[3]/div[3]")).getText()).toEqual(quantity);
 
-          }
-
-          function validateField(field, form, text) {
-            element(by.id(field + form)).clear();
-            tu.clickElement('id', 'place-order-btn');
-            tu.sendKeysById(field + form, text);
-          }
-
-          function verifyValidationForEachField(form) {
-            validateField('zipCode', form, '80301');
-            validateField('firstName', form, 'Mike');
-            validateField('lastName', form, 'Night');
-            validateField('email', '', 'mike@night');
-            validateField('address1', form, '123');
-            validateField('city', form, 'Boulder');
-          }
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
@@ -86,10 +88,12 @@ describe("checkout:", function () {
            it('should have basic validation on all fields', function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
-            verifyValidationForEachField('Bill');
+            tu.sendKeysById('email', 'mike@place.com'); 
+            verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
+            validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            verifyValidationForEachField('Ship');
+            verifyValidationForEachField('Ship', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
@@ -111,7 +115,9 @@ describe("mobile checkout:", function () {
        browser.sleep(8000);
      });
 
-
+     var continueButton1 = '//div[11]/button'
+     var continueButton2 = '//div[6]/button'
+     var paymentButton = "//button[@type='submit']"
 
        it('should allow all fields to be editable on mobile', function () {
         tu.clickElement('xpath', tu.buyButton);
@@ -119,13 +125,32 @@ describe("mobile checkout:", function () {
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
         fillCheckoutFormExceptEmail('Bill');
-        browser.sleep(8000);
-        tu.clickElement('xpath', "//div[11]/button"); //continueButton
+        tu.clickElement('xpath', continueButton1);
         expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
         tu.clickElement('id', 'shipTo');
         fillCheckoutFormExceptEmail('Ship');
-        tu.clickElement('xpath', "//div[6]/button");
-        tu.clickElement('xpath', "//div[4]/button");
+        tu.clickElement('xpath', continueButton2);
+        tu.clickElement('xpath', paymentButton);
+        tu.clickElement('id', "place-order-btn");
+        expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+
+       });
+
+       it('should have basic validation on mobile', function () {
+        tu.clickElement('xpath', tu.buyButton);
+        browser.sleep(200);
+        tu.clickElement('css', tu.checkoutButton);
+        tu.sendKeysById('email', 'mike@night.com');
+        fillCheckoutFormExceptEmail('Bill');
+        verifyValidationForEachField('Bill', 'xpath', continueButton1); 
+        validateField('email', '', 'mike@night.com', 'xpath', continueButton1);
+        tu.clickElement('xpath', continueButton1);
+        expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+        tu.clickElement('id', 'shipTo');
+        fillCheckoutFormExceptEmail('Ship');
+        verifyValidationForEachField('Ship', 'xpath', continueButton2); 
+        tu.clickElement('xpath', continueButton2);
+        tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
 

@@ -10,7 +10,8 @@ window.app = angular.module('ds.router', [
         'ds.cart',
         'ds.checkout',
         'ds.confirmation',
-        'yng.core'
+        'yng.core',
+        'wu.masonry'
     ])
     .constant('_', window._)
 
@@ -186,12 +187,14 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
 
-                    config.headers[settings.apis.headers.tenant] = settings.tenantId;
+
                     if(config.url.indexOf('products')>-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
                     if(config.url.indexOf('orders')>-1) {
+                        config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
                     return config || $q.when(config);

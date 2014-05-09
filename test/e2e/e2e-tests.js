@@ -23,18 +23,10 @@ describe("product page", function () {
       //should be # of 36, but overall product count doesn't work in phantomjs
       it('should show the user how many products loaded', function () {
         tu.getTextByRepeaterRow(0)
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 0'); 
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
         expect(element(by.css('div.col-xs-6 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-45 of 0'); //should be # of 36, but won't work in phantomjs
-        tu.selectOption('price');
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-12 of 0'); 
-        tu.clickElement('linkText','>');
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('13-24 of 0'); 
-        tu.clickElement('linkText','>');
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('25-36 of 0'); 
-        tu.clickElement('linkText','<');
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('13-24 of 0'); 
       });
 
       it("should get product detail page", function () {
@@ -48,11 +40,11 @@ describe("product page", function () {
       it("should get order of products correctly", function () {
         //default load
         tu.getTextByRepeaterRow(0);
-        tu.sortAndVerifyPagination('price', 'GIFT TAGS', 'BLACK RING HOLDER');
-        tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE', 'WOOD-BOUND CHEMEX COFFEE MAKER');
-        tu.sortAndVerifyPagination('name', 'BEADED NECKLACE', 'FLOWER CLAY POT');
-        tu.sortAndVerifyPagination('-name', 'CREAM AND SUGAR SET WITH HEARTS', 'TEST');
-        tu.sortAndVerifyPagination('created', 'TATTERED BOWLS', 'BEAUTIFUL CHINA');
+        tu.sortAndVerifyPagination('price', 'GIFT TAGS');
+        tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
+        tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
+        tu.sortAndVerifyPagination('-name', 'CREAM AND SUGAR SET WITH HEARTS');
+        tu.sortAndVerifyPagination('created', 'TATTERED BOWLS');
     });
 
 

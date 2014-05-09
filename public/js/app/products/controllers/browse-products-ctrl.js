@@ -4,23 +4,31 @@ angular.module('ds.products')
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'GlobalData', function ($scope, ProductSvc, GlobalData) {
 
 
-        $scope.pageSize = 12;
+        $scope.pageSize = 10;
         $scope.pageNumber = 1;
-        $scope.sort = 'default'; // no sorting - pagination is off and infinite scroll is turned on
+        $scope.sort = '';
         $scope.products = [];
         $scope.total = GlobalData.products.meta.total;
         $scope.productsFrom = 1;
         $scope.productsTo = $scope.pageSize;
 
         $scope.addMore = function () {
+            var query = {
+                pageNumber: $scope.pageNumber++,
+                pageSize: $scope.pageSize
+            };
 
-            // if sorting is turned off, infinite scroll is turned on ---
-            if ($scope.sort === 'default') {
-                ProductSvc.queryWithResultHandler({pageNumber: $scope.pageNumber++, pageSize: $scope.pageSize},
+            if ($scope.sort) {
+                query.sort = $scope.sort;
+            }
+
+            // prevent additional API calls if all products are retrieved
+            // invfinite scroller initiates lots of API calls when scrolling to the bottom of the page
+            if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
+                ProductSvc.queryWithResultHandler(query,
                     function (products) {
                         if (products) {
                             $scope.products = $scope.products.concat(products);
-                            $scope.productsFrom = 1;
                             $scope.productsTo = $scope.products.length;
                             $scope.total = GlobalData.products.meta.total;
                         }
@@ -31,24 +39,17 @@ angular.module('ds.products')
         // trigger initial load of items
         $scope.addMore();
 
-        var getProducts = function () {
-
-            var products = ProductSvc.queryWithResultHandler({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort},
-                function(){
-                    $scope.productsFrom = (($scope.pageNumber-1) * $scope.pageSize)+ 1;
-                    $scope.productsTo = $scope.pageNumber * $scope.pageSize;
-                } );
-            return products;
-        };
-
         $scope.backToTop = function () {
             window.scrollTo(0, 0);
         };
 
 
         $scope.setSortedPage = function (pageNo) {
+            // $scope.pageNumber = pageNo;
+            // $scope.products = getProducts();
+            $scope.products = [];
             $scope.pageNumber = pageNo;
-            $scope.products = getProducts();
+            $scope.addMore();
         };
 
         $scope.showRefineContainer = function () {

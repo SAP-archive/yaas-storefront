@@ -40,7 +40,7 @@ angular.module('ds.checkout')
              * Uses the CartSvc to retrieve the current set of line items.
              * @return The result array as returned by Angular $resource.query().
              */
-            createOrder: function(cartItems) {
+            createOrder: function(cart) {
 
                 var OrderLine = function(amount, unitPrice, productCode) {
                     this.amount = amount;
@@ -54,7 +54,7 @@ angular.module('ds.checkout')
 
                 var newOrder = new Order();
 
-                angular.forEach(cartItems, function(item){
+                angular.forEach(cart.items, function(item){
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 

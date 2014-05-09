@@ -31,12 +31,7 @@ angular.module('ds.checkout')
             this.shipToSameAsBillTo = true;
         };
 
-
-
         $scope.wiz = new Wiz();
-
-
-
 
         $scope.billToDone = function (billToFormValid, form) {
             $scope.$broadcast('submitting:form', form);
