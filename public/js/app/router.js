@@ -58,12 +58,9 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         product: function( $stateParams, caas) {
 
-                            document.body.style.cursor = 'wait';
-
                             return caas.products.API.get({productSku: $stateParams.productSku }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
-                                    document.body.style.cursor = 'auto';
                                     return result;
                                 });
                             }

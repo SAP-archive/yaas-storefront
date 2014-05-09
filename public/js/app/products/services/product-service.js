@@ -29,11 +29,9 @@ angular.module('ds.products')
              * @param {callback} success callback function
              */
             queryWithResultHandler: function(parms, callback) {
-                document.body.style.cursor = 'wait';
                  var products = getProducts(parms);
                  products.$promise.then(function (result) {
                     callback(result);
-                    document.body.style.cursor = 'auto';
                 });
                 return products;
             }
