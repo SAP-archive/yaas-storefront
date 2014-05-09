@@ -34,7 +34,13 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve:  {
+                        cart: function(CartSvc){
+                            CartSvc.getCart();
+                        }
                     }
+
                 })
 
                 .state('base.product', {
@@ -76,24 +82,20 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.checkout.details', {
-
-
                     views: {
-
-                        'orderdetails':{
+                        'orderdetails': {
                             templateUrl: 'public/js/app/checkout/templates/order-details.html',
-                            controller:  'OrderDetailCtrl'
+                            controller: 'OrderDetailCtrl',
+                            resolve: {
+                                cart: function (CartSvc) {
+                                    return CartSvc.getCart();
+                                }
+                            }
+
                         },
-                        'checkoutform':{
+                        'checkoutform': {
                             templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
                             controller: 'CheckoutCtrl'
-                        },
-
-                    resolve: {
-                        cart: function( CartSvc) {
-
-                            return CartSvc.getCart();
-                        }
                         }
 
                     }

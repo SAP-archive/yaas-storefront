@@ -13,12 +13,7 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', [function(){
-
-        /*
-            until the cart API has been implemented, we
-            will just save items to the scope.
-         */
+    .factory('CartSvc', ['$rootScope', function($rootScope){
 
         var Cart = function(){
            this.subtotal = 0;
@@ -30,16 +25,30 @@ angular.module('ds.cart')
 
         var cart = new Cart();
 
-
-
         return {
 
             getCart: function() {
                 return cart;
             },
 
+            recalculateCart: function() {
+                this.updateItemCount();
+                this.calculateSubtotal();
+                $rootScope.$emit('cart:updated', cart);
+            },
+
+            updateItemCount: function () {
+                var count = 0;
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (cart.items[i].quantity) {
+                        count = count + cart.items[i].quantity;
+                    }
+                }
+                cart.itemCount = count;
+            },
+
             /*
-                Calculates the subtotal, saves it to the cart and also returns the value.
+                Calculates the subtotal and saves it to the cart.
 
                 @return subtotal
              */
@@ -76,20 +85,9 @@ angular.module('ds.cart')
 
                     cart.items.push(cartProductToPush);
                 }
-
-                this.updateItemCount();
-                this.calculateSubtotal();
+                this.recalculateCart();
             },
-            updateItemCount: function () {
-                var count = 0, thisCart = this.getCart();
-                for (var i = 0; i < thisCart.length; i++) {
-                    if (thisCart.items[i].quantity) {
-                        count = count + thisCart.items[i].quantity;
-                    }
-                }
-                thisCart.itemCount = count;
 
-            },
             /*
                 removes a product from the cart
              */
@@ -99,16 +97,14 @@ angular.module('ds.cart')
                        product.quantity = 0;
                    }
                 });
-                this.updateItemCount();
-                this.calculateSubtotal();
+                this.recalculateCart();
             },
 
             emptyCart: function () {
                 for (var i = 0; i < cart.items.length; i++) {
                     cart.items[i].quantity = 0;
                 }
-                this.updateItemCount();
-                this.calculateSubtotal();
+                this.recalculateCart();
             }
         };
 

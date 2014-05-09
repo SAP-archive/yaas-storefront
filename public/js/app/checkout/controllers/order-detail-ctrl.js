@@ -14,6 +14,6 @@
 angular.module('ds.checkout')
     .controller('OrderDetailCtrl', ['$scope', 'cart', function($scope, cart) {
 
-        $scope.cart = {};
+        $scope.cart = cart;
 
     }]);
