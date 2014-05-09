@@ -48,8 +48,12 @@ angular.module('ds.checkout')
                 });
 
                 var self = this;
+
+                document.body.style.cursor = 'wait';
+
                 caas.orders.API.save(newOrder).$promise.then(function(order){
                    self.setLastOrderId(order.id);
+                    document.body.style.cursor = 'auto';
                     $state.go('base.confirmation');
                 });
 
