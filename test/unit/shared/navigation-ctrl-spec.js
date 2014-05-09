@@ -12,7 +12,7 @@
 
 describe('NavigationCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector;
+    var $scope, $rootScope, $controller, $injector, cart;
 
     //***********************************************************************
     // Common Setup
@@ -36,11 +36,10 @@ describe('NavigationCtrl Test', function () {
     }));
 
     describe('NavigationCtrl', function () {
-        var navCtrl;
-
+        var navCtrl, cart;
+        cart = {};
         beforeEach(function () {
-
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope});
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart});
         });
 
         it('should change showCart value', function(){

@@ -34,20 +34,24 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var products, cartCtrl, stubbedCartSvc;
+    var cart, products, cartCtrl, stubbedCartSvc;
 
     beforeEach(function () {
+        cart = {};
 
         products = [
             {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
             {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
         ];
 
+        cart.items = products;
+
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
             calculateSubtotal: jasmine.createSpy(),
-            updateItemCount: jasmine.createSpy()
+            updateItemCount: jasmine.createSpy(),
+            getCart: jasmine.createSpy().andReturn(cart)
         };
 
         cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc});
@@ -65,18 +69,6 @@ describe('CartCtrl Test', function () {
 
     });
 
-    describe('CartCtrl - should update item count', function () {
-        it(' should call function in service', function () {
-            $scope.updateItemCount();
-            expect(stubbedCartSvc.updateItemCount).toHaveBeenCalled();
-        });
-    });
 
-    describe('CartCtrl - should update subtotal', function () {
-        it(' should call function in service', function () {
-            $scope.updateSubtotal();
-            expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
-        });
-    });
 
 });
