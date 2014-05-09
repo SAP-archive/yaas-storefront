@@ -161,6 +161,8 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
 
+                    document.body.style.cursor = 'wait';
+
 
                     if(config.url.indexOf('products')>-1) {
                         config.headers[settings.apis.headers.tenant] = settings.tenantId;
@@ -177,6 +179,7 @@ window.app = angular.module('ds.router', [
                     return $q.reject(request);
                 },
                 response: function (response) {
+                    document.body.style.cursor = 'auto';
                     return response || $q.when(response);
                 },
                 responseError: function (response) {
