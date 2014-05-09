@@ -15,9 +15,20 @@
 angular.module('ds.checkout')
     .factory('OrderSvc',  ['caas', '$rootScope', '$timeout', '$state', function(caas, $rootScope, $timeout, $state){
 
+        var DefaultOrder = function(){
+            this.shipTo = {};
+            this.billTo = {};
+            this.billTo.country = 'USA';
+            this.shippingCost = 3; // hard-coded for now
+        };
+
         return {
 
-            setLastOrderId: function(id){
+        getDefaultOrder: function(){
+            return new DefaultOrder();
+        },
+
+        setLastOrderId: function(id){
                 this.lastOrderId = id;
             },
             getLastOrderId: function() {

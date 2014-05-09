@@ -13,10 +13,12 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc',
-        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc) {
+    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
+        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
 
         $rootScope.showCart = false;
+        $scope.order = order;
+        $scope.cart = cart;
 
         $scope.badEmailAddress = false;
         $scope.showPristineErrors = false;
@@ -29,15 +31,11 @@ angular.module('ds.checkout')
             this.shipToSameAsBillTo = true;
         };
 
-        var Order = function(){
-            this.shipTo = {};
-            this.billTo = {};
-            this.billTo.country = 'USA';
-            this.shippingCost = 3; // hard-coded for now
-        };
+
 
         $scope.wiz = new Wiz();
-        $scope.order = new Order();
+
+
 
 
         $scope.billToDone = function (billToFormValid, form) {
@@ -116,7 +114,7 @@ angular.module('ds.checkout')
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
-                OrderSvc.createOrder(CartSvc.getCart());
+                OrderSvc.createOrder(cart);
                 CartSvc.emptyCart();
             }  else {
                 $scope.showPristineErrors = true;

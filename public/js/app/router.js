@@ -79,18 +79,22 @@ window.app = angular.module('ds.router', [
                         'body@': {
                             templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
                         }
+                    },
+                    resolve: {
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+                        },
+                        order: function (OrderSvc) {
+                            return OrderSvc.getDefaultOrder();
+                        }
                     }
                 })
                 .state('base.checkout.details', {
                     views: {
                         'orderdetails': {
                             templateUrl: 'public/js/app/checkout/templates/order-details.html',
-                            controller: 'OrderDetailCtrl',
-                            resolve: {
-                                cart: function (CartSvc) {
-                                    return CartSvc.getCart();
-                                }
-                            }
+                            controller: 'OrderDetailCtrl'
+
 
                         },
                         'checkoutform': {
