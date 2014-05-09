@@ -144,7 +144,39 @@ module.exports = function(grunt) {
                 report: 'min',
                 mangle: false
             }
+        },
+        ngconstant: {
+      // Options for all targets
+            options: {
+                space: '  ',
+                wrap: '"use strict";\n\n {%= __ngModule %}',
+                name: 'config',
+                dest: 'config.js'
+        },
+      // Environment targets
+        development: {
+            options: {
+                dest: 'config/config.js'
+        },
+        constants: {
+            ENV: {
+                name: 'development',
+                apiEndpoint: 'http://your-development.api.endpoint:3000'
+            }
         }
+      },
+      production: {
+        options: {
+          dest: 'config/config.js'
+        },
+        constants: {
+          ENV: {
+            name: 'production',
+            apiEndpoint: 'http://api.livesite.com'
+          }
+        }
+      }
+    },
 
     });
 
@@ -153,6 +185,7 @@ module.exports = function(grunt) {
     // Default task
     grunt.registerTask('default', [
         'jshint',
+        'ngconstant:development',
         'concurrent:dev',
         'compass'
     ]);
@@ -161,6 +194,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'concurrent:dist',
+        'ngconstant:production',
         'copy',
         'useminPrepare',
         'concat',

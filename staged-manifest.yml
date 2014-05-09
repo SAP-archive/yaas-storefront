@@ -1,7 +1,7 @@
 ---
 applications:
 - name: demo-store
-  command: npm start
+  command: grunt build && npm start
   buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
   memory: 512M
   host: demo-store
