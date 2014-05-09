@@ -38,12 +38,16 @@ angular.module('ds.cart')
             },
 
             updateItemCount: function () {
+                // copying all non-zero items to new array to delete zeroes
+                var newItems = [];
                 var count = 0;
-                for (var i = 0; i < cart.items.length; i++) {
+                for (var i = cart.items.length-1; i >=0; i--) {
                     if (cart.items[i].quantity) {
                         count = count + cart.items[i].quantity;
+                        newItems.push(cart.items[i]);
                     }
                 }
+                cart.items = newItems;
                 cart.itemCount = count;
             },
 
