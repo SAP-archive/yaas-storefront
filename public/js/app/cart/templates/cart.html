@@ -43,7 +43,7 @@
 	<div class="alert alert-success">Free Shipping & Returns in the US</div>
 	<section>
 		<!-- Cart Item -->
-		<div ng-repeat="product in cart.items">
+		<div ng-repeat="product in cart.items | filter:qtyGreaterThanZero ">
 			<div class="cart-item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
 					<img src="{{product.imageUrl}}" class="img-responsive"/>

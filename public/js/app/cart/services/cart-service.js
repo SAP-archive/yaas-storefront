@@ -25,16 +25,10 @@ angular.module('ds.cart')
         var cart = new Cart();
 
         function updateItemCount() {
-            // copying all non-zero items to new array to delete zeroes
-            var newItems = [];
             var count = 0;
             for (var i = 0; i < cart.items.length; i++) {
-                if (cart.items[i].quantity) {
-                    count = count + cart.items[i].quantity;
-                    newItems.push(cart.items[i]);
-                }
+                count = count + cart.items[i].quantity;
             }
-            cart.items = newItems;
             cart.itemCount = count;
         }
 
