@@ -33,7 +33,7 @@ angular.module('ds.cart')
         };
 
         $scope.updateCart = function (sku, qty) {
-            CartSvc.updateCartItem(sku, qty);
+            CartSvc.updateLineItem(sku, qty);
         };
 
     }]);
