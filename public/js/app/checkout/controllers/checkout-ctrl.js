@@ -98,8 +98,6 @@ angular.module('ds.checkout')
 
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
-            //$scope.shipToForm.firstName.$setViewValue('Bob');
-            //var errors = $scope.shipToForm.$error;
         };
 
         $scope.placeOrder = function (formValid, form) {

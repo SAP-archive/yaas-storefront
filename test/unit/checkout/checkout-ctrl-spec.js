@@ -10,6 +10,7 @@ describe('CheckoutCtrl Test', function () {
 
     beforeEach(module('ds.checkout', function($provide) {
         order = {};
+        order.shipTo = {};
         cart = {};
         mockedOrderSvc =  {}
         mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
@@ -133,7 +134,7 @@ describe('CheckoutCtrl Test', function () {
         it('should copy billing to shipping', function(){
             $scope.order.billTo = mockBillTo;
             $scope.setShipToSameAsBillTo();
-            //expect($scope.order.shipTo).toEqualData(mockBillTo);
+            expect($scope.order.shipTo).toEqualData(mockBillTo);
         });
 
 
@@ -169,7 +170,7 @@ describe('CheckoutCtrl Test', function () {
             order.billTo = mockBillTo;
             $scope.wiz.shipToSameAsBillTo = true;
             $scope.placeOrder(true);
-            //expect(order.shipTo).toEqualData(mockBillTo);
+            expect(order.shipTo).toEqualData(mockBillTo);
         });
 
         it('should remove products from the cart after placing order', function() {

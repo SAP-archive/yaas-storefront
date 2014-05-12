@@ -21,8 +21,5 @@ angular.module('ds.confirmation')
         $scope.orderInfo = new OrderInfo();
         $scope.orderInfo.orderId = orderInfo;
 
-        $scope.$on('order.placed', function(eve, eveObj){
-            $scope.orderInfo.orderId = eveObj.orderId;
-        });
 
     }]);

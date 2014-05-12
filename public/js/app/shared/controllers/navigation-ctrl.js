@@ -16,11 +16,12 @@ angular.module('ds.shared')
             });
 
             $scope.$on('$destroy', unbind);
-            
+
+            /*
 			$scope.switchLanguage = function(languageCode) {
 				$translate.use(languageCode);
 				$scope.languageCode = GlobalData.languageCode = languageCode;
-			};
+			}; */
 
             $scope.toggleCart = function (){
                 $rootScope.showCart=!$rootScope.showCart;
