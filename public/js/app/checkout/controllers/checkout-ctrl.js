@@ -13,14 +13,13 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc',
-        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc) {
+    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc',  'StripeJS',
+        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc, StripeJS) {
 
         $rootScope.showCart = false;
 
         $scope.badEmailAddress = false;
         $scope.showPristineErrors = false;
-
 
         var Wiz = function(){
             this.step1Done = false;
@@ -29,16 +28,40 @@ angular.module('ds.checkout')
             this.shipToSameAsBillTo = true;
         };
 
+            var CreditCard = function () {
+                this.number = null;
+                this.cvc = null;
+                this.expMonth = null;
+                this.expYear = null;
+
+            };
+
         var Order = function(){
             this.shipTo = {};
             this.billTo = {};
             this.billTo.country = 'USA';
             this.shippingCost = 3; // hard-coded for now
+            this.paymentMethod = 'paypal';
+            this.ccToken = null;
+            this.creditCard = new CreditCard();
         };
+
+
 
         $scope.wiz = new Wiz();
         $scope.order = new Order();
 
+        $scope.logPayment = function(){
+            console.log('payment is '+$scope.order.paymentMethod);
+        };
+
+        $scope.generateCCToken = function(ccForm) {
+            StripeJS.createToken(ccForm, function(status, response){
+                console.log('status is '+status);
+                console.log('response is '+response);
+            });
+
+        };
 
         $scope.billToDone = function (billToFormValid, form) {
             $scope.$broadcast('submitting:form', form);
@@ -102,16 +125,15 @@ angular.module('ds.checkout')
             }
         };
 
-
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
-            //$scope.shipToForm.firstName.$setViewValue('Bob');
-            //var errors = $scope.shipToForm.$error;
         };
 
         $scope.placeOrder = function (formValid, form) {
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
+
+                $scope.generateCCToken(form);
                 // do again to ensure copy in full-screen mode
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();

@@ -199,7 +199,8 @@ window.app = angular.module('ds.router', [
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('interceptor');
     }])
-
+    // stripe public key
+    .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
     .run(['CORSProvider',
         function (CORSProvider) {
             /* enabling CORS to allow testing from localhost */
