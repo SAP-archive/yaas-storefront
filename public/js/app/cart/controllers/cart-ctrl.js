@@ -15,6 +15,8 @@
 angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
+        $scope.cart = CartSvc.getCart();
+
         $scope.qtyGreaterThanZero = function (product) {
             return (product.quantity > 0 || product.quantity === null);
         };
@@ -33,13 +35,8 @@ angular.module('ds.cart')
             $rootScope.showCart = false;
         };
 
-        $scope.updateItemCount = function () {
-            CartSvc.updateItemCount();
+        $scope.updateCart = function (sku, qty) {
+            CartSvc.updateLineItem(sku, qty);
         };
-
-        $scope.updateSubtotal = function () {
-            CartSvc.calculateSubtotal();
-        };
-
 
     }]);

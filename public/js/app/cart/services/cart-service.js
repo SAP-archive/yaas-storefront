@@ -15,51 +15,72 @@
 angular.module('ds.cart')
     .factory('CartSvc', ['$rootScope', function($rootScope){
 
+        var Cart = function(){
+           this.estTax = 0;
+           this.items = [];
+           this.itemCount = 0;
+           this.subtotal = 0;
+        };
+
+        var cart = new Cart();
+
+        function updateItemCount() {
+            var count = 0;
+            for (var i = 0; i < cart.items.length; i++) {
+                count = count + cart.items[i].quantity;
+            }
+            cart.itemCount = count;
+        }
+
+
         /*
-            until the cart API has been implemented, we
-            will just save items to the scope.
+         Calculates the subtotal and saves it to the cart.
+
+         @return subtotal
          */
+        function calculateSubtotal() {
+            var subtotal = 0;
 
-        $rootScope.subtotal = 0;
+            angular.forEach(cart.items, function(product) {
+                if (product.price && product.quantity) {
+                    subtotal = subtotal + (product.price * product.quantity);
+                }
+            });
+            cart.subtotal = subtotal;
+        }
 
-        $rootScope.estTax = 0;
-
-        $rootScope.cart = [];
-
-        $rootScope.itemCount = 0;
+        function recalculateCart() {
+            updateItemCount();
+            calculateSubtotal();
+            $rootScope.$emit('cart:updated', cart);
+        }
 
         return {
 
             getCart: function() {
-                return $rootScope.cart;
+                return cart;
             },
 
-            /*
-                saves subtotal to $rootScope
-
-                @return subtotal
-             */
-            calculateSubtotal: function () {
-                var subtotal = 0;
-
-                angular.forEach($rootScope.cart, function(product) {
-                    if (product.price && product.quantity) {
-                        subtotal = subtotal + (product.price * product.quantity);
+            updateLineItem: function(sku, qty) {
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (cart.items[i].sku === sku) {
+                       cart.items[i].quantity = qty;
+                       break;
                     }
-                });
-
-                $rootScope.subtotal = subtotal;
-                return subtotal;
+                }
+                recalculateCart();
             },
+
             /*
                 converts product object to line item object and pushes it to the cart
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    if (product.sku === $rootScope.cart[i].sku) {
-                        $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (product.sku === cart.items[i].sku) {
+                        cart.items[i].quantity = cart.items[i].quantity + productDetailQty;
                         alreadyInCart = true;
+                        break;
                     }
                 }
                 if (productDetailQty > 0 && !alreadyInCart) {
@@ -72,42 +93,30 @@ angular.module('ds.cart')
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
 
-                    $rootScope.cart.push(cartProductToPush);
+                    cart.items.push(cartProductToPush);
                 }
+                recalculateCart();
+            },
 
-                this.updateItemCount();
-                this.calculateSubtotal();
-            },
-            updateItemCount: function () {
-                var count = 0, thisCart = this.getCart();
-                for (var i = 0; i < thisCart.length; i++) {
-                    if (thisCart[i].quantity) {
-                        count = count + thisCart[i].quantity;
-                    }
-                }
-                $rootScope.itemCount = count;
-                return count;
-            },
             /*
                 removes a product from the cart
              */
             removeProductFromCart: function (sku) {
-                angular.forEach($rootScope.cart, function (product) {
+                angular.forEach(cart.items, function (product) {
                    if(product.sku === sku) {
                        product.quantity = 0;
                    }
                 });
-                this.updateItemCount();
-                this.calculateSubtotal();
+                recalculateCart();
             },
 
             emptyCart: function () {
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    $rootScope.cart[i].quantity = 0;
+                for (var i = 0; i < cart.items.length; i++) {
+                    cart.items[i].quantity = 0;
                 }
-                this.updateItemCount();
-                this.calculateSubtotal();
+                recalculateCart();
             }
+
         };
 
     }]);

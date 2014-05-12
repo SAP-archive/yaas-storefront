@@ -35,7 +35,13 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve:  {
+                        cart: function(CartSvc){
+                            CartSvc.getCart();
+                        }
                     }
+
                 })
 
                 .state('base.product', {
@@ -69,18 +75,38 @@ window.app = angular.module('ds.router', [
 
                 .state('base.checkout', {
                     url: '/checkout/',
+
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout.html',
-                            controller: 'CheckoutCtrl'
+                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
+                        }
+                    },
+                    resolve: {
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+                        },
+                        order: function (OrderSvc) {
+                            return OrderSvc.getDefaultOrder();
                         }
                     }
                 })
-                .state('base.checkout.orderitems', {
-                    //url: '/cc/',
-                   // controller: 'CartCtrl',
-                    templateUrl: 'public/js/app/checkout/templates/boo.html'
+                .state('base.checkout.details', {
+                    views: {
+                        'orderdetails': {
+                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
+                            controller: 'OrderDetailCtrl'
+
+
+                        },
+                        'checkoutform': {
+                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
+                            controller: 'CheckoutCtrl'
+                        }
+
+                    }
                 })
+
+
                 .state('base.cart', {
                     url: '/cart/',
                     views: {

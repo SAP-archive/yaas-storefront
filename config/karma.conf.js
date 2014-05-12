@@ -60,6 +60,7 @@ module.exports = function(config){
         'test/unit/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
+        'test/unit/confirmation/*.js',
         'test/unit/products/*.js',
         'test/unit/shared/*.js'
     

@@ -32,7 +32,9 @@ angular.module('ds.shared')
             },
 
             headers: {
+
                 tenantOld: 'X-tenantId',
+
                 tenant: 'hybris-tenantId',
                 authorization: 'Authorization',
                 customer: 'X-buyerId',
