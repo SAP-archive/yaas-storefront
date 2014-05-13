@@ -27,14 +27,15 @@ angular.module('ds.cart')
         };
 
 
-        $scope.updateCartIgnoreBlanks = function (sku, qty) {
-            if(qty) {
-                CartSvc.updateLineItem(sku, qty);
-            }
-        };
-
-        $scope.updateCart = function (sku, qty) {
-            CartSvc.updateLineItem(sku, qty);
+        /**
+         *
+         * @param sku
+         * @param qty
+         * @param keepZeroInCart if true, line items with qty of zero or undefined will remain in the cart; else,
+         *         they will be removed
+         */
+        $scope.updateCart = function (sku, qty, keepZeroInCart) {
+            CartSvc.updateLineItem(sku, qty, keepZeroInCart);
         };
 
     }]);

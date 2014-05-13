@@ -63,7 +63,7 @@
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
 							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="product.quantity"
-								ng-change="updateCartIgnoreBlanks(product.sku, product.quantity)"    ng-blur="updateCart(product.sku, product.quantity)"
+								ng-change="updateCart(product.sku, product.quantity, true)"    ng-blur="updateCart(product.sku, product.quantity, false)"
                                 onkeydown="return ( event.ctrlKey || event.altKey
                     					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                     					|| (95<event.keyCode && event.keyCode<106)

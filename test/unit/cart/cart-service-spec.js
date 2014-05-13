@@ -35,18 +35,51 @@ describe('CartSvc Test', function () {
         cartSvc = CartSvc;
     }));
 
-    var prod1, prod2;
+    var prod1, prod2, sku1, sku2;
 
     beforeEach(function () {
-        prod1 =    {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00};
-        prod2 =    {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00};
+        sku1 =  'guitar1234';
+        sku2 =  'guitar5678';
+        prod1 =    {'name': 'Electric Guitar', 'sku': sku1, 'price': 1000.00};
+        prod2 =    {'name': 'Acoustic Guitar', 'sku': sku2, 'price': 800.00};
 
         //cartSvc.emptyCart();
         cartSvc.addProductToCart(prod1, 1 );
         cartSvc.addProductToCart(prod2, 1);
     });
 
-    describe('CartSvc - add to cart', function () {
+    describe(' delete from cart', function() {
+        it(' should remove the item from the cart', function() {
+            cartSvc.removeProductFromCart(sku1);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items[0].sku).toEqualData(sku2);
+        });
+    });
+
+    describe('update line item with qty > 0', function() {
+        it(' should update the qty', function() {
+            var newQty = 4;
+            cartSvc.updateLineItem(sku1, newQty, true);
+            var actualQty = cartSvc.getCart().items[0].quantity;
+            expect(actualQty === newQty);
+        });
+    });
+
+    describe('update line item with qty = 0', function() {
+        it(' DO REMOVE should remove the item', function() {
+            cartSvc.updateLineItem(sku1, 0, false);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items.length).toEqualData(1);
+        });
+
+        it(' KEEP should keep the item', function() {
+            cartSvc.updateLineItem(sku1, 0, true);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items.length).toEqualData(2);
+        });
+    });
+
+    describe(' add to cart', function () {
 
 
         var newProduct;

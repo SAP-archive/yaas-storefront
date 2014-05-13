@@ -24,12 +24,12 @@ angular.module('ds.cart')
 
         var cart = new Cart();
 
-        function updateItemCount() {
+        function updateItemCount(keepZeroInCart) {
             // copying all non-zero items to new array to delete zeroes
             var newItems = [];
             var count = 0;
             for (var i = 0; i < cart.items.length; i++) {
-                if (cart.items[i].quantity) {
+                if (cart.items[i].quantity || keepZeroInCart) {
                     count = count + cart.items[i].quantity;
                     newItems.push(cart.items[i]);
                 }
@@ -55,8 +55,8 @@ angular.module('ds.cart')
             cart.subtotal = subtotal;
         }
 
-        function recalculateCart() {
-            updateItemCount();
+        function recalculateCart(keepZeroInCart) {
+            updateItemCount(keepZeroInCart);
             calculateSubtotal();
             $rootScope.$emit('cart:updated', cart);
         }
@@ -67,14 +67,21 @@ angular.module('ds.cart')
                 return cart;
             },
 
-            updateLineItem: function(sku, qty) {
+            /**
+             *
+             * @param sku
+             * @param qty
+             * @param keepZeroInCart  if true, a line item with qty undefined or zero will be kept in the cart;
+             *                      otherwise, it will be removed
+             */
+            updateLineItem: function(sku, qty, keepZeroInCart) {
                 for (var i = 0; i < cart.items.length; i++) {
                     if (cart.items[i].sku === sku) {
                        cart.items[i].quantity = qty;
                        break;
                     }
                 }
-                recalculateCart();
+                recalculateCart(keepZeroInCart);
             },
 
             /*

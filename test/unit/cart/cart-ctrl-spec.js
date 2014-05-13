@@ -49,8 +49,8 @@ describe('CartCtrl Test', function () {
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
-            calculateSubtotal: jasmine.createSpy(),
-            updateItemCount: jasmine.createSpy(),
+
+            updateLineItem: jasmine.createSpy(),
             getCart: jasmine.createSpy().andReturn(cart)
         };
 
@@ -59,12 +59,20 @@ describe('CartCtrl Test', function () {
         $rootScope.cart = products;
     });
 
-    describe('CartCtrl - remove from cart', function () {
+    describe('remove from cart', function () {
 
-        it(' should remove the product', function () {
+        it(' should call service remove', function () {
             $scope.removeProductFromCart('guitar5678');
-            // validate that the service's remove function has been called
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('update line item', function () {
+
+        it(' should call service update', function () {
+            $scope.updateCart('guitar5678', 2, true);
+            expect(stubbedCartSvc.updateLineItem).toHaveBeenCalledWith('guitar5678', 2, true);
         });
 
     });
