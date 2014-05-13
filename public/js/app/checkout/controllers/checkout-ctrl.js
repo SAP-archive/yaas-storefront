@@ -56,9 +56,16 @@ angular.module('ds.checkout')
         };
 
         $scope.generateCCToken = function(ccForm) {
-            StripeJS.createToken(ccForm, function(status, response){
+            var stripeData = {};
+            stripeData.number = ccForm.number;
+            stripeData.exp_month = ccForm.exp_month;
+            stripeData.exp_year = ccForm.exp_year;
+            stripeData.cvc = ccForm.cvc;
+
+            StripeJS.createToken(stripeData, function(status, response){
                 console.log('status is '+status);
-                console.log('response is '+response);
+                console.log('response is: ');
+                console.log(response);
             });
 
         };
@@ -130,10 +137,10 @@ angular.module('ds.checkout')
         };
 
         $scope.placeOrder = function (formValid, form) {
-            $scope.$broadcast('submitting:form', form);
+            $scope.$broadcast('submitting:form', form.$name);
             if (formValid) {
 
-                $scope.generateCCToken(form);
+                $scope.generateCCToken(form.paymentForm);
                 // do again to ensure copy in full-screen mode
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();

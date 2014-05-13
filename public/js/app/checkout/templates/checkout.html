@@ -357,14 +357,14 @@
                     <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
                         Number</label></span>
-                        <input type="number" class="form-control" ng-required="order.paymentMethod === 'creditCard'" ng-model="order.creditCard.number" validate-card-number data-stripe="number">
+                        <input type="number" class="form-control" name="number" ng-required="order.paymentMethod === 'creditCard'" ng-model="order.creditCard.number" validate-card-number data-stripe="number">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="form-group input-group">
                         <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
-                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" ng-model="order.creditCard.expMonth" validate-exp-month data-stripe="exp-month">
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="exp_month" ng-model="order.creditCard.expMonth" validate-exp-month data-stripe="exp-month">
 
                             <option value=""></option>
                             <option value="01">01</option>
@@ -387,7 +387,7 @@
                 <div class="col-lg-6">
                     <div class="form-group input-group">
                         <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
-                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  ng-model="order.creditCard.expYear" validate-exp-year data-stripe="exp-year">
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="exp_year" ng-model="order.creditCard.expYear" validate-exp-year data-stripe="exp-year">
                             <option value=""></option>
                             <option value="2014">2014</option>
                             <option value="2015">2015</option>
@@ -431,7 +431,7 @@
             </div>
             <div class="col-xs-12">
                 <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-                         ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)">Place Order
+                         ng-click="placeOrder(checkoutForm.$valid, checkoutForm)">Place Order
                 </button>
             </div>
         </div>
