@@ -31,6 +31,11 @@ angular.module('ds.shared')
                 route: '/orders/:orderId'
             },
 
+            cartItems: {
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',  //'http://cart-service.dev.cf.hybris.com',
+                route:   '/cartItems'
+            },
+
             headers: {
 
                 tenantOld: 'X-tenantId',

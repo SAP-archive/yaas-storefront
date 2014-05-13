@@ -181,6 +181,7 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('cartItems').baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
     })
 
     .factory('interceptor', ['$q', 'settings',
@@ -199,6 +200,10 @@ window.app = angular.module('ds.router', [
                     if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
+                    }
+
+                    if(config.url.indexOf('cartItems')>-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
                     }
                     return config || $q.when(config);
                 },

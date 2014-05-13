@@ -13,13 +13,14 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', function($rootScope){
+    .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
         var Cart = function(){
            this.estTax = 0;
            this.items = [];
            this.itemCount = 0;
            this.subtotal = 0;
+           this.id = null;
         };
 
         var cart = new Cart();
@@ -56,9 +57,34 @@ angular.module('ds.cart')
         }
 
         function recalculateCart(keepZeroInCart) {
+            if(!cart.id) {
+                createCart();
+            }
             updateItemCount(keepZeroInCart);
             calculateSubtotal();
             $rootScope.$emit('cart:updated', cart);
+        }
+
+        function createCart() {
+            var CartItem = function(sku, qty) {
+                this.productId = sku;
+                this.quantity = qty;
+            };
+
+            var CaasCart = function() {
+                this.cartItem = [];
+            };
+
+            var newCart = new CaasCart();
+
+            angular.forEach(cart.items, function(item){
+                newCart.cartItem.push(new CartItem(item.sku, item.quantity));
+            });
+
+
+            caas.cartItems.API.save(newCart).$promise.then(function(response){
+                cart.cartId(response.cartId);
+            });
         }
 
         return {
@@ -66,6 +92,8 @@ angular.module('ds.cart')
             getCart: function() {
                 return cart;
             },
+
+
 
             /**
              *
