@@ -61,8 +61,8 @@ angular.module('ds.checkout')
             stripeData.exp_month = ccForm.exp_month;
             stripeData.exp_year = ccForm.exp_year;
             stripeData.cvc = ccForm.cvc;
-
-            StripeJS.createToken(stripeData, function(status, response){
+            Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
+            Stripe.card.createToken(stripeData, function(status, response){
                 console.log('status is '+status);
                 console.log('response is: ');
                 console.log(response);
