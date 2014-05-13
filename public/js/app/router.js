@@ -203,7 +203,7 @@ window.app = angular.module('ds.router', [
                     }
 
                     if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                     }
                     return config || $q.when(config);
                 },
