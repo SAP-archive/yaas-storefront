@@ -13,10 +13,9 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
-        function ($scope, $rootScope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
+        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
 
-        $rootScope.showCart = false;
         $scope.order = order;
         $scope.cart = cart;
 

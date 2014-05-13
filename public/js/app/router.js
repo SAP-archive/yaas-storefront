@@ -74,7 +74,7 @@ window.app = angular.module('ds.router', [
                 })
 
                 .state('base.checkout', {
-                    url: '/checkout/',
+
 
                     views: {
                         'body@': {
@@ -91,6 +91,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.checkout.details', {
+                    url: '/checkout/',
                     views: {
                         'orderdetails': {
                             templateUrl: 'public/js/app/checkout/templates/order-details.html',

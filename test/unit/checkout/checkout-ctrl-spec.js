@@ -40,7 +40,7 @@ describe('CheckoutCtrl Test', function () {
     }));
 
     beforeEach(function () {
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, $rootScope: $rootScope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
     });
 
     describe('Initialization', function () {
