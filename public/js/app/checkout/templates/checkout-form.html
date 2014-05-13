@@ -405,7 +405,7 @@
             <span class="description">TOTAL</span>
         </div>
         <div class="col-xs-6 text-right">
-            <span class="value">{{subtotal + estTax + order.shippingCost | currency: '$'}}</span>
+            <span class="value">{{cart.subtotal + cart.estTax + order.shippingCost | currency: '$'}}</span>
         </div>
         <div class="col-xs-12">
             <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
