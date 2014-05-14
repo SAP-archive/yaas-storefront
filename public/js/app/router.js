@@ -181,6 +181,10 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('cartItems')
+            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
+        caasProvider.endpoint('cart', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
     })
 
     .factory('interceptor', ['$q', 'settings',
@@ -190,15 +194,22 @@ window.app = angular.module('ds.router', [
 
                     document.body.style.cursor = 'wait';
 
-
                     if(config.url.indexOf('products')>-1) {
                         config.headers[settings.apis.headers.tenant] = settings.tenantId;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
-                    if(config.url.indexOf('orders')>-1) {
+                    else if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
+                    }
+
+                    else if(config.url.indexOf('cartItems')>-1) {
+                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                    }
+
+                    else if(config.url.indexOf('carts')>-1) {
+                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
                     }
                     return config || $q.when(config);
                 },

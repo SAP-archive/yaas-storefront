@@ -33,32 +33,24 @@ yngApp.ApiEndpointConfig = function() {
     /** Flag indicating if CORS should be enabled.*/
     this.corsEnabled = false;
 
-    /** The default actions defined for every endpoint. */
-    var defaultActions  = {
-        'get':    { method: 'GET' },
-        'save':   { method: 'POST' },
-        'query':  { method: 'GET', isArray:true },
-        'remove': { method: 'DELETE' },
-        'delete': { method: 'DELETE' },
-        'update': { method: 'PUT' }
+    /** The default actions defined for every endpoint.
+    {action1: {method:?, params:?, isArray:?, headers:?, ...},
+        action2: {method:?, params:?, isArray:?, headers:?, ...},
+    ...}    */
+    this.defaultActions  =
+    {
+        'get': { method: 'GET' },
+        'save': { method: 'POST', params:{} },
+        'query': { method: 'GET', params:{}, isArray: true },
+        'remove': { method: 'DELETE', params:{}},
+        'delete': { method: 'DELETE', params:{}},
+        'update': { method: 'PUT', params:{}}
     };
 
-    // Add the default actions to this endpoint.
-    var self = this;
-    angular.forEach(defaultActions, function(alias, method) {
-        self.addHttpAction(alias, method);
-    });
 };
 
-/**
-* Adds an action to the endpoint.
-* @param {string} method The HTTP method for the action.
-* @param {string} name The name of the action.
-* @param {Object=} params The default parameters for the action.
-*/
-yngApp.ApiEndpointConfig.prototype.addHttpAction = function(alias, method, params) {
-    this.actions[name] = {method: method, params: params};
-};
+
+
 
 /**
  * Set the base URL for this endpoint, exclusive of path.
@@ -109,10 +101,6 @@ yngApp.QueryConfig = function() {
 };
 
 
-
-
-/******************************************************************************/
-
 /**
  * An api endpoint.
  *
@@ -128,8 +116,14 @@ yngApp.ApiEndpoint = function(endpointConfig, $injector, $resource) {
     this.$injector = $injector;
 
     this.API = $resource(endpointConfig.baseUrl + endpointConfig.route, {},
-        endpointConfig.actions);
+        endpointConfig.defaultActions);
 
+    /*
+    var self = this;
+    angular.forEach(endpointConfig.actions, function(action, actionName) {
+        var actionMethod = self.actionrequest;
+        self[actionName] = angular.bind(self, actionMethod, actionName);
+    });  */
 
     /*
     // Extend this endpoint objects with methods for all of the actions defined
