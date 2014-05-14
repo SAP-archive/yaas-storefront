@@ -15,6 +15,17 @@
 angular.module('ds.cart')
     .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
+        // Matches CAAS schema
+        var CartItem = function(sku, qty) {
+            this.productId = sku;
+            this.quantity = qty;
+        };
+
+        // Matches CAAS schema
+        var CaasCart = function() {
+            this.cartItem = [];
+        };
+
         var Cart = function(){
            this.estTax = 0;
            this.items = [];
@@ -57,33 +68,35 @@ angular.module('ds.cart')
         }
 
         function recalculateCart(keepZeroInCart) {
-            if(!cart.id) {
-                createCart();
-            }
+
             updateItemCount(keepZeroInCart);
             calculateSubtotal();
             $rootScope.$emit('cart:updated', cart);
         }
 
-        function createCart() {
-            var CartItem = function(sku, qty) {
-                this.productId = sku;
-                this.quantity = qty;
-            };
-
-            var CaasCart = function() {
-                this.cartItem = [];
-            };
+        function createCartItem(item) {
 
             var newCart = new CaasCart();
+            if(cart.id){
+                newCart.cartId = cart.id;
+            }
 
+            newCart.cartItem.push(item);
+
+            caas.cartItems.API.save(newCart).$promise.then(function(response){
+                cart.id = response.cartId;
+            });
+        }
+
+        function updateCart(){
+            var newCart = new CaasCart();
+            newCart.cartId = cart.id;
             angular.forEach(cart.items, function(item){
                 newCart.cartItem.push(new CartItem(item.sku, item.quantity));
             });
 
-
-            caas.cartItems.API.save(newCart).$promise.then(function(response){
-                cart.cartId(response.cartId);
+            caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
+                console.log(response);
             });
         }
 
@@ -92,7 +105,6 @@ angular.module('ds.cart')
             getCart: function() {
                 return cart;
             },
-
 
 
             /**
@@ -109,6 +121,7 @@ angular.module('ds.cart')
                        break;
                     }
                 }
+                updateCart();
                 recalculateCart(keepZeroInCart);
             },
 
@@ -124,7 +137,9 @@ angular.module('ds.cart')
                         break;
                     }
                 }
-                if (productDetailQty > 0 && !alreadyInCart) {
+                if(alreadyInCart) {
+                    updateCart();
+                }  else if (productDetailQty > 0 ) {
                     var cartProductToPush = {};
                     cartProductToPush.sku = product.sku;
                     cartProductToPush.name = product.name;
@@ -133,8 +148,8 @@ angular.module('ds.cart')
                     if (product.images) {
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
-
                     cart.items.push(cartProductToPush);
+                    createCartItem(new CartItem(product.sku, productDetailQty));
                 }
                 recalculateCart();
             },
@@ -148,6 +163,7 @@ angular.module('ds.cart')
                        product.quantity = 0;
                    }
                 });
+                updateCart();
                 recalculateCart();
             },
 
@@ -155,6 +171,7 @@ angular.module('ds.cart')
                 for (var i = 0; i < cart.items.length; i++) {
                     cart.items[i].quantity = 0;
                 }
+                updateCart();
                 recalculateCart();
             }
 
