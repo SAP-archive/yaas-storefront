@@ -55,14 +55,32 @@ angular.module('ds.checkout')
             console.log('payment is '+$scope.order.paymentMethod);
         };
 
-        $scope.generateCCToken = function(ccForm) {
+        $scope.generateCCToken = function(creditCard) {
             var stripeData = {};
-            stripeData.number = ccForm.number;
-            stripeData.exp_month = ccForm.exp_month;
-            stripeData.exp_year = ccForm.exp_year;
-            stripeData.cvc = ccForm.cvc;
-            Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
-            Stripe.card.createToken(stripeData, function(status, response){
+            stripeData.number = creditCard.number;
+            stripeData.exp_month = creditCard.expMonth;
+            stripeData.exp_year = creditCard.expYear;
+            stripeData.cvc = creditCard.cvc;
+            var error = false;
+            // Validate the number:
+            if (!Stripe.validateCardNumber(stripeData.number)) {
+                error = true;
+                console.log('The credit card number appears to be invalid.');
+            }
+
+// Validate the CVC:
+            if (!Stripe.validateCVC(stripeData.cvc)) {
+                error = true;
+                console.log('The CVC number appears to be invalid.');
+            }
+
+// Validate the expiration:
+            if (!Stripe.validateExpiry(stripeData.exp_month, stripeData.exp_year)) {
+                error = true;
+                console.log('The expiration date appears to be invalid.');
+            }
+            //Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
+            StripeJS.createToken(stripeData, function(status, response){
                 console.log('status is '+status);
                 console.log('response is: ');
                 console.log(response);
@@ -137,10 +155,11 @@ angular.module('ds.checkout')
         };
 
         $scope.placeOrder = function (formValid, form) {
-            $scope.$broadcast('submitting:form', form.$name);
+            $scope.generateCCToken($scope.order.creditCard);
+            $scope.$broadcast('submitting:form', form);
             if (formValid) {
 
-                $scope.generateCCToken(form.paymentForm);
+                $scope.generateCCToken($scope.order.creditCard);
                 // do again to ensure copy in full-screen mode
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
