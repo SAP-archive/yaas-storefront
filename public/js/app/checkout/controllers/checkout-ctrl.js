@@ -24,11 +24,16 @@ angular.module('ds.checkout')
         $scope.badEmailAddress = false;
         $scope.showPristineErrors = false;
 
+
         var Wiz = function(){
             this.step1Done = false;
             this.step2Done = false;
             this.step3Done = false;
             this.shipToSameAsBillTo = true;
+            this.years = [];
+            for (var year = new Date().getFullYear(), i = year, stop = year+10; i< stop; i++){
+                this.years.push(i);
+            }
         };
 
         $scope.wiz = new Wiz();
@@ -100,23 +105,29 @@ angular.module('ds.checkout')
         };
 
         $scope.placeOrder = function (formValid, form) {
-            $scope.generateCCToken($scope.order.creditCard);
+
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
 
-                $scope.generateCCToken($scope.order.creditCard);
-                // do again to ensure copy in full-screen mode
-                if ($scope.wiz.shipToSameAsBillTo) {
-                    $scope.setShipToSameAsBillTo();
-                }
-                OrderSvc.createOrder(cart);
-                CartSvc.emptyCart();
+                $scope.generateCCToken($scope.order.creditCard, function(){
+                    // ON CC SUCCESS:
+
+                    // ensure copy in full-screen mode
+                    if ($scope.wiz.shipToSameAsBillTo) {
+                        $scope.setShipToSameAsBillTo();
+                    }
+
+                    OrderSvc.createOrder(cart);
+                    CartSvc.emptyCart();
+                });
+
             }  else {
                 $scope.showPristineErrors = true;
             }
         };
 
-            $scope.generateCCToken = function(creditCard) {
+            $scope.generateCCToken = function(creditCard, doNext) {
+                Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
                 var stripeData = {};
                 stripeData.number = creditCard.number;
                 stripeData.exp_month = creditCard.expMonth;
@@ -138,11 +149,12 @@ angular.module('ds.checkout')
                     error = true;
                     console.log('The expiration date appears to be invalid.');
                 }
-                //Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
+
                 Stripe.createToken(stripeData, function(status, response){
                     console.log('status is '+status);
                     console.log('response is: ');
                     console.log(response);
+                    doNext();
                 });
 
             };

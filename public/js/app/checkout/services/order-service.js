@@ -27,6 +27,7 @@ angular.module('ds.checkout')
             this.billTo = {};
             this.billTo.country = 'USA';
             this.shippingCost = 3; // hard-coded for now
+            this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
         };
 

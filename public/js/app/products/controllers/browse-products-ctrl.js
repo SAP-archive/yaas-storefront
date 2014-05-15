@@ -45,8 +45,7 @@ angular.module('ds.products')
 
 
         $scope.setSortedPage = function (pageNo) {
-            // $scope.pageNumber = pageNo;
-            // $scope.products = getProducts();
+
             $scope.products = [];
             $scope.pageNumber = pageNo;
             $scope.addMore();
