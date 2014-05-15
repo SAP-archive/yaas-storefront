@@ -16,20 +16,23 @@
         </div>
         <div class="col-md-4 col-md-pull-8 ">
             <div class="product-details">
-                <div class="category">Category</div>
+                <!-- <div class="category">Category</div> -->
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{product.price | currency: '$'}}</div>
 
+                <!-- 
                 <div class="rating ratingCalc" data-rating='{"rating":4.5,"total":5}'>
                     <div class="rating-stars">
                         <span class="ratingIcon hyicon hyicon-star"></span>
                     </div>
                     <a href="" class="review-count">(144)</a>
                 </div>
+                 -->
 
                 <form action="" class="cartPanel">
                     <div class="row" >
                         <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6 ">
+                            <!-- 
                             <div class="form-group">
                                 <label for="" class="sr-only"></label>
                                 <select name="" id="" class="form-control">
@@ -39,8 +42,10 @@
                                     <option value="">Stone</option>
                                 </select>
                             </div>
+                             -->
                         </div>
                         <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
+                            <!-- 
                             <div class="form-group">
                                 <label for="" class="sr-only"></label>
                                 <select name="" id="" class="form-control">
@@ -50,6 +55,7 @@
                                     <option value="">60 ml</option>
                                 </select>
                             </div>
+                             -->
                         </div>
                         <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
                             <div class="form-group qty">
@@ -73,18 +79,21 @@
                         <div ng-show="{{!product.inStock}}" class="col-sm-6">
                             <button class="btn btn-primary btn-block">Out Of Stock</button>
                         </div>  
+                        <!-- 
                         <div class="col-sm-6">
                             <button class="btn btn-default btn-block">Wishlist</button>
                         </div>
+                         -->
                     </div>
                 </form>
 
+                <!-- 
                 <ul class="links">
                     <li><a href="">Ask A Question <span>2</span></a></li>
                     <li><a href="">add to favorites</a></li>
                     <li><a href="">Share this</a></li>
                 </ul>
-
+                 -->
     
                 <div class="description">
                     <div class="headline">Description:</div>
@@ -94,7 +103,7 @@
         </div>
     </div>
 </section> 
-        
+<!--         
 <section class="lightgray">
     <header>#Brand’s PinterestFeed</header>
 
@@ -172,7 +181,7 @@
         </footer>
     </div>
 </section>
-
+ -->
 <script src="public/js/vendor-static/jquery.min.js"></script>
 <script src="public/js/vendor-static/bootstrap.min.js"></script>
 <script src="public/js/vendor-static/masonry.pkgd.min.js"></script>

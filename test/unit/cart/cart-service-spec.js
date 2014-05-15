@@ -20,7 +20,11 @@ describe('CartSvc Test', function () {
     //***********************************************************************
 
     // configure the target service's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.cart'));
+
+    beforeEach(angular.mock.module('ds.cart', function (caasProvider) {
+        caasProvider.endpoint('cartItems').baseUrl('dummyUrl').route('dummyRoute');
+        caasProvider.endpoint('cart', { cartId: '@cartId' }).baseUrl('dummyUrl').route('dummyRoute');
+    }));
 
     beforeEach(inject(function (_$httpBackend_, _$rootScope_, CartSvc) {
 
@@ -36,6 +40,8 @@ describe('CartSvc Test', function () {
     }));
 
     var prod1, prod2, sku1, sku2;
+
+
 
     beforeEach(function () {
         sku1 =  'guitar1234';
