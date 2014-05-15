@@ -32,6 +32,11 @@ angular.module('ds.shared')
                 route: '/orders/:orderId'
             },
 
+            orderDetails: {
+                baseUrl: 'http://order-mashup-service.dprod.cf.hybris.com',
+                route: '/order/details/:orderId'
+            },
+
             cartItems: {
                 baseUrl: 'http://cart-service.dev.cf.hybris.com',
                 route:   '/cartItems'
@@ -54,6 +59,7 @@ angular.module('ds.shared')
 
                 authorization: 'Authorization',
                 customer: 'X-buyerId',
+                user: 'hybris-user',
                 paging: {
                     total: 'X-count'
                 }

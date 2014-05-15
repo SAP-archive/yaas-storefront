@@ -30,6 +30,7 @@
 					</div>
 				</div>
 			</div>
+			-->
 			<p>A copy of your order details has been sent to:</p>
 			<address>
 				your.name@email.com
@@ -37,11 +38,11 @@
 			<p>The Shipment is scheduled to arrive at the following location:</p>
 
 			<address>
-				recipient name<br>
-				shipping address<br>
-				city, state and zip<br>
+				{{shippingAddressLine1}}<br>
+				{{shippingAddressLine2}}<br>
+				{{shippingAddressLine3}}<br>
 			</address>
-			 -->
+
 			<h3>Enjoy your items!</h3>
             <div data-ui-sref="base.product">
 			<button class="btn btn-primary btn-lg">
