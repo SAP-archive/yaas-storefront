@@ -13,56 +13,133 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', function($rootScope){
+    .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
+
+        // Matches CAAS schema
+        var CartItem = function(sku, qty) {
+            this.productId = sku;
+            this.quantity = qty;
+        };
+
+        // Matches CAAS schema
+        var CaasCart = function() {
+            this.cartItem = [];
+        };
+
+        var Cart = function(){
+           this.estTax = 0;
+           this.items = [];
+           this.itemCount = 0;
+           this.subtotal = 0;
+           this.id = null;
+        };
+
+        var cart = new Cart();
+
+        function updateItemCount(keepZeroInCart) {
+            // copying all non-zero items to new array to delete zeroes
+            var newItems = [];
+            var count = 0;
+            for (var i = 0; i < cart.items.length; i++) {
+                if (cart.items[i].quantity || keepZeroInCart) {
+                    count = count + cart.items[i].quantity;
+                    newItems.push(cart.items[i]);
+                }
+            }
+            cart.items = newItems;
+            cart.itemCount = count;
+        }
+
 
         /*
-            until the cart API has been implemented, we
-            will just save items to the scope.
+         Calculates the subtotal and saves it to the cart.
+
+         @return subtotal
          */
+        function calculateSubtotal() {
+            var subtotal = 0;
 
-        $rootScope.subtotal = 0;
+            angular.forEach(cart.items, function(product) {
+                if (product.price && product.quantity) {
+                    subtotal = subtotal + (product.price * product.quantity);
+                }
+            });
+            cart.subtotal = subtotal;
+        }
 
-        $rootScope.estTax = 0;
+        function recalculateCart(keepZeroInCart) {
 
-        $rootScope.cart = [];
+            updateItemCount(keepZeroInCart);
+            calculateSubtotal();
+            $rootScope.$emit('cart:updated', cart);
+        }
 
-        $rootScope.itemCount = 0;
+        function createCartItem(item) {
+
+            var newCart = new CaasCart();
+            if(cart.id){
+                newCart.cartId = cart.id;
+            }
+
+            newCart.cartItem.push(item);
+
+            caas.cartItems.API.save(newCart).$promise.then(function(response){
+                cart.id = response.cartId;
+            });
+        }
+
+        function updateCart(){
+            var newCart = new CaasCart();
+            newCart.cartId = cart.id;
+            angular.forEach(cart.items, function(item){
+                newCart.cartItem.push(new CartItem(item.sku, item.quantity));
+            });
+
+            caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
+                console.log(response);
+            });
+        }
 
         return {
 
             getCart: function() {
-                return $rootScope.cart;
+                return cart;
             },
 
-            /*
-                saves subtotal to $rootScope
 
-                @return subtotal
+            /**
+             *
+             * @param sku
+             * @param qty
+             * @param keepZeroInCart  if true, a line item with qty undefined or zero will be kept in the cart;
+             *                      otherwise, it will be removed
              */
-            calculateSubtotal: function () {
-                var subtotal = 0;
-
-                angular.forEach($rootScope.cart, function(product) {
-                    if (product.price && product.quantity) {
-                        subtotal = subtotal + (product.price * product.quantity);
+            updateLineItem: function(sku, qty, keepZeroInCart) {
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (cart.items[i].sku === sku) {
+                       cart.items[i].quantity = qty;
+                       break;
                     }
-                });
-
-                $rootScope.subtotal = subtotal;
-                return subtotal;
+                }
+                updateCart();
+                recalculateCart(keepZeroInCart);
             },
+
             /*
                 converts product object to line item object and pushes it to the cart
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    if (product.sku === $rootScope.cart[i].sku) {
-                        $rootScope.cart[i].quantity = $rootScope.cart[i].quantity + productDetailQty;
+                for (var i = 0; i < cart.items.length; i++) {
+                    if (product.sku === cart.items[i].sku) {
+                        cart.items[i].quantity = cart.items[i].quantity + productDetailQty;
                         alreadyInCart = true;
+                        break;
                     }
                 }
-                if (productDetailQty > 0 && !alreadyInCart) {
+                if(alreadyInCart) {
+                    updateCart();
+                }  else if (productDetailQty > 0 ) {
                     var cartProductToPush = {};
                     cartProductToPush.sku = product.sku;
                     cartProductToPush.name = product.name;
@@ -71,43 +148,33 @@ angular.module('ds.cart')
                     if (product.images) {
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
-
-                    $rootScope.cart.push(cartProductToPush);
+                    cart.items.push(cartProductToPush);
+                    createCartItem(new CartItem(product.sku, productDetailQty));
                 }
+                recalculateCart();
+            },
 
-                this.updateItemCount();
-                this.calculateSubtotal();
-            },
-            updateItemCount: function () {
-                var count = 0, thisCart = this.getCart();
-                for (var i = 0; i < thisCart.length; i++) {
-                    if (thisCart[i].quantity) {
-                        count = count + thisCart[i].quantity;
-                    }
-                }
-                $rootScope.itemCount = count;
-                return count;
-            },
             /*
                 removes a product from the cart
              */
             removeProductFromCart: function (sku) {
-                angular.forEach($rootScope.cart, function (product) {
+                angular.forEach(cart.items, function (product) {
                    if(product.sku === sku) {
                        product.quantity = 0;
                    }
                 });
-                this.updateItemCount();
-                this.calculateSubtotal();
+                updateCart();
+                recalculateCart();
             },
 
             emptyCart: function () {
-                for (var i = 0; i < $rootScope.cart.length; i++) {
-                    $rootScope.cart[i].quantity = 0;
+                for (var i = 0; i < cart.items.length; i++) {
+                    cart.items[i].quantity = 0;
                 }
-                this.updateItemCount();
-                this.calculateSubtotal();
+                updateCart();
+                recalculateCart();
             }
+
         };
 
     }]);

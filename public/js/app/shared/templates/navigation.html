@@ -1,31 +1,33 @@
 <nav class="full-nav">
 	<button type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
-		<span class="hyicon hyicon-cart"></span><span class="quantity">{{ itemCount }}</span>
+		<span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.itemCount }}</span>
 	</button>
 	<div class="sidebar-offcanvas" id="sidebar" role="navigation">
 
 		<a ui-sref="base.product" class="logo"><img src="public/img/logo.png" alt=""></a>
 
+		<!-- 
 		<form role="form" class="sidebar-search">
 			<div class="form-group">
 				<label for="searchsidebar" class="sr-only">Search</label>
 				<input type="text" class="form-control" id="searchsidebar" placeholder="">
 			</div>
-
 		</form>
-
+		 -->
 
 		<ul class="navi">
 			<li><a ui-sref="base.product">Products</a></li>
-			<li><a href="#">Contact</a></li>
-			<li><a href="#">Press</a></li>
+			<!-- <li><a href="#">Contact</a></li>
+			<li><a href="#">Press</a></li> -->
 		</ul>
 
+		<!-- 
 		<div class="social-icons">
 			<a href="#"><span class="hyicon hyicon-social-facebook"></span></a>
 			<a href="#"><span class="hyicon hyicon-social-twitter"></span></a>
 			<a href="#"><span class="hyicon hyicon-social-pinterest"></span></a>
 		</div>
+		 -->
 
 	</div>
 </nav>

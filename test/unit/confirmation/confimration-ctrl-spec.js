@@ -1,4 +1,4 @@
-/**
+/*
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -10,9 +10,11 @@
  * license agreement you entered into with hybris.
  */
 
-describe('NavigationCtrl Test', function () {
+describe('ConfirmationlCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, cart;
+    var $scope, $controller, confCtrl;
+    var orderId = 123;
+
 
     //***********************************************************************
     // Common Setup
@@ -20,37 +22,32 @@ describe('NavigationCtrl Test', function () {
     //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.shared'));
+    beforeEach(angular.mock.module('ds.confirmation'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
 
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
             }
         });
-        $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-        $injector = _$injector_;
     }));
 
-    describe('NavigationCtrl', function () {
-        var navCtrl, cart;
-        cart = {};
-        beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart});
+    beforeEach(function () {
+        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, 'orderInfo': orderId});
+    });
+
+    describe(' initialization', function () {
+
+        it(' should inject order id ', function () {
+           expect($scope.orderInfo).toBeTruthy();
+           expect($scope.orderInfo.orderId).toEqualData(orderId);
         });
 
-        it('should change showCart value', function(){
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(true);
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(false);
-        });
     });
 
 
 
 });
-

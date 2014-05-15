@@ -35,7 +35,13 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'public/js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve:  {
+                        cart: function(CartSvc){
+                            CartSvc.getCart();
+                        }
                     }
+
                 })
 
                 .state('base.product', {
@@ -68,19 +74,40 @@ window.app = angular.module('ds.router', [
                 })
 
                 .state('base.checkout', {
-                    url: '/checkout/',
+
+
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout.html',
-                            controller: 'CheckoutCtrl'
+                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
+                        }
+                    },
+                    resolve: {
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+                        },
+                        order: function (OrderSvc) {
+                            return OrderSvc.getDefaultOrder();
                         }
                     }
                 })
-                .state('base.checkout.orderitems', {
-                    //url: '/cc/',
-                   // controller: 'CartCtrl',
-                    templateUrl: 'public/js/app/checkout/templates/boo.html'
+                .state('base.checkout.details', {
+                    url: '/checkout/',
+                    views: {
+                        'orderdetails': {
+                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
+                            controller: 'OrderDetailCtrl'
+
+
+                        },
+                        'checkoutform': {
+                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
+                            controller: 'CheckoutCtrl'
+                        }
+
+                    }
                 })
+
+
                 .state('base.cart', {
                     url: '/cart/',
                     views: {
@@ -154,6 +181,10 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('cartItems')
+            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
+        caasProvider.endpoint('cart', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
     })
 
     .factory('interceptor', ['$q', 'settings',
@@ -163,15 +194,22 @@ window.app = angular.module('ds.router', [
 
                     document.body.style.cursor = 'wait';
 
-
                     if(config.url.indexOf('products')>-1) {
                         config.headers[settings.apis.headers.tenant] = settings.tenantId;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
-                    if(config.url.indexOf('orders')>-1) {
+                    else if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
+                    }
+
+                    else if(config.url.indexOf('cartItems')>-1) {
+                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                    }
+
+                    else if(config.url.indexOf('carts')>-1) {
+                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
                     }
                     return config || $q.when(config);
                 },

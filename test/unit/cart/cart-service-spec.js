@@ -20,7 +20,11 @@ describe('CartSvc Test', function () {
     //***********************************************************************
 
     // configure the target service's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.cart'));
+
+    beforeEach(angular.mock.module('ds.cart', function (caasProvider) {
+        caasProvider.endpoint('cartItems').baseUrl('dummyUrl').route('dummyRoute');
+        caasProvider.endpoint('cart', { cartId: '@cartId' }).baseUrl('dummyUrl').route('dummyRoute');
+    }));
 
     beforeEach(inject(function (_$httpBackend_, _$rootScope_, CartSvc) {
 
@@ -35,20 +39,54 @@ describe('CartSvc Test', function () {
         cartSvc = CartSvc;
     }));
 
-    var products;
+    var prod1, prod2, sku1, sku2;
+
+
 
     beforeEach(function () {
+        sku1 =  'guitar1234';
+        sku2 =  'guitar5678';
+        prod1 =    {'name': 'Electric Guitar', 'sku': sku1, 'price': 1000.00};
+        prod2 =    {'name': 'Acoustic Guitar', 'sku': sku2, 'price': 800.00};
 
-        products = [
-            {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-            {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
-        ];
-
-        $rootScope.cart = products;
-
+        //cartSvc.emptyCart();
+        cartSvc.addProductToCart(prod1, 1 );
+        cartSvc.addProductToCart(prod2, 1);
     });
 
-    describe('CartSvc - add to cart', function () {
+    describe(' delete from cart', function() {
+        it(' should remove the item from the cart', function() {
+            cartSvc.removeProductFromCart(sku1);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items[0].sku).toEqualData(sku2);
+        });
+    });
+
+    describe('update line item with qty > 0', function() {
+        it(' should update the qty', function() {
+            var newQty = 4;
+            cartSvc.updateLineItem(sku1, newQty, true);
+            var actualQty = cartSvc.getCart().items[0].quantity;
+            expect(actualQty === newQty);
+        });
+    });
+
+    describe('update line item with qty = 0', function() {
+        it(' DO REMOVE should remove the item', function() {
+            cartSvc.updateLineItem(sku1, 0, false);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items.length).toEqualData(1);
+        });
+
+        it(' KEEP should keep the item', function() {
+            cartSvc.updateLineItem(sku1, 0, true);
+            expect(cartSvc.getCart().itemCount).toEqualData(1);
+            expect(cartSvc.getCart().items.length).toEqualData(2);
+        });
+    });
+
+    describe(' add to cart', function () {
+
 
         var newProduct;
 
@@ -56,32 +94,38 @@ describe('CartSvc Test', function () {
 
         it(' should add the product to the cart', function () {
             cartSvc.addProductToCart(newProduct, 1);
-            expect($rootScope.cart.length).toEqualData(3);
+            expect(cartSvc.getCart().itemCount).toEqualData(3);
         });
 
         it(' should increment the item qty if same item is added again', function(){
-             var same = {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00};
-             var updated =   [ {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 5},
-                 {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}];
-            cartSvc.addProductToCart(same, 4);
-            expect(cartSvc.getCart()).toEqualData(updated);
+
+            cartSvc.addProductToCart(prod1, 4);
+
+            var cart = cartSvc.getCart();
+            expect(cart.itemCount).toEqualData(6);
+
+            var qty = 0;
+            for (var i = 0; i < cart.items.length; i++) {
+                if (cart.items[i].sku === prod1.sku) {
+                    qty = cart.items[i].quantity;
+                    break;
+                }
+            }
+            expect(qty).toBe(5);
         });
 
+        /*    WILL BE REPLACED BY SERVICE
         it(' should create cart line item with image if product has image', function(){
              var withImage = {'name': 'bunny', 'sku': 'bunny134', 'price': 10.59, 'images':[{'url':'imgurl'}]};
-
-             var updated =   [ {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-                 {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1},
-                 {'name': 'bunny', 'sku': 'bunny134', 'price': 10.59, 'quantity': 1, 'imageUrl':'imgurl'}];
              cartSvc.addProductToCart(withImage, 1);
              expect(cartSvc.getCart()).toEqualData(updated);
-        });
+        });  */
     });
 
     describe('CartSvc - should calculate the subtotal', function () {
 
         it(' should properly calculate subtotal', function () {
-            expect(cartSvc.calculateSubtotal()).toEqualData(1800.00);
+            expect(cartSvc.getCart().subtotal).toEqualData(1800.00);
         });
 
     });
@@ -90,30 +134,17 @@ describe('CartSvc Test', function () {
 
         it('should return cart items', function(){
            var cart = cartSvc.getCart();
-           expect(cart).toEqualData(products);
+           expect(cart.itemCount).toEqualData(2);
         });
     });
 
     describe('CartSvc - emptyCart', function() {
         it('should empty out the cart', function () {
             cartSvc.emptyCart();
-            expect(cartSvc.updateItemCount()).toEqualData(0);
+            expect(cartSvc.getCart().itemCount).toEqualData(0);
         });
     });
 
-    describe('CartSvc - update item count', function () {
 
-        it('should update the item count', function () {
-            var newProduct;
-
-            newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
-
-            cartSvc.addProductToCart(newProduct, 1);
-
-            cartSvc.updateItemCount();
-
-            expect($rootScope.itemCount).toEqualData(3);
-        });
-    });
 
 });

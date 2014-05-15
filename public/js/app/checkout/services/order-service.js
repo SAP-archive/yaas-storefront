@@ -15,9 +15,28 @@
 angular.module('ds.checkout')
     .factory('OrderSvc',  ['caas', '$rootScope', '$timeout', '$state', function(caas, $rootScope, $timeout, $state){
 
+        var CreditCard = function () {
+            this.number = null;
+            this.cvc = null;
+            this.expMonth = null;
+            this.expYear = null;
+        };
+
+        var DefaultOrder = function(){
+            this.shipTo = {};
+            this.billTo = {};
+            this.billTo.country = 'USA';
+            this.shippingCost = 3; // hard-coded for now
+            this.creditCard = new CreditCard();
+        };
+
         return {
 
-            setLastOrderId: function(id){
+        getDefaultOrder: function(){
+            return new DefaultOrder();
+        },
+
+        setLastOrderId: function(id){
                 this.lastOrderId = id;
             },
             getLastOrderId: function() {
@@ -29,7 +48,7 @@ angular.module('ds.checkout')
              * Uses the CartSvc to retrieve the current set of line items.
              * @return The result array as returned by Angular $resource.query().
              */
-            createOrder: function(cartItems) {
+            createOrder: function(cart) {
 
                 var OrderLine = function(amount, unitPrice, productCode) {
                     this.amount = amount;
@@ -43,7 +62,7 @@ angular.module('ds.checkout')
 
                 var newOrder = new Order();
 
-                angular.forEach(cartItems, function(item){
+                angular.forEach(cart.items, function(item){
                      newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 

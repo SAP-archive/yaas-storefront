@@ -15,15 +15,8 @@
 angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
-        $scope.qtyGreaterThanZero = function (product) {
-            return (product.quantity > 0 || product.quantity === null);
-        };
+        $scope.cart = CartSvc.getCart();
 
-        $scope.qtyInputBlurred = function () {
-            if (!this.product.quantity || this.product.quantity === 0) {
-                CartSvc.removeProductFromCart(this.product.sku);
-            }
-        };
 
         $scope.removeProductFromCart = function (sku) {
             CartSvc.removeProductFromCart(sku);
@@ -33,13 +26,16 @@ angular.module('ds.cart')
             $rootScope.showCart = false;
         };
 
-        $scope.updateItemCount = function () {
-            CartSvc.updateItemCount();
-        };
 
-        $scope.updateSubtotal = function () {
-            CartSvc.calculateSubtotal();
+        /**
+         *
+         * @param sku
+         * @param qty
+         * @param keepZeroInCart if true, line items with qty of zero or undefined will remain in the cart; else,
+         *         they will be removed
+         */
+        $scope.updateCart = function (sku, qty, keepZeroInCart) {
+            CartSvc.updateLineItem(sku, qty, keepZeroInCart);
         };
-
 
     }]);

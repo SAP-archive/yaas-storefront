@@ -1,4 +1,4 @@
-/*
+/**
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -11,15 +11,10 @@
  */
 'use strict';
 
-angular.module('ds.confirmation')
-    .controller('ConfirmationCtrl', ['$scope',  'orderInfo', function ($scope, orderInfo) {
+angular.module('ds.checkout')
+    .controller('OrderDetailCtrl', ['$scope', 'cart', 'order', function($scope, cart, order) {
 
-        var OrderInfo = function(){
-            this.orderId = null;
-        };
-
-        $scope.orderInfo = new OrderInfo();
-        $scope.orderInfo.orderId = orderInfo;
-
+        $scope.cart = cart;
+        $scope.order = order;
 
     }]);

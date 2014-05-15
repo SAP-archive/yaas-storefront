@@ -14,8 +14,9 @@ var tu = require('./protractor-utils.js');
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual(totalPrice);
-            expect(element(by.xpath("//div[2]/div[3]/div[3]")).getText()).toEqual(quantity);
+            expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual('TOTAL: ' + totalPrice);
+            expect(element(by.css("span.value.ng-binding")).getText()).toEqual(totalPrice);
+            expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
           }
 
@@ -55,13 +56,13 @@ describe("checkout:", function () {
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', 'TOTAL: $12.50', 'Qty: 1');
+            verifyCartContents('Item Price: $9.50', '$12.50', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', 'TOTAL: $22.00', 'Qty: 2');
+            verifyCartContents('Item Price: $9.50', '$22.00', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
@@ -71,7 +72,7 @@ describe("checkout:", function () {
             tu.clickElement('xpath', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', 'TOTAL: $14.50', 'Qty: 1');
+            verifyCartContents('Item Price: $9.50', '$14.50', '1');
            });
 
            it('should allow all fields to be editable', function () {

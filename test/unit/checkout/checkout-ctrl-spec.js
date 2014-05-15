@@ -1,6 +1,6 @@
 describe('CheckoutCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, checkoutCtrl;
+    var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, checkoutCtrl, order, cart;
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
 
     //***********************************************************************
@@ -9,6 +9,9 @@ describe('CheckoutCtrl Test', function () {
     //***********************************************************************
 
     beforeEach(module('ds.checkout', function($provide) {
+        order = {};
+        order.shipTo = {};
+        cart = {};
         mockedOrderSvc =  {}
         mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
 
@@ -17,6 +20,8 @@ describe('CheckoutCtrl Test', function () {
         mockedCartSvc.emptyCart = jasmine.createSpy('removeProductFromCart');
         $provide.value('OrderSvc', mockedOrderSvc);
         $provide.value('CartSvc', mockedCartSvc);
+        $provide.value('cart', cart);
+        $provide.value('order', order);
     }));
 
 
@@ -35,7 +40,7 @@ describe('CheckoutCtrl Test', function () {
     }));
 
     beforeEach(function () {
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, $rootScope: $rootScope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
     });
 
     describe('Initialization', function () {
@@ -44,7 +49,6 @@ describe('CheckoutCtrl Test', function () {
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
 
-            expect($scope.order.shippingCost).toEqualData(3);
         })
     });
 
@@ -149,7 +153,7 @@ describe('CheckoutCtrl Test', function () {
         it('should invoke pass cart from CartSvc to OrderSvc if form valid', function(){
             $scope.placeOrder(true);
             expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
-            expect(mockedCartSvc.getCart).toHaveBeenCalled();
+
         });
 
         it('should not place order if form invalid', function(){
@@ -163,10 +167,10 @@ describe('CheckoutCtrl Test', function () {
         });
 
         it('should ensure ship to copy', function(){
-            $scope.order.billTo = mockBillTo;
+            order.billTo = mockBillTo;
             $scope.wiz.shipToSameAsBillTo = true;
             $scope.placeOrder(true);
-            expect($scope.order.shipTo).toEqualData(mockBillTo);
+            expect(order.shipTo).toEqualData(mockBillTo);
         });
 
         it('should remove products from the cart after placing order', function() {

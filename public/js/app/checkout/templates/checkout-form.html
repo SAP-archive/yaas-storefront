@@ -1,6 +1,3 @@
-<div class="checkout">
-<div class="row section">
-<div class="col-sm-7 col-md-7 steps">
 <h1>
     <small class="visible-lg visible-md">Simple 3 Step Checkout</small>
     <small class="visible-xs visible-sm">Simple 4 Step Checkout</small>
@@ -159,7 +156,7 @@
 <ng-form name="shipToForm" novalidate  >
     <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
         <a id="step2">
-        <h2> Step 2. Shipping Information <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editBillTo()"></span></h2>
+            <h2> Step 2. Shipping Information <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editBillTo()"></span></h2>
         </a>
         <div class="row step-detail">
 
@@ -325,8 +322,8 @@
 <ng-form name="paymentForm" novalidate>
     <div class="step step-3" ng-class="">
         <a id="step3">
-        <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
-                                  ng-click="editPayment()"></span></h2>
+            <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
+                                      ng-click="editPayment()"></span></h2>
         </a>
         <div class="row step-detail">
 
@@ -334,6 +331,7 @@
             <div class="col-lg-12">
                 <span class="form-block-headline">Payment</span>
             </div>
+            <!--
             <div class="col-lg-12">
                 <div class="radio">
                     <label>
@@ -342,10 +340,13 @@
                     </label>
                 </div>
             </div>
+            -->
             <div class="col-lg-12">
                 <div class="radio">
                     <label>
-                        <input type="radio" ng-model="order.paymentMethod" name="paymentMethod" value="creditCard" ng-change="logPayment()">
+
+                        <input type="radio" ng-model="order.paymentMethod" name="paymentMethod" value="creditCard" >
+
                         <img src="public/img/creditcard.png" alt="creditcard"/>
                     </label>
 
@@ -418,80 +419,25 @@
     </div>
 </ng-form>
 
-    <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
-        <a id="step4">
+<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
+    <a id="step4">
         <h2 class="visible-sm visible-xs">Step 4. Review & Payment</h2>
-        </a>
-        <div class="row step-detail">
-            <div class="col-xs-6">
-                <span class="description">TOTAL</span>
-            </div>
-            <div class="col-xs-6 text-right">
-                <span class="value">{{subtotal + estTax + order.shippingCost | currency: '$'}}</span>
-            </div>
-            <div class="col-xs-12">
-                <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-                         ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)">Place Order
-                </button>
-            </div>
+    </a>
+    <div class="row step-detail">
+        <div class="col-xs-6">
+            <span class="description">TOTAL</span>
+        </div>
+        <div class="col-xs-6 text-right">
+            <span class="value">{{cart.subtotal + cart.estTax + order.shippingCost | currency: '$'}}</span>
+        </div>
+        <div class="col-xs-12">
+            <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
+                    ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)">Place Order
+            </button>
         </div>
     </div>
+</div>
+
 
 </ng-form>
-</div>
-<div class="col-md-5 col-sm-5 order-detail">
-    <h2>Order Details</h2>
-    <section class="excerpt‎">
-        <div class="pull-left">{{itemCount}} Items</div>
-        <div class="pull-right">total: {{subtotal + estTax + order.shippingCost| currency: '$'}}</div>
-    </section>
-    <section>
-        <div ng-repeat="product in cart track by $index">
-            <div class="cart-item row">
-                <div class="col-xs-4 col-md-4 text-center img-col">
-                    <img src="{{product.imageUrl}}" class="img-responsive"/>
 
-                </div>
-                <div class="col-xs-8 col-md-8  detail-col">
-
-                    <div class="name">{{product.name}}</div>
-                    <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span></div>
-                    <div class="variants row item-attr">
-                        <div class="variant col-md-6 ">Color: <span>Stone</span></div>
-                        <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
-                        <div class="variant col-md-6 ">Qty: <span>{{ product.quantity }}</span></div>
-                    </div>
-                    <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="summary">
-        <table class="table">
-            <tbody>
-            <tr>
-                <td>Subtotal</td>
-                <td class="text-right">{{subtotal | currency: '$'}}</td>
-            </tr>
-            <tr>
-                <td>shipping</td>
-                <td class="text-right">{{ order.shippingCost | currency: '$' }}</td>
-            </tr>
-            <tr>
-                <td>Tax</td>
-                <td class="text-right">{{estTax | currency: '$'}}</td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td>order total</td>
-                <td class="text-right">{{subtotal + estTax + order.shippingCost | currency: '$'}}</td>
-            <tr>
-            </tfoot>
-        </table>
-    </section>
-</div>
-</div>
-
-</div>

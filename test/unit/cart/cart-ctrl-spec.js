@@ -34,20 +34,24 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var products, cartCtrl, stubbedCartSvc;
+    var cart, products, cartCtrl, stubbedCartSvc;
 
     beforeEach(function () {
+        cart = {};
 
         products = [
             {'name': 'Electric Guitar', 'sku': 'guitar1234', 'price': 1000.00, 'quantity': 1},
             {'name': 'Acoustic Guitar', 'sku': 'guitar5678', 'price': 800.00, 'quantity': 1}
         ];
 
+        cart.items = products;
+
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
-            calculateSubtotal: jasmine.createSpy(),
-            updateItemCount: jasmine.createSpy()
+
+            updateLineItem: jasmine.createSpy(),
+            getCart: jasmine.createSpy().andReturn(cart)
         };
 
         cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc});
@@ -55,28 +59,24 @@ describe('CartCtrl Test', function () {
         $rootScope.cart = products;
     });
 
-    describe('CartCtrl - remove from cart', function () {
+    describe('remove from cart', function () {
 
-        it(' should remove the product', function () {
+        it(' should call service remove', function () {
             $scope.removeProductFromCart('guitar5678');
-            // validate that the service's remove function has been called
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled();
         });
 
     });
 
-    describe('CartCtrl - should update item count', function () {
-        it(' should call function in service', function () {
-            $scope.updateItemCount();
-            expect(stubbedCartSvc.updateItemCount).toHaveBeenCalled();
+    describe('update line item', function () {
+
+        it(' should call service update', function () {
+            $scope.updateCart('guitar5678', 2, true);
+            expect(stubbedCartSvc.updateLineItem).toHaveBeenCalledWith('guitar5678', 2, true);
         });
+
     });
 
-    describe('CartCtrl - should update subtotal', function () {
-        it(' should call function in service', function () {
-            $scope.updateSubtotal();
-            expect(stubbedCartSvc.calculateSubtotal).toHaveBeenCalled();
-        });
-    });
+
 
 });

@@ -14,6 +14,7 @@ angular.module('ds.shared')
 		languageCode: 'en',
 
         tenantId: 'onlineshop',
+        cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
 
@@ -31,9 +32,26 @@ angular.module('ds.shared')
                 route: '/orders/:orderId'
             },
 
+            cartItems: {
+                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                route:   '/cartItems'
+            },
+
+            cart: {
+                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                route: '/carts/:cartId'
+            },
+
+            cartDetails: {
+
+            },
+
             headers: {
+
                 tenantOld: 'X-tenantId',
+
                 tenant: 'hybris-tenantId',
+
                 authorization: 'Authorization',
                 customer: 'X-buyerId',
                 paging: {
