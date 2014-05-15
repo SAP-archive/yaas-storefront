@@ -22,7 +22,7 @@ module.exports = function(config){
         'public/js/vendor/angular-resource.js',
         'public/js/vendor/angular-ui-router.js',
         'public/js/vendor/angular-translate.js',
-        'bower_components/ng-infinite-scroller/build/ng-infinite-scroll.min.js',
+        'public/js/vendor/ng-infinite-scroll.js',
 
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/services/global-data.js',
