@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order', 'StripeJS',
-        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order, StripeJS) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
+        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
 
 
         $scope.order = order;
@@ -139,7 +139,7 @@ angular.module('ds.checkout')
                     console.log('The expiration date appears to be invalid.');
                 }
                 //Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
-                StripeJS.createToken(stripeData, function(status, response){
+                Stripe.createToken(stripeData, function(status, response){
                     console.log('status is '+status);
                     console.log('response is: ');
                     console.log(response);

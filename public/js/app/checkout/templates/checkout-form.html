@@ -320,7 +320,7 @@
     </div>
 </ng-form>
 <ng-form name="paymentForm" novalidate>
-    <div class="step step-3" ng-class="">
+    <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
         <a id="step3">
             <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
                                       ng-click="editPayment()"></span></h2>
@@ -341,18 +341,22 @@
                 </div>
             </div>
             -->
+            <!--
             <div class="col-lg-12">
                 <div class="radio">
-                    <label>
-
+                         <label>
                         <input type="radio" ng-model="order.paymentMethod" name="paymentMethod" value="creditCard" >
-
                         <img src="public/img/creditcard.png" alt="creditcard"/>
-                    </label>
-
+                         </label>
                 </div>
-            </div>
-            <div class="cc-details" ng-hide="order.paymentMethod !== 'creditCard'">
+            </div> -->
+            <div class="cc-details" >
+
+                <div class="col-lg-12">
+                    <div class="form-group input-group">
+                    <img src="public/img/creditcard.png" alt="creditcard"/>
+                        </div>
+                </div>
 
                 <div class="col-lg-12">
                     <div class="form-group input-group">
