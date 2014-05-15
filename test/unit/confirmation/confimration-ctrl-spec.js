@@ -14,6 +14,9 @@ describe('ConfirmationlCtrl Test', function () {
 
     var $scope, $controller, confCtrl;
     var orderId = 123;
+    var orderDetails = {
+        shippingAddress: {}
+    };
 
 
     //***********************************************************************
@@ -36,7 +39,7 @@ describe('ConfirmationlCtrl Test', function () {
     }));
 
     beforeEach(function () {
-        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, 'orderInfo': orderId});
+        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, 'orderInfo': orderId, 'orderDetails': orderDetails});
     });
 
     describe(' initialization', function () {
