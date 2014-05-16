@@ -1,9 +1,7 @@
 describe('CheckoutCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, mockedStripeJS, checkoutCtrl, order, cart;
+    var $scope, $rootScope, $controller, $injector, mockedCheckoutSvc, checkoutCtrl, order, cart;
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
-    var stripeStatus = {};
-    var stripeResponse = {};
 
     //***********************************************************************
     // Common Setup
@@ -15,22 +13,11 @@ describe('CheckoutCtrl Test', function () {
         order.shipTo = {};
         cart = {};
         order.creditCard = {};
-        mockedOrderSvc =  {}
-        mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
+        mockedCheckoutSvc =  {}
+        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout');
 
-        mockedCartSvc = {};
-        mockedCartSvc.getCart = jasmine.createSpy('getCart');
-        mockedCartSvc.emptyCart = jasmine.createSpy('removeProductFromCart');
+        $provide.value('CheckoutSvc', mockedCheckoutSvc);
 
-        var response = {};
-        mockedStripeJS = {};
-        var createTokenStub = function(data, callback) {
-             callback(stripeStatus, stripeResponse);
-        };
-        mockedStripeJS.createToken = createTokenStub;
-        $provide.value('OrderSvc', mockedOrderSvc);
-        $provide.value('CartSvc', mockedCartSvc);
-        $provide.value('StripeJS', mockedStripeJS);
         $provide.value('cart', cart);
         $provide.value('order', order);
     }));
@@ -51,7 +38,7 @@ describe('CheckoutCtrl Test', function () {
     }));
 
     beforeEach(function () {
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, 'OrderSvc': mockedOrderSvc, 'CartSvc': mockedCartSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, "CheckoutSvc": mockedCheckoutSvc});
     });
 
     describe('Initialization', function () {
@@ -158,14 +145,14 @@ describe('CheckoutCtrl Test', function () {
             expect(checkoutCtrl).toBeTruthy();
         })
 
-        it('should invoke OrderSvc create order if form valid', function(){
+        it('should invoke CheckoutSvc create order if form valid', function(){
             $scope.placeOrder(true);
-            expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
+            expect(mockedCheckoutSvc.checkout).toHaveBeenCalled();
         });
 
         it('should not place order if form invalid', function(){
             $scope.placeOrder(false);
-            expect(mockedOrderSvc.createOrder).wasNotCalled();
+            expect(mockedCheckoutSvc.checkout).wasNotCalled();
         });
 
         it('should show pristine errors if form invalid', function(){
@@ -180,11 +167,7 @@ describe('CheckoutCtrl Test', function () {
             expect(order.shipTo).toEqualData(mockBillTo);
         });
 
-        // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
-        it('should remove products from the cart after placing order', function() {
-            $scope.placeOrder(true);
-            expect(mockedCartSvc.emptyCart).toHaveBeenCalled();
-        });
+
     });
 
 
