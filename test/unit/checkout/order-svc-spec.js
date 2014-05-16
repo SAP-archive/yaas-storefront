@@ -49,12 +49,36 @@ describe('OrderSvc Test', function () {
         $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
     });
 
+    describe('createOrder', function(){
 
-    it('createOrder issues POST', function () {
-        $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond({'id': 456});
-        orderSvc.createOrder(cart);
-        $httpBackend.flush();
+        beforeEach(function(){
+            $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond({'id': 456});
+        });
+
+        it('should issue POST', function () {
+            orderSvc.createOrder(cart);
+            $httpBackend.flush();
+        });
+
+        it('should transition to CONFIRMATION on success', function () {
+            orderSvc.createOrder(cart);
+            $httpBackend.flush();
+            expect(mockedState.go).toHaveBeenCalledWith('base.confirmation');
+        });
     });
+
+    describe('getDefaultOrder', function(){
+        it('should create order with credit card', function(){
+           var order = orderSvc.getDefaultOrder();
+           expect(order.shipTo).toBeTruthy();
+           expect(order.billTo).toBeTruthy();
+           expect(order.billTo.country).toEqualData('USA');
+           expect(order.shippingCost).toBeTruthy();
+           expect(order.paymentMethod).toEqualData('creditCard');
+           expect(order.creditCard).toBeTruthy();
+        });
+    });
+
 
 
 });
