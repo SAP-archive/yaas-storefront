@@ -146,7 +146,6 @@ angular.module('ds.checkout')
                     if(response.error){
                         onFailure(response.error.message);
                     } else {
-                        creditCard.number = null;
                         onSuccess();
                     }
                 });
