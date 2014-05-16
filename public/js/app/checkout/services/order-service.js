@@ -15,11 +15,20 @@
 angular.module('ds.checkout')
     .factory('OrderSvc',  ['caas', '$rootScope', '$timeout', '$state', function(caas, $rootScope, $timeout, $state){
 
+        var CreditCard = function () {
+            this.number = null;
+            this.cvc = null;
+            this.expMonth = null;
+            this.expYear = null;
+        };
+
         var DefaultOrder = function(){
             this.shipTo = {};
             this.billTo = {};
             this.billTo.country = 'USA';
             this.shippingCost = 3; // hard-coded for now
+            this.paymentMethod = 'creditCard';
+            this.creditCard = new CreditCard();
         };
 
         return {

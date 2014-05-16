@@ -42,17 +42,7 @@ describe('Router test', function () {
         createController = function () {
             return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': $stateParams, 'ProductSvc': ProductSvc});
         }
-
-
-        //$httpBackend.whenGET(/[a-z]*/).passThrough();
-
-        $httpBackend.whenGET('public/js/app/products/templates/product-list.html').respond({});
-        $httpBackend.whenGET('public/js/app/cart/templates/cart.html').respond({});
-        $httpBackend.whenGET('public/js/app/shared/templates/navigation.html').respond({});
-        $httpBackend.whenGET('public/js/app/shared/templates/header.html').respond({});
-        $httpBackend.whenGET('public/js/app/shared/templates/footer.html').respond({});
-        $httpBackend.whenGET('public/js/app/home/templates/body.html').respond({});
-        $httpBackend.whenGET('public/js/app/home/templates/home.html').respond({});
+        $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
 
     }));
 

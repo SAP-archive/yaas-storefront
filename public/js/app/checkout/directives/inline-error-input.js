@@ -76,6 +76,8 @@ angular.module('ds.checkout')
                                 if (!elementClone[0].value) {
                                     elementClone.attr('value', element[0].value);
                                 }
+
+                                elementClone.attr('class', element.attr('class'));
                                 element.hide();
                                 elementClone.show();
                             }

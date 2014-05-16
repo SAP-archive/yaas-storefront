@@ -13,8 +13,10 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
-        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
+
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'StripeJS','cart', 'order',
+        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, StripeJS, cart, order) {
+
 
         $scope.order = order;
         $scope.cart = cart;
@@ -28,6 +30,10 @@ angular.module('ds.checkout')
             this.step2Done = false;
             this.step3Done = false;
             this.shipToSameAsBillTo = true;
+            this.years = [];
+            for (var year = new Date().getFullYear(), i = year, stop = year+10; i< stop; i++){
+                this.years.push(i);
+            }
         };
 
         $scope.wiz = new Wiz();
@@ -94,23 +100,56 @@ angular.module('ds.checkout')
             }
         };
 
-
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
 
+        function onPaymentValidation(){
+            // ensure copy in full-screen mode
+            if ($scope.wiz.shipToSameAsBillTo) {
+                $scope.setShipToSameAsBillTo();
+            }
+
+            OrderSvc.createOrder(cart);
+            CartSvc.emptyCart();
+        }
+
+        function onPaymentValidationFailure(error) {
+            // TODO - show in UI
+            console.log('Your payment could not be validated. Something went wrong: '+error);
+        }
+
         $scope.placeOrder = function (formValid, form) {
+
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
-                // do again to ensure copy in full-screen mode
-                if ($scope.wiz.shipToSameAsBillTo) {
-                    $scope.setShipToSameAsBillTo();
-                }
-                OrderSvc.createOrder(cart);
-                CartSvc.emptyCart();
+
+                $scope.generateCCToken($scope.order.creditCard, onPaymentValidation, onPaymentValidationFailure);
+
             }  else {
                 $scope.showPristineErrors = true;
             }
         };
+
+            $scope.generateCCToken = function(creditCard, onSuccess, onFailure) {
+
+                var stripeData = {};
+                /* jshint ignore:start */
+                stripeData.number = creditCard.number;
+                stripeData.exp_month = creditCard.expMonth;
+                stripeData.exp_year = creditCard.expYear;
+                stripeData.cvc = creditCard.cvc;
+                /* jshint ignore:end */
+
+                StripeJS.createToken(stripeData, function(status, response){
+                    //console.log(response);
+                    if(response.error){
+                        onFailure(response.error.message);
+                    } else {
+                        onSuccess();
+                    }
+                });
+
+            };
 
     }]);

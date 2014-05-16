@@ -14,7 +14,7 @@ module.exports = function(config){
         'public/js/vendor-static/img-touch-canvas.js',
         'public/js/vendor-static/jquery.fullscreen-min.js',
         'public/js/vendor-static/main.js',
-
+        'https://js.stripe.com/v2/',
 
         'public/js/vendor/angular.js',
         'public/js/vendor/angular-masonry.js',
@@ -23,6 +23,7 @@ module.exports = function(config){
         'public/js/vendor/angular-ui-router.js',
         'public/js/vendor/angular-translate.js',
         'public/js/vendor/ng-infinite-scroll.js',
+        'public/js/vendor/angular-stripe-js.min.js',
 
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/services/global-data.js',

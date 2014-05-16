@@ -1,7 +1,9 @@
 describe('CheckoutCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, checkoutCtrl, order, cart;
+    var $scope, $rootScope, $controller, $injector, mockedOrderSvc, mockedCartSvc, mockedStripeJS, checkoutCtrl, order, cart;
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
+    var stripeStatus = {};
+    var stripeResponse = {};
 
     //***********************************************************************
     // Common Setup
@@ -12,14 +14,23 @@ describe('CheckoutCtrl Test', function () {
         order = {};
         order.shipTo = {};
         cart = {};
+        order.creditCard = {};
         mockedOrderSvc =  {}
         mockedOrderSvc.createOrder = jasmine.createSpy('createOrder');
 
         mockedCartSvc = {};
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
         mockedCartSvc.emptyCart = jasmine.createSpy('removeProductFromCart');
+
+        var response = {};
+        mockedStripeJS = {};
+        var createTokenStub = function(data, callback) {
+             callback(stripeStatus, stripeResponse);
+        };
+        mockedStripeJS.createToken = createTokenStub;
         $provide.value('OrderSvc', mockedOrderSvc);
         $provide.value('CartSvc', mockedCartSvc);
+        $provide.value('StripeJS', mockedStripeJS);
         $provide.value('cart', cart);
         $provide.value('order', order);
     }));
@@ -48,7 +59,6 @@ describe('CheckoutCtrl Test', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
-
         })
     });
 
@@ -136,8 +146,6 @@ describe('CheckoutCtrl Test', function () {
             $scope.setShipToSameAsBillTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
         });
-
-
     });
 
     describe('Place Order ', function () {
@@ -150,10 +158,9 @@ describe('CheckoutCtrl Test', function () {
             expect(checkoutCtrl).toBeTruthy();
         })
 
-        it('should invoke pass cart from CartSvc to OrderSvc if form valid', function(){
+        it('should invoke OrderSvc create order if form valid', function(){
             $scope.placeOrder(true);
             expect(mockedOrderSvc.createOrder).toHaveBeenCalled();
-
         });
 
         it('should not place order if form invalid', function(){
@@ -173,6 +180,7 @@ describe('CheckoutCtrl Test', function () {
             expect(order.shipTo).toEqualData(mockBillTo);
         });
 
+        // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
         it('should remove products from the cart after placing order', function() {
             $scope.placeOrder(true);
             expect(mockedCartSvc.emptyCart).toHaveBeenCalled();

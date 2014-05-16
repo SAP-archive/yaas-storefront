@@ -21,7 +21,10 @@
     "angular-mocks": "~1.2.14",
     "angular-translate": "~2.0.1",
     "angular-masonry": "~0.8.1",
+    "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
+
     "ngInfiniteScroll": "1.0.0",
+
     "bootstrap": "latest",
     "masonry": "3.1.5",
     "lodash": "2.4.1",

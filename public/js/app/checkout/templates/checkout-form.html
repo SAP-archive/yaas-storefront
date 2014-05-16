@@ -320,7 +320,7 @@
     </div>
 </ng-form>
 <ng-form name="paymentForm" novalidate>
-    <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done':wiz.step3Done}">
+    <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
         <a id="step3">
             <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
                                       ng-click="editPayment()"></span></h2>
@@ -335,60 +335,95 @@
             <div class="col-lg-12">
                 <div class="radio">
                     <label>
-                        <input type="radio" name="optionsRadios" value="option1" checked>
+                        <input type="radio" ng-model="order.paymentMethod" name="paymentMethod" value="paypal" ng-change="logPayment()">
                         <img src="public/img/paypal.png" alt="paypal"/>
                     </label>
                 </div>
             </div>
             -->
+            <!--
             <div class="col-lg-12">
                 <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" value="option2" checked>
+                         <label>
+                        <input type="radio" ng-model="order.paymentMethod" name="paymentMethod" value="creditCard" >
                         <img src="public/img/creditcard.png" alt="creditcard"/>
-                    </label>
-
+                         </label>
                 </div>
             </div>
 
-            <!--
-            <div class="cc-details" ng-hide="true">
+
+
+             <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="countryBill">Country</label></span>
+                    <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" inline-error-input required>
+                        <option value="USA">USA</option>
+                    </select>
+                </div>
+            -->
+            <div class="cc-details" >
+
                 <div class="col-lg-12">
                     <div class="form-group input-group">
+                    <img src="public/img/creditcard.png" alt="creditcard"/>
+                        </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
                         Number</label></span>
-                        <input type="text" class="form-control disabled" placeholder="(Optional)">
+                        <input type="text" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
+                               ng-model="order.creditCard.number" validate-card-number inline-error-input
+                               >
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="form-group input-group">
+                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
-                        <select class="form-control disabled">
-                            <option></option>
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
+                                ng-model="order.creditCard.expMonth" inline-error-input >
+
+                            <option value=""></option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+
                         </select>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="form-group input-group">
+                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
-                        <select class="form-control disabled">
-                            <option></option>
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
+                                ng-model="order.creditCard.expYear" inline-error-input data-stripe="expYear"
+                                ng-options="year for year in wiz.years">
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-9">
-                    <div class="form-group input-group">
-                        <span class="input-group-addon"><label class="control-label" for="">CVV Number</label></span>
-                        <input type="text" class="form-control disabled" placeholder="(Optional)">
+                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid && ( paymentForm.cvc.$dirty || showPristineErrors) }">
+                        <span class="input-group-addon"><label class="control-label" for="">CVC Number</label></span>
+                        <input type="text" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                               inline-error-input ng-model="order.creditCard.cvc" validate-cvc>
                     </div>
 
                 </div>
                 <div class="col-xs-3">
                     <img src="public/img/cvv.png" alt=""/>
                 </div>
-            </div>  -->
+            </div>
 
             <div class="col-xs-12">
                 <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone()" type="submit">continue <span
@@ -417,4 +452,6 @@
     </div>
 </div>
 
+
 </ng-form>
+
