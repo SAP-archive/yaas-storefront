@@ -132,6 +132,7 @@ angular.module('ds.checkout')
         };
 
             $scope.generateCCToken = function(creditCard, onSuccess, onFailure) {
+
                 var stripeData = {};
                 /* jshint ignore:start */
                 stripeData.number = creditCard.number;
