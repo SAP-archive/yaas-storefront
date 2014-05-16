@@ -360,9 +360,6 @@
                         <option value="USA">USA</option>
                     </select>
                 </div>
-
-
-
             -->
             <div class="cc-details" >
 
@@ -376,17 +373,17 @@
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
                         Number</label></span>
-                        <input type="text" class="form-control" name="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
-                               ng-model="order.creditCard.number" inline-error-input
-                               validate-card-number data-stripe="number">
+                        <input type="text" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
+                               ng-model="order.creditCard.number" validate-card-number inline-error-input
+                               >
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
-                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth"
-                                ng-model="order.creditCard.expMonth" inline-error-input validate-exp-month data-stripe="exp-month">
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
+                                ng-model="order.creditCard.expMonth" inline-error-input >
 
                             <option value=""></option>
                             <option value="01">01</option>
@@ -409,8 +406,8 @@
                 <div class="col-lg-6">
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
-                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear"
-                                ng-model="order.creditCard.expYear" inline-error-input validate-exp-year data-stripe="expYear"
+                        <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
+                                ng-model="order.creditCard.expYear" inline-error-input data-stripe="expYear"
                                 ng-options="year for year in wiz.years">
                         </select>
                     </div>
@@ -419,7 +416,7 @@
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid && ( paymentForm.cvc.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">CVC Number</label></span>
                         <input type="text" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
-                               inline-error-input ng-model="order.creditCard.cvc" data-stripe="cvc" validate-cvc>
+                               inline-error-input ng-model="order.creditCard.cvc" validate-cvc>
                     </div>
 
                 </div>

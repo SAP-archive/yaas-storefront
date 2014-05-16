@@ -14,7 +14,6 @@
 
 angular.module('ds.checkout', [
     'yng.core',
-    'ds.cart'
-
-    //'vr.StripeJS.service'
+    'ds.cart',
+    'vr.StripeJS'
 ]);

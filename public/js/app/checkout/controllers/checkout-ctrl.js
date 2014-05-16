@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'cart', 'order',
-        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, cart, order) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'StripeJS','cart', 'order',
+        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, StripeJS, cart, order) {
 
 
         $scope.order = order;
@@ -104,57 +104,50 @@ angular.module('ds.checkout')
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
 
+        function onPaymentValidation(){
+            // ensure copy in full-screen mode
+            if ($scope.wiz.shipToSameAsBillTo) {
+                $scope.setShipToSameAsBillTo();
+            }
+
+            OrderSvc.createOrder(cart);
+            CartSvc.emptyCart();
+        }
+
+        function onPaymentValidationFailure(error) {
+            // TODO - show in UI
+            console.log('Your payment could not be validated. Something went wrong: '+error);
+        }
+
         $scope.placeOrder = function (formValid, form) {
 
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
 
-                $scope.generateCCToken($scope.order.creditCard, function(){
-                    // ON CC SUCCESS:
-
-                    // ensure copy in full-screen mode
-                    if ($scope.wiz.shipToSameAsBillTo) {
-                        $scope.setShipToSameAsBillTo();
-                    }
-
-                    OrderSvc.createOrder(cart);
-                    CartSvc.emptyCart();
-                });
+                $scope.generateCCToken($scope.order.creditCard, onPaymentValidation, onPaymentValidationFailure);
 
             }  else {
                 $scope.showPristineErrors = true;
             }
         };
 
-            $scope.generateCCToken = function(creditCard, doNext) {
-                Stripe.setPublishableKey('pk_test_KQWQGIbDxdKyIJtpasGbSgCz');
+            $scope.generateCCToken = function(creditCard, onSuccess, onFailure) {
                 var stripeData = {};
+                /* jshint ignore:start */
                 stripeData.number = creditCard.number;
                 stripeData.exp_month = creditCard.expMonth;
                 stripeData.exp_year = creditCard.expYear;
                 stripeData.cvc = creditCard.cvc;
-                var error = false;
-                // Validate the number:
-                if (!Stripe.validateCardNumber(stripeData.number)) {
-                    error = true;
-                    console.log('The credit card number appears to be invalid.');
-                }
+                /* jshint ignore:end */
 
-                if (!Stripe.validateCVC(stripeData.cvc)) {
-                    error = true;
-                    console.log('The CVC number appears to be invalid.');
-                }
-
-                if (!Stripe.validateExpiry(stripeData.exp_month, stripeData.exp_year)) {
-                    error = true;
-                    console.log('The expiration date appears to be invalid.');
-                }
-
-                Stripe.createToken(stripeData, function(status, response){
-                    console.log('status is '+status);
-                    console.log('response is: ');
-                    console.log(response);
-                    doNext();
+                StripeJS.createToken(stripeData, function(status, response){
+                    //console.log(response);
+                    if(response.error){
+                        onFailure(response.error.message);
+                    } else {
+                        creditCard.number = null;
+                        onSuccess();
+                    }
                 });
 
             };
