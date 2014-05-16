@@ -91,9 +91,9 @@ angular.module('ds.checkout')
                     newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
-                var self = this;
+
                 caas.orders.API.save(newOrder).$promise.then(function (order) {
-                    self.setLastOrderId(order.id);
+                    this.setLastOrderId(order.id);
 
                     // TEMP ONLY TILL CAAS CHECKOUT SVC FULLY IMPLEMENTED
                     CartSvc.emptyCart();
