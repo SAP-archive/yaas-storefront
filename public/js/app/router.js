@@ -85,8 +85,8 @@ window.app = angular.module('ds.router', [
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
                         },
-                        order: function (OrderSvc) {
-                            return OrderSvc.getDefaultOrder();
+                        order: function (CheckoutSvc) {
+                            return CheckoutSvc.getDefaultOrder();
                         }
                     }
                 })
@@ -131,12 +131,12 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        orderInfo: function( OrderSvc) {
+                        orderInfo: function( CheckoutSvc) {
 
-                            return OrderSvc.getLastOrderId();
+                            return CheckoutSvc.getLastOrderId();
                         },
-                        orderDetails: function (OrderSvc, caas) {
-                            return caas.orderDetails.API.get({orderId: OrderSvc.getLastOrderId() }).$promise
+                        orderDetails: function (CheckoutSvc, caas) {
+                            return caas.orderDetails.API.get({orderId: CheckoutSvc.getLastOrderId() }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
                                     console.log(result);

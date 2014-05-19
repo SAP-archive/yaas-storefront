@@ -437,14 +437,22 @@
     <a id="step4">
         <h2 class="visible-sm visible-xs">Step 4. Review & Payment</h2>
     </a>
-    <div class="row step-detail">
+    <div class="error" ng-show="message" style="color:red">
+        <small class="help-inline has-error">
+            {{message}}
+        </small>
+
+    </div>
+    <div class="row step-detail" ng-class="{'has-error': checkoutForm.$invalid && ( checkoutForm.cvc.$dirty || showPristineErrors) }">
         <div class="col-xs-6">
             <span class="description">TOTAL</span>
         </div>
         <div class="col-xs-6 text-right">
             <span class="value">{{cart.subtotal + cart.estTax + order.shippingCost | currency: '$'}}</span>
         </div>
+
         <div class="col-xs-12">
+
             <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
                     ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)">Place Order
             </button>

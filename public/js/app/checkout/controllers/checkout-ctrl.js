@@ -23,6 +23,7 @@ angular.module('ds.checkout')
 
         $scope.badEmailAddress = false;
         $scope.showPristineErrors = false;
+        $scope.message = null;
 
 
         var Wiz = function(){
@@ -107,8 +108,8 @@ angular.module('ds.checkout')
 
 
         function onCheckoutFailure(error) {
-            // TODO - show in UI
-            console.log('Your payment could not be validated. Something went wrong: '+error);
+            $scope.message = error;
+            $scope.$apply();
         }
 
         $scope.placeOrder = function (formValid, form) {
