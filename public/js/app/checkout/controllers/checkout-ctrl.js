@@ -120,31 +120,10 @@ angular.module('ds.checkout')
                 }
                 $scope.order.cart = $scope.cart;
                 CheckoutSvc.checkout($scope.order, onCheckoutFailure);
-                //$scope.generateCCToken($scope.order.creditCard, onPaymentValidation, onPaymentValidationFailure);
             }  else {
                 $scope.showPristineErrors = true;
             }
         };
-            /*
-            $scope.generateCCToken = function(creditCard, onSuccess, onFailure) {
 
-                var stripeData = {};
-
-                stripeData.number = creditCard.number;
-                stripeData.exp_month = creditCard.expMonth;
-                stripeData.exp_year = creditCard.expYear;
-                stripeData.cvc = creditCard.cvc;
-
-
-                StripeJS.createToken(stripeData, function(status, response){
-                    //console.log(response);
-                    if(response.error){
-                        onFailure(response.error.message);
-                    } else {
-                        onSuccess();
-                    }
-                });
-
-            }; */
 
     }]);

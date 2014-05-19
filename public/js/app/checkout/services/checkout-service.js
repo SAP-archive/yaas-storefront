@@ -13,7 +13,8 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('CheckoutSvc', ['caas', '$rootScope', '$timeout', '$state', 'StripeJS', 'CartSvc', function (caas, $rootScope, $timeout, $state, StripeJS, CartSvc) {
+    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc',
+        function (caas, $rootScope, $state, StripeJS, CartSvc) {
 
         var CreditCard = function () {
             this.number = null;
@@ -30,8 +31,6 @@ angular.module('ds.checkout')
             this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
         };
-
-
 
         return {
 
@@ -93,6 +92,7 @@ angular.module('ds.checkout')
 
                 var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function (order) {
+
                     self.setLastOrderId(order.id);
 
                     // TEMP ONLY TILL CAAS CHECKOUT SVC FULLY IMPLEMENTED
@@ -100,10 +100,14 @@ angular.module('ds.checkout')
 
                     $state.go('base.confirmation');
 
-                    // TODO - handle all error states:
-                    // - HTTP response failure
-                    // - call never goes through
-                }, onFailure);
+                }, function(errorResponse){
+                    // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
+                    if(errorResponse.status === 500) {
+                        onFailure('Cannot process this order because the system is unavailable. Try again at a later time.');
+                    }  else {
+                        onFailure('Order could not be processed.  Status code: '+errorResponse.status+', message: '+errorResponse.data );
+                    }
+                });
             }
 
 

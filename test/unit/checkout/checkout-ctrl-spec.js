@@ -167,7 +167,9 @@ describe('CheckoutCtrl Test', function () {
             expect(order.shipTo).toEqualData(mockBillTo);
         });
 
+        it('should show error on failed order placement', function(){
 
+        });
     });
 
 
