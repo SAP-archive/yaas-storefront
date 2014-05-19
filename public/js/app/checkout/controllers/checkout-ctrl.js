@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'StripeJS','cart', 'order',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, StripeJS, cart, order) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order) {
 
 
         $scope.order = order;

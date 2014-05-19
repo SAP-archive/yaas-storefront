@@ -46,9 +46,10 @@ angular.module('ds.checkout')
             },
 
             checkout: function (order, onFailure) {
-                var creditCard = order.creditCard;
+
                 var stripeData = {};
                 /* jshint ignore:start */
+                var creditCard = order.creditCard;
                 stripeData.number = creditCard.number;
                 stripeData.exp_month = creditCard.expMonth;
                 stripeData.exp_year = creditCard.expYear;
