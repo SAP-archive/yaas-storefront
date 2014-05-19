@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CartSvc', 'OrderSvc', 'StripeJS','cart', 'order',
-        function ($scope, $location, $anchorScroll, CartSvc, OrderSvc, StripeJS, cart, order) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order) {
 
 
         $scope.order = order;
@@ -23,6 +23,7 @@ angular.module('ds.checkout')
 
         $scope.badEmailAddress = false;
         $scope.showPristineErrors = false;
+        $scope.message = null;
 
 
         var Wiz = function(){
@@ -104,52 +105,26 @@ angular.module('ds.checkout')
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
 
-        function onPaymentValidation(){
-            // ensure copy in full-screen mode
-            if ($scope.wiz.shipToSameAsBillTo) {
-                $scope.setShipToSameAsBillTo();
-            }
 
-            OrderSvc.createOrder(cart);
-            CartSvc.emptyCart();
-        }
 
-        function onPaymentValidationFailure(error) {
-            // TODO - show in UI
-            console.log('Your payment could not be validated. Something went wrong: '+error);
+        function onCheckoutFailure(error) {
+            $scope.message = error;
+            $scope.$apply();
         }
 
         $scope.placeOrder = function (formValid, form) {
 
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
-
-                $scope.generateCCToken($scope.order.creditCard, onPaymentValidation, onPaymentValidationFailure);
-
+                if ($scope.wiz.shipToSameAsBillTo) {
+                    $scope.setShipToSameAsBillTo();
+                }
+                $scope.order.cart = $scope.cart;
+                CheckoutSvc.checkout($scope.order, onCheckoutFailure);
             }  else {
                 $scope.showPristineErrors = true;
             }
         };
 
-            $scope.generateCCToken = function(creditCard, onSuccess, onFailure) {
-
-                var stripeData = {};
-                /* jshint ignore:start */
-                stripeData.number = creditCard.number;
-                stripeData.exp_month = creditCard.expMonth;
-                stripeData.exp_year = creditCard.expYear;
-                stripeData.cvc = creditCard.cvc;
-                /* jshint ignore:end */
-
-                StripeJS.createToken(stripeData, function(status, response){
-                    //console.log(response);
-                    if(response.error){
-                        onFailure(response.error.message);
-                    } else {
-                        onSuccess();
-                    }
-                });
-
-            };
 
     }]);
