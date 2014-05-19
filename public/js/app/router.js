@@ -134,6 +134,14 @@ window.app = angular.module('ds.router', [
                         orderInfo: function( OrderSvc) {
 
                             return OrderSvc.getLastOrderId();
+                        },
+                        orderDetails: function (OrderSvc, caas) {
+                            return caas.orderDetails.API.get({orderId: OrderSvc.getLastOrderId() }).$promise
+                                .then(function(result){
+                                    window.scrollTo(0, 0);
+                                    console.log(result);
+                                    return result;
+                                });
                         }
                     }
                 })
@@ -181,6 +189,8 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
+        caasProvider.endpoint('orderDetails', {orderId: '@orderId'}).baseUrl(settings.apis.orderDetails.baseUrl).
+            route(settings.apis.orderDetails.route);
         caasProvider.endpoint('cartItems')
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
@@ -202,6 +212,11 @@ window.app = angular.module('ds.router', [
                     else if(config.url.indexOf('orders')>-1) {
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
+                    }
+
+                    else if(config.url.indexOf('order/details')>-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.user] = settings.buyerId;
                     }
 
                     else if(config.url.indexOf('cartItems')>-1) {
