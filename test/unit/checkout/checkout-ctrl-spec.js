@@ -88,7 +88,7 @@ describe('CheckoutCtrl Test', function () {
 
         it('should set Step 3 Done when shipping entered', function(){
             $scope.wiz.step3Done = false;
-            $scope.paymentDone();
+            $scope.paymentDone(true, 'form');
             expect($scope.wiz.step3Done).toEqualData(true);
         });
 
