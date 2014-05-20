@@ -47,8 +47,7 @@ angular.module('ds.checkout')
                     },
                     getErrorMessages = function() {
                         var errorMsgs = {
-                                'inlineErrorMsgs': [],
-                                'externalErrorMsg': []
+                                'inlineErrorMsgs': []
                             },
                             errorsJSON = window._.keys(ngModel.$error);
                         for(var errorKey in errorsJSON) {
@@ -58,12 +57,6 @@ angular.module('ds.checkout')
                                         errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
                                     }
                                     break;
-                                case 'pattern':
-                                    errorMsgs.externalErrorMsg.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
-                                    break;
-
-                                default:
-                                    errorMsgs.externalErrorMsg.push('Field value invalid!');
                             }
                         }
                         return errorMsgs;
@@ -84,9 +77,7 @@ angular.module('ds.checkout')
                                 if(errorMsgs.inlineErrorMsgs.length > 0) {
                                     elementClone.attr('value', errorMsgs.inlineErrorMsgs.join(', '));
                                 }
-                                if(errorMsgs.externalErrorMsg.length > 0) {
-                                    ngModel.msg = errorMsgs.externalErrorMsg.join(', ');
-                                }
+
                                 if (!elementClone[0].value) {
                                     elementClone.attr('value', element[0].value);
                                 }
@@ -95,6 +86,8 @@ angular.module('ds.checkout')
                                 element.hide();
                                 elementClone.show();
                             }
+                        }  else {
+                            ngModel.msg = '';
                         }
                     };
 

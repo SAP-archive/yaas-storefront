@@ -28,7 +28,12 @@
                 </div>
             </div>
             <div class="col-lg-12">
+                <div class="error" ng-show="badEmailAddress" style="color:red">
+                    <small class="help-inline has-error">
+                        Please enter a valid email in the format name@example.com
+                    </small>
 
+                </div>
                 <div class="form-group input-group"
                      ng-class="{'has-error': badEmailAddress || (billToForm.email.$invalid && showPristineErrors)}">
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
@@ -81,7 +86,7 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="stateBill">State</label></span>
-                    <select class="form-control" inline-error-input required ng-model="order.billTo.state" id="stateBill" name="state">
+                    <select class="form-control" inline-error-input inline-error-input-required-message="State Required" required ng-model="order.billTo.state" id="stateBill" name="state">
                         <option value=""></option>
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
@@ -233,7 +238,7 @@
                     <div class="form-group input-group"
                          ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="stateShip">State</label></span>
-                        <select class="form-control" inline-error-input ng-required="!wiz.shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
+                        <select class="form-control" inline-error-input inline-error-input-required-message="State Required" ng-required="!wiz.shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
                             <option value=""></option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -370,11 +375,21 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors) }">
+                    <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
+                    || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" style="color:red">
+                        <small class="help-inline has-error">
+                            {{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'Please enter a valid credit card number.'}}
+                        </small>
+                    </div>
+                    <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
+                    (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
                         Number</label></span>
-                        <input type="number" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
+                        <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
                                ng-model="order.creditCard.number" validate-card-number inline-error-input
+                               inline-error-input-required-message="Credit Card Required"
+                               ng-focus="paymentForm.ccNumber.focused=true"
+                               ng-blur="paymentForm.ccNumber.focused=false"
                                >
                     </div>
                 </div>
@@ -389,7 +404,7 @@
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                                ng-model="order.creditCard.expMonth" inline-error-input >
+                                ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="Exp Month Required">
 
                             <option value=""></option>
                             <option value="01">01</option>
@@ -419,16 +434,25 @@
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
-                                ng-model="order.creditCard.expYear" inline-error-input data-stripe="expYear"
+                                ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="Exp Year Required" data-stripe="expYear"
                                 ng-options="year for year in wiz.years">
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-9">
-                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid && ( paymentForm.cvc.$dirty || showPristineErrors) }">
+                    <div class="error" ng-show="!paymentForm.cvc.focused && (paymentForm.cvc.msg
+                    || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))" style="color:red">
+                        <small class="help-inline has-error">
+                            {{paymentForm.cvc.msg ? paymentForm.cvc.msg : 'Please enter a valid code.'}}
+                        </small>
+                    </div>
+
+                    <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
+                    && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">CVC Number</label></span>
-                        <input type="number" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
-                               inline-error-input ng-model="order.creditCard.cvc" validate-cvc>
+                        <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                               inline-error-input inline-error-input-required-message="CVC Required" ng-model="order.creditCard.cvc" validate-cvc
+                               ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false">
                     </div>
 
                 </div>
