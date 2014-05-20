@@ -89,21 +89,19 @@ describe('CheckoutSvc Test', function () {
 
 
             it('should issue POST', function () {
-                checkoutSvc.checkout(order, function(){});
+                checkoutSvc.checkout(order, function(){},function(){});
                 $httpBackend.flush();
             });
 
             it('should transition to CONFIRMATION', function () {
-                checkoutSvc.checkout(order, function () {
-                });
+                checkoutSvc.checkout(order, function (){},function(){});
                 $httpBackend.flush();
                 expect(mockedState.go).toHaveBeenCalledWith('base.confirmation');
             });
 
             // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
             it('should remove products from the cart after placing order', function () {
-                checkoutSvc.checkout(order, function () {
-                });
+                checkoutSvc.checkout(order, function(){},function(){});
                 $httpBackend.flush();
                 expect(mockedCartSvc.emptyCart).toHaveBeenCalled();
             });
@@ -118,21 +116,20 @@ describe('CheckoutSvc Test', function () {
             it('should invoke error handler', function(){
                 var callbackObj = {};
                 callbackObj.onFailure = jasmine.createSpy('onFailure');
-                checkoutSvc.checkout(order, callbackObj.onFailure);
+                checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
                 $httpBackend.flush();
                 var error500 = 'Cannot process this order because the system is unavailable. Try again at a later time.';
                 expect(callbackObj.onFailure).toHaveBeenCalledWith(error500);
 
                 // all other errors should be handled, as well
                 $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(404, '');
-                checkoutSvc.checkout(order, callbackObj.onFailure);
+                checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
                 $httpBackend.flush();
                 expect(callbackObj.onFailure).toHaveBeenCalled();
             });
 
             it('should not transition to CONFIRMATION', function(){
-                checkoutSvc.checkout(order, function () {
-                });
+                checkoutSvc.checkout(order, function(){}, function () {});
                 $httpBackend.flush();
                 expect(mockedState.go).not.toHaveBeenCalled();
             });
@@ -173,15 +170,15 @@ describe('CheckoutSvc Test', function () {
 
 
         it('should not place order', function(){
-             checkoutSvc.checkout(order, function(){});
+             checkoutSvc.checkout(order, function(){},function(){});
              $httpBackend.verifyNoOutstandingRequest();
         });
 
         it('should invoke error handler', function(){
             var callbackObj = {};
             callbackObj.onFailure = jasmine.createSpy('onFailure');
-            checkoutSvc.checkout(order, callbackObj.onFailure);
-            expect(callbackObj.onFailure).toHaveBeenCalledWith('Failure');
+            checkoutSvc.checkout(order, callbackObj.onFailure, function(){});
+            expect(callbackObj.onFailure).toHaveBeenCalledWith( { message : 'Failure' } );
         });
     });
 
