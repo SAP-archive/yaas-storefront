@@ -229,6 +229,7 @@ window.app = angular.module('ds.router', [
                     return config || $q.when(config);
                 },
                 requestError: function(request){
+                    document.body.style.cursor = 'auto';
                     return $q.reject(request);
                 },
                 response: function (response) {
@@ -236,6 +237,7 @@ window.app = angular.module('ds.router', [
                     return response || $q.when(response);
                 },
                 responseError: function (response) {
+                    document.body.style.cursor = 'auto';
                     if (response) {
                         switch(response.status) {
                             /* TBD

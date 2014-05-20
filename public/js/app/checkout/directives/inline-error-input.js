@@ -97,7 +97,10 @@ angular.module('ds.checkout')
                 if (element.is('select')) {
                     // Requires emptyOption(errors placeholder) in the markup
                     var emptyOption = element.find('option[value=""]');
-                    if (!emptyOption.length) {
+                    // firstChildCheck is a quirky work around angular select element with n-options
+                    // which DO NOT register as option children on the select node - if this is an ng-options select,
+                    // then there will be an empty default option
+                    if (!emptyOption.length && emptyOption.getFirstChild) {
                         element.prepend('<option value=""></option>');
                     } else {
                         emptyOption.data('original-label', emptyOption.html());

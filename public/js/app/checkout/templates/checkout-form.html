@@ -383,7 +383,7 @@
                     </div>
                     <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
                     (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
-                    <span class="input-group-addon"><label class="control-label" for="">Credit Card
+                    <span class="input-group-addon"><label class="control-label" for="ccNumber">Credit Card
                         Number</label></span>
                         <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
                                ng-model="order.creditCard.number" validate-card-number inline-error-input
@@ -402,7 +402,7 @@
 
                     </div>
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
-                        <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
+                        <span class="input-group-addon"><label class="control-label" for="expMonth">Month</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
                                 ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="Exp Month Required">
 
@@ -432,7 +432,7 @@
 
                     </div>
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
-                        <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
+                        <span class="input-group-addon"><label class="control-label" for="expYear">Year</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
                                 ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="Exp Year Required" data-stripe="expYear"
                                 ng-options="year for year in wiz.years">
@@ -449,8 +449,8 @@
 
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
                     && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
-                        <span class="input-group-addon"><label class="control-label" for="">CVC Number</label></span>
-                        <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                        <span class="input-group-addon"><label class="control-label" for="cvc">CVC Number</label></span>
+                        <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
                                inline-error-input inline-error-input-required-message="CVC Required" ng-model="order.creditCard.cvc" validate-cvc
                                ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false">
                     </div>
