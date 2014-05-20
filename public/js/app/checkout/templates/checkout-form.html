@@ -373,13 +373,19 @@
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="">Credit Card
                         Number</label></span>
-                        <input type="text" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
+                        <input type="number" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
                                ng-model="order.creditCard.number" validate-card-number inline-error-input
                                >
                     </div>
                 </div>
 
                 <div class="col-lg-6">
+                    <div class="error" ng-show="paymentForm.expMonth.msg" style="color:red">
+                        <small class="help-inline has-error">
+                            {{paymentForm.expMonth.msg}}
+                        </small>
+
+                    </div>
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Month</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
@@ -404,6 +410,12 @@
                 </div>
 
                 <div class="col-lg-6">
+                    <div class="error" ng-show="paymentForm.expYear.msg" style="color:red">
+                        <small class="help-inline has-error">
+                            {{paymentForm.expYear.msg}}
+                        </small>
+
+                    </div>
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">Year</label></span>
                         <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
@@ -415,7 +427,7 @@
                 <div class="col-xs-9">
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid && ( paymentForm.cvc.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="">CVC Number</label></span>
-                        <input type="text" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                        <input type="number" class="form-control" name="cvc" ng-required="order.paymentMethod === 'creditCard'"
                                inline-error-input ng-model="order.creditCard.cvc" validate-cvc>
                     </div>
 
@@ -426,7 +438,7 @@
             </div>
 
             <div class="col-xs-12">
-                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone()" type="submit">continue <span
+                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">continue <span
                         class="hyicon hyicon-chevron-thin-right"></span></button>
             </div>
         </div>
@@ -443,7 +455,7 @@
         </small>
 
     </div>
-    <div class="row step-detail" ng-class="{'has-error': checkoutForm.$invalid && ( checkoutForm.cvc.$dirty || showPristineErrors) }">
+    <div class="row step-detail" ng-class="{'has-error': message }">
         <div class="col-xs-6">
             <span class="description">TOTAL</span>
         </div>

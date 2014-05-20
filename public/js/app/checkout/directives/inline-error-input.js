@@ -26,7 +26,8 @@ angular.module('ds.checkout')
             require: 'ngModel',
             link: function(scope, element, attrs, ngModel) {
                 // element's (input's) clone -> error input
-                var elementClone = element.clone(),
+                // set type to text to allow displaying 'required' msg in numeric input fields
+                var elementClone = element.clone().attr('type', 'text'),
                     submitted = false,
                     onInputFocus = function() {
                         elementClone.hide();
@@ -39,10 +40,15 @@ angular.module('ds.checkout')
                             validate();
                         }
                     },
+                    onInputChanged = function(){  // for select boxes
+                        if (!ngModel.$pristine || submitted) {
+                            validate();
+                        }
+                    },
                     getErrorMessages = function() {
                         var errorMsgs = {
                                 'inlineErrorMsgs': [],
-                                'tooltipErrorMsg': []
+                                'externalErrorMsg': []
                             },
                             errorsJSON = window._.keys(ngModel.$error);
                         for(var errorKey in errorsJSON) {
@@ -53,15 +59,23 @@ angular.module('ds.checkout')
                                     }
                                     break;
                                 case 'pattern':
-                                    errorMsgs.tooltipErrorMsg.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
+                                    errorMsgs.externalErrorMsg.push(attrs.inlineErrorInputPatternMessage || 'Field pattern mismatch!');
                                     break;
+
                                 default:
-                                    errorMsgs.tooltipErrorMsg.push('Field value invalid!');
+                                    errorMsgs.externalErrorMsg.push('Field value invalid!');
                             }
                         }
                         return errorMsgs;
                     },
                     validate = function() {
+                        // reset server-side validation flags and messages
+                        if(ngModel.msg) {
+                            ngModel.$setValidity('validation', true);
+                            scope.message = '';
+                            ngModel.msg = '';
+                            scope.$apply();
+                        }
                         if (ngModel.$invalid) {
                             var errorMsgs = getErrorMessages();
                             if (elementClone.is('select')) {
@@ -70,8 +84,8 @@ angular.module('ds.checkout')
                                 if(errorMsgs.inlineErrorMsgs.length > 0) {
                                     elementClone.attr('value', errorMsgs.inlineErrorMsgs.join(', '));
                                 }
-                                if(errorMsgs.tooltipErrorMsg.length > 0) {
-                                    elementClone.attr('title', errorMsgs.tooltipErrorMsg.join(', '));
+                                if(errorMsgs.externalErrorMsg.length > 0) {
+                                    ngModel.msg = errorMsgs.externalErrorMsg.join(', ');
                                 }
                                 if (!elementClone[0].value) {
                                     elementClone.attr('value', element[0].value);
@@ -105,6 +119,7 @@ angular.module('ds.checkout')
                 elementClone.hide();
                 elementClone.on('focus', onInputFocus);
                 element.on('blur', onInputBlur);
+                element.on('change', onInputChanged);
                 var sfh = scope.$on('submitting:form', function(e, formName) {
                     submitted = true;
                     if (element.parents('[name="'+formName+'"]').length) {

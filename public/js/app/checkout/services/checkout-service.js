@@ -45,7 +45,7 @@ angular.module('ds.checkout')
                 return this.lastOrderId;
             },
 
-            checkout: function (order, onFailure) {
+            checkout: function (order, onStripeFailure, onOrderFailure) {
 
                 var stripeData = {};
                 /* jshint ignore:start */
@@ -60,9 +60,9 @@ angular.module('ds.checkout')
                 StripeJS.createToken(stripeData, function (status, response) {
                     //console.log(response);
                     if (response.error) {
-                        onFailure(response.error.message);
+                        onStripeFailure(response.error);
                     } else {
-                        self.createOrder(order.cart, onFailure);
+                        self.createOrder(order.cart, onOrderFailure);
                     }
                 });
             },

@@ -70,11 +70,17 @@ angular.module('ds.checkout')
             }
         };
 
-        $scope.paymentDone = function (){
-             $scope.wiz.step3Done = true;
-            // guarantee correct scrolling for mobile
-            $location.hash('step4');
-            $anchorScroll();
+        $scope.paymentDone = function (paymentFormValid, form){
+            $scope.$broadcast('submitting:form', form);
+            if(paymentFormValid) {
+                $scope.wiz.step3Done = true;
+                // guarantee correct scrolling for mobile
+                $location.hash('step4');
+                $anchorScroll();
+            } else {
+                $scope.showPristineErrors = true;
+            }
+
         };
 
         $scope.editBillTo = function() {
@@ -112,15 +118,49 @@ angular.module('ds.checkout')
             $scope.$apply();
         }
 
-        $scope.placeOrder = function (formValid, form) {
+        function isFieldAttributableStripeError(error) {
+           return error.code.indexOf('number') !== -1 ||
+                error.code.indexOf('month') !== -1 ||
+                error.code.indexOf('year') !== -1 ||
+                error.code.indexOf('cvc') !== -1;
+        }
 
+        function attributeStripeFieldError(error) {
+            if(error.code.indexOf('number') !== -1) {
+                $scope.checkoutForm.paymentForm.ccNumber.$setValidity('validation', false);
+                $scope.checkoutForm.paymentForm.ccNumber.msg = error.message;
+            } else if(error.code.indexOf('month') !== -1) {
+                $scope.checkoutForm.paymentForm.expMonth.$setValidity('validation', false);
+                $scope.checkoutForm.paymentForm.expMonth.msg = error.message;
+            } else if (error.code.indexOf('year') !== -1 ) {
+                $scope.checkoutForm.paymentForm.expYear.$setValidity('validation', false);
+                $scope.checkoutForm.paymentForm.expYear.msg = error.message;
+            } else if (error.code.indexOf('cvc') !== -1 ){
+                $scope.checkoutForm.paymentForm.cvc.$setValidity('validation', false);
+                $scope.checkoutForm.paymentForm.cvc.msg = error.message;
+            }
+        }
+        function onStripeValidationFailure(error) {
+            $scope.message = error.message;
+            if(error.type === 'card_error'){
+                $scope.editPayment();
+                if (error.code && isFieldAttributableStripeError(error)) {
+                    $scope.message = 'Please correct the errors above before placing your order.';
+                    attributeStripeFieldError(error);
+                }
+            }
+            $scope.$apply();
+        }
+
+        $scope.placeOrder = function (formValid, form) {
+            $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
                 $scope.order.cart = $scope.cart;
-                CheckoutSvc.checkout($scope.order, onCheckoutFailure);
+                CheckoutSvc.checkout($scope.order, onStripeValidationFailure, onCheckoutFailure);
             }  else {
                 $scope.showPristineErrors = true;
             }
