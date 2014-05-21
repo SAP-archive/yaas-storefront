@@ -119,7 +119,7 @@ window.app = angular.module('ds.router', [
                 })
 
                 .state('base.confirmation', {
-                    url: '/confirmation/',
+                    url: '/confirmation/:orderId/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
@@ -128,20 +128,6 @@ window.app = angular.module('ds.router', [
                         'navigation@': {
                             templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
                             controller: 'NavigationCtrl'
-                        }
-                    },
-                    resolve: {
-                        orderInfo: function( CheckoutSvc) {
-
-                            return CheckoutSvc.getLastOrderId();
-                        },
-                        orderDetails: function (CheckoutSvc, caas) {
-                            return caas.orderDetails.API.get({orderId: CheckoutSvc.getLastOrderId() }).$promise
-                                .then(function(result){
-                                    window.scrollTo(0, 0);
-                                    console.log(result);
-                                    return result;
-                                });
                         }
                     }
                 })

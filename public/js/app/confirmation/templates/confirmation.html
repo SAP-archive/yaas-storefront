@@ -31,26 +31,41 @@
 				</div>
 			</div>
 			-->
-			<p>A copy of your order details has been sent to:</p>
-			<address>
-				your.name@email.com
-			</address>
-			<p>The Shipment is scheduled to arrive at the following location:</p>
+            <div ng-hide="confirmationDetails">
+                <p>Retrieving order details ...</p>
+                <address>
 
-			<address>
-				{{shippingAddressLine1}}<br>
-				{{shippingAddressLine2}}<br>
-				{{shippingAddressLine3}}<br>
-			</address>
+                </address>
+                <p></p>
 
-			<h3>Enjoy your items!</h3>
-            <div data-ui-sref="base.product">
-			<button class="btn btn-primary btn-lg">
-				return to shopping
-			</button>
+                <address>
+                    <br>
+                    <br>
+                    <br>
+                </address>
             </div>
-			<p class="support-box">If you have any questions about your order, we’re happy
-				to take your call <strong>(888) 5550-1222</strong>.
+            <div ng-show="confirmationDetails">
+                <p>A copy of your order details has been sent to:</p>
+                <address>
+                    your.name@email.com
+                </address>
+                <p>The Shipment is scheduled to arrive at the following location:</p>
+
+                <address>
+                    {{confirmationDetails.shippingAddressLine1}}<br>
+                    {{confirmationDetails.shippingAddressLine2}}<br>
+                    {{confirmationDetails.shippingAddressLine3}}<br>
+                </address>
+            </div>
+            <h3>Enjoy your items!</h3>
+
+            <div data-ui-sref="base.product">
+                <button class="btn btn-primary btn-lg">
+                    return to shopping
+                </button>
+            </div>
+            <p class="support-box">If you have any questions about your order, we’re happy
+                to take your call <strong>(888) 5550-1222</strong>.
 		</div>
 
 		<!-- 

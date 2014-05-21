@@ -38,12 +38,6 @@ angular.module('ds.checkout')
                 return new DefaultOrder();
             },
 
-            setLastOrderId: function (id) {
-                this.lastOrderId = id;
-            },
-            getLastOrderId: function () {
-                return this.lastOrderId;
-            },
 
             checkout: function (order, onStripeFailure, onOrderFailure) {
 
@@ -91,15 +85,12 @@ angular.module('ds.checkout')
                     newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
-                var self = this;
                 caas.orders.API.save(newOrder).$promise.then(function (order) {
-
-                    self.setLastOrderId(order.id);
 
                     // TEMP ONLY TILL CAAS CHECKOUT SVC FULLY IMPLEMENTED
                     CartSvc.emptyCart();
 
-                    $state.go('base.confirmation');
+                    $state.go('base.confirmation', {orderId: order.id});
 
                 }, function(errorResponse){
                     // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
@@ -110,9 +101,6 @@ angular.module('ds.checkout')
                     }
                 });
             }
-
-
-
 
         };
 

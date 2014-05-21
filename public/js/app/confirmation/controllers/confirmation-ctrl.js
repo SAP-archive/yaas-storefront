@@ -11,44 +11,16 @@
  */
 'use strict';
 
+
 angular.module('ds.confirmation')
-    .controller('ConfirmationCtrl', ['$scope',  'orderInfo', 'orderDetails', function ($scope, orderInfo, orderDetails) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', function ($scope, $stateParams, OrderDetailSvc) {
+        /* OrderDetails NOT injected because we don't want to delay the display of the page.*/
 
-        var OrderInfo = function(){
-            this.orderId = null;
-        };
+        $scope.orderInfo = {};
+        $scope.orderInfo.orderId = $stateParams.orderId;
 
-        $scope.orderInfo = new OrderInfo();
-        $scope.orderInfo.orderId = orderInfo;
-
-        var setupOrderDetails = function () {
-            if (orderDetails.shippingAddress.name) {
-                $scope.shippingAddressLine1 = orderDetails.shippingAddress.name;
-            }
-            else if (orderDetails.shippingAddress.companyName) {
-                $scope.shippingAddressLine1 = orderDetails.shippingAddress.companyName;
-            }
-
-            if (orderDetails.shippingAddress.streetNumber) {
-                $scope.shippingAddressLine2 = orderDetails.shippingAddress.streetNumber;
-
-                if (orderDetails.shippingAddress.street) {
-                    $scope.shippingAddressLine2 = $scope.shippingAddressLine2 +
-                        ' ' + orderDetails.shippingAddress.street;
-
-                    if (orderDetails.shippingAddress.streetAppendix) {
-                        $scope.shippingAddressLine2 = $scope.shippingAddressLine2 +
-                            ' ' + orderDetails.shippingAddress.streetAppendix;
-                    }
-                }
-            }
-
-            $scope.shippingAddressLine3 = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
-                ' ' + orderDetails.shippingAddress.zipCode;
-
-        };
-
-        setupOrderDetails();
-
+        OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
+            $scope.confirmationDetails =  details;
+        });
 
     }]);
