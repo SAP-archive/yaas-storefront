@@ -24,6 +24,7 @@ var tu = require('./protractor-utils.js');
             element(by.id(field + form)).clear();
             tu.clickElement(buttonType, button);
             browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
+            browser.sleep(200);
             tu.sendKeysById(field + form, text);
           }
 
@@ -38,8 +39,8 @@ var tu = require('./protractor-utils.js');
           function fillCreditCardForm(ccNumber, ccMonth, ccYear, cvcNumber) {
             tu.sendKeysById('ccNumber', ccNumber);
             element(by.id('expMonth')).sendKeys(ccMonth);
-            element(by.id('expyear')).sendKeys(ccMonth);
-            tu.sendKeysById('cvc', ccNumber);
+            element(by.id('expYear')).sendKeys(ccYear);
+            tu.sendKeysById('cvc', cvcNumber);
           }
 
 describe("checkout:", function () {
@@ -53,7 +54,7 @@ describe("checkout:", function () {
         browser.get('#!/products/');
         browser.sleep(8000);
         tu.clickElement('xpath', tu.frenchPress);
-        browser.sleep(200);
+        browser.sleep(500);
         tu.clickElement('xpath', tu.buyButton);
         browser.sleep(200);
      });
@@ -61,16 +62,16 @@ describe("checkout:", function () {
 
 
 
-           it('should load one product into cart and move to checkout', function () {
-            tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$27.57', '1');
-           });
+           // it('should load one product into cart and move to checkout', function () {
+           //  tu.clickElement('css', tu.checkoutButton);
+           //  verifyCartContents('Item Price: $24.57', '$27.57', '1');
+           // });
 
-           it('should load 2 of one product into cart and move to checkout', function () {
-            tu.sendKeysByXpath(tu.cartQuantity, '2');
-            tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$52.14', '2');
-           });
+           // it('should load 2 of one product into cart and move to checkout', function () {
+           //  tu.sendKeysByXpath(tu.cartQuantity, '2');
+           //  tu.clickElement('css', tu.checkoutButton);
+           //  verifyCartContents('Item Price: $24.57', '$52.14', '2');
+           // });
 
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('xpath', tu.contineShopping);
@@ -88,9 +89,10 @@ describe("checkout:", function () {
             tu.sendKeysById('email', 'mike@night.com');
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            fillCheckoutFormExceptEmail('Ship');
+            // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2014', '000')
             tu.clickElement('id', 'place-order-btn');
+            browser.sleep(8000);
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
@@ -98,13 +100,14 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@place.com'); 
+            fillCreditCardForm('5555555555554444', '06', '2014', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
-            fillCreditCardForm('5555555555554444', '06', '2014', '000')
             tu.clickElement('id', 'place-order-btn');
+            browser.sleep(8000);
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
 
@@ -113,7 +116,7 @@ describe("checkout:", function () {
    });
 });
 
-// describe("mobile checkout:", function () {
+describe("mobile checkout:", function () {
 
 
 
@@ -143,6 +146,7 @@ describe("checkout:", function () {
         fillCreditCardForm('5555555555554444', '06', '2014', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
+        browser.sleep(8000);
         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
 
        });
@@ -164,6 +168,7 @@ describe("checkout:", function () {
         fillCreditCardForm('5555555555554444', '06', '2014', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
+        browser.sleep(8000);
         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
 
        });
