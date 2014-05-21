@@ -45,7 +45,7 @@ describe("checkout:", function () {
         browser.driver.manage().window().maximize();
         browser.get('#!/products/');
         browser.sleep(8000);
-        tu.clickElement('xpath', tu.bicycle);
+        tu.clickElement('xpath', tu.frenchPress);
         browser.sleep(200);
         tu.clickElement('xpath', tu.buyButton);
         browser.sleep(200);
@@ -56,13 +56,13 @@ describe("checkout:", function () {
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', '$12.50', '1');
+            verifyCartContents('Item Price: $24.57', '$27.57', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', '$22.00', '2');
+            verifyCartContents('Item Price: $9.50', '$52.14', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
