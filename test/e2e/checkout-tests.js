@@ -62,16 +62,16 @@ describe("checkout:", function () {
 
 
 
-           // it('should load one product into cart and move to checkout', function () {
-           //  tu.clickElement('css', tu.checkoutButton);
-           //  verifyCartContents('Item Price: $24.57', '$27.57', '1');
-           // });
+           it('should load one product into cart and move to checkout', function () {
+            tu.clickElement('css', tu.checkoutButton);
+            verifyCartContents('Item Price: $24.57', '$27.57', '1');
+           });
 
-           // it('should load 2 of one product into cart and move to checkout', function () {
-           //  tu.sendKeysByXpath(tu.cartQuantity, '2');
-           //  tu.clickElement('css', tu.checkoutButton);
-           //  verifyCartContents('Item Price: $24.57', '$52.14', '2');
-           // });
+           it('should load 2 of one product into cart and move to checkout', function () {
+            tu.sendKeysByXpath(tu.cartQuantity, '2');
+            tu.clickElement('css', tu.checkoutButton);
+            verifyCartContents('Item Price: $24.57', '$52.14', '2');
+           });
 
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('xpath', tu.contineShopping);
@@ -97,6 +97,7 @@ describe("checkout:", function () {
            });
 
            it('should have basic validation on all fields', function () {
+            browser.ignoreSynchronization = true;
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@place.com'); 
@@ -106,6 +107,17 @@ describe("checkout:", function () {
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
+            browser.sleep(8000);
+            validateField('cvc', '', '00', 'id', 'place-order-btn');
+            tu.clickElement('id', 'place-order-btn');
+            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code.');
+            browser.executeScript("document.getElementById('cvc').style.display='block';");
+            validateField('cvc', '', '123', 'id', 'place-order-btn');
+            validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
+            tu.clickElement('id', 'place-order-btn');
+            // expect(element(by.xpath('//div[2]/div/small')).getText()).toContain('Your card number is incorrect.');
+            browser.executeScript("document.getElementById('ccNumber').style.display='block';");
+            validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(8000);
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
