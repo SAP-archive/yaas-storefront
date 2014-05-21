@@ -35,6 +35,13 @@ var tu = require('./protractor-utils.js');
             validateField('city', form, 'Boulder', buttonType, button);
           }
 
+          function fillCreditCardForm(ccNumber, ccMonth, ccYear, cvcNumber) {
+            tu.sendKeysById('ccNumber', ccNumber);
+            element(by.id('expMonth')).sendKeys(ccMonth);
+            element(by.id('expyear')).sendKeys(ccMonth);
+            tu.sendKeysById('cvc', ccNumber);
+          }
+
 describe("checkout:", function () {
 
 
@@ -62,7 +69,7 @@ describe("checkout:", function () {
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', '$52.14', '2');
+            verifyCartContents('Item Price: $24.57', '$52.14', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
@@ -72,7 +79,7 @@ describe("checkout:", function () {
             tu.clickElement('xpath', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $9.50', '$14.50', '1');
+            verifyCartContents('Item Price: $24.57', '$29.57', '1');
            });
 
            it('should allow all fields to be editable', function () {
@@ -82,6 +89,7 @@ describe("checkout:", function () {
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             fillCheckoutFormExceptEmail('Ship');
+            fillCreditCardForm('5555555555554444', '06', '2014', '000')
             tu.clickElement('id', 'place-order-btn');
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
@@ -95,6 +103,7 @@ describe("checkout:", function () {
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
+            fillCreditCardForm('5555555555554444', '06', '2014', '000')
             tu.clickElement('id', 'place-order-btn');
             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
            });
@@ -104,7 +113,7 @@ describe("checkout:", function () {
    });
 });
 
-describe("mobile checkout:", function () {
+// describe("mobile checkout:", function () {
 
 
 
@@ -129,8 +138,9 @@ describe("mobile checkout:", function () {
         tu.clickElement('xpath', continueButton1);
         expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
         tu.clickElement('id', 'shipTo');
-        fillCheckoutFormExceptEmail('Ship');
+        // fillCheckoutFormExceptEmail('Ship');
         tu.clickElement('xpath', continueButton2);
+        fillCreditCardForm('5555555555554444', '06', '2014', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
@@ -148,9 +158,10 @@ describe("mobile checkout:", function () {
         tu.clickElement('xpath', continueButton1);
         expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
         tu.clickElement('id', 'shipTo');
-        fillCheckoutFormExceptEmail('Ship');
+        // fillCheckoutFormExceptEmail('Ship');
         verifyValidationForEachField('Ship', 'xpath', continueButton2); 
         tu.clickElement('xpath', continueButton2);
+        fillCreditCardForm('5555555555554444', '06', '2014', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
