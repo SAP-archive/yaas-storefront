@@ -21,11 +21,11 @@ describe("cart:", function () {
          browser.sleep(250);
          tu.verifyCartTotal("$0.00");
          tu.clickElement('xpath', tu.contineShopping);
-         tu.clickElement('xpath', tu.bicycle);
+         tu.clickElement('xpath', tu.frenchPress);
          tu.clickElement('xpath', tu.buyButton);
          browser.sleep(250);
          tu.verifyCartAmount("1");
-         tu.verifyCartTotal("$9.50");
+         tu.verifyCartTotal("$24.57");
          tu.clickElement('xpath', tu.removeFromCart);
          tu.verifyCartTotal("$0.00");
 
@@ -36,16 +36,16 @@ describe("cart:", function () {
            browser.sleep(250);
            tu.verifyCartTotal("$0.00");
            tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.bicycle);
+           tu.clickElement('xpath', tu.frenchPress);
            tu.clickElement('xpath', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
-           tu.verifyCartTotal("$9.50");
+           tu.verifyCartTotal("$24.57");
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('css', 'img');
            tu.clickElement('xpath', tu.ringBowl);
            tu.clickElement('xpath', tu.buyButton);
-           tu.verifyCartTotal("$11.50");
+           tu.verifyCartTotal("$26.57");
 
          });
 
@@ -54,21 +54,21 @@ describe("cart:", function () {
           browser.sleep(250);
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.bicycle);
+           tu.clickElement('xpath', tu.frenchPress);
            tu.clickElement('xpath', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount('1');
-           tu.verifyCartTotal('$9.50');
+           tu.verifyCartTotal('$24.57');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.buyButton);
            tu.verifyCartAmount('2');
-           tu.verifyCartTotal('$19.00');
+           tu.verifyCartTotal('$49.14');
            tu.sendKeysByXpath(tu.cartQuantity, '5');
            tu.verifyCartAmount("5");
-           tu.verifyCartTotal("$47.50");
+           tu.verifyCartTotal("$122.85");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
            tu.verifyCartAmount("10");
-           tu.verifyCartTotal("$95.00");
+           tu.verifyCartTotal("$245.70");
          });
 
          it('should not add out of stock item', function () {
@@ -76,7 +76,7 @@ describe("cart:", function () {
            browser.sleep(250);
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.testProduct2);
+           tu.clickElement('xpath', tu.chemex);
            tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);
            tu.verifyCartTotal('$0.00');
@@ -88,12 +88,12 @@ describe("cart:", function () {
           browser.sleep(250);
           tu.verifyCartTotal('$0.00');
           tu.clickElement('xpath', tu.contineShopping);
-          tu.clickElement('xpath', tu.bicycle);
+          tu.clickElement('xpath', tu.frenchPress);
           tu.clickElement('xpath', tu.buyButton); 
-          tu.verifyCartTotal("$9.50");
+          tu.verifyCartTotal("$24.57");
           tu.sendKeysByXpath(tu.cartQuantity, '-5');
           tu.verifyCartAmount('5');
-          tu.verifyCartTotal('$47.50');
+          tu.verifyCartTotal('$122.85');
           tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
           tu.verifyCartAmount('');
           tu.verifyCartTotal('$0.00');
