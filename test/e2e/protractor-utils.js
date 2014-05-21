@@ -6,7 +6,7 @@
         exports.buyButton = "//div[2]/div/button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
-        exports.bicycleDescription = element(by.binding('product.description'));
+        exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "//input[@type='number']"
         exports.outOfStockButton = "//div[2]/button"
