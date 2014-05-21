@@ -28,16 +28,22 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div class="error" ng-show="badEmailAddress" style="color:red">
+                <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
                     <small class="help-inline has-error">
                         Please enter a valid email in the format name@example.com
                     </small>
 
                 </div>
                 <div class="form-group input-group"
-                     ng-class="{'has-error': badEmailAddress || (billToForm.email.$invalid && showPristineErrors)}">
+                     ng-class="{ 'has-error': billToForm.email.$invalid && !billToForm.email.focused && ( billToForm.$dirty || showPristineErrors) }">
+
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
-                    <input type="text" inline-error-input inline-error-input-pattern-message="Invalid Email Address" inline-error-input-required-message="Email Required" class="form-control" id="email" name="email" ng-model="order.billTo.email" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" required autocomplete="on" ng-blur="emailBlurred(billToForm.email.$valid, billToForm.email.$dirty)">
+                    <input type="text" inline-error-input
+                           inline-error-input-required-message="Email Required" class="form-control" id="email"
+                           name="email" ng-model="order.billTo.email" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"
+                           required autocomplete="on"
+                           ng-focus="billToForm.email.focused=true"
+                           ng-blur="billToForm.email.focused=false" >
                 </div>
             </div>
 

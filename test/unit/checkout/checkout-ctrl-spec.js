@@ -84,12 +84,29 @@ describe('CheckoutCtrl Test', function () {
             $scope.shipToDone(true);
             expect($scope.wiz.step2Done).toEqualData(true);
             expect($scope.wiz.step3Done).toEqualData(false);
+
+        });
+
+        it('should leave Step 2 In Progress when invalid Ship-To entered', function(){
+            $scope.wiz.step2Done = false;
+            $scope.wiz.shipToSameAsBillTo = false;
+            $scope.shipToDone(false);
+            expect($scope.wiz.step2Done).toEqualData(false);
+            expect($scope.wiz.step3Done).toEqualData(false);
+            expect($scope.showPristineErrors).toEqualData(true);
         });
 
         it('should set Step 3 Done when shipping entered', function(){
             $scope.wiz.step3Done = false;
             $scope.paymentDone(true, 'form');
             expect($scope.wiz.step3Done).toEqualData(true);
+        });
+
+        it('should leave Step 3 In Progress when invalid Payment entered', function(){
+            $scope.wiz.step3Done = false;
+            $scope.paymentDone(false);
+            expect($scope.wiz.step3Done).toEqualData(false);
+            expect($scope.showPristineErrors).toEqualData(true);
         });
 
     });

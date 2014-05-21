@@ -98,14 +98,6 @@ angular.module('ds.checkout')
             $scope.wiz.step3Done = false;
         };
 
-        $scope.emailBlurred = function (isValid, isDirty) {
-            if (isValid) {
-                $scope.badEmailAddress = false;
-            }
-            else if (isDirty) {
-                $scope.badEmailAddress = true;
-            }
-        };
 
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
