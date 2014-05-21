@@ -10,14 +10,14 @@
  * license agreement you entered into with hybris.
  */
 
-describe('ConfirmationlCtrl Test', function () {
+describe('ConfirmationCtrl Test', function () {
 
-    var $scope, $controller, confCtrl;
+    var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, confCtrl, queryDeferred;
     var orderId = 123;
-    var orderDetails = {
-        shippingAddress: {}
-    };
+    var mockedOrderDetailSvc = {};
 
+    mockedStateParams = {};
+    mockedStateParams.orderId = orderId;
 
     //***********************************************************************
     // Common Setup
@@ -27,7 +27,7 @@ describe('ConfirmationlCtrl Test', function () {
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.confirmation'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -36,10 +36,21 @@ describe('ConfirmationlCtrl Test', function () {
         });
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
+        $q = _$q_;
+        queryDeferred = $q.defer();
+
     }));
 
+    beforeEach(function(){
+        queryDeferred.resolve({});
+        mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(queryDeferred.promise);
+
+    });
+
+
+
     beforeEach(function () {
-        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, 'orderInfo': orderId, 'orderDetails': orderDetails});
+        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams, 'OrderDetailSvc': mockedOrderDetailSvc});
     });
 
     describe(' initialization', function () {
@@ -48,7 +59,6 @@ describe('ConfirmationlCtrl Test', function () {
            expect($scope.orderInfo).toBeTruthy();
            expect($scope.orderInfo.orderId).toEqualData(orderId);
         });
-
     });
 
 

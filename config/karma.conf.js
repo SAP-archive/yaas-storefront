@@ -14,7 +14,7 @@ module.exports = function(config){
         'public/js/vendor-static/img-touch-canvas.js',
         'public/js/vendor-static/jquery.fullscreen-min.js',
         'public/js/vendor-static/main.js',
-        'https://js.stripe.com/v2/',
+        'public/js/vendor-static/stripe.js',
 
         'public/js/vendor/angular.js',
         'public/js/vendor/angular-masonry.js',
@@ -51,6 +51,7 @@ module.exports = function(config){
 
         'public/js/app/confirmation/confirmation-index.js',
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
+        'public/js/app/confirmation/services/order-details-svc.js',
 
         'public/js/app/router.js',
         'public/js/app/settings.js',

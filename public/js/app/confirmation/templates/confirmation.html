@@ -31,26 +31,29 @@
 				</div>
 			</div>
 			-->
-			<p>A copy of your order details has been sent to:</p>
-			<address>
-				your.name@email.com
-			</address>
-			<p>The Shipment is scheduled to arrive at the following location:</p>
 
-			<address>
-				{{shippingAddressLine1}}<br>
-				{{shippingAddressLine2}}<br>
-				{{shippingAddressLine3}}<br>
-			</address>
+            <div>
+                <p>A copy of your order details has been sent to:</p>
+                <address>
+                    <span ng-cloak>{{confirmationDetails.emailAddress}}</span>
+                </address>
+                <p>The Shipment is scheduled to arrive at the following location:</p>
 
-			<h3>Enjoy your items!</h3>
-            <div data-ui-sref="base.product">
-			<button class="btn btn-primary btn-lg">
-				return to shopping
-			</button>
+                <address>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine1}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine2}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine3}}<br></span>
+                </address>
             </div>
-			<p class="support-box">If you have any questions about your order, we’re happy
-				to take your call <strong>(888) 5550-1222</strong>.
+            <h3>Enjoy your items!</h3>
+
+            <div data-ui-sref="base.product">
+                <button class="btn btn-primary btn-lg">
+                    return to shopping
+                </button>
+            </div>
+            <p class="support-box">If you have any questions about your order, we’re happy
+                to take your call <strong>(888) 5550-1222</strong>.
 		</div>
 
 		<!-- 

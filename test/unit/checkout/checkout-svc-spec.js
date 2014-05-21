@@ -96,7 +96,7 @@ describe('CheckoutSvc Test', function () {
             it('should transition to CONFIRMATION', function () {
                 checkoutSvc.checkout(order, function (){},function(){});
                 $httpBackend.flush();
-                expect(mockedState.go).toHaveBeenCalledWith('base.confirmation');
+                expect(mockedState.go).toHaveBeenCalledWith('base.confirmation', { orderId : 456 });
             });
 
             // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
