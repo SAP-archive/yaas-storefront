@@ -31,30 +31,18 @@
 				</div>
 			</div>
 			-->
-            <div ng-hide="confirmationDetails">
-                <p>Retrieving order details ...</p>
-                <address>
 
-                </address>
-                <p></p>
-
-                <address>
-                    <br>
-                    <br>
-                    <br>
-                </address>
-            </div>
-            <div ng-show="confirmationDetails">
+            <div>
                 <p>A copy of your order details has been sent to:</p>
                 <address>
-                    your.name@email.com
+                    <span ng-cloak>{{confirmationDetails.emailAddress}}</span>
                 </address>
                 <p>The Shipment is scheduled to arrive at the following location:</p>
 
                 <address>
-                    {{confirmationDetails.shippingAddressLine1}}<br>
-                    {{confirmationDetails.shippingAddressLine2}}<br>
-                    {{confirmationDetails.shippingAddressLine3}}<br>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine1}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine2}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressLine3}}<br></span>
                 </address>
             </div>
             <h3>Enjoy your items!</h3>

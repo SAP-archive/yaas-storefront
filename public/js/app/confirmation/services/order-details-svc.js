@@ -59,6 +59,7 @@ angular.module('ds.confirmation')
                     }
                     confirmationDetails.shippingAddressLine3 = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
                         ' ' + orderDetails.shippingAddress.zipCode;
+                    confirmationDetails.emailAddress = 'your.name@email.com';
                     return confirmationDetails;
                 });
 
