@@ -48,6 +48,14 @@ describe('NavigationCtrl Test', function () {
             $scope.toggleCart();
             expect($rootScope.showCart).toEqualData(false);
         });
+
+        it('should toggle offCanvas', function () {
+            $scope.toggleOffCanvas();
+            expect($rootScope.showMobileNav).toEqualData(true);
+            $scope.toggleOffCanvas();
+            expect($rootScope.showMobileNav).toEqualData(false);
+        });
+
     });
 
 
