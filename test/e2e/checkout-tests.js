@@ -50,6 +50,7 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
+
         browser.driver.manage().window().maximize();
         browser.get('#!/products/');
         browser.sleep(8000);

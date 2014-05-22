@@ -21,7 +21,7 @@ angular.module('ds.shared')
         apis: {
 
             products: {
-                baseUrl: 'http://product-service.staged.cf.hybris.com',
+                baseUrl: 'http://product-service.dprod.cf.hybris.com',
 
                 route: '/products/:productSku',
                 pageSize: 10
@@ -38,12 +38,12 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 

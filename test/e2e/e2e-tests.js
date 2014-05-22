@@ -32,7 +32,7 @@ describe("product page", function () {
       it("should get product detail page", function () {
         tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.frenchPress);
-        browser.sleep(100);
+        browser.sleep(1000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nThis will make the best coffee you ever had.');
 
     });
