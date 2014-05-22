@@ -35,7 +35,7 @@
 
                 </div>
                 <div class="form-group input-group"
-                     >
+                     ng-class="{ 'has-error': !billToForm.email.focused && billToForm.email.$invalid &&  ( billToForm.email.$dirty || showPristineErrors) }">
 
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
                     <input type="text" inline-error-input
@@ -401,7 +401,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="error" ng-show="paymentForm.expMonth.msg" style="color:red">
+                    <div class="error" ng-show="paymentForm.expMonth.msg || paymentForm.expYear.msg " style="color:red">
                         <small class="help-inline has-error">
                             {{paymentForm.expMonth.msg}}
                         </small>
@@ -431,7 +431,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="error" ng-show="paymentForm.expYear.msg" style="color:red">
+                    <div class="error" ng-show="paymentForm.expYear.msg || paymentForm.expMonth.msg" style="color:red">
                         <small class="help-inline has-error">
                             {{paymentForm.expYear.msg}}
                         </small>
