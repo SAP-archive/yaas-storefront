@@ -1,4 +1,4 @@
-/**
+/*
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -10,9 +10,9 @@
  * license agreement you entered into with hybris.
  */
 
-describe('NavigationCtrl Test', function () {
+describe('ProductDetailCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, cart;
+    var $scope, $rootScope, $controller;
 
     //***********************************************************************
     // Common Setup
@@ -20,9 +20,9 @@ describe('NavigationCtrl Test', function () {
     //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
-    beforeEach(angular.mock.module('ds.shared'));
+    beforeEach(angular.mock.module('ds.products'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -32,33 +32,35 @@ describe('NavigationCtrl Test', function () {
         $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-        $injector = _$injector_;
     }));
 
-    describe('NavigationCtrl', function () {
-        var navCtrl, cart;
-        cart = {};
+    describe('ProductDetailCtrl ', function () {
+        var mockedCartSvc, productDetailCtrl;
+
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart});
+
+            var mockProduct = {
+                name: 'product1',
+                price: '5000'
+            };
+
+            // creating the mocked service
+            mockedCartSvc = {
+                addProductToCart: jasmine.createSpy()
+            };
+
+            productDetailCtrl = $controller('ProductDetailCtrl', {$scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': mockProduct});
         });
 
-        it('should change showCart value', function(){
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(true);
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(false);
-        });
 
-        it('should toggle offCanvas', function () {
-            $scope.toggleOffCanvas();
-            expect($rootScope.showMobileNav).toEqualData(true);
-            $scope.toggleOffCanvas();
-            expect($rootScope.showMobileNav).toEqualData(false);
+        it('should add to cart from detail page', function(){
+
+            $scope.addToCartFromDetailPage();
+            expect(mockedCartSvc.addProductToCart).toHaveBeenCalled();
+
         });
 
     });
 
-
-
 });
-
