@@ -3,7 +3,7 @@
     <small class="visible-xs visible-sm">Simple 4 Step Checkout</small>
     secure checkout
 </h1>
-<ng-form name="checkoutForm" novalidate>
+<ng-form name="checkoutForm" novalidate method="POST">
 <ng-form name="billToForm" novalidate>
     <div class="step step-1" ng-class="{'done': wiz.step1Done}">
         <h2> Step 1. My Details <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
@@ -35,7 +35,7 @@
 
                 </div>
                 <div class="form-group input-group"
-                     ng-class="{ 'has-error': billToForm.email.$invalid && !billToForm.email.focused && ( billToForm.$dirty || showPristineErrors) }">
+                     >
 
                     <span class="input-group-addon"><label class="control-label" for="email">Email</label></span>
                     <input type="text" inline-error-input

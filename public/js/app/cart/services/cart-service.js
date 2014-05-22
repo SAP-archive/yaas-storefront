@@ -145,7 +145,7 @@ angular.module('ds.cart')
                     cartProductToPush.name = product.name;
                     cartProductToPush.quantity = productDetailQty;
                     cartProductToPush.price = product.price;
-                    if (product.images) {
+                    if (product.images && product.images.length > 0) {
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
                     cart.items.push(cartProductToPush);
