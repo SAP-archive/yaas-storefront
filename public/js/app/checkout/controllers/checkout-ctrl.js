@@ -98,20 +98,9 @@ angular.module('ds.checkout')
             $scope.wiz.step3Done = false;
         };
 
-        $scope.emailBlurred = function (isValid, isDirty) {
-            if (isValid) {
-                $scope.badEmailAddress = false;
-            }
-            else if (isDirty) {
-                $scope.badEmailAddress = true;
-            }
-        };
-
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
-
-
 
         function onCheckoutFailure(error) {
             $scope.message = error;
@@ -129,12 +118,12 @@ angular.module('ds.checkout')
             if(error.code.indexOf('number') !== -1) {
                 $scope.checkoutForm.paymentForm.ccNumber.$setValidity('validation', false);
                 $scope.checkoutForm.paymentForm.ccNumber.msg = error.message;
-            } else if(error.code.indexOf('month') !== -1) {
+            } else if(error.code.indexOf('month') !== -1 || error.code.indexOf('year') !== -1) {
                 $scope.checkoutForm.paymentForm.expMonth.$setValidity('validation', false);
-                $scope.checkoutForm.paymentForm.expMonth.msg = error.message;
-            } else if (error.code.indexOf('year') !== -1 ) {
                 $scope.checkoutForm.paymentForm.expYear.$setValidity('validation', false);
-                $scope.checkoutForm.paymentForm.expYear.msg = error.message;
+                $scope.checkoutForm.paymentForm.expMonth.msg = 'Expiration date invalid - please validate the month.';
+                $scope.checkoutForm.paymentForm.expYear.msg = 'Expiration date invalid - please validate the year.';
+
             } else if (error.code.indexOf('cvc') !== -1 ){
                 $scope.checkoutForm.paymentForm.cvc.$setValidity('validation', false);
                 $scope.checkoutForm.paymentForm.cvc.msg = error.message;
@@ -142,6 +131,7 @@ angular.module('ds.checkout')
         }
         function onStripeValidationFailure(error) {
             $scope.message = error.message;
+
             if(error.type === 'card_error'){
                 $scope.editPayment();
                 if (error.code && isFieldAttributableStripeError(error)) {
