@@ -26,13 +26,13 @@ describe("product page", function () {
         expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 0'); 
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(35) //verify last product has loaded
-        expect(element(by.css('div.col-xs-6 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-44 of 0'); //should be # of 36, but won't work in phantomjs
+        expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-44 of 0'); //should be # of 36, but won't work in phantomjs
       });
 
       it("should get product detail page", function () {
         tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.frenchPress);
-        browser.sleep(100);
+        browser.sleep(1000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nThis will make the best coffee you ever had.');
 
     });

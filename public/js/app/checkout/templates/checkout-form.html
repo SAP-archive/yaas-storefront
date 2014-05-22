@@ -455,7 +455,9 @@
 
                     <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
                     && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
+
                         <span class="input-group-addon"><label class="control-label" for="cvc">CVC Number</label></span>
+
                         <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
                                inline-error-input inline-error-input-required-message="CVC Required" ng-model="order.creditCard.cvc" validate-cvc
                                ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false">

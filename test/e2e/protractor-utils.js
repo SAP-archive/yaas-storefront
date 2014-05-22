@@ -1,12 +1,12 @@
          
-        exports.bicycle = "//img[contains(@src,'http://img.wonderhowto.com/img/26/99/63418592294146/0/fancy-bike-folds-into-handy-tote-bag.w654.jpg')]";
-        exports.testProduct2 = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/Chemex.jpg')]";
-        exports.ringBowl = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/image_16.jpg')]";
+        exports.frenchPress = "//img[contains(@src,'http://media-repository.dprod.cf.hybris.com/products/onlineshop/media/537bdfebb6ee33d51ebdb1e7?tenantId=products')]";
+        exports.chemex = "//img[contains(@src,'http://media-repository.dprod.cf.hybris.com/products/onlineshop/media/537bdb56b6ee33d51ebdb196?tenantId=products')]";
+        exports.ringBowl = "//img[contains(@src,'http://media-repository.dprod.cf.hybris.com/products/onlineshop/media/537bd603b6ee33d51ebdb18e?tenantId=products')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "//div[2]/div/button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
-        exports.bicycleDescription = element(by.binding('product.description'));
+        exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "//input[@type='number']"
         exports.outOfStockButton = "//div[2]/button"

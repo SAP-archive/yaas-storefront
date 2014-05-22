@@ -45,8 +45,8 @@
     "karma-jasmine": "~0.1.5",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-coffee-preprocessor": "^0.1.3",
-    "protractor": "~0.20.1",
-    "phantomcss": "^0.4.5"
+    "phantomcss": "^0.4.5",
+    "protractor": "^0.23.1"
   },
   "author": "hybris",
   "license": "proprietary"
