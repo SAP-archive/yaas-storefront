@@ -98,12 +98,9 @@ angular.module('ds.checkout')
             $scope.wiz.step3Done = false;
         };
 
-
         $scope.setShipToSameAsBillTo = function (){
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
-
-
 
         function onCheckoutFailure(error) {
             $scope.message = error;
@@ -134,6 +131,7 @@ angular.module('ds.checkout')
         }
         function onStripeValidationFailure(error) {
             $scope.message = error.message;
+
             if(error.type === 'card_error'){
                 $scope.editPayment();
                 if (error.code && isFieldAttributableStripeError(error)) {

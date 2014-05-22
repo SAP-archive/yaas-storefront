@@ -189,6 +189,78 @@ describe('CheckoutCtrl Test', function () {
         });
     });
 
+    describe('Stripe Error Handling', function(){
+        var stripeError, errorMsg, setValidityMock;
+        var fieldErrorMsg = 'Please correct the errors above before placing your order.';
+        beforeEach(function(){
+            $scope.checkoutForm = {};
+            $scope.checkoutForm.paymentForm ={};
+            $scope.checkoutForm.paymentForm.ccNumber = {};
+            setValidityMock =  jasmine.createSpy('$setValidity');
+            $scope.checkoutForm.paymentForm.ccNumber.$setValidity = setValidityMock;
+            $scope.checkoutForm.paymentForm.cvc = {};
+            $scope.checkoutForm.paymentForm.cvc.$setValidity = setValidityMock;
+            $scope.checkoutForm.paymentForm.expMonth = {};
+            $scope.checkoutForm.paymentForm.expMonth.$setValidity = setValidityMock;
+            $scope.checkoutForm.paymentForm.expYear = {};
+            $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
+
+            errorMsg = 'msg';
+            stripeError = {};
+            var checkout = function(data, stripeCallback, orderCallback) {
+                stripeCallback(stripeError);
+            };
+            mockedCheckoutSvc.checkout = checkout;
+            stripeError.message = errorMsg;
+            stripeError.code = 'number';
+            stripeError.type = 'card_error'
+            $scope.wiz.step1Done = true;
+            $scope.wiz.step2Done = true;
+            $scope.wiz.step3Done = true;
+            $scope.message = false;
+        });
+
+        it('should edit payment on card error', function(){
+
+            $scope.placeOrder(true);
+            expect($scope.wiz.step3Done).toEqualData(false);
+        });
+
+        it('should set error message', function(){
+            stripeError.type = null;
+            $scope.placeOrder(true);
+            expect($scope.message).toEqualData(errorMsg);
+        });
+
+
+        it('should update validity on cc number error', function(){
+            $scope.placeOrder(true);
+            expect(setValidityMock).toHaveBeenCalled();
+            expect($scope.message).toEqualData(fieldErrorMsg);
+        });
+
+        it('should update validity on cvc error', function(){
+            stripeError.code = 'cvc';
+            $scope.placeOrder(true);
+            expect(setValidityMock).toHaveBeenCalled();
+            expect($scope.message).toEqualData(fieldErrorMsg);
+        });
+
+        it('should update validity on month error', function(){
+            stripeError.code = 'month';
+            $scope.placeOrder(true);
+            expect(setValidityMock).toHaveBeenCalled();
+            expect($scope.message).toEqualData(fieldErrorMsg);
+        });
+
+        it('should update validity on year error', function(){
+            stripeError.code = 'year';
+            $scope.placeOrder(true);
+            expect(setValidityMock).toHaveBeenCalled();
+            expect($scope.message).toEqualData(fieldErrorMsg);
+        });
+    });
+
 
 
 });
