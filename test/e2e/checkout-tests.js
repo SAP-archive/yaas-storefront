@@ -85,6 +85,7 @@ describe("checkout:", function () {
            });
 
            it('should allow all fields to be editable', function () {
+            browser.ignoreSynchronization = true;
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
