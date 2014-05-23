@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc',
-        function (caas, $rootScope, $state, StripeJS, CartSvc) {
+    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS',
+        function (caas, $rootScope, $state, StripeJS) {
 
         var CreditCard = function () {
             this.number = null;
@@ -56,7 +56,7 @@ angular.module('ds.checkout')
                     if (response.error) {
                         onStripeFailure(response.error);
                     } else {
-                        self.createOrder(order.cart, onOrderFailure);
+                        self.createOrder(order, response.id, onOrderFailure);
                     }
                 });
             },
@@ -67,29 +67,49 @@ angular.module('ds.checkout')
              * Uses the CartSvc to retrieve the current set of line items.
              * @return The result array as returned by Angular $resource.query().
              */
-            createOrder: function(cart, onFailure) {
-
-                var OrderLine = function (amount, unitPrice, productCode) {
-                    this.amount = amount;
-                    this.unitPrice = unitPrice;
-                    this.productCode = productCode;
-                };
+            createOrder: function(order, token, onFailure) {
 
                 var Order = function () {
-                    this.entries = [];
+
                 };
 
                 var newOrder = new Order();
+                newOrder.cartId = order.cart.id;
+                newOrder.creditCardToken = token;
+                newOrder.currency = 'USD';
+                // TODO - we should extract this "total" calculation into a common property/service call
+                newOrder.orderTotal =  order.cart.subtotal + order.cart.estTax + order.shippingCost;
 
-                angular.forEach(cart.items, function (item) {
-                    newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
-                });
+                var name = order.billTo.firstName + ' ' + order.billTo.lastName;
+                newOrder.addresses = [];
+                var billTo = {};
+                billTo.contactName = name;
+                billTo.street = order.billTo.address1;
+                // TODO - what about 2nd street line?
+                billTo.city = order.billTo.city;
+                billTo.state = order.billTo.state;
+                billTo.zipCode = order.billTo.zip;
+                billTo.country = order.billTo.country;
+                billTo.account = order.billTo.email;
+                newOrder.addresses.push(billTo);
 
-                caas.orders.API.save(newOrder).$promise.then(function (order) {
+                var shipTo = {};
+                shipTo.contactName = name;
+                shipTo.street = order.shipTo.address1;
+                // TODO - what about 2nd street line?
+                shipTo.city = order.shipTo.city;
+                shipTo.state = order.shipTo.state;
+                shipTo.zipCode = order.shipTo.zip;
+                shipTo.country = order.shipTo.country;
+                shipTo.account = order.shipTo.email;
+                newOrder.addresses.push(shipTo);
 
-                    // TEMP ONLY TILL CAAS CHECKOUT SVC FULLY IMPLEMENTED
-                    CartSvc.emptyCart();
+                newOrder.customer = {};
+                newOrder.customer.name = name;
+                newOrder.customer.email = order.billTo.email;
 
+                caas.checkout.API.save(newOrder).$promise.then(function (order) {
+                    // TODO this should be an event to be handled in the router in order to decouple various modules
                     $state.go('base.confirmation', {orderId: order.id});
 
                 }, function(errorResponse){
@@ -97,7 +117,16 @@ angular.module('ds.checkout')
                     if(errorResponse.status === 500) {
                         onFailure('Cannot process this order because the system is unavailable. Try again at a later time.');
                     }  else {
-                        onFailure('Order could not be processed.  Status code: '+errorResponse.status+', message: '+errorResponse.data );
+                        var errMsg = 'Order could not be processed.';
+                        if(errorResponse) {
+                            if(errorResponse.status) {
+                                errMsg +=  ' Status code: '+errorResponse.status+'.';
+                            }
+                            if(errorResponse.message) {
+                                errMsg +=  ' '+message;
+                            }
+                        }
+                        onFailure(  errMsg );
                     }
                 });
             }

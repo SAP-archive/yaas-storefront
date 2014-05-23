@@ -3,8 +3,8 @@
     <small class="visible-xs visible-sm">Simple 4 Step Checkout</small>
     secure checkout
 </h1>
-<ng-form name="checkoutForm" novalidate>
-<ng-form name="billToForm" novalidate>
+<ng-form name="checkoutForm" novalidate autocomplete="on">
+<ng-form name="billToForm" novalidate autocomplete="on">
     <div class="step step-1" ng-class="{'done': wiz.step1Done}">
         <h2> Step 1. My Details <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
                                       ng-click="editBillTo()"></span></h2>
@@ -158,7 +158,7 @@
         </div>
     </div>
 </ng-form>
-<ng-form name="shipToForm" novalidate  >
+<ng-form name="shipToForm" novalidate autocomplete="on">
     <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
         <a id="step2">
             <h2> Step 2. Shipping Information <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editBillTo()"></span></h2>
@@ -324,7 +324,7 @@
         </div>
     </div>
 </ng-form>
-<ng-form name="paymentForm" novalidate>
+<ng-form name="paymentForm" novalidate autocomplete="on">
     <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
         <a id="step3">
             <h2>Step 3. Payment <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"

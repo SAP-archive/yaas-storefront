@@ -27,9 +27,9 @@ angular.module('ds.shared')
                 pageSize: 10
             },
 
-            orders: {
-                baseUrl: 'http://order-service.dprod.cf.hybris.com',
-                route: '/orders/:orderId'
+            checkout: {
+                baseUrl: 'http://checkout-mashup-service.dev.cf.hybris.com',
+                route: '/checkouts/order'
             },
 
             orderDetails: {
@@ -38,12 +38,12 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-service.dev.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-service.dev.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 

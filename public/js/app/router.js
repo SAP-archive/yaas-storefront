@@ -173,8 +173,8 @@ window.app = angular.module('ds.router', [
         caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
-        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
-            route(settings.apis.orders.route);
+        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
+            route(settings.apis.checkout.route);
         caasProvider.endpoint('orderDetails', {orderId: '@orderId'}).baseUrl(settings.apis.orderDetails.baseUrl).
             route(settings.apis.orderDetails.route);
         caasProvider.endpoint('cartItems')
@@ -195,9 +195,8 @@ window.app = angular.module('ds.router', [
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
-                    else if(config.url.indexOf('orders')>-1) {
+                    else if(config.url.indexOf('checkout')>-1) {
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
-                        config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
 
                     else if(config.url.indexOf('order/details')>-1) {

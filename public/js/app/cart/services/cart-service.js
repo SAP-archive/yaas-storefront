@@ -82,10 +82,11 @@ angular.module('ds.cart')
             }
 
             newCart.cartItem.push(item);
-
-            //caas.cartItems.API.save(newCart).$promise.then(function(response){
-              //  cart.id = response.cartId;
-            //});
+            // TODO REMOVE ONCE CART SERVICES ARE WORKING AGAIN!!!
+            cart.id = '537fbd2bc3ae89c45cbc2f9d';
+            caas.cartItems.API.save(newCart).$promise.then(function(response){
+                cart.id = response.cartId;
+            });
         }
 
         function updateCart(){
@@ -95,9 +96,9 @@ angular.module('ds.cart')
                 newCart.cartItem.push(new CartItem(item.sku, item.quantity));
             });
 
-           // caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
-             //   console.log(response);
-            //});
+            caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
+                console.log(response);
+            });
         }
 
         return {
