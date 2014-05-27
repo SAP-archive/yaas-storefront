@@ -36,6 +36,7 @@ describe("cart:", function () {
            browser.sleep(250);
            tu.verifyCartTotal("$0.00");
            tu.clickElement('xpath', tu.contineShopping);
+           browser.sleep(250);
            tu.clickElement('xpath', tu.frenchPress);
            tu.clickElement('xpath', tu.buyButton);
            browser.sleep(250);
@@ -45,6 +46,7 @@ describe("cart:", function () {
            tu.clickElement('css', 'img');
            tu.clickElement('xpath', tu.ringBowl);
            tu.clickElement('xpath', tu.buyButton);
+           browser.sleep(250);
            tu.verifyCartTotal("$26.57");
 
          });
@@ -79,6 +81,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.chemex);
            tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);
+           browser.sleep(250);
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
          });
@@ -90,9 +93,11 @@ describe("cart:", function () {
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.frenchPress);
           tu.clickElement('xpath', tu.buyButton); 
+          browser.sleep(250);
           tu.verifyCartTotal("$24.57");
           tu.sendKeysByXpath(tu.cartQuantity, '-5');
           tu.verifyCartAmount('5');
+          browser.sleep(250);
           tu.verifyCartTotal('$122.85');
           tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
           tu.verifyCartAmount('');
