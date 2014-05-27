@@ -13,7 +13,7 @@ angular.module('ds.shared')
 		// Set default language code for the application
 		languageCode: 'en',
 
-        tenantId: 'onlineshop',
+        tenantId: 'onlineshop_test',
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
@@ -58,7 +58,8 @@ angular.module('ds.shared')
                 tenant: 'hybris-tenantId',
 
                 authorization: 'Authorization',
-                customer: 'X-buyerId',
+                customer: 'hybris-buyerId',
+                customerOld: 'X-buyerId',
                 user: 'hybris-user',
                 paging: {
                     total: 'X-count'
