@@ -84,7 +84,7 @@ describe('CheckoutSvc Test', function () {
 
         describe('successful order POST', function () {
             beforeEach(function(){
-                $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond({'id': 456});
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"},"entries":[{"amount":1,"unitPrice":2.99,"productCode":"1bcd123"}]}).respond({'id': 456});
             });
 
 
@@ -110,7 +110,7 @@ describe('CheckoutSvc Test', function () {
         describe('and failing order placement', function(){
 
             beforeEach(function(){
-                $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(500, '');
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(500, '');
             });
 
             it('should invoke error handler', function(){
@@ -122,7 +122,7 @@ describe('CheckoutSvc Test', function () {
                 expect(callbackObj.onFailure).toHaveBeenCalledWith(error500);
 
                 // all other errors should be handled, as well
-                $httpBackend.expectPOST('http://myorders/orders', {'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(404, '');
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(404, '');
                 checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
                 $httpBackend.flush();
                 expect(callbackObj.onFailure).toHaveBeenCalled();
