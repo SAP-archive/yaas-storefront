@@ -13,7 +13,7 @@ angular.module('ds.shared')
 		// Set default language code for the application
 		languageCode: 'en',
 
-        tenantId: 'onlineshop_test',
+        tenantId: 'onlineshop',
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
