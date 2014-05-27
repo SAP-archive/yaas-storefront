@@ -76,7 +76,10 @@ angular.module('ds.checkout')
                 };
 
                 var Order = function () {
-                    this.customer = 'customer';
+                    this.customer = {
+                        'name':'Example Buyer',
+                        'email':'buyer@example.com'
+                    };
                     this.entries = [];
                 };
 
