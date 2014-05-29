@@ -22,6 +22,8 @@ describe('CheckoutSvc Test', function () {
     mockedState = {};
 
     cart.items = [{'quantity':1, 'price':2.99, 'sku': '1bcd123'}];
+    cart.estTax = 1.00;
+    cart.subtotal = 2.99;
     order.cart = cart;
     order.creditCard = {};
 
