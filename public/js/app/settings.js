@@ -58,7 +58,8 @@ angular.module('ds.shared')
                 tenant: 'hybris-tenantId',
 
                 authorization: 'Authorization',
-                customer: 'X-buyerId',
+                customer: 'hybris-buyerId',
+                customerOld: 'X-buyerId',
                 user: 'hybris-user',
                 paging: {
                     total: 'X-count'

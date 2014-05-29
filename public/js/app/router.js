@@ -199,6 +199,11 @@ window.app = angular.module('ds.router', [
                         config.headers[settings.apis.headers.tenantOld] = settings.tenantId;
                     }
 
+                    else if(config.url.indexOf('orders')>-1) {
+                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.customer] = settings.buyerId;
+                    }
+
                     else if(config.url.indexOf('order/details')>-1) {
                         config.headers[settings.apis.headers.tenant] = settings.tenantId;
                         config.headers[settings.apis.headers.user] = settings.buyerId;

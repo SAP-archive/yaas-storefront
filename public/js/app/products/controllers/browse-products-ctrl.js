@@ -22,6 +22,9 @@ angular.module('ds.products')
                 query.sort = $scope.sort;
             }
 
+            //we only want to show published products on this list
+            query.q = 'published:true';
+
             // prevent additional API calls if all products are retrieved
             // invfinite scroller initiates lots of API calls when scrolling to the bottom of the page
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {

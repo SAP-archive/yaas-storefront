@@ -70,7 +70,11 @@ angular.module('ds.checkout')
             createOrder: function(order, token, onFailure) {
 
                 var Order = function () {
-
+                    this.customer = {
+                        'name':'Example Buyer',
+                        'email':'buyer@example.com'
+                    };
+                    this.entries = [];
                 };
 
                 var newOrder = new Order();
@@ -123,7 +127,7 @@ angular.module('ds.checkout')
                                 errMsg +=  ' Status code: '+errorResponse.status+'.';
                             }
                             if(errorResponse.message) {
-                                errMsg +=  ' '+message;
+                                errMsg +=  ' ' + errorResponse.message;
                             }
                         }
                         onFailure(  errMsg );

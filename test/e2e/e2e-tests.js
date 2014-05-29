@@ -15,7 +15,7 @@ describe("product page", function () {
       it('should scroll to load more products', function () {
         tu.getTextByRepeaterRow(0)
         tu.scrollToBottomOfProducts(10000);
-        tu.getTextByRepeaterRow(35) //verify last product has loaded
+        tu.getTextByRepeaterRow(30) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
         tu.clickElement('xpath', tu.frenchPress);
       });
@@ -23,10 +23,10 @@ describe("product page", function () {
       //should be # of 36, but overall product count doesn't work in phantomjs
       it('should show the user how many products loaded', function () {
         tu.getTextByRepeaterRow(0)
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 0'); 
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 31'); 
         tu.scrollToBottomOfProducts(10000);
-        tu.getTextByRepeaterRow(35) //verify last product has loaded
-        expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-44 of 0'); //should be # of 36, but won't work in phantomjs
+        tu.getTextByRepeaterRow(30) //verify last product has loaded
+        expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-31 of 31'); //should be # of 36, but won't work in phantomjs
       });
 
       it("should get product detail page", function () {
@@ -40,11 +40,17 @@ describe("product page", function () {
       it("should get order of products correctly", function () {
         //default load
         tu.getTextByRepeaterRow(0);
-        tu.sortAndVerifyPagination('price', 'GIFT TAGS');
+        tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
-        tu.sortAndVerifyPagination('-name', 'CREAM AND SUGAR SET WITH HEARTS');
+        tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
         tu.sortAndVerifyPagination('created', 'TATTERED BOWLS');
+    });
+
+      it("should redirect the user if they attempt to access unpublished product", function () {
+        browser.get('#!/products/WhiteBowlswithbirds1399405261020/');
+        browser.sleep(1000);
+        tu.getTextByRepeaterRow(1);
     });
 
 

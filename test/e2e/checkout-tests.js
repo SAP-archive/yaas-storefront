@@ -85,6 +85,7 @@ describe("checkout:", function () {
            });
 
            it('should allow all fields to be editable', function () {
+            browser.ignoreSynchronization = true;
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
@@ -108,7 +109,7 @@ describe("checkout:", function () {
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
-            browser.sleep(8000);
+            browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
             expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code.');
