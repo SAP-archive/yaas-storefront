@@ -74,7 +74,6 @@ angular.module('ds.checkout')
                         'name':'Example Buyer',
                         'email':'buyer@example.com'
                     };
-                    this.entries = [];
                 };
 
                 var newOrder = new Order();
