@@ -56,6 +56,7 @@ angular.module('ds.shared')
                 tenantOld: 'X-tenantId',
 
                 tenant: 'hybris-tenantId',
+                tenant2: 'hybris-tenant',
 
                 authorization: 'Authorization',
                 customer: 'hybris-buyerId',
