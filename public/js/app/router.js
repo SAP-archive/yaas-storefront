@@ -210,11 +210,11 @@ window.app = angular.module('ds.router', [
                     }
 
                     else if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = settings.cartTenant;
                     }
 
                     else if(config.url.indexOf('carts')>-1) {
-                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = settings.cartTenant;
                     }
                     return config || $q.when(config);
                 },

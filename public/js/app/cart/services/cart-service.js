@@ -23,7 +23,7 @@ angular.module('ds.cart')
 
         // Matches CAAS schema
         var CaasCart = function() {
-            this.cartItem = [];
+            this.cartItem = {};
         };
 
         var Cart = function(){
@@ -81,7 +81,7 @@ angular.module('ds.cart')
                 newCart.cartId = cart.id;
             }
 
-            newCart.cartItem.push(item);
+            newCart.cartItem = item;
             caas.cartItems.API.save(newCart).$promise.then(function(response){
                 cart.id = response.cartId;
             });
