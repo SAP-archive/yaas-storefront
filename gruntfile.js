@@ -161,7 +161,8 @@ module.exports = function(grunt) {
         constants: {
             ENV: {
                 name: 'development',
-                apiEndpoint: 'http://your-development.api.endpoint:3000'
+                apiEndpoint: 'http://your-development.api.endpoint:3000',
+                storeTenant: 'onlineshop'
             }
         }
       },
@@ -172,7 +173,8 @@ module.exports = function(grunt) {
         constants: {
           ENV: {
             name: 'production',
-            apiEndpoint: 'http://api.livesite.com'
+            apiEndpoint: 'http://api.livesite.com',
+            storeTenant: 'onlineshop_demo'
           }
         }
       }
