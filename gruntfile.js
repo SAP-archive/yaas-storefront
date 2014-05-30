@@ -192,6 +192,12 @@ module.exports = function(grunt) {
         'compass'
     ]);
 
+    grunt.registerTask('production', [
+        'jshint',
+        'ngconstant:production',
+        'concurrent:dev',
+        'compass'
+    ]);
     // Build task
     grunt.registerTask('build', [
         'clean:dist',

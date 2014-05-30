@@ -11,7 +11,8 @@ window.app = angular.module('ds.router', [
         'ds.checkout',
         'ds.confirmation',
         'yng.core',
-        'wu.masonry'
+        'wu.masonry',
+        'config'
     ])
     .constant('_', window._)
 
@@ -183,25 +184,25 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
     })
 
-    .factory('interceptor', ['$q', 'settings',
-        function ($q, settings) {
+    .factory('interceptor', ['$q', 'settings', 'ENV',
+        function ($q, settings, ENV) {
             return {
                 request: function (config) {
 
                     document.body.style.cursor = 'wait';
 
                     if(config.url.indexOf('products')>-1) {
-                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
                     else if(config.url.indexOf('orders')>-1) {
-                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
 
                     else if(config.url.indexOf('order/details')>-1) {
-                        config.headers[settings.apis.headers.tenant] = settings.tenantId;
+                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
                         config.headers[settings.apis.headers.user] = settings.buyerId;
                     }
 
