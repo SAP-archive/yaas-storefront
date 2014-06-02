@@ -7,3 +7,4 @@ public/js/vendor
 *.iml
 .idea
 coverage/
+config/config.js
