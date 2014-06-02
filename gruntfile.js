@@ -192,6 +192,10 @@ module.exports = function(grunt) {
         'compass'
     ]);
 
+    grunt.registerTask('testENV', [
+        'ngconstant:development'
+    ]);
+
     grunt.registerTask('production', [
         'jshint',
         'ngconstant:production',
