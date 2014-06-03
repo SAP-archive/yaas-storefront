@@ -44,12 +44,12 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
-        tu.sortAndVerifyPagination('created', 'TATTERED BOWLS');
+        tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
     });
 
       it("should redirect the user if they attempt to access unpublished product", function () {
         browser.get('#!/products/WhiteBowlswithbirds1399405261020/');
-        browser.sleep(1000);
+        browser.sleep(5000);
         tu.getTextByRepeaterRow(1);
     });
 
