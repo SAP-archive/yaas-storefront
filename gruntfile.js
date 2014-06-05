@@ -161,7 +161,8 @@ module.exports = function(grunt) {
         constants: {
             ENV: {
                 name: 'development',
-                apiEndpoint: 'http://your-development.api.endpoint:3000'
+                apiEndpoint: 'http://your-development.api.endpoint:3000',
+                storeTenant: 'onlineshop'
             }
         }
       },
@@ -172,7 +173,8 @@ module.exports = function(grunt) {
         constants: {
           ENV: {
             name: 'production',
-            apiEndpoint: 'http://api.livesite.com'
+            apiEndpoint: 'http://api.livesite.com',
+            storeTenant: 'onlineshop_demo'
           }
         }
       }
@@ -190,6 +192,16 @@ module.exports = function(grunt) {
         'compass'
     ]);
 
+    grunt.registerTask('testENV', [
+        'ngconstant:development'
+    ]);
+
+    grunt.registerTask('production', [
+        'jshint',
+        'ngconstant:production',
+        'concurrent:dev',
+        'compass'
+    ]);
     // Build task
     grunt.registerTask('build', [
         'clean:dist',

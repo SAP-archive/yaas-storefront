@@ -15,7 +15,6 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.fullscreen-min.js',
         'public/js/vendor-static/main.js',
         'public/js/vendor-static/stripe.js',
-
         'public/js/vendor/angular.js',
         'public/js/vendor/angular-masonry.js',
         'public/js/vendor/angular-mocks.js',
@@ -59,6 +58,7 @@ module.exports = function(config){
 
         'public/js/bootstrap.js',
         'public/js/vendor-static/ui-bootstrap-tpls.js',
+        'config/config.js',
         'test/unit/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',

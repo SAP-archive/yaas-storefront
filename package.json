@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "bower install; bower-installer"
+    "postinstall": "bower install; bower-installer; grunt testENV"
   },
   "dependencies": {
     "bower": "latest",

@@ -13,7 +13,8 @@ angular.module('ds.shared')
 		// Set default language code for the application
 		languageCode: 'en',
 
-        tenantId: 'onlineshop',
+        //tenantId is now being set by grunt using a generated config.js
+        // tenantId: 'onlineshop', 
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
         authorizationId: 'polo_auth',
         buyerId: 'buyer@example.com',
