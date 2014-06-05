@@ -94,6 +94,7 @@ angular.module('ds.checkout')
                 billTo.zipCode = order.billTo.zip;
                 billTo.country = order.billTo.country;
                 billTo.account = order.billTo.email;
+                billTo.type = 'BILLING';
                 newOrder.addresses.push(billTo);
 
                 var shipTo = {};
@@ -105,6 +106,7 @@ angular.module('ds.checkout')
                 shipTo.zipCode = order.shipTo.zip;
                 shipTo.country = order.shipTo.country;
                 shipTo.account = order.shipTo.email;
+                shipTo.type = 'SHIPPING';
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
