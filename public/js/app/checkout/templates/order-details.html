@@ -7,7 +7,7 @@
     <div ng-repeat="product in cart.items track by $index">
         <div class="cart-item row">
             <div class="col-xs-4 col-md-4 text-center img-col">
-                <img src="{{product.imageUrl}}" class="img-responsive"/>
+                <img src="{{product.imageUrl}}?tenantId={{tenantId}}" class="img-responsive"/>
 
             </div>
             <div class="col-xs-8 col-md-8  detail-col">
