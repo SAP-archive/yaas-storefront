@@ -89,6 +89,9 @@ angular.module('ds.checkout')
                     newOrder.entries.push(new OrderLine(item.quantity, item.price, item.sku));
                 });
 
+                //will need to update shipping cost
+                newOrder.totalPrice = cart.subtotal + cart.estTax + this.getDefaultOrder().shippingCost;
+
                 caas.orders.API.save(newOrder).$promise.then(function (order) {
 
                     // TEMP ONLY TILL CAAS CHECKOUT SVC FULLY IMPLEMENTED
