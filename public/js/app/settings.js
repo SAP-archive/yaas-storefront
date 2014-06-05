@@ -38,12 +38,12 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dev.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 

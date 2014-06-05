@@ -196,7 +196,7 @@ window.app = angular.module('ds.router', [
                     }
 
                     else if(config.url.indexOf('checkout')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = settings.tenantId;
+                        config.headers[settings.apis.headers.tenant2] = ENV.storeTenant;
                     }
 
                     else if(config.url.indexOf('orders')>-1) {
@@ -210,11 +210,11 @@ window.app = angular.module('ds.router', [
                     }
 
                     else if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = ENV.storeTenant;
                     }
 
                     else if(config.url.indexOf('carts')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = ENV.storeTenant;
                     }
                     return config || $q.when(config);
                 },
