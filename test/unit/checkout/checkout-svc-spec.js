@@ -10,7 +10,6 @@
  * license agreement you entered into with hybris.
  */
 describe('CheckoutSvc Test', function () {
-/*
     var orderUrl = 'http://myorders';
     var orderRoute = '/orders';
     var $scope, $rootScope, $httpBackend, mockedState, mockedCartSvc, mockedStripeJS, checkoutSvc;
@@ -22,7 +21,6 @@ describe('CheckoutSvc Test', function () {
     mockedState = {};
 
     cart.items = [{'quantity':1, 'price':2.99, 'sku': '1bcd123'}];
-    cart.estTax = 1.00;
     cart.subtotal = 2.99;
     order.billTo = {};
     order.shipTo = {};
@@ -88,7 +86,7 @@ describe('CheckoutSvc Test', function () {
 
         describe('successful order POST', function () {
             beforeEach(function(){
-                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"},"entries":[{"amount":1,"unitPrice":2.99,"productCode":"1bcd123"}]}).respond({'id': 456});
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"},"entries":[{"amount":1,"unitPrice":2.99,"productCode":"1bcd123"}],"totalPrice":5.99}).respond({'id': 456});
             });
 
 
@@ -114,7 +112,7 @@ describe('CheckoutSvc Test', function () {
         describe('and failing order placement', function(){
 
             beforeEach(function(){
-                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(500, '');
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}],"totalPrice":5.99}).respond(500, '');
             });
 
             it('should invoke error handler', function(){
@@ -126,7 +124,7 @@ describe('CheckoutSvc Test', function () {
                 expect(callbackObj.onFailure).toHaveBeenCalledWith(error500);
 
                 // all other errors should be handled, as well
-                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}]}).respond(404, '');
+                $httpBackend.expectPOST('http://myorders/orders', {"customer":{"name":"Example Buyer","email":"buyer@example.com"}, 'entries':[{'amount':1, 'unitPrice':2.99, 'productCode': '1bcd123'}],"totalPrice":5.99}).respond(404, '');
                 checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
                 $httpBackend.flush();
                 expect(callbackObj.onFailure).toHaveBeenCalled();
@@ -185,5 +183,4 @@ describe('CheckoutSvc Test', function () {
             expect(callbackObj.onFailure).toHaveBeenCalledWith( { message : 'Failure' } );
         });
     });
-*/
 });

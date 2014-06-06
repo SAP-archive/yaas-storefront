@@ -173,7 +173,7 @@
         <div class="item masonry-brick" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productSku: product.sku} )">
                 <div class="thumb">
-                    <img src="{{ product.images[0].url }}?tenantId=onlineshop_test" alt="">
+                    <img src="{{ product.images[0].url }}?tenantId={{tenantId}}" alt="">
                 </div>
                 <div class="name">{{ product.name }}</div>
                 <div class="price">{{ product.price | currency: '$'}}</div>

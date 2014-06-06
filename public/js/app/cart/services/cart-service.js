@@ -148,8 +148,8 @@ angular.module('ds.cart')
                     cartProductToPush.name = product.name;
                     cartProductToPush.quantity = productDetailQty;
                     cartProductToPush.price = product.price;
-                    if (product.externalImages && product.externalImages.length > 0) {
-                        cartProductToPush.imageUrl = product.externalImages[0].url || '';
+                    if (product.images && product.images.length > 0) {
+                        cartProductToPush.imageUrl = product.images[0].url || '';
                     }
                     cart.items.push(cartProductToPush);
                     createCartItem(new CartItem(product.sku, productDetailQty));

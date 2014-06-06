@@ -247,11 +247,11 @@ window.app = angular.module('ds.router', [
     }])
     // stripe public key
     .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
-    .run(['CORSProvider',
-        function (CORSProvider) {
+    .run(['CORSProvider', '$rootScope', 'ENV',
+        function (CORSProvider, $rootScope, ENV) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-
+            $rootScope.tenantId = ENV.storeTenant;
         }
     ])
 
