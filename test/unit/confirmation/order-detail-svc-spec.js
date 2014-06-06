@@ -23,7 +23,7 @@
 describe('OrderDetailSvc Test', function () {
 
     var url = 'http://dummyurl';
-    var route = '/details/:orderId';
+    var route = '/orders/:orderId';
     var $scope, $rootScope, $httpBackend, orderDetailSvc;
 
     var orderDetails = {};
@@ -61,7 +61,7 @@ describe('OrderDetailSvc Test', function () {
 
 
     it('get returns order details', function () {
-        $httpBackend.expectGET('http://dummyurl/details').respond(orderDetails);
+        $httpBackend.expectGET('http://dummyurl/orders').respond(orderDetails);
 
         var details = orderDetailSvc.get();
 
@@ -72,7 +72,7 @@ describe('OrderDetailSvc Test', function () {
 
     it('should format order detail info correctly', function () {
         var orderId = 123;
-        $httpBackend.expectGET('http://dummyurl/details/'+orderId).respond(orderDetails);
+        $httpBackend.expectGET('http://dummyurl/orders/'+orderId).respond(orderDetails);
 
         var result = null;
         orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){

@@ -176,8 +176,8 @@ window.app = angular.module('ds.router', [
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
             route(settings.apis.checkout.route);
-        caasProvider.endpoint('orderDetails', {orderId: '@orderId'}).baseUrl(settings.apis.orderDetails.baseUrl).
-            route(settings.apis.orderDetails.route);
+        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
+            route(settings.apis.orders.route);
         caasProvider.endpoint('cartItems')
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})

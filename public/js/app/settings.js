@@ -33,9 +33,9 @@ angular.module('ds.shared')
                 route: '/checkouts/order'
             },
 
-            orderDetails: {
-                baseUrl: 'http://order-mashup-service.dprod.cf.hybris.com',
-                route: '/order/details/:orderId'
+            orders: {
+                baseUrl: 'http://order-service.dprod.cf.hybris.com',
+                route: '/orders/:orderId'
             },
 
             cartItems: {
