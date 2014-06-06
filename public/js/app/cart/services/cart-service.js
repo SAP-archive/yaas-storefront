@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', 'caas', 'PriceSvc', function($rootScope, caas, PriceSvc){
+    .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
         // Matches CAAS schema
         var CartItem = function(sku, qty) {
@@ -58,11 +58,10 @@ angular.module('ds.cart')
          */
         function calculateSubtotal() {
             var subtotal = 0;
-            var productPrice;
+
             angular.forEach(cart.items, function(product) {
-                productPrice = PriceSvc.getPriceBySku(product.sku);
-                if (productPrice && product.quantity) {
-                    subtotal = subtotal + (productPrice * product.quantity);
+                if (product.price && product.quantity) {
+                    subtotal = subtotal + (product.price * product.quantity);
                 }
             });
             cart.subtotal = subtotal;
