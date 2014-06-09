@@ -90,7 +90,13 @@ angular.module('ds.checkout')
                 });
 
                 //will need to update shipping cost
-                newOrder.totalPrice = cart.subtotal + cart.estTax + this.getDefaultOrder().shippingCost;
+                newOrder.totalPrice = cart.subtotal;
+                if (cart.estTax) {
+                    newOrder.totalPrice += cart.estTax;
+                }
+                if (this.getDefaultOrder().shippingCost) {
+                    newOrder.totalPrice += this.getDefaultOrder().shippingCost;
+                }
 
                 caas.orders.API.save(newOrder).$promise.then(function (order) {
 
