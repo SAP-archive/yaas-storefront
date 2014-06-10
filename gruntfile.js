@@ -24,21 +24,7 @@ module.exports = function(grunt) {
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']
-                /*,
-                options: {
-                    livereload: 35731
-                } */
-            } /*,
-            css: {
-                files: [CSS_DIR + '/**']
-                options: {
-                    livereload: 35732
-                }
-            },
-            compass: {
-                files: [SCSS_DIR + '/**'],
-                tasks: ['compass:dev']
-            } */
+            }
         },
         express: {
             options: {
@@ -49,27 +35,17 @@ module.exports = function(grunt) {
                 options: {
                     server: path.resolve('./server.js'),
                     livereload: 35730, // use different port to avoid collision with client 'watch' operation
-                    serverreload: true,
+                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
                     bases: [path.resolve('./server.js')]
                 }
-            }/*,
-            test: {
-                options: {
-                    server: path.resolve('./server'),
-                    bases: [path.resolve('./.tmp'), path.resolve(__dirname, 'test')]
-                }
             },
-            dist: {
+            production: {
                 options: {
-                    server: path.resolve('./server'),
-                    bases: path.resolve(__dirname, yeomanConfig.dist)
+                    server: path.resolve('./server.js'),
+                    bases: [path.resolve('./server.js')]
                 }
-            } */
-        },
-        open: {
-            server: {
-                url: 'http://localhost:<%= express.options.port %>'
             }
+
         },
         jshint: {
             options: {
@@ -94,8 +70,6 @@ module.exports = function(grunt) {
 
             ]
         },
-
-
 
         clean: {
             dist: {
@@ -184,7 +158,7 @@ module.exports = function(grunt) {
 
     grunt.option('force', true);
 
-    //grunt.registerTask('devServer', ['livereload:express', 'express-keepalive']);
+    grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
     // Default task
     grunt.registerTask('default', [
@@ -198,9 +172,8 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('production', [
-        'jshint',
         'ngconstant:production',
-        'concurrent:dev'
+        'expressKeepAlive'
     ]);
     // Build task
     grunt.registerTask('build', [
