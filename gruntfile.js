@@ -1,17 +1,18 @@
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
     var CSS_DIR = 'public/css',
-        SCSS_DIR = 'public/scss',
+
         IMG_DIR = 'public/img',
         JS_DIR = 'public/js';
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.loadNpmTasks('grunt-mustache-render');
 
     // Project Configuration
     grunt.initConfig({
@@ -19,31 +20,57 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
+
             js: {
                 files: [JS_DIR + '/**'],
-                tasks: ['jshint:all'],
+                tasks: ['jshint:all']
+                /*,
                 options: {
-                    livereload: true
-                }
-            },
-            html: {
-                files: ['public/views/**'],
-                options: {
-                    livereload: true
-                }
-            },
+                    livereload: 35731
+                } */
+            } /*,
             css: {
-                files: [CSS_DIR + '/**'],
+                files: [CSS_DIR + '/**']
                 options: {
-                    livereload: true
+                    livereload: 35732
                 }
             },
             compass: {
                 files: [SCSS_DIR + '/**'],
                 tasks: ['compass:dev']
+            } */
+        },
+        express: {
+            options: {
+                port: port,
+                hostname: host
+            },
+            livereload: {
+                options: {
+                    server: path.resolve('./server.js'),
+                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
+                    serverreload: true,
+                    bases: [path.resolve('./server.js')]
+                }
+            }/*,
+            test: {
+                options: {
+                    server: path.resolve('./server'),
+                    bases: [path.resolve('./.tmp'), path.resolve(__dirname, 'test')]
+                }
+            },
+            dist: {
+                options: {
+                    server: path.resolve('./server'),
+                    bases: path.resolve(__dirname, yeomanConfig.dist)
+                }
+            } */
+        },
+        open: {
+            server: {
+                url: 'http://localhost:<%= express.options.port %>'
             }
         },
-
         jshint: {
             options: {
               jshintrc: '.jshintrc'
@@ -58,44 +85,17 @@ module.exports = function(grunt) {
 
         concurrent: {
             dev: {
-                tasks: ['connect', 'watch'],
+                tasks: ['express:livereload', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
             },
             dist: [
-                'compass:dist'
+
             ]
         },
 
-        compass: {
-            dist: {
-                options: {
-                    sassDir: SCSS_DIR,
-                    cssDir: CSS_DIR,
-                    imagesDir: IMG_DIR,
-                    environment: 'production',
-                    noLineComments: true
-                }
-            },
-            dev: {
-                options: {
-                    sassDir: SCSS_DIR,
-                    cssDir: CSS_DIR,
-                    imagesDir: IMG_DIR
-                }
-            }
-        },
 
-        connect: {
-            all: {
-                options:{
-                    port: port,
-                    hostname: host,
-                    keepalive: true
-                }
-            }
-        },
 
         clean: {
             dist: {
@@ -178,18 +178,19 @@ module.exports = function(grunt) {
           }
         }
       }
-    },
+    }
 
     });
 
     grunt.option('force', true);
 
+    //grunt.registerTask('devServer', ['livereload:express', 'express-keepalive']);
+
     // Default task
     grunt.registerTask('default', [
         'jshint',
         'ngconstant:development',
-        'concurrent:dev',
-        'compass'
+        'concurrent:dev'
     ]);
 
     grunt.registerTask('testENV', [
@@ -199,8 +200,7 @@ module.exports = function(grunt) {
     grunt.registerTask('production', [
         'jshint',
         'ngconstant:production',
-        'concurrent:dev',
-        'compass'
+        'concurrent:dev'
     ]);
     // Build task
     grunt.registerTask('build', [
