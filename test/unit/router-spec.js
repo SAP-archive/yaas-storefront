@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Router test', function () {
+xdescribe('Router test', function () {
 
     var scope, $state, $stateParams, $httpBackend, createController, ProductSvc;
 
