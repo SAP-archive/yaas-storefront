@@ -44,6 +44,7 @@ describe("cart:", function () {
            tu.verifyCartTotal("$24.57");
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('css', 'img');
+           browser.sleep(250);
            tu.clickElement('xpath', tu.ringBowl);
            tu.clickElement('xpath', tu.buyButton);
            browser.sleep(250);
@@ -78,6 +79,7 @@ describe("cart:", function () {
            browser.sleep(250);
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
+           tu.scrollToBottomOfProducts(5000);
            tu.clickElement('xpath', tu.chemex);
            tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);

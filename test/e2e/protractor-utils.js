@@ -1,7 +1,7 @@
          
-        exports.frenchPress = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/french-press.jpg')]";
-        exports.chemex = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/Chemex.jpg')]";
-        exports.ringBowl = "//img[contains(@src,'http://sand-bsd-2.yrdrt.fra.hybris.com/Products/image_16.jpg')]";
+        exports.frenchPress = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/FrenchPress1399402118414/media/5391ec874a4e604bfa5136d1/content?tenantId=onlineshop')]";
+        exports.chemex = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/WoodboundChemexCoffeeMaker1398100549696/media/5391f0964a4e604bfa5136f9/content?tenantId=onlineshop')]";
+        exports.ringBowl = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/RingHeartBowl1396976297636/media/5391ee7d4a4e604bfa5136f1/content?tenantId=onlineshop')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "//div[2]/div/button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
