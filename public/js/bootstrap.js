@@ -12,14 +12,8 @@
             angular.element(document).ready(function() {
                 angular.bootstrap(document, [
                     'ds.router', 'config']);
+
             });
         }
     );
 })();
-
-angular.element(document).ready(function() {
-    angular.bootstrap(document, [
-        'ds.router',
-
-        'ds.i18n']);
-});
