@@ -12,7 +12,8 @@
 
 describe('ProductDetailCtrl Test', function () {
 
-    var $state, $scope, $rootScope, $controller;
+    var mockedState, $scope, $rootScope, $controller;
+    mockedState = {};
 
     //***********************************************************************
     // Common Setup
@@ -21,8 +22,8 @@ describe('ProductDetailCtrl Test', function () {
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
-
-    beforeEach(angular.mock.module('ds.router'));
+    //beforeEach(angular.mock.module('config'));
+    //beforeEach(angular.mock.module('ds.router'));
 
     beforeEach(inject(function($injector, _$rootScope_, _$controller_) {
 
@@ -34,7 +35,7 @@ describe('ProductDetailCtrl Test', function () {
         $rootScope =  _$rootScope_;
         $controller = _$controller_;
         $scope = $injector.get('$rootScope').$new();
-        $state = $injector.get('$state');
+
     }));
 
     describe('ProductDetailCtrl ', function () {
@@ -53,7 +54,7 @@ describe('ProductDetailCtrl Test', function () {
                 addProductToCart: jasmine.createSpy()
             };
 
-            productDetailCtrl = $controller('ProductDetailCtrl', {$state: $state, $scope: $scope, $rootScope: $rootScope,
+            productDetailCtrl = $controller('ProductDetailCtrl', {$state: mockedState, $scope: $scope, $rootScope: $rootScope,
                 'CartSvc': mockedCartSvc, 'product': mockProduct});
         });
 
