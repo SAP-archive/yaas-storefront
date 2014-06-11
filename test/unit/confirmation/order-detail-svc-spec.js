@@ -29,17 +29,19 @@ describe('OrderDetailSvc Test', function () {
     var orderDetails = {};
     var shippingAddress = {};
     shippingAddress.companyName = 'Acme, Inc.';
-    shippingAddress.street = 'Marienplatz';
-    shippingAddress.streetNumber = '1';
-    shippingAddress.streetAppendix = 'a';
+    shippingAddress.street = '1 Marienplatz a';
     shippingAddress.zipCode = '80538';
     shippingAddress.city = 'Munich';
     shippingAddress.country = 'Germany';
     shippingAddress.state = 'Bavaria';
     orderDetails.shippingAddress = shippingAddress;
+    orderDetails.customer = {
+        name: 'Example Buyer',
+        email: 'your.name@email.com'
+    };
 
     beforeEach(angular.mock.module('ds.confirmation', function (caasProvider) {
-        caasProvider.endpoint('orderDetails', { orderId: '@orderId' }).baseUrl(url).route(route);
+        caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
     }));
 
 
