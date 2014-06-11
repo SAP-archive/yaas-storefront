@@ -55,6 +55,8 @@ angular.module('ds.confirmation')
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
+                    window.scrollTo(0, 0);
+
                     return confirmationDetails;
                 });
 

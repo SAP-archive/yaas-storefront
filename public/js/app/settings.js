@@ -29,7 +29,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-service.dev.cf.hybris.com',
+                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
                 route: '/checkouts/order'
             },
 

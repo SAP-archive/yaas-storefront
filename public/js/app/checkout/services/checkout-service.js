@@ -117,7 +117,7 @@ angular.module('ds.checkout')
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules
-                    $state.go('base.confirmation', {orderId: order.id});
+                    $state.go('base.confirmation', {orderId: order.orderId});
                     CartSvc.emptyCart();
 
                 }, function(errorResponse){
