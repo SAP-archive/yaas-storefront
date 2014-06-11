@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'settings',
-        function (caas, $rootScope, $state, StripeJS, settings) {
+    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc', 'settings',
+        function (caas, $rootScope, $state, StripeJS, CartSvc, settings) {
 
         var CreditCard = function () {
             this.number = null;
@@ -117,7 +117,8 @@ angular.module('ds.checkout')
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules
-                    $state.go('base.confirmation', {orderId: order.orderId});
+                    $state.go('base.confirmation', {orderId: order.id});
+                    CartSvc.emptyCart();
 
                 }, function(errorResponse){
                     // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
