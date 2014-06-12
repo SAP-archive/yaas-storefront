@@ -4,12 +4,12 @@
             <div class="gallery product-gallery"> 
                 <div class="image">
                     <div ng-repeat="image in product.images">
-                        <img class="lazyOwl" data-src="{{image.url}}?tenantId={{tenantId}}" data-zoom="{{image.url}}?tenantId={{tenantId}}" alt="">
+                        <img class="lazyOwl" data-src="{{image.url}}?tenant={{tenant}}" data-zoom="{{image.url}}?tenant={{tenant}}" alt="">
                     </div>
                 </div>
                 <div class=" thumbnails">
                     <a ng-repeat="image in product.images" class="item" href="#">
-                        <img class="lazyOwl" data-src="{{image.url}}?tenantId={{tenantId}}" alt="">
+                        <img class="lazyOwl" data-src="{{image.url}}?tenant={{tenant}}" alt="">
                     </a>
                 </div>
             </div>

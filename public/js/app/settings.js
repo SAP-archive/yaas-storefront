@@ -16,15 +16,17 @@ angular.module('ds.shared')
         //tenantId is now being set by grunt using a generated config.js
         // tenantId: 'onlineshop', 
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
-        authorizationId: 'polo_auth',
-        buyerId: 'buyer@example.com',
+        //authorizationId: 'polo_auth',
+        //buyerId: 'buyer@example.com',
+
+        hybris_user: 'Anonymous',
+        hybris_app: 'y_ondemand_storefront',
 
         apis: {
 
             products: {
-                baseUrl: 'http://product-service.dprod.cf.hybris.com',
-
-                route: '/products/:productSku',
+                baseUrl: 'http://product-service.test.cf.hybris.com',
+                route: '/products/:productId',
                 pageSize: 10
             },
 
@@ -34,7 +36,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'http://order-service.dprod.cf.hybris.com',
+                baseUrl: 'http://order--v1.test.cf.hybris.com',
                 route: '/orders/:orderId'
             },
 
@@ -54,17 +56,24 @@ angular.module('ds.shared')
 
             headers: {
 
+                // "final" headers for CaaS auth.
+                // will be replaced by full oauth flow.
+                hybris_tenant: 'hybris-tenant',
+                hybris_roles: 'hybris-roles',
+                hybris_user: 'hybris-user',
+                hybris_app: 'hybris-app',
+
+                // old headers
                 tenantOld: 'X-tenantId',
-
                 tenant: 'hybris-tenantId',
-                tenant2: 'hybris-tenant',
+                //tenant2: 'hybris-tenant',
 
-                authorization: 'Authorization',
-                customer: 'hybris-buyerId',
-                customerOld: 'X-buyerId',
-                user: 'hybris-user',
+                //authorization: 'Authorization',
+                //customer: 'hybris-buyerId',
+                //customerOld: 'X-buyerId',
+                //user: 'hybris-user',
                 paging: {
-                    total: 'X-count'
+                    total: 'X-Count'
                 }
             }
         }

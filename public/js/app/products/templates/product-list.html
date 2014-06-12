@@ -171,9 +171,9 @@
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
     <div class="row product-grid gridMasonry" masonry item-selector=".item" masonry-options="{ transitionDuration: '0.4s', gutter: 0 }" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" preserve-order>
         <div class="item masonry-brick" ng-repeat="product in products">
-            <a ui-sref="base.product.detail( {productSku: product.sku} )">
+            <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img src="{{ product.images[0].url }}?tenantId={{tenantId}}" alt="">
+                    <img src="{{ product.images[0].url }}?tenant={{tenant}}" alt="">
                 </div>
                 <div class="name">{{ product.name }}</div>
                 <div class="price">{{ product.price | currency: '$'}}</div>

@@ -8,9 +8,9 @@ angular.module('ds.products')
      if the user somehow gets to this product page and the product is unpublished,
      send them back to the list page
      */
-    if (!product.published) {
-        $state.go('^');
-    }
+    //if (!product.published) {   // kh disabled: this is handled by the service and should not be required. also, the info might not be included in the response from product-details
+    //    $state.go('^');
+    //}
 
     $scope.product = product;
 

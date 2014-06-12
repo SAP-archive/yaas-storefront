@@ -54,7 +54,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.product.detail', {
-                    url: ':productSku/',
+                    url: ':productId/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-detail.html',
@@ -63,8 +63,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function( $stateParams, caas) {
-
-                            return caas.products.API.get({productSku: $stateParams.productSku }).$promise
+                            return caas.products.API.get({productId: $stateParams.productId }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
                                     return result;
@@ -170,7 +169,7 @@ window.app = angular.module('ds.router', [
     // Configure the API Provider - specify the base route and configure the end point with route and name
     .config(function(caasProvider, settings) {
         // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(settings.apis.products.baseUrl).
+        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
@@ -189,33 +188,11 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
 
                     document.body.style.cursor = 'wait';
-                    var storeTenant = 'onlineshop';
-                    if(config.url.indexOf('products')>-1) {
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.authorization] = settings.authorizationId;
-                    }
+                    var storeTenant = 'onlineshop'; // todo shouldn't this come frome somewhere else?
 
-                    else if(config.url.indexOf('checkout')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
-                    }
+                    config.headers[settings.apis.headers.hybris_tenant] = storeTenant;
+                    // config.headers[settings.apis.headers.hybris_user] = settings.hybris_user; // todo - enable me once all services allow for it (checkout mashup...)
 
-                    else if(config.url.indexOf('orders')>-1) {
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.customer] = settings.buyerId;
-                    }
-
-                    else if(config.url.indexOf('order/details')>-1) {
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.user] = settings.buyerId;
-                    }
-
-                    else if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
-                    }
-
-                    else if(config.url.indexOf('carts')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
-                    }
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -250,7 +227,7 @@ window.app = angular.module('ds.router', [
         function (CORSProvider, $rootScope) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-            $rootScope.tenantId = 'onlineshop';
+            $rootScope.tenant = 'onlineshop';
         }
     ])
 
