@@ -12,8 +12,10 @@
 
 xdescribe('Router test', function () {
 
-    var scope, $state, $stateParams, $httpBackend, createController, ProductSvc;
+    var scope, $state, $httpBackend, createController, mockedProductSvc, ProductSvc;
 
+    var mockedStateParams = {};
+    //beforeEach(module('config'));
     beforeEach(module('ds.router'));
 
     beforeEach(module('ds.products', function($provide) {
@@ -34,13 +36,13 @@ xdescribe('Router test', function () {
         $httpBackend = $injector.get('$httpBackend');
         scope = $injector.get('$rootScope').$new();
         $state = $injector.get('$state');
-        $stateParams = $injector.get('$stateParams');
+
         ProductSvc = $injector.get('ProductSvc');
         var $controller = $injector.get('$controller');
 
 
         createController = function () {
-            return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': $stateParams, 'ProductSvc': ProductSvc});
+            return $controller('BrowseProductsCtrl', {'$scope': scope, '$stateParams': mockedStateParams, 'ProductSvc': ProductSvc});
         }
         $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
 
@@ -57,7 +59,7 @@ xdescribe('Router test', function () {
        expect($state.href('base.product')).toEqualData('#!/products/');
        $state.go('base.product');
        $httpBackend.flush();
-        //expect(mockedProductSvc.query).toHaveBeenCalled();
+       //expect(mockedProductSvc.query).toHaveBeenCalled();
     });
 
     it('Route change to base.product should trigger product load', function() {

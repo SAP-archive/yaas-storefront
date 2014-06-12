@@ -24,7 +24,11 @@ module.exports = function(config){
         'public/js/vendor/ng-infinite-scroll.js',
         'public/js/vendor/angular-stripe-js.min.js',
 
-        'config/config.js',
+
+        // dummy config/bootstrap for testing
+        'test/unit/bootstrap-test.js',
+
+
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/controllers/navigation-ctrl.js',
@@ -57,7 +61,7 @@ module.exports = function(config){
         'public/js/app/settings.js',
         'public/js/app/core-resource.js',
 
-        'public/js/bootstrap.js',
+
 
         'public/js/vendor-static/ui-bootstrap-tpls.js',
 

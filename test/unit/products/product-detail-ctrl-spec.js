@@ -12,8 +12,11 @@
 
 describe('ProductDetailCtrl Test', function () {
 
-    var $state, $scope, $rootScope, $controller;
-    var mockedState ={};
+
+    var mockedState, $scope, $rootScope, $controller;
+    mockedState = {};
+
+
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
@@ -21,7 +24,6 @@ describe('ProductDetailCtrl Test', function () {
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
-
 
 
     beforeEach(inject(function($injector, _$rootScope_, _$controller_) {
