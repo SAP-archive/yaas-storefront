@@ -81,7 +81,10 @@ angular.module('ds.cart')
                 newCart.cartId = cart.id;
             }
 
-            newCart.cartItem.push(item);
+            newCart.cartItem = item;
+            caas.cartItems.API.save(newCart).$promise.then(function(response){
+                cart.id = response.cartId;
+            });
 
             //caas.cartItems.API.save(newCart).$promise.then(function(response){
                // cart.id = response.cartId;
@@ -95,9 +98,9 @@ angular.module('ds.cart')
                 newCart.cartItem.push(new CartItem(item.sku, item.quantity));
             });
 
-           // caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
-             //   console.log(response);
-            //});
+            caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
+                console.log(response);
+            });
         }
 
         return {

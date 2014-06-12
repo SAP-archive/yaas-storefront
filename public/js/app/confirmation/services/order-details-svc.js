@@ -19,7 +19,7 @@ angular.module('ds.confirmation')
     .factory('OrderDetailSvc', ['caas',  function(caas){
 
         var getOrderDetails = function (orderId) {
-            return caas.orderDetails.API.get({orderId: orderId });
+            return caas.orders.API.get({orderId: orderId });
         };
 
         return {
@@ -37,29 +37,26 @@ angular.module('ds.confirmation')
                 return getOrderDetails(orderId).$promise.then(function (orderDetails) {
 
                     var confirmationDetails = {};
-                    if (orderDetails.shippingAddress.name) {
-                        confirmationDetails.shippingAddressLine1 = orderDetails.shippingAddress.name;
+
+                    if (orderDetails.shippingAddress.contactName) {
+                        confirmationDetails.shippingAddressLine1 = orderDetails.shippingAddress.contactName;
                     }
+
                     else if (orderDetails.shippingAddress.companyName) {
                         confirmationDetails.shippingAddressLine1 = orderDetails.shippingAddress.companyName;
                     }
 
-                    if (orderDetails.shippingAddress.streetNumber) {
-                        var line2 = orderDetails.shippingAddress.streetNumber;
-
-                        if (orderDetails.shippingAddress.street) {
-                            line2 +=
-                                ' ' + orderDetails.shippingAddress.street;
-
-                            if (orderDetails.shippingAddress.streetAppendix) {
-                                line2 += ' ' + orderDetails.shippingAddress.streetAppendix;
-                            }
-                        }
-                        confirmationDetails.shippingAddressLine2 = line2;
+                    if (orderDetails.shippingAddress.street) {
+                        confirmationDetails.shippingAddressLine2 = orderDetails.shippingAddress.street;
                     }
+
                     confirmationDetails.shippingAddressLine3 = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
                         ' ' + orderDetails.shippingAddress.zipCode;
-                    confirmationDetails.emailAddress = 'your.name@email.com';
+
+                    confirmationDetails.emailAddress = orderDetails.customer.email;
+
+                    window.scrollTo(0, 0);
+
                     return confirmationDetails;
                 });
 

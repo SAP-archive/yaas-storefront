@@ -23,23 +23,25 @@
 describe('OrderDetailSvc Test', function () {
 
     var url = 'http://dummyurl';
-    var route = '/details/:orderId';
+    var route = '/orders/:orderId';
     var $scope, $rootScope, $httpBackend, orderDetailSvc;
 
     var orderDetails = {};
     var shippingAddress = {};
     shippingAddress.companyName = 'Acme, Inc.';
-    shippingAddress.street = 'Marienplatz';
-    shippingAddress.streetNumber = '1';
-    shippingAddress.streetAppendix = 'a';
+    shippingAddress.street = '1 Marienplatz a';
     shippingAddress.zipCode = '80538';
     shippingAddress.city = 'Munich';
     shippingAddress.country = 'Germany';
     shippingAddress.state = 'Bavaria';
     orderDetails.shippingAddress = shippingAddress;
+    orderDetails.customer = {
+        name: 'Example Buyer',
+        email: 'your.name@email.com'
+    };
 
     beforeEach(angular.mock.module('ds.confirmation', function (caasProvider) {
-        caasProvider.endpoint('orderDetails', { orderId: '@orderId' }).baseUrl(url).route(route);
+        caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
     }));
 
 
@@ -61,7 +63,7 @@ describe('OrderDetailSvc Test', function () {
 
 
     it('get returns order details', function () {
-        $httpBackend.expectGET('http://dummyurl/details').respond(orderDetails);
+        $httpBackend.expectGET('http://dummyurl/orders').respond(orderDetails);
 
         var details = orderDetailSvc.get();
 
@@ -72,7 +74,7 @@ describe('OrderDetailSvc Test', function () {
 
     it('should format order detail info correctly', function () {
         var orderId = 123;
-        $httpBackend.expectGET('http://dummyurl/details/'+orderId).respond(orderDetails);
+        $httpBackend.expectGET('http://dummyurl/orders/'+orderId).respond(orderDetails);
 
         var result = null;
         orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){

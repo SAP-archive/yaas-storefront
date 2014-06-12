@@ -11,8 +11,7 @@ window.app = angular.module('ds.router', [
         'ds.checkout',
         'ds.confirmation',
         'yng.core',
-        'wu.masonry',
-        'config'
+        'wu.masonry'
     ])
     .constant('_', window._)
 
@@ -174,44 +173,48 @@ window.app = angular.module('ds.router', [
         caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
+        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
+            route(settings.apis.checkout.route);
         caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
             route(settings.apis.orders.route);
-        caasProvider.endpoint('orderDetails', {orderId: '@orderId'}).baseUrl(settings.apis.orderDetails.baseUrl).
-            route(settings.apis.orderDetails.route);
         caasProvider.endpoint('cartItems')
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
     })
 
-    .factory('interceptor', ['$q', 'settings', 'ENV',
-        function ($q, settings, ENV) {
+    .factory('interceptor', ['$q', 'settings',
+        function ($q, settings) {
             return {
                 request: function (config) {
 
                     document.body.style.cursor = 'wait';
-
+                    var storeTenant = 'onlineshop';
                     if(config.url.indexOf('products')>-1) {
-                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
+                        config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
 
+                    else if(config.url.indexOf('checkout')>-1) {
+                        config.headers[settings.apis.headers.tenant2] = storeTenant;
+                    }
+
                     else if(config.url.indexOf('orders')>-1) {
-                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
+                        config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
 
                     else if(config.url.indexOf('order/details')>-1) {
-                        config.headers[settings.apis.headers.tenant] = ENV.storeTenant;
+                        config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.user] = settings.buyerId;
                     }
 
                     else if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = storeTenant;
                     }
 
                     else if(config.url.indexOf('carts')>-1) {
-                        config.headers[settings.apis.headers.tenantOld] = settings.cartTenant;
+                        config.headers[settings.apis.headers.tenant2] = storeTenant;
                     }
                     return config || $q.when(config);
                 },
@@ -243,11 +246,11 @@ window.app = angular.module('ds.router', [
     }])
     // stripe public key
     .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
-    .run(['CORSProvider', '$rootScope', 'ENV',
-        function (CORSProvider, $rootScope, ENV) {
+    .run(['CORSProvider', '$rootScope',
+        function (CORSProvider, $rootScope) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-            $rootScope.tenantId = ENV.storeTenant;
+            $rootScope.tenantId = 'onlineshop';
         }
     ])
 

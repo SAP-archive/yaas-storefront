@@ -28,14 +28,14 @@ angular.module('ds.shared')
                 pageSize: 10
             },
 
+            checkout: {
+                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
+                route: '/checkouts/order'
+            },
+
             orders: {
                 baseUrl: 'http://order-service.dprod.cf.hybris.com',
                 route: '/orders/:orderId'
-            },
-
-            orderDetails: {
-                baseUrl: 'http://order-mashup-service.dprod.cf.hybris.com',
-                route: '/order/details/:orderId'
             },
 
             cartItems: {
@@ -57,6 +57,7 @@ angular.module('ds.shared')
                 tenantOld: 'X-tenantId',
 
                 tenant: 'hybris-tenantId',
+                tenant2: 'hybris-tenant',
 
                 authorization: 'Authorization',
                 customer: 'hybris-buyerId',
