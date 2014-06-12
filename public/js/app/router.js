@@ -188,7 +188,7 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
 
                     document.body.style.cursor = 'wait';
-                    var storeTenant = 'onlineshop'; // todo shouldn't this come frome somewhere else?
+                    var storeTenant = 'onlineshop'; // todo shouldn't this come from somewhere else?
 
                     config.headers[settings.apis.headers.hybris_tenant] = storeTenant;
 
@@ -196,8 +196,6 @@ window.app = angular.module('ds.router', [
                     if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
                         config.headers[settings.apis.headers.hybris_user] = settings.hybris_user; // todo - enable me once all services allow for it (checkout mashup...)
                     }
-
-
 
 
                     return config || $q.when(config);

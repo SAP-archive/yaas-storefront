@@ -17,4 +17,5 @@ angular.module('ds.checkout')
         $scope.cart = cart;
         $scope.order = order;
 
+
     }]);
