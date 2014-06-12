@@ -70,10 +70,7 @@ angular.module('ds.checkout')
             createOrder: function(order, token, onFailure) {
 
                 var Order = function () {
-                    this.customer = {
-                        'name':'Example Buyer',
-                        'email':'buyer@example.com'
-                    };
+
                 };
 
                 var newOrder = new Order();
@@ -98,7 +95,7 @@ angular.module('ds.checkout')
                 newOrder.addresses.push(billTo);
 
                 var shipTo = {};
-                shipTo.contactName = name;
+                shipTo.contactName = order.shipTo.firstName + ' '+order.shipTo.lastName;
                 shipTo.street = order.shipTo.address1;
                 // TODO - what about 2nd street line?
                 shipTo.city = order.shipTo.city;
