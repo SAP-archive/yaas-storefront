@@ -190,11 +190,11 @@ window.app = angular.module('ds.router', [
                     document.body.style.cursor = 'wait';
                     var storeTenant = 'onlineshop'; // todo shouldn't this come from somewhere else?
 
-                    config.headers[settings.apis.headers.hybris_tenant] = storeTenant;
+                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
 
 
                     if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybris_user] = settings.hybris_user; // todo - enable me once all services allow for it (checkout mashup...)
+                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
                     }
 
 

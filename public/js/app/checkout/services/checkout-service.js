@@ -110,7 +110,7 @@ angular.module('ds.checkout')
                 newOrder.customer.name = name;
                 newOrder.customer.email = order.billTo.email;
 
-                settings.hybris_user = newOrder.customer.email;
+                settings.hybrisUser = newOrder.customer.email;
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules

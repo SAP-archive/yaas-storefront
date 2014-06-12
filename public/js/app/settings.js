@@ -13,14 +13,10 @@ angular.module('ds.shared')
 		// Set default language code for the application
 		languageCode: 'en',
 
-        //tenantId is now being set by grunt using a generated config.js
-        // tenantId: 'onlineshop', 
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
-        //authorizationId: 'polo_auth',
-        //buyerId: 'buyer@example.com',
 
-        hybris_user: 'Anonymous',
-        hybris_app: 'y_ondemand_storefront',
+        hybrisUser: 'Anonymous',
+        hybrisApp: 'y_ondemand_storefront',
 
         apis: {
 
@@ -58,20 +54,11 @@ angular.module('ds.shared')
 
                 // "final" headers for CaaS auth.
                 // will be replaced by full oauth flow.
-                hybris_tenant: 'hybris-tenant',
-                hybris_roles: 'hybris-roles',
-                hybris_user: 'hybris-user',
-                hybris_app: 'hybris-app',
+                hybrisTenant: 'hybris-tenant',
+                hybrisRoles: 'hybris-roles',
+                hybrisUser: 'hybris-user',
+                hybrisApp: 'hybris-app',
 
-                // old headers
-                tenantOld: 'X-tenantId',
-                tenant: 'hybris-tenantId',
-                //tenant2: 'hybris-tenant',
-
-                //authorization: 'Authorization',
-                //customer: 'hybris-buyerId',
-                //customerOld: 'X-buyerId',
-                //user: 'hybris-user',
                 paging: {
                     total: 'X-Count'
                 }
