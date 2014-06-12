@@ -31,22 +31,22 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
+                baseUrl: 'http://checkout-mashup-service.test.cf.hybris.com',
                 route: '/checkouts/order'
             },
 
             orders: {
-                baseUrl: 'http://order--v1.test.cf.hybris.com',
+                baseUrl: 'http://order-v1.test.cf.hybris.com',
                 route: '/orders/:orderId'
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-service.test.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-service.test.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 

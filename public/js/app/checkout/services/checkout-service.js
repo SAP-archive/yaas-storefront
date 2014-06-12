@@ -112,6 +112,8 @@ angular.module('ds.checkout')
 
                 settings.buyerId = newOrder.customer.email;
 
+                console.log("placing order for cart " + newOrder.cartId);
+
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules
                     $state.go('base.confirmation', {orderId: order.orderId});
