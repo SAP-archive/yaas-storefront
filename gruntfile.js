@@ -6,10 +6,7 @@ module.exports = function(grunt) {
 
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
-    var CSS_DIR = 'public/css',
-
-        IMG_DIR = 'public/img',
-        JS_DIR = 'public/js';
+    var JS_DIR = 'public/js';
 
     require('load-grunt-tasks')(grunt);
 

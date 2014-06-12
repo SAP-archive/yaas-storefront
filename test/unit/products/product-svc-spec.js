@@ -11,8 +11,9 @@
  */
 describe('ProductSvc Test', function () {
 
-    var productUrl = 'http://product-service.test.cf.hybris.com';
+    var productUrl = 'http://dummy.product.url';
     var productRoute = '/products';
+    var testUrl = productUrl+productRoute;
     var $scope, $rootScope, $httpBackend, productSvc;
 
     var prodList = [
@@ -43,7 +44,7 @@ describe('ProductSvc Test', function () {
 
 
     it('query returns product array', function () {
-        $httpBackend.expectGET('http://product-service.test.cf.hybris.com/products').respond(prodList);
+        $httpBackend.expectGET(testUrl).respond(prodList);
 
         var products = productSvc.query();
 
@@ -53,7 +54,7 @@ describe('ProductSvc Test', function () {
 
      it('query with success handler invokes callback on resolved promise', function () {
          var products;
-         $httpBackend.expectGET('http://product-service.test.cf.hybris.com/products').respond(prodList);
+         $httpBackend.expectGET(testUrl).respond(prodList);
 
          var myCallback = function(result) {
              products = result;
