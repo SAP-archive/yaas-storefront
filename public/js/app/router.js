@@ -183,14 +183,18 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
     })
 
-    .factory('interceptor', ['$q', 'settings',
-        function ($q, settings) {
+
+    .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
+        function ($q, settings, STORE_CONFIG) {
+            var storeTenant = STORE_CONFIG.storeTenant;
+
             return {
                 request: function (config) {
 
                     document.body.style.cursor = 'wait';
-                    var storeTenant = 'onlineshop';
+
                     if(config.url.indexOf('products')>-1) {
+
                         config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.authorization] = settings.authorizationId;
                     }
@@ -200,10 +204,10 @@ window.app = angular.module('ds.router', [
                     }
 
                     else if(config.url.indexOf('orders')>-1) {
+
                         config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.customer] = settings.buyerId;
                     }
-
                     else if(config.url.indexOf('order/details')>-1) {
                         config.headers[settings.apis.headers.tenant] = storeTenant;
                         config.headers[settings.apis.headers.user] = settings.buyerId;
@@ -246,11 +250,14 @@ window.app = angular.module('ds.router', [
     }])
     // stripe public key
     .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
-    .run(['CORSProvider', '$rootScope',
-        function (CORSProvider, $rootScope) {
+
+    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG',
+        function (CORSProvider, $rootScope, STORE_CONFIG) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
-            $rootScope.tenantId = 'onlineshop';
+            // provide tenant id for media lookup
+            $rootScope.tenantId = STORE_CONFIG.storeTenant;
+
         }
     ])
 
