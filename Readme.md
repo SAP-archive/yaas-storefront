@@ -30,6 +30,7 @@ Install bower:
 To locally install the project execute:
 
 	$ npm install
+	$ npm update 
 
 
 
