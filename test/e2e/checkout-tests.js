@@ -12,6 +12,14 @@
 //             tu.sendKeysById('zipCode' + form, '80301');
 //           }
 
+//           function verifyOrderConfirmation() {
+//             expect(element(by.binding('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//             expect(element(by.css('address > span.ng-binding')).getText()).toContain('MIKE@NIGHT.COM');
+//             expect(element(by.xpath('//address[2]/span')).getText()).toContain('MIKE NIGHT');
+//             expect(element(by.xpath('//span[2]')).getText()).toContain('123');
+//             expect(element(by.xpath('//span[3]')).getText()).toContain('BOULDER, CO 80301');
+//           }
+
 //           function verifyCartContents(itemPrice, totalPrice, quantity) {
 //             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
 //             expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual('TOTAL: ' + totalPrice);
@@ -95,7 +103,8 @@
 //             fillCreditCardForm('5555555555554444', '06', '2014', '000')
 //             tu.clickElement('id', 'place-order-btn');
 //             browser.sleep(8000);
-//             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//             verifyOrderConfirmation();
 //            });
 
 //            it('should have basic validation on all fields', function () {
@@ -122,7 +131,8 @@
 //             validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
 //             tu.clickElement('id', 'place-order-btn');
 //             browser.sleep(8000);
-//             expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//             verifyOrderConfirmation();
 //            });
 
 
@@ -137,7 +147,7 @@
 //    describe("verify mobile checkout functionality", function () {
 
 //      beforeEach(function () {
-//         browser.driver.manage().window().setSize(750, 920);       
+//         browser.driver.manage().window().setSize(750, 1100);       
 //         browser.get('#!/products/Test1396454831925/');
 //        browser.sleep(8000);
 //      });
@@ -145,6 +155,7 @@
 //      var continueButton1 = '//div[11]/button'
 //      var continueButton2 = '//div[6]/button'
 //      var paymentButton = "//button[@type='submit']"
+   
 
 //        it('should allow all fields to be editable on mobile', function () {
 //         tu.clickElement('xpath', tu.buyButton);
@@ -161,8 +172,7 @@
 //         tu.clickElement('xpath', paymentButton);
 //         tu.clickElement('id', "place-order-btn");
 //         browser.sleep(8000);
-//         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-
+//         verifyOrderConfirmation();
 //        });
 
 //        it('should have basic validation on mobile', function () {
@@ -182,8 +192,9 @@
 //         fillCreditCardForm('5555555555554444', '06', '2014', '000')
 //         tu.clickElement('xpath', paymentButton);
 //         tu.clickElement('id', "place-order-btn");
-//         browser.sleep(8000);
-//         expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//         browser.sleep(9000);
+//         // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+//         verifyOrderConfirmation();
 
 //        });
 
