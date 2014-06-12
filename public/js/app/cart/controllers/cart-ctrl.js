@@ -18,8 +18,8 @@ angular.module('ds.cart')
         $scope.cart = CartSvc.getCart();
 
 
-        $scope.removeProductFromCart = function (sku) {
-            CartSvc.removeProductFromCart(sku);
+        $scope.removeProductFromCart = function (productId) {
+            CartSvc.removeProductFromCart(productId);
         };
 
         $scope.toggleCart = function (){

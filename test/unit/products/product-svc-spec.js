@@ -11,7 +11,7 @@
  */
 describe('ProductSvc Test', function () {
 
-    var productUrl = 'http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com';
+    var productUrl = 'http://product-service.test.cf.hybris.com';
     var productRoute = '/products';
     var $scope, $rootScope, $httpBackend, productSvc;
 
@@ -21,7 +21,7 @@ describe('ProductSvc Test', function () {
     ];
 
     beforeEach(angular.mock.module('ds.products', function (caasProvider) {
-        caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(productUrl).route(productRoute);
+        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(productUrl).route(productRoute);
     }));
 
 
@@ -43,7 +43,7 @@ describe('ProductSvc Test', function () {
 
 
     it('query returns product array', function () {
-        $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond(prodList);
+        $httpBackend.expectGET('http://product-service.test.cf.hybris.com/products').respond(prodList);
 
         var products = productSvc.query();
 
@@ -53,7 +53,7 @@ describe('ProductSvc Test', function () {
 
      it('query with success handler invokes callback on resolved promise', function () {
          var products;
-         $httpBackend.expectGET('http://product-service-dprod.deis-dev-01.ytech.fra.hybris.com/products').respond(prodList);
+         $httpBackend.expectGET('http://product-service.test.cf.hybris.com/products').respond(prodList);
 
          var myCallback = function(result) {
              products = result;

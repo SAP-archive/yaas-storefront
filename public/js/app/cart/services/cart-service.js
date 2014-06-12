@@ -160,10 +160,11 @@ angular.module('ds.cart')
             /*
                 removes a product from the cart
              */
-            removeProductFromCart: function (producId) {
-                angular.forEach(cart.items, function (product) {
-                   if(product.id === producId) {
-                       product.quantity = 0;
+            removeProductFromCart: function (productId) {
+                angular.forEach(cart.items, function (cartItem) {
+                   console.log('delete ' + productId + '... matching against ' + cartItem.productId);
+                   if(cartItem.productId === productId) {
+                       cartItem.quantity = 0;
                    }
                 });
                 updateCart();
