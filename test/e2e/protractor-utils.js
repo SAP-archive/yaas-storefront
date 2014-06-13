@@ -1,9 +1,9 @@
          
-        exports.frenchPress = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/FrenchPress1399402118414/media/5391ec874a4e604bfa5136d1/content?tenantId=onlineshop')]";
-        exports.chemex = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/WoodboundChemexCoffeeMaker1398100549696/media/5391f0964a4e604bfa5136f9/content?tenantId=onlineshop')]";
-        exports.ringBowl = "//img[contains(@src,'http://product-service.dprod.cf.hybris.com/products/RingHeartBowl1396976297636/media/5391ee7d4a4e604bfa5136f1/content?tenantId=onlineshop')]";
+        exports.frenchPress = "//a[contains(@href, '#!/products/FrenchPress1399402118414/')]";
+        exports.chemex = "//img[contains(@src,'http://product-service.test.cf.hybris.com/products/WoodboundChemexCoffeeMaker1398100549696/media/5391f0964a4e604bfa5136f9/content?tenant=onlineshop')]";
+        exports.ringBowl = "//img[contains(@src,'http://product-service.test.cf.hybris.com/products/RingHeartBowl1396976297636/media/5391ee7d4a4e604bfa5136f1/content?tenant=onlineshop')]";
         exports.cartButtonId = 'full-cart-btn';
-        exports.buyButton = "//div[2]/div/button";
+        exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));

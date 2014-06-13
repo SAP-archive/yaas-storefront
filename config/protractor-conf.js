@@ -1,5 +1,5 @@
 exports.config = {
-  allScriptsTimeout: 15000,
+  allScriptsTimeout: 30000,
 
   specs: [
     '../test/e2e/*tests.js'
@@ -9,11 +9,11 @@ exports.config = {
     'browserName': 'phantomjs'
   },
 
-  baseUrl: 'http://demo-store.dev.cf.hybris.com/',
+  baseUrl: 'http://demo-store.dev.cf.hybris.com',
 
   framework: 'jasmine',
 
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 60000
   }
 };
