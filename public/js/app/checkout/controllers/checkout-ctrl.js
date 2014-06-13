@@ -106,6 +106,7 @@ angular.module('ds.checkout')
 
         function onCheckoutFailure(error) {
             $scope.message = error;
+            $scope.submitIsDisabled = false;
             $scope.$apply();
         }
 
@@ -133,6 +134,8 @@ angular.module('ds.checkout')
         }
         function onStripeValidationFailure(error) {
             $scope.message = error.message;
+
+            $scope.submitIsDisabled = false;
 
             if(error.type === 'card_error'){
                 $scope.editPayment();

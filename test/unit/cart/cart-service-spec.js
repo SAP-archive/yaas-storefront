@@ -46,8 +46,8 @@ describe('CartSvc Test', function () {
     beforeEach(function () {
         sku1 =  'guitar1234';
         sku2 =  'guitar5678';
-        prod1 =    {'name': 'Electric Guitar', 'sku': sku1, 'price': 1000.00};
-        prod2 =    {'name': 'Acoustic Guitar', 'sku': sku2, 'price': 800.00};
+        prod1 =    {'name': 'Electric Guitar', 'id': sku1, 'price': 1000.00};
+        prod2 =    {'name': 'Acoustic Guitar', 'id': sku2, 'price': 800.00};
 
         //cartSvc.emptyCart();
         cartSvc.addProductToCart(prod1, 1 );
@@ -56,9 +56,10 @@ describe('CartSvc Test', function () {
 
     describe(' delete from cart', function() {
         it(' should remove the item from the cart', function() {
+            expect(cartSvc.getCart().itemCount).toEqualData(2);
             cartSvc.removeProductFromCart(sku1);
             expect(cartSvc.getCart().itemCount).toEqualData(1);
-            expect(cartSvc.getCart().items[0].sku).toEqualData(sku2);
+            expect(cartSvc.getCart().items[0].productId).toEqualData(sku2);
         });
     });
 
@@ -90,7 +91,7 @@ describe('CartSvc Test', function () {
 
         var newProduct;
 
-        newProduct = {'name': 'Amplifier', 'sku': 'amp1234', 'price': 700.00};
+        newProduct = {'name': 'Amplifier', 'id': 'amp1234', 'price': 700.00};
 
         it(' should add the product to the cart', function () {
             cartSvc.addProductToCart(newProduct, 1);
@@ -106,7 +107,7 @@ describe('CartSvc Test', function () {
 
             var qty = 0;
             for (var i = 0; i < cart.items.length; i++) {
-                if (cart.items[i].sku === prod1.sku) {
+                if (cart.items[i].productId === prod1.id) {
                     qty = cart.items[i].quantity;
                     break;
                 }

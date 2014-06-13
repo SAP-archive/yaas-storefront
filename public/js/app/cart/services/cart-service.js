@@ -16,8 +16,8 @@ angular.module('ds.cart')
     .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
         // Matches CAAS schema
-        var CartItem = function(sku, qty) {
-            this.productId = sku;
+        var CartItem = function(productId, qty) {
+            this.productId = productId;
             this.quantity = qty;
         };
 
@@ -95,7 +95,7 @@ angular.module('ds.cart')
             var newCart = new CaasCart();
             newCart.cartId = cart.id;
             angular.forEach(cart.items, function(item){
-                newCart.cartItem.push(new CartItem(item.sku, item.quantity));
+                newCart.cartItem.push(new CartItem(item.productId, item.quantity));
             });
 
             caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
@@ -112,14 +112,14 @@ angular.module('ds.cart')
 
             /**
              *
-             * @param sku
+             * @param productId
              * @param qty
              * @param keepZeroInCart  if true, a line item with qty undefined or zero will be kept in the cart;
              *                      otherwise, it will be removed
              */
-            updateLineItem: function(sku, qty, keepZeroInCart) {
+            updateLineItem: function(productId, qty, keepZeroInCart) {
                 for (var i = 0; i < cart.items.length; i++) {
-                    if (cart.items[i].sku === sku) {
+                    if (cart.items[i].productId === productId) {
                        cart.items[i].quantity = qty;
                        break;
                     }
@@ -134,7 +134,7 @@ angular.module('ds.cart')
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
                 for (var i = 0; i < cart.items.length; i++) {
-                    if (product.sku === cart.items[i].sku) {
+                    if (product.id === cart.items[i].productId) {
                         cart.items[i].quantity = cart.items[i].quantity + productDetailQty;
                         alreadyInCart = true;
                         break;
@@ -144,7 +144,7 @@ angular.module('ds.cart')
                     updateCart();
                 }  else if (productDetailQty > 0 ) {
                     var cartProductToPush = {};
-                    cartProductToPush.sku = product.sku;
+                    cartProductToPush.productId = product.id;
                     cartProductToPush.name = product.name;
                     cartProductToPush.quantity = productDetailQty;
                     cartProductToPush.price = product.price;
@@ -152,7 +152,7 @@ angular.module('ds.cart')
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
                     cart.items.push(cartProductToPush);
-                    createCartItem(new CartItem(product.sku, productDetailQty));
+                    createCartItem(new CartItem(product.id, productDetailQty));
                 }
                 recalculateCart();
             },
@@ -160,10 +160,10 @@ angular.module('ds.cart')
             /*
                 removes a product from the cart
              */
-            removeProductFromCart: function (sku) {
-                angular.forEach(cart.items, function (product) {
-                   if(product.sku === sku) {
-                       product.quantity = 0;
+            removeProductFromCart: function (productId) {
+                angular.forEach(cart.items, function (cartItem) {
+                   if(cartItem.productId === productId) {
+                       cartItem.quantity = 0;
                    }
                 });
                 updateCart();
