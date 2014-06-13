@@ -27,7 +27,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-service.test.cf.hybris.com',
+                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
                 route: '/checkouts/order'
             },
 
@@ -37,12 +37,12 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.test.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.test.cf.hybris.com',
+                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 
