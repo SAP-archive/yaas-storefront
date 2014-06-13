@@ -3,7 +3,7 @@ var http = require('http');
 var express = require('express');
 var path = require('path');
 var token = null; // OAuth token for anonymous login
-var storeTenant =  'onlineshop';
+var storeTenant =  process.env.DEFAULT_TENANT || 'onlineshop';
 
 //****************************************************************
 // Load the token for the anonymous login:
@@ -62,6 +62,7 @@ app.get('/storeconfig', function(request, response) {
         storeTenant: storeTenant,
         accessToken: token }
     );
+    console.log(json);
     response.send(json);
 });
 
