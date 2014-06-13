@@ -54,7 +54,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.product.detail', {
-                    url: ':productSku/',
+                    url: ':productId/',
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/products/templates/product-detail.html',
@@ -63,8 +63,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function( $stateParams, caas) {
-
-                            return caas.products.API.get({productSku: $stateParams.productSku }).$promise
+                            return caas.products.API.get({productId: $stateParams.productId }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
                                     return result;
@@ -170,7 +169,7 @@ window.app = angular.module('ds.router', [
     // Configure the API Provider - specify the base route and configure the end point with route and name
     .config(function(caasProvider, settings) {
         // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products', { productSku: '@productSku' }).baseUrl(settings.apis.products.baseUrl).
+        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
@@ -190,35 +189,10 @@ window.app = angular.module('ds.router', [
 
             return {
                 request: function (config) {
-
                     document.body.style.cursor = 'wait';
-
-                    if(config.url.indexOf('products')>-1) {
-
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.authorization] = settings.authorizationId;
-                    }
-
-                    else if(config.url.indexOf('checkout')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
-                    }
-
-                    else if(config.url.indexOf('orders')>-1) {
-
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.customer] = settings.buyerId;
-                    }
-                    else if(config.url.indexOf('order/details')>-1) {
-                        config.headers[settings.apis.headers.tenant] = storeTenant;
-                        config.headers[settings.apis.headers.user] = settings.buyerId;
-                    }
-
-                    else if(config.url.indexOf('cartItems')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
-                    }
-
-                    else if(config.url.indexOf('carts')>-1) {
-                        config.headers[settings.apis.headers.tenant2] = storeTenant;
+                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
+                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
+                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
                     }
                     return config || $q.when(config);
                 },
@@ -256,8 +230,7 @@ window.app = angular.module('ds.router', [
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
             // provide tenant id for media lookup
-            $rootScope.tenantId = STORE_CONFIG.storeTenant;
-
+            $rootScope.tenant = STORE_CONFIG.storeTenant;
         }
     ])
 
