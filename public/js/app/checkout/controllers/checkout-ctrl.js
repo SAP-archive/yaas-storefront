@@ -25,6 +25,8 @@ angular.module('ds.checkout')
         $scope.showPristineErrors = false;
         $scope.message = null;
 
+        $scope.submitIsDisabled = false;
+
 
         var Wiz = function(){
             this.step1Done = false;
@@ -146,6 +148,7 @@ angular.module('ds.checkout')
             $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
+                $scope.submitIsDisabled = true;
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
