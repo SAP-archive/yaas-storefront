@@ -25,6 +25,8 @@ angular.module('ds.checkout')
         $scope.showPristineErrors = false;
         $scope.message = null;
 
+        $scope.submitIsDisabled = false;
+
 
         var Wiz = function(){
             this.step1Done = false;
@@ -104,6 +106,7 @@ angular.module('ds.checkout')
 
         function onCheckoutFailure(error) {
             $scope.message = error;
+            $scope.submitIsDisabled = false;
             $scope.$apply();
         }
 
@@ -132,6 +135,8 @@ angular.module('ds.checkout')
         function onStripeValidationFailure(error) {
             $scope.message = error.message;
 
+            $scope.submitIsDisabled = false;
+
             if(error.type === 'card_error'){
                 $scope.editPayment();
                 if (error.code && isFieldAttributableStripeError(error)) {
@@ -146,6 +151,7 @@ angular.module('ds.checkout')
             $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
+                $scope.submitIsDisabled = true;
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
