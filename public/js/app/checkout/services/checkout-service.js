@@ -27,7 +27,7 @@ angular.module('ds.checkout')
             this.shipTo = {};
             this.billTo = {};
             this.billTo.country = 'USA';
-            this.shippingCost = 3; // hard-coded for now
+            this.shippingCost = 0; // hard-coded for now
             this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
         };
@@ -115,7 +115,7 @@ angular.module('ds.checkout')
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules
                     $state.go('base.confirmation', {orderId: order.orderId});
-                    CartSvc.emptyCart();
+
 
                 }, function(errorResponse){
                     // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES

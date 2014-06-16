@@ -36,20 +36,29 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-// map base store access to files in /config & /public to applicable resources
-app.use("/config", express.static(__dirname+'/config'));
+// map base store access to files in /public to applicable resources
 app.use("/public", express.static(__dirname+'/public'));
-// map store-specific access to files in /config and /public
+// map store-specific access to files in  /public
 app.use("/:storename/public", express.static(__dirname + '/public'));
-app.use("/:storename/config", express.static(__dirname + '/config'));
 
-// return store-specific index page
+
+
 app.get('/:storename/', function(request, response){
+
+    console.log('return index for '+request.params["storename"]);
     response.render("index", {store: {name: request.params["storename"], style: 'public/css/app/style.css'}});
 });
 
+// return store-specific index page
+app.get("/:storename", function(request, response){
+    var newUrl = request.url+'/';
+    console.log('redirect to '+newUrl);
+    response.redirect(newUrl);
+}) ;
+
 // return base store index page.
 app.get('/', function(request, response){
+    console.log('return index for default store');
     response.render("index", {store: {name: 'hybris Demo Store', style: 'public/css/app/style.css'}});
 });
 
@@ -57,10 +66,20 @@ app.get('/', function(request, response){
 //*********************
 // Store Config route
 app.get('/storeconfig', function(request, response) {
-    console.log('request for store config');
+    console.log('request for default store config');
     var json = JSON.stringify( {
         storeTenant: storeTenant,
         accessToken: token }
+    );
+    console.log(json);
+    response.send(json);
+});
+
+app.get('/:storename/storeconfig', function(request, response) {
+    console.log('request for store config for '+request.params["storename"]);
+    var json = JSON.stringify( {
+            storeTenant: request.params["storename"],
+            accessToken: token }
     );
     console.log(json);
     response.send(json);

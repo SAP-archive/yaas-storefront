@@ -25,13 +25,13 @@
 			<thead>
 			<tr>
 				<th>est. order total</th>
-				<th class="text-right">{{cart.subtotal + cart.estTax | currency: '$'}}</th>
+				<th class="text-right">{{cart.subTotalPrice.price  | currency: '$'}}</th>
 			<tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td>{{cart.itemCount}} Items</td>
-				<td class="text-right">{{cart.subtotal | currency: '$'}}</td>
+				<td>{{cart.totalUnitsCount}} Items</td>
+				<td class="text-right">{{cart.subTotalPrice.price | currency: '$'}}</td>
 			</tr>
 			<!-- 
 			<tr>
@@ -45,16 +45,16 @@
 	<div class="alert alert-success">Free Shipping & Returns in the US</div>
 	<section>
 		<!-- Cart Item -->
-		<div ng-repeat="product in cart.items">
+		<div ng-repeat="item in cart.cartItems">
 			<div class="cart-item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
-					<img src="{{product.imageUrl}}?tenant={{tenant}}" class="img-responsive"/>
-					<button ng-click="removeProductFromCart(product.productId)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+					<img src="{{item.product.images[0].url}}?tenant={{tenant}}" class="img-responsive"/>
+					<button ng-click="removeProductFromCart(item.productId)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 				</div>
 				<div class="col-xs-8 col-md-8  detail-col">
-					<button ng-click="removeProductFromCart(product.productId)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-					<div class="name">{{product.name}}</div>
-					<div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span> </div>
+					<button ng-click="removeProductFromCart(item.productId)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+					<div class="name">{{item.product.name}}</div>
+					<div class="price item-attr">Item Price: <span> {{item.unitPrice.price | currency: '$'}}</span> </div>
 					<!-- 
 					<div class="variants row item-attr">
 						<div class="variant col-md-6 ">Color: <span>Stone</span></div>
@@ -64,8 +64,8 @@
 					<div class="clearfix">
 						<div class="input-group pull-left">
 							<span class="input-group-addon">Qty:</span>
-							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="product.quantity"
-								ng-change="updateCart(product.productId, product.quantity, true)"    ng-blur="updateCart(product.productId, product.quantity, false)"
+							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
+								ng-change="updateCart(item.productId, item.quantity, true)"    ng-blur="updateCart(item.productId, item.quantity, false)"
                                 onkeydown="return ( event.ctrlKey || event.altKey
                     					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                     					|| (95<event.keyCode && event.keyCode<106)
@@ -74,7 +74,7 @@
                     					|| (event.keyCode==46) )" />
 						</div>
 					</div>
-					<div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span></div>
+					<div class="price-total item-attr">Total Price: <span>{{item.totalPrice.price | currency: '$'}}</span></div>
 				</div>
 			</div>
 		</div>

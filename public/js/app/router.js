@@ -180,6 +180,8 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
+        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
     })
 
 

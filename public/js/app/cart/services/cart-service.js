@@ -28,14 +28,18 @@ angular.module('ds.cart')
 
         var Cart = function(){
            this.estTax = 0;
-           this.items = [];
-           this.itemCount = 0;
-           this.subtotal = 0;
+           this.cartItems = [];
+           this.totalUnitsCount = 0;
+           this.subTotalPrice = {};
+           this.subTotalPrice.price = 0;
+           this.totalPrice = {};
+           this.totalPrice.price = 0;
            this.id = null;
         };
 
         var cart = new Cart();
 
+        /*
         function updateItemCount(keepZeroInCart) {
             // copying all non-zero items to new array to delete zeroes
             var newItems = [];
@@ -48,14 +52,14 @@ angular.module('ds.cart')
             }
             cart.items = newItems;
             cart.itemCount = count;
-        }
+        } */
 
 
         /*
          Calculates the subtotal and saves it to the cart.
 
          @return subtotal
-         */
+
         function calculateSubtotal() {
             var subtotal = 0;
 
@@ -65,14 +69,14 @@ angular.module('ds.cart')
                 }
             });
             cart.subtotal = subtotal;
-        }
-
+        }  */
+        /*
         function recalculateCart(keepZeroInCart) {
 
             updateItemCount(keepZeroInCart);
             calculateSubtotal();
             $rootScope.$emit('cart:updated', cart);
-        }
+        }  */
 
         function createCartItem(item) {
 
@@ -82,13 +86,11 @@ angular.module('ds.cart')
             }
 
             newCart.cartItem = item;
+
             caas.cartItems.API.save(newCart).$promise.then(function(response){
                 cart.id = response.cartId;
+                refreshCart();
             });
-
-            //caas.cartItems.API.save(newCart).$promise.then(function(response){
-               // cart.id = response.cartId;
-            //});
         }
 
         function updateCart(){
@@ -100,14 +102,29 @@ angular.module('ds.cart')
 
             caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
                 console.log(response);
+                refreshCart();
+                //self.getCart();
+            });
+        }
+
+        function refreshCart(){
+            var newCart = caas.cartDetails.API.get({cartId: cart.id });
+            newCart.$promise.then(function(response){
+                cart.subTotalPrice = response.subTotalPrice;
+                cart.totalUnitsCount = response.totalUnitsCount;
+                cart.totalPrice = response.totalPrice;
+                cart.items = response.cartItems;
+                $rootScope.$emit('cart:updated', cart);
             });
         }
 
         return {
 
             getCart: function() {
+
                 return cart;
             },
+
 
 
             /**
@@ -125,7 +142,7 @@ angular.module('ds.cart')
                     }
                 }
                 updateCart();
-                recalculateCart(keepZeroInCart);
+                //recalculateCart(keepZeroInCart);
             },
 
             /*
@@ -133,9 +150,9 @@ angular.module('ds.cart')
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < cart.items.length; i++) {
-                    if (product.id === cart.items[i].productId) {
-                        cart.items[i].quantity = cart.items[i].quantity + productDetailQty;
+                for (var i = 0; i < cart.cartItems.length; i++) {
+                    if (product.id === cart.cartItems[i].productId) {
+                        cart.cartItems[i].quantity = cart.cartItems[i].quantity + productDetailQty;
                         alreadyInCart = true;
                         break;
                     }
@@ -143,6 +160,7 @@ angular.module('ds.cart')
                 if(alreadyInCart) {
                     updateCart();
                 }  else if (productDetailQty > 0 ) {
+                    /*
                     var cartProductToPush = {};
                     cartProductToPush.productId = product.id;
                     cartProductToPush.name = product.name;
@@ -151,10 +169,10 @@ angular.module('ds.cart')
                     if (product.images && product.images.length > 0) {
                         cartProductToPush.imageUrl = product.images[0].url || '';
                     }
-                    cart.items.push(cartProductToPush);
+                    cart.items.push(cartProductToPush);  */
                     createCartItem(new CartItem(product.id, productDetailQty));
                 }
-                recalculateCart();
+                //recalculateCart();
             },
 
             /*
@@ -167,15 +185,7 @@ angular.module('ds.cart')
                    }
                 });
                 updateCart();
-                recalculateCart();
-            },
-
-            emptyCart: function () {
-                for (var i = 0; i < cart.items.length; i++) {
-                    cart.items[i].quantity = 0;
-                }
-                updateCart();
-                recalculateCart();
+                //recalculateCart();
             }
 
         };
