@@ -9,6 +9,7 @@
         function (response) {
             angular.module('config', []).constant('STORE_CONFIG', response.data);
 
+
             angular.element(document).ready(function() {
                 angular.bootstrap(document, [
                     'ds.router', 'config']);

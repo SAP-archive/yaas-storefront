@@ -85,10 +85,6 @@ angular.module('ds.cart')
             caas.cartItems.API.save(newCart).$promise.then(function(response){
                 cart.id = response.cartId;
             });
-
-            //caas.cartItems.API.save(newCart).$promise.then(function(response){
-               // cart.id = response.cartId;
-            //});
         }
 
         function updateCart(){

@@ -11,4 +11,6 @@ angular.module('ds.shared')
 			}
 		};
 
+        this.stripePublicKey = null;
+
     }]);

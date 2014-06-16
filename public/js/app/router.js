@@ -180,6 +180,8 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
+        caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
+            route(settings.apis.configuration.route);
     })
 
 
@@ -222,17 +224,18 @@ window.app = angular.module('ds.router', [
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('interceptor');
     }])
-    // stripe public key
-    .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
 
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG',
-        function (CORSProvider, $rootScope, STORE_CONFIG) {
+
+    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc',
+        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc) {
             /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
             // provide tenant id for media lookup
             $rootScope.tenant = STORE_CONFIG.storeTenant;
+            ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
         }
     ])
+
 
     ;
 
