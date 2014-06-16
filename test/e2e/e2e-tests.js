@@ -8,7 +8,7 @@ describe("product page", function () {
     beforeEach(function () {
       browser.get('#!/products');
       browser.driver.manage().window().maximize();
-      browser.sleep(8000);
+      browser.sleep(9000);
     });
 
       
@@ -39,7 +39,7 @@ describe("product page", function () {
 
       it("should get order of products correctly", function () {
         //default load
-        tu.getTextByRepeaterRow(0);
+        // tu.getTextByRepeaterRow(0);
         tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
