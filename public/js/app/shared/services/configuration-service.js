@@ -15,7 +15,7 @@
  *  Encapsulates access to the CAAS configuration API.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['caas',  'settings', function(caas, settings){
+    .factory('ConfigSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
 
         return {
 
@@ -30,11 +30,17 @@ angular.module('ds.shared')
                 var config = caas.config.API.get();
                 config.$promise.then(function (result) {
                     console.log(result.properties);
+                    var key = null;
+                    var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
-                        if(result.properties[i].key === settings.configKeys.stripeKey) {
+                        key =  result.properties[i].key;
+                        value = result.properties[i].value;
+                        if(key === settings.configKeys.stripeKey) {
                             /* jshint ignore:start */
-                            Stripe.setPublishableKey(result.properties[i].value);
+                            Stripe.setPublishableKey(value);
                             /* jshint ignore:end */
+                        }  else if (key === settings.configKeys.storeName) {
+                            GlobalData.store.name = value;
                         }
                     }
 

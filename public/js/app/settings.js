@@ -70,6 +70,7 @@ angular.module('ds.shared')
         },
         // relevant keys from configuration service:
         configKeys: {
-            stripeKey: 'payment.stripe.key.public'
+            stripeKey: 'payment.stripe.key.public',
+            storeName: 'storefront.name'
         }
     });

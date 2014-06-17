@@ -15,156 +15,6 @@ window.app = angular.module('ds.router', [
     ])
     .constant('_', window._)
 
-    //Setting up routes
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, settings) {
-
-            // Set default language
-            TranslationProvider.setPreferredLanguage( settings.languageCode );
-
-            // States definition
-            $stateProvider
-                .state('base', {
-                    abstract: true,
-                    views: {
-                        'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation.html',
-                            controller: 'NavigationCtrl'
-                        },
-                        'cart@': {
-                            templateUrl: 'public/js/app/cart/templates/cart.html',
-                            controller: 'CartCtrl'
-                        }
-                    },
-                    resolve:  {
-                        cart: function(CartSvc){
-                            CartSvc.getCart();
-                        }
-                    }
-
-                })
-
-                .state('base.product', {
-                    url: '/products/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/products/templates/product-list.html',
-                            controller: 'BrowseProductsCtrl'
-                        }
-                    }
-                })
-                .state('base.product.detail', {
-                    url: ':productId/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/products/templates/product-detail.html',
-                            controller: 'ProductDetailCtrl'
-                        }
-                    },
-                    resolve: {
-                        product: function( $stateParams, caas) {
-                            return caas.products.API.get({productId: $stateParams.productId }).$promise
-                                .then(function(result){
-                                    window.scrollTo(0, 0);
-                                    return result;
-                                });
-                            }
-                    }
-                })
-
-                .state('base.checkout', {
-
-
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
-                        }
-                    },
-                    resolve: {
-                        cart: function (CartSvc) {
-                            return CartSvc.getCart();
-                        },
-                        order: function (CheckoutSvc) {
-                            return CheckoutSvc.getDefaultOrder();
-                        }
-                    }
-                })
-                .state('base.checkout.details', {
-                    url: '/checkout/',
-                    views: {
-                        'orderdetails': {
-                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
-                            controller: 'OrderDetailCtrl'
-
-
-                        },
-                        'checkoutform': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
-                            controller: 'CheckoutCtrl'
-                        }
-
-                    }
-                })
-
-
-                .state('base.cart', {
-                    url: '/cart/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart',
-                            controller: 'CartCtrl'
-                        }
-                    }
-                })
-
-                .state('base.confirmation', {
-                    url: '/confirmation/:orderId/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
-                            controller: 'ConfirmationCtrl'
-                        },
-                        'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
-                            controller: 'NavigationCtrl'
-                        }
-                    }
-                })
-
-
-
-                ;
-
-            $urlRouterProvider.otherwise('/products/');
-
-            /* Code from angular ui-router to make trailing slash conditional */
-            $urlRouterProvider.rule(function($injector, $location) {
-                var path = $location.path()
-                // Note: misnomer. This returns a query object, not a search string
-                    , search = $location.search()
-                    , params
-                    ;
-
-                // check to see if the path already ends in '/'
-                if (path[path.length - 1] === '/') {
-                    return;
-                }
-
-                // If there was no search string / query params, return with a `/`
-                if (Object.keys(search).length === 0) {
-                    return path + '/';
-                }
-
-                // Otherwise build the search string and return a `/?` prefix
-                params = [];
-                angular.forEach(search, function(v, k){
-                    params.push(k + '=' + v);
-                });
-                return path + '/?' + params.join('&');
-            });
-            $locationProvider.hashPrefix('!');
-        }
-    ])
 
     // Configure the API Provider - specify the base route and configure the end point with route and name
     .config(function(caasProvider, settings) {
@@ -236,6 +86,156 @@ window.app = angular.module('ds.router', [
         }
     ])
 
+    //Setting up routes
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, settings) {
 
-    ;
+            // Set default language
+            TranslationProvider.setPreferredLanguage( settings.languageCode );
+
+            // States definition
+            $stateProvider
+                .state('base', {
+                    abstract: true,
+                    views: {
+                        'navigation@': {
+                            templateUrl: 'public/js/app/shared/templates/navigation.html',
+                            controller: 'NavigationCtrl'
+                        },
+                        'cart@': {
+                            templateUrl: 'public/js/app/cart/templates/cart.html',
+                            controller: 'CartCtrl'
+                        }
+                    },
+                    resolve:  {
+                        cart: function(CartSvc){
+                            CartSvc.getCart();
+                        }
+                    }
+
+                })
+
+                .state('base.product', {
+                    url: '/products/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-list.html',
+                            controller: 'BrowseProductsCtrl'
+                        }
+                    }
+                })
+                .state('base.product.detail', {
+                    url: ':productId/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/products/templates/product-detail.html',
+                            controller: 'ProductDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        product: function( $stateParams, caas) {
+                            return caas.products.API.get({productId: $stateParams.productId }).$promise
+                                .then(function(result){
+                                    window.scrollTo(0, 0);
+                                    return result;
+                                });
+                        }
+                    }
+                })
+
+                .state('base.checkout', {
+
+
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
+                        }
+                    },
+                    resolve: {
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+                        },
+                        order: function (CheckoutSvc) {
+                            return CheckoutSvc.getDefaultOrder();
+                        }
+                    }
+                })
+                .state('base.checkout.details', {
+                    url: '/checkout/',
+                    views: {
+                        'orderdetails': {
+                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
+                            controller: 'OrderDetailCtrl'
+
+
+                        },
+                        'checkoutform': {
+                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
+                            controller: 'CheckoutCtrl'
+                        }
+
+                    }
+                })
+
+
+                .state('base.cart', {
+                    url: '/cart/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/cart/templates/cart',
+                            controller: 'CartCtrl'
+                        }
+                    }
+                })
+
+                .state('base.confirmation', {
+                    url: '/confirmation/:orderId/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
+                            controller: 'ConfirmationCtrl'
+                        },
+                        'navigation@': {
+                            templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
+                            controller: 'NavigationCtrl'
+                        }
+                    }
+                })
+
+
+
+            ;
+
+            $urlRouterProvider.otherwise('/products/');
+
+            /* Code from angular ui-router to make trailing slash conditional */
+            $urlRouterProvider.rule(function($injector, $location) {
+                var path = $location.path()
+                // Note: misnomer. This returns a query object, not a search string
+                    , search = $location.search()
+                    , params
+                    ;
+
+                // check to see if the path already ends in '/'
+                if (path[path.length - 1] === '/') {
+                    return;
+                }
+
+                // If there was no search string / query params, return with a `/`
+                if (Object.keys(search).length === 0) {
+                    return path + '/';
+                }
+
+                // Otherwise build the search string and return a `/?` prefix
+                params = [];
+                angular.forEach(search, function(v, k){
+                    params.push(k + '=' + v);
+                });
+                return path + '/?' + params.join('&');
+            });
+            $locationProvider.hashPrefix('!');
+        }
+    ])
+
+;
 
