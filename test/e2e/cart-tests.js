@@ -22,7 +22,7 @@ describe("cart:", function () {
          tu.verifyCartTotal("$0.00");
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.frenchPress);
-         tu.clickElement('xpath', tu.buyButton);
+         tu.clickElement('id', tu.buyButton);
          browser.sleep(250);
          tu.verifyCartAmount("1");
          tu.verifyCartTotal("$24.57");
@@ -38,7 +38,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.frenchPress);
-           tu.clickElement('xpath', tu.buyButton);
+           tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
            tu.verifyCartTotal("$24.57");
@@ -46,7 +46,7 @@ describe("cart:", function () {
            tu.clickElement('css', 'img');
            browser.sleep(250);
            tu.clickElement('xpath', tu.ringBowl);
-           tu.clickElement('xpath', tu.buyButton);
+           tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartTotal("$26.57");
 
@@ -58,12 +58,12 @@ describe("cart:", function () {
            tu.verifyCartTotal('$0.00');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.frenchPress);
-           tu.clickElement('xpath', tu.buyButton);
+           tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount('1');
            tu.verifyCartTotal('$24.57');
            tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.buyButton);
+           tu.clickElement('id', tu.buyButton);
            tu.verifyCartAmount('2');
            tu.verifyCartTotal('$49.14');
            tu.sendKeysByXpath(tu.cartQuantity, '5');
@@ -94,7 +94,7 @@ describe("cart:", function () {
           tu.verifyCartTotal('$0.00');
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.frenchPress);
-          tu.clickElement('xpath', tu.buyButton); 
+          tu.clickElement('id', tu.buyButton); 
           browser.sleep(250);
           tu.verifyCartTotal("$24.57");
           tu.sendKeysByXpath(tu.cartQuantity, '-5');
