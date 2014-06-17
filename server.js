@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var token = null; // OAuth token for anonymous login
 var storeTenant =  process.env.DEFAULT_TENANT || 'onlineshop';
+var storeNameConfigKey = 'store.settings.name';
 
 //****************************************************************
 // Load the token for the anonymous login:
@@ -45,14 +46,22 @@ app.use("/:storename/config", express.static(__dirname + '/config'));
 
 // return store-specific index page
 app.get('/:storename/', function(request, response){
-    response.render("index", {store: {name: request.params["storename"], style: 'public/css/app/style.css'}});
+    var storename = request.params["storename"];
+    request.get('http://configuration-v2.dprod.cf.hybris.com/configurations/'+storename+"/"+storeNameConfigKey, function(error, reponse) {
+        console.log(response);
+        if(!error) {
+
+            storename = response.value;
+        }
+        response.render("index", {store: {name: storename, style: 'public/css/app/style.css'}});
+    })
+
 });
 
 // return base store index page.
 app.get('/', function(request, response){
     response.render("index", {store: {name: 'hybris Demo Store', style: 'public/css/app/style.css'}});
 });
-
 
 //*********************
 // Store Config route
