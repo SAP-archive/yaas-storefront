@@ -13,6 +13,7 @@
 'use strict';
 
 angular.module('ds.checkout')
+
     .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc', 'settings',
         function (caas, $rootScope, $state, StripeJS, CartSvc, settings) {
 
@@ -110,6 +111,8 @@ angular.module('ds.checkout')
                 newOrder.customer.name = name;
                 newOrder.customer.email = order.billTo.email;
 
+                // TODO - this is a temporary hack to be able to retrieve order details. Correct user needs to
+                // be submitted in "hybris-user" request header, otherwise access is denied
                 settings.hybrisUser = newOrder.customer.email;
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {

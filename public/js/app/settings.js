@@ -20,6 +20,10 @@ angular.module('ds.shared')
 
         apis: {
 
+            configuration: {
+               baseUrl: 'http://configuration-v2.dprod.cf.hybris.com/', //configuration.dprod.cf.hybris.com/',
+               route: '/configurations/:tenant'
+            } ,
             products: {
                 baseUrl: 'http://product-service.test.cf.hybris.com',
                 route: '/products/:productId',
@@ -66,5 +70,10 @@ angular.module('ds.shared')
                     total: 'X-Count'
                 }
             }
+        },
+        // relevant keys from configuration service:
+        configKeys: {
+            stripeKey: 'payment.stripe.key.public',
+            storeName: 'store.settings.name'
         }
     });

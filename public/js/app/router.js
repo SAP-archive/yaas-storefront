@@ -15,6 +15,82 @@ window.app = angular.module('ds.router', [
     ])
     .constant('_', window._)
 
+
+    // Configure the API Provider - specify the base route and configure the end point with route and name
+    .config(function(caasProvider, settings) {
+        // create a specific endpoint name and configure the route
+        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
+            route(settings.apis.products.route);
+        // in addition, custom headers and interceptors can be added to this endpoint
+        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
+            route(settings.apis.checkout.route);
+        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
+            route(settings.apis.orders.route);
+        caasProvider.endpoint('cartItems')
+            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
+        caasProvider.endpoint('cart', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
+        caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
+            route(settings.apis.configuration.route);
+    })
+
+
+    .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
+        function ($q, settings, STORE_CONFIG) {
+            var storeTenant = STORE_CONFIG.storeTenant;
+
+            return {
+                request: function (config) {
+                    document.body.style.cursor = 'wait';
+                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
+
+                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
+                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once other services support this header
+                    }
+                    if(false) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once services allow this header
+                    }
+
+                    return config || $q.when(config);
+                },
+                requestError: function(request){
+                    document.body.style.cursor = 'auto';
+                    return $q.reject(request);
+                },
+                response: function (response) {
+                    document.body.style.cursor = 'auto';
+                    return response || $q.when(response);
+                },
+                responseError: function (response) {
+                    document.body.style.cursor = 'auto';
+                    if (response) {
+                        switch(response.status) {
+                            /* TBD
+                             case 401:
+                             $rootScope.$broadcast('auth:loginRequired');
+                             break;
+                             */
+                        }
+                    }
+                    return $q.reject(response);
+                }
+            };
+        }])
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('interceptor');
+    }])
+
+
+    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc',
+        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc) {
+            /* enabling CORS to allow testing from localhost */
+            CORSProvider.enableCORS();
+            // provide tenant id for media lookup
+            $rootScope.tenant = STORE_CONFIG.storeTenant;
+            ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
+        }
+    ])
+
     //Setting up routes
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',
         function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, settings) {
@@ -68,7 +144,7 @@ window.app = angular.module('ds.router', [
                                     window.scrollTo(0, 0);
                                     return result;
                                 });
-                            }
+                        }
                     }
                 })
 
@@ -133,7 +209,7 @@ window.app = angular.module('ds.router', [
 
 
 
-                ;
+            ;
 
             $urlRouterProvider.otherwise('/products/');
 
@@ -164,6 +240,7 @@ window.app = angular.module('ds.router', [
             });
             $locationProvider.hashPrefix('!');
         }
+<<<<<<< HEAD
     ])
 
     // Configure the API Provider - specify the base route and configure the end point with route and name
@@ -235,6 +312,8 @@ window.app = angular.module('ds.router', [
             $rootScope.tenant = STORE_CONFIG.storeTenant;
         }
     ])
+=======
+    ]);
+>>>>>>> development
 
-    ;
 

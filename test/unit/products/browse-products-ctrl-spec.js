@@ -1,6 +1,11 @@
 describe('BrowseProductsCtrl Test', function () {
 
-    var $scope, $rootScope, $controller;
+    var $scope, $rootScope, $controller, mockedGlobalData;
+    mockedGlobalData = {};
+    mockedGlobalData.store = {};
+    mockedGlobalData.products = {};
+    mockedGlobalData.products.meta = {};
+    mockedGlobalData.products.meta.total = 10;
 
     //***********************************************************************
     // Common Setup
@@ -25,6 +30,7 @@ describe('BrowseProductsCtrl Test', function () {
     describe('BrowseProductsCtrl ', function () {
         var mockedProductSvc, browseProdCtrl;
 
+
         beforeEach(function () {
 
             // creating the mocked service
@@ -33,7 +39,7 @@ describe('BrowseProductsCtrl Test', function () {
                 queryWithResultHandler: jasmine.createSpy()
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc});
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData});
             expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
         });
 
@@ -70,13 +76,13 @@ describe('BrowseProductsCtrl Test', function () {
 
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc})
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData})
         });
 
         it('should query products on initialization', function () {
             $scope.products = [];
             // manual injection of the mocked service into the controller
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc});
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData});
             expect($scope.products).toEqualData(products);
         });
 
@@ -109,7 +115,7 @@ describe('BrowseProductsCtrl Test', function () {
 
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc})
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData})
         });
 
         it('should scroll to 0, 0', function () {
