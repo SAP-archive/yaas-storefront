@@ -55,9 +55,21 @@ angular.module('ds.confirmation')
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
+                    confirmationDetails.products = [];
                     for (var i = 0; i < orderDetails.entries.length; i++) {
-                        confirmationDetails.products[i].image = orderDetails.entries[i].product.externalImages[0].url;
-                        confirmationDetails.products[i].name = orderDetails.entries[i].product.name;
+                        if (orderDetails.entries[i].product) {
+                            // TODO: after Wombats return correct images.urls (including tenant), then the following order of looking for an image should be applied:
+                            // 1. take first image from product.images[0]
+                            // 2. if it doesnt exist, take the first image from product.externalImages[0]
+                            var imageUrl = orderDetails.entries[i].product.externalImages[0].url;
+                            if (!imageUrl) {
+                                // if still nothing is found, then some dummy placeholder image? i dont know...
+                            }
+                            confirmationDetails.products[i] = {
+                                image: imageUrl,
+                                name: orderDetails.entries[i].product.name
+                            };
+                        }
                     }
 
                     window.scrollTo(0, 0);

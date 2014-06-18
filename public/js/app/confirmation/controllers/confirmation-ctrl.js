@@ -18,9 +18,8 @@ angular.module('ds.confirmation')
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
-        $scope.orderInfo.customerEmail = $stateParams.customerEmail;
 
-        OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId, $scope.orderInfo.customerEmail).then(function(details){
+        OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails =  details;
         });
 

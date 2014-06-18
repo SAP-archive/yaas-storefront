@@ -27,7 +27,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://localhost:8080',
+                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
                 route: '/checkouts/order'
             },
 
