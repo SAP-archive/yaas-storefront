@@ -43,9 +43,14 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
+
                     if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
+                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once other services support this header
                     }
+                    if(false) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once services allow this header
+                    }
+
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -235,7 +240,6 @@ window.app = angular.module('ds.router', [
             });
             $locationProvider.hashPrefix('!');
         }
-    ])
+    ]);
 
-;
 
