@@ -22,8 +22,8 @@ angular.module('ds.cart')
         };
 
         // Matches CAAS schema
-        var CaasCart = function() {
-            this.cartItem = [];
+        var CaasUpdateCart = function() {
+            this.cartItems = [];
         };
 
         var Cart = function(){
@@ -39,48 +39,9 @@ angular.module('ds.cart')
 
         var cart = new Cart();
 
-        /*
-        function updateItemCount(keepZeroInCart) {
-            // copying all non-zero items to new array to delete zeroes
-            var newItems = [];
-            var count = 0;
-            for (var i = 0; i < cart.items.length; i++) {
-                if (cart.items[i].quantity || keepZeroInCart) {
-                    count = count + cart.items[i].quantity;
-                    newItems.push(cart.items[i]);
-                }
-            }
-            cart.items = newItems;
-            cart.itemCount = count;
-        } */
-
-
-        /*
-         Calculates the subtotal and saves it to the cart.
-
-         @return subtotal
-
-        function calculateSubtotal() {
-            var subtotal = 0;
-
-            angular.forEach(cart.items, function(product) {
-                if (product.price && product.quantity) {
-                    subtotal = subtotal + (product.price * product.quantity);
-                }
-            });
-            cart.subtotal = subtotal;
-        }  */
-        /*
-        function recalculateCart(keepZeroInCart) {
-
-            updateItemCount(keepZeroInCart);
-            calculateSubtotal();
-            $rootScope.$emit('cart:updated', cart);
-        }  */
-
         function createCartItem(item) {
 
-            var newCart = new CaasCart();
+            var newCart = {};
             if(cart.id){
                 newCart.cartId = cart.id;
             }
@@ -94,16 +55,15 @@ angular.module('ds.cart')
         }
 
         function updateCart(){
-            var newCart = new CaasCart();
+            var newCart = new CaasUpdateCart();
             newCart.cartId = cart.id;
             angular.forEach(cart.items, function(item){
-                newCart.cartItem.push(new CartItem(item.productId, item.quantity));
+                newCart.cartItems.push(new CartItem(item.productId, item.quantity));
             });
 
             caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
                 console.log(response);
                 refreshCart();
-                //self.getCart();
             });
         }
 
@@ -113,7 +73,7 @@ angular.module('ds.cart')
                 cart.subTotalPrice = response.subTotalPrice;
                 cart.totalUnitsCount = response.totalUnitsCount;
                 cart.totalPrice = response.totalPrice;
-                cart.items = response.cartItems;
+                cart.cartItems = response.cartItems;
                 $rootScope.$emit('cart:updated', cart);
             });
         }
@@ -121,7 +81,6 @@ angular.module('ds.cart')
         return {
 
             getCart: function() {
-
                 return cart;
             },
 
@@ -160,19 +119,8 @@ angular.module('ds.cart')
                 if(alreadyInCart) {
                     updateCart();
                 }  else if (productDetailQty > 0 ) {
-                    /*
-                    var cartProductToPush = {};
-                    cartProductToPush.productId = product.id;
-                    cartProductToPush.name = product.name;
-                    cartProductToPush.quantity = productDetailQty;
-                    cartProductToPush.price = product.price;
-                    if (product.images && product.images.length > 0) {
-                        cartProductToPush.imageUrl = product.images[0].url || '';
-                    }
-                    cart.items.push(cartProductToPush);  */
                     createCartItem(new CartItem(product.id, productDetailQty));
                 }
-                //recalculateCart();
             },
 
             /*
@@ -185,7 +133,6 @@ angular.module('ds.cart')
                    }
                 });
                 updateCart();
-                //recalculateCart();
             }
 
         };

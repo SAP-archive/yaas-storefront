@@ -48,7 +48,7 @@ angular.module('ds.shared')
 
 
             cartDetails: {
-                baseUrl: 'http://cart-mashup-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-mashup-service-v1.test.cf.hybris.com/',
                 route: '/carts/:cartId/details'
             },
 

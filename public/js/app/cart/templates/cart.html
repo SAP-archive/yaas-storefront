@@ -48,7 +48,7 @@
 		<div ng-repeat="item in cart.cartItems">
 			<div class="cart-item row">
 				<div class="col-xs-4 col-md-4 text-center img-col">
-					<img src="{{item.product.images[0].url}}?tenant={{tenant}}" class="img-responsive"/>
+					<img ng-src="{{item.product.images[0].url}}?tenant={{tenant}}" class="img-responsive"/>
 					<button ng-click="removeProductFromCart(item.productId)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 				</div>
 				<div class="col-xs-8 col-md-8  detail-col">

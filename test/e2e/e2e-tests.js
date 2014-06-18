@@ -39,11 +39,15 @@ describe("product page", function () {
 
       it("should get order of products correctly", function () {
         //default load
-        // tu.getTextByRepeaterRow(0);
+        tu.getTextByRepeaterRow(0);
         tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
+        browser.sleep(250);
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
+        browser.sleep(250);
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
+        browser.sleep(250);
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
+        browser.sleep(250);
         tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
     });
 
