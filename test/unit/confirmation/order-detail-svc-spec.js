@@ -40,6 +40,7 @@ describe('OrderDetailSvc Test', function () {
         email: 'your.name@email.com'
     };
 
+
     beforeEach(angular.mock.module('ds.confirmation', function (caasProvider) {
         caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
     }));
@@ -82,7 +83,7 @@ describe('OrderDetailSvc Test', function () {
         });
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressLine1: 'Acme, Inc.', shippingAddressLine2: '1 Marienplatz a',
-            shippingAddressLine3: 'Munich, Bavaria 80538', emailAddress : 'your.name@email.com' });
+            shippingAddressLine3: 'Munich, Bavaria 80538', emailAddress : 'your.name@email.com', products: [] });
 
     });
 });
