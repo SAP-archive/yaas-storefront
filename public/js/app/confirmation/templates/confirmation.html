@@ -56,17 +56,22 @@
                 to take your call <strong>(888) 5550-1222</strong>.
 		</div>
 
-		<!-- 
-		<div class="col-md-5 col-sm-5 order-detail ">
+		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="similar">
-				<div class="subheadline">3 Items in Your Order</div>
+				<div class="subheadline">{{confirmationDetails.products.length}} Items in Your Order</div>
 				<div class="row">
-					<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=3"></div>
-					<div class="col-sm-12  col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"></div>
-					<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"></div>
+                    <div ng-repeat="product in confirmationDetails.products">
+                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="{{product.image}}"><br/>
+                            <strong>{{product.name}}</strong>
+                        </div>
+                    </div>
+
+					<!--<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="{{confirmationDetails.firstEntryPic}}"></div>-->
+					<!--<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"></div>-->
+					<!--<div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"></div>-->
 				</div>
 			</section>
 		</div>
-		 -->
+
 	</div>
 </div>

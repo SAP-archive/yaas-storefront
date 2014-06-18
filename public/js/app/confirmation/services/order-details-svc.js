@@ -55,6 +55,11 @@ angular.module('ds.confirmation')
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
+                    for (var i = 0; i < orderDetails.entries.length; i++) {
+                        confirmationDetails.products[i].image = orderDetails.entries[i].product.externalImages[0].url;
+                        confirmationDetails.products[i].name = orderDetails.entries[i].product.name;
+                    }
+
                     window.scrollTo(0, 0);
 
                     return confirmationDetails;

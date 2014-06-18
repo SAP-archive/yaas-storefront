@@ -191,9 +191,14 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
-                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
+
+                    if(config.url.indexOf('cart') < 0) {
+                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once cart supports this header
                     }
+                    if(config.url.indexOf('checkout') >= 0) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once all services allow for it (checkout mashup...)
+                    }
+
                     return config || $q.when(config);
                 },
                 requestError: function(request){
