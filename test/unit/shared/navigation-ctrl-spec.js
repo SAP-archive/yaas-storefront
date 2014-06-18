@@ -12,7 +12,8 @@
 
 describe('NavigationCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, cart;
+    var $scope, $rootScope, $controller, $injector;
+    var mockedGlobalData = {};
 
     //***********************************************************************
     // Common Setup
@@ -39,7 +40,7 @@ describe('NavigationCtrl Test', function () {
         var navCtrl, cart;
         cart = {};
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart});
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart, GlobalData: mockedGlobalData});
         });
 
         it('should change showCart value', function(){

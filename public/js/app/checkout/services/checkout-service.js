@@ -13,6 +13,7 @@
 'use strict';
 
 angular.module('ds.checkout')
+
     .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc', 'settings',
         function (caas, $rootScope, $state, StripeJS, CartSvc, settings) {
 

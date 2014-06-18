@@ -4,11 +4,13 @@
 <section class="gray">
     <div class="hero-unit">
         <blockquote style="background-image: url(http://media-repository.dprod.cf.hybris.com/onlineshop/demo-store/media/5390ca075f4e68ff05a7456a?tenantId=onlineshop);">
-            <p>hybris Kitchen Series</p>
-            <footer>Bowls, Bikes and Coffee Mugs</footer>
+            <p>{{store.name}}</p>
+            <!--
+            <footer></footer>
+            -->
         </blockquote>
 
-        <img src="http://media-repository.dprod.cf.hybris.com/onlineshop/demo-store/media/5390ca075f4e68ff05a7456d?tenantId=onlineshop" alt="" width="70" height="70" class="img-circle">
+        <img ng-src="http://media-repository.dprod.cf.hybris.com/onlineshop/demo-store/media/5390ca075f4e68ff05a7456d?tenantId=onlineshop" alt="" width="70" height="70" class="img-circle">
     </div>
 
 
@@ -173,7 +175,8 @@
         <div class="item masonry-brick" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img ng-src="{{ product.images[0].url }}?tenant={{tenant}}" alt="">
+                    <img src="{{ product.images[0].url }}?tenant={{store.tenant}}" alt="">
+
                 </div>
                 <div class="name">{{ product.name }}</div>
                 <div class="price">{{ product.price | currency: '$'}}</div>

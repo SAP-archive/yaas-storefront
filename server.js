@@ -2,12 +2,20 @@
 var http = require('http');
 var express = require('express');
 var path = require('path');
+var request = require('request');
+
 var token = null; // OAuth token for anonymous login
 var storeTenant =  process.env.DEFAULT_TENANT || 'onlineshop';
+var storeNameConfigKey = 'store.settings.name';
+var storeFrontProjectId = '0cf4fd80-462f-4049-b660-75ce8dffd3ab';
+
+var configSvcUrl = 'http://configuration-v2.dprod.cf.hybris.com/configurations/';
+var authSvcUrl = 'http://user-service.dprod.cf.hybris.com/auth/';
+
 
 //****************************************************************
 // Load the token for the anonymous login:
-var request = require('request');
+
 
 function getParameterByName(name, url) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -17,7 +25,7 @@ function getParameterByName(name, url) {
 }
 
 request.post(
-    'http://user-service.dprod.cf.hybris.com/auth/anonymous/login?project=0cf4fd80-462f-4049-b660-75ce8dffd3ab',
+    authSvcUrl + 'anonymous/login?project='+storeFrontProjectId,
     { form: { key: 'value' } },
     function (error, response, body) {
         console.log('token request response: '+ response.statusCode);
@@ -53,10 +61,25 @@ app.use("/:storename/public", express.static(__dirname + '/public'));
 
 
 
-app.get('/:storename/', function(request, response){
-
-    console.log('return index for '+request.params["storename"]);
-    response.render("index", {store: {name: request.params["storename"], style: 'public/css/app/style.css'}});
+app.get('/:storename/', function(req, response){
+    var storename = req.params["storename"];
+    //console.log('making request to config service');
+    var configSvcOptions = {
+        url: configSvcUrl+storeNameConfigKey,
+        headers: {
+            'hybris-tenant': storename
+        }
+    };
+    //console.log(configSvcOptions);
+    request.get(configSvcOptions, function(error, reponse, body) {
+        //console.log(response);
+        if(!error) {
+            storename = response.value;
+        } else {
+            console.log(error);
+        }
+        response.render("index", {store: {name: storename, style: 'public/css/app/style.css'}});
+    })
 });
 
 
@@ -66,7 +89,6 @@ app.get('/', function(request, response){
     console.log('return index for default store');
     response.render("index", {store: {name: 'hybris Demo Store', style: 'public/css/app/style.css'}});
 });
-
 
 //*********************
 // Store Config route
