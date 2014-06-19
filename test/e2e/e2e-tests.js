@@ -43,13 +43,13 @@ describe("product page", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
     });
 
