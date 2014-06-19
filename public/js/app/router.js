@@ -2,17 +2,17 @@
 
 // ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
 window.app = angular.module('ds.router', [
-        'ui.router',
-        'ds.shared',
-        'ds.utils',
-        'ds.i18n',
-        'ds.products',
-        'ds.cart',
-        'ds.checkout',
-        'ds.confirmation',
-        'yng.core',
-        'wu.masonry'
-    ])
+    'ui.router',
+    'ds.shared',
+    'ds.utils',
+    'ds.i18n',
+    'ds.products',
+    'ds.cart',
+    'ds.checkout',
+    'ds.confirmation',
+    'yng.core',
+    'wu.masonry'
+])
     .constant('_', window._)
 
 
@@ -30,6 +30,8 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
+        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
         caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
             route(settings.apis.configuration.route);
     })
@@ -44,11 +46,12 @@ window.app = angular.module('ds.router', [
                     document.body.style.cursor = 'wait';
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
 
-                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
+                    if( config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
                         config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once other services support this header
                     }
-                    if(false) {
+                    if(config.url.indexOf('cart-mashup') > 0) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once services allow this header
+                        config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
                     }
 
                     return config || $q.when(config);
@@ -240,80 +243,5 @@ window.app = angular.module('ds.router', [
             });
             $locationProvider.hashPrefix('!');
         }
-<<<<<<< HEAD
-    ])
-
-    // Configure the API Provider - specify the base route and configure the end point with route and name
-    .config(function(caasProvider, settings) {
-        // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
-            route(settings.apis.products.route);
-        // in addition, custom headers and interceptors can be added to this endpoint
-        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
-            route(settings.apis.checkout.route);
-        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
-            route(settings.apis.orders.route);
-        caasProvider.endpoint('cartItems')
-            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
-        caasProvider.endpoint('cart', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
-        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
-    })
-
-
-    .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
-        function ($q, settings, STORE_CONFIG) {
-            var storeTenant = STORE_CONFIG.storeTenant;
-
-            return {
-                request: function (config) {
-                    document.body.style.cursor = 'wait';
-                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
-                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
-                    }
-                    return config || $q.when(config);
-                },
-                requestError: function(request){
-                    document.body.style.cursor = 'auto';
-                    return $q.reject(request);
-                },
-                response: function (response) {
-                    document.body.style.cursor = 'auto';
-                    return response || $q.when(response);
-                },
-                responseError: function (response) {
-                    document.body.style.cursor = 'auto';
-                    if (response) {
-                        switch(response.status) {
-                            /* TBD
-                             case 401:
-                             $rootScope.$broadcast('auth:loginRequired');
-                             break;
-                             */
-                        }
-                    }
-                    return $q.reject(response);
-                }
-            };
-        }])
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.interceptors.push('interceptor');
-    }])
-    // stripe public key
-    .value('publishableKey','pk_test_KQWQGIbDxdKyIJtpasGbSgCz')
-
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG',
-        function (CORSProvider, $rootScope, STORE_CONFIG) {
-            /* enabling CORS to allow testing from localhost */
-            CORSProvider.enableCORS();
-            // provide tenant id for media lookup
-            $rootScope.tenant = STORE_CONFIG.storeTenant;
-        }
-    ])
-=======
     ]);
->>>>>>> development
-
 

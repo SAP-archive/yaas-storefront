@@ -28,7 +28,7 @@ angular.module('ds.checkout')
             this.shipTo = {};
             this.billTo = {};
             this.billTo.country = 'USA';
-            this.shippingCost = 0; // hard-coded for now
+
             this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
         };
@@ -78,8 +78,8 @@ angular.module('ds.checkout')
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
                 newOrder.currency = 'USD';
-                // TODO - we should extract this "total" calculation into a common property/service call
-                newOrder.orderTotal =  order.cart.subtotal + order.cart.estTax + order.shippingCost;
+
+                newOrder.orderTotal =  order.cart.totalPrice.price;
 
                 var name = order.billTo.firstName + ' ' + order.billTo.lastName;
                 newOrder.addresses = [];
@@ -111,8 +111,7 @@ angular.module('ds.checkout')
                 newOrder.customer.name = name;
                 newOrder.customer.email = order.billTo.email;
 
-                // TODO - this is a temporary hack to be able to retrieve order details. Correct user needs to
-                // be submitted in "hybris-user" request header, otherwise access is denied
+                // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {

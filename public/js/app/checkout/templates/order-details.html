@@ -1,27 +1,27 @@
 <h2>Order Details</h2>
 <section class="excerpt‎">
     <div class="pull-left">{{cart.totalUnitsCount}} Items</div>
-    <div class="pull-right">total: {{cart.subTotalPrice.price + order.shippingCost| currency: '$'}}</div>
+    <div class="pull-right">total: {{cart.subTotalPrice.price + cart.shippingCost.price| currency: '$'}}</div>
 </section>
 <section>
-    <div ng-repeat="product in cart.items track by $index">
+    <div ng-repeat="item in cart.cartItems track by $index">
         <div class="cart-item row">
             <div class="col-xs-4 col-md-4 text-center img-col">
-                <img src="{{product.imageUrl}}?tenant={{tenant}}" class="img-responsive"/>
+                <img ng-src="{{ tenant && item.product.images[0].url + '?tenant='+ tenant || ''}}" class="img-responsive"/>
 
             </div>
             <div class="col-xs-8 col-md-8  detail-col">
 
-                <div class="name">{{product.name}}</div>
-                <div class="price item-attr">Item Price: <span> {{product.price | currency: '$'}}</span></div>
+                <div class="name">{{item.product.name}}</div>
+                <div class="price item-attr">Item Price: <span> {{item.unitPrice.price | currency: '$'}}</span></div>
                 <div class="variants row item-attr">
 					<!--
                     <div class="variant col-md-6 ">Color: <span>Stone</span></div>
                     <div class="variant col-md-6 ">Size: <span>30 ml</span></div>
                     -->
-                    <div class="variant col-md-6 ">Qty: <span>{{ product.quantity }}</span></div>
+                    <div class="variant col-md-6 ">Qty: <span>{{ item.quantity }}</span></div>
                 </div>
-                <div class="price-total item-attr">Total Price: <span>{{product.price * product.quantity | currency: '$'}}</span>
+                <div class="price-total item-attr">Total Price: <span>{{item.totalPrice.price | currency: '$'}}</span>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td>shipping</td>
-            <td class="text-right">{{ order.shippingCost | currency: '$' }}</td>
+            <td class="text-right">{{ cart.shippingCost.price | currency: '$' }}</td>
         </tr>
         <!-- 
         <tr>
@@ -48,7 +48,7 @@
         <tfoot>
         <tr>
             <td>order total</td>
-            <td class="text-right">{{cart.subTotalPrice.price + order.shippingCost | currency: '$'}}</td>
+            <td class="text-right">{{cart.totalPrice.price | currency: '$'}}</td>
         <tr>
         </tfoot>
     </table>

@@ -16,9 +16,10 @@ angular.module('ds.cart')
     .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
         // Matches CAAS schema
-        var CartItem = function(productId, qty) {
+        var CartItem = function(productId, qty, itemId) {
             this.productId = productId;
             this.quantity = qty;
+            this.cartItemId = itemId;
         };
 
         // Matches CAAS schema
@@ -56,9 +57,8 @@ angular.module('ds.cart')
 
         function updateCart(){
             var newCart = new CaasUpdateCart();
-            newCart.cartId = cart.id;
-            angular.forEach(cart.items, function(item){
-                newCart.cartItems.push(new CartItem(item.productId, item.quantity));
+            angular.forEach(cart.cartItems, function(item){
+                newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
             });
 
             caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
@@ -94,9 +94,9 @@ angular.module('ds.cart')
              *                      otherwise, it will be removed
              */
             updateLineItem: function(productId, qty, keepZeroInCart) {
-                for (var i = 0; i < cart.items.length; i++) {
-                    if (cart.items[i].productId === productId) {
-                       cart.items[i].quantity = qty;
+                for (var i = 0; i < cart.cartItems.length; i++) {
+                    if (cart.cartItems[i].productId === productId) {
+                       cart.cartItems[i].quantity = qty;
                        break;
                     }
                 }
@@ -127,7 +127,7 @@ angular.module('ds.cart')
                 removes a product from the cart
              */
             removeProductFromCart: function (productId) {
-                angular.forEach(cart.items, function (cartItem) {
+                angular.forEach(cart.cartItems, function (cartItem) {
                    if(cartItem.productId === productId) {
                        cartItem.quantity = 0;
                    }
