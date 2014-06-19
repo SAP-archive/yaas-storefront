@@ -22,7 +22,7 @@ angular.module('ds.shared')
         apis: {
 
             configuration: {
-               baseUrl: 'http://configuration-v2.dprod.cf.hybris.com/', //configuration.dprod.cf.hybris.com/',
+               baseUrl: 'http://configuration-v2.dprod.cf.hybris.com', //configuration.dprod.cf.hybris.com/',
                route: '/configurations/:tenant'
             } ,
             products: {

@@ -84,8 +84,6 @@ angular.module('ds.cart')
                 return cart;
             },
 
-
-
             /**
              *
              * @param productId
@@ -101,7 +99,6 @@ angular.module('ds.cart')
                     }
                 }
                 updateCart();
-                //recalculateCart(keepZeroInCart);
             },
 
             /*
