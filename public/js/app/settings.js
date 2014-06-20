@@ -17,12 +17,13 @@ angular.module('ds.shared')
 
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
+        roleSeller: 'seller',
 
         apis: {
 
             configuration: {
-               baseUrl: 'http://configuration-v2.dprod.cf.hybris.com/', //configuration.dprod.cf.hybris.com/',
-               route: '/configurations/:tenant'
+                baseUrl: 'http://configuration-v2.test.cf.hybris.com',
+                route: '/configurations/:tenant'
             } ,
             products: {
                 baseUrl: 'http://product-service.test.cf.hybris.com',
@@ -31,7 +32,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
+                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com',
                 route: '/checkouts/order'
             },
 
@@ -41,17 +42,13 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-v1.test.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-v1.test.cf.hybris.com',
                 route: '/carts/:cartId'
-            },
-
-            cartDetails: {
-
             },
 
             headers: {
