@@ -10,10 +10,10 @@
  * license agreement you entered into with hybris.
  */
 
-ddescribe('CartSvc Test', function () {
+describe('CartSvc Test', function () {
 
     var mockBackend, $scope, $rootScope, cartSvc;
-    var cartId = '53a335cc1b2e9dd2718b53b8';
+    var cartId = 'cartId456';
     var cartItemId = 'cartItemId123';
     var dummyUrl = 'dummyUrl';
     var dummyRoute = '/dummyRoute';
@@ -54,7 +54,7 @@ ddescribe('CartSvc Test', function () {
     }));
 
 
-    describe('add to cart', function(){
+    describe('Add-to-Cart', function(){
 
         it('should issue POST and refresh/GET', function(){
              mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
@@ -66,11 +66,13 @@ ddescribe('CartSvc Test', function () {
              mockBackend.flush();
         })
 
-        it(' should increment the item qty if same item is added again', function(){
+        it('should increment the item qty if same item is added again', function(){
             mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
                 "cartId" : cartId,
                 "cartItemId" : cartItemId
             });
+
+
             mockBackend.expectGET(fullUrlWithCart).respond(
                 {"customerId":null,"totalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"},
                     "subTotalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"},
@@ -78,26 +80,18 @@ ddescribe('CartSvc Test', function () {
                     "totalUnitsCount":1.0,"cartItems":[
                     {"productId":sku1,"product":
                     {"images":[{"url":"http://dummyurl","id":null}],"inStock":true,"sku":null,"description":"Most famous way to make a cuppa","name":"Espresso Machine"},
-                        "cartItemId":cartId,"quantity":1.0,
+                        "cartItemId":cartItemId,"quantity":1.0,
                         "unitPrice":{"priceId":"123","price":599.95,"currencyId":"USD"},
                         "totalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"}}],"createdDate":null,"updatedDate":null}
             );
             cartSvc.addProductToCart(prod1, 1);
             mockBackend.flush();
-            mockBackend.expectPUT(fullUrlWithCart, {"cartItem":{"productId":sku1,"quantity":2, "cartItemId":cartItemId}});
+            mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
+            mockBackend.expectGET(fullUrlWithCart).respond({});
             cartSvc.addProductToCart(prod1, 1 );
             mockBackend.flush();
         });
 
-    });
-
-    describe(' delete from cart', function() {
-        it(' should call PUT and refresh/GET', function() {
-
-            cartSvc.removeProductFromCart(sku1);
-            expect(cartSvc.getCart().itemCount).toEqualData(1);
-            expect(cartSvc.getCart().items[0].productId).toEqualData(sku2);
-        });
     });
 
     describe('getCart', function(){
