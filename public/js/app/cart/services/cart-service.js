@@ -132,6 +132,13 @@ angular.module('ds.cart')
                    }
                 });
                 updateCart();
+            },
+
+            emptyCart: function () {
+                for (var i = 0; i < cart.cartItems.length; i++) {
+                    cart.cartItems[i].quantity = 0;
+                }
+                updateCart();
             }
 
         };
