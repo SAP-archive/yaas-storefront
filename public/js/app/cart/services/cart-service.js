@@ -88,17 +88,19 @@ angular.module('ds.cart')
              *
              * @param productId
              * @param qty
-             * @param keepZeroInCart  if true, a line item with qty undefined or zero will be kept in the cart;
-             *                      otherwise, it will be removed
+             * @param updateZero  if false, an update to qty zero will not be processed
+             * (scenario:  user wiped out qty to enter a new one)
              */
-            updateLineItem: function(productId, qty, keepZeroInCart) {
-                for (var i = 0; i < cart.cartItems.length; i++) {
-                    if (cart.cartItems[i].productId === productId) {
-                       cart.cartItems[i].quantity = qty;
-                       break;
+            updateLineItem: function(productId, qty, updateZero) {
+                if(qty > 0 || updateZero) {
+                    for (var i = 0; i < cart.cartItems.length; i++) {
+                        if (cart.cartItems[i].productId === productId) {
+                            cart.cartItems[i].quantity = qty;
+                            break;
+                        }
                     }
+                    updateCart();
                 }
-                updateCart();
             },
 
             /*

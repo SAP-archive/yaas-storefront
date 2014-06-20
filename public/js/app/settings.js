@@ -26,7 +26,7 @@ angular.module('ds.shared')
                route: '/configurations/:tenant'
             } ,
             products: {
-                baseUrl: 'http://product.test.cf.hybris.com/products',
+                baseUrl: 'http://product-service.test.cf.hybris.com',
                 route: '/products/:productId',
                 pageSize: 10
             },

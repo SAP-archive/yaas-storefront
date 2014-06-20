@@ -45,13 +45,10 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
-
-                    if( config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once other services support this header
-                    }
-                    if(config.url.indexOf('cart-mashup') > 0) {
-                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once services allow this header
-                        config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+                    config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+                    config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+                    if(config.url.indexOf('product') < 0) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
 
                     return config || $q.when(config);
