@@ -69,7 +69,7 @@ describe('CheckoutSvc Test', function () {
     var orderId = 456;
 
     beforeEach(function(){
-
+        mockedCartSvc.emptyCart = jasmine.createSpy('emptyCart');
         mockedState.go = jasmine.createSpy('go');
 
         this.addMatchers({
@@ -134,6 +134,13 @@ describe('CheckoutSvc Test', function () {
                 checkoutSvc.checkout(order, function (){},function(){});
                 $httpBackend.flush();
                 expect(mockedState.go).toHaveBeenCalledWith('base.confirmation', { orderId : '456' });
+            });
+
+            // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
+            it('should remove products from the cart after placing order', function () {
+                checkoutSvc.checkout(order, function(){},function(){});
+                $httpBackend.flush();
+                expect(mockedCartSvc.emptyCart).toHaveBeenCalled();
             });
 
         })

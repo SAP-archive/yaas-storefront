@@ -63,6 +63,7 @@ angular.module('ds.cart')
 
             caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
                 console.log(response);
+
                 refreshCart();
             });
         }
@@ -88,11 +89,10 @@ angular.module('ds.cart')
              *
              * @param productId
              * @param qty
-             * @param updateZero  if false, an update to qty zero will not be processed
-             * (scenario:  user wiped out qty to enter a new one)
+             *
              */
-            updateLineItem: function(productId, qty, updateZero) {
-                if(qty > 0 || updateZero) {
+            updateLineItem: function(productId, qty) {
+
                     for (var i = 0; i < cart.cartItems.length; i++) {
                         if (cart.cartItems[i].productId === productId) {
                             cart.cartItems[i].quantity = qty;
@@ -100,8 +100,9 @@ angular.module('ds.cart')
                         }
                     }
                     updateCart();
-                }
+
             },
+
 
             /*
                 converts product object to line item object and pushes it to the cart

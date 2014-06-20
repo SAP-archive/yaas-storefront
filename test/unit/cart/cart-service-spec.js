@@ -102,4 +102,46 @@ describe('CartSvc Test', function () {
         });
     });
 
+
+
+    describe('cart update', function(){
+        beforeEach(function(){
+            cartSvc.addProductToCart(prod1, 1);
+            mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
+                "cartId" : cartId,
+                "cartItemId" : cartItemId
+            });
+            mockBackend.expectGET(fullUrlWithCart).respond({"cartItems":[{"productId":sku1,"quantity":1,"cartItemId":cartItemId}]});
+            mockBackend.flush();
+        });
+
+        describe('emptyCart', function() {
+            it('should issue PUT with qty = 0', function () {
+                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":0,"cartItemId":cartItemId}]}).respond({});
+                mockBackend.expectGET(fullUrlWithCart).respond({});
+                cartSvc.emptyCart();
+                mockBackend.flush();
+            });
+        });
+
+        describe('removeProductFromCart', function() {
+            it('should should issue PUT with qty = 0', function () {
+                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":0,"cartItemId":cartItemId}]}).respond({});
+                mockBackend.expectGET(fullUrlWithCart).respond({});
+                cartSvc.removeProductFromCart(sku1);
+                mockBackend.flush();
+            });
+        });
+
+        describe('updateProductQty with qty > 0', function(){
+            it('should should issue PUT with qty > 0', function () {
+                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
+                mockBackend.expectGET(fullUrlWithCart).respond({});
+                cartSvc.updateLineItem(sku1, 2, true);
+                mockBackend.flush();
+            });
+        });
+    })
+
+
 });
