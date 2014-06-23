@@ -22,8 +22,9 @@ angular.module('ds.shared')
         apis: {
 
             configuration: {
-                baseUrl: 'http://configuration-v2.test.cf.hybris.com',
-                route: '/configurations/:tenant'
+
+               baseUrl: 'http://configuration-v2.test.cf.hybris.com',
+               route: '/configurations/:tenant'
             } ,
             products: {
                 baseUrl: 'http://product-service.test.cf.hybris.com',
@@ -49,6 +50,11 @@ angular.module('ds.shared')
             cart: {
                 baseUrl: 'http://cart-v1.test.cf.hybris.com',
                 route: '/carts/:cartId'
+            },
+
+            cartDetails: {
+                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com',
+                route: '/carts/:cartId/details'
             },
 
             headers: {

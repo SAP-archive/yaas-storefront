@@ -12,10 +12,10 @@
 'use strict';
 
 angular.module('ds.checkout')
-    .controller('OrderDetailCtrl', ['$scope', 'cart', 'order', function($scope, cart, order) {
+    .controller('OrderDetailCtrl', ['$scope', 'cart', function($scope, cart) {
 
         $scope.cart = cart;
-        $scope.order = order;
+
 
 
     }]);

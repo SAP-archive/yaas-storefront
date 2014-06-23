@@ -8,10 +8,10 @@ var token = null; // OAuth token for anonymous login
 // If no store URL prefix is indicated, use the default tenant.
 var defaultTenant =  process.env.DEFAULT_TENANT || 'onlineshop';
 var storeNameConfigKey = 'store.settings.name';
-var storeFrontProjectId = '0cf4fd80-462f-4049-b660-75ce8dffd3ab';
+var storeFrontProjectId = '93b808b0-98f0-42e3-b1a8-ef81dac762b6';
 
-var configSvcUrl = 'http://configuration-v2.dprod.cf.hybris.com/configurations/';
-var authSvcUrl = 'http://user-service.dprod.cf.hybris.com/auth/';
+var configSvcUrl = 'http://configuration-v2.test.cf.hybris.com/configurations/';
+var authSvcUrl = 'http://user-service.test.cf.hybris.com/auth/';
 
 
 //****************************************************************
@@ -25,15 +25,15 @@ function getParameterByName(name, url) {
 }
 
 request.post(
-    authSvcUrl + 'anonymous/login?project='+storeFrontProjectId,
+        authSvcUrl + 'anonymous/login?hybris-tenant='+storeFrontProjectId,
     { form: { key: 'value' } },
     function (error, response, body) {
         console.log('token request response: '+ response.statusCode);
         if (error ) {
             console.log(error);
-        } else {
-            token = getParameterByName('access_token', response.headers['location']);
         }
+        token = getParameterByName('access_token', response.headers['location']);
+
     }
 );
 // **************************************************************************
@@ -42,18 +42,6 @@ request.post(
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-
-// At times, if the image URL's have not been resolved by angular yet, we'll get "phantom" image requests.
-// Send 204 to keep error "noise" down in browser console.
-app.use(function(req, res, next){
-    //console.log('req for '+req.url);
-
-    if(req.url.indexOf('product.image') > -1) {
-        res.status(204).send('unresolved angular url');
-    } else {
-        next();
-    }
-});
 
 // map store-specific access to static files in /public
 app.use("/:storename?/public", express.static(__dirname + '/public'));
@@ -88,7 +76,7 @@ app.get('/:storename?/', function(req, response, next){
 });
 
 //*********************
-// Store Config route
+// Store-Config route - returns settings with tenant and access token for a particular storefront
 app.get('/:storename?/storeconfig', function(request, response) {
     // tenant and url prefix/store name equivalent at this time
     var tenant = defaultTenant;
@@ -113,7 +101,6 @@ app.get("/:storename", function(request, response){
 }) ;
 
 module.exports = app;
-
 
 
 
