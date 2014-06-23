@@ -176,7 +176,7 @@
                     <img ng-src="{{ product.images[0].url }}?tenant={{tenant}}" alt="">
                 </div>
                 <div class="name">{{ product.name }}</div>
-                <div class="price">{{ product.price | currency: '$'}}</div>
+                <div class="price">{{ prices[product.id].price | currency: '$'}}</div>
             </a>
         </div>
     </div>
