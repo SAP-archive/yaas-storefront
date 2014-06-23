@@ -175,7 +175,7 @@
         <div class="item masonry-brick" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img src="{{ product.images[0].url }}?tenant={{store.tenant}}" alt="">
+                    <img ng-src="{{ store.tenant && product.images[0].url + '?tenant='+ store.tenant || ''}}" alt="">
 
                 </div>
                 <div class="name">{{ product.name }}</div>

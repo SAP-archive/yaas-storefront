@@ -2,17 +2,17 @@
 
 // ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
 window.app = angular.module('ds.router', [
-        'ui.router',
-        'ds.shared',
-        'ds.utils',
-        'ds.i18n',
-        'ds.products',
-        'ds.cart',
-        'ds.checkout',
-        'ds.confirmation',
-        'yng.core',
-        'wu.masonry'
-    ])
+    'ui.router',
+    'ds.shared',
+    'ds.utils',
+    'ds.i18n',
+    'ds.products',
+    'ds.cart',
+    'ds.checkout',
+    'ds.confirmation',
+    'yng.core',
+    'wu.masonry'
+])
     .constant('_', window._)
 
 
@@ -32,6 +32,8 @@ window.app = angular.module('ds.router', [
             .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
         caasProvider.endpoint('cart', {cartId: '@cartId'})
             .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
+        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
+            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
         caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
             route(settings.apis.configuration.route);
     })
@@ -45,12 +47,11 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
+                    config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+                    config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
 
-                    if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
-                        config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable for all once other services support this header
-                    }
-                    if(false) {
-                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp; // todo - enable me once services allow this header
+                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 ) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
 
                     return config || $q.when(config);
@@ -239,5 +240,4 @@ window.app = angular.module('ds.router', [
             $locationProvider.hashPrefix('!');
         }
     ]);
-
 

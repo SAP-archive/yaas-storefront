@@ -7,5 +7,5 @@ applications:
   host: demo-store
   domain: test.cf.hybris.com
   instances: 1
-  url: demo-test.test.cf.hybris.com
+  url: demo-store.test.cf.hybris.com
   path: .
