@@ -35,7 +35,6 @@ angular.module('ds.products')
                             $scope.products = $scope.products.concat(products);
                             $scope.productsTo = $scope.products.length;
                             $scope.total = GlobalData.products.meta.total;
-
                             var productIds = $.map(products, function(product) {
                                 return product.id;
                             });
@@ -59,8 +58,6 @@ angular.module('ds.products')
                             );
                         }
                     });
-
-
             }
         };
 
