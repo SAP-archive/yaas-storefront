@@ -47,7 +47,8 @@ window.app = angular.module('ds.router', [
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
                     config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
                     config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
-                    if(config.url.indexOf('product') < 0 && config.url.indexOf('order') < 0 ) {
+
+                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 ) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
 

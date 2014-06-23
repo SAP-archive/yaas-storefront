@@ -88,7 +88,7 @@ describe("checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$29.57', '1');
+            verifyCartContents('Item Price: $24.57', '$33.57', '1');
            });
 
            it('should allow all fields to be editable', function () {

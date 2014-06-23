@@ -13,6 +13,8 @@ describe("product page", function () {
 
       
       it('should scroll to load more products', function () {
+        expect(element(by.css('p.ng-binding')).getText()).toEqual('süshî démø støre');
+        expect(browser.getTitle()).toEqual('süshî démø støre');
         tu.getTextByRepeaterRow(0)
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
@@ -20,7 +22,7 @@ describe("product page", function () {
         tu.clickElement('xpath', tu.frenchPress);
       });
 
-      //should be # of 36, but overall product count doesn't work in phantomjs
+      // should be # of 36, but overall product count doesn't work in phantomjs
       it('should show the user how many products loaded', function () {
         tu.getTextByRepeaterRow(0)
         expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 0'); 
@@ -41,13 +43,13 @@ describe("product page", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
-        browser.sleep(250);
+        browser.sleep(750);
         tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
     });
 
