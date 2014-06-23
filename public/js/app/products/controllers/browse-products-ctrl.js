@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.products')
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'GlobalData', function ($scope, ProductSvc, GlobalData) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', function ($scope, ProductSvc, PriceSvc, GlobalData) {
 
 
         $scope.pageSize = 10;
@@ -11,6 +11,7 @@ angular.module('ds.products')
         $scope.total = GlobalData.products.meta.total;
         $scope.productsFrom = 1;
         $scope.productsTo = $scope.pageSize;
+        $scope.prices = [];
 
         $scope.addMore = function () {
             var query = {
@@ -34,9 +35,37 @@ angular.module('ds.products')
                             $scope.products = $scope.products.concat(products);
                             $scope.productsTo = $scope.products.length;
                             $scope.total = GlobalData.products.meta.total;
+
+                            var productIds = $.map(products, function(product){
+                                return product.id;
+                            });
+
+                            var queryPrices = {
+                                q: "productId:(" + productIds + ")"
+                            }
+
+//                            PriceSvc.queryWithResultHandler(queryPrices,
+//                                function (pricesResponse) {
+//                                    if(pricesResponse) {
+//                                        $scope.prices = $scope.prices.concat(pricesResponse.prices);
+//                                    }
+//                                });
+
+                            var pricesResponse = PriceSvc.query(queryPrices);
+                            console.log("PricesResponse : " + pricesResponse);
+
                         }
                     });
+
+
             }
+            /**
+             * TODO: for each product fetch price from price service and save it
+             * Can we make bulk request?
+             *
+             * - Create price-service.js
+             * - query and queryWithResultHandler?
+             */
         };
 
         // trigger initial load of items

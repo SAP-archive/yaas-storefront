@@ -171,6 +171,8 @@ window.app = angular.module('ds.router', [
         // create a specific endpoint name and configure the route
         caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
+        caasProvider.endpoint('prices').baseUrl(settings.apis.prices.baseUrl).
+            route(settings.apis.prices.route);
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
             route(settings.apis.checkout.route);
@@ -193,6 +195,9 @@ window.app = angular.module('ds.router', [
                     config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
                     if(config.url.indexOf('cart') < 0 && config.url.indexOf('checkout') < 0) {
                         config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser; // todo - enable me once all services allow for it (checkout mashup...)
+                    }
+                    if(config.url.indexOf('price') >= 0) {
+                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
                     return config || $q.when(config);
                 },

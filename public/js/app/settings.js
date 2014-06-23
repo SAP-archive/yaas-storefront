@@ -50,6 +50,11 @@ angular.module('ds.shared')
 
             },
 
+            prices: {
+                baseUrl: 'http://price-v1.test.cf.hybris.com',
+                route: '/prices'
+            },
+
             headers: {
 
                 // "final" headers for CaaS auth.
