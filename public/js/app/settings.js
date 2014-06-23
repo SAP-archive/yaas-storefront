@@ -30,6 +30,11 @@ angular.module('ds.shared')
                 pageSize: 10
             },
 
+            productDetails: {
+                baseUrl: 'http://product-details-v1.test.cf.hybris.com',
+                route: '/productdetails/:productId'
+            },
+
             checkout: {
                 baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
                 route: '/checkouts/order'
