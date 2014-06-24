@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.products')
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'GlobalData', function ($scope, ProductSvc, GlobalData) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', function ($scope, ProductSvc, PriceSvc, GlobalData) {
 
 
         $scope.pageSize = 10;
@@ -12,6 +12,7 @@ angular.module('ds.products')
         $scope.productsFrom = 1;
         $scope.productsTo = $scope.pageSize;
         $scope.store = GlobalData.store;
+        $scope.prices = {};
 
         $scope.addMore = function () {
             var query = {
@@ -27,7 +28,7 @@ angular.module('ds.products')
             query.q = 'published:true';
 
             // prevent additional API calls if all products are retrieved
-            // invfinite scroller initiates lots of API calls when scrolling to the bottom of the page
+            // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                 ProductSvc.queryWithResultHandler(query,
                     function (products) {
@@ -35,6 +36,27 @@ angular.module('ds.products')
                             $scope.products = $scope.products.concat(products);
                             $scope.productsTo = $scope.products.length;
                             $scope.total = GlobalData.products.meta.total;
+                            var productIds = products.map(function(product) {
+                                return product.id;
+                            });
+                            var queryPrices = {
+                                q: 'productId:(' + productIds + ')'
+                            };
+
+                            PriceSvc.queryWithResultHandler(queryPrices,
+                                function (pricesResponse) {
+                                    if(pricesResponse) {
+                                        var prices = pricesResponse.prices;
+                                        var pricesMap = {};
+
+                                        prices.forEach(function(price) {
+                                            pricesMap[price.productId] = price;
+                                        });
+
+                                        $scope.prices = angular.extend($scope.prices, pricesMap);
+                                    }
+                                }
+                            );
                         }
                     });
             }

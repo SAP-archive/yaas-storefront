@@ -28,7 +28,7 @@ describe('BrowseProductsCtrl Test', function () {
     }));
 
     describe('BrowseProductsCtrl ', function () {
-        var mockedProductSvc, browseProdCtrl;
+        var mockedProductSvc, browseProdCtrl, mockedPriceSvc;
 
 
         beforeEach(function () {
@@ -39,7 +39,12 @@ describe('BrowseProductsCtrl Test', function () {
                 queryWithResultHandler: jasmine.createSpy()
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData});
+            mockedPriceSvc = {
+                query: jasmine.createSpy(),
+                queryWithResultHandler: jasmine.createSpy()
+            };
+
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
             expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
         });
 
@@ -59,7 +64,7 @@ describe('BrowseProductsCtrl Test', function () {
 
     describe('BrowseProductsCtrl - addMore', function () {
 
-        var products, browseProdCtrl, stubbedProductSvc;
+        var products, browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
         beforeEach(function () {
 
@@ -76,13 +81,18 @@ describe('BrowseProductsCtrl Test', function () {
 
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData})
+            mockedPriceSvc = {
+                query: jasmine.createSpy(),
+                queryWithResultHandler: jasmine.createSpy()
+            };
+
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData})
         });
 
         it('should query products on initialization', function () {
             $scope.products = [];
             // manual injection of the mocked service into the controller
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData});
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
             expect($scope.products).toEqualData(products);
         });
 
@@ -104,7 +114,7 @@ describe('BrowseProductsCtrl Test', function () {
 
     describe('BrowseProductsCtrl - should scroll to top', function () {
 
-        var browseProdCtrl, stubbedProductSvc;
+        var browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
         beforeEach(function () {
 
@@ -115,7 +125,12 @@ describe('BrowseProductsCtrl Test', function () {
 
             };
 
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'GlobalData':mockedGlobalData})
+            mockedPriceSvc = {
+                query: jasmine.createSpy(),
+                queryWithResultHandler: jasmine.createSpy()
+            };
+
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData})
         });
 
         it('should scroll to 0, 0', function () {
