@@ -21,6 +21,8 @@ window.app = angular.module('ds.router', [
         // create a specific endpoint name and configure the route
         caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
             route(settings.apis.products.route);
+        caasProvider.endpoint('productDetails', { productId: '@productId' }).baseUrl(settings.apis.productDetails.baseUrl).
+            route(settings.apis.productDetails.route);
         // in addition, custom headers and interceptors can be added to this endpoint
         caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
             route(settings.apis.checkout.route);
@@ -120,7 +122,6 @@ window.app = angular.module('ds.router', [
                     }
 
                 })
-
                 .state('base.product', {
                     url: '/products/',
                     views: {
@@ -140,7 +141,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function( $stateParams, caas) {
-                            return caas.products.API.get({productId: $stateParams.productId }).$promise
+                            return caas.productDetails.API.get({productId: $stateParams.productId }).$promise
                                 .then(function(result){
                                     window.scrollTo(0, 0);
                                     return result;
@@ -148,10 +149,7 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-
                 .state('base.checkout', {
-
-
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
