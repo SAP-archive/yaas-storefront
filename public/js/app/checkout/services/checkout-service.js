@@ -13,6 +13,7 @@
 'use strict';
 
 angular.module('ds.checkout')
+
     .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc', 'settings',
         function (caas, $rootScope, $state, StripeJS, CartSvc, settings) {
 
@@ -27,7 +28,7 @@ angular.module('ds.checkout')
             this.shipTo = {};
             this.billTo = {};
             this.billTo.country = 'USA';
-            this.shippingCost = 3; // hard-coded for now
+
             this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
         };
@@ -77,8 +78,8 @@ angular.module('ds.checkout')
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
                 newOrder.currency = 'USD';
-                // TODO - we should extract this "total" calculation into a common property/service call
-                newOrder.orderTotal =  order.cart.subtotal + order.cart.estTax + order.shippingCost;
+
+                newOrder.orderTotal =  order.cart.totalPrice.price;
 
                 var name = order.billTo.firstName + ' ' + order.billTo.lastName;
                 newOrder.addresses = [];
@@ -110,11 +111,13 @@ angular.module('ds.checkout')
                 newOrder.customer.name = name;
                 newOrder.customer.email = order.billTo.email;
 
+                // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
 
                 caas.checkout.API.save(newOrder).$promise.then(function (order) {
                     // TODO this should be an event to be handled in the router in order to decouple various modules
                     $state.go('base.confirmation', {orderId: order.orderId});
+                    // EMPTYING THE CART will ultimately be handled by the order mashup
                     CartSvc.emptyCart();
 
                 }, function(errorResponse){

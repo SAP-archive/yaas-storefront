@@ -48,7 +48,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.ringBowl);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
-           tu.verifyCartTotal("$26.57");
+           tu.verifyCartTotal("$30.57");
 
          });
 

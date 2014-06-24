@@ -11,6 +11,7 @@ angular.module('ds.products')
         $scope.total = GlobalData.products.meta.total;
         $scope.productsFrom = 1;
         $scope.productsTo = $scope.pageSize;
+        $scope.store = GlobalData.store;
         $scope.prices = {};
 
         $scope.addMore = function () {

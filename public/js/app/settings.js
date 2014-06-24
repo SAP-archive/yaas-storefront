@@ -17,9 +17,15 @@ angular.module('ds.shared')
 
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
+        roleSeller: 'seller',
 
         apis: {
 
+            configuration: {
+
+               baseUrl: 'http://configuration-v2.test.cf.hybris.com',
+               route: '/configurations/:tenant'
+            } ,
             products: {
                 baseUrl: 'http://product-service.test.cf.hybris.com',
                 route: '/products/:productId',
@@ -27,7 +33,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-service.dprod.cf.hybris.com',
+                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com',
                 route: '/checkouts/order'
             },
 
@@ -37,17 +43,18 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-v1.test.cf.hybris.com',
                 route:   '/cartItems'
             },
 
             cart: {
-                baseUrl: 'http://cart-service.dprod.cf.hybris.com',
+                baseUrl: 'http://cart-v1.test.cf.hybris.com',
                 route: '/carts/:cartId'
             },
 
             cartDetails: {
-
+                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com',
+                route: '/carts/:cartId/details'
             },
 
             prices: {
@@ -68,5 +75,10 @@ angular.module('ds.shared')
                     total: 'X-Count'
                 }
             }
+        },
+        // relevant keys from configuration service:
+        configKeys: {
+            stripeKey: 'payment.stripe.key.public',
+            storeName: 'store.settings.name'
         }
     });
