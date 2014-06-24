@@ -15,6 +15,5 @@
 angular.module('ds.prices', [
     'yng.core',
     'ds.shared',
-    'ds.cart',
     'ui.bootstrap'
 ]);

@@ -28,7 +28,7 @@ angular.module('ds.products')
             query.q = 'published:true';
 
             // prevent additional API calls if all products are retrieved
-            // invfinite scroller initiates lots of API calls when scrolling to the bottom of the page
+            // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                 ProductSvc.queryWithResultHandler(query,
                     function (products) {
@@ -49,7 +49,7 @@ angular.module('ds.products')
                                         var prices = pricesResponse.prices;
                                         var pricesMap = {};
 
-                                        prices.forEach(function(price){
+                                        prices.forEach(function(price) {
                                             pricesMap[price.productId] = price;
                                         });
 
