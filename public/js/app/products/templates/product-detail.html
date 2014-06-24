@@ -18,7 +18,7 @@
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
                 <div class="name">{{product.name}}</div>
-                <div class="price">{{product.price | currency: '$'}}</div>
+                <div class="price">{{ product.defaultPrice.price && product.defaultPrice.price | currency: '$'}}</div>
 
                 <!-- 
                 <div class="rating ratingCalc" data-rating='{"rating":4.5,"total":5}'>
