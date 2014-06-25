@@ -49,9 +49,9 @@
     "phantomcss": "^0.4.5",
     "protractor": "^1.0.0-rc1",
     "phantomjs": "^1.9.7-8",
-    "grunt-contrib-watch": "^0.5.3",
-    "angular-bootstrap": "0.0.4"
+    "grunt-contrib-watch": "^0.5.3"
   },
+  
   "author": "hybris",
   "license": "proprietary"
 }
