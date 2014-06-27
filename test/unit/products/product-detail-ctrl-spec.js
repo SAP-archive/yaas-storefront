@@ -10,11 +10,20 @@
  * license agreement you entered into with hybris.
  */
 
-describe('ProductDetailCtrl Test', function () {
+describe('ProductDetailCtrl', function () {
 
+    var mockedState, $scope, $rootScope, $controller, mockedCartSvc;
 
-    var mockedState, $scope, $rootScope, $controller;
-    mockedState = {};
+    beforeEach(function(){
+        // creating the mocked service
+        mockedCartSvc = {
+            addProductToCart: jasmine.createSpy()
+        };
+
+        mockedState = {
+            go: jasmine.createSpy()
+        };
+    });
 
 
     //***********************************************************************
@@ -39,8 +48,8 @@ describe('ProductDetailCtrl Test', function () {
 
     }));
 
-    describe('ProductDetailCtrl ', function () {
-        var mockedCartSvc, productDetailCtrl;
+    describe('published product', function () {
+        var productDetailCtrl;
 
         beforeEach(function () {
 
@@ -50,21 +59,32 @@ describe('ProductDetailCtrl Test', function () {
                 published: true
             };
 
-            // creating the mocked service
-            mockedCartSvc = {
-                addProductToCart: jasmine.createSpy()
-            };
-
             productDetailCtrl = $controller('ProductDetailCtrl', {$state: mockedState, $scope: $scope, $rootScope: $rootScope,
                 'CartSvc': mockedCartSvc, 'product': mockProduct});
         });
 
-
         it('should add to cart from detail page', function(){
-
             $scope.addToCartFromDetailPage();
             expect(mockedCartSvc.addProductToCart).toHaveBeenCalled();
+        });
+    });
 
+    describe('unpublished product', function () {
+        var mockedCartSvc, productDetailCtrl, mockProduct;
+
+        beforeEach(function () {
+
+            mockProduct = {
+                name: 'product1',
+                price: '5000',
+                published: false
+            };
+        });
+
+        it('should route to product list if unpublished product is accessed', function() {
+            productDetailCtrl = $controller('ProductDetailCtrl', {$state: mockedState, $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': mockProduct});
+            expect(mockedState.go).toHaveBeenCalledWith('base.product');
         });
 
     });

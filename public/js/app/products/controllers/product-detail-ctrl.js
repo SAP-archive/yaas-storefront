@@ -5,6 +5,10 @@ angular.module('ds.products')
         function($state, $scope, $rootScope, CartSvc, product) {
 
 
+            if (!product.published) {
+                $state.go('base.product');
+            }
+
             $scope.product = product;
 
             //input default values must be defined in controller, not html, if tied to ng-model
