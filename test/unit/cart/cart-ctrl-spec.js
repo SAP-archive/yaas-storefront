@@ -71,8 +71,8 @@ describe('CartCtrl Test', function () {
     describe('update line item', function () {
 
         it(' should call service update', function () {
-            $scope.updateCart('guitar5678', 2, true);
-            expect(stubbedCartSvc.updateLineItem).toHaveBeenCalledWith('guitar5678', 2, true);
+            $scope.updateCart('guitar5678', 2);
+            expect(stubbedCartSvc.updateLineItem).toHaveBeenCalledWith('guitar5678', 2);
         });
 
     });

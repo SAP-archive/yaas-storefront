@@ -115,12 +115,11 @@ describe('CartSvc Test', function () {
             mockBackend.flush();
         });
 
-        describe('emptyCart', function() {
-            it('should issue PUT with qty = 0', function () {
-                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":0,"cartItemId":cartItemId}]}).respond({});
-                mockBackend.expectGET(fullUrlWithCart).respond({});
-                cartSvc.emptyCart();
-                mockBackend.flush();
+        describe('resetCart', function() {
+            it('should create new cart without id', function () {
+                cartSvc.resetCart();
+                var cart = cartSvc.getCart();
+                expect(cart.id).toBeFalsy();
             });
         });
 

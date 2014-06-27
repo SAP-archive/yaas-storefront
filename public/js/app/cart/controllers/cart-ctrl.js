@@ -17,6 +17,11 @@ angular.module('ds.cart')
 
         $scope.cart = CartSvc.getCart();
 
+        var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
+            $scope.cart = eveObj;
+        });
+
+        $scope.$on('$destroy', unbind);
 
         $scope.removeProductFromCart = function (productId) {
             CartSvc.removeProductFromCart(productId);
@@ -31,11 +36,9 @@ angular.module('ds.cart')
          *
          * @param sku
          * @param qty
-         * @param keepZeroInCart if true, line items with qty of zero or undefined will remain in the cart; else,
-         *         they will be removed
          */
-        $scope.updateCart = function (sku, qty, keepZeroInCart) {
-            CartSvc.updateLineItem(sku, qty, keepZeroInCart);
+        $scope.updateCart = function (sku, qty) {
+            CartSvc.updateLineItem(sku, qty);
         };
 
     }]);
