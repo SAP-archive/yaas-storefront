@@ -69,7 +69,7 @@ describe('CheckoutSvc Test', function () {
     var orderId = 456;
 
     beforeEach(function(){
-        mockedCartSvc.emptyCart = jasmine.createSpy('emptyCart');
+        mockedCartSvc.resetCart = jasmine.createSpy('resetCart');
         mockedState.go = jasmine.createSpy('go');
 
         this.addMatchers({
@@ -140,7 +140,7 @@ describe('CheckoutSvc Test', function () {
             it('should remove products from the cart after placing order', function () {
                 checkoutSvc.checkout(order, function(){},function(){});
                 $httpBackend.flush();
-                expect(mockedCartSvc.emptyCart).toHaveBeenCalled();
+                expect(mockedCartSvc.resetCart).toHaveBeenCalled();
             });
 
         })

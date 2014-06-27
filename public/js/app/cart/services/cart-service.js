@@ -100,7 +100,6 @@ angular.module('ds.cart')
                         }
                     }
                     updateCart();
-
             },
 
 
@@ -109,7 +108,7 @@ angular.module('ds.cart')
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
-                for (var i = 0; i < cart.cartItems.length; i++) {
+                for (var i = 0; cart.cartItems && i < cart.cartItems.length; i++) {
                     if (product.id === cart.cartItems[i].productId) {
                         cart.cartItems[i].quantity = cart.cartItems[i].quantity + productDetailQty;
                         alreadyInCart = true;
@@ -135,11 +134,13 @@ angular.module('ds.cart')
                 updateCart();
             },
 
-            emptyCart: function () {
-                for (var i = 0; i < cart.cartItems.length; i++) {
-                    cart.cartItems[i].quantity = 0;
-                }
-                updateCart();
+            /**
+             * Creates a new Cart instance that does not have an ID.
+             * This will prompt the creation of a new cart once items are added to the cart.
+             */
+            resetCart: function () {
+               cart = new Cart();
+               $rootScope.$emit('cart:updated', cart);
             }
 
         };
