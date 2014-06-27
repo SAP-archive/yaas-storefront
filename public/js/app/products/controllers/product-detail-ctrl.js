@@ -1,13 +1,8 @@
 'use strict';
 
 angular.module('ds.products')
-    .controller('ProductDetailCtrl', [ '$state', '$scope', '$rootScope', 'CartSvc', 'product',
-        function($state, $scope, $rootScope, CartSvc, product) {
-
-
-            if (!product.published) {
-                $state.go('base.product');
-            }
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product',
+        function($scope, $rootScope, CartSvc, product) {
 
             $scope.product = product;
 
