@@ -7,7 +7,7 @@
                         <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
                     </div>
                 </div>
-                <div class=" thumbnails">
+                <div class=" thumbnails" ng-if="product.images && product.images.length > 1">
                     <a ng-repeat="image in product.images" class="item" href="#">
                         <img class="lazyOwl" data-src="{{image.url}}" alt="">
                     </a>
