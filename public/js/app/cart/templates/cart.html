@@ -25,13 +25,13 @@
 			<thead>
 			<tr>
 				<th>est. order total</th>
-				<th class="text-right">{{cart.subTotalPrice.price  | currency: '$'}}</th>
+				<th class="text-right">{{cart.subTotalPrice.price || 0 | currency: '$'}}</th>
 			<tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td>{{cart.totalUnitsCount}} Items</td>
-				<td class="text-right">{{cart.subTotalPrice.price | currency: '$'}}</td>
+				<td>{{cart.totalUnitsCount || 0}} Item{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
+				<td class="text-right">{{cart.subTotalPrice.price || 0 | currency: '$'}}</td>
 			</tr>
 			<!-- 
 			<tr>
@@ -74,7 +74,7 @@
                     					|| (event.keyCode==46) )" />
 						</div>
 					</div>
-					<div class="price-total item-attr">Total Price: <span>{{item.totalPrice.price | currency: '$'}}</span></div>
+					<div class="price-total item-attr">Total Price: <span>{{item.totalPrice.price || 0 | currency: '$'}}</span></div>
 				</div>
 			</div>
 		</div>
