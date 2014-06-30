@@ -27,7 +27,7 @@ describe("cart:", function () {
          tu.verifyCartAmount("1");
          tu.verifyCartTotal("$24.57");
          tu.clickElement('xpath', tu.removeFromCart);
-            browser.sleep(1000);
+        browser.sleep(1000);
          tu.verifyCartTotal("");
 
        });
@@ -82,37 +82,36 @@ describe("cart:", function () {
            tu.verifyCartTotal("$245.70");
          });
 
-         // it('should not add out of stock item', function () {
-         //   tu.clickElement('id', tu.cartButtonId);
-         //   browser.sleep(250);
-         //   tu.verifyCartTotal('$0.00');
-         //   tu.clickElement('xpath', tu.contineShopping);
-         //   tu.scrollToBottomOfProducts(5000);
-         //   tu.clickElement('xpath', tu.chemex);
-         //   tu.clickElement('xpath', tu.outOfStockButton);
-         //   tu.clickElement('id',tu.cartButtonId);
-         //   browser.sleep(250);
-         //   tu.verifyCartTotal('$0.00');
-         //   tu.clickElement('xpath', tu.contineShopping);
-         // });
+         it('should not add out of stock item', function () {
+           tu.clickElement('id', tu.cartButtonId);
+           browser.sleep(250);
+           tu.verifyCartTotal('$0.00');
+           tu.clickElement('xpath', tu.contineShopping);
+           tu.clickElement('xpath', tu.chemex);
+           tu.clickElement('xpath', tu.outOfStockButton);
+           tu.clickElement('id',tu.cartButtonId);
+           browser.sleep(250);
+           tu.verifyCartTotal('$0.00');
+           tu.clickElement('xpath', tu.contineShopping);
+         });
 
-         // it('should not allow negative numbers', function () {
-         //  tu.clickElement('id', tu.cartButtonId);
-         //  browser.sleep(250);
-         //  tu.verifyCartTotal('$0.00');
-         //  tu.clickElement('xpath', tu.contineShopping);
-         //  tu.clickElement('xpath', tu.frenchPress);
-         //  tu.clickElement('id', tu.buyButton); 
-         //  browser.sleep(250);
-         //  tu.verifyCartTotal("$24.57");
-         //  tu.sendKeysByXpath(tu.cartQuantity, '-5');
-         //  tu.verifyCartAmount('5');
-         //  browser.sleep(250);
-         //  tu.verifyCartTotal('$122.85');
-         //  tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
-         //  tu.verifyCartAmount('');
-         //  tu.verifyCartTotal('$0.00');
-         // });
+         it('should not allow negative numbers', function () {
+          tu.clickElement('id', tu.cartButtonId);
+          browser.sleep(250);
+          tu.verifyCartTotal('$0.00');
+          tu.clickElement('xpath', tu.contineShopping);
+          tu.clickElement('xpath', tu.frenchPress);
+          tu.clickElement('id', tu.buyButton); 
+          browser.sleep(250);
+          tu.verifyCartTotal("$24.57");
+          tu.sendKeysByXpath(tu.cartQuantity, '-5');
+          tu.verifyCartAmount('5');
+          browser.sleep(250);
+          tu.verifyCartTotal('$122.85');
+          tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
+          tu.verifyCartAmount('');
+          tu.verifyCartTotal('$122.85');
+         });
 
    });
 });

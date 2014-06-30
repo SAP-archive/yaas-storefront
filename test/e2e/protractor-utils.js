@@ -1,7 +1,7 @@
          
-        exports.frenchPress = "//a[contains(@href, '#!/products/FrenchPress1399402118414/')]";
-        exports.chemex = "//img[contains(@src,'http://product-service.test.cf.hybris.com/products/WoodboundChemexCoffeeMaker1398100549696/media/5391f0964a4e604bfa5136f9/content?tenant=onlineshop')]";
-        exports.ringBowl = "//img[contains(@src,'http://product-service.test.cf.hybris.com/products/BlackRingHolder1396977261772/media/5391f05e4a4e604bfa5136f5/content?tenant=onlineshop')]";
+        exports.frenchPress = "//a[contains(@href, '#!/products/53b190f4f0eeb1c6d650c37a/')]";
+        exports.chemex = "//a[contains(@href, '#!/products/53b190faf0eeb1c6d650c37e/')]";
+        exports.ringBowl = "//a[contains(@href, '#!/products/53b19100f0eeb1c6d650c382/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
@@ -17,7 +17,7 @@
          }
 
          exports.verifyCartTotal = function(total) {
-           expect(element(by.css("td.text-right.ng-binding")).getText()).toEqual(total);
+           expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
          }
 
        // abstract writing screen shot to a file

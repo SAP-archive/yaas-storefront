@@ -1,18 +1,6 @@
 [ {
   "customAttributes" : [ ],
   "inStock" : true,
-  "externalImages" : [ ],
-  "published" : false,
-  "itemCondition" : "NEW",
-  "adult" : false,
-  "created" : "2014-06-03T14:43:33.660+0000",
-  "images" : [ ],
-  "sku" : "MAXIME001",
-  "description" : "Digital Camera",
-  "name" : "CanonA50"
-}, {
-  "customAttributes" : [ ],
-  "inStock" : true,
   "price" : 24.57,
   "externalImages" : [ {
     "url" : "http://sand-bsd-2.yrdrt.fra.hybris.com/Products/french-press.jpg"
@@ -58,7 +46,7 @@
   "name" : "Blue and White cup"
 }, {
   "customAttributes" : [ ],
-  "inStock" : true,
+  "inStock" : false,
   "price" : 599.95,
   "externalImages" : [ {
     "url" : "http://sand-bsd-2.yrdrt.fra.hybris.com/Products/espresso_machine7.jpg"
