@@ -16,20 +16,21 @@ describe("cart:", function () {
      });
 
 
-       // it('should load one product into cart', function () {
-       //   tu.clickElement('id', tu.cartButtonId);
-       //   browser.sleep(250);
-       //   tu.verifyCartTotal("$0.00");
-       //   tu.clickElement('xpath', tu.contineShopping);
-       //   tu.clickElement('xpath', tu.frenchPress);
-       //   tu.clickElement('id', tu.buyButton);
-       //   browser.sleep(250);
-       //   tu.verifyCartAmount("1");
-       //   tu.verifyCartTotal("$24.57");
-       //   tu.clickElement('xpath', tu.removeFromCart);
-       //   tu.verifyCartTotal("$0.00");
+       it('should load one product into cart', function () {
+         tu.clickElement('id', tu.cartButtonId);
+         browser.sleep(250);
+         tu.verifyCartTotal("$0.00");
+         tu.clickElement('xpath', tu.contineShopping);
+         tu.clickElement('xpath', tu.frenchPress);
+         tu.clickElement('id', tu.buyButton);
+         browser.sleep(250);
+         tu.verifyCartAmount("1");
+         tu.verifyCartTotal("$24.57");
+         tu.clickElement('xpath', tu.removeFromCart);
+            browser.sleep(1000);
+         tu.verifyCartTotal("");
 
-       // });
+       });
 
          it('should load multiple products into cart', function () {
            tu.clickElement('id', tu.cartButtonId);
@@ -54,27 +55,32 @@ describe("cart:", function () {
 
          });
 
-         // it('should update quantity', function () {
-         //   tu.clickElement('id', tu.cartButtonId);
-         //  browser.sleep(250);
-         //   tu.verifyCartTotal('$0.00');
-         //   tu.clickElement('xpath', tu.contineShopping);
-         //   tu.clickElement('xpath', tu.frenchPress);
-         //   tu.clickElement('id', tu.buyButton);
-         //   browser.sleep(250);
-         //   tu.verifyCartAmount('1');
-         //   tu.verifyCartTotal('$24.57');
-         //   tu.clickElement('xpath', tu.contineShopping);
-         //   tu.clickElement('id', tu.buyButton);
-         //   tu.verifyCartAmount('2');
-         //   tu.verifyCartTotal('$49.14');
-         //   tu.sendKeysByXpath(tu.cartQuantity, '5');
-         //   tu.verifyCartAmount("5");
-         //   tu.verifyCartTotal("$122.85");
-         //   tu.sendKeysByXpath(tu.cartQuantity, '10');
-         //   tu.verifyCartAmount("10");
-         //   tu.verifyCartTotal("$245.70");
-         // });
+         it('should update quantity', function () {
+           tu.clickElement('id', tu.cartButtonId);
+           browser.sleep(250);
+           tu.verifyCartTotal("$0.00");
+           tu.clickElement('xpath', tu.contineShopping);
+           browser.sleep(250);
+           tu.clickElement('xpath', tu.frenchPress);
+           tu.clickElement('id', tu.buyButton);
+           browser.sleep(250);
+           tu.verifyCartAmount("1");
+           browser.sleep(1000);
+           tu.verifyCartTotal("$24.57");
+           tu.clickElement('xpath', tu.contineShopping);
+           browser.sleep(250);
+           tu.clickElement('id', tu.buyButton);
+           browser.sleep(250);
+           tu.verifyCartAmount('2');
+           browser.sleep(1000);
+           tu.verifyCartTotal('$49.14');
+           tu.sendKeysByXpath(tu.cartQuantity, '5');
+           tu.verifyCartAmount("5");
+           tu.verifyCartTotal("$122.85");
+           tu.sendKeysByXpath(tu.cartQuantity, '10');
+           tu.verifyCartAmount("10");
+           tu.verifyCartTotal("$245.70");
+         });
 
          // it('should not add out of stock item', function () {
          //   tu.clickElement('id', tu.cartButtonId);
