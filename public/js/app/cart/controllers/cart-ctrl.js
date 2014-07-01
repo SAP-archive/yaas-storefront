@@ -31,14 +31,13 @@ angular.module('ds.cart')
             $rootScope.showCart = false;
         };
 
-
         /**
          *
          * @param sku
          * @param qty
          */
-        $scope.updateCart = function (sku, qty) {
-            CartSvc.updateLineItem(sku, qty);
+        $scope.updateCart = function () {
+            CartSvc.updateCart();
         };
 
     }]);

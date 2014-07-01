@@ -55,18 +55,7 @@ angular.module('ds.cart')
             });
         }
 
-        function updateCart(){
-            var newCart = new CaasUpdateCart();
-            angular.forEach(cart.cartItems, function(item){
-                newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
-            });
 
-            caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function(response){
-                console.log(response);
-
-                refreshCart();
-            });
-        }
 
         function refreshCart(){
             var newCart = caas.cartDetails.API.get({cartId: cart.id });
@@ -85,23 +74,16 @@ angular.module('ds.cart')
                 return cart;
             },
 
-            /**
-             *
-             * @param productId
-             * @param qty
-             *
-             */
-            updateLineItem: function(productId, qty) {
+            updateCart: function () {
+                var newCart = new CaasUpdateCart();
+                angular.forEach(cart.cartItems, function (item) {
+                    newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
+                });
 
-                    for (var i = 0; i < cart.cartItems.length; i++) {
-                        if (cart.cartItems[i].productId === productId) {
-                            cart.cartItems[i].quantity = qty;
-                            break;
-                        }
-                    }
-                    updateCart();
+                caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function () {
+                    refreshCart();
+                });
             },
-
 
             /*
                 converts product object to line item object and pushes it to the cart
@@ -116,11 +98,13 @@ angular.module('ds.cart')
                     }
                 }
                 if(alreadyInCart) {
-                    updateCart();
+                    this.updateCart();
                 }  else if (productDetailQty > 0 ) {
                     createCartItem(new CartItem(product.id, productDetailQty));
                 }
             },
+
+
 
             /*
                 removes a product from the cart
@@ -131,7 +115,7 @@ angular.module('ds.cart')
                        cartItem.quantity = 0;
                    }
                 });
-                updateCart();
+                this.updateCart();
             },
 
             /**
