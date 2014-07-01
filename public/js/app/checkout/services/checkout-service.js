@@ -52,14 +52,19 @@ angular.module('ds.checkout')
                 /* jshint ignore:end */
 
                 var self = this;
-                StripeJS.createToken(stripeData, function (status, response) {
-                    //console.log(response);
-                    if (response.error) {
-                        onStripeFailure(response.error);
-                    } else {
-                        self.createOrder(order, response.id, onOrderFailure);
-                    }
-                });
+                try {
+                    StripeJS.createToken(stripeData, function (status, response) {
+                        //console.log(response);
+                        if (response.error) {
+                            onStripeFailure(response.error);
+                        } else {
+                            self.createOrder(order, response.id, onOrderFailure);
+                        }
+                    });
+                }
+                catch (error) {
+                    onStripeFailure(error);
+                }
             },
 
 
