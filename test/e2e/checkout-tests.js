@@ -78,7 +78,7 @@ describe("checkout:", function () {
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$52.14', '2');
+            verifyCartContents('Item Price: $24.57', '$49.14', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
