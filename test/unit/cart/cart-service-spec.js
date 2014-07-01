@@ -140,14 +140,6 @@ describe('CartSvc Test', function () {
                 mockBackend.flush();
             });
         });
-
-        describe('updateProductQty without change should NOT issue API calls', function(){
-            it('should should issue PUT with qty > 0', function () {
-
-                cartSvc.updateLineItem(sku1, 1, true);
-                mockBackend.verifyNoOutstandingRequest();
-            });
-        });
     })
 
 
