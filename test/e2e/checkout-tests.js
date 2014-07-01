@@ -145,7 +145,7 @@ describe("mobile checkout:", function () {
 
      beforeEach(function () {
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get('#!/products/FrenchPress1399402118414/');
+        browser.get('b20c6abb-a1d3-4f60-84d6-f779e6c4abcf/#!/products/53b190f4f0eeb1c6d650c37a/');
        browser.sleep(8000);
      });
 
@@ -156,7 +156,7 @@ describe("mobile checkout:", function () {
 
        it('should allow all fields to be editable on mobile', function () {
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(200);
+        browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
         fillCheckoutFormExceptEmail('Bill');
@@ -165,7 +165,7 @@ describe("mobile checkout:", function () {
         tu.clickElement('id', 'shipTo');
         // fillCheckoutFormExceptEmail('Ship');
         tu.clickElement('xpath', continueButton2);
-        fillCreditCardForm('5555555555554444', '06', '2014', '000')
+        fillCreditCardForm('5555555555554444', '06', '2015', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         browser.sleep(29000);
@@ -174,7 +174,7 @@ describe("mobile checkout:", function () {
 
        it('should have basic validation on mobile', function () {
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(200);
+        browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
         fillCheckoutFormExceptEmail('Bill');
@@ -186,7 +186,7 @@ describe("mobile checkout:", function () {
         // fillCheckoutFormExceptEmail('Ship');
         verifyValidationForEachField('Ship', 'xpath', continueButton2); 
         tu.clickElement('xpath', continueButton2);
-        fillCreditCardForm('5555555555554444', '06', '2014', '000')
+        fillCreditCardForm('5555555555554444', '06', '2015', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         browser.sleep(29000);
