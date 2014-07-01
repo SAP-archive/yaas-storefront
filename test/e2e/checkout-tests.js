@@ -98,7 +98,7 @@ describe("checkout:", function () {
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             // fillCheckoutFormExceptEmail('Ship');
-            fillCreditCardForm('5555555555554444', '06', '2014', '000')
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(29000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
@@ -109,7 +109,7 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@place.com'); 
-            fillCreditCardForm('5555555555554444', '06', '2014', '000')
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
             expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
