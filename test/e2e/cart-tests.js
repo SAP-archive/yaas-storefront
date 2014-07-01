@@ -28,7 +28,7 @@ describe("cart:", function () {
          tu.verifyCartTotal("$24.57");
          tu.clickElement('xpath', tu.removeFromCart);
         browser.sleep(1000);
-         tu.verifyCartTotal("");
+         tu.verifyCartTotal("$0.00");
 
        });
 
