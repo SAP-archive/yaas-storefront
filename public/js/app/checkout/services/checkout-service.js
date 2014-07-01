@@ -63,7 +63,7 @@ angular.module('ds.checkout')
                     });
                 }
                 catch (error) {
-                    error.type = 'token_error';
+                    error.type = 'payment_token_error';
                     onStripeFailure(error);
                 }
             },

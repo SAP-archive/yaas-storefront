@@ -144,7 +144,7 @@ angular.module('ds.checkout')
                     attributeStripeFieldError(error);
                 }
             }
-            else if(error.type === 'token_error') {
+            else if(error.type === 'payment_token_error') {
                 $scope.editPayment();
                 $scope.message = 'Server error - missing payment configuration key.  Please try again later.';
             }
