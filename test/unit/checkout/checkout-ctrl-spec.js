@@ -177,6 +177,11 @@ describe('CheckoutCtrl Test', function () {
             expect($scope.showPristineErrors).toEqualData(true);
         });
 
+        it('should show default error msg if form invalid', function(){
+            $scope.placeOrder(false);
+            expect($scope.message).toEqualData('Please correct the errors above before placing your order.');
+        });
+
         it('should ensure ship to copy', function(){
             order.billTo = mockBillTo;
             $scope.wiz.shipToSameAsBillTo = true;
@@ -251,6 +256,7 @@ describe('CheckoutCtrl Test', function () {
             $scope.placeOrder(true);
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
         });
 
         it('should update validity on year error', function(){
@@ -258,9 +264,36 @@ describe('CheckoutCtrl Test', function () {
             $scope.placeOrder(true);
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
         });
     });
 
+    describe('reset CC expiration date errors', function(){
+        var setValidityMock;
 
+        beforeEach(function(){
+            setValidityMock =  jasmine.createSpy('$setValidity');
+            $scope.checkoutForm = {};
+            $scope.checkoutForm.paymentForm ={};
+            $scope.checkoutForm.paymentForm.expMonth = {};
+            $scope.checkoutForm.paymentForm.expMonth.$setValidity = setValidityMock;
+            $scope.checkoutForm.paymentForm.expYear = {};
+            $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
+            $scope.resetExpDateErrors();
+        });
+
+        it('should reset the submission message', function(){
+           expect($scope.message).toBeFalsy();
+        });
+
+        it('should reset the CC expiration date error message', function(){
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeFalsy();
+        });
+
+        it('should reset validity of date fields', function(){
+            expect(setValidityMock).toHaveBeenCalledWith('validation',true);
+        });
+
+    });
 
 });

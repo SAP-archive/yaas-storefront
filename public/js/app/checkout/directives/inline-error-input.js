@@ -62,13 +62,7 @@ angular.module('ds.checkout')
                         return errorMsgs;
                     },
                     validate = function() {
-                        // reset server-side validation flags and messages
-                        if(ngModel.msg) {
-                            ngModel.$setValidity('validation', true);
-                            scope.message = '';
-                            ngModel.msg = '';
-                            scope.$apply();
-                        }
+                        scope.message = '';
                         if (ngModel.$invalid) {
                             var errorMsgs = getErrorMessages();
                             if (elementClone.is('select')) {
@@ -86,8 +80,6 @@ angular.module('ds.checkout')
                                 element.hide();
                                 elementClone.show();
                             }
-                        }  else {
-                            ngModel.msg = '';
                         }
                     };
 

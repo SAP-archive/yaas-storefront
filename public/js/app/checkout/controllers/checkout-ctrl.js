@@ -27,6 +27,8 @@ angular.module('ds.checkout')
 
         $scope.submitIsDisabled = false;
 
+        var defaultErrorMsg = 'Please correct the errors above before placing your order.';
+        var invalidCCExpDateMsg = 'Invalid Expiration Date.';
 
         var Wiz = function(){
             this.step1Done = false;
@@ -104,6 +106,13 @@ angular.module('ds.checkout')
             angular.copy($scope.order.billTo, $scope.order.shipTo);
         };
 
+        $scope.resetExpDateErrors = function () {
+            $scope.checkoutForm.paymentForm.expDateMsg = '';
+            $scope.checkoutForm.paymentForm.expMonth.$setValidity('validation', true);
+            $scope.checkoutForm.paymentForm.expYear.$setValidity('validation', true);
+            $scope.message = '';
+        };
+
         function onCheckoutFailure(error) {
             $scope.message = error;
             $scope.submitIsDisabled = false;
@@ -124,8 +133,7 @@ angular.module('ds.checkout')
             } else if(error.code.indexOf('month') !== -1 || error.code.indexOf('year') !== -1) {
                 $scope.checkoutForm.paymentForm.expMonth.$setValidity('validation', false);
                 $scope.checkoutForm.paymentForm.expYear.$setValidity('validation', false);
-                $scope.checkoutForm.paymentForm.expMonth.msg = 'Expiration date invalid - please validate the month.';
-                $scope.checkoutForm.paymentForm.expYear.msg = 'Expiration date invalid - please validate the year.';
+                $scope.checkoutForm.paymentForm.expDateMsg = invalidCCExpDateMsg;
 
             } else if (error.code.indexOf('cvc') !== -1 ){
                 $scope.checkoutForm.paymentForm.cvc.$setValidity('validation', false);
@@ -140,7 +148,7 @@ angular.module('ds.checkout')
             if(error.type === 'card_error'){
                 $scope.editPayment();
                 if (error.code && isFieldAttributableStripeError(error)) {
-                    $scope.message = 'Please correct the errors above before placing your order.';
+                    $scope.message = defaultErrorMsg;
                     attributeStripeFieldError(error);
                 }
             }
@@ -163,8 +171,7 @@ angular.module('ds.checkout')
                 CheckoutSvc.checkout($scope.order, onStripeValidationFailure, onCheckoutFailure);
             }  else {
                 $scope.showPristineErrors = true;
+                $scope.message = defaultErrorMsg;
             }
         };
-
-
     }]);
