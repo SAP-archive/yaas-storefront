@@ -145,7 +145,7 @@ describe("mobile checkout:", function () {
 
      beforeEach(function () {
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get('zndop5ubaq3n/#!/products/53b190f4f0eeb1c6d650c37a/');
+        browser.get('zndop5ubaq3n/#!/products/53b42c5a29ce2176d046b46d/');
        browser.sleep(8000);
      });
 
