@@ -11,7 +11,7 @@ describe("cart:", function () {
      beforeEach(function () {
          // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
        browser.driver.manage().window().maximize();
-       browser.get('b20c6abb-a1d3-4f60-84d6-f779e6c4abcf/#!/products');
+       browser.get('zndop5ubaq3n/#!/products');
        browser.sleep(8000);
      });
 

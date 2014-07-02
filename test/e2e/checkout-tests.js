@@ -58,7 +58,7 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
-        browser.get('b20c6abb-a1d3-4f60-84d6-f779e6c4abcf/#!/products');
+        browser.get('zndop5ubaq3n/#!/products');
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('xpath', tu.frenchPress);
@@ -145,7 +145,7 @@ describe("mobile checkout:", function () {
 
      beforeEach(function () {
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get('b20c6abb-a1d3-4f60-84d6-f779e6c4abcf/#!/products/53b190f4f0eeb1c6d650c37a/');
+        browser.get('zndop5ubaq3n/#!/products/53b190f4f0eeb1c6d650c37a/');
        browser.sleep(8000);
      });
 

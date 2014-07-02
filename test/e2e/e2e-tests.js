@@ -6,7 +6,7 @@ describe("product page", function () {
   describe("verify product pages", function () {
 
     beforeEach(function () {
-      browser.get('b20c6abb-a1d3-4f60-84d6-f779e6c4abcf/#!/products');
+      browser.get('zndop5ubaq3n/#!/products');
       browser.driver.manage().window().maximize();
       browser.sleep(9000);
     });

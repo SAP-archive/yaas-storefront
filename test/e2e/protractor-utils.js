@@ -1,7 +1,7 @@
          
-        exports.frenchPress = "//a[contains(@href, '#!/products/53b190f4f0eeb1c6d650c37a/')]";
-        exports.chemex = "//a[contains(@href, '#!/products/53b190faf0eeb1c6d650c37e/')]";
-        exports.ringBowl = "//a[contains(@href, '#!/products/53b19100f0eeb1c6d650c382/')]";
+        exports.frenchPress = "//a[contains(@href, '#!/products/53b42c5a29ce2176d046b46d/')]";
+        exports.chemex = "//a[contains(@href, '#!/products/53b42c5f29ce2176d046b471/')]";
+        exports.ringBowl = "//a[contains(@href, '#!/products/53b42c6529ce2176d046b475/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
