@@ -53,8 +53,10 @@ angular.module('ds.checkout')
 
                 var self = this;
                 try {
+                    document.body.style.cursor = 'wait';
                     StripeJS.createToken(stripeData, function (status, response) {
                         //console.log(response);
+                        document.body.style.cursor = 'auto';
                         if (response.error) {
                             onStripeFailure(response.error);
                         } else {
