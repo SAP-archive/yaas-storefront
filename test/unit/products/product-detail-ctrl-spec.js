@@ -12,7 +12,13 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var mockedState, $scope, $rootScope, $controller, mockedCartSvc;
+    var $scope, $rootScope, $controller, mockedCartSvc;
+
+    var mockProduct = {
+        name: 'product1',
+        price: '5000',
+        published: true
+    };
 
     beforeEach(function(){
         // creating the mocked service
@@ -45,24 +51,37 @@ describe('ProductDetailCtrl', function () {
 
     }));
 
-    describe('published product', function () {
+    beforeEach(function () {
         var productDetailCtrl;
+        productDetailCtrl = $controller('ProductDetailCtrl', {$scope: $scope, $rootScope: $rootScope,
+            'CartSvc': mockedCartSvc, 'product': mockProduct});
 
-        beforeEach(function () {
+        describe('buy published product', function () {
 
-            var mockProduct = {
-                name: 'product1',
-                price: '5000',
-                published: true
-            };
+            it('should add to cart from detail page', function () {
+                $scope.addToCartFromDetailPage();
+                expect(mockedCartSvc.addProductToCart).toHaveBeenCalled();
+            });
 
-            productDetailCtrl = $controller('ProductDetailCtrl', {$scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProduct});
+            it('should disable Buy button', function () {
+                $scope.addToCartFromDetailPage();
+                expect($scope.buyButtonEnabled).toBeFalsy();
+            });
+
         });
 
-        it('should add to cart from detail page', function(){
-            $scope.addToCartFromDetailPage();
-            expect(mockedCartSvc.addProductToCart).toHaveBeenCalled();
+        describe('onCartUpdated', function () {
+            beforeEach(function(){
+                $scope.addToCartFromDetailPage();
+                $rootScope.$broadcast('cart:updated');
+            });
+            it('should show cart', function () {
+                expect($rootScope.showCart).toBeTruthy();
+            });
+
+            it('should enable buy button', function () {
+                expect($scope.buyButtonEnabled).toBeTruthy();
+            });
         });
     });
 
