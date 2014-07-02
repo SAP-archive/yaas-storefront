@@ -136,10 +136,13 @@ describe('CartSvc Test', function () {
             it('should should issue PUT with qty > 0', function () {
                 mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
                 mockBackend.expectGET(fullUrlWithCart).respond({});
-                cartSvc.updateLineItem(sku1, 2, true);
+                var cart = cartSvc.getCart();
+                cart.cartItems[0].quantity = 2;
+                cartSvc.updateCart();
                 mockBackend.flush();
             });
         });
+
     })
 
 
