@@ -41,9 +41,10 @@ angular.module('ds.shared')
                             /* jshint ignore:end */
                         }  else if (key === settings.configKeys.storeName) {
                             GlobalData.store.name = value;
+                        } else if (key === settings.configKeys.storeLogo) {
+                            GlobalData.store.logo = value;
                         }
                     }
-
                 }, function(error){
                     console.log(error);
                 });

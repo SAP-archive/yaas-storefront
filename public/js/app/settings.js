@@ -84,6 +84,7 @@ angular.module('ds.shared')
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
-            storeName: 'store.settings.name'
+            storeName: 'store.settings.name',
+            storeLogo: 'store.settings.image.logo.url'
         }
     });

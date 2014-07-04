@@ -9,6 +9,7 @@ angular.module('ds.shared')
             $scope.cart = cart;
 			$scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
+            $scope.GlobalData = GlobalData;
 
 
             var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){

@@ -13,7 +13,8 @@ angular.module('ds.shared')
 
         this.store = {
             tenant: STORE_CONFIG.storeTenant,
-            name: ''
+            name: '',
+            logo: null
         };
 
         this.stripePublicKey = null;
