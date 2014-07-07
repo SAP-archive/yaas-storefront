@@ -9,7 +9,6 @@ window.app = angular.module('ds.router', [
     'ds.products',
     'ds.cart',
     'ds.checkout',
-    'ds.configuration',
     'ds.confirmation',
     'yng.core',
     'wu.masonry'

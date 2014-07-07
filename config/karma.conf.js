@@ -62,9 +62,6 @@ module.exports = function(config){
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
         'public/js/app/confirmation/services/order-details-svc.js',
 
-        'public/js/app/configuration/configuration-index.js',
-        'public/js/app/configuration/services/configuration-service.js',
-
         'public/js/app/router.js',
         'public/js/app/settings.js',
         'public/js/app/core-resource.js',
@@ -75,7 +72,6 @@ module.exports = function(config){
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
-        'test/unit/configuration/*.js',
         'test/unit/products/*.js',
         'test/unit/shared/*.js'
     
