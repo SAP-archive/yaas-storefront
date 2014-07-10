@@ -150,9 +150,9 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group input-group"
-                     ng-class="{'has-error': billToForm.zipCode.$invalid && (billToForm.zipCode.$dirty || showPristineErrors) }">
+                     ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="zipCodeBill">ZIP Code</label></span>
-                    <input type="text" inline-error-input inline-error-input-required-message="ZIP Code Required" class="form-control" placeholder="" ng-model="order.billTo.zip" id="zipCodeBill" name="zipCode" required autocomplete="on">
+                    <input type="text" inline-error-input inline-error-input-required-message="ZIP Code Required" class="form-control" placeholder="" ng-model="order.billTo.zip" id="zipCodeBill" name="postal" required autocomplete="on">
                 </div>
             </div>
             <div class="col-lg-12">
@@ -302,9 +302,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group input-group"
-                         ng-class="{'has-error': shipToForm.zipCode.$invalid && ( shipToForm.zipCode.$dirty || showPristineErrors) }">
+                         ng-class="{'has-error': shipToForm.postal.$invalid && ( shipToForm.postal.$dirty || showPristineErrors) }">
                         <span class="input-group-addon"><label class="control-label" for="zipCodeShip">ZIP Code</label></span>
-                        <input type="text" inline-error-input inline-error-input-required-message="ZIP Code Required" class="form-control" placeholder="" ng-model="order.shipTo.zip" name="zipCode" id="zipCodeShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
+                        <input type="text" inline-error-input inline-error-input-required-message="ZIP Code Required" class="form-control" placeholder="" ng-model="order.shipTo.zip" name="postal" id="zipCodeShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
                     </div>
                 </div>
             </div>

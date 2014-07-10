@@ -1,13 +1,14 @@
-# About
+# hybris Store Template for the Cloud-based Commerce Services
 
-You can find all relevant information about the project within this document.
+This is a partner beta release that's meant to showcase the available commerce services and serve as starting point for customizing a store front.
 
-*Please try keeping this document up to date as much as possible.*
+
+## Limitations in the current service layer
+- Checkout not done over SSL
+- No tax support
 
 
 ## Install
-
-
 
 ###  1. System requirements
 
@@ -42,7 +43,11 @@ Start the project by executing:
 
 
 
-### 4. Project deployment
+### 4. Endpoint and Project Configuration
+
+
+
+### 5. Project deployment
 
 Preparing project for deployment (concatenation/minfication/revisioning):
 
@@ -63,6 +68,29 @@ Then on index.html page only add a references to 2 generated static files from *
 
 - [Angular.js](http://angularjs.org/)
 - [Angular UI router](https://github.com/angular-ui/ui-router)
+- [BootstrapJS]
+
+
+## Project Organization
+
+The project has been structured into domain modules under public/js/app.  Within each module, files are organized into
+ controllers, directives, services, and templates.  API REST calls are made from the domain services.
+
+Third party dependencies are copied to public/js/vendor via the bower-installer command as part of the npm postinstall target
+(see package.json file).
+
+## Application Events
+
+## Testing
+
+Tests are grouped by unit tests, end-to-end tests and styling tests under the "test" folder.  Unit tests can be run via
+the scripts/test.sh; end-to-end tests can be run via scripts/e2e-test.sh.
+
+
+
+
+
+
 
 
 
