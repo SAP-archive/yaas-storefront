@@ -3,6 +3,9 @@ bower_components
 node_modules
 *sublime*
 public/js/vendor
+public/css/vendor
 .tmp/
 *.iml
 .idea
+coverage/
+config/config.js

@@ -19,7 +19,9 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "angular": false
+    "angular": false,
+      "Masonry": false
+
   },
   "laxcomma": true
 }

@@ -1,0 +1,11 @@
+---
+applications:
+- name: demo-store
+  command: npm start
+  buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
+  memory: 512M
+  host: demo-store
+  domain: test.cf.hybris.com
+  instances: 1
+  url: demo-store.test.cf.hybris.com
+  path: .
