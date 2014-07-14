@@ -427,7 +427,8 @@
 
                         <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
                                inline-error-input inline-error-input-required-message="CVC Required" ng-model="order.creditCard.cvc" validate-cvc
-                               ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false">
+                               ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false"
+                               ng-change="paymentForm.cvc.msg && resetErrorMsg(paymentForm.cvc)">
                     </div>
 
                 </div>
