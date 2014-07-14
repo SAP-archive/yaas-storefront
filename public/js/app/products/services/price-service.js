@@ -15,7 +15,7 @@
 /**
  *  Encapsulates access to the CAAS price API.
  */
-angular.module('ds.prices')
+angular.module('ds.products')
     .factory('PriceSvc', ['caas', function(caas){
 
         var getPrices = function (parms) {

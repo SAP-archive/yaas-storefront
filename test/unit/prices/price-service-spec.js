@@ -31,7 +31,7 @@ describe('PricesService Test', function(){
         }]
     };
 
-    beforeEach(angular.mock.module('ds.prices', function (caasProvider, $provide){
+    beforeEach(angular.mock.module('ds.products', function (caasProvider, $provide){
         caasProvider.endpoint('prices').baseUrl(priceUrl).route(priceRoute);
     }));
 
