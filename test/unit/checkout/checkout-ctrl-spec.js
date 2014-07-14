@@ -296,4 +296,29 @@ describe('CheckoutCtrl Test', function () {
 
     });
 
+    describe('reset custom field error', function(){
+       var setValidityMock;
+        beforeEach(function(){
+            setValidityMock =  jasmine.createSpy('$setValidity');
+            $scope.checkoutForm = {};
+            $scope.checkoutForm.paymentForm ={};
+            $scope.checkoutForm.paymentForm.ccNumber = {};
+            $scope.checkoutForm.paymentForm.ccNumber.$setValidity = setValidityMock;
+            $scope.checkoutForm.paymentForm.ccNumber.msg = 'Bad Error';
+            $scope.resetErrorMsg($scope.checkoutForm.paymentForm.ccNumber);
+        });
+
+        it('should reset the submission message', function(){
+            expect($scope.message).toBeFalsy();
+        });
+
+        it('should reset the field error message', function(){
+            expect($scope.checkoutForm.paymentForm.ccNumber.msg).toBeFalsy();
+        });
+
+        it('should reset validity of the field', function(){
+            expect(setValidityMock).toHaveBeenCalledWith('validation',true);
+        });
+    });
+
 });

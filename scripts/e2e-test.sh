@@ -1,6 +1,8 @@
 #!/bin/bash
 
 BASE_DIR=`dirname $0`
+export PATH=$PATH:$BASE_DIR/../node_modules/phantomjs/bin
+echo $PATH
 
 echo ""
 echo "Updating WebDriver"

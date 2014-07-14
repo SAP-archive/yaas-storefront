@@ -113,6 +113,12 @@ angular.module('ds.checkout')
             $scope.message = '';
         };
 
+        $scope.resetErrorMsg = function(field){
+            field.$setValidity('validation', true);
+            field.msg = '';
+            $scope.message = '';
+        };
+
         function onCheckoutFailure(error) {
             $scope.message = error;
             $scope.submitIsDisabled = false;
