@@ -122,6 +122,8 @@ angular.module('ds.checkout')
         function onCheckoutFailure(error) {
             $scope.message = error;
             $scope.submitIsDisabled = false;
+            // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
+            document.body.style.cursor = 'auto';
         }
 
         function isFieldAttributableStripeError(error) {
@@ -169,6 +171,8 @@ angular.module('ds.checkout')
             {
                 $scope.$apply();
             }
+            // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
+            document.body.style.cursor = 'auto';
         }
 
         $scope.placeOrder = function (formValid, form) {
@@ -182,8 +186,7 @@ angular.module('ds.checkout')
                 }
                 $scope.order.cart = $scope.cart;
                 CheckoutSvc.checkout($scope.order, onStripeValidationFailure, onCheckoutFailure);
-                // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
-                document.body.style.cursor = 'auto';
+
             }  else {
                 $scope.showPristineErrors = true;
                 $scope.message = defaultErrorMsg;
