@@ -57,6 +57,20 @@ angular.module('ds.i18n')
         ZIP: 'Zip Code',
 
         /*
+            confirmation
+         */
+        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
+        ENJOY_YOUR_ITEMS: 'Enjoy your items!',
+        FOR_YOUR_ORDER: 'for your order!',
+        ITEMS_IN_YOUR_ORDER: 'Items in your order',
+        QUESTIONS: 'If you have any questions, contact us at',
+        RETURN_TO_SHOPPING: 'Return to shopping',
+        SUCCESS: 'Success!',
+        THANK_YOU: 'Thank you',
+        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
+        YOUR_ORDER_IS: 'Your order is',
+
+        /*
             navigation
          */
         PRODUCTS: 'Products',

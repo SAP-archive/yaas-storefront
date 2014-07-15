@@ -2,11 +2,11 @@
 	<div class="row section">
 		<div class="col-sm-7 col-md-7 order-summary">
 			<h1>
-				<small>Success!</small>
-				thank you</br> for your order!
+				<small>{{'SUCCESS' | translate}}</small>
+				{{'THANK_YOU' | translate}}</br> {{'FOR_YOUR_ORDER' | translate}}
 			</h1>
 
-			<p>Your order is <span class="highlight">Order# {{ orderInfo.orderId }}</span></p>
+			<p>{{'Your order is' | translate}} <span class="highlight">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</span></p>
 			<!-- 
 			<hr/>
 			<div class="well">
@@ -33,11 +33,11 @@
 			-->
 
             <div>
-                <p>A copy of your order details has been sent to:</p>
+                <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>
                     <span ng-cloak>{{confirmationDetails.emailAddress}}</span>
                 </address>
-                <p>The Shipment is scheduled to arrive at the following location:</p>
+                <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
 
                 <address>
                     <span ng-cloak>{{confirmationDetails.shippingAddressLine1}}<br></span>
@@ -45,21 +45,20 @@
                     <span ng-cloak>{{confirmationDetails.shippingAddressLine3}}<br></span>
                 </address>
             </div>
-            <h3>Enjoy your items!</h3>
+            <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>
 
             <div data-ui-sref="base.product">
                 <button class="btn btn-primary btn-lg">
-                    return to shopping
+					{{'RETURN_TO_SHOPPING' | translate}}
                 </button>
             </div>
-            <p class="support-box">If you have any questions about your order, we’re happy
-                to take your call <strong>(888) 5550-1222</strong>.
+            <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 5550-1222</strong>.
 		</div>
 
         <!-- TODO uncomment this section as soon as checkout-mashup-service contains products information in created Orders
 		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="similar">
-				<div class="subheadline">{{confirmationDetails.products.length}} Items in Your Order</div>
+				<div class="subheadline">{{confirmationDetails.products.length}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
 				<div class="row">
                     <div ng-repeat="product in confirmationDetails.products">
                         <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="{{product.image}}"><br/>
@@ -76,7 +75,7 @@
 
         <div class="col-md-5 col-sm-5 order-detail">
             <section class="similar">
-                <div class="subheadline">{{confirmationDetails.products.length}} Items in Your Order</div>
+                <div class="subheadline">{{confirmationDetails.products.length}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"><br/>
                         <strong>Product name</strong>
