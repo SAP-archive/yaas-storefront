@@ -65,6 +65,7 @@ angular.module('ds.checkout')
                     });
                 }
                 catch (error) {
+                    document.body.style.cursor = 'auto';
                     error.type = 'payment_token_error';
                     onStripeFailure(error);
                 }
@@ -77,11 +78,9 @@ angular.module('ds.checkout')
              * @return The result array as returned by Angular $resource.query().
              */
             createOrder: function(order, token, onFailure) {
-
                 var Order = function () {
 
                 };
-
                 var newOrder = new Order();
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;

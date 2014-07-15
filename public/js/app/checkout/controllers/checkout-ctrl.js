@@ -162,7 +162,6 @@ angular.module('ds.checkout')
                 $scope.editPayment();
                 $scope.message = 'Server error - missing payment configuration key.  Please try again later.';
             }
-            $scope.$apply();
         }
 
         $scope.placeOrder = function (formValid, form) {
