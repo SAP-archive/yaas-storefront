@@ -117,9 +117,9 @@
              -->
             <div class="col-sm-8 col-md-4">
                 <div class="sortContainer">
-                    <div class="name">Sort by:</div>
+                    <div class="name">{{'SORT_BY' | translate}}:</div>
                     <div class="form-group">
-                        <label for="" class="sr-only">Sort by:</label>
+                        <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                         <div>
                             <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
@@ -135,8 +135,8 @@
             </div>
             <div class="col-sm-4 col-md-3">
                 <div class="viewingContainer">
-                    <div class="name">Viewing:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
+                    <div class="name">{{'VIEWING' | translate}}:</div>
+                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
                 </div>
             </div>
         </div>
@@ -162,8 +162,8 @@
 
             <div class="col-xs-12">
                 <div class="viewingContainer">
-                    <div class="name">Viewing:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} of {{total}}</div>
+                    <div class="name">{{'VIEWING' | translate}}:</div>
+                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
 
                 </div>
             </div>

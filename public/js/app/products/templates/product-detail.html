@@ -59,7 +59,7 @@
                         -->
                         <div class="col-sm-6">
                             <div class="form-group qty">
-                                <label for="" >Qty: </label>
+                                <label for="" >{{'QTY' | translate}}: </label>
                                 <input type="number" min="1" step="1" pattern="\d*" class="form-control col-xs-12"
 									ng-model="productDetailQty"
 									onkeydown="return ( event.ctrlKey || event.altKey
@@ -74,7 +74,7 @@
 
                     <div class="row">
                         <div ng-show="{{product.inStock}}" class="col-sm-6">
-                            <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">Buy</button>
+                            <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
                         </div>
                         <div ng-show="{{!product.inStock}}" class="col-sm-6">
                             <button class="btn btn-primary btn-block">Out Of Stock</button>
@@ -96,7 +96,7 @@
                  -->
     
                 <div class="description">
-                    <div class="headline">Description:</div>
+                    <div class="headline">{{'DESCRIPTION' | translate}}:</div>
                         {{product.description}}
                 </div>
             </div> 
