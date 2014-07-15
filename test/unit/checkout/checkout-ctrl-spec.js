@@ -2,6 +2,8 @@ describe('CheckoutCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $injector, mockedCheckoutSvc, checkoutCtrl, order, cart;
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
+    var mockedState = {};
+    mockedState.go = jasmine.createSpy('go');
 
     //***********************************************************************
     // Common Setup
@@ -14,12 +16,15 @@ describe('CheckoutCtrl Test', function () {
         cart = {};
         order.creditCard = {};
         mockedCheckoutSvc =  {}
-        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout');
+        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
+            return { then: jasmine.createSpy() };
+        });
 
         $provide.value('CheckoutSvc', mockedCheckoutSvc);
 
         $provide.value('cart', cart);
         $provide.value('order', order);
+        $provide.value('$state', mockedState);
     }));
 
 
@@ -197,7 +202,9 @@ describe('CheckoutCtrl Test', function () {
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
         var fieldErrorMsg = 'Please correct the errors above before placing your order.';
-        beforeEach(function(){
+        var deferred;
+        beforeEach(inject(function($q) {
+            deferred = $q.defer();
             $scope.checkoutForm = {};
             $scope.checkoutForm.paymentForm ={};
             $scope.checkoutForm.paymentForm.ccNumber = {};
@@ -212,10 +219,10 @@ describe('CheckoutCtrl Test', function () {
 
             errorMsg = 'msg';
             stripeError = {};
-            var checkout = function(data, stripeCallback, orderCallback) {
-                stripeCallback(stripeError);
-            };
-            mockedCheckoutSvc.checkout = checkout;
+            // var checkout = function(data, stripeCallback, orderCallback) {
+            //     stripeCallback(stripeError);
+            // };
+            // mockedCheckoutSvc.checkout = checkout;
             stripeError.message = errorMsg;
             stripeError.code = 'number';
             stripeError.type = 'card_error'
@@ -223,9 +230,11 @@ describe('CheckoutCtrl Test', function () {
             $scope.wiz.step2Done = true;
             $scope.wiz.step3Done = true;
             $scope.message = false;
-        });
+        }));
 
         it('should edit payment on card error', function(){
+            spyOn(mockedCheckoutSvc, 'checkout').andReturn(deferred.promise);
+            mockedCheckoutSvc.checkout().then(function() {});
 
             $scope.placeOrder(true);
             expect($scope.wiz.step3Done).toEqualData(false);

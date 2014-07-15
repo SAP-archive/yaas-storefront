@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state) {
 
 
         $scope.order = order;
@@ -165,6 +165,16 @@ angular.module('ds.checkout')
         }
 
         $scope.placeOrder = function (formValid, form) {
+            var onSuccess = function(order) {
+                    $state.go('base.confirmation', {orderId: order.orderId});
+                },
+                onError = function(error) {
+                    if (error.type === CheckoutSvc.ERROR_TYPES.order) {
+                        onCheckoutFailure(error);
+                    } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
+                        onStripeValidationFailure(error.error);
+                    }
+                };
             $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
@@ -173,7 +183,7 @@ angular.module('ds.checkout')
                     $scope.setShipToSameAsBillTo();
                 }
                 $scope.order.cart = $scope.cart;
-                CheckoutSvc.checkout($scope.order, onStripeValidationFailure, onCheckoutFailure);
+                CheckoutSvc.checkout($scope.order).then(onSuccess, onError);
             }  else {
                 $scope.showPristineErrors = true;
                 $scope.message = defaultErrorMsg;
