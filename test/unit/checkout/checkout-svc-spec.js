@@ -15,7 +15,7 @@ describe('CheckoutSvc Test', function () {
     var checkoutRoute = '/checkouts/order';
     var fullCheckoutPath = checkoutUrl+checkoutRoute;
 
-    var $scope, $rootScope, $httpBackend, mockedState, mockedCartSvc, mockedStripeJS, checkoutSvc;
+    var $scope, $rootScope, $httpBackend, $q, mockedState, mockedCartSvc, mockedStripeJS, checkoutSvc, stripeDfd;
 
     var order = {};
 
@@ -98,11 +98,12 @@ describe('CheckoutSvc Test', function () {
 
         beforeEach(function () {
 
-            inject(function (_$httpBackend_, _$rootScope_, _CheckoutSvc_) {
+            inject(function (_$httpBackend_, _$rootScope_, _CheckoutSvc_, _$q_) {
                 $rootScope = _$rootScope_;
                 $scope = _$rootScope_.$new();
                 $httpBackend = _$httpBackend_;
                 checkoutSvc = _CheckoutSvc_;
+                $q = _$q_;
             });
 
             $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
@@ -120,26 +121,46 @@ describe('CheckoutSvc Test', function () {
         });
 
         describe('successful order POST', function () {
+            // var stripeDfd = $q.defer();
             beforeEach(function(){
                 $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond({"orderId":"456"});
             });
 
-
             it('should issue POST', function () {
-                checkoutSvc.checkout(order, function(){},function(){});
+                checkoutSvc.checkout(order);
                 $httpBackend.flush();
             });
 
             it('should transition to CONFIRMATION', function () {
-                checkoutSvc.checkout(order, function (){},function(){});
-                $httpBackend.flush();
-                expect(mockedState.go).toHaveBeenCalledWith('base.confirmation', { orderId : '456' });
+                var onSuccessSpy = jasmine.createSpy('success'),
+                    onErrorSpy = jasmine.createSpy('error'),
+                    response = { orderId : '456' },
+                    mockDeferred = $q.defer();
+
+                spyOn(checkoutSvc, 'createOrder').andCallFake(function () { return mockDeferred.promise; });
+                mockDeferred.resolve(response);
+
+                checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
+                $rootScope.$digest();
+
+                expect(checkoutSvc.createOrder).toHaveBeenCalled();
+                expect(onErrorSpy).not.toHaveBeenCalled();
+                expect(onSuccessSpy).toHaveBeenCalledWith(response);
             });
 
             // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
             it('should remove products from the cart after placing order', function () {
-                checkoutSvc.checkout(order, function(){},function(){});
-                $httpBackend.flush();
+                var onSuccessSpy = jasmine.createSpy('success'),
+                    mockDeferred = $q.defer();
+
+                spyOn(checkoutSvc, 'createOrder').andCallFake(function () { return mockDeferred.promise; });
+                mockDeferred.resolve({ orderId: '456' });
+
+                checkoutSvc.checkout(order).then(onSuccessSpy);
+                $rootScope.$digest();
+
+                expect(checkoutSvc.createOrder).toHaveBeenCalled();
+                expect(onSuccessSpy).toHaveBeenCalled();
                 expect(mockedCartSvc.resetCart).toHaveBeenCalled();
             });
 
@@ -148,19 +169,32 @@ describe('CheckoutSvc Test', function () {
         describe('and failing order placement', function(){
 
             it('should invoke error handler', function(){
-                var callbackObj = {};
-                callbackObj.onFailure = jasmine.createSpy('onFailure');
-                $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond(500, '');
-                checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
-                $httpBackend.flush();
-                var error500 = 'Cannot process this order because the system is unavailable. Try again at a later time.';
-                expect(callbackObj.onFailure).toHaveBeenCalledWith(error500);
+                var onSuccessSpy = jasmine.createSpy('success'),
+                    onErrorSpy = jasmine.createSpy('error'),
+                    response = { status: 500 },
+                    mockDeferred = $q.defer(),
+                    error500msg = 'Cannot process this order because the system is unavailable. Try again at a later time.';
+
+                spyOn(checkoutSvc, 'createOrder').andCallFake(function () { return mockDeferred.promise; });
+                mockDeferred.reject(response);
+
+                checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
+                $rootScope.$digest();
+
+                expect(checkoutSvc.createOrder).toHaveBeenCalled();
+                expect(onSuccessSpy).not.toHaveBeenCalled();
+                expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.order, error: error500msg });
 
                 // all other errors should be handled, as well
-                $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond(404, '');
-                checkoutSvc.checkout(order, function(){}, callbackObj.onFailure);
-                $httpBackend.flush();
-                expect(callbackObj.onFailure).toHaveBeenCalled();
+                onErrorSpy.reset();
+                response.status = 404;
+                mockDeferred.reject(response);
+                checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
+                $rootScope.$digest();
+                
+                expect(checkoutSvc.createOrder).toHaveBeenCalled();
+                expect(onSuccessSpy).not.toHaveBeenCalled();
+                expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.order, error: 'Order could not be processed. Status code: ' + response.status + '.' });
             });
 
             it('should not transition to CONFIRMATION', function(){
@@ -176,8 +210,9 @@ describe('CheckoutSvc Test', function () {
     describe('failing Stripe token gen', function(){
         var stripeStatus = {};
         var stripeResponse = {};
+        var errorMessage = 'Failure';
         stripeResponse.error = {};
-        stripeResponse.error.message = 'Failure';
+        stripeResponse.error.message = errorMessage;
 
         beforeEach(module('ds.checkout', function($provide, caasProvider) {
 
@@ -206,16 +241,21 @@ describe('CheckoutSvc Test', function () {
 
 
         it('should not place order', function(){
-             checkoutSvc.checkout(order, function(){},function(){});
+             checkoutSvc.checkout(order);
              $httpBackend.verifyNoOutstandingRequest();
         });
 
         it('should invoke error handler', function(){
-            var callbackObj = {};
-            callbackObj.onFailure = jasmine.createSpy('onFailure');
-            checkoutSvc.checkout(order, callbackObj.onFailure, function(){});
-            expect(callbackObj.onFailure).toHaveBeenCalledWith( { message : 'Failure' } );
+            var onSuccessSpy = jasmine.createSpy('success'),
+                onErrorSpy = jasmine.createSpy('error');
+
+            checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
+            $rootScope.$digest();
+
+            expect(onSuccessSpy).not.toHaveBeenCalled();
+            expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.stripe, error: stripeResponse.error });
         });
+
     });
 
 });

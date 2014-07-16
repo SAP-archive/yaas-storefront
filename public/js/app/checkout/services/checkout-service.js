@@ -46,22 +46,12 @@ angular.module('ds.checkout')
                 return new DefaultOrder();
             },
 
+            createStripeToken: function(order, stripeData) {
+                var deferred = $q.defer(),
+                    self = this;
 
-            checkout: function (order) {
-                var deferred = $q.defer();
-
-                var stripeData = {};
-                /* jshint ignore:start */
-                var creditCard = order.creditCard;
-                stripeData.number = creditCard.number;
-                stripeData.exp_month = creditCard.expMonth;
-                stripeData.exp_year = creditCard.expYear;
-                stripeData.cvc = creditCard.cvc;
-                /* jshint ignore:end */
-
-                var self = this;
+                document.body.style.cursor = 'wait';
                 try {
-                    document.body.style.cursor = 'wait';
                     StripeJS.createToken(stripeData, function (status, response) {
                         //console.log(response);
                         document.body.style.cursor = 'auto';
@@ -98,8 +88,18 @@ angular.module('ds.checkout')
                     error.type = 'payment_token_error';
                     deferred.reject({ type: ERROR_TYPES.stripe, error: error });
                 }
-
+                
                 return deferred.promise;
+            },
+
+            checkout: function (order) {
+                var stripeData = {
+                    number: order.creditCard.number,
+                    'exp_month': order.creditCard.expMonth,
+                    'exp_year': order.creditCard.expYear,
+                    cvc: order.creditCard.cvc
+                };
+                return this.createStripeToken(order, stripeData);
             },
 
 

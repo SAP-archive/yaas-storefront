@@ -1,6 +1,10 @@
 describe('CheckoutCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector, mockedCheckoutSvc, checkoutCtrl, order, cart;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd;
+    var ERROR_TYPES = {
+            stripe: 'STRIPE_ERROR',
+            order: 'ORDER_ERROR'
+        };
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
     var mockedState = {};
     mockedState.go = jasmine.createSpy('go');
@@ -15,12 +19,13 @@ describe('CheckoutCtrl Test', function () {
         order.shipTo = {};
         cart = {};
         order.creditCard = {};
-        mockedCheckoutSvc =  {}
-        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
-            return { then: jasmine.createSpy() };
-        });
-
-        $provide.value('CheckoutSvc', mockedCheckoutSvc);
+        mockedCheckoutSvc =  {
+            ERROR_TYPES: ERROR_TYPES
+        }
+        // mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
+        //     return { then: jasmine.createSpy() };
+        // });
+        // $provide.value('CheckoutSvc', mockedCheckoutSvc);
 
         $provide.value('cart', cart);
         $provide.value('order', order);
@@ -28,7 +33,7 @@ describe('CheckoutCtrl Test', function () {
     }));
 
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -36,6 +41,7 @@ describe('CheckoutCtrl Test', function () {
             }
         });
         $rootScope =  _$rootScope_;
+        $q =  _$q_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
@@ -43,7 +49,12 @@ describe('CheckoutCtrl Test', function () {
     }));
 
     beforeEach(function () {
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, "CheckoutSvc": mockedCheckoutSvc});
+        checkoutDfd = $q.defer();
+        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
+            return checkoutDfd.promise;
+        });
+
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});
     });
 
     describe('Initialization', function () {
@@ -202,7 +213,6 @@ describe('CheckoutCtrl Test', function () {
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
         var fieldErrorMsg = 'Please correct the errors above before placing your order.';
-        var deferred;
         beforeEach(inject(function($q) {
             deferred = $q.defer();
             $scope.checkoutForm = {};
@@ -225,7 +235,7 @@ describe('CheckoutCtrl Test', function () {
             // mockedCheckoutSvc.checkout = checkout;
             stripeError.message = errorMsg;
             stripeError.code = 'number';
-            stripeError.type = 'card_error'
+            stripeError.type = 'card_error';
             $scope.wiz.step1Done = true;
             $scope.wiz.step2Done = true;
             $scope.wiz.step3Done = true;
@@ -233,22 +243,26 @@ describe('CheckoutCtrl Test', function () {
         }));
 
         it('should edit payment on card error', function(){
-            spyOn(mockedCheckoutSvc, 'checkout').andReturn(deferred.promise);
-            mockedCheckoutSvc.checkout().then(function() {});
-
             $scope.placeOrder(true);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect($scope.wiz.step3Done).toEqualData(false);
         });
 
         it('should set error message', function(){
             stripeError.type = null;
             $scope.placeOrder(true);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect($scope.message).toEqualData(errorMsg);
         });
 
 
         it('should update validity on cc number error', function(){
             $scope.placeOrder(true);
+            expect(setValidityMock).not.toHaveBeenCalled();
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
         });
@@ -256,6 +270,8 @@ describe('CheckoutCtrl Test', function () {
         it('should update validity on cvc error', function(){
             stripeError.code = 'cvc';
             $scope.placeOrder(true);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
         });
@@ -263,6 +279,8 @@ describe('CheckoutCtrl Test', function () {
         it('should update validity on month error', function(){
             stripeError.code = 'month';
             $scope.placeOrder(true);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
             expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
@@ -271,6 +289,8 @@ describe('CheckoutCtrl Test', function () {
         it('should update validity on year error', function(){
             stripeError.code = 'year';
             $scope.placeOrder(true);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
             expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();

@@ -164,17 +164,19 @@ angular.module('ds.checkout')
             }
         }
 
+        $scope.goToConfirmationPage = function(order) {
+            $state.go('base.confirmation', {orderId: order.orderId});
+        };
+
+        $scope.errorDelegate = function(error) {
+            if (error.type === CheckoutSvc.ERROR_TYPES.order) {
+                onCheckoutFailure(error);
+            } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
+                onStripeValidationFailure(error.error);
+            }
+        };
+
         $scope.placeOrder = function (formValid, form) {
-            var onSuccess = function(order) {
-                    $state.go('base.confirmation', {orderId: order.orderId});
-                },
-                onError = function(error) {
-                    if (error.type === CheckoutSvc.ERROR_TYPES.order) {
-                        onCheckoutFailure(error);
-                    } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
-                        onStripeValidationFailure(error.error);
-                    }
-                };
             $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
@@ -183,7 +185,7 @@ angular.module('ds.checkout')
                     $scope.setShipToSameAsBillTo();
                 }
                 $scope.order.cart = $scope.cart;
-                CheckoutSvc.checkout($scope.order).then(onSuccess, onError);
+                CheckoutSvc.checkout($scope.order).then($scope.goToConfirmationPage, $scope.errorDelegate);
             }  else {
                 $scope.showPristineErrors = true;
                 $scope.message = defaultErrorMsg;
