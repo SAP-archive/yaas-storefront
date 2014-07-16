@@ -36,6 +36,7 @@ angular.module('ds.cart')
          * @param sku
          * @param qty
          */
+         
         $scope.updateCart = function () {
             CartSvc.updateCart();
         };
