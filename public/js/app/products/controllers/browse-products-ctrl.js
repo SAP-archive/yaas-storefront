@@ -74,9 +74,24 @@ angular.module('ds.products')
             window.scrollTo(0, 0);
         };
 
+        $scope.getViewingNumbers = function (pageNo) {
+            $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
+            $scope.productsTo = $scope.pageSize * pageNo;
+        };
+
         $scope.setSortedPage = function (pageNo) {
+            $scope.getViewingNumbers(pageNo);
             $scope.pageNumber = pageNo;
-            $scope.products = ProductSvc.query({pageNumber: $scope.pageNumber, pageSize: $scope.pageSize, sort: $scope.sort});
+            var query = {
+                pageNumber: $scope.pageNumber,
+                pageSize: $scope.pageSize,
+                sort: $scope.sort
+            };
+
+            //we only want to show published products on this list
+            query.q = 'published:true';
+
+            $scope.products = ProductSvc.query(query);
         };
 
         $scope.showRefineContainer = function () {
