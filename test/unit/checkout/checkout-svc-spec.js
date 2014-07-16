@@ -9,7 +9,7 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
-describe('CheckoutSvc Test', function () {
+describe('CheckoutSvc', function () {
 
     var checkoutUrl = 'http://checkout';
     var checkoutRoute = '/checkouts/order';
@@ -44,7 +44,7 @@ describe('CheckoutSvc Test', function () {
     order.shippingCost = 4.5;
 
     var cart =  {};
-    cart.id = 'abcCart'
+    cart.id = 'abcCart';
     cart.subtotal = 2.99;
     cart.estTax = 0.3;
     var totalPrice = {};
@@ -121,7 +121,7 @@ describe('CheckoutSvc Test', function () {
         });
 
         describe('successful order POST', function () {
-            // var stripeDfd = $q.defer();
+
             beforeEach(function(){
                 $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond({"orderId":"456"});
             });
@@ -148,7 +148,6 @@ describe('CheckoutSvc Test', function () {
                 expect(onSuccessSpy).toHaveBeenCalledWith(response);
             });
 
-            // TEMP ONLY TILL CHECKOUT SERVICE DOES IT FOR US
             it('should remove products from the cart after placing order', function () {
                 var onSuccessSpy = jasmine.createSpy('success'),
                     mockDeferred = $q.defer();

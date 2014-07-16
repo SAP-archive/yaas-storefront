@@ -79,12 +79,12 @@ angular.module('ds.checkout')
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
                             self.createOrder(order, response.id).then(
-                                // success callback
+                                // success handler
                                 function (order) {
                                     CartSvc.resetCart();
                                     deferred.resolve(order);
                                 },
-                                // error callback
+                                // error handler
                                 function(errorResponse){
                                     var errMsg = '';
 

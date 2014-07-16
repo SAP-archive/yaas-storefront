@@ -230,12 +230,12 @@ angular.module('ds.checkout')
             }
 
             /** Advances the application state to the confirmation page. */
-            function goToConfirmationPage(order) {
+            var checkoutSuccessHandler = function goToConfirmationPage(order) {
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
 
             /** Handles a failed "checkout"/order submission event. */
-            function handleCheckoutError(error) {
+            var checkoutErrorHandler = function handleCheckoutError(error) {
                 if (error.type === CheckoutSvc.ERROR_TYPES.order) {
                     onCheckoutFailure(error);
                 } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
@@ -260,7 +260,7 @@ angular.module('ds.checkout')
                     }
                     $scope.order.cart = $scope.cart;
 
-                    CheckoutSvc.checkout($scope.order).then(goToConfirmationPage(order), handleCheckoutError(error));
+                    CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
 
                 } else {
                     $scope.showPristineErrors = true;

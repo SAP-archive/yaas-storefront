@@ -1,4 +1,4 @@
-describe('CheckoutCtrl Test', function () {
+describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd;
     var ERROR_TYPES = {
@@ -33,6 +33,17 @@ describe('CheckoutCtrl Test', function () {
         $provide.value('$state', mockedState);
     }));
 
+    /*
+    beforeEach(function() {
+        var deferred = $q.defer();
+        spyOn(dialogFactory, "confirmDeleteDialog").and.returnValue(deferred.promise);
+        spyOn(requestNotificationChannel, "deleteMessage");
+        $scope.deleteMessage(5);
+        deferred.resolve();
+        $rootScope.$digest();
+    }); */
+
+
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_) {
 
@@ -58,15 +69,15 @@ describe('CheckoutCtrl Test', function () {
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});
     });
 
-    describe('Initialization', function () {
-        it('should initialize', function () {
+    describe('initialization', function () {
+        it('should create default instances', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
         })
     });
 
-    describe('Mobile Wizard Step completion ', function () {
+    describe('Mobile Wizard Step completion', function () {
         beforeEach(function () {
             $scope.wiz.step1Done = false;
             $scope.wiz.step2Done = false;
@@ -160,7 +171,7 @@ describe('CheckoutCtrl Test', function () {
 
     });
 
-    describe('setShipToSameAsBillTo ', function () {
+    describe('setShipToSameAsBillTo', function () {
 
         it('should copy billing to shipping', function(){
             $scope.order.billTo = mockBillTo;
@@ -169,15 +180,11 @@ describe('CheckoutCtrl Test', function () {
         });
     });
 
-    describe('Place Order ', function () {
+    describe('Place Order', function () {
 
         beforeEach(function () {
             $scope.showPristineErrors = false;
         });
-
-        it('should initialize', function () {
-            expect(checkoutCtrl).toBeTruthy();
-        })
 
         it('should invoke CheckoutSvc create order if form valid', function(){
             $scope.placeOrder(true, formName);
@@ -205,8 +212,6 @@ describe('CheckoutCtrl Test', function () {
             $scope.placeOrder(true, formName);
             expect(order.shipTo).toEqualData(mockBillTo);
         });
-
-
     });
 
     describe('Stripe Error Handling', function(){
