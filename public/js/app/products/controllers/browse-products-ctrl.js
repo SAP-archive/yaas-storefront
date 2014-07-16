@@ -77,6 +77,10 @@ angular.module('ds.products')
         $scope.getViewingNumbers = function (pageNo) {
             $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
             $scope.productsTo = $scope.pageSize * pageNo;
+
+            if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                $scope.productsTo = $scope.total;
+            }
         };
 
         $scope.setSortedPage = function (pageNo) {
