@@ -6,7 +6,6 @@ module.exports = function(config){
 
         'public/js/vendor-static/jquery.min.js',
         'public/js/vendor-static/bootstrap.min.js',
-        'public/js/vendor/lodash/dist/lodash.compat.min.js',
         'public/js/vendor-static/masonry.pkgd.min.js',
         'public/js/vendor-static/imagesloaded.pkgd.min.js',
         'public/js/vendor-static/owl.carousel.min.js',
