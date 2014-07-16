@@ -33,18 +33,6 @@ describe('CheckoutCtrl', function () {
         $provide.value('$state', mockedState);
     }));
 
-    /*
-    beforeEach(function() {
-        var deferred = $q.defer();
-        spyOn(dialogFactory, "confirmDeleteDialog").and.returnValue(deferred.promise);
-        spyOn(requestNotificationChannel, "deleteMessage");
-        $scope.deleteMessage(5);
-        deferred.resolve();
-        $rootScope.$digest();
-    }); */
-
-
-
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_) {
 
         this.addMatchers({
