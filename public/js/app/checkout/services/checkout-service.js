@@ -13,10 +13,13 @@
 'use strict';
 
 angular.module('ds.checkout')
-
+     /** The checkout service provides functions to pre-validate the credit card through Stripe,
+      * and to create an order.
+      */
     .factory('CheckoutSvc', ['caas', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
         function (caas, $rootScope, StripeJS, CartSvc, settings, $q) {
 
+        /** CreditCard object prototype */
         var CreditCard = function () {
             this.number = null;
             this.cvc = null;
@@ -24,6 +27,7 @@ angular.module('ds.checkout')
             this.expYear = null;
         };
 
+        /** Order prototype for start of checkout.*/
         var DefaultOrder = function () {
             this.shipTo = {};
             this.billTo = {};
@@ -33,6 +37,8 @@ angular.module('ds.checkout')
             this.creditCard = new CreditCard();
         };
 
+        /** Error types to distinguish between Stripe validation and order submission errors
+         * during checkout. */
         var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -42,29 +48,46 @@ angular.module('ds.checkout')
 
             ERROR_TYPES: ERROR_TYPES,
 
+            /** Returns a blank order for a clean checkout page.*/
             getDefaultOrder: function () {
                 return new DefaultOrder();
             },
 
-            createStripeToken: function(order, stripeData) {
-                var deferred = $q.defer(),
-                    self = this;
+            /** Performs Stripe validation of the credit card, and if successful,
+             * creates a new order.
+             */
+            checkout: function (order) {
 
-                document.body.style.cursor = 'wait';
+                // the promise handle to the result of the transaction
+                var deferred = $q.defer();
+
+                var stripeData = {};
+                /* jshint ignore:start */
+                var creditCard = order.creditCard;
+                stripeData.number = creditCard.number;
+                stripeData.exp_month = creditCard.expMonth;
+                stripeData.exp_year = creditCard.expYear;
+                stripeData.cvc = creditCard.cvc;
+                /* jshint ignore:end */
+
+                var self = this;
                 try {
+
                     StripeJS.createToken(stripeData, function (status, response) {
-                        //console.log(response);
-                        document.body.style.cursor = 'auto';
+
                         if (response.error) {
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
                             self.createOrder(order, response.id).then(
+                                // success callback
                                 function (order) {
                                     CartSvc.resetCart();
                                     deferred.resolve(order);
-                                }, function(errorResponse){
+                                },
+                                // error callback
+                                function(errorResponse){
                                     var errMsg = '';
-                                    // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
+
                                     if(errorResponse.status === 500) {
                                         errMsg = 'Cannot process this order because the system is unavailable. Try again at a later time.';
                                     } else {
@@ -83,23 +106,12 @@ angular.module('ds.checkout')
                             );
                         }
                     });
-                } catch (error) {
-                    document.body.style.cursor = 'auto';
+                }
+                catch (error) {
                     error.type = 'payment_token_error';
                     deferred.reject({ type: ERROR_TYPES.stripe, error: error });
                 }
-                
                 return deferred.promise;
-            },
-
-            checkout: function (order) {
-                var stripeData = {
-                    number: order.creditCard.number,
-                    'exp_month': order.creditCard.expMonth,
-                    'exp_year': order.creditCard.expYear,
-                    cvc: order.creditCard.cvc
-                };
-                return this.createStripeToken(order, stripeData);
             },
 
 
@@ -151,6 +163,7 @@ angular.module('ds.checkout')
                 settings.hybrisUser = newOrder.customer.email;
 
                 return caas.checkout.API.save(newOrder);
+
             }
 
         };
