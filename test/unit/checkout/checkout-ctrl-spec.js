@@ -212,13 +212,14 @@ describe('CheckoutCtrl Test', function () {
 
             errorMsg = 'msg';
             stripeError = {};
+            stripeError.message = errorMsg;
+            stripeError.code = 'number';
+            stripeError.type = 'card_error'
             var checkout = function(data, stripeCallback, orderCallback) {
                 stripeCallback(stripeError);
             };
             mockedCheckoutSvc.checkout = checkout;
-            stripeError.message = errorMsg;
-            stripeError.code = 'number';
-            stripeError.type = 'card_error'
+
             $scope.wiz.step1Done = true;
             $scope.wiz.step2Done = true;
             $scope.wiz.step3Done = true;
@@ -234,7 +235,7 @@ describe('CheckoutCtrl Test', function () {
         it('should set error message', function(){
             stripeError.type = null;
             $scope.placeOrder(true);
-            expect($scope.message).toEqualData(errorMsg);
+            expect($scope.message).toEqualData('Not able to pre-validate payment at this time.');
         });
 
 
