@@ -279,7 +279,7 @@ describe('CheckoutCtrl Test', function () {
 
         it('should update validity on month error', function(){
             stripeError.code = 'month';
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
             checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
@@ -289,7 +289,7 @@ describe('CheckoutCtrl Test', function () {
 
         it('should update validity on year error', function(){
             stripeError.code = 'year';
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
             checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
