@@ -237,7 +237,7 @@ angular.module('ds.checkout')
             /** Handles a failed "checkout"/order submission event. */
             var checkoutErrorHandler = function handleCheckoutError(error) {
                 if (error.type === CheckoutSvc.ERROR_TYPES.order) {
-                    onCheckoutFailure(error);
+                    onCheckoutFailure(error.error);
                 } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
                     onStripeValidationFailure(error.error);
                 }

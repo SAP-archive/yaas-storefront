@@ -78,7 +78,7 @@ angular.module('ds.checkout')
                         if (response.error) {
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
-                            self.createOrder(order, response.id).then(
+                            self.createOrder(order, response.id).$promise.then(
                                 // success handler
                                 function (order) {
                                     CartSvc.resetCart();
@@ -118,6 +118,8 @@ angular.module('ds.checkout')
             /**
              * Issues a Orders 'save' (POST) on the order resource.
              * Uses the CartSvc to retrieve the current set of line items.
+             * @param order
+             * @param validated Stripe token
              * @return The result array as returned by Angular $resource.query().
              */
             createOrder: function(order, token) {
