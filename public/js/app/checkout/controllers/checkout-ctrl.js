@@ -122,7 +122,8 @@ angular.module('ds.checkout')
         function onCheckoutFailure(error) {
             $scope.message = error;
             $scope.submitIsDisabled = false;
-            $scope.$apply();
+            // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
+            document.body.style.cursor = 'auto';
         }
 
         function isFieldAttributableStripeError(error) {
@@ -146,35 +147,46 @@ angular.module('ds.checkout')
                 $scope.checkoutForm.paymentForm.cvc.msg = error.message;
             }
         }
+
         function onStripeValidationFailure(error) {
-            $scope.message = error.message;
 
-            $scope.submitIsDisabled = false;
-
-            if(error.type === 'card_error'){
+            var msg = error.message;
+            if (error.type === 'card_error') {
                 $scope.editPayment();
                 if (error.code && isFieldAttributableStripeError(error)) {
-                    $scope.message = defaultErrorMsg;
+                    msg = defaultErrorMsg;
                     attributeStripeFieldError(error);
                 }
             }
-            else if(error.type === 'payment_token_error') {
+            else if (error.type === 'payment_token_error') {
                 $scope.editPayment();
-                $scope.message = 'Server error - missing payment configuration key.  Please try again later.';
+                msg = 'Server error - missing payment configuration key.  Please try again later.';
+            } else {
+                console.error('Stripe validation failed: ' + JSON.stringify(error));
+                msg = 'Not able to pre-validate payment at this time.';
             }
-            $scope.$apply();
+            $scope.message = msg;
+            $scope.submitIsDisabled = false;
+            if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest')
+            {
+                $scope.$apply();
+            }
+            // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
+            document.body.style.cursor = 'auto';
         }
 
         $scope.placeOrder = function (formValid, form) {
             $scope.message = null;
             $scope.$broadcast('submitting:form', form);
             if (formValid) {
+                document.body.style.cursor = 'wait';
                 $scope.submitIsDisabled = true;
                 if ($scope.wiz.shipToSameAsBillTo) {
                     $scope.setShipToSameAsBillTo();
                 }
                 $scope.order.cart = $scope.cart;
                 CheckoutSvc.checkout($scope.order, onStripeValidationFailure, onCheckoutFailure);
+
             }  else {
                 $scope.showPristineErrors = true;
                 $scope.message = defaultErrorMsg;

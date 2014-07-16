@@ -53,10 +53,9 @@ angular.module('ds.checkout')
 
                 var self = this;
                 try {
-                    document.body.style.cursor = 'wait';
+
                     StripeJS.createToken(stripeData, function (status, response) {
                         //console.log(response);
-                        document.body.style.cursor = 'auto';
                         if (response.error) {
                             onStripeFailure(response.error);
                         } else {
@@ -65,6 +64,7 @@ angular.module('ds.checkout')
                     });
                 }
                 catch (error) {
+
                     error.type = 'payment_token_error';
                     onStripeFailure(error);
                 }
@@ -77,11 +77,9 @@ angular.module('ds.checkout')
              * @return The result array as returned by Angular $resource.query().
              */
             createOrder: function(order, token, onFailure) {
-
                 var Order = function () {
 
                 };
-
                 var newOrder = new Order();
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
@@ -130,7 +128,6 @@ angular.module('ds.checkout')
                     CartSvc.resetCart();
 
                 }, function(errorResponse){
-                    // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
                     if(errorResponse.status === 500) {
                         onFailure('Cannot process this order because the system is unavailable. Try again at a later time.');
                     }  else {
