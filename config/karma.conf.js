@@ -4,10 +4,8 @@ module.exports = function(config){
 
     files : [
 
-        'public/js/vendor/jquery.js',
         'public/js/vendor-static/jquery.min.js',
         'public/js/vendor-static/bootstrap.min.js',
-        'public/js/vendor/lodash.compat.js',
         'public/js/vendor-static/masonry.pkgd.min.js',
         'public/js/vendor-static/imagesloaded.pkgd.min.js',
         'public/js/vendor-static/owl.carousel.min.js',
@@ -15,14 +13,14 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.fullscreen-min.js',
         'public/js/vendor-static/main.js',
         'public/js/vendor-static/stripe.js',
-        'public/js/vendor/angular.js',
-        'public/js/vendor/angular-masonry.js',
-        'public/js/vendor/angular-mocks.js',
-        'public/js/vendor/angular-resource.js',
-        'public/js/vendor/angular-ui-router.js',
-        'public/js/vendor/angular-translate.js',
-        'public/js/vendor/ng-infinite-scroll.js',
-        'public/js/vendor/angular-stripe-js.min.js',
+        'public/js/vendor/angular/angular.min.js',
+        'public/js/vendor/angular-masonry/angular-masonry.js',
+        'public/js/vendor/angular-mocks/angular-mocks.js',
+        'public/js/vendor/angular-resource/angular-resource.min.js',
+        'public/js/vendor/angular-ui-router/release/angular-ui-router.min.js',
+        'public/js/vendor/angular-translate/angular-translate.min.js',
+        'public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
+        'public/js/vendor/angular-stripe-js/build/angular-stripe-js.min.js',
 
 
         // dummy config/bootstrap for testing
@@ -40,14 +38,11 @@ module.exports = function(config){
         'public/js/app/shared/i18n/providers/translation-provider.js',
         'public/js/app/shared/utils/cors.js',
 
-
-        'public/js/app/prices/prices-index.js',
-        'public/js/app/prices/services/price-service.js',
-
         'public/js/app/products/products-index.js',
         'public/js/app/products/services/product-service.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
+        'public/js/app/products/services/price-service.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',

@@ -127,7 +127,7 @@
                                 <option value="-price">price high - low</option>
                                 <option value="name">A-Z</option>
                                 <option value="-name">Z-A</option>
-                                <option value="created">Newest</option>
+                                <option value="-created">Newest</option>
                             </select>
                         </div>
                     </div>
@@ -182,6 +182,15 @@
                 <div class="price">{{ prices[product.id].price | currency: '$'}}</div>
             </a>
         </div>
+		<div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="row">
+			<div>
+				<pagination on-select-page="setSortedPage(page)" total-items="total"
+							page="pageNumber"
+							items-per-page="pageSize"
+							class="pagination-sm" previous-text="<" next-text=">">
+				</pagination>
+			</div>
+		</div>
     </div>
 
 	<button type="button" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
