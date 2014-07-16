@@ -80,6 +80,11 @@ angular.module('ds.products')
         };
 
         $scope.setSortedPage = function (pageNo) {
+
+            if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
+                $scope.pageSize = $scope.total;
+            }
+
             $scope.getViewingNumbers(pageNo);
             $scope.pageNumber = pageNo;
             var query = {
