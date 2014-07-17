@@ -6930,7 +6930,7 @@ section footer button {
   height: auto;
 }
 section .hero-unit {
-  margin: -30px;
+  margin: -30px -30px 30px;
 }
 .hero-unit {
   display: none !important;

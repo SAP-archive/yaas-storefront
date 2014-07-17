@@ -63,16 +63,6 @@ describe('OrderDetailSvc Test', function () {
     });
 
 
-    it('get returns order details', function () {
-        $httpBackend.expectGET('http://dummyurl/orders').respond(orderDetails);
-
-        var details = orderDetailSvc.get();
-
-        $httpBackend.flush();
-        expect(details).toEqualData(orderDetails);
-    });
-
-
     it('should format order detail info correctly', function () {
         var orderId = 123;
         $httpBackend.expectGET('http://dummyurl/orders/'+orderId).respond(orderDetails);
