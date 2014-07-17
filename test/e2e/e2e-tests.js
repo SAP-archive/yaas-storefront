@@ -50,7 +50,7 @@ describe("product page", function () {
         browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
+        tu.sortAndVerifyPagination('-created', 'FRENCH PRESS');
     });
 
     //   it("should redirect the user if they attempt to access unpublished product", function () {
