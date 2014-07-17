@@ -88,22 +88,24 @@ angular.module('ds.products')
 
         $scope.setSortedPage = function (pageNo) {
 
-            if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
-                $scope.pageSize = $scope.total;
+            if ($scope.sort && $scope.sort !== '') {
+                if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
+                    $scope.pageSize = $scope.total;
+                }
+
+                $scope.getViewingNumbers(pageNo);
+                $scope.pageNumber = pageNo;
+                var query = {
+                    pageNumber: $scope.pageNumber,
+                    pageSize: $scope.pageSize,
+                    sort: $scope.sort
+                };
+
+                //we only want to show published products on this list
+                query.q = 'published:true';
+
+                $scope.products = ProductSvc.query(query);
             }
-
-            $scope.getViewingNumbers(pageNo);
-            $scope.pageNumber = pageNo;
-            var query = {
-                pageNumber: $scope.pageNumber,
-                pageSize: $scope.pageSize,
-                sort: $scope.sort
-            };
-
-            //we only want to show published products on this list
-            query.q = 'published:true';
-
-            $scope.products = ProductSvc.query(query);
         };
 
         $scope.showRefineContainer = function () {
