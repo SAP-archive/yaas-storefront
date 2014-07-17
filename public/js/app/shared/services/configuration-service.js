@@ -29,7 +29,6 @@ angular.module('ds.shared')
             loadConfiguration: function() {
                 var config = caas.config.API.get();
                 config.$promise.then(function (result) {
-                    console.log(result.properties);
                     var key = null;
                     var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
@@ -46,7 +45,7 @@ angular.module('ds.shared')
                         }
                     }
                 }, function(error){
-                    console.log(error);
+                    console.error('Store settings retrieval failed: '+ JSON.stringify(error));
                 });
 
             }
