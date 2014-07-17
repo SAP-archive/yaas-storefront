@@ -3,8 +3,7 @@
 angular.module('ds.shared')
 
 	/**
-	 * Defaults settings for the application.
-	 * This file contains default configuration for the entire application.
+	 * Provides default settings (constants) for the application.
 	 * 
 	 * @type {Object}
 	 */
@@ -19,6 +18,7 @@ angular.module('ds.shared')
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
 
+        // defines thea API endpoints and routes
         apis: {
 
             configuration: {
@@ -67,6 +67,7 @@ angular.module('ds.shared')
                 route: '/prices'
             },
 
+            // header keys
             headers: {
 
                 // "final" headers for CaaS auth.

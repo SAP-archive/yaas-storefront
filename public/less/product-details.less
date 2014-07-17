@@ -1,0 +1,137 @@
+.product-details{
+
+	@media  (max-width: @screen-sm-max) {
+		&{
+			text-align: center;
+		}
+
+	 }
+
+	@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+		&{
+			width: 80%;
+			margin: 0 auto;
+			
+		}
+
+	 }
+
+	.category{
+		color: @darkergrey;
+		font: 400 12px/30px @font-family-sans-serif, sans-serif;
+		text-transform: uppercase;
+		
+	}
+
+	.name{
+		font-size: 34px;
+		line-height: 38px;
+		color: @darkestgrey;
+		font-weight: bold;
+	}
+
+	.price{
+		font: lighter 24px/44px @font-family-sans-serif, sans-serif;
+	}
+
+
+	.cartPanel{
+		.form-group{
+			height: 37px;
+
+			.form-control{
+				border:0;
+				border-radius:0;
+				background-color: @lightgrey;
+				text-transform: uppercase;
+			}
+
+			
+			&.qty{
+				position: relative;
+				label{
+					font: 14px/37px @font-family-sans-serif, sans-serif;
+					color: #555;
+					text-transform: uppercase;
+					position: absolute;
+					z-index: 2;
+					left: 0;
+					
+					display: block;
+					width: 40px; 
+					height: 37px;
+					padding: 0 5px 0 5px;
+
+					@media screen and (max-width: @screen-md-max){
+						position: relative;
+					}
+				}
+				input.form-control{
+					padding: 0 0 0 50px;
+					
+				}
+			}
+
+
+		}
+	}
+
+	.checkout-form{
+		margin: 30px 0;
+		label{
+			text-align: left;
+		}
+	}
+
+	.links{
+		.list-unstyled;
+		.clearfix;
+		margin: 15px 0 0 0;
+		padding: 15px 0 0 0;
+		border-top:1px solid #d2d2d2;
+		li{
+			float: left;
+			
+			border-right:1px solid #d2d2d2;
+
+			&:first-child{
+				margin-left: 0;
+			}
+
+			&:last-child{
+				margin-right: 0;
+				border:0;
+			}
+			a{
+				padding:  0 5px;
+				text-align: center;
+				display: block;
+				font-size: 11px;
+				line-height: 20px;
+				color: #3c3c3c;
+				text-transform: uppercase;
+				white-space: nowrap;
+
+				span{
+					color: @defaultred;
+				}
+
+			}
+		}
+		
+	}
+
+	.description{
+		margin: 50px 0 0 0;
+		font-size: 13px;
+		line-height: 19px;
+		color: @darkestgrey;
+		.headline{
+			margin:  10px 0;
+			font: 300 13px/25px @font-family-sans-serif, sans-serif;
+			color: @darkestgrey;
+			text-transform: uppercase;
+		}
+	}
+
+}

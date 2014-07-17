@@ -118,45 +118,6 @@ yngApp.ApiEndpoint = function(endpointConfig, $injector, $resource) {
     this.API = $resource(endpointConfig.baseUrl + endpointConfig.route, {},
         endpointConfig.defaultActions);
 
-    /*
-    var self = this;
-    angular.forEach(endpointConfig.actions, function(action, actionName) {
-        var actionMethod = self.actionrequest;
-        self[actionName] = angular.bind(self, actionMethod, actionName);
-    });  */
-
-    /*
-    // Extend this endpoint objects with methods for all of the actions defined
-    // in the configuration object. The action performed depends on whether or
-    // not there is a model defined in the configuration; when there is a model
-    // defined, certain request types must be wrapped in order to apply the
-    // pre/post request transformations defined by the model.
-    var self = this;
-    angular.forEach(endpointConfig.actions, function(action, actionName) {
-        var actionMethod = self.request;
-
-        action.headers = angular.extend(action.headers || {}, endpointConfig.customHeaders || {});
-
-        // Handle interceptors
-        if (!action.interceptor) {
-            action = angular.extend(action, { interceptor: endpointConfig.customInterceptors });
-        } else {
-            // Merge custom with default interceptors
-            var mergedInterceptor = action.interceptor;
-            angular.forEach(action.interceptor, function(interceptorFn, interceptorKey) {
-                if (endpointConfig.customInterceptors[interceptorKey]) {
-                    mergedInterceptor[interceptorKey] = function() {
-                        endpointConfig.customInterceptors[interceptorKey].apply(this, arguments);
-                        interceptorFn.apply(this, arguments);
-                    };
-                }
-                action.interceptor = mergedInterceptor;
-            });
-        }
-
-        self[actionName] = angular.bind(self, actionMethod, actionName);
-    });   */
-
 };
 
 

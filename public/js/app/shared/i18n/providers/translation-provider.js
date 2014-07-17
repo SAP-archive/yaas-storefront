@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('ds.i18n')
+     /** Acts as dictionary provider for localization. */
 	.provider('Translation', ['$translateProvider', 'i18nConstantsProvider',
 		function TranslationProvider($translateProvider, i18nConstantsProvider) {
 			var defaultLang = i18nConstantsProvider.languages.en.code;

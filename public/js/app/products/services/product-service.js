@@ -4,8 +4,12 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
+    /** Provides access to the 'product' and 'product-details' service. */
     .factory('ProductSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
 
+        /** Executes a product query and extracts the "total" product count meta data and stores it in the
+         * GlobalData service.
+         * */
         var getProducts = function (parms) {
             return caas.products.API.query(parms, function(response, headers) {
                 GlobalData.products.meta.total = parseInt(headers(settings.apis.headers.paging.total), 10) || 0;

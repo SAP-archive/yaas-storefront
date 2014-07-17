@@ -20,43 +20,8 @@
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.price && product.defaultPrice.price | currency: '$'}}</div>
 
-                <!-- 
-                <div class="rating ratingCalc" data-rating='{"rating":4.5,"total":5}'>
-                    <div class="rating-stars">
-                        <span class="ratingIcon hyicon hyicon-star"></span>
-                    </div>
-                    <a href="" class="review-count">(144)</a>
-                </div>
-                 -->
-
                 <form action="" class="cartPanel">
                     <div class="row" >
-                        <!-- 
-                        <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6 ">
-                            <div class="form-group">
-                                <label for="" class="sr-only"></label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Stone</option>
-                                    <option value="">Stone</option>
-                                    <option value="">Stone</option>
-                                    <option value="">Stone</option>
-                                </select>
-                            </div>
-                        </div>
-                        -->
-                        <!--     
-                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
-                            <div class="form-group">
-                                <label for="" class="sr-only"></label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">30 ml</option>
-                                    <option value="">40 ml</option>
-                                    <option value="">50 ml</option>
-                                    <option value="">60 ml</option>
-                                </select>
-                            </div>
-                        </div>
-                        -->
                         <div class="col-sm-6">
                             <div class="form-group qty">
                                 <label for="" >{{'QTY' | translate}}: </label>
@@ -78,22 +43,9 @@
                         </div>
                         <div ng-show="{{!product.inStock}}" class="col-sm-6">
                             <button class="btn btn-primary btn-block">Out Of Stock</button>
-                        </div>  
-                        <!-- 
-                        <div class="col-sm-6">
-                            <button class="btn btn-default btn-block">Wishlist</button>
                         </div>
-                         -->
                     </div>
                 </form>
-
-                <!-- 
-                <ul class="links">
-                    <li><a href="">Ask A Question <span>2</span></a></li>
-                    <li><a href="">add to favorites</a></li>
-                    <li><a href="">Share this</a></li>
-                </ul>
-                 -->
     
                 <div class="description">
                     <div class="headline">{{'DESCRIPTION' | translate}}:</div>
@@ -103,85 +55,7 @@
         </div>
     </div>
 </section> 
-<!--         
-<section class="lightgray">
-    <header>#Brand’s PinterestFeed</header>
 
-    <div class="carousel">
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-        <a class="item" href="#"><img class="lazyOwl" data-src="http://placekitten.com/400" alt=""></a>
-    </div>
-
-    <footer>
-        <button class="btn btn-primary">View The Gallery</button>
-    </footer>
-</section>  
-<section class="gray">
-    <header>Related Products</header>
-    <div class="row product-grid gridMasonry">
-        <div class="item">
-            <a href="">
-                <div class="thumb">
-                    <img src="http://placekitten.com/400/100" alt="">
-                </div>
-                <div class="name">product name <br> wraps</div>
-                <div class="price">$10</div>
-            </a>
-        </div>
-        <div class="item">
-            <a href="">
-                <div class="thumb">
-                    <img src="http://placekitten.com/400/150" alt="">
-                </div>
-                <div class="name">product name <br> wraps</div>
-                <div class="price">$10</div>
-            </a>
-        </div>
-        <div class="item">
-            <a href="">
-                <div class="thumb">
-                    <img src="http://placekitten.com/400/300" alt="">
-                </div>
-                <div class="name">product name <br> wraps</div>
-                <div class="price">$10</div>
-            </a>
-        </div>
-        <div class="item">
-            <a href="">
-                <div class="thumb">
-                    <img src="http://placekitten.com/400/400" alt="">
-                </div>
-                <div class="name">product name <br> wraps</div>
-                <div class="price">$10</div>
-            </a>
-        </div>
-        <div class="item">
-            <a href="">
-                <div class="thumb">
-                    <img src="http://placekitten.com/400/200" alt="">
-                </div>
-                <div class="name">product name <br> wraps</div>
-                <div class="price">$10</div>
-            </a>
-        </div>
-    </div>
-</section> 
-<section class="white">
-    <div class="container-fluid">
-        <header>Product Reviews</header>
-        <footer>
-            <button class="btn btn-primary">write your own review</button>
-        </footer>
-    </div>
-</section>
- -->
 <script src="public/js/vendor-static/jquery.min.js"></script>
 <script src="public/js/vendor-static/bootstrap.min.js"></script>
 <script src="public/js/vendor-static/masonry.pkgd.min.js"></script>

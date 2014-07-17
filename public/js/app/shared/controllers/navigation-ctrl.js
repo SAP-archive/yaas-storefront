@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ds.shared')
-
+     /** Handles interactions in the navigation bar.  Listens to the 'cart:updated' event - on update,
+      * the cart icon will reflect the updated cart quantity. */
 	.controller('NavigationCtrl', ['$scope', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart',
 
 		function ($scope, $rootScope, $translate, GlobalData, i18nConstants, cart) {
@@ -24,10 +25,12 @@ angular.module('ds.shared')
 				$scope.languageCode = GlobalData.languageCode = languageCode;
 			}; */
 
+            /** Toggles the "show cart view" state as the cart icon is clicked. */
             $scope.toggleCart = function (){
                 $rootScope.showCart=!$rootScope.showCart;
             };
 
+            /** Toggles the navigation menu for the mobile view. */
             $scope.toggleOffCanvas = function(){
                 $rootScope.showMobileNav = !$rootScope.showMobileNav;
 

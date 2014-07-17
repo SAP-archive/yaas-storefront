@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- *  Encapsulates access to the CAAS price API.
+ *  Encapsulates access to the price API.
  */
 angular.module('ds.products')
     .factory('PriceSvc', ['caas', function(caas){

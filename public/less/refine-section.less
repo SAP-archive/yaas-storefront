@@ -1,0 +1,281 @@
+
+
+	.refine-section{
+		margin: 0;
+
+		.title{
+			font:29px @font-family-sans-serif, sans-serif;
+			margin: 0 0 20px 0;
+			font-weight: bold;
+			text-transform: uppercase;
+
+			@media screen and (max-width: @screen-sm-max) {
+				text-transform: none;
+				text-align: center;
+				font-size: 19px;
+			}
+		}
+
+		.gridButtons{
+			float: right;
+
+
+			button{
+				color: #fff;
+				&.active{
+					color: @defaultred;
+					box-shadow:none;
+				}
+			}
+
+		}
+
+	
+		.refineContainer,
+		.sortContainer,
+		.viewingContainer{
+			margin: 0 0 20px 0;
+		
+			button{
+				padding: 12px 0;
+				height: 46px;
+				width: 46px;
+				font-size: 12px;
+				color: #000;
+				margin: 0 -15px 0 0;
+			}
+
+			.name{
+				font: 300 13px @font-family-sans-serif, sans-serif;
+				color: @darkestgrey;
+				float: left;
+				line-height: 46px;
+				height: 46px;
+				padding: 0 10px 0 0;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+		}
+
+		.refineContainer{
+			padding: 0 15px ;
+			height: 46px;
+			line-height: 46px;
+			background: @lightgrey;
+			.itemList{
+				overflow: hidden;
+				height: 46px;
+				text-transform: uppercase;
+				font-size: 14px;
+				color: #3c3c3c;
+				.count{
+					color: @defaultred;
+				}
+				
+				a.clearall{
+					padding: 0 0 0 10px;
+						
+				}
+			}
+		}
+
+		.sortContainer{
+			padding: 0 15px ;
+			line-height: 46px;
+			background-color: @lightgrey;
+			height: 46px;
+			.form-group{
+				float: right;
+				height: 46px;
+
+				select{
+					background: @lightgrey;
+					border:0;
+					box-shadow: none;
+					color: @darkestgrey;
+					height: 46px;
+					line-height: 46px;
+					font-size: 14px;
+					text-transform: uppercase;
+					padding: 15px;
+
+					option{
+						background-color: #fff;
+						&:hover{
+							background-color: @defaultred;
+						}
+					}
+
+				}
+
+				@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+					width: 110px;
+				}
+			}
+		}
+		 
+
+		.viewingContainer{
+			line-height: 46px;
+
+			.name{
+				display: inline-block;
+				float: none;
+
+			}
+
+			.page-indicator{
+				display: inline-block;
+				font:normal 16px/46px @font-family-sans-serif, sans-serif;
+				color: @defaultred;
+				white-space: nowrap;
+			}
+
+			@media screen and (max-width: @screen-sm-max){
+				text-align: center;
+				
+				.page-indicator{
+				font-size: 20px; 
+				}
+			}
+		}
+	}
+
+
+	.refine-panel{
+		display: none;
+		background: #fff;
+		border:1px solid #e1e1e1;
+
+		position: absolute;
+		
+		left: 15px;
+		right: 15px;
+
+	
+		padding: 15px;
+		z-index:100010;
+		
+
+		&.active{
+			display: block;
+		}
+	
+		.close-button{
+			position: absolute;
+			top:0;
+			right: 15px;
+			color: #0079ff;
+			z-index:inherit;
+
+		}
+
+		.facet{
+			.facetName{
+				font:normal 13px @font-family-sans-serif, sans-serif;
+				color: @darkestgrey;
+				text-transform: uppercase;
+			}
+
+			ul{
+				.list-unstyled;
+				li{
+					padding: 5px 0;
+					
+					input{
+						display: none;
+					}
+
+					label{
+						text-transform: uppercase;
+						font-weight: normal;
+						font-size: 12px;
+						display: block;
+						height: 20px;
+						line-height: 20px;
+						color: #3c3c3c;
+						cursor: pointer;
+						
+						span{
+							.hyicon;
+							float: left;
+							background: #ebebeb;
+							width: 20px;
+							height: 20px;
+							display:block;
+							
+							line-height: 20px;
+							text-align: center;
+							margin: 0 5px 0 0;
+							
+
+						}
+					}
+
+					input:checked + label span{
+						//background: #000;
+						.hyicon-star;
+					}
+				}
+			}
+		}
+	}
+	
+
+
+	#refineAffix{
+		z-index:100000;
+		height: 50px;
+		top:-100px;
+		background: rgba(255,255,255,0.9);
+		margin: 0;
+		left: 0;
+		
+		-webkit-transition: all .25s ease-out;
+      	-moz-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+      
+
+		&.affix{
+			top: 0;
+		}
+
+		.refineContainer{
+			background: transparent;
+		}
+	}
+
+
+	#refinePanelAffix{
+
+		&.affix{
+			.responsive-fixed;
+			top: 50px !important;
+			margin: 0;
+			background: rgba(255,255,255,0.9);
+		}
+
+	}
+
+
+	
+
+
+
+
+.right{
+	/* TODO: ADD SHIFTING FOR OFFCANVAS*/
+}
+.responsive-fixed{
+	position: fixed;
+	width: auto;
+	left: 0;
+	right: 0;
+
+	@media (min-width: @screen-md-min) {
+		left: @offcanvas-left-width-d;
+
+
+	 }
+
+}
