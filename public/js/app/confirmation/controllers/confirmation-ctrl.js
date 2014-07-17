@@ -27,6 +27,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails =  details;
+            window.scrollTo(0, 0);
         });
 
     }]);

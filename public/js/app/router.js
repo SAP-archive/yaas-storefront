@@ -133,7 +133,6 @@ window.app = angular.module('ds.router', [
                         product: function( $stateParams, caas) {
                             return caas.productDetails.API.get({productId: $stateParams.productId }).$promise
                                 .then(function(result){
-                                    window.scrollTo(0, 0);
                                     return result;
                                 });
                         }

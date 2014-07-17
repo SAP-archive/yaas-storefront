@@ -69,9 +69,6 @@ angular.module('ds.confirmation')
                             };
                         }
                     }
-
-                    window.scrollTo(0, 0);
-
                     return confirmationDetails;
                 });
 
