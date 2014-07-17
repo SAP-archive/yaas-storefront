@@ -41,6 +41,9 @@ angular.module('ds.products')
                             if (products) {
                                 $scope.products = $scope.products.concat(products);
                                 $scope.productsTo = $scope.products.length;
+                                if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                                    $scope.productsTo = $scope.total;
+                                }
                                 $scope.total = GlobalData.products.meta.total;
                                 var productIds = products.map(function (product) {
                                     return product.id;
@@ -88,22 +91,51 @@ angular.module('ds.products')
 
         $scope.setSortedPage = function (pageNo) {
 
-            if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
-                $scope.pageSize = $scope.total;
+            if ($scope.sort && $scope.sort !== '') {
+                if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
+                    $scope.pageSize = $scope.total;
+                }
+
+                $scope.getViewingNumbers(pageNo);
+                $scope.pageNumber = pageNo;
+                var query = {
+                    pageNumber: $scope.pageNumber,
+                    pageSize: $scope.pageSize,
+                    sort: $scope.sort
+                };
+
+                //we only want to show published products on this list
+                query.q = 'published:true';
+
+                ProductSvc.queryWithResultHandler(query,
+                    function (products) {
+                        if (products) {
+                            $scope.products = products;
+                            $scope.total = GlobalData.products.meta.total;
+                            var productIds = products.map(function (product) {
+                                return product.id;
+                            });
+                            var queryPrices = {
+                                q: 'productId:(' + productIds + ')'
+                            };
+
+                            PriceSvc.queryWithResultHandler(queryPrices,
+                                function (pricesResponse) {
+                                    if (pricesResponse) {
+                                        var prices = pricesResponse.prices;
+                                        var pricesMap = {};
+
+                                        prices.forEach(function (price) {
+                                            pricesMap[price.productId] = price;
+                                        });
+
+                                        $scope.prices = angular.extend($scope.prices, pricesMap);
+                                    }
+                                }
+                            );
+                        }
+                    });
             }
-
-            $scope.getViewingNumbers(pageNo);
-            $scope.pageNumber = pageNo;
-            var query = {
-                pageNumber: $scope.pageNumber,
-                pageSize: $scope.pageSize,
-                sort: $scope.sort
-            };
-
-            //we only want to show published products on this list
-            query.q = 'published:true';
-
-            $scope.products = ProductSvc.query(query);
         };
 
         $scope.showRefineContainer = function () {
