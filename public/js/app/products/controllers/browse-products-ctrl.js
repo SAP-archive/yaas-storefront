@@ -39,6 +39,9 @@ angular.module('ds.products')
                             if (products) {
                                 $scope.products = $scope.products.concat(products);
                                 $scope.productsTo = $scope.products.length;
+                                if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                                    $scope.productsTo = $scope.total;
+                                }
                                 $scope.total = GlobalData.products.meta.total;
                                 var productIds = products.map(function (product) {
                                     return product.id;
