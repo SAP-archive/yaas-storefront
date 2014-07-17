@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('ds.products')
+    /** Controller for the 'browse products' view.  */
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', function ($scope, ProductSvc, PriceSvc, GlobalData) {
 
 
@@ -14,10 +15,11 @@ angular.module('ds.products')
         $scope.store = GlobalData.store;
         $scope.prices = {};
 
+        /*
+          This function is only for infinite scrolling, which is disabled when a sort is applied. It issues a new product query.
+         */
         $scope.addMore = function () {
-            /*
-                this function is only for infinite scrolling, which is disabled when a sort is applied.
-             */
+
             if ($scope.sort === '') {
                 var query = {
                     pageNumber: $scope.pageNumber++,
@@ -67,13 +69,14 @@ angular.module('ds.products')
             }
         };
 
-        // trigger initial load of items
+        // trigger initial load of items for infinite scroll
         $scope.addMore();
 
         $scope.backToTop = function () {
             window.scrollTo(0, 0);
         };
 
+        /** Recalculates the "viewing x to z products" numbers. */
         $scope.getViewingNumbers = function (pageNo) {
             $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
             $scope.productsTo = $scope.pageSize * pageNo;
