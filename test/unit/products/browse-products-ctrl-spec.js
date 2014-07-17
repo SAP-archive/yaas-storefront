@@ -1,16 +1,12 @@
-describe('BrowseProductsCtrl Test', function () {
+ddescribe('BrowseProductsCtrl', function () {
 
     var $scope, $rootScope, $controller, mockedGlobalData;
+    var mockedProductSvc, browseProdCtrl, mockedPriceSvc;
     mockedGlobalData = {};
     mockedGlobalData.store = {};
     mockedGlobalData.products = {};
     mockedGlobalData.products.meta = {};
     mockedGlobalData.products.meta.total = 10;
-
-    //***********************************************************************
-    // Common Setup
-    // - shared setup between constructor validation and method validation
-    //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
@@ -27,7 +23,22 @@ describe('BrowseProductsCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    describe('BrowseProductsCtrl ', function () {
+
+    beforeEach(function () {
+
+        // creating the mocked service
+        mockedProductSvc = {
+            query: jasmine.createSpy()
+        };
+
+        mockedPriceSvc = {
+            query: jasmine.createSpy()
+        };
+
+
+    });
+
+    describe('initialization', function () {
         var mockedProductSvc, browseProdCtrl, mockedPriceSvc;
 
 
@@ -35,30 +46,33 @@ describe('BrowseProductsCtrl Test', function () {
 
             // creating the mocked service
             mockedProductSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
+                query: jasmine.createSpy()
             };
 
             mockedPriceSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
+                query: jasmine.createSpy()
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
-            expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
+            expect(mockedProductSvc.query).toHaveBeenCalled();
+        });
+
+        it('should query products', function(){
+            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
+            expect(mockedProductSvc.query).toHaveBeenCalled();
         });
 
 
-        it('setSortedPage should update current page and query products', function(){
-
-            var page = 4;
-            $scope.setSortedPage(page);
-            expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
-        })
 
     });
 
-    describe('BrowseProductsCtrl - addMore', function () {
+    it('setSortedPage should update current page and query products', function(){
+
+        var page = 4;
+        $scope.setSortedPage(page);
+        expect(mockedProductSvc.query).toHaveBeenCalled();
+    })
+    describe('addMore()', function () {
 
         var products, browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
@@ -108,7 +122,7 @@ describe('BrowseProductsCtrl Test', function () {
 
     });
 
-    describe('BrowseProductsCtrl - should scroll to top', function () {
+    describe('should scroll to top', function () {
 
         var browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
@@ -116,14 +130,11 @@ describe('BrowseProductsCtrl Test', function () {
 
             // stubbing a service with callback
             stubbedProductSvc = {
-                queryWithResultHandler: jasmine.createSpy(),
                 query: jasmine.createSpy()
-
             };
 
             mockedPriceSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
+                query: jasmine.createSpy()
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData})
