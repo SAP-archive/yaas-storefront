@@ -1,0 +1,183 @@
+#cart{
+	background: @lightergrey;
+
+
+	section{
+		padding: 10px 0;
+	}
+
+	/* TOP BUTTON ROW */ 
+	.btn-group{
+		&.continue{
+			.hidden-sm; 
+			.hidden-xs;
+		}
+
+		.btn{
+			font-size: 14px;
+			padding: 26px;
+		}	
+
+	}
+	.summary{
+		padding: 10px 15px 0;
+	}
+
+	/* PROMO MESSAGE */
+	.alert{
+		margin: 0;
+	}
+
+
+	/* UPSCALING IMPROVMENTS */
+	@media screen and (min-width: @screen-sm-max){
+
+		padding-top: 20px;
+
+		section{
+			padding: 15px 0;
+		}
+	}
+
+
+}
+
+
+/* CART ITEM */
+.cart-item{
+	border-bottom: 1px solid @defaultgrey;
+	padding-bottom: 20px;
+	padding-top: 20px;
+
+	&.row{
+		margin: 0;
+	}
+
+	/* QTY SELECTOR */ 
+	.input-group{
+		max-width: 115px;
+		.form-control{
+			box-shadow: 0 0 0;
+			border-left-width: 0px;
+			padding-left: 13px;
+
+			&:focus{
+				border-left-width: 1px;
+				padding-left: 12px;
+			}
+
+		}
+		.input-group-addon{
+			background: #fff;
+		}
+	}
+
+	.btn.delete{
+		color: @brightred;
+	}
+
+	/* SHOW/HIDE DELETE BUTTON */
+
+	.img-col{
+		.delete{
+			margin: 0 auto;
+			.visible-sm;
+			.visible-xs;
+		}
+	}
+	.detail-col{
+		.delete{
+			position: absolute;
+			top: 0;
+			right: 0;
+			.visible-md; 
+			.visible-lg;
+		}
+	}
+
+	/* ATTR SKINNING */
+
+	.name{
+		text-transform: uppercase;
+		font-size: 16px;
+	}
+
+	.item-attr{
+		font-family: Georgia, "Times New Roman", serif;
+		font-style: italic;
+		color: @darkergrey;	
+		font-size: 14px;
+
+		span{
+			font-size: 16px;
+			color: @darkestgrey;
+		}
+
+		&.price{
+			margin-bottom: 25px;
+		}
+
+		&.price-total{
+			margin-top: 20px;
+		}
+
+		&.variants{
+
+			margin-bottom: 10px;
+
+			.variant{
+				span{
+					font-style: normal;
+					font-size: 13px;
+					font-family: Arial, Helvetica, sans-serif;
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+
+.similar{
+	.subheadline{
+		font-family: @font-family-serif, "Times New Roman", serif;
+		font-style: italic;
+		color: @darkestgrey;	
+		font-size: 26px;
+		text-align: center;
+	}
+
+	.row{
+		padding: 20px;
+
+		.img-responsive{
+			margin: 0 auto;
+		}
+	}
+}
+
+
+/* SUMMARY TABLE */
+.summary{
+
+	text-transform: uppercase;
+
+	table{
+		th, tfoot td{
+			color: @darkestgrey;
+			font-size: 19px;
+			font-weight: normal;
+			border-width: 1px;
+		}
+		& > tbody > tr > td{
+			color: @darkgrey;
+			border:none;
+			font-size: 14px;
+		}
+
+
+	}
+}
+
