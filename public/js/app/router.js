@@ -2,6 +2,7 @@
 
 // ROUTER SHOULD ONLY LOAD MODULES DIRECTLY REQUIRED BY ROUTER
 window.app = angular.module('ds.router', [
+    'restangular',
     'ui.router',
     'ds.shared',
     'ds.utils',
