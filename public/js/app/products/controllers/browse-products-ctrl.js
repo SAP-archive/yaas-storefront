@@ -104,7 +104,34 @@ angular.module('ds.products')
                 //we only want to show published products on this list
                 query.q = 'published:true';
 
-                $scope.products = ProductSvc.query(query);
+                ProductSvc.queryWithResultHandler(query,
+                    function (products) {
+                        if (products) {
+                            $scope.products = products;
+                            $scope.total = GlobalData.products.meta.total;
+                            var productIds = products.map(function (product) {
+                                return product.id;
+                            });
+                            var queryPrices = {
+                                q: 'productId:(' + productIds + ')'
+                            };
+
+                            PriceSvc.queryWithResultHandler(queryPrices,
+                                function (pricesResponse) {
+                                    if (pricesResponse) {
+                                        var prices = pricesResponse.prices;
+                                        var pricesMap = {};
+
+                                        prices.forEach(function (price) {
+                                            pricesMap[price.productId] = price;
+                                        });
+
+                                        $scope.prices = angular.extend($scope.prices, pricesMap);
+                                    }
+                                }
+                            );
+                        }
+                    });
             }
         };
 
