@@ -22,13 +22,13 @@ describe("product page", function () {
         tu.clickElement('xpath', tu.frenchPress);
       });
 
-      // should be # of 36, but overall product count doesn't work in phantomjs
+      // should be # of 31, but overall product count doesn't work in phantomjs
       it('should show the user how many products loaded', function () {
         tu.getTextByRepeaterRow(0)
-        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-10 of 0'); 
+        expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-8 of 0'); 
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
-        expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-31 of 0'); //should be # of 36, but won't work in phantomjs
+        expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-31 of 0'); //should be # of 31, but won't work in phantomjs
       });
 
       it("should get product detail page", function () {
@@ -50,7 +50,7 @@ describe("product page", function () {
         browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('created', 'FRENCH PRESS');
+        tu.sortAndVerifyPagination('-created', 'TEST');
     });
 
     //   it("should redirect the user if they attempt to access unpublished product", function () {
