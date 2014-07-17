@@ -11,7 +11,7 @@
  */
 
 'use strict';
-
+/** Module related to checkout view.*/
 angular.module('ds.checkout', [
     'yng.core',
     'ds.cart',

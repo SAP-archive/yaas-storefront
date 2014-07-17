@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.utils',[])
-
+     /** Enables CORS. */
 	.provider('CORSProvider', ['$httpProvider',
 		function ($httpProvider) {
 

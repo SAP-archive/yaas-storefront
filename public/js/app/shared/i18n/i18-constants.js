@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.i18n')
-
+     /** Provides access to the dictionaries.*/
 	.provider('i18nConstants', ['TranslationsEN', 'TranslationsDE',
 		function i18nConstantsProvider(TranslationsEN, TranslationsDE) {
 		

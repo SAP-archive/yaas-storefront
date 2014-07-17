@@ -81,6 +81,8 @@ Third party dependencies are copied to public/js/vendor via the bower-installer 
 
 ## Application Events
 
+'cart:updated' - fired when new cart information has been acquired from the service
+
 ## Testing
 
 Tests are grouped by unit tests, end-to-end tests and styling tests under the "test" folder.  Unit tests can be run via

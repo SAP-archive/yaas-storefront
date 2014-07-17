@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('ds.products')
+    /** Controller for the 'browse products' view.  */
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', function ($scope, ProductSvc, PriceSvc, GlobalData) {
 
 
-        $scope.pageSize = 10;
+        $scope.pageSize = 8;
         $scope.pageNumber = 1;
         $scope.sort = '';
         $scope.products = [];
@@ -14,29 +15,104 @@ angular.module('ds.products')
         $scope.store = GlobalData.store;
         $scope.prices = {};
 
+        /*
+          This function is only for infinite scrolling, which is disabled when a sort is applied. It issues a new product query.
+         */
         $scope.addMore = function () {
-            var query = {
-                pageNumber: $scope.pageNumber++,
-                pageSize: $scope.pageSize
-            };
 
-            if ($scope.sort) {
-                query.sort = $scope.sort;
+            if ($scope.sort === '') {
+                var query = {
+                    pageNumber: $scope.pageNumber++,
+                    pageSize: $scope.pageSize
+                };
+
+                if ($scope.sort) {
+                    query.sort = $scope.sort;
+                }
+
+                //we only want to show published products on this list
+                query.q = 'published:true';
+
+                // prevent additional API calls if all products are retrieved
+                // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
+                if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
+                    ProductSvc.queryWithResultHandler(query,
+                        function (products) {
+                            if (products) {
+                                $scope.products = $scope.products.concat(products);
+                                $scope.productsTo = $scope.products.length;
+                                if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                                    $scope.productsTo = $scope.total;
+                                }
+                                $scope.total = GlobalData.products.meta.total;
+                                var productIds = products.map(function (product) {
+                                    return product.id;
+                                });
+                                var queryPrices = {
+                                    q: 'productId:(' + productIds + ')'
+                                };
+
+                                PriceSvc.queryWithResultHandler(queryPrices,
+                                    function (pricesResponse) {
+                                        if (pricesResponse) {
+                                            var prices = pricesResponse.prices;
+                                            var pricesMap = {};
+
+                                            prices.forEach(function (price) {
+                                                pricesMap[price.productId] = price;
+                                            });
+
+                                            $scope.prices = angular.extend($scope.prices, pricesMap);
+                                        }
+                                    }
+                                );
+                            }
+                        });
+                }
             }
+        };
 
-            //we only want to show published products on this list
-            query.q = 'published:true';
+        // trigger initial load of items for infinite scroll
+        $scope.addMore();
 
-            // prevent additional API calls if all products are retrieved
-            // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
-            if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
+        $scope.backToTop = function () {
+            window.scrollTo(0, 0);
+        };
+
+        /** Recalculates the "viewing x to z products" numbers. */
+        $scope.getViewingNumbers = function (pageNo) {
+            $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
+            $scope.productsTo = $scope.pageSize * pageNo;
+
+            if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                $scope.productsTo = $scope.total;
+            }
+        };
+
+        $scope.setSortedPage = function (pageNo) {
+
+            if ($scope.sort && $scope.sort !== '') {
+                if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
+                    $scope.pageSize = $scope.total;
+                }
+
+                $scope.getViewingNumbers(pageNo);
+                $scope.pageNumber = pageNo;
+                var query = {
+                    pageNumber: $scope.pageNumber,
+                    pageSize: $scope.pageSize,
+                    sort: $scope.sort
+                };
+
+                //we only want to show published products on this list
+                query.q = 'published:true';
+
                 ProductSvc.queryWithResultHandler(query,
                     function (products) {
                         if (products) {
-                            $scope.products = $scope.products.concat(products);
-                            $scope.productsTo = $scope.products.length;
+                            $scope.products = products;
                             $scope.total = GlobalData.products.meta.total;
-                            var productIds = products.map(function(product) {
+                            var productIds = products.map(function (product) {
                                 return product.id;
                             });
                             var queryPrices = {
@@ -45,11 +121,11 @@ angular.module('ds.products')
 
                             PriceSvc.queryWithResultHandler(queryPrices,
                                 function (pricesResponse) {
-                                    if(pricesResponse) {
+                                    if (pricesResponse) {
                                         var prices = pricesResponse.prices;
                                         var pricesMap = {};
 
-                                        prices.forEach(function(price) {
+                                        prices.forEach(function (price) {
                                             pricesMap[price.productId] = price;
                                         });
 
@@ -60,21 +136,6 @@ angular.module('ds.products')
                         }
                     });
             }
-        };
-
-        // trigger initial load of items
-        $scope.addMore();
-
-        $scope.backToTop = function () {
-            window.scrollTo(0, 0);
-        };
-
-
-        $scope.setSortedPage = function (pageNo) {
-
-            $scope.products = [];
-            $scope.pageNumber = pageNo;
-            $scope.addMore();
         };
 
         $scope.showRefineContainer = function () {

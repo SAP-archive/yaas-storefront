@@ -12,7 +12,7 @@
 'use strict';
 
 /**
- *  Encapsulates access to the CAAS configuration API.
+ *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
     .factory('ConfigSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
@@ -21,15 +21,12 @@ angular.module('ds.shared')
 
 
             /**
-             * Registers a success callback handler on the API 'query' request - invoked once the
-             * promise is resolved.
-             * @param {parms} query parameters
-             * @param {callback} success callback function
+             * Loads the store configuration settings - the public Stripe key, store name and logo.
+             * These settings are then stored in the GlobalData service.
              */
             loadConfiguration: function() {
                 var config = caas.config.API.get();
                 config.$promise.then(function (result) {
-                    console.log(result.properties);
                     var key = null;
                     var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
@@ -46,7 +43,7 @@ angular.module('ds.shared')
                         }
                     }
                 }, function(error){
-                    console.log(error);
+                    console.error('Store settings retrieval failed: '+ JSON.stringify(error));
                 });
 
             }

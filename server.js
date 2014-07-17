@@ -6,7 +6,7 @@ var request = require('request');
 
 var token = null; // OAuth token for anonymous login
 // If no store URL prefix is indicated, use the default tenant.
-var defaultTenant =  process.env.DEFAULT_TENANT || 'onlineshop';
+var defaultTenant =  process.env.DEFAULT_TENANT || 'ed7hrfivpvyr';
 var storeNameConfigKey = 'store.settings.name';
 var storeFrontProjectId = '93b808b0-98f0-42e3-b1a8-ef81dac762b6';
 
