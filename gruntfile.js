@@ -7,6 +7,7 @@ module.exports = function (grunt) {
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
     var JS_DIR = 'public/js';
+    var LESS_DIR = 'public/less';
 
     require('load-grunt-tasks')(grunt);
 
@@ -20,6 +21,10 @@ module.exports = function (grunt) {
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']
+            },
+            less: {
+                files: [LESS_DIR + '/**'],
+                tasks: ['less:dev']
             }
         },
         express: {
@@ -53,6 +58,30 @@ module.exports = function (grunt) {
                 '!public/js/vendor/{,**/}*.js',
                 '!public/js/vendor-static/{,**/}*.js'
             ]
+        },
+
+        less: {
+            dev : {
+                options : {
+                    strictImports : true,
+                    sourceMap: true,
+                    sourceMapFilename: 'public/css/app/style.css.map',
+                    sourceMapURL: 'http://localhost/css/style.css.map'
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            },
+            dist : {
+                options : {
+                    compress: true,
+                    strictImports : false,
+                    sourceMap: false
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            }
         },
 
         concurrent: {
@@ -127,6 +156,7 @@ module.exports = function (grunt) {
     // Default task
     grunt.registerTask('default', [
         'jshint',
+        'less:dev',
         'concurrent:dev'
     ]);
 
@@ -145,6 +175,7 @@ module.exports = function (grunt) {
         'useminPrepare',
         'concat',
         'uglify',
+        'less:dist',
         'rev',
         'usemin'
     ]);

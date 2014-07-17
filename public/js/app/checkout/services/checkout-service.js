@@ -13,10 +13,13 @@
 'use strict';
 
 angular.module('ds.checkout')
+     /** The checkout service provides functions to pre-validate the credit card through Stripe,
+      * and to create an order.
+      */
+    .factory('CheckoutSvc', ['caas', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
+        function (caas, $rootScope, StripeJS, CartSvc, settings, $q) {
 
-    .factory('CheckoutSvc', ['caas', '$rootScope', '$state', 'StripeJS', 'CartSvc', 'settings',
-        function (caas, $rootScope, $state, StripeJS, CartSvc, settings) {
-
+        /** CreditCard object prototype */
         var CreditCard = function () {
             this.number = null;
             this.cvc = null;
@@ -24,6 +27,7 @@ angular.module('ds.checkout')
             this.expYear = null;
         };
 
+        /** Order prototype for start of checkout.*/
         var DefaultOrder = function () {
             this.shipTo = {};
             this.billTo = {};
@@ -33,14 +37,29 @@ angular.module('ds.checkout')
             this.creditCard = new CreditCard();
         };
 
+        /** Error types to distinguish between Stripe validation and order submission errors
+         * during checkout. */
+        var ERROR_TYPES = {
+            stripe: 'STRIPE_ERROR',
+            order: 'ORDER_ERROR'
+        };
+
         return {
 
+            ERROR_TYPES: ERROR_TYPES,
+
+            /** Returns a blank order for a clean checkout page.*/
             getDefaultOrder: function () {
                 return new DefaultOrder();
             },
 
+            /** Performs Stripe validation of the credit card, and if successful,
+             * creates a new order.
+             */
+            checkout: function (order) {
 
-            checkout: function (order, onStripeFailure, onOrderFailure) {
+                // the promise handle to the result of the transaction
+                var deferred = $q.defer();
 
                 var stripeData = {};
                 /* jshint ignore:start */
@@ -53,35 +72,60 @@ angular.module('ds.checkout')
 
                 var self = this;
                 try {
-                    document.body.style.cursor = 'wait';
+
                     StripeJS.createToken(stripeData, function (status, response) {
-                        //console.log(response);
-                        document.body.style.cursor = 'auto';
+
                         if (response.error) {
-                            onStripeFailure(response.error);
+                            deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
-                            self.createOrder(order, response.id, onOrderFailure);
+
+                            self.createOrder(order, response.id).$promise.then(
+                                // success handler
+                                function (order) {
+                                    CartSvc.resetCart();
+                                    deferred.resolve(order);
+                                },
+                                // error handler
+                                function(errorResponse){
+                                    var errMsg = '';
+
+                                    if(errorResponse.status === 500) {
+                                        errMsg = 'Cannot process this order because the system is unavailable. Try again at a later time.';
+                                    } else {
+                                        errMsg = 'Order could not be processed.';
+                                        if(errorResponse) {
+                                            if(errorResponse.status) {
+                                                errMsg += ' Status code: '+errorResponse.status+'.';
+                                            }
+                                            if(errorResponse.message) {
+                                                errMsg += ' ' + errorResponse.message;
+                                            }
+                                        }
+                                    }
+                                    deferred.reject({ type: ERROR_TYPES.order, error: errMsg });
+                                }
+                            );
                         }
                     });
                 }
                 catch (error) {
+                    console.error('Exception occurred during checkout: '+JSON.stringify(error));
                     error.type = 'payment_token_error';
-                    onStripeFailure(error);
+                    deferred.reject({ type: ERROR_TYPES.stripe, error: error });
                 }
+                return deferred.promise;
             },
 
 
             /**
              * Issues a Orders 'save' (POST) on the order resource.
              * Uses the CartSvc to retrieve the current set of line items.
+             * @param order
+             * @param validated Stripe token
              * @return The result array as returned by Angular $resource.query().
              */
-            createOrder: function(order, token, onFailure) {
-
-                var Order = function () {
-
-                };
-
+            createOrder: function(order, token) {
+                var Order = function () {};
                 var newOrder = new Order();
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
@@ -122,30 +166,8 @@ angular.module('ds.checkout')
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
 
-                caas.checkout.API.save(newOrder).$promise.then(function (order) {
-                    // TODO this should be an event to be handled in the router in order to decouple various modules
-                    // Cart reset should also happen as part of this event
-                    $state.go('base.confirmation', {orderId: order.orderId});
+                return caas.checkout.API.save(newOrder);
 
-                    CartSvc.resetCart();
-
-                }, function(errorResponse){
-                    // TODO - HANDLE SERVER-SIDE PAYMENT ISSUES
-                    if(errorResponse.status === 500) {
-                        onFailure('Cannot process this order because the system is unavailable. Try again at a later time.');
-                    }  else {
-                        var errMsg = 'Order could not be processed.';
-                        if(errorResponse) {
-                            if(errorResponse.status) {
-                                errMsg +=  ' Status code: '+errorResponse.status+'.';
-                            }
-                            if(errorResponse.message) {
-                                errMsg +=  ' ' + errorResponse.message;
-                            }
-                        }
-                        onFailure(  errMsg );
-                    }
-                });
             }
 
         };
