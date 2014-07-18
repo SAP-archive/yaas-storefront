@@ -40,7 +40,7 @@ angular.module('ds.products')
                     }
                 }
             );
-        };
+        }
 
         /*
           Retrieves more products from the product service and adds them to the product list.
@@ -89,7 +89,7 @@ angular.module('ds.products')
             if ($scope.productsTo > $scope.total && $scope.total !== 0) {
                 $scope.productsTo = $scope.total;
             }
-        };
+        }
 
         /** Retrieves and displays the products selected via the pagination widget.
          * Only shown once the sort option is applied.
