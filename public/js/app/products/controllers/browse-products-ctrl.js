@@ -50,8 +50,7 @@ angular.module('ds.products')
         $scope.addMore = function () {
 
             if ($scope.sort === '') {
-                // prevent additional API calls if all products are retrieved
-                // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
+                // Prevent additional API calls if all products are retrieved, or if current request is already in progress.
                 if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                     if (!$scope.requestInProgress) {
                         var query = {
@@ -73,6 +72,8 @@ angular.module('ds.products')
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                 }
+                            }, function(){
+                                $scope.requestInProgress = false;
                             });
                     }
                 }
