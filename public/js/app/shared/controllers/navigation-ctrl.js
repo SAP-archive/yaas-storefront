@@ -19,11 +19,10 @@ angular.module('ds.shared')
 
             $scope.$on('$destroy', unbind);
 
-            /*
 			$scope.switchLanguage = function(languageCode) {
 				$translate.use(languageCode);
 				$scope.languageCode = GlobalData.languageCode = languageCode;
-			}; */
+			};
 
             /** Toggles the "show cart view" state as the cart icon is clicked. */
             $scope.toggleCart = function (){
