@@ -14,6 +14,7 @@ angular.module('ds.products')
         $scope.productsTo = $scope.pageSize;
         $scope.store = GlobalData.store;
         $scope.prices = {};
+        $scope.requestInProgress = false;
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response
@@ -49,29 +50,31 @@ angular.module('ds.products')
         $scope.addMore = function () {
 
             if ($scope.sort === '') {
-                var query = {
-                    pageNumber: $scope.pageNumber++,
-                    pageSize: $scope.pageSize,
-                    //we only want to show published products on this list
-                    q: 'published:true'
-                };
-
                 // prevent additional API calls if all products are retrieved
                 // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
                 if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
-                    ProductSvc.query(query).$promise.then(
-
-                        function (products) {
-                            if (products) {
-                                $scope.products = $scope.products.concat(products);
-                                $scope.productsTo = $scope.products.length;
-                                if ($scope.productsTo > $scope.total && $scope.total !== 0) {
-                                    $scope.productsTo = $scope.total;
+                    if (!$scope.requestInProgress) {
+                        var query = {
+                            pageNumber: $scope.pageNumber++,
+                            pageSize: $scope.pageSize,
+                            //we only want to show published products on this list
+                            q: 'published:true'
+                        };
+                        $scope.requestInProgress = true;
+                        ProductSvc.query(query).$promise.then(
+                            function (products) {
+                                $scope.requestInProgress = false;
+                                if (products) {
+                                    $scope.products = $scope.products.concat(products);
+                                    $scope.productsTo = $scope.products.length;
+                                    if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                                        $scope.productsTo = $scope.total;
+                                    }
+                                    $scope.total = GlobalData.products.meta.total;
+                                    getPrices(products);
                                 }
-                                $scope.total = GlobalData.products.meta.total;
-                                getPrices(products);
-                            }
-                        });
+                            });
+                    }
                 }
             }
         };
