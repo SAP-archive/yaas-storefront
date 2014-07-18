@@ -3,12 +3,12 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation bar.  Listens to the 'cart:updated' event - on update,
       * the cart icon will reflect the updated cart quantity. */
-	.controller('NavigationCtrl', ['$scope', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'showCart',
+	.controller('NavigationCtrl', ['$scope', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'showCartIcon',
 
-		function ($scope, $rootScope, $translate, GlobalData, i18nConstants, cart, showCart) {
+		function ($scope, $rootScope, $translate, GlobalData, i18nConstants, cart, showCartIcon) {
 
             $scope.cart = cart;
-            $scope.showCart = showCart;  // determines display of cart icon
+            $scope.showCartIcon = showCartIcon;  // determines display of cart icon
 			$scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;

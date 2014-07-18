@@ -109,7 +109,7 @@ window.app = angular.module('ds.router', [
                         cart: function(CartSvc){
                             CartSvc.getCart();
                         },
-                        showCart: function() {
+                        showCartIcon: function() {
                             return true;
                         }
                     }
@@ -187,11 +187,11 @@ window.app = angular.module('ds.router', [
                         },
                         'navigation@': {
                             templateUrl: 'public/js/app/shared/templates/navigation.html',
-                            controller: 'NavigationCtrl' // defining new instance so that "showCart" can be overridden
+                            controller: 'NavigationCtrl' // defining new instance so that "showCartIcon" can be overridden
                         }
                     },
                     resolve:  {
-                        showCart: function(){
+                        showCartIcon: function(){
                             return false;
                         }
                     }
