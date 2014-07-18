@@ -38,6 +38,7 @@ angular.module('ds.i18n')
         FIRST_NAME_REQUIRED: 'First Name Required',
         FREE_STANDARD_SHIPPING: 'Free Standard Shipping',
         INVALID_EXPIRATION_DATE: 'Invalid Expiration Date',
+        ITEMS: 'Items',
         LAST_NAME: 'Last Name',
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',

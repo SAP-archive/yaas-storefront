@@ -38,6 +38,7 @@ angular.module('ds.i18n')
         FIRST_NAME_REQUIRED: 'Vorname Pflicht',
         FREE_STANDARD_SHIPPING: 'Kostenloser Standardversand',
         INVALID_EXPIRATION_DATE: 'Ungültige Ablaufdatum',
+        ITEMS: 'Artikel',
         LAST_NAME: 'Nachname',
         LAST_NAME_REQUIRED: 'Nachname Pflicht',
         METHOD: 'Verfahren',
