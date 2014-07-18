@@ -14,6 +14,9 @@ angular.module('ds.products')
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
 
+            // scroll to top on load
+            window.scrollTo(0, 0);
+
             var unbind = $rootScope.$on('cart:updated', function () {
                 $rootScope.showCart = true;
                 $scope.buyButtonEnabled = true;

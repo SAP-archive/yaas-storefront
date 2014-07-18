@@ -18,23 +18,15 @@
 angular.module('ds.products')
     .factory('PriceSvc', ['caas', function(caas){
 
-        var getPrices = function (parms) {
-            return caas.prices.API.get(parms);
-        };
-
         return {
 
             /**
              * Registers a success callback handler on the API 'query' request - invoked once the
              * promise is resolved.
              * @param {parms} query parameters
-             * @param {callback} success callback function
              */
-            queryWithResultHandler: function(parms, callback) {
-                var prices = getPrices(parms);
-                prices.$promise.then(function (result) {
-                    callback(result);
-                });
+            query: function(parms) {
+                return caas.prices.API.get(parms);
             }
 
         };
