@@ -52,15 +52,11 @@ describe('PricesService Test', function(){
         });
     });
 
-    it('query return prices object with success handler invoking callback on resolved promise',function (){
+    it('query returns pricing array',function (){
         var prices;
         $httpBackend.expectGET(testUrl).respond(priceResponse);
 
-        var myCallback = function(result) {
-            prices = result;
-        };
-
-        priceSvc.queryWithResultHandler({}, myCallback);
+        prices = priceSvc.query({});
         $httpBackend.flush();
         expect(prices).toEqualData(priceResponse);
     });

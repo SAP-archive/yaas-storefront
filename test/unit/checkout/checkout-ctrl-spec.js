@@ -1,4 +1,4 @@
-ddescribe('CheckoutCtrl', function () {
+describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd;
     var ERROR_TYPES = {
