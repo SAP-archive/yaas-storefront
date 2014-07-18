@@ -23,15 +23,14 @@ angular.module('ds.products')
             if ($scope.sort === '') {
                 var query = {
                     pageNumber: $scope.pageNumber++,
-                    pageSize: $scope.pageSize
+                    pageSize: $scope.pageSize,
+                    //we only want to show published products on this list
+                    q: 'published:true'
                 };
 
                 if ($scope.sort) {
                     query.sort = $scope.sort;
                 }
-
-                //we only want to show published products on this list
-                query.q = 'published:true';
 
                 // prevent additional API calls if all products are retrieved
                 // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
@@ -80,7 +79,7 @@ angular.module('ds.products')
         };
 
         /** Recalculates the "viewing x to z products" numbers. */
-        $scope.getViewingNumbers = function (pageNo) {
+       function getViewingNumbers (pageNo) {
             $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
             $scope.productsTo = $scope.pageSize * pageNo;
 
@@ -96,8 +95,9 @@ angular.module('ds.products')
                     $scope.pageSize = $scope.total;
                 }
 
-                $scope.getViewingNumbers(pageNo);
+                getViewingNumbers(pageNo);
                 $scope.pageNumber = pageNo;
+
                 var query = {
                     pageNumber: $scope.pageNumber,
                     pageSize: $scope.pageSize,
@@ -107,7 +107,7 @@ angular.module('ds.products')
                 //we only want to show published products on this list
                 query.q = 'published:true';
 
-                ProductSvc.queryWithResultHandler(query,
+                ProductSvc.query(query).$promise.then(
                     function (products) {
                         if (products) {
                             $scope.products = products;
@@ -119,7 +119,7 @@ angular.module('ds.products')
                                 q: 'productId:(' + productIds + ')'
                             };
 
-                            PriceSvc.queryWithResultHandler(queryPrices,
+                            PriceSvc.query(queryPrices).$promise.then(
                                 function (pricesResponse) {
                                     if (pricesResponse) {
                                         var prices = pricesResponse.prices;
