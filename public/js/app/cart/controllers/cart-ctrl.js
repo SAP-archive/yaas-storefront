@@ -42,6 +42,7 @@ angular.module('ds.cart')
         /**
          *  Issues an "update cart" call to the service.
          */
+         
         $scope.updateCart = function () {
             CartSvc.updateCart();
         };
