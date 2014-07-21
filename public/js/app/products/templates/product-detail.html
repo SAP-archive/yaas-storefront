@@ -42,7 +42,7 @@
                             <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
                         </div>
                         <div ng-show="{{!product.inStock}}" class="col-sm-6">
-                            <button class="btn btn-primary btn-block">Out Of Stock</button>
+                            <button class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
                         </div>
                     </div>
                 </form>

@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate) {
 
 
             $scope.order = order;
@@ -58,8 +58,23 @@ angular.module('ds.checkout')
 
             $scope.submitIsDisabled = false;
 
+            /*
             var defaultErrorMsg = 'Please correct the errors above before placing your order.';
             var invalidCCExpDateMsg = 'Invalid Expiration Date.';
+            */
+
+            var defaultErrorMsg = '';
+            var invalidCCExpDateMsg = '';
+
+            $translate('PLEASE_CORRECT_ERRORS')
+                .then(function (translatedValue) {
+                    defaultErrorMsg = translatedValue;
+                });
+
+            $translate('INVALID_EXPIRATION_DATE')
+                .then(function (translatedValue) {
+                    invalidCCExpDateMsg = translatedValue;
+                });
 
             var Wiz = function () {
                 this.step1Done = false;
