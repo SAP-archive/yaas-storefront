@@ -15,10 +15,6 @@ describe('NavigationCtrl Test', function () {
     var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
 
-    //***********************************************************************
-    // Common Setup
-    // - shared setup between constructor validation and method validation
-    //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.shared'));
@@ -40,10 +36,11 @@ describe('NavigationCtrl Test', function () {
         var navCtrl, cart;
         cart = {};
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart, GlobalData: mockedGlobalData});
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, cart: cart, GlobalData: mockedGlobalData,
+               showCartIcon: true});
         });
 
-        it('should change showCart value', function(){
+        iit('should change showCart value', function(){
             $scope.toggleCart();
             expect($rootScope.showCart).toEqualData(true);
             $scope.toggleCart();

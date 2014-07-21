@@ -18,6 +18,7 @@ angular.module('ds.confirmation')
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
+        window.scrollTo(0, 0);
 
         /* OrderDetails are retrieved on controller instantiation, rather than being injected
         * through UI router.  This allows us to display the page immediately while filling in the details as they become
@@ -27,6 +28,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails =  details;
+
         });
 
     }]);

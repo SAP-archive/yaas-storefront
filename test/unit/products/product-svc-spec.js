@@ -55,16 +55,5 @@ describe('ProductSvc Test', function () {
         expect(products).toEqualData(prodList);
     });
 
-     it('query with success handler invokes callback on resolved promise', function () {
-         var products;
-         $httpBackend.expectGET(testUrl).respond(prodList);
 
-         var myCallback = function(result) {
-             products = result;
-         }
-
-         productSvc.queryWithResultHandler({}, myCallback);
-         $httpBackend.flush();
-         expect(products).toEqualData(prodList);
-     });
 });

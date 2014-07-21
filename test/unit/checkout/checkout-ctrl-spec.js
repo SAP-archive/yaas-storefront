@@ -23,10 +23,6 @@ describe('CheckoutCtrl', function () {
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         }
-        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
-            return { then: jasmine.createSpy() };
-        });
-        $provide.value('CheckoutSvc', mockedCheckoutSvc);
 
         $provide.value('cart', cart);
         $provide.value('order', order);
@@ -207,7 +203,6 @@ describe('CheckoutCtrl', function () {
         var fieldErrorMsg = 'Please correct the errors above before placing your order.';
 
         beforeEach(inject(function($q) {
-            var deferred = $q.defer();
             $scope.checkoutForm = {};
             $scope.checkoutForm.paymentForm ={};
             $scope.checkoutForm.paymentForm.ccNumber = {};

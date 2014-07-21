@@ -108,6 +108,9 @@ window.app = angular.module('ds.router', [
                     resolve:  {
                         cart: function(CartSvc){
                             CartSvc.getCart();
+                        },
+                        showCartIcon: function() {
+                            return true;
                         }
                     }
 
@@ -133,7 +136,6 @@ window.app = angular.module('ds.router', [
                         product: function( $stateParams, caas) {
                             return caas.productDetails.API.get({productId: $stateParams.productId }).$promise
                                 .then(function(result){
-                                    window.scrollTo(0, 0);
                                     return result;
                                 });
                         }
@@ -184,8 +186,13 @@ window.app = angular.module('ds.router', [
                             controller: 'ConfirmationCtrl'
                         },
                         'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation-no-cart.html',
-                            controller: 'NavigationCtrl'
+                            templateUrl: 'public/js/app/shared/templates/navigation.html',
+                            controller: 'NavigationCtrl' // defining new instance so that "showCartIcon" can be overridden
+                        }
+                    },
+                    resolve:  {
+                        showCartIcon: function(){
+                            return false;
                         }
                     }
                 })
