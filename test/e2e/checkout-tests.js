@@ -118,7 +118,7 @@ describe("checkout:", function () {
             browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code.');
+            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code');
             browser.executeScript("document.getElementById('cvc').style.display='block';");
             validateField('cvc', '', '123', 'id', 'place-order-btn');
             validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
