@@ -28,7 +28,6 @@ angular.module('ds.i18n')
         CREDIT_CARD_NUMBER: 'Credit Card Number',
         CVC_NUMBER: 'CVC Number',
         CVC_REQUIRED: 'CVC Required',
-        DEFAULT_ERROR_MESSAGE: 'Please correct the errors above before placing your order.',
         DELIVERY_METHOD: 'Delivery Method',
         EMAIL: 'Email',
         EMAIL_REQUIRED: 'Email Required',
@@ -48,6 +47,7 @@ angular.module('ds.i18n')
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
         PLACE_ORDER: 'Place Order',
+        PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
         PLEASE_ENTER_VALID_CODE: 'Please enter a valid code',
         PLEASE_ENTER_VALID_EMAIL: 'Please enter a valid email in the format name@example.com',
@@ -94,12 +94,16 @@ angular.module('ds.i18n')
          */
         BUY: 'Buy',
         DESCRIPTION: 'Description',
+        OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
 
         /*
             product list page
          */
+        NEWEST: 'newest',
         OF: 'of',
+        PRICE_HIGH_LOW: 'price high - low',
+        PRICE_LOW_HIGH: 'price low - high',
         SORT_BY: 'Sort by',
         VIEWING: 'Viewing',
 

@@ -28,7 +28,6 @@ angular.module('ds.i18n')
         CREDIT_CARD_NUMBER: 'Kreditkartennummer',
         CVC_NUMBER: 'CVC Nummer',
         CVC_REQUIRED: 'CVC Nummer Pflicht',
-        DEFAULT_ERROR_MESSAGE: 'Bitte korrigieren Sie die Fehler.',
         DELIVERY_METHOD: 'Versandart',
         EMAIL: 'Email',
         EMAIL_REQUIRED: 'Email Pflicht',
@@ -48,6 +47,7 @@ angular.module('ds.i18n')
         ORDER_TOTAL: 'Gesamtbestellung',
         PAYMENT: 'Zahlung',
         PLACE_ORDER: 'Bestellung aufgeben',
+        PLEASE_CORRECT_ERRORS: 'Bitte korrigieren Sie die Fehler.',
         PLEASE_ENTER_VALID_CC: 'Bitte geben Sie eine gültige Kreditkartennummer an.',
         PLEASE_ENTER_VALID_CODE: 'Bitte geben Sie einen gültigen Code an.',
         PLEASE_ENTER_VALID_EMAIL: 'Geben Sie eine gültige E-Mail an.',
@@ -94,12 +94,16 @@ angular.module('ds.i18n')
          */
         BUY: 'Kaufen',
         DESCRIPTION: 'Beschreibung',
+        OUT_OF_STOCK: 'ausverkauft',
         QTY: 'Menge',
 
         /*
          product list page
          */
+        NEWEST: 'neueste',
         OF: 'Von',
+        PRICE_HIGH_LOW: 'hohen preis',
+        PRICE_LOW_HIGH: 'niedrigen preis',
         SORT_BY: 'Sortieren',
         VIEWING: 'Besichtigung',
 
