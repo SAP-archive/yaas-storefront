@@ -187,7 +187,7 @@ describe('CheckoutCtrl', function () {
 
         it('should show default error msg if form invalid', function(){
             $scope.placeOrder(false, formName);
-            expect($scope.message).toEqualData('Please correct the errors above before placing your order.');
+            expect($scope.message).toEqualData('');
         });
 
         it('should ensure ship to copy', function(){
@@ -200,7 +200,7 @@ describe('CheckoutCtrl', function () {
 
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
-        var fieldErrorMsg = 'Please correct the errors above before placing your order.';
+        var fieldErrorMsg = '';
 
         beforeEach(inject(function($q) {
             $scope.checkoutForm = {};
@@ -272,7 +272,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
 
         it('should update validity on year error', function(){
@@ -282,7 +282,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
     });
 

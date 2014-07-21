@@ -40,7 +40,7 @@ describe('NavigationCtrl Test', function () {
                showCartIcon: true});
         });
 
-        iit('should change showCart value', function(){
+        it('should change showCart value', function(){
             $scope.toggleCart();
             expect($rootScope.showCart).toEqualData(true);
             $scope.toggleCart();
