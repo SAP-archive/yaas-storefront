@@ -167,7 +167,6 @@ angular.module('ds.checkout')
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
 
-                // return caas.checkout.API.save(newOrder);
                 return CheckoutRest.all('checkouts').all('order').post(newOrder);
 
             }

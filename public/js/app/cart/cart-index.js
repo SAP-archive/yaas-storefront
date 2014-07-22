@@ -13,6 +13,5 @@
 'use strict';
 
 angular.module('ds.cart', [
-    'yng.core',
     'ds.shared'
 ]);

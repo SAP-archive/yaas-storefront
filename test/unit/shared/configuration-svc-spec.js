@@ -34,13 +34,11 @@ describe('ConfigurationSvc Test', function () {
 
 
     beforeEach(function() {
-        module('yng.core');
         module('restangular');
     });
 
-    beforeEach(module('ds.shared', function (caasProvider, $provide) {
+    beforeEach(module('ds.shared', function ($provide) {
         $provide.value('STORE_CONFIG', mockedStoreConfig);
-        // caasProvider.endpoint('config', { tenant: '@tenant' }).baseUrl(url).route(dummyRoute);
     }));
 
     beforeEach(function () {

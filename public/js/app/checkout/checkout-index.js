@@ -13,7 +13,6 @@
 'use strict';
 
 angular.module('ds.checkout', [
-    'yng.core',
     'ds.cart',
     'vr.StripeJS'
 ]);

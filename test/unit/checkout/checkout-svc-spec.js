@@ -91,7 +91,6 @@ describe('CheckoutSvc', function () {
             };
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
-        //     caasProvider.endpoint('checkout').baseUrl(checkoutUrl).route(checkoutRoute);
         }));
 
         beforeEach(function () {
@@ -192,10 +191,7 @@ describe('CheckoutSvc', function () {
             module('restangular');
         });
 
-        beforeEach(module('ds.checkout', function($provide, caasProvider) {
-
-            // caasProvider.endpoint('orders').baseUrl(checkoutUrl).route(checkoutRoute);
-
+        beforeEach(module('ds.checkout', function($provide) {
             var createTokenStub = function(data, callback) {
                 callback(stripeStatus, stripeResponse);
             };

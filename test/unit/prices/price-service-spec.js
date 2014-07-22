@@ -34,11 +34,8 @@ describe('PricesService Test', function(){
 
     beforeEach(function() {
         module('restangular');
+        module('ds.products');
     });
-
-    beforeEach(module('ds.products', function ($provide){
-        // caasProvider.endpoint('prices').baseUrl(priceUrl).route(priceRoute);
-    }));
 
     beforeEach(function (){
 

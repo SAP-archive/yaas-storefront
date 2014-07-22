@@ -43,11 +43,8 @@ describe('OrderDetailSvc Test', function () {
 
     beforeEach(function() {
         module('restangular');
+        module('ds.confirmation');
     });
-
-    beforeEach(module('ds.confirmation', function (caasProvider) {
-        // caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
-    }));
 
 
     beforeEach(function () {

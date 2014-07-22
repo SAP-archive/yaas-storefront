@@ -19,7 +19,6 @@ angular.module('ds.confirmation')
     .factory('OrderDetailSvc', ['OrderRest',  function(OrderRest){
 
         var getOrderDetails = function (orderId) {
-            // return caas.orders.API.get({orderId: orderId });
             return OrderRest.one('orders', orderId).get();
         };
 

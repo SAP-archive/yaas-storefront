@@ -13,7 +13,6 @@
 'use strict';
 
 angular.module('ds.confirmation', [
-    'yng.core',
     'ds.cart',
     'ds.checkout'
 ]);

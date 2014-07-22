@@ -24,9 +24,8 @@ describe('ProductSvc Test', function () {
         {name: 'Hat'}
     ];
 
-    beforeEach(angular.mock.module('ds.products', function (caasProvider, $provide) {
+    beforeEach(angular.mock.module('ds.products', function ($provide) {
         $provide.value('STORE_CONFIG', mockedStoreConfig);
-        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(productUrl).route(productRoute);
     }));
 
 
