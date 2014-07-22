@@ -24,6 +24,7 @@ describe('OrderDetailSvc Test', function () {
 
     var url = 'http://dummyurl';
     var route = '/orders/:orderId';
+    var ordersUrl = 'http://order-v1.test.cf.hybris.com/orders';
     var $scope, $rootScope, $httpBackend, orderDetailSvc;
 
     var orderDetails = {};
@@ -40,9 +41,12 @@ describe('OrderDetailSvc Test', function () {
         email: 'your.name@email.com'
     };
 
+    beforeEach(function() {
+        module('restangular');
+    });
 
-    beforeEach(angular.mock.module('ds.confirmation', function (caasProvider) {
-        caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
+    beforeEach(module('ds.confirmation', function (caasProvider) {
+        // caasProvider.endpoint('orders', { orderId: '@orderId' }).baseUrl(url).route(route);
     }));
 
 
@@ -64,18 +68,25 @@ describe('OrderDetailSvc Test', function () {
 
 
     it('get returns order details', function () {
-        $httpBackend.expectGET('http://dummyurl/orders').respond(orderDetails);
+        $httpBackend.expectGET(ordersUrl).respond(orderDetails);
 
         var details = orderDetailSvc.get();
 
         $httpBackend.flush();
-        expect(details).toEqualData(orderDetails);
+        // expect(details).toEqualData(orderDetails);
+        expect(details.companyName).toEqualData(orderDetails.companyName);
+        expect(details.street).toEqualData(orderDetails.street);
+        expect(details.zipCode).toEqualData(orderDetails.zipCode);
+        expect(details.city).toEqualData(orderDetails.city);
+        expect(details.country).toEqualData(orderDetails.country);
+        expect(details.state).toEqualData(orderDetails.state);
+        expect(details.$object.customer).toEqualData(orderDetails.customer);
     });
 
 
     it('should format order detail info correctly', function () {
         var orderId = 123;
-        $httpBackend.expectGET('http://dummyurl/orders/'+orderId).respond(orderDetails);
+        $httpBackend.expectGET(ordersUrl+'/'+orderId).respond(orderDetails);
 
         var result = null;
         orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){

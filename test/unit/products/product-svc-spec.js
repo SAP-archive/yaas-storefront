@@ -13,6 +13,7 @@ describe('ProductSvc Test', function () {
 
     var productUrl = 'http://dummy.product.url';
     var productRoute = '/products';
+    var productsRestUrl = 'http://product-v1.test.cf.hybris.com/products';
     var testUrl = productUrl+productRoute;
     var $scope, $rootScope, $httpBackend, productSvc;
     var mockedStoreConfig = {};
@@ -47,17 +48,22 @@ describe('ProductSvc Test', function () {
 
 
     it('query returns product array', function () {
-        $httpBackend.expectGET(testUrl).respond(prodList);
+        $httpBackend.expectGET(productsRestUrl).respond(prodList);
 
         var products = productSvc.query();
 
         $httpBackend.flush();
-        expect(products).toEqualData(prodList);
+        expect(products.$object.length).toBeDefined();
+        expect(products.$object.length).toEqual(prodList.length);
+        for (var i = 0, prod; i < products.$object.length; i++) {
+            prod = products.$object[i];
+            expect(prod.name).toEqualData(prodList[i].name);
+        };
     });
 
-     it('query with success handler invokes callback on resolved promise', function () {
+     it('queryWithResultHandler with success handler invokes callback on resolved promise', function () {
          var products;
-         $httpBackend.expectGET(testUrl).respond(prodList);
+         $httpBackend.expectGET(productsRestUrl).respond(prodList);
 
          var myCallback = function(result) {
              products = result;
@@ -65,6 +71,11 @@ describe('ProductSvc Test', function () {
 
          productSvc.queryWithResultHandler({}, myCallback);
          $httpBackend.flush();
-         expect(products).toEqualData(prodList);
+         expect(products.$object.length).toBeDefined();
+         expect(products.$object.length).toEqual(prodList.length);
+         for (var i = 0, prod; i < products.$object.length; i++) {
+             prod = products.$object[i];
+             expect(prod.name).toEqualData(prodList[i].name);
+         };
      });
 });

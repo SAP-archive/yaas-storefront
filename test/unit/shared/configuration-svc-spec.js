@@ -25,6 +25,7 @@ describe('ConfigurationSvc Test', function () {
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
     var fullUrl = url+dummyRoute;
+    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
     var $scope, $rootScope, $httpBackend, configSvc, globalData;
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
@@ -34,11 +35,12 @@ describe('ConfigurationSvc Test', function () {
 
     beforeEach(function() {
         module('yng.core');
+        module('restangular');
     });
 
-    beforeEach(angular.mock.module('ds.shared', function (caasProvider, $provide) {
+    beforeEach(module('ds.shared', function (caasProvider, $provide) {
         $provide.value('STORE_CONFIG', mockedStoreConfig);
-        caasProvider.endpoint('config', { tenant: '@tenant' }).baseUrl(url).route(dummyRoute);
+        // caasProvider.endpoint('config', { tenant: '@tenant' }).baseUrl(url).route(dummyRoute);
     }));
 
     beforeEach(function () {
@@ -60,7 +62,7 @@ describe('ConfigurationSvc Test', function () {
 
     describe('loadConfiguration', function(){
         it('should GET settings and update store config', function () {
-            $httpBackend.expectGET(fullUrl).respond(mockedStoreConfig);
+            $httpBackend.expectGET(configurationsUrl).respond(mockedStoreConfig);
 
             configSvc.loadConfiguration();
 

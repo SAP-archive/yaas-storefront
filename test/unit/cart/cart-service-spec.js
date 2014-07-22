@@ -15,12 +15,16 @@ describe('CartSvc Test', function () {
     var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
     var cartItemId = 'cartItemId123';
-    var dummyUrl = 'dummyUrl';
+    // var dummyUrl = 'dummyUrl';
+    var dummyUrl = 'http://cart-v1.test.cf.hybris.com/cartItems';
     var dummyRoute = '/dummyRoute';
     var dummyRouteWithCartId = dummyRoute+'/:cartId';
 
-    var fullUrl = dummyUrl+dummyRoute;
-    var fullUrlWithCart = dummyUrl+dummyRoute+'/'+cartId;
+    // var fullUrl = dummyUrl+dummyRoute;
+    var fullUrl = dummyUrl;
+    // var fullUrlWithCart = dummyUrl+dummyRoute+'/'+cartId;
+    var fullUrlWithCart = 'http://cart-mashup-v1.test.cf.hybris.com/carts/cartId456/details';
+    var cartUrl = 'http://cart-v1.test.cf.hybris.com/carts/cartId456';
 
     var sku1 =  'guitar1234';
     var prod1 =    {'name': 'Electric Guitar', 'id': sku1, 'price': 1000.00};
@@ -30,13 +34,10 @@ describe('CartSvc Test', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    // configure the target service's module for testing - see angular.mock
-
-    beforeEach(angular.mock.module('ds.cart', function (caasProvider) {
-        caasProvider.endpoint('cartItems').baseUrl(dummyUrl).route(dummyRoute);
-        caasProvider.endpoint('cart', { cartId: '@cartId' }).baseUrl(dummyUrl).route(dummyRouteWithCartId);
-        caasProvider.endpoint('cartDetails', {cartId: '@cartId'}).baseUrl(dummyUrl).route(dummyRouteWithCartId);
-    }));
+    beforeEach(function() {
+        module('restangular');
+        module('ds.cart');
+    });
 
     beforeEach(inject(function (_$httpBackend_, _$rootScope_, CartSvc) {
 
@@ -49,7 +50,6 @@ describe('CartSvc Test', function () {
         $scope = _$rootScope_.$new();
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
-
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
     }));
 
@@ -86,8 +86,10 @@ describe('CartSvc Test', function () {
             );
             cartSvc.addProductToCart(prod1, 1);
             mockBackend.flush();
-            mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
+            mockBackend.expectPUT(cartUrl, {"id": "cartId456", "cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
             mockBackend.expectGET(fullUrlWithCart).respond({});
+            // mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
+            // mockBackend.expectGET(fullUrlWithCart).respond({});
             cartSvc.addProductToCart(prod1, 1 );
             mockBackend.flush();
         });
@@ -125,7 +127,7 @@ describe('CartSvc Test', function () {
 
         describe('removeProductFromCart', function() {
             it('should should issue PUT with qty = 0', function () {
-                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":0,"cartItemId":cartItemId}]}).respond({});
+                mockBackend.expectPUT(cartUrl, {"id":"cartId456","cartItems":[{"productId":"guitar1234","quantity":0,"cartItemId":"cartItemId123"}]}).respond({});
                 mockBackend.expectGET(fullUrlWithCart).respond({});
                 cartSvc.removeProductFromCart(sku1);
                 mockBackend.flush();
@@ -134,7 +136,7 @@ describe('CartSvc Test', function () {
 
         describe('updateProductQty with qty > 0', function(){
             it('should should issue PUT with qty > 0', function () {
-                mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
+                mockBackend.expectPUT(cartUrl, {"id":"cartId456","cartItems":[{"productId":"guitar1234","quantity":2,"cartItemId":"cartItemId123"}]}).respond({});
                 mockBackend.expectGET(fullUrlWithCart).respond({});
                 var cart = cartSvc.getCart();
                 cart.cartItems[0].quantity = 2;

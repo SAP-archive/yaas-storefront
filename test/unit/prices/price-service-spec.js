@@ -13,6 +13,7 @@
 describe('PricesService Test', function(){
 
     var priceUrl = "http://dummy.price.url";
+    var priceUrlRest = 'http://price-v1.test.cf.hybris.com/prices';
     var priceRoute = "/prices";
     var testUrl = priceUrl + priceRoute;
     var $scope, $rootScope, $httpBackend, priceSvc;
@@ -31,8 +32,12 @@ describe('PricesService Test', function(){
         }]
     };
 
-    beforeEach(angular.mock.module('ds.products', function (caasProvider, $provide){
-        caasProvider.endpoint('prices').baseUrl(priceUrl).route(priceRoute);
+    beforeEach(function() {
+        module('restangular');
+    });
+
+    beforeEach(module('ds.products', function ($provide){
+        // caasProvider.endpoint('prices').baseUrl(priceUrl).route(priceRoute);
     }));
 
     beforeEach(function (){
@@ -53,16 +58,10 @@ describe('PricesService Test', function(){
     });
 
     it('query return prices object with success handler invoking callback on resolved promise',function (){
-        var prices;
-        $httpBackend.expectGET(testUrl).respond(priceResponse);
-
-        var myCallback = function(result) {
-            prices = result;
-        };
-
-        priceSvc.queryWithResultHandler({}, myCallback);
+        $httpBackend.expectGET(priceUrlRest).respond(priceResponse);
+        var prices = priceSvc.query({});
         $httpBackend.flush();
-        expect(prices).toEqualData(priceResponse);
+        expect(prices.$object.prices).toEqualData(priceResponse.prices);
     });
 
 });

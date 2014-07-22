@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['caas', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
-        function (caas, $rootScope, StripeJS, CartSvc, settings, $q) {
+    .factory('CheckoutSvc', ['CheckoutRest', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
+        function (CheckoutRest, $rootScope, StripeJS, CartSvc, settings, $q) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {
@@ -79,7 +79,8 @@ angular.module('ds.checkout')
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
 
-                            self.createOrder(order, response.id).$promise.then(
+                            // self.createOrder(order, response.id).$promise.then(
+                            self.createOrder(order, response.id).then(
                                 // success handler
                                 function (order) {
                                     CartSvc.resetCart();
@@ -166,7 +167,8 @@ angular.module('ds.checkout')
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
 
-                return caas.checkout.API.save(newOrder);
+                // return caas.checkout.API.save(newOrder);
+                return CheckoutRest.all('checkouts').all('order').post(newOrder);
 
             }
 

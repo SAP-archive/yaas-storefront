@@ -13,7 +13,19 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
+    // .factory('CartSvc', ['$rootScope', 'CartItemsRest', 'CartDetailsRest', 'CartRest', function($rootScope, CartItemsRest, CartDetailsRest, CartRest){
+    .factory('CartSvc', ['$rootScope', 'Restangular', 'settings', function($rootScope, Restangular, settings){
+
+        var CartRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
+        });
+        var CartDetailsRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cartDetails.baseUrl);
+        });
+        var CartItemsRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cartItems.baseUrl);
+        });
+
 
         // Matches CAAS schema
         var CartItem = function(productId, qty, itemId) {
@@ -49,7 +61,7 @@ angular.module('ds.cart')
 
             newCart.cartItem = item;
 
-            caas.cartItems.API.save(newCart).$promise.then(function(response){
+            CartItemsRest.all('cartItems').post(newCart).then(function(response){
                 cart.id = response.cartId;
                 refreshCart();
             });
@@ -58,8 +70,8 @@ angular.module('ds.cart')
 
 
         function refreshCart(){
-            var newCart = caas.cartDetails.API.get({cartId: cart.id });
-            newCart.$promise.then(function(response){
+            var newCart = CartDetailsRest.one('carts', cart.id).one('details').get();
+            newCart.then(function(response){
                 cart.subTotalPrice = response.subTotalPrice;
                 cart.totalUnitsCount = response.totalUnitsCount;
                 cart.totalPrice = response.totalPrice;
@@ -80,7 +92,9 @@ angular.module('ds.cart')
                     newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
                 });
 
-                caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function () {
+                var cartRest = CartRest.one('carts', cart.id);
+                _.extend(cartRest, newCart);
+                cartRest.put().then(function () {
                     refreshCart();
                 });
             },

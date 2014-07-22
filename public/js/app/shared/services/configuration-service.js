@@ -15,7 +15,7 @@
  *  Encapsulates access to the CAAS configuration API.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
+    .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationRest', function(settings, GlobalData, ConfigurationRest){
 
         return {
 
@@ -27,8 +27,9 @@ angular.module('ds.shared')
              * @param {callback} success callback function
              */
             loadConfiguration: function() {
-                var config = caas.config.API.get();
-                config.$promise.then(function (result) {
+                var config = ConfigurationRest.one('configurations').get();
+                config.then(function (result) {
+                    console.log('configuration: ', result);
                     var key = null;
                     var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
