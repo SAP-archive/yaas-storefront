@@ -64,20 +64,19 @@ describe('OrderDetailSvc Test', function () {
     });
 
 
-    it('get returns order details', function () {
-        $httpBackend.expectGET(ordersUrl).respond(orderDetails);
+    it('getFormattedConfirmationDetails returns order details', function () {
+        var orderId = 123;
+        $httpBackend.expectGET(ordersUrl + '/' + orderId).respond(orderDetails);
 
-        var details = orderDetailSvc.get();
+        var details = orderDetailSvc.getFormattedConfirmationDetails(orderId);
 
         $httpBackend.flush();
-        // expect(details).toEqualData(orderDetails);
         expect(details.companyName).toEqualData(orderDetails.companyName);
         expect(details.street).toEqualData(orderDetails.street);
         expect(details.zipCode).toEqualData(orderDetails.zipCode);
         expect(details.city).toEqualData(orderDetails.city);
         expect(details.country).toEqualData(orderDetails.country);
         expect(details.state).toEqualData(orderDetails.state);
-        expect(details.$object.customer).toEqualData(orderDetails.customer);
     });
 
 
