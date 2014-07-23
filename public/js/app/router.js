@@ -10,8 +10,7 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
-    'yng.core',
-    'wu.masonry'
+    'yng.core'
 ])
     .constant('_', window._)
 

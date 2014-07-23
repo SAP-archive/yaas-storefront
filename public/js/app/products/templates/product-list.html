@@ -68,8 +68,8 @@
     </div>
 
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <div class="row product-grid gridMasonry" masonry item-selector=".item" masonry-options="{ transitionDuration: '0.4s', gutter: 0 }" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" preserve-order>
-        <div class="item masonry-brick" ng-repeat="product in products">
+    <div class="row product-grid gridMasonry" item-selector=".item" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" preserve-order>
+        <div class="item" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
                     <img ng-src="{{ product && product.images[0].url || ''}}" alt="">
