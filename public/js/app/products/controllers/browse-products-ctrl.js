@@ -40,7 +40,7 @@ angular.module('ds.products')
                     }
                 }
             );
-        };
+        }
 
         /*
           Retrieves more products from the product service and adds them to the product list.
@@ -78,7 +78,7 @@ angular.module('ds.products')
                                     $scope.products = $scope.products.concat(products);
                                     $scope.productsTo = $scope.products.length;
                                     $scope.total = GlobalData.products.meta.total;
-                                    getPrices(products);    
+                                    getPrices(products);
                                 }
                             }, function() {
                                 $scope.requestInProgress = false;
