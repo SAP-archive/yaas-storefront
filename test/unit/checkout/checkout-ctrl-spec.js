@@ -23,10 +23,6 @@ describe('CheckoutCtrl', function () {
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         }
-        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
-            return { then: jasmine.createSpy() };
-        });
-        $provide.value('CheckoutSvc', mockedCheckoutSvc);
 
         $provide.value('cart', cart);
         $provide.value('order', order);
@@ -191,7 +187,7 @@ describe('CheckoutCtrl', function () {
 
         it('should show default error msg if form invalid', function(){
             $scope.placeOrder(false, formName);
-            expect($scope.message).toEqualData('Please correct the errors above before placing your order.');
+            expect($scope.message).toEqualData('');
         });
 
         it('should ensure ship to copy', function(){
@@ -204,10 +200,9 @@ describe('CheckoutCtrl', function () {
 
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
-        var fieldErrorMsg = 'Please correct the errors above before placing your order.';
+        var fieldErrorMsg = '';
 
         beforeEach(inject(function($q) {
-            var deferred = $q.defer();
             $scope.checkoutForm = {};
             $scope.checkoutForm.paymentForm ={};
             $scope.checkoutForm.paymentForm.ccNumber = {};
@@ -277,7 +272,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
 
         it('should update validity on year error', function(){
@@ -287,7 +282,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
     });
 

@@ -12,6 +12,7 @@
 
 'use strict';
 
+/** Module for the order confirmation view.*/
 angular.module('ds.confirmation', [
     'ds.cart',
     'ds.checkout'

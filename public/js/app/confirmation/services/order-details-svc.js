@@ -13,25 +13,23 @@
 'use strict';
 
 /**
- *  Encapsulates access to the CAAS order details API.
+ *  Encapsulates access to the "order" service.
  */
 angular.module('ds.confirmation')
     .factory('OrderDetailSvc', ['OrderRest',  function(OrderRest){
 
+        /** Issues a GET request for the 'order' resource
+         * @param orderId
+         */
         var getOrderDetails = function (orderId) {
             return OrderRest.one('orders', orderId).get();
         };
 
         return {
-            /**
-             * Issues a query request on the product resource.
-             * @param {orderId} orderId
-             * @return The result array as returned by Angular $resource.query().
-             */
-            get: function(orderId) {
-                return getOrderDetails(orderId);
-            },
 
+            /** Retrieves order confirmation details and formats them the spec required by the UI.
+             * @param orderId
+             */
             getFormattedConfirmationDetails: function (orderId) {
 
                 return getOrderDetails(orderId).then(function (orderDetails) {
@@ -58,12 +56,12 @@ angular.module('ds.confirmation')
                     confirmationDetails.products = [];
                     for (var i = 0; orderDetails.entries && i < orderDetails.entries.length; i++) {
                         if (orderDetails.entries[i].product) {
-                            // TODO: after Wombats return correct images.urls (including tenant), then the following order of looking for an image should be applied:
+                            // The following order of looking for an image should be applied:
                             // 1. take first image from product.images[0]
-                            // 2. if it doesnt exist, take the first image from product.externalImages[0]
-                            var imageUrl = orderDetails.entries[i].product.externalImages[0].url;
-                            if (!imageUrl) {
-                                // if still nothing is found, then some dummy placeholder image? i dont know...
+                            var imageUrl = orderDetails.entries[i].product.images ? orderDetails.entries[i].product.images[0].url : null;
+                            // 2. if it doesn't exist, take the first image from product.externalImages[0]
+                            if(!imageUrl) {
+                                imageUrl = orderDetails.entries[i].product.externalImages[0].url;
                             }
                             confirmationDetails.products[i] = {
                                 image: imageUrl,
@@ -71,9 +69,6 @@ angular.module('ds.confirmation')
                             };
                         }
                     }
-
-                    window.scrollTo(0, 0);
-
                     return confirmationDetails;
                 });
 

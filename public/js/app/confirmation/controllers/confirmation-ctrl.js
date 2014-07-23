@@ -13,14 +13,22 @@
 
 
 angular.module('ds.confirmation')
+    /** Controls the order confirmation page. */
     .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', function ($scope, $stateParams, OrderDetailSvc) {
-        /* OrderDetails NOT injected because we don't want to delay the display of the page.*/
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
+        window.scrollTo(0, 0);
 
+        /* OrderDetails are retrieved on controller instantiation, rather than being injected
+        * through UI router.  This allows us to display the page immediately while filling in the details as they become
+        * available. It's a visual/psychological clue that the order processing success is being made.
+        *
+        * @param orderId used to retrieve order details for the confirmation
+        */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails =  details;
+
         });
 
     }]);

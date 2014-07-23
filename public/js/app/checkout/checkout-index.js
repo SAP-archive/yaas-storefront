@@ -11,7 +11,7 @@
  */
 
 'use strict';
-
+/** Module related to checkout view.*/
 angular.module('ds.checkout', [
     'ds.cart',
     'vr.StripeJS'

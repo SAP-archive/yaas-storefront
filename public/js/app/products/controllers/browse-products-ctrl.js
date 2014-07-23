@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ds.products')
+    /** Controller for the 'browse products' view.  */
     .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', function ($scope, ProductSvc, PriceSvc, GlobalData, settings) {
-
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -13,7 +13,12 @@ angular.module('ds.products')
         $scope.productsTo = $scope.pageSize;
         $scope.store = GlobalData.store;
         $scope.prices = {};
+        $scope.requestInProgress = false;
 
+        /*
+          Retrieves more products from the product service and adds them to the product list.
+          This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
+         */
         $scope.addMore = function () {
             /*
                 this function is only for infinite scrolling, which is disabled when a sort is applied.
@@ -106,6 +111,11 @@ angular.module('ds.products')
 
         $scope.showRefineContainer = function () {
             $scope.refineContainerShowing = !$scope.refineContainerShowing;
+        };
+
+        /** Scrolls browser window to top left of page.*/
+        $scope.backToTop = function () {
+            window.scrollTo(0, 0);
         };
 
     }]);

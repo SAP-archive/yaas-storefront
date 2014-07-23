@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- *  Encapsulates access to the CAAS price API.
+ *  Encapsulates access to the price API.
  */
 angular.module('ds.products')
     .factory('PriceSvc', ['PricesRest', function(PricesRest){
@@ -23,7 +23,6 @@ angular.module('ds.products')
         };
 
         return {
-
             /**
              * Retrieves prices list based on provided parameters (filter)
              * @param {parms} query parameters
@@ -31,20 +30,6 @@ angular.module('ds.products')
             query: function(parms) {
                 return getPrices(parms);
             }
-
-            /**
-             * Registers a success callback handler on the API 'query' request - invoked once the
-             * promise is resolved.
-             * @param {parms} query parameters
-             * @param {callback} success callback function
-             */
-            // queryWithResultHandler: function(parms, callback) {
-            //     var prices = getPrices(parms);
-            //     prices.$promise.then(function (result) {
-            //         callback(result);
-            //     });
-            // }
-
         };
 
     }]);

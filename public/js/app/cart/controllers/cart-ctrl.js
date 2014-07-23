@@ -13,6 +13,9 @@
 'use strict';
 
 angular.module('ds.cart')
+    /** This controller manages the interactions for the cart icon in the navigation bar, as well as the
+     * cart maintenance function of the cart view. The controller is also listening to the 'cart:udpated' event
+     * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', function($scope, $rootScope, CartSvc) {
 
         $scope.cart = CartSvc.getCart();
@@ -23,19 +26,23 @@ angular.module('ds.cart')
 
         $scope.$on('$destroy', unbind);
 
+        /** Remove a product from the cart.
+         * @param productId
+         * */
         $scope.removeProductFromCart = function (productId) {
             CartSvc.removeProductFromCart(productId);
         };
 
+        /** Toggles the "show cart view" property.
+         */
         $scope.toggleCart = function (){
             $rootScope.showCart = false;
         };
 
         /**
-         *
-         * @param sku
-         * @param qty
+         *  Issues an "update cart" call to the service.
          */
+         
         $scope.updateCart = function () {
             CartSvc.updateCart();
         };
