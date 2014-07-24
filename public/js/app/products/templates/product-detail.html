@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-md-pull-8 ">
+        <div class="col-md-4 col-md-pull-8">
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
                 <div class="name">{{product.name}}</div>
@@ -22,10 +22,10 @@
 
                 <form action="" class="cartPanel">
                     <div class="row" >
-                        <div class="col-sm-6">
+                        <div class="col-md-10 col-lg-8">
                             <div class="form-group qty">
                                 <label for="" >{{'QTY' | translate}}: </label>
-                                <input type="number" min="1" step="1" pattern="\d*" class="form-control col-xs-12"
+                                <input type="number" min="1" step="1" pattern="\d*" class="form-control"
 									ng-model="productDetailQty"
 									onkeydown="return ( event.ctrlKey || event.altKey
                     					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
@@ -38,10 +38,10 @@
                     </div>  
 
                     <div class="row">
-                        <div ng-show="{{product.inStock}}" class="col-sm-6">
+                        <div ng-show="{{product.inStock}}" class="col-md-10 col-lg-8">
                             <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
                         </div>
-                        <div ng-show="{{!product.inStock}}" class="col-sm-6">
+                        <div ng-show="{{!product.inStock}}" class="col-md-10 col-lg-8">
                             <button class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
                         </div>
                     </div>

@@ -7067,7 +7067,7 @@ section .hero-unit {
   line-height: 46px;
 }
 .refine-section .sortContainer .form-group {
-  margin: 0 0 0 60px;
+  margin: 0 0 0 70px;
   height: 46px;
 }
 .refine-section .sortContainer .form-group select {
@@ -7247,17 +7247,12 @@ section .hero-unit {
   z-index: 2;
   left: 0;
   display: block;
-  width: 40px;
+  width: 60px;
   height: 37px;
   padding: 0 5px 0 5px;
 }
-@media screen and (max-width: 767px) {
-  .product-details .cartPanel .form-group.qty label {
-    position: relative;
-  }
-}
 .product-details .cartPanel .form-group.qty input.form-control {
-  padding: 0 0 0 50px;
+  padding: 0 0 0 70px;
 }
 .product-details .checkout-form {
   margin: 30px 0;
