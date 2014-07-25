@@ -1,12 +1,5 @@
 $(document).ready(function () {
 
-	// $(".gridMasonry").imagesLoaded( function() {
-	// 		$(".gridMasonry").masonry({
-	// 			itemSelector: '.item',
-	// 			isInitLayout: true
-	// 	});
-	// });
-
 /*
  	$(document).on("click",".showRefineContainer",function(e){
 	 	e.preventDefault();

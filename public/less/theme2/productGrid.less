@@ -20,15 +20,23 @@
 			padding: 0 0 30px 0;
 			margin:  0 0 30px 0;
 
+			// FIXED GRID 
+			height: 325px;
+
 			&:hover{ 
 				text-decoration: none;
 			}
 
 			.thumb{
-				margin: 0 0 30px 0;
+				margin: 0 0 10px 0;
+				overflow: hidden;
+				height: 233px;
+				width: 100%;
+				text-align: center;
+
 				img{
-					width: 100%;
-					height: auto;
+					width: auto;
+					height: 100%;
 				}
 			}
 
@@ -37,6 +45,8 @@
 				font-size: 17px;
 				color: @darkestgrey;
 				font-weight: bold
+				max-height: 50px;
+				overflow: hidden;
 			}
 
 			.price{
