@@ -2,11 +2,10 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', function ($scope, ProductSvc, PriceSvc, GlobalData) {
-
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', function ($scope, ProductSvc, PriceSvc, GlobalData, settings) {
 
         $scope.pageSize = 8;
-        $scope.pageNumber = 1;
+        $scope.pageNumber = 0;
         $scope.sort = '';
         $scope.products = [];
         $scope.total = GlobalData.products.meta.total;
@@ -27,7 +26,7 @@ angular.module('ds.products')
                 q: 'productId:(' + productIds + ')'
             };
 
-            PriceSvc.query(queryPrices).$promise.then(
+            PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
                     if (pricesResponse) {
                         var prices = pricesResponse.prices;
@@ -48,31 +47,40 @@ angular.module('ds.products')
           This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
          */
         $scope.addMore = function () {
+            /*
+                this function is only for infinite scrolling, which is disabled when a sort is applied.
+             */
 
-            if ($scope.sort === '') {
-                // Prevent additional API calls if all products are retrieved, or if current request is already in progress.
-                if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
-                    if (!$scope.requestInProgress) {
+            // prevent additional API calls if all products are retrieved
+            // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
+            if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
+                if (!$scope.requestInProgress) {
+
+                    if ($scope.sort === '') {
+                        $scope.pageNumber = $scope.pageNumber + 1;
                         var query = {
-                            pageNumber: $scope.pageNumber++,
+                            pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
-                            //we only want to show published products on this list
+                            // we only want to show published products on this list
                             q: 'published:true'
                         };
+
+                        if ($scope.sort) {
+                            query.sort = $scope.sort;
+                        }
+
                         $scope.requestInProgress = true;
-                        ProductSvc.query(query).$promise.then(
-                            function (products) {
+                        ProductSvc.query(query).then(
+                            function(products) {
                                 $scope.requestInProgress = false;
                                 if (products) {
+                                    GlobalData.products.meta.total = parseInt(products.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
                                     $scope.products = $scope.products.concat(products);
                                     $scope.productsTo = $scope.products.length;
-                                    if ($scope.productsTo > $scope.total && $scope.total !== 0) {
-                                        $scope.productsTo = $scope.total;
-                                    }
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                 }
-                            }, function(){
+                            }, function() {
                                 $scope.requestInProgress = false;
                             });
                     }
@@ -80,51 +88,42 @@ angular.module('ds.products')
             }
         };
 
-        // trigger initial load of items for infinite scroll
+        // trigger initial load of items
         $scope.addMore();
 
+        $scope.backToTop = function () {
+            window.scrollTo(0, 0);
+        };
 
-
-        /** Recalculates the "viewing x to z products" numbers. */
-       function getViewingNumbers (pageNo) {
+        $scope.getViewingNumbers = function (pageNo) {
             $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
             $scope.productsTo = $scope.pageSize * pageNo;
 
             if ($scope.productsTo > $scope.total && $scope.total !== 0) {
                 $scope.productsTo = $scope.total;
             }
-        }
+        };
 
-        /** Retrieves and displays the products selected via the pagination widget.
-         * Only shown once the sort option is applied.
-         */
         $scope.setSortedPage = function (pageNo) {
 
-            if ($scope.sort && $scope.sort !== '') {
-                if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
-                    $scope.pageSize = $scope.total;
-                }
-
-                getViewingNumbers(pageNo);
-                $scope.pageNumber = pageNo;
-
-                var query = {
-                    pageNumber: $scope.pageNumber,
-                    pageSize: $scope.pageSize,
-                    sort: $scope.sort,
-                    //we only want to show published products on this list
-                    q: 'published:true'
-                };
-
-                ProductSvc.query(query).$promise.then(
-                    function (products) {
-                        if (products) {
-                            $scope.products = products;
-                            $scope.total = GlobalData.products.meta.total;
-                            getPrices(products);
-                        }
-                    });
+            if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
+                $scope.pageSize = $scope.total;
             }
+
+            $scope.getViewingNumbers(pageNo);
+            $scope.pageNumber = pageNo;
+            var query = {
+                pageNumber: $scope.pageNumber,
+                pageSize: $scope.pageSize,
+                sort: $scope.sort
+            };
+
+            //we only want to show published products on this list
+            query.q = 'published:true';
+
+            ProductSvc.query(query).then(function(products) {
+                $scope.products = products;
+            });
         };
 
         $scope.showRefineContainer = function () {

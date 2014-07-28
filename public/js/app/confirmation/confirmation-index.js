@@ -14,7 +14,6 @@
 
 /** Module for the order confirmation view.*/
 angular.module('ds.confirmation', [
-    'yng.core',
     'ds.cart',
     'ds.checkout'
 ]);

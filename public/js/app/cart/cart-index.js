@@ -13,6 +13,5 @@
 'use strict';
 /** Module related to shopping cart view and cart navigation. */
 angular.module('ds.cart', [
-    'yng.core',
     'ds.shared'
 ]);

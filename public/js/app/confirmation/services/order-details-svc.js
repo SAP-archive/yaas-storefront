@@ -16,13 +16,13 @@
  *  Encapsulates access to the "order" service.
  */
 angular.module('ds.confirmation')
-    .factory('OrderDetailSvc', ['caas',  function(caas){
+    .factory('OrderDetailSvc', ['OrderREST',  function(OrderREST){
 
         /** Issues a GET request for the 'order' resource
          * @param orderId
          */
         var getOrderDetails = function (orderId) {
-            return caas.orders.API.get({orderId: orderId });
+            return OrderREST.Orders.one('orders', orderId).get();
         };
 
         return {
@@ -32,7 +32,7 @@ angular.module('ds.confirmation')
              */
             getFormattedConfirmationDetails: function (orderId) {
 
-                return getOrderDetails(orderId).$promise.then(function (orderDetails) {
+                return getOrderDetails(orderId).then(function (orderDetails) {
 
                     var confirmationDetails = {};
 

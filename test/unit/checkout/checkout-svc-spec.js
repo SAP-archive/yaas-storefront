@@ -14,6 +14,7 @@ describe('CheckoutSvc', function () {
     var checkoutUrl = 'http://checkout';
     var checkoutRoute = '/checkouts/order';
     var fullCheckoutPath = checkoutUrl+checkoutRoute;
+    var checkoutOrderUrl = 'http://checkout-mashup-v1.test.cf.hybris.com/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
 
@@ -78,15 +79,18 @@ describe('CheckoutSvc', function () {
         var stripeResponse = {};
         var stripeStatus = {};
 
-        beforeEach(module('ds.checkout', function($provide, caasProvider) {
+        beforeEach(function() {
+            module('restangular');
+            module('ds.checkout');
+        });
+
+        beforeEach(module('ds.checkout', function($provide) {
 
             mockedStripeJS.createToken = function(data, callback) {
                 callback(stripeStatus, stripeResponse);
             };
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
-
-            caasProvider.endpoint('checkout').baseUrl(checkoutUrl).route(checkoutRoute);
         }));
 
         beforeEach(function () {
@@ -116,7 +120,8 @@ describe('CheckoutSvc', function () {
         describe('and successful order placement', function () {
 
             beforeEach(function(){
-                $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond({"orderId":"456"});
+                // $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond({"orderId":"456"});
+                $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond({"orderId":"456"});
             });
 
             it('should issue POST', function () {
@@ -125,7 +130,6 @@ describe('CheckoutSvc', function () {
             });
 
             it('should remove products from the cart after placing order', function () {
-
                 checkoutSvc.checkout(order);
                 $httpBackend.flush();
                 $rootScope.$digest();
@@ -136,7 +140,7 @@ describe('CheckoutSvc', function () {
 
         describe('and order placement failing due to HTTP 500', function(){
             beforeEach(function(){
-                $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond(500, '');
+                $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond(500, '');
             });
 
             it('should display System Unavailable', function(){
@@ -156,7 +160,7 @@ describe('CheckoutSvc', function () {
 
         describe('and order placement due to other error', function(){
             beforeEach(function(){
-                $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond(400, '');
+                $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond(400, '');
             });
 
             it('should display System Unavailable', function(){
@@ -183,10 +187,11 @@ describe('CheckoutSvc', function () {
         stripeResponse.error = {};
         stripeResponse.error.message = errorMessage;
 
-        beforeEach(module('ds.checkout', function($provide, caasProvider) {
+        beforeEach(function() {
+            module('restangular');
+        });
 
-            caasProvider.endpoint('orders').baseUrl(checkoutUrl).route(checkoutRoute);
-
+        beforeEach(module('ds.checkout', function($provide) {
             var createTokenStub = function(data, callback) {
                 callback(stripeStatus, stripeResponse);
             };

@@ -2,6 +2,7 @@
 
 /**  Initializes and configures the application. */
 window.app = angular.module('ds.router', [
+    'restangular',
     'ui.router',
     'ds.shared',
     'ds.utils',
@@ -9,35 +10,9 @@ window.app = angular.module('ds.router', [
     'ds.products',
     'ds.cart',
     'ds.checkout',
-    'ds.confirmation',
-    'yng.core'
+    'ds.confirmation'
 ])
     .constant('_', window._)
-
-
-    // Configure the API Provider - specify the base route and configure the end point with route and name
-    .config(function(caasProvider, settings) {
-        // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
-            route(settings.apis.products.route);
-        caasProvider.endpoint('productDetails', { productId: '@productId' }).baseUrl(settings.apis.productDetails.baseUrl).
-            route(settings.apis.productDetails.route);
-        caasProvider.endpoint('prices').baseUrl(settings.apis.prices.baseUrl).
-            route(settings.apis.prices.route);
-        // in addition, custom headers and interceptors can be added to this endpoint
-        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
-            route(settings.apis.checkout.route);
-        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
-            route(settings.apis.orders.route);
-        caasProvider.endpoint('cartItems')
-            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
-        caasProvider.endpoint('cart', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
-        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
-        caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
-            route(settings.apis.configuration.route);
-    })
 
       /** Defines the HTTP interceptors. */
     .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
@@ -73,13 +48,18 @@ window.app = angular.module('ds.router', [
         $httpProvider.interceptors.push('interceptor');
     }])
 
-     /** Enables CORS and loads the store configuration settings. */
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc',
-        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc) {
-
+    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc', 'Restangular', 'settings',
+        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc, Restangular, settings) {
+            /* enabling CORS to allow testing from localhost */
             CORSProvider.enableCORS();
 
             ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
+
+            var headers = {};
+            headers[settings.apis.headers.hybrisTenant] = STORE_CONFIG.storeTenant;
+            headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+            headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+            Restangular.setDefaultHeaders(headers);
         }
     ])
 
@@ -132,8 +112,8 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function( $stateParams, caas) {
-                            return caas.productDetails.API.get({productId: $stateParams.productId }).$promise
+                        product: function( $stateParams, ProductDetailsRest) {
+                            return ProductDetailsRest.one('productdetails', $stateParams.productId).get()
                                 .then(function(result){
                                     return result;
                                 });

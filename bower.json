@@ -23,8 +23,7 @@
     "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
     "ngInfiniteScroll": "1.0.0",
     "bootstrap": "latest",
-    "lodash": "2.4.1",
-    "angular-bootstrap": "~0.10.0"
+    "restangular": "~1.4.0"
   },
   "install": {
     "path": {
