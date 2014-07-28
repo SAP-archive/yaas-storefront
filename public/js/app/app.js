@@ -5,26 +5,22 @@ window.app = angular.module('ds.router', [
     'restangular',
     'ui.router',
     'ds.shared',
-    'ds.utils',
     'ds.i18n',
     'ds.products',
     'ds.cart',
     'ds.checkout',
-    'ds.confirmation'
+    'ds.confirmation',
+    'config'
 ])
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
-        function ($q, settings, STORE_CONFIG) {
-            var storeTenant = STORE_CONFIG.storeTenant;
+    .factory('interceptor', ['$q', 'settings',
+        function ($q, settings) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
-                    config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-                    config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
                     if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 ) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
@@ -44,22 +40,25 @@ window.app = angular.module('ds.router', [
                 }
             };
         }])
-    .config(['$httpProvider', function ($httpProvider) {
+    // Configure HTTP and Restangular Providers - default headers, CORS
+    .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
         $httpProvider.interceptors.push('interceptor');
+
+        // enable CORS
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+        var headers = {};
+        headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
+        headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+        headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+        RestangularProvider.setDefaultHeaders(headers);
     }])
+    // Load the basic store configuration
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
+        function ($rootScope, storeConfig, ConfigSvc ) {
+            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc', 'Restangular', 'settings',
-        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc, Restangular, settings) {
-            /* enabling CORS to allow testing from localhost */
-            CORSProvider.enableCORS();
-
-            ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
-
-            var headers = {};
-            headers[settings.apis.headers.hybrisTenant] = STORE_CONFIG.storeTenant;
-            headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-            headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
-            Restangular.setDefaultHeaders(headers);
         }
     ])
 

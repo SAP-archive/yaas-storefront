@@ -38,7 +38,7 @@ describe('ConfigurationSvc Test', function () {
     });
 
     beforeEach(module('ds.shared', function ($provide) {
-        $provide.value('STORE_CONFIG', mockedStoreConfig);
+        $provide.value('storeConfig', mockedStoreConfig);
     }));
 
     beforeEach(function () {

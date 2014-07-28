@@ -27,7 +27,6 @@ angular.module('ds.shared')
             loadConfiguration: function() {
                 var config = ConfigurationREST.Config.one('configurations').get();
                 config.then(function (result) {
-                    console.log('configuration: ', result);
                     var key = null;
                     var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
