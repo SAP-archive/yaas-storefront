@@ -2,54 +2,25 @@
 
 /**  Initializes and configures the application. */
 window.app = angular.module('ds.router', [
+    'restangular',
     'ui.router',
     'ds.shared',
-    'ds.utils',
     'ds.i18n',
     'ds.products',
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
-    'yng.core'
+    'config'
 ])
     .constant('_', window._)
 
-
-    // Configure the API Provider - specify the base route and configure the end point with route and name
-    .config(function(caasProvider, settings) {
-        // create a specific endpoint name and configure the route
-        caasProvider.endpoint('products', { productId: '@productId' }).baseUrl(settings.apis.products.baseUrl).
-            route(settings.apis.products.route);
-        caasProvider.endpoint('productDetails', { productId: '@productId' }).baseUrl(settings.apis.productDetails.baseUrl).
-            route(settings.apis.productDetails.route);
-        caasProvider.endpoint('prices').baseUrl(settings.apis.prices.baseUrl).
-            route(settings.apis.prices.route);
-        // in addition, custom headers and interceptors can be added to this endpoint
-        caasProvider.endpoint('checkout').baseUrl(settings.apis.checkout.baseUrl).
-            route(settings.apis.checkout.route);
-        caasProvider.endpoint('orders', {orderId: '@orderId'}).baseUrl(settings.apis.orders.baseUrl).
-            route(settings.apis.orders.route);
-        caasProvider.endpoint('cartItems')
-            .baseUrl(settings.apis.cartItems.baseUrl).route(settings.apis.cartItems.route);
-        caasProvider.endpoint('cart', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cart.baseUrl).route(settings.apis.cart.route);
-        caasProvider.endpoint('cartDetails', {cartId: '@cartId'})
-            .baseUrl(settings.apis.cartDetails.baseUrl).route(settings.apis.cartDetails.route);
-        caasProvider.endpoint('config', {tenant: '@tenant'}).baseUrl(settings.apis.configuration.baseUrl).
-            route(settings.apis.configuration.route);
-    })
-
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings', 'STORE_CONFIG',
-        function ($q, settings, STORE_CONFIG) {
-            var storeTenant = STORE_CONFIG.storeTenant;
+    .factory('interceptor', ['$q', 'settings',
+        function ($q, settings) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    config.headers[settings.apis.headers.hybrisTenant] = storeTenant;
-                    config.headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-                    config.headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
                     if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 ) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
@@ -69,17 +40,25 @@ window.app = angular.module('ds.router', [
                 }
             };
         }])
-    .config(['$httpProvider', function ($httpProvider) {
+    // Configure HTTP and Restangular Providers - default headers, CORS
+    .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
         $httpProvider.interceptors.push('interceptor');
+
+        // enable CORS
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+        var headers = {};
+        headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
+        headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+        headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+        RestangularProvider.setDefaultHeaders(headers);
     }])
+    // Load the basic store configuration
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
+        function ($rootScope, storeConfig, ConfigSvc ) {
+            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
-     /** Enables CORS and loads the store configuration settings. */
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc',
-        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc) {
-
-            CORSProvider.enableCORS();
-
-            ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
         }
     ])
 
@@ -107,9 +86,6 @@ window.app = angular.module('ds.router', [
                     resolve:  {
                         cart: function(CartSvc){
                             CartSvc.getCart();
-                        },
-                        showCartIcon: function() {
-                            return true;
                         }
                     }
 
@@ -132,8 +108,8 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function( $stateParams, caas) {
-                            return caas.productDetails.API.get({productId: $stateParams.productId }).$promise
+                        product: function( $stateParams, PriceProductREST) {
+                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
                                 .then(function(result){
                                     return result;
                                 });
@@ -183,15 +159,6 @@ window.app = angular.module('ds.router', [
                         'body@': {
                             templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
-                        },
-                        'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation.html',
-                            controller: 'NavigationCtrl' // defining new instance so that "showCartIcon" can be overridden
-                        }
-                    },
-                    resolve:  {
-                        showCartIcon: function(){
-                            return false;
                         }
                     }
                 })

@@ -4,16 +4,13 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    /** Provides access to the 'product' and 'product-details' service. */
-    .factory('ProductSvc', ['caas',  'settings', 'GlobalData', function(caas, settings, GlobalData){
+    .factory('ProductSvc', ['settings', 'GlobalData', 'PriceProductREST', function(settings, GlobalData, PriceProductREST){
 
         /** Executes a product query and extracts the "total" product count meta data and stores it in the
          * GlobalData service.
          * */
         var getProducts = function (parms) {
-            return caas.products.API.query(parms, function(response, headers) {
-                GlobalData.products.meta.total = parseInt(headers(settings.apis.headers.paging.total), 10) || 0;
-            });
+            return PriceProductREST.Products.all('products').getList(parms);
         };
 
         return {
@@ -24,6 +21,18 @@ angular.module('ds.products')
              */
             query: function(parms) {
                return getProducts(parms);
+            },
+
+            /**
+             * Registers a success callback handler on the API 'query' request - invoked once the
+             * promise is resolved.
+             * @param {parms} query parameters
+             * @param {callback} success callback function
+             */
+            queryWithResultHandler: function(parms, callback) {
+                var products = getProducts(parms);
+                callback(products);
+                return products;
             }
 
         };

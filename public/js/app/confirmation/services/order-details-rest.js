@@ -1,4 +1,4 @@
-/**
+/*
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -11,8 +11,14 @@
  */
 
 'use strict';
-/** Module related to checkout view.*/
-angular.module('ds.checkout', [
-    'ds.cart',
-    'vr.StripeJS'
-]);
+
+angular.module('ds.confirmation')
+    .factory('OrderREST', ['settings', 'Restangular', function(settings, Restangular){
+
+        return {
+            Orders: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+            })
+        };
+
+    }]);
