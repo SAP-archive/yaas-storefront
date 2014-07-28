@@ -23,16 +23,6 @@
     "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
     "ngInfiniteScroll": "1.0.0",
     "bootstrap": "latest",
-    "lodash": "2.4.1",
-    "angular-bootstrap": "~0.10.0",
-    "jquery-bridget": "~1.0.1",
-    "get-style-property": "desandro/get-style-property#~1.0.3",
-    "get-size": "desandro/get-size#~1.1.7",
-    "eventie": "~1.0.5",
-    "doc-ready": "desandro/doc-ready#~1.0.3",
-    "matches-selector": "desandro/matches-selector#~1.0.2",
-    "outlayer": "~1.2.0",
-    "eventEmitter": "~4.2.7",
     "restangular": "~1.4.0"
   },
   "install": {
