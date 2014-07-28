@@ -93,7 +93,7 @@ app.get('/:storename?/storeconfig', function(request, response) {
 });
 
 // ANGULAR UI-ROUTER WORKAROUND - append trailing '/'
-// Long-term, this should be fixed in router.js.
+// Long-term, this should be fixed in app.js.
 app.get("/:storename", function(request, response){
     var newUrl = request.url+'/';
     //console.log('redirect to '+newUrl);

@@ -84,7 +84,7 @@ Now, let's create a new tenant for your specific project so that you can modify 
 so that you can use a unique Stripe API test key.
 
 ### 3.  Replace the default tenant id in the code base with your own.  You can find your tenant id at [todo: MARKETPLACE? link].
-In file [todo: TENANT CONFIG FILE name], replace the default tenant id wity your own.
+In file [todo: TENANT CONFIG FILE name], replace the default tenant id with your own.
 
 ### 4.  Launch a new session against [todo: URL for storefront].  You should now see your customized store.
 

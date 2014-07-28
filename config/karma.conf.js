@@ -25,6 +25,7 @@ module.exports = function(config){
         'test/unit/bootstrap-test.js',
 
         'public/js/app/shared/shared-index.js',
+        'public/js/app/shared/settings.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
@@ -58,8 +59,7 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
-        'public/js/app/router.js',
-        'public/js/app/settings.js',
+        'public/js/app/app.js',
 
         'public/js/vendor-static/ui-bootstrap-tpls.js',
 
