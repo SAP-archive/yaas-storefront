@@ -1,59 +1,5 @@
 $(document).ready(function () {
 
-	// $(".gridMasonry").imagesLoaded( function() {
-	// 		$(".gridMasonry").masonry({
-	// 			itemSelector: '.item',
-	// 			isInitLayout: true
-	// 	});
-	// });
-
-/*
- 	$(document).on("click",".showRefineContainer",function(e){
-	 	e.preventDefault();
-
-	 	if(!$(".refinePanel").hasClass("active")){
-			//var offset = $(this).offset().top+46
-	 		$(".refinePanel").addClass("active")
-	 		//$(".refinePanel").css("top",offset)
-	 	}else{
-	 		$(".refinePanel").removeClass("active")
-	 	}
-	 	
-
-	 })
-
- 	$(document).on("click",".closeRefineContainer",function(e){
-	 	e.preventDefault();
-	 	$(".refinePanel").removeClass("active")
-
-	 })
-*/
-
-//productGrid
-	$('#refineAffix').affix({
-		offset: {
-			top: function () {
-				return (this.top = $('.gridMasonry').offset().top)
-			},
-			bottom: 0
-		}
-	})
-
-
-	$('#refinePanelAffix').affix({
-		offset: {
-			top: function () {
-				return (this.top = $('.gridMasonry').offset().top)
-			},
-			bottom: 0
-		}
-	})
-
-
-
-
-
-
 	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
 		$(".gallery .image").owlCarousel({
 			singleItem : true,
@@ -177,60 +123,7 @@ $(document).ready(function () {
 	 	e.preventDefault();
 	 	//remove zoom canvas
 	 	$(".gallery .image .zoomCanvas").remove();
-
 	 })
-
-
-
-
-
-
-
-
-
-	// ratingCalc
-	// should be rewritten as an angular directive
-
-	$(".ratingCalc").each(function(){
-
-		var ratingData = $(this).data("rating");
-		var $ratingIcon = $(this).find(".ratingIcon");
-		var $clonelh;
-
-		
-		for (var i = 1; i <= ratingData.total; i++) {
-			var $clone = $ratingIcon.clone().removeClass("ratingIcon");
-			
-
-			// adds the active class to the stars that are less than or equal than the current rating
-			if(i <= ratingData.rating){
-				$clone.addClass("active")
-			}
-
-			// divides the icons for the half rating points
-			if(i-0.5 == ratingData.rating){
-				$clone.addClass("active fh")
-				$clonelh = $ratingIcon.clone().removeClass("ratingIcon");
-				$clonelh.addClass("lh")
-			}
-			
-
-			// inert the rating icons in the dom
-			$clone.insertBefore($ratingIcon);
-			if($clonelh){
-				$clonelh.insertBefore($ratingIcon);
-				$clonelh=null
-			}
-
-		
-
-		}
-		// delete the template icon
-		$ratingIcon.remove()
-	})
-
-
-
 
 
 	if ($(".carousel").length && $(".carousel").owlCarousel) {
