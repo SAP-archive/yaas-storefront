@@ -15,6 +15,10 @@
                     'ds.router', 'config']);
 
             });
+        },
+        function(error){
+            console.error('Unable to to load bootstrap store config:');
+            console.error(error);
         }
     );
 })();

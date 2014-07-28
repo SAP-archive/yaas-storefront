@@ -112,8 +112,8 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function( $stateParams, ProductDetailsRest) {
-                            return ProductDetailsRest.one('productdetails', $stateParams.productId).get()
+                        product: function( $stateParams, PriceProductREST) {
+                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
                                 .then(function(result){
                                     return result;
                                 });
