@@ -12,13 +12,15 @@
 
 'use strict';
 
+/** REST service configuration for the "configuration" API. */
 angular.module('ds.shared')
-    .factory('ConfigurationRest', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('ConfigurationREST', ['settings', 'Restangular', function(settings, Restangular){
 
-        var ConfigurationRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.configuration.baseUrl);
-        });
-
-        return ConfigurationRest;
+        return {
+            /** Main configuration endpoint.*/
+            Config: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(settings.apis.configuration.baseUrl);
+            })
+        };
 
     }]);

@@ -16,13 +16,13 @@
  *  Encapsulates access to the "order" service.
  */
 angular.module('ds.confirmation')
-    .factory('OrderDetailSvc', ['OrderRest',  function(OrderRest){
+    .factory('OrderDetailSvc', ['OrderREST',  function(OrderREST){
 
         /** Issues a GET request for the 'order' resource
          * @param orderId
          */
         var getOrderDetails = function (orderId) {
-            return OrderRest.one('orders', orderId).get();
+            return OrderREST.Orders.one('orders', orderId).get();
         };
 
         return {

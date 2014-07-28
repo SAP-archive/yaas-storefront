@@ -12,13 +12,13 @@
 
 'use strict';
 
-angular.module('ds.cart')
-    .factory('CartRest', ['settings', 'Restangular', function(settings, Restangular){
+angular.module('ds.confirmation')
+    .factory('OrderREST', ['settings', 'Restangular', function(settings, Restangular){
 
-        var CartRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
-        });
-
-        return CartRest;
+        return {
+            Orders: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+            })
+        };
 
     }]);

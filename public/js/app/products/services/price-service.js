@@ -16,10 +16,10 @@
  *  Encapsulates access to the price API.
  */
 angular.module('ds.products')
-    .factory('PriceSvc', ['PricesRest', function(PricesRest){
+    .factory('PriceSvc', ['PriceProductREST', function(PriceProductREST){
 
         var getPrices = function (parms) {
-            return PricesRest.one('prices').get(parms);
+            return PriceProductREST.Prices.one('prices').get(parms);
         };
 
         return {

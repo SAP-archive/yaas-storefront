@@ -15,7 +15,7 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationRest', function(settings, GlobalData, ConfigurationRest){
+    .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationREST', function(settings, GlobalData, ConfigurationREST){
 
         return {
 
@@ -25,7 +25,7 @@ angular.module('ds.shared')
              * These settings are then stored in the GlobalData service.
              */
             loadConfiguration: function() {
-                var config = ConfigurationRest.one('configurations').get();
+                var config = ConfigurationREST.Config.one('configurations').get();
                 config.then(function (result) {
                     console.log('configuration: ', result);
                     var key = null;

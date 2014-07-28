@@ -12,13 +12,16 @@
 
 'use strict';
 
+/** REST configuration for services related to checkout. */
 angular.module('ds.checkout')
-    .factory('CheckoutRest', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('CheckoutREST', ['settings', 'Restangular', function(settings, Restangular){
 
-        var CheckoutRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.checkout.baseUrl);
-        });
+        return {
+            /** Configures main checkout API endpoint.*/
+            Checkout: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(settings.apis.checkout.baseUrl);
+            })
+        };
 
-        return CheckoutRest;
 
     }]);
