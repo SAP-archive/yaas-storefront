@@ -107,9 +107,6 @@ window.app = angular.module('ds.router', [
                     resolve:  {
                         cart: function(CartSvc){
                             CartSvc.getCart();
-                        },
-                        showCartIcon: function() {
-                            return true;
                         }
                     }
 
@@ -183,15 +180,6 @@ window.app = angular.module('ds.router', [
                         'body@': {
                             templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
-                        },
-                        'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation.html',
-                            controller: 'NavigationCtrl' // defining new instance so that "showCartIcon" can be overridden
-                        }
-                    },
-                    resolve:  {
-                        showCartIcon: function(){
-                            return false;
                         }
                     }
                 })
