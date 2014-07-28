@@ -23,48 +23,39 @@ angular.module('ds.shared')
 
             configuration: {
 
-               baseUrl: 'http://configuration-v2.test.cf.hybris.com',
-               route: '/configurations/:tenant'
+               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {
                 baseUrl: 'http://product-v1.test.cf.hybris.com',
-                route: '/products/:productId',
                 pageSize: 10
             },
 
             productDetails: {
-                baseUrl: 'http://product-details-v1.test.cf.hybris.com',
-                route: '/productdetails/:productId'
+                baseUrl: 'http://product-details-v1.test.cf.hybris.com'
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com',
-                route: '/checkouts/order'
+                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com'
             },
 
             orders: {
-                baseUrl: 'http://order-v1.test.cf.hybris.com',
-                route: '/orders/:orderId'
+                baseUrl: 'http://order-v1.test.cf.hybris.com'
             },
 
             cartItems: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com',
-                route:   '/cartItems'
+                baseUrl: 'http://cart-v1.test.cf.hybris.com'
             },
 
             cart: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com',
-                route: '/carts/:cartId'
+                baseUrl: 'http://cart-v1.test.cf.hybris.com'
             },
 
             cartDetails: {
-                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com',
-                route: '/carts/:cartId/details'
+                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com'
             },
 
             prices: {
-                baseUrl: 'http://price-v1.test.cf.hybris.com',
-                route: '/prices'
+                baseUrl: 'http://price-v1.test.cf.hybris.com'
             },
 
             // header keys
