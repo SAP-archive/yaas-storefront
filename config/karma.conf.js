@@ -34,7 +34,6 @@ module.exports = function(config){
         'public/js/app/shared/i18n/lang/en.js',
         'public/js/app/shared/i18n/lang/de.js',
         'public/js/app/shared/i18n/providers/translation-provider.js',
-        'public/js/app/shared/utils/cors.js',
 
         'public/js/app/products/products-index.js',
         'public/js/app/products/services/product-service.js',

@@ -25,7 +25,7 @@ describe('ProductSvc Test', function () {
     ];
 
     beforeEach(angular.mock.module('ds.products', function ($provide) {
-        $provide.value('STORE_CONFIG', mockedStoreConfig);
+        $provide.value('storeConfig', mockedStoreConfig);
     }));
 
 

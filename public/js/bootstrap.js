@@ -7,12 +7,12 @@
     var $http = initInjector.get('$http');
     $http.get('storeconfig').then(
         function (response) {
-            angular.module('config', []).constant('STORE_CONFIG', response.data);
+            angular.module('config', []).constant('storeConfig', response.data);
 
             try {
                 angular.element(document).ready(function () {
                     angular.bootstrap(document, [
-                        'ds.router', 'config']);
+                        'ds.router']);
 
                 });
             } catch (exception) {
