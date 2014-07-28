@@ -12,9 +12,6 @@
 
 'use strict';
 
-/**
- *  Encapsulates access to the CAAS price API.
- */
 angular.module('ds.cart')
     .factory('CartItemsRest', ['settings', 'Restangular', function(settings, Restangular){
 

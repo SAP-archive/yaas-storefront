@@ -12,9 +12,6 @@
 
 'use strict';
 
-/**
- *  Encapsulates access to the CAAS price API.
- */
 angular.module('ds.confirmation')
     .factory('OrderRest', ['settings', 'Restangular', function(settings, Restangular){
 

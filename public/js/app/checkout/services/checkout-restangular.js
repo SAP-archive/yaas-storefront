@@ -12,9 +12,6 @@
 
 'use strict';
 
-/**
- *  Encapsulates access to the CAAS price API.
- */
 angular.module('ds.checkout')
     .factory('CheckoutRest', ['settings', 'Restangular', function(settings, Restangular){
 
