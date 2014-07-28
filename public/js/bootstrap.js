@@ -9,15 +9,19 @@
         function (response) {
             angular.module('config', []).constant('STORE_CONFIG', response.data);
 
+            try {
+                angular.element(document).ready(function () {
+                    angular.bootstrap(document, [
+                        'ds.router', 'config']);
 
-            angular.element(document).ready(function() {
-                angular.bootstrap(document, [
-                    'ds.router', 'config']);
-
-            });
+                });
+            } catch (exception) {
+                console.error('Unable to invoke angular.bootstrap:');
+                console.error(exception);
+            }
         },
         function(error){
-            console.error('Unable to to load bootstrap store config:');
+            console.error('Unable to to load hybris bootstrap store config:');
             console.error(error);
         }
     );

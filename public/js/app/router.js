@@ -5,7 +5,6 @@ window.app = angular.module('ds.router', [
     'restangular',
     'ui.router',
     'ds.shared',
-    'ds.utils',
     'ds.i18n',
     'ds.products',
     'ds.cart',
@@ -46,13 +45,13 @@ window.app = angular.module('ds.router', [
         }])
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('interceptor');
+        // enable CORS
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }])
 
-    .run(['CORSProvider', '$rootScope', 'STORE_CONFIG', 'ConfigSvc', 'Restangular', 'settings',
-        function (CORSProvider, $rootScope, STORE_CONFIG, ConfigSvc, Restangular, settings) {
-            /* enabling CORS to allow testing from localhost */
-            CORSProvider.enableCORS();
-
+    .run(['$rootScope', 'STORE_CONFIG', 'ConfigSvc', 'Restangular', 'settings',
+        function ($rootScope, STORE_CONFIG, ConfigSvc, Restangular, settings) {
             ConfigSvc.loadConfiguration(STORE_CONFIG.storeTenant);
 
             var headers = {};
