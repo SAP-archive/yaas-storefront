@@ -6351,9 +6351,17 @@ body {
     display: none !important;
   }
 }
+#cart .btn-group.checkout.disabled .btn {
+  background-color: #F5F5F5;
+  color: #929292;
+}
 #cart .btn-group .btn {
   font-size: 14px;
   padding: 26px;
+}
+#cart .empty-cart-text {
+  padding: 20px 0;
+  text-transform: uppercase;
 }
 #cart .summary {
   padding: 10px 15px 0;
