@@ -42,10 +42,17 @@ module.exports = function (grunt) {
             },
             production: {
                 options: {
+                    server: path.resolve('./multi-tenant/multi-tenant-server.js'),
+                    bases: [path.resolve('./multi-tenant/multi-tenant-server.js')]
+                }
+            },
+            multiTenant: {
+                options: {
                     server: path.resolve('./server.js'),
                     bases: [path.resolve('./server.js')]
                 }
             }
+
 
         },
         jshint: {
@@ -152,6 +159,7 @@ module.exports = function (grunt) {
     grunt.option('force', true);
 
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
+
 
     // Default task
     grunt.registerTask('default', [
