@@ -122,7 +122,7 @@ describe("Localization", function () {
         assertTextByElement('css', 'span.option.ng-binding', 'ENTSPRICHT RECHNUNGSADRESSE');
         assertTextByElement('xpath', '//ng-form[2]/div/div/div[4]/span', 'VERSANDART');
         assertTextByElement('xpath', '//ng-form[2]/div/div/div[5]/div/span/label', 'Verfahren');
-        assertTextByElement('id', 'shipMethod', 'KOSTENLOSER STANDARDVERSAND');
+        // assertTextByElement('id', 'shipMethod', 'KOSTENLOSER STANDARDVERSAND');
         assertTextByElement('css', '#step3 > h2.ng-binding', '3. Zahlung');
         assertTextByElement('css', 'div.cc-details > div.col-lg-12 > div.form-group.input-group > span.input-group-addon > label.control-label.ng-binding', 'Kreditkartennummer');
         assertTextByElement('css', 'div.cc-details > div.col-lg-6 > div.form-group.input-group > span.input-group-addon > label.control-label.ng-binding', 'Monat');
