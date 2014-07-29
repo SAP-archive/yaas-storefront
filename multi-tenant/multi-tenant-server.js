@@ -44,8 +44,11 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 // map store-specific access to static files in /public
-app.use("/:storename?/public", express.static(__dirname + '/public'));
-
+console.log('dir name is');
+console.log(__dirname);
+app.use("/:storename?/public", express.static(__dirname + '/../public'));
+console.log('public dir is ');
+console.log(__dirname+ '../public');
 // Generate index.html with store name injected as "title"
 // Store name is retrieved from config service
 app.get('/:storename?/', function(req, response, next){
