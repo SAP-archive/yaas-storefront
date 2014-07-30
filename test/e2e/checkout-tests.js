@@ -100,6 +100,8 @@ describe("checkout:", function () {
             // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
+            browser.sleep(250)
+            expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('One moment... Placing your order');
             browser.sleep(29000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation();
