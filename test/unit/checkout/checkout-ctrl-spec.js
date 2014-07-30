@@ -1,6 +1,6 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal;
     var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -22,14 +22,23 @@ describe('CheckoutCtrl', function () {
         order.creditCard = {};
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
-        }
+        };
+        mockedModal = {
+            open: jasmine.createSpy('open').andReturn({
+                opened: {
+                    then: jasmine.createSpy('then')
+                },
+                dismiss: jasmine.createSpy('dismiss')
+            })
+        };
 
         $provide.value('cart', cart);
         $provide.value('order', order);
         $provide.value('$state', mockedState);
+        $provide.value('$modal', mockedModal);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -41,6 +50,7 @@ describe('CheckoutCtrl', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
+        $modal = _$modal_;
 
     }));
 

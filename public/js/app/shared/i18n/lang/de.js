@@ -69,6 +69,7 @@ angular.module('ds.i18n')
         YEAR: 'Jahr',
         ZIP: 'PLZ',
         ZIP_REQUIRED: 'PLZ erforderlich',
+        ORDER_PENDING: 'One moment... Placing your order',
 
         /*
          confirmation

@@ -7,6 +7,7 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.min.js',
         'public/js/vendor/lodash/dist/lodash.compat.min.js',
         'public/js/vendor-static/bootstrap.min.js',
+        'public/js/vendor/spin.js/spin.js',
         'public/js/vendor-static/owl.carousel.min.js',
         'public/js/vendor-static/img-touch-canvas.js',
         'public/js/vendor-static/jquery.fullscreen-min.js',
