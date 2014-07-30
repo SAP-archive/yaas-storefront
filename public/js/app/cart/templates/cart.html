@@ -18,7 +18,7 @@
 			<a ng-if="cart.cartItems.length" data-ui-sref="base.checkout.details" ng-click="toggleCart()">
 		    <button class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span> </button>
 			</a>
-			<a ng-if="!cart.cartItems.length" ng-click="toggleCart()">
+			<a ng-if="!cart.cartItems.length">
 		    <button class="btn">{{'CHECKOUT' | translate}} </button>
 			</a>
 		</div>
