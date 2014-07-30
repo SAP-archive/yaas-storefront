@@ -21,7 +21,9 @@
   "globals": {
     "angular": false,
     "Masonry": false,
-    "_": false
+    "_": false,
+    "Spinner": false,
+    "$": false
   },
   "laxcomma": true
 }

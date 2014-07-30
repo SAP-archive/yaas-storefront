@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal) {
 
 
             $scope.order = order;
@@ -57,6 +57,26 @@ angular.module('ds.checkout')
             $scope.message = null;
 
             $scope.submitIsDisabled = false;
+
+            var ssClass = 'order-processing-dialog',
+                modal = {
+                    instance: null,
+                    spinner: null,
+                    open: function(configuration) {
+                        var self = this;
+                        this.spinner = this.spinner || new Spinner(configuration).spin();
+                        this.instance = $modal.open(configuration);
+                        this.instance.opened.then(function() {
+                            setTimeout(function() {
+                                $('.' + ssClass + ' .spinner').append(self.spinner.el);
+                            }, 10);
+                        });
+                    },
+                    close: function() {
+                        this.spinner.stop();
+                        this.instance.dismiss('cancel');
+                    }
+                };
 
             /*
             var defaultErrorMsg = 'Please correct the errors above before placing your order.';
@@ -230,8 +250,7 @@ angular.module('ds.checkout')
                 if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
                     $scope.$apply();
                 }
-                // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
-                document.body.style.cursor = 'auto';
+                modal.close();
             }
 
 
@@ -240,12 +259,12 @@ angular.module('ds.checkout')
             function onCheckoutFailure(error) {
                 $scope.message = error;
                 $scope.submitIsDisabled = false;
-                // TODO - ideally we'd be setting the cursor/splash screen through CSS manipulation/(root?) scope property or event
-                document.body.style.cursor = 'auto';
+                modal.close();
             }
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
+                modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
 
@@ -268,7 +287,12 @@ angular.module('ds.checkout')
                 $scope.message = null;
                 $scope.$broadcast('submitting:form', form);
                 if (formValid) {
-                    document.body.style.cursor = 'wait';
+                    modal.open({
+                        templateUrl: 'public/js/app/checkout/templates/order-processing-splash-screen.html',
+                        windowClass: ssClass,
+                        top: '60%'
+                    });
+
                     $scope.submitIsDisabled = true;
                     if ($scope.wiz.shipToSameAsBillTo) {
                         $scope.setShipToSameAsBillTo();
