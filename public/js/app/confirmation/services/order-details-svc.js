@@ -53,22 +53,7 @@ angular.module('ds.confirmation')
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
-                    confirmationDetails.products = [];
-                    for (var i = 0; orderDetails.entries && i < orderDetails.entries.length; i++) {
-                        if (orderDetails.entries[i].product) {
-                            // The following order of looking for an image should be applied:
-                            // 1. take first image from product.images[0]
-                            var imageUrl = orderDetails.entries[i].product.images ? orderDetails.entries[i].product.images[0].url : null;
-                            // 2. if it doesn't exist, take the first image from product.externalImages[0]
-                            if(!imageUrl) {
-                                imageUrl = orderDetails.entries[i].product.externalImages[0].url;
-                            }
-                            confirmationDetails.products[i] = {
-                                image: imageUrl,
-                                name: orderDetails.entries[i].product.name
-                            };
-                        }
-                    }
+                    confirmationDetails.entries = orderDetails.entries;
                     return confirmationDetails;
                 });
 

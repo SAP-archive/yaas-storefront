@@ -14,7 +14,8 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', function ($scope, $stateParams, OrderDetailSvc) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc) {
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
@@ -27,8 +28,24 @@ angular.module('ds.confirmation')
         * @param orderId used to retrieve order details for the confirmation
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
-            $scope.confirmationDetails =  details;
+            $scope.confirmationDetails = details;
+            var productIds = details.entries.map(function (entry) {
+                return entry.sku;
+            });
+            var amount = details.entries.map(function(entry){
+               return entry.amount;
+            });
+            $scope.confirmationDetails.itemCount = amount.reduce(function (total, count){
+                return total+count;
+            });
 
+            var productParms = {
+                q: 'id:(' + productIds + ')'
+            };
+
+            ProductSvc.query(productParms).then(function(productResult){
+                 $scope.confirmationDetails.products = productResult;
+            });
         });
 
     }]);

@@ -78,6 +78,7 @@ angular.module('ds.i18n')
         FOR_YOUR_ORDER: 'für Ihre Bestellung!',
         ITEMS_IN_YOUR_ORDER: 'Alle Artikel ihrer Bestellung',
         QUESTIONS: 'Wenn Sie irgendwelche Fragen haben, kontaktieren Sie uns unter',
+        ORDER: 'Bestellung',
         RETURN_TO_SHOPPING: 'Weiter einkaufen',
         SUCCESS: 'Erfolg!',
         THANK_YOU: 'Vielen Dank',
