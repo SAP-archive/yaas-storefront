@@ -23,7 +23,7 @@ html
             div(class="main", ui-view="body")
 
     // /.container
-    // build:js js/server.js
+    // build:js js/multi-tenant-server.js
 
     script(src='public/js/vendor-static/jquery.min.js')
     script(src='public/js/vendor/angular/angular.min.js')
@@ -37,7 +37,7 @@ html
 
     script(src='public/js/bootstrap.js')
     script(src='public/js/vendor/spin.js/spin.js')
-
+    script(src='public/js/bootstrap-multi-tenant.js')
     script(src='public/js/app/shared/shared-index.js')
     script(src='public/js/app/shared/settings.js')
     script(src='public/js/app/shared/services/global-data.js')
@@ -86,4 +86,4 @@ html
 
   // Production
   //
-        script(src='dist/public/js/617caaa4.server.js')
+        script(src='dist/public/js/617caaa4.multi-tenant-server.js')

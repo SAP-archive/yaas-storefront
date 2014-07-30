@@ -2,6 +2,7 @@
 
 angular.module('ds.shared')
 
+
 	/**
 	 * Provides default settings (constants) for the application.
 	 * 
@@ -22,7 +23,6 @@ angular.module('ds.shared')
         apis: {
 
             configuration: {
-
                baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {

@@ -1,5 +1,13 @@
 $(document).ready(function () {
 
+	$('#refineAffix').affix({
+		offset: {
+			top: function () {
+				return (this.top = $('.product-grid').offset().top)
+			}
+		}
+	});
+
 	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
 		$(".gallery .image").owlCarousel({
 			singleItem : true,

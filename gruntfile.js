@@ -40,13 +40,20 @@ module.exports = function (grunt) {
                     bases: [path.resolve('./server.js')]
                 }
             },
+            multiTenant: {  // with livereload
+                options: {
+                    server: path.resolve('./multi-tenant/multi-tenant-server.js'),
+                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
+                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
+                    bases: [path.resolve('./multi-tenant/multi-tenant-server.js')]
+                }
+            },
             production: {
                 options: {
                     server: path.resolve('./server.js'),
                     bases: [path.resolve('./server.js')]
                 }
             }
-
         },
         jshint: {
             options: {
@@ -87,6 +94,12 @@ module.exports = function (grunt) {
         concurrent: {
             dev: {
                 tasks: ['express:livereload', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            multiTenant: {
+                tasks: ['express:multiTenant', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -153,11 +166,19 @@ module.exports = function (grunt) {
 
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
+
     // Default task
     grunt.registerTask('default', [
         'jshint',
         'less:dev',
         'concurrent:dev'
+    ]);
+
+    // Default task
+    grunt.registerTask('multiTenant', [
+        'jshint',
+        'less:dev',
+        'concurrent:multiTenant'
     ]);
 
     grunt.registerTask('testENV', [
