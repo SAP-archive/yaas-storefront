@@ -60,22 +60,5 @@ describe('ProductSvc Test', function () {
         };
     });
 
-     it('queryWithResultHandler with success handler invokes callback on resolved promise', function () {
-         var products;
-         $httpBackend.expectGET(productsRestUrl).respond(prodList);
-
-         var myCallback = function(result) {
-             products = result;
-         }
-
-         productSvc.queryWithResultHandler({}, myCallback);
-         $httpBackend.flush();
-         expect(products.$object.length).toBeDefined();
-         expect(products.$object.length).toEqual(prodList.length);
-         for (var i = 0, prod; i < products.$object.length; i++) {
-             prod = products.$object[i];
-             expect(prod.name).toEqualData(prodList[i].name);
-         };
-     });
 
 });

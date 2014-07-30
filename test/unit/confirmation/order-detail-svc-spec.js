@@ -40,6 +40,7 @@ describe('OrderDetailSvc Test', function () {
         name: 'Example Buyer',
         email: 'your.name@email.com'
     };
+    orderDetails.entries = [];
 
     beforeEach(function() {
         module('restangular');
@@ -90,7 +91,7 @@ describe('OrderDetailSvc Test', function () {
         });
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressLine1: 'Acme, Inc.', shippingAddressLine2: '1 Marienplatz a',
-            shippingAddressLine3: 'Munich, Bavaria 80538', emailAddress : 'your.name@email.com', products: [] });
+            shippingAddressLine3: 'Munich, Bavaria 80538', emailAddress : 'your.name@email.com', entries: [] });
 
     });
 });
