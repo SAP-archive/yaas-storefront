@@ -14,7 +14,7 @@
     <div class="refine-section">
         <div class="row">
              <div class="col-xs-12 col-sm-6  title">Category Name</div>
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-4 col-md-3 pull-right">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
                     <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
@@ -41,15 +41,15 @@
                     </div>
                 </div>
             </div>
-            <div class="co-sm-5 col-md-12 col-lg-4">
-        <div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="pull-right">
-                <pagination on-select-page="setSortedPage(page)" total-items="total"
-                            page="pageNumber"
-                            items-per-page="pageSize"
-                            class="pagination-lg" previous-text="<" next-text=">">
-                </pagination>
-        </div>
-    </div>
+			<div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="col-sm-4 col-md-3 pull-right">
+					<pagination on-select-page="setSortedPage(page)" total-items="total"
+								page="pageNumber"
+								items-per-page="pageSize"
+								max-size="3"
+								rotate="false"
+								class="pagination-lg" previous-text="<" next-text=">">
+					</pagination>
+			</div>
             
         </div>
     </div>
@@ -84,6 +84,8 @@
 				<pagination on-select-page="setSortedPage(page)" total-items="total"
 							page="pageNumber"
 							items-per-page="pageSize"
+							max-size="3"
+							rotate="false"
 							class="pagination-lg" previous-text="<" next-text=">">
 				</pagination>
             </div>
