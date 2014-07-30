@@ -25,71 +25,71 @@ describe("Localization", function () {
     });
 
       
-      // it('should load product-list in english', function () {
-      //   assertTextByElement('linkText', 'PRODUCTS', 'PRODUCTS');
-      //   assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
-      //   assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
-      //   assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
-      //   assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
-      //   assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
-      //   assertTextByElement('css', 'option[value="name"]', 'A-Z');
-      //   assertTextByElement('css', 'option[value="-name"]', 'Z-A');
-      //   assertTextByElement('css', 'option[value="-created"]', 'NEWEST');
-      // });
+      it('should load product-list in english', function () {
+        assertTextByElement('linkText', 'PRODUCTS', 'PRODUCTS');
+        assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
+        assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
+        assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
+        assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
+        assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
+        assertTextByElement('css', 'option[value="name"]', 'A-Z');
+        assertTextByElement('css', 'option[value="-name"]', 'Z-A');
+        assertTextByElement('css', 'option[value="-created"]', 'NEWEST');
+      });
 
 
-      // it('should load product-list in german', function () {
-      //   tu.clickElement('linkText', 'DE');
-      //   assertTextByElement('linkText', 'PRODUKTE', 'PRODUKTE');
-      //   assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
-      //   assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
-      //   assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
-      //   assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
-      //   assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
-      //   assertTextByElement('css', 'option[value="name"]', 'A-Z');
-      //   assertTextByElement('css', 'option[value="-name"]', 'Z-A');
-      //   assertTextByElement('css', 'option[value="-created"]', 'NEUESTE');
-      // });
+      it('should load product-list in german', function () {
+        tu.clickElement('linkText', 'DE');
+        assertTextByElement('linkText', 'PRODUKTE', 'PRODUKTE');
+        assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
+        assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
+        assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
+        assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
+        assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
+        assertTextByElement('css', 'option[value="name"]', 'A-Z');
+        assertTextByElement('css', 'option[value="-name"]', 'Z-A');
+        assertTextByElement('css', 'option[value="-created"]', 'NEUESTE');
+      });
 
-      // it('should load product-detail in english', function () {
-      //   tu.clickElement('css', 'div.thumb');
-      //   assertTextByElement('css', 'label.ng-binding', 'QTY:');
-      //   assertTextByElement('id', 'buy-button', 'BUY');
-      //   assertTextByElement('css', 'div.headline.ng-binding', 'Description:');
-      // });
+      it('should load product-detail in english', function () {
+        tu.clickElement('css', 'div.thumb');
+        assertTextByElement('css', 'label.ng-binding', 'QTY:');
+        assertTextByElement('id', 'buy-button', 'BUY');
+        assertTextByElement('css', 'div.headline.ng-binding', 'Description:');
+      });
 
-      // it('should load product-detail in german', function () {
-      //   tu.clickElement('css', 'div.thumb');
-      //   tu.clickElement('linkText', 'DE');
-      //   assertTextByElement('css', 'label.ng-binding', 'MENGE:');
-      //   assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
-      //   assertTextByElement('css', 'div.headline.ng-binding', 'Beschreibung:');
-      // });
+      it('should load product-detail in german', function () {
+        tu.clickElement('css', 'div.thumb');
+        tu.clickElement('linkText', 'DE');
+        assertTextByElement('css', 'label.ng-binding', 'MENGE:');
+        assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
+        assertTextByElement('css', 'div.headline.ng-binding', 'Beschreibung:');
+      });
 
-      // it('should load cart in english', function () {
-      //   tu.clickElement('css', 'div.thumb');
-      //   tu.clickElement('id', 'buy-button');
-      //   assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
-      //   assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/a/button", 'CHECKOUT');
-      //   assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
-      //   assertTextByElement('css', 'td.ng-binding', '1 ITEM');
-      //   assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Item Price: $24.57');
-      //   assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Qty:');
-      //   assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Total Price: $24.57');
-      // });
+      it('should load cart in english', function () {
+        tu.clickElement('css', 'div.thumb');
+        tu.clickElement('id', 'buy-button');
+        assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
+        assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/a/button", 'CHECKOUT');
+        assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
+        assertTextByElement('css', 'td.ng-binding', '1 ITEM');
+        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Item Price: $24.57');
+        assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Qty:');
+        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Total Price: $24.57');
+      });
 
-      // it('should load cart in german', function () {
-      //   tu.clickElement('css', 'div.thumb');
-      //   tu.clickElement('linkText', 'DE');
-      //   tu.clickElement('id', 'buy-button');
-      //   assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'WEITER EINKAUFEN');
-      //   assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/a/button", 'KASSE');
-      //   assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
-      //   assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
-      //   assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Artikel Preis: $24.57');
-      //   assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Menge:');
-      //   assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Gesamtpreis: $24.57');
-      // });
+      it('should load cart in german', function () {
+        tu.clickElement('css', 'div.thumb');
+        tu.clickElement('linkText', 'DE');
+        tu.clickElement('id', 'buy-button');
+        assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'WEITER EINKAUFEN');
+        assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/a/button", 'KASSE');
+        assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
+        assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
+        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Artikel Preis: $24.57');
+        assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Menge:');
+        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Gesamtpreis: $24.57');
+      });
 
       it('should load checkout in german', function () {
         tu.clickElement('css', 'div.thumb');
