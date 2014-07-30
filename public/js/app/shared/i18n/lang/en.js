@@ -79,6 +79,7 @@ angular.module('ds.i18n')
         FOR_YOUR_ORDER: 'for your order!',
         ITEMS_IN_YOUR_ORDER: 'Items in your order',
         QUESTIONS: 'If you have any questions, contact us at',
+        ORDER: 'Order',
         RETURN_TO_SHOPPING: 'Return to shopping',
         SUCCESS: 'Success!',
         THANK_YOU: 'Thank you',

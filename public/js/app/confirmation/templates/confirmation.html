@@ -5,7 +5,7 @@
 				<small>{{'SUCCESS' | translate}}</small>
 				{{'THANK_YOU' | translate}}</br> {{'FOR_YOUR_ORDER' | translate}}
 			</h1>
-			<p>{{'Your order is' | translate}} <span class="highlight">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</span></p>
+			<p>{{'Your order is' | translate}} <span class="highlight">{{'ORDER' | translate}} # {{ orderInfo.orderId }}</span></p>
             <div>
                 <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>
@@ -29,43 +29,18 @@
             <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 5550-1222</strong>.
 		</div>
 
-        <!-- TODO uncomment this section as soon as checkout-mashup-service contains products information in created Orders
 		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="similar">
-				<div class="subheadline">{{confirmationDetails.products.length}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
+				<div class="subheadline">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
 				<div class="row">
                     <div ng-repeat="product in confirmationDetails.products">
-                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="{{product.image}}"><br/>
-                            <strong>{{product.name}}</strong>
+                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive"
+                            src="{{ product.images && product.images[0].url || product.externalImages[0]}}"><br/>
                         </div>
                     </div>
                 </div>
 			</section>
 		</div>
-		-->
 
-        <!-- TODO uncomment this section to tune the look of the real section above. I added the BR element and the product name, which might be incorrect :/
-            for changes pls change the above section accordingly
-
-        <div class="col-md-5 col-sm-5 order-detail">
-            <section class="similar">
-                <div class="subheadline">{{confirmationDetails.products.length}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"><br/>
-                        <strong>Product name</strong>
-                    </div>
-				</div>
-			</section>
-		</div>
-        -->
 	</div>
 </div>

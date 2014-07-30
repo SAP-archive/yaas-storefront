@@ -21,18 +21,6 @@ angular.module('ds.products')
              */
             query: function(parms) {
                return getProducts(parms);
-            },
-
-            /**
-             * Registers a success callback handler on the API 'query' request - invoked once the
-             * promise is resolved.
-             * @param {parms} query parameters
-             * @param {callback} success callback function
-             */
-            queryWithResultHandler: function(parms, callback) {
-                var products = getProducts(parms);
-                callback(products);
-                return products;
             }
 
         };
