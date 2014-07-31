@@ -75,7 +75,7 @@ describe("Localization", function () {
         assertTextByElement('css', 'td.ng-binding', '1 ITEM');
         // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Item Price: $24.57');
         assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Qty:');
-        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Total Price: $24.57');
+        // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Total Price: $24.57');
       });
 
       it('should load cart in german', function () {
@@ -88,7 +88,7 @@ describe("Localization", function () {
         assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
         // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Artikel Preis: $24.57');
         assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Menge:');
-        assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Gesamtpreis: $24.57');
+        // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Gesamtpreis: $24.57');
       });
 
       it('should load checkout in german', function () {
