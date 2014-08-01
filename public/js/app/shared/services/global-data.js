@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('ds.shared')
-    .service('GlobalData', ['settings', 'STORE_CONFIG', function (settings, STORE_CONFIG) {
+    /** Acts as global data store for application settings. In constrast to the "settings" constand provider,
+     * these settings may change over the life of the application.
+     * */
+    .service('GlobalData', ['settings', 'storeConfig', function (settings, storeConfig) {
       
 		this.languageCode = settings.languageCode;
 
@@ -12,7 +15,7 @@ angular.module('ds.shared')
 		};
 
         this.store = {
-            tenant: STORE_CONFIG.storeTenant,
+            tenant: storeConfig.storeTenant,
             name: '',
             logo: null
         };

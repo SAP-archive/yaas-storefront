@@ -13,22 +13,34 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartSvc', ['$rootScope', 'caas', function($rootScope, caas){
 
-        // Matches CAAS schema
+    // .factory('CartSvc', ['$rootScope', 'CartItemsRest', 'CartDetailsRest', 'CartRest', function($rootScope, CartItemsRest, CartDetailsRest, CartRest){
+    .factory('CartSvc', ['$rootScope', 'Restangular', 'settings', function($rootScope, Restangular, settings){
+
+        var CartRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
+        });
+        var CartDetailsRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cartDetails.baseUrl);
+        });
+        var CartItemsRest = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(settings.apis.cartItems.baseUrl);
+        });
+
+        // Prototype for outbound "upcate cart" call line items
         var CartItem = function(productId, qty, itemId) {
             this.productId = productId;
             this.quantity = qty;
             this.cartItemId = itemId;
         };
 
-        // Matches CAAS schema
+        // Prototype for outbound "update cart" call - matches API schema
         var CaasUpdateCart = function() {
             this.cartItems = [];
         };
 
+        // Prototype for cart as used in UI
         var Cart = function(){
-           this.estTax = 0;
            this.cartItems = [];
            this.totalUnitsCount = 0;
            this.subTotalPrice = {};
@@ -38,8 +50,10 @@ angular.module('ds.cart')
            this.id = null;
         };
 
+        // application scope cart instance
         var cart = new Cart();
 
+        /** Issues a POST for the cart item, then retrieves the updated cart information from the API.*/
         function createCartItem(item) {
 
             var newCart = {};
@@ -49,17 +63,18 @@ angular.module('ds.cart')
 
             newCart.cartItem = item;
 
-            caas.cartItems.API.save(newCart).$promise.then(function(response){
+            CartItemsRest.all('cartItems').post(newCart).then(function(response){
                 cart.id = response.cartId;
                 refreshCart();
             });
         }
 
 
-
+        /** Retrieves the current cart state from the service, updates the local instance
+         * and fires the 'cart:updated' event.*/
         function refreshCart(){
-            var newCart = caas.cartDetails.API.get({cartId: cart.id });
-            newCart.$promise.then(function(response){
+            var newCart = CartDetailsRest.one('carts', cart.id).one('details').get();
+            newCart.then(function(response){
                 cart.subTotalPrice = response.subTotalPrice;
                 cart.totalUnitsCount = response.totalUnitsCount;
                 cart.totalPrice = response.totalPrice;
@@ -70,23 +85,31 @@ angular.module('ds.cart')
 
         return {
 
+            /** Returns the cart instance from the application scope - does not conduct a GET from the API.*/
             getCart: function() {
                 return cart;
             },
 
+            /** Persists the cart instance via PUT request; then reloads that cart
+             * from the API for consistency and in order to display the updated calculations (line item totals, etc).*/
             updateCart: function () {
                 var newCart = new CaasUpdateCart();
                 angular.forEach(cart.cartItems, function (item) {
                     newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
                 });
 
-                caas.cart.API.update({cartId: cart.id }, newCart).$promise.then(function () {
+                var cartRest = CartRest.one('carts', cart.id);
+                _.extend(cartRest, newCart);
+                cartRest.put().then(function () {
                     refreshCart();
                 });
             },
 
             /*
-                converts product object to line item object and pushes it to the cart
+             *   Adds a product to the cart, updates the cart (PUT) and then retrieves the updated
+             *   cart information (GET).
+             *   @param product to add
+             *   @param productDetailQty quantity to add
              */
             addProductToCart: function (product, productDetailQty) {
                 var alreadyInCart = false;
@@ -106,8 +129,9 @@ angular.module('ds.cart')
 
 
 
-            /*
-                removes a product from the cart
+            /**
+             * Removes a product from the cart, issues a PUT, and then a GET for the updated information.
+             * @param productId
              */
             removeProductFromCart: function (productId) {
                 angular.forEach(cart.cartItems, function (cartItem) {
@@ -121,6 +145,7 @@ angular.module('ds.cart')
             /**
              * Creates a new Cart instance that does not have an ID.
              * This will prompt the creation of a new cart once items are added to the cart.
+             * Should be invoked once an existing cart has been successfully submitted to checkout.
              */
             resetCart: function () {
                cart = new Cart();

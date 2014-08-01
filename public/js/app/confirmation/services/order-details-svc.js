@@ -13,28 +13,26 @@
 'use strict';
 
 /**
- *  Encapsulates access to the CAAS order details API.
+ *  Encapsulates access to the "order" service.
  */
 angular.module('ds.confirmation')
-    .factory('OrderDetailSvc', ['caas',  function(caas){
+    .factory('OrderDetailSvc', ['OrderREST',  function(OrderREST){
 
+        /** Issues a GET request for the 'order' resource
+         * @param orderId
+         */
         var getOrderDetails = function (orderId) {
-            return caas.orders.API.get({orderId: orderId });
+            return OrderREST.Orders.one('orders', orderId).get();
         };
 
         return {
-            /**
-             * Issues a query request on the product resource.
-             * @param {orderId} orderId
-             * @return The result array as returned by Angular $resource.query().
-             */
-            get: function(orderId) {
-                return getOrderDetails(orderId);
-            },
 
+            /** Retrieves order confirmation details and formats them the spec required by the UI.
+             * @param orderId
+             */
             getFormattedConfirmationDetails: function (orderId) {
 
-                return getOrderDetails(orderId).$promise.then(function (orderDetails) {
+                return getOrderDetails(orderId).then(function (orderDetails) {
 
                     var confirmationDetails = {};
 
@@ -55,25 +53,7 @@ angular.module('ds.confirmation')
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
-                    confirmationDetails.products = [];
-                    for (var i = 0; orderDetails.entries && i < orderDetails.entries.length; i++) {
-                        if (orderDetails.entries[i].product) {
-                            // TODO: after Wombats return correct images.urls (including tenant), then the following order of looking for an image should be applied:
-                            // 1. take first image from product.images[0]
-                            // 2. if it doesnt exist, take the first image from product.externalImages[0]
-                            var imageUrl = orderDetails.entries[i].product.externalImages[0].url;
-                            if (!imageUrl) {
-                                // if still nothing is found, then some dummy placeholder image? i dont know...
-                            }
-                            confirmationDetails.products[i] = {
-                                image: imageUrl,
-                                name: orderDetails.entries[i].product.name
-                            };
-                        }
-                    }
-
-                    window.scrollTo(0, 0);
-
+                    confirmationDetails.entries = orderDetails.entries;
                     return confirmationDetails;
                 });
 

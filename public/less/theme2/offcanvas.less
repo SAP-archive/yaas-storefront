@@ -1,0 +1,84 @@
+/* TODO: CHANGE BEHAVOIR TO MOBILE FIRST */
+
+
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+
+/* DEFAULT BEHAVOIR */ 
+.off-canvas{
+  .clearfix;
+  position: relative;
+  transition: all 0.25s ease-out 0s;
+  right: 0;
+  padding-left: @offcanvas-left-width-d;
+
+
+  &.right{
+    right: @offcanvas-right-width-d;
+    left: auto;
+    /* Uncomment to keep left offcanvas in viewport for desktop */
+    //margin-left: @offcanvas-right-width-d;
+  }
+  &.left{
+    right: auto;
+    left: 0;
+  }
+
+}
+
+
+.offcanvas-right {
+    position: absolute;
+    top: 0;
+    width: @offcanvas-right-width-d;
+    right: -@offcanvas-right-width-d;
+    height: 100%;
+}
+
+
+.sidebar-offcanvas {
+  .clearfix;
+  position: absolute;
+  width: @offcanvas-left-width-d;
+  left:0;
+  top: 0;
+  bottom:0;
+  min-height: 100%;
+}
+
+/* SMALL SCREEN */
+@media screen and (max-width: @screen-sm-max) {
+
+  .off-canvas{
+    padding-left: 0;
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: @offcanvas-left-width-m;
+    left: -@offcanvas-left-width-m;
+    height: 100%
+    }
+    &.right{
+      right: @offcanvas-right-width-m;
+      left: auto;
+      margin-left: 0;
+    }
+    &.left{
+      left: auto;
+      right: -@offcanvas-left-width-m;
+    }
+  }
+
+
+  .offcanvas-right {
+    position: absolute;
+    top: 0;
+    width: @offcanvas-right-width-m;
+    right: -@offcanvas-right-width-m;
+    height: 100%;
+  }
+}

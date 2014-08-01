@@ -49,7 +49,10 @@ angular.module('ds.checkout')
                         var errorMsgs = {
                                 'inlineErrorMsgs': []
                             },
-                            errorsJSON = window._.keys(ngModel.$error);
+                        errorsJSON = [];
+                        angular.forEach(ngModel.$error, function (value, key) {
+                            errorsJSON.push(key);
+                        });
                         for(var errorKey in errorsJSON) {
                             switch(errorsJSON[errorKey]) {
                                 case 'required':

@@ -2,42 +2,16 @@
 	<div class="row section">
 		<div class="col-sm-7 col-md-7 order-summary">
 			<h1>
-				<small>Success!</small>
-				thank you</br> for your order!
+				<small>{{'SUCCESS' | translate}}</small>
+				{{'THANK_YOU' | translate}}</br> {{'FOR_YOUR_ORDER' | translate}}
 			</h1>
-
-			<p>Your order is <span class="highlight">Order# {{ orderInfo.orderId }}</span></p>
-			<!-- 
-			<hr/>
-			<div class="well">
-				<h3>One more step to Create an Account</h3>
-				<p>for a Fast Checkout and Easy Access to Previous Orders</p>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="form-group input-group">
-							<span class="input-group-addon"><label class="control-label" for="">Email</label></span>
-							<input type="email" class="form-control" value="franz.josef@hybris.com">
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<div class="form-group input-group">
-							<span class="input-group-addon"><label class="control-label" for="">Password</label></span>
-							<input type="password" class="form-control" value="">
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<button class="btn btn-primary btn-block btn-lg">create my account</button>
-					</div>
-				</div>
-			</div>
-			-->
-
+			<p>{{'Your order is' | translate}} <span class="highlight">{{'ORDER' | translate}} # {{ orderInfo.orderId }}</span></p>
             <div>
-                <p>A copy of your order details has been sent to:</p>
+                <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>
                     <span ng-cloak>{{confirmationDetails.emailAddress}}</span>
                 </address>
-                <p>The Shipment is scheduled to arrive at the following location:</p>
+                <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
 
                 <address>
                     <span ng-cloak>{{confirmationDetails.shippingAddressLine1}}<br></span>
@@ -45,55 +19,28 @@
                     <span ng-cloak>{{confirmationDetails.shippingAddressLine3}}<br></span>
                 </address>
             </div>
-            <h3>Enjoy your items!</h3>
+            <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>
 
             <div data-ui-sref="base.product">
                 <button class="btn btn-primary btn-lg">
-                    return to shopping
+					{{'RETURN_TO_SHOPPING' | translate}}
                 </button>
             </div>
-            <p class="support-box">If you have any questions about your order, we’re happy
-                to take your call <strong>(888) 5550-1222</strong>.
+            <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 5550-1222</strong>.
 		</div>
 
-        <!-- TODO uncomment this section as soon as checkout-mashup-service contains products information in created Orders
 		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="similar">
-				<div class="subheadline">{{confirmationDetails.products.length}} Items in Your Order</div>
+				<div class="subheadline">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
 				<div class="row">
                     <div ng-repeat="product in confirmationDetails.products">
-                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="{{product.image}}"><br/>
-                            <strong>{{product.name}}</strong>
+                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive"
+                            src="{{ product.images && product.images[0].url || product.externalImages[0]}}"><br/>
                         </div>
                     </div>
                 </div>
 			</section>
 		</div>
-		-->
-
-        <!-- TODO uncomment this section to tune the look of the real section above. I added the BR element and the product name, which might be incorrect :/
-            for changes pls change the above section accordingly
-
-        <div class="col-md-5 col-sm-5 order-detail">
-            <section class="similar">
-                <div class="subheadline">{{confirmationDetails.products.length}} Items in Your Order</div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=4"><br/>
-                        <strong>Product name</strong>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive" src="http://placekitten.com/300/300?image=8"><br/>
-                        <strong>Product name</strong>
-                    </div>
-				</div>
-			</section>
-		</div>
-        -->
 
 	</div>
 </div>

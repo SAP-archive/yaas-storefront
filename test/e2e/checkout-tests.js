@@ -100,6 +100,8 @@ describe("checkout:", function () {
             // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
+            browser.sleep(250)
+            expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
             browser.sleep(29000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation();
@@ -118,7 +120,7 @@ describe("checkout:", function () {
             browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code.');
+            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code');
             browser.executeScript("document.getElementById('cvc').style.display='block';");
             validateField('cvc', '', '123', 'id', 'place-order-btn');
             validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');

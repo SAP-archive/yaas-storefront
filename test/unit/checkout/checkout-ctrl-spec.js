@@ -1,7 +1,14 @@
-describe('CheckoutCtrl Test', function () {
+describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, mockedCheckoutSvc, checkoutCtrl, order, cart;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal;
+    var ERROR_TYPES = {
+            stripe: 'STRIPE_ERROR',
+            order: 'ORDER_ERROR'
+        };
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
+    var mockedState = {};
+    mockedState.go = jasmine.createSpy('go');
+    var formName = 'checkoutForm';
 
     //***********************************************************************
     // Common Setup
@@ -13,17 +20,25 @@ describe('CheckoutCtrl Test', function () {
         order.shipTo = {};
         cart = {};
         order.creditCard = {};
-        mockedCheckoutSvc =  {}
-        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout');
-
-        $provide.value('CheckoutSvc', mockedCheckoutSvc);
+        mockedCheckoutSvc =  {
+            ERROR_TYPES: ERROR_TYPES
+        };
+        mockedModal = {
+            open: jasmine.createSpy('open').andReturn({
+                opened: {
+                    then: jasmine.createSpy('then')
+                },
+                dismiss: jasmine.createSpy('dismiss')
+            })
+        };
 
         $provide.value('cart', cart);
         $provide.value('order', order);
+        $provide.value('$state', mockedState);
+        $provide.value('$modal', mockedModal);
     }));
 
-
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -31,25 +46,32 @@ describe('CheckoutCtrl Test', function () {
             }
         });
         $rootScope =  _$rootScope_;
+        $q =  _$q_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
+        $modal = _$modal_;
 
     }));
 
     beforeEach(function () {
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, "CheckoutSvc": mockedCheckoutSvc});
+        checkoutDfd = $q.defer();
+        mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
+            return checkoutDfd.promise;
+        });
+
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});
     });
 
-    describe('Initialization', function () {
-        it('should initialize', function () {
+    describe('initialization', function () {
+        it('should create default instances', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
         })
     });
 
-    describe('Mobile Wizard Step completion ', function () {
+    describe('Mobile Wizard Step completion', function () {
         beforeEach(function () {
             $scope.wiz.step1Done = false;
             $scope.wiz.step2Done = false;
@@ -143,7 +165,7 @@ describe('CheckoutCtrl Test', function () {
 
     });
 
-    describe('setShipToSameAsBillTo ', function () {
+    describe('setShipToSameAsBillTo', function () {
 
         it('should copy billing to shipping', function(){
             $scope.order.billTo = mockBillTo;
@@ -152,52 +174,45 @@ describe('CheckoutCtrl Test', function () {
         });
     });
 
-    describe('Place Order ', function () {
+    describe('Place Order', function () {
 
         beforeEach(function () {
             $scope.showPristineErrors = false;
         });
 
-        it('should initialize', function () {
-            expect(checkoutCtrl).toBeTruthy();
-        })
-
         it('should invoke CheckoutSvc create order if form valid', function(){
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
             expect(mockedCheckoutSvc.checkout).toHaveBeenCalled();
         });
 
         it('should not place order if form invalid', function(){
-            $scope.placeOrder(false);
+            $scope.placeOrder(false, formName);
             expect(mockedCheckoutSvc.checkout).wasNotCalled();
         });
 
         it('should show pristine errors if form invalid', function(){
-            $scope.placeOrder(false);
+            $scope.placeOrder(false, formName);
             expect($scope.showPristineErrors).toEqualData(true);
         });
 
         it('should show default error msg if form invalid', function(){
-            $scope.placeOrder(false);
-            expect($scope.message).toEqualData('Please correct the errors above before placing your order.');
+            $scope.placeOrder(false, formName);
+            expect($scope.message).toEqualData('');
         });
 
         it('should ensure ship to copy', function(){
             order.billTo = mockBillTo;
             $scope.wiz.shipToSameAsBillTo = true;
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
             expect(order.shipTo).toEqualData(mockBillTo);
-        });
-
-        it('should show error on failed order placement', function(){
-
         });
     });
 
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
-        var fieldErrorMsg = 'Please correct the errors above before placing your order.';
-        beforeEach(function(){
+        var fieldErrorMsg = '';
+
+        beforeEach(inject(function($q) {
             $scope.checkoutForm = {};
             $scope.checkoutForm.paymentForm ={};
             $scope.checkoutForm.paymentForm.ccNumber = {};
@@ -211,60 +226,73 @@ describe('CheckoutCtrl Test', function () {
             $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
 
             errorMsg = 'msg';
+
             stripeError = {};
-            var checkout = function(data, stripeCallback, orderCallback) {
-                stripeCallback(stripeError);
-            };
-            mockedCheckoutSvc.checkout = checkout;
             stripeError.message = errorMsg;
             stripeError.code = 'number';
-            stripeError.type = 'card_error'
+            stripeError.type = 'card_error';
+
             $scope.wiz.step1Done = true;
             $scope.wiz.step2Done = true;
             $scope.wiz.step3Done = true;
             $scope.message = false;
-        });
+        }));
 
         it('should edit payment on card error', function(){
-
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect($scope.wiz.step3Done).toEqualData(false);
         });
 
         it('should set error message', function(){
             stripeError.type = null;
-            $scope.placeOrder(true);
-            expect($scope.message).toEqualData(errorMsg);
+            $scope.placeOrder(true, formName);
+
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
+
+            expect($scope.message).toEqualData('Not able to pre-validate payment at this time.');
+
         });
 
 
         it('should update validity on cc number error', function(){
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
+            expect(setValidityMock).not.toHaveBeenCalled();
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
         });
 
         it('should update validity on cvc error', function(){
             stripeError.code = 'cvc';
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
         });
 
         it('should update validity on month error', function(){
             stripeError.code = 'month';
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
 
         it('should update validity on year error', function(){
             stripeError.code = 'year';
-            $scope.placeOrder(true);
+            $scope.placeOrder(true, formName);
+            checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
+            $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toBeTruthy();
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
         });
     });
 

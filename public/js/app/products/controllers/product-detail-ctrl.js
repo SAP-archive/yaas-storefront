@@ -1,6 +1,10 @@
 'use strict';
 
 angular.module('ds.products')
+    /** Controls the product detail view, which allows the shopper to add an item to the cart.
+     * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
+     * cart information has been retrieved from the service, the 'cart' view will be shown.
+     */
     .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product',
         function($scope, $rootScope, CartSvc, product) {
 
@@ -10,6 +14,9 @@ angular.module('ds.products')
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
 
+            // scroll to top on load
+            window.scrollTo(0, 0);
+
             var unbind = $rootScope.$on('cart:updated', function () {
                 $rootScope.showCart = true;
                 $scope.buyButtonEnabled = true;
@@ -17,6 +24,7 @@ angular.module('ds.products')
 
             $scope.$on('$destroy', unbind);
 
+            /** Add the product to the cart.  'Buy' button is disabled while cart update is in progress. */
             $scope.addToCartFromDetailPage = function () {
                 $scope.buyButtonEnabled = false;
                 CartSvc.addProductToCart(product, $scope.productDetailQty);

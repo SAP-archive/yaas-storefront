@@ -1,0 +1,152 @@
+.checkout{
+	background: @lightestgrey;
+
+	.section{
+		margin: 0;
+
+	}
+
+	.error{
+		color:@defaultred;
+		padding: 4px 0;
+	}
+
+	h1{
+
+		color: @darkestgrey;
+		text-transform: uppercase;
+		font-weight: normal;
+		small{
+			color: @defaultblue;
+			font: italic 14px/30px @font-family-serif, sans-serif;
+			text-transform: none;
+			display: block;
+		}
+	}
+
+	h2{
+		font: italic bold 19px/30px @font-family-serif, sans-serif;
+		color: @darkestgrey;
+
+		.glyphicon-pencil{
+			.hidden-lg;
+			.hidden-md;
+			float: right;
+		}
+	}
+	.steps{
+			padding: 30px;
+
+			.input-group-addon{
+				min-width: 100px;
+				text-align: left;
+			}
+
+			.step{
+				.clearfix;
+				margin: 15px 0;
+			}
+
+			.checkbox{
+				.option{
+					color: @darkestgrey;
+					font-size: 14px;
+					text-transform: uppercase;
+					font-weight: bold;
+					display: block;
+				}
+				.adress{
+
+					font: italic 14px @font-family-serif, sans-serif;
+					color: @darkgrey;
+				}
+			}
+
+			/* MOBILE SECTIONS */ 
+			@media screen and (max-width: @screen-sm-max) {
+
+				h2{
+					text-align: center;
+					padding: 10px;
+					margin: 0px;
+				}
+
+				.disabled{
+					
+					h2{
+						color: @darkgrey;
+						background: @lightgrey;
+					}
+					.row{
+						.hidden();
+					}
+				}
+				.done{
+					h2{
+						color: @darkergrey;
+						background: @lightgrey;
+					}
+					.row{
+						.hidden();
+					}
+
+				}
+
+			}
+			@media screen and (max-width: @screen-sm-min) {
+				h1{
+					text-align: center;
+				}
+			}
+	}
+
+	.confirm{
+		
+		.step-detail{
+			padding: 15px;
+			background: @lightgrey;
+
+			.description, .value{
+				display: inline-block;
+				padding: 0 10px 10px;
+				font-size: 16px;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+}
+
+
+.order-detail{
+		height: auto !important;
+
+		background: @lightergrey;
+		padding:40px 0 0;
+		@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max){
+			margin: 40px 0 0;
+			padding: 0px;
+		}
+		@sidepadding: 35px;
+
+		h2{
+				padding: 10px @sidepadding 0;
+			}
+		section{
+			padding: 15px 0 0 0;
+
+			&.summary,
+			&.excerpt‎{
+				padding: 10px @sidepadding 0;
+			}
+
+			&.excerpt‎{
+				text-transform: uppercase;
+				color: @darkergrey;
+				font-size: 16px;
+				border-bottom: 1px solid @defaultgrey;
+				overflow: hidden;
+				padding-bottom: 30px;
+			}
+		}
+	}

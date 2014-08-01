@@ -5,11 +5,11 @@
 (function() {
     var initInjector = angular.injector(['ng']);
 
-            angular.module('config', []).constant('STORE_CONFIG', {'storeTenant':'testTenant'});
+            angular.module('config', []).constant('storeConfig', {'storeTenant':'testTenant'});
 
             angular.element(document).ready(function() {
                 angular.bootstrap(document, [
-                    'ds.router', 'config']);
+                    'ds.router']);
 
             });
 

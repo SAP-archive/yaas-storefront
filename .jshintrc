@@ -20,8 +20,10 @@
   "smarttabs": true,
   "globals": {
     "angular": false,
-      "Masonry": false
-
+    "Masonry": false,
+    "_": false,
+    "Spinner": false,
+    "$": false
   },
   "laxcomma": true
 }

@@ -7,6 +7,7 @@ module.exports = function (grunt) {
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
     var JS_DIR = 'public/js';
+    var LESS_DIR = 'public/less';
 
     require('load-grunt-tasks')(grunt);
 
@@ -20,6 +21,10 @@ module.exports = function (grunt) {
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']
+            },
+            less: {
+                files: [LESS_DIR + '/**'],
+                tasks: ['less:dev']
             }
         },
         express: {
@@ -35,13 +40,20 @@ module.exports = function (grunt) {
                     bases: [path.resolve('./server.js')]
                 }
             },
+            multiTenant: {  // with livereload
+                options: {
+                    server: path.resolve('./multi-tenant/multi-tenant-server.js'),
+                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
+                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
+                    bases: [path.resolve('./multi-tenant/multi-tenant-server.js')]
+                }
+            },
             production: {
                 options: {
                     server: path.resolve('./server.js'),
                     bases: [path.resolve('./server.js')]
                 }
             }
-
         },
         jshint: {
             options: {
@@ -55,9 +67,39 @@ module.exports = function (grunt) {
             ]
         },
 
+        less: {
+            dev : {
+                options : {
+                    strictImports : true,
+                    sourceMap: true,
+                    sourceMapFilename: 'public/css/app/style.css.map',
+                    sourceMapURL: 'http://localhost/css/style.css.map'
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            },
+            dist : {
+                options : {
+                    compress: true,
+                    strictImports : false,
+                    sourceMap: false
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            }
+        },
+
         concurrent: {
             dev: {
                 tasks: ['express:livereload', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            multiTenant: {
+                tasks: ['express:multiTenant', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -124,10 +166,19 @@ module.exports = function (grunt) {
 
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
+
     // Default task
     grunt.registerTask('default', [
         'jshint',
+        'less:dev',
         'concurrent:dev'
+    ]);
+
+    // Default task
+    grunt.registerTask('multiTenant', [
+        'jshint',
+        'less:dev',
+        'concurrent:multiTenant'
     ]);
 
     grunt.registerTask('testENV', [
@@ -145,6 +196,7 @@ module.exports = function (grunt) {
         'useminPrepare',
         'concat',
         'uglify',
+        'less:dist',
         'rev',
         'usemin'
     ]);

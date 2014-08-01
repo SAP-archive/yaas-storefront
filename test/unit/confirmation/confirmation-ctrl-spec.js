@@ -12,10 +12,11 @@
 
 describe('ConfirmationCtrl Test', function () {
 
-    var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, confCtrl, queryDeferred;
+    var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, mockedProductSvc, confCtrl,
+        orderDetailQueryDeferred, productQueryDeferred;
     var orderId = 123;
     var mockedOrderDetailSvc = {};
-
+    var mockedProductSvc = {};
     mockedStateParams = {};
     mockedStateParams.orderId = orderId;
 
@@ -37,20 +38,22 @@ describe('ConfirmationCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $q = _$q_;
-        queryDeferred = $q.defer();
+        orderDetailQueryDeferred = $q.defer();
+        productQueryDeferred = $q.defer();
 
     }));
 
     beforeEach(function(){
-        queryDeferred.resolve({});
-        mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(queryDeferred.promise);
-
+        orderDetailQueryDeferred.resolve({});
+        mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(orderDetailQueryDeferred.promise);
+        mockedProductSvc.query = jasmine.createSpy('query').andReturn(productQueryDeferred.promise);
     });
 
 
 
     beforeEach(function () {
-        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams, 'OrderDetailSvc': mockedOrderDetailSvc});
+        confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams,
+            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc});
     });
 
     describe(' initialization', function () {
@@ -59,6 +62,7 @@ describe('ConfirmationCtrl Test', function () {
            expect($scope.orderInfo).toBeTruthy();
            expect($scope.orderInfo.orderId).toEqualData(orderId);
         });
+
     });
 
 
