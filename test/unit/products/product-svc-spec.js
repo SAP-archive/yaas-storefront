@@ -13,7 +13,7 @@ describe('ProductSvc Test', function () {
 
     var productUrl = 'http://dummy.product.url';
     var productRoute = '/products';
-    var productsRestUrl = 'http://product-v1.test.cf.hybris.com/products';
+    var productsRestUrl = 'http://product-v1-4-0.test.cf.hybris.com/products';
     var testUrl = productUrl+productRoute;
     var $scope, $rootScope, $httpBackend, productSvc;
     var mockedStoreConfig = {};
