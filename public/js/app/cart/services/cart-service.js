@@ -14,18 +14,7 @@
 
 angular.module('ds.cart')
 
-    // .factory('CartSvc', ['$rootScope', 'CartItemsRest', 'CartDetailsRest', 'CartRest', function($rootScope, CartItemsRest, CartDetailsRest, CartRest){
-    .factory('CartSvc', ['$rootScope', 'Restangular', 'settings', function($rootScope, Restangular, settings){
-
-        var CartRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
-        });
-        var CartDetailsRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.cartDetails.baseUrl);
-        });
-        var CartItemsRest = Restangular.withConfig(function(RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(settings.apis.cartItems.baseUrl);
-        });
+    .factory('CartSvc', ['$rootScope', 'CartREST', function($rootScope, CartREST){
 
         // Prototype for outbound "upcate cart" call line items
         var CartItem = function(productId, qty, itemId) {
@@ -63,7 +52,7 @@ angular.module('ds.cart')
 
             newCart.cartItem = item;
 
-            CartItemsRest.all('cartItems').post(newCart).then(function(response){
+            CartREST.CartItems.all('cartItems').post(newCart).then(function(response){
                 cart.id = response.cartId;
                 refreshCart();
             });
@@ -73,7 +62,7 @@ angular.module('ds.cart')
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
         function refreshCart(){
-            var newCart = CartDetailsRest.one('carts', cart.id).one('details').get();
+            var newCart = CartREST.CartDetails.one('carts', cart.id).one('details').get();
             newCart.then(function(response){
                 cart.subTotalPrice = response.subTotalPrice;
                 cart.totalUnitsCount = response.totalUnitsCount;
@@ -98,7 +87,7 @@ angular.module('ds.cart')
                     newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
                 });
 
-                var cartRest = CartRest.one('carts', cart.id);
+                var cartRest = CartREST.Cart.one('carts', cart.id);
                 _.extend(cartRest, newCart);
                 cartRest.put().then(function () {
                     refreshCart();

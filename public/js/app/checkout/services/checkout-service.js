@@ -78,8 +78,6 @@ angular.module('ds.checkout')
                         if (response.error) {
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
-
-                            // self.createOrder(order, response.id).$promise.then(
                             self.createOrder(order, response.id).then(
                                 // success handler
                                 function (order) {
