@@ -20,7 +20,7 @@ angular.module('ds.checkout')
  * which contains the error the original input is shown.
  * @return {Object}
  */
-    .directive('inlineErrorInput',[function(){
+    .directive('inlineErrorInput',['GlobalData', function(GlobalData){
         return {
             restrict: 'A',
             require: 'ngModel',
@@ -115,6 +115,12 @@ angular.module('ds.checkout')
                     submitted = true;
                     if (element.parents('[name="'+formName+'"]').length) {
                         validate();
+                    }
+                });
+
+                scope.$watch(function() { return GlobalData.languageCode; }, function (currentLang, previousLang) {
+                    if (currentLang && previousLang && currentLang !== previousLang) {
+                        onInputChanged();
                     }
                 });
 
