@@ -26,7 +26,7 @@ angular.module('ds.shared')
                baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {
-                baseUrl: 'http://product-v1-4-0.test.cf.hybris.com/',
+                baseUrl: 'http://product-v1.test.cf.hybris.com/',
                 pageSize: 10
             },
 
