@@ -55,10 +55,12 @@ window.app = angular.module('ds.router', [
         RestangularProvider.setDefaultHeaders(headers);
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
-        function ($rootScope, storeConfig, ConfigSvc ) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'CheckoutREST',
+        function ($rootScope, storeConfig, ConfigSvc, CheckoutREST) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-
+            CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts) {
+console.log('shippingCosts ', shippingCosts);
+            });
         }
     ])
 

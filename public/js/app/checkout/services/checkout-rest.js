@@ -20,7 +20,10 @@ angular.module('ds.checkout')
             /** Configures main checkout API endpoint.*/
             Checkout: Restangular.withConfig(function(RestangularConfigurer) {
                 RestangularConfigurer.setBaseUrl(settings.apis.checkout.baseUrl);
-            })
+            }),
+            ShippingCosts: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(settings.apis.shippingCosts.baseUrl);
+            }),
         };
 
 
