@@ -129,6 +129,7 @@ angular.module('ds.checkout')
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
                 newOrder.currency = 'USD';
+                newOrder.shippingCost = order.shippingCost;
 
                 newOrder.orderTotal =  order.cart.totalPrice.price;
 
@@ -167,6 +168,10 @@ angular.module('ds.checkout')
 
                 return CheckoutREST.Checkout.all('checkouts').all('order').post(newOrder);
 
+            },
+
+            getShippingCost: function() {
+                return CheckoutREST.ShippingCosts.all('shippingcosts').getList();
             }
 
         };

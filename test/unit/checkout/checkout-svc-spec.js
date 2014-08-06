@@ -60,7 +60,7 @@ describe('CheckoutSvc', function () {
                 "country":"USA","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"USA","type":"SHIPPING"}],
-        "customer":{"name":"Bob Smith","email":"bs@sushi.com"}}
+        "customer":{"name":"Bob Smith","email":"bs@sushi.com"}, "shippingCost": 4.5}
 
     mockedStripeJS = {};
     mockedCartSvc = {};
