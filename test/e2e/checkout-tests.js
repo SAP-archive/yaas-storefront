@@ -72,13 +72,13 @@ describe("checkout:", function () {
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$24.57', '1');
+            verifyCartContents('Item Price: $24.57', '$27.81', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$49.14', '2');
+            verifyCartContents('Item Price: $24.57', '$52.38', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
@@ -88,7 +88,7 @@ describe("checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$26.57', '1');
+            verifyCartContents('Item Price: $24.57', '$29.81', '1');
            });
 
            it('should allow all fields to be editable', function () {
