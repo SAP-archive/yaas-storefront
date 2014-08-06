@@ -21,7 +21,7 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 ) {
+                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
                     return config || $q.when(config);
@@ -56,9 +56,8 @@ window.app = angular.module('ds.router', [
     }])
     // Load the basic store configuration
     .run(['$rootScope', 'storeConfig', 'ConfigSvc',
-        function ($rootScope, storeConfig, ConfigSvc ) {
+        function ($rootScope, storeConfig, ConfigSvc) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-
         }
     ])
 

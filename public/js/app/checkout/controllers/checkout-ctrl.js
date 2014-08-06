@@ -47,6 +47,12 @@ angular.module('ds.checkout')
 
             $scope.order = order;
             $scope.cart = cart;
+            $scope.shippingCosts = null;
+
+            CheckoutSvc.getShippingCost().then(function(shippingCosts) {
+                $scope.shippingCosts = shippingCosts.length ? shippingCosts[0] : null;
+                $scope.order.shippingCost = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].price.price || 0 : 0;
+            });
 
             $scope.badEmailAddress = false;
 

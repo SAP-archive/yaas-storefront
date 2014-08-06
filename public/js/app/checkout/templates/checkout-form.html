@@ -315,7 +315,7 @@
                 <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="shipMethod">{{'METHOD' | translate}}</label></span>
                     <select class="form-control" name="shipMethod" id="shipMethod">
-                        <option>{{'FREE_STANDARD_SHIPPING' | translate}}</option>
+                        <option>{{'FREE_STANDARD_SHIPPING' | translate}} ({{shippingCosts.price.price | currency : shippingCosts.price.currencyId + ' '}})</option>
                         <!--
                         <option>Flat Rate - {{ order.shippingCost | currency: '$'}}</option>     -->
                     </select>

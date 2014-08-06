@@ -58,6 +58,10 @@ angular.module('ds.shared')
                 baseUrl: 'http://price-v1.test.cf.hybris.com'
             },
 
+            shippingCosts: {
+                baseUrl: 'http://shipping-cost-v1.test.cf.hybris.com'
+            },
+
             // header keys
             headers: {
 
