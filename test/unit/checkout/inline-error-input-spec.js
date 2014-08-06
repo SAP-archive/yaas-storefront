@@ -8,6 +8,7 @@ describe('Checkout InlineErrorInput directive Test', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
+    beforeEach(module('config'));
     beforeEach(module('ds.checkout'));
 
 
