@@ -22,7 +22,7 @@ var tu = require('./protractor-utils.js');
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.binding("cart.totalPrice.price")).getText()).toContain('TOTAL: ' + totalPrice);
+            expect(element(by.binding("cart.totalPrice.price")).getText()).toContain(totalPrice);
             expect(element(by.css("span.value.ng-binding")).getText()).toEqual(totalPrice);
             expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
