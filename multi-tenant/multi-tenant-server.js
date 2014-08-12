@@ -24,6 +24,7 @@ function getParameterByName(name, url) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+/*
 request.post(
         authSvcUrl + 'anonymous/login?hybris-tenant='+storeFrontProjectId,
     { form: { key: 'value' } },
@@ -35,7 +36,7 @@ request.post(
         token = getParameterByName('access_token', response.headers['location']);
 
     }
-);
+); */
 // **************************************************************************
 
 // Build the server

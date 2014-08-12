@@ -24,7 +24,7 @@ angular.module('ds.checkout')
             /** Configures main shipping costs API endpoint.*/
             ShippingCosts: Restangular.withConfig(function(RestangularConfigurer) {
 							RestangularConfigurer.setBaseUrl(settings.apis.shippingCosts.baseUrl);
-            }),
+            })
         };
 
 

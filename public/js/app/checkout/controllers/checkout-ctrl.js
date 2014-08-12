@@ -41,18 +41,15 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal) {
+    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', 'shippingCost', '$state', '$translate', '$modal',
+        function ($scope, $rootScope, $location, $anchorScroll, CheckoutSvc, cart, order, shippingCost, $state, $translate, $modal) {
 
+            $rootScope.showCart = false;
 
             $scope.order = order;
             $scope.cart = cart;
-            $scope.shippingCosts = null;
-
-            CheckoutSvc.getShippingCost().then(function(shippingCosts) {
-                $scope.shippingCosts = shippingCosts.length ? shippingCosts[0] : null;
-                $scope.order.shippingCost = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].price.price || 0 : 0;
-            });
+            $scope.shippingCosts = shippingCost;
+            $scope.order.shippingCost = shippingCost.price.price;
 
             $scope.badEmailAddress = false;
 
@@ -64,6 +61,7 @@ angular.module('ds.checkout')
 
             $scope.submitIsDisabled = false;
 
+            // Configure modal "spinner" to block input during checkout processing
             var ssClass = 'order-processing-dialog',
                 modal = {
                     instance: null,
@@ -84,11 +82,9 @@ angular.module('ds.checkout')
                     }
                 };
 
-            /*
-            var defaultErrorMsg = 'Please correct the errors above before placing your order.';
-            var invalidCCExpDateMsg = 'Invalid Expiration Date.';
-            */
 
+
+            // Error messages, define & translate - default error and 'invalid credit card expiration date'
             var defaultErrorMsg = '';
             var invalidCCExpDateMsg = '';
 
@@ -101,6 +97,8 @@ angular.module('ds.checkout')
                 .then(function (translatedValue) {
                     invalidCCExpDateMsg = translatedValue;
                 });
+
+
 
             var Wiz = function () {
                 this.step1Done = false;
