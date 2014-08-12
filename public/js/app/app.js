@@ -127,6 +127,9 @@ window.app = angular.module('ds.router', [
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
+                        },
+                        shippingCost: function(CheckoutSvc){
+                            return CheckoutSvc.getShippingCost();
                         }
                     }
                 })

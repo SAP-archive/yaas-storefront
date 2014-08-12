@@ -1,6 +1,6 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, shippingCost, checkoutDfd, $modal, mockedModal;
     var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -21,6 +21,9 @@ describe('CheckoutCtrl', function () {
         order.shipTo = {};
         cart = {};
         order.creditCard = {};
+        shippingCost = {};
+        shippingCost.price = {};
+        shippingCost.price.price = 4.99;
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         };
@@ -35,6 +38,7 @@ describe('CheckoutCtrl', function () {
 
         $provide.value('cart', cart);
         $provide.value('order', order);
+        $provide.value('shippingCost', shippingCost);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
     }));
@@ -57,12 +61,9 @@ describe('CheckoutCtrl', function () {
 
     beforeEach(function () {
         checkoutDfd = $q.defer();
-        shippingCostsDfd = $q.defer();
+
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
-        });
-        mockedCheckoutSvc.getShippingCost = jasmine.createSpy('getShippingCost').andCallFake(function() {
-            return shippingCostsDfd.promise;
         });
 
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});

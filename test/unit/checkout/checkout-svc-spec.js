@@ -11,9 +11,6 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutUrl = 'http://checkout';
-    var checkoutRoute = '/checkouts/order';
-    var fullCheckoutPath = checkoutUrl+checkoutRoute;
     var checkoutOrderUrl = 'http://checkout-mashup-v1.test.cf.hybris.com/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
@@ -120,7 +117,6 @@ describe('CheckoutSvc', function () {
         describe('and successful order placement', function () {
 
             beforeEach(function(){
-                // $httpBackend.expectPOST(fullCheckoutPath, checkoutJson).respond({"orderId":"456"});
                 $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond({"orderId":"456"});
             });
 
@@ -229,6 +225,85 @@ describe('CheckoutSvc', function () {
             expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.stripe, error: stripeResponse.error });
         });
 
+    });
+
+    describe('getShippingCost', function(){
+        var shippingCostUrl = 'http://shipping-cost-v1.test.cf.hybris.com/shippingcosts';
+        var
+            onSuccessSpy,
+            onErrorSpy;
+
+        var defaultCost = {
+
+            "price": {
+                "price": 0
+            }
+        };
+
+        beforeEach(function() {
+            module('restangular');
+            module('ds.checkout');
+        });
+
+        beforeEach(function($provide) {
+            inject(function (_$httpBackend_,_CheckoutSvc_) {
+                $httpBackend = _$httpBackend_;
+                checkoutSvc = _CheckoutSvc_;
+            });
+            $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
+
+            onSuccessSpy = jasmine.createSpy('success');
+            onErrorSpy = jasmine.createSpy('error');
+        });
+
+
+        it('should return positive shipping cost', function(){
+            var singleCost = {
+                "id": "default",
+                "price": {
+                    "price": 2.99,
+                    "currencyId": "USD"
+                }
+            };
+            var costResponse = [singleCost ];
+            $httpBackend.expectGET(shippingCostUrl).respond(costResponse);
+            checkoutSvc.getShippingCost().then(onSuccessSpy, onErrorSpy);
+
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(onSuccessSpy).toHaveBeenCalledWith(singleCost);
+            expect(onErrorSpy).not.toHaveBeenCalled();
+        });
+
+        it('should return zero for empty array', function(){
+            $httpBackend.expectGET(shippingCostUrl).respond([]);
+            checkoutSvc.getShippingCost().then(onSuccessSpy, onErrorSpy);
+
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(onSuccessSpy).toHaveBeenCalledWith(defaultCost);
+            expect(onErrorSpy).not.toHaveBeenCalled();
+        });
+
+        it('should return zero for missing shipping cost', function(){
+            $httpBackend.expectGET(shippingCostUrl).respond([{}]);
+            checkoutSvc.getShippingCost().then(onSuccessSpy, onErrorSpy);
+
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(onSuccessSpy).toHaveBeenCalledWith(defaultCost);
+            expect(onErrorSpy).not.toHaveBeenCalled();
+        });
+
+        it('should invoke failure handler on error', function(){
+            $httpBackend.expectGET(shippingCostUrl).respond(500,'');
+            checkoutSvc.getShippingCost().then(onSuccessSpy, onErrorSpy);
+
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(onSuccessSpy).not.toHaveBeenCalled();
+            expect(onErrorSpy).toHaveBeenCalled();
+        });
     });
 
 });

@@ -15,7 +15,7 @@
 			<button ng-click="toggleCart()" class="btn  btn-default continue"><span class="hyicon hyicon-chevron-thin-left"></span> {{'CONTINUE_SHOPPING' | translate}}</button>
 		</div>
 		<div class="btn-group checkout" ng-class="{ disabled: !cart.cartItems.length }">
-			<a ng-if="cart.cartItems.length" data-ui-sref="base.checkout.details" ng-click="toggleCart()">
+			<a ng-if="cart.cartItems.length" data-ui-sref="base.checkout.details" >
 		    <button class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span> </button>
 			</a>
 			<a ng-if="!cart.cartItems.length">
@@ -43,7 +43,6 @@
 					</tbody>
 				</table>
 			</section>
-			<div class="alert alert-success">{{'FREE_SHIPPING' | translate}}</div>
 			<section>
 				<!-- Cart Item -->
 				<div ng-repeat="item in cart.cartItems">
