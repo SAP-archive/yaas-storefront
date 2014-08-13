@@ -110,7 +110,7 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//div[8]/div/span/label', 'Stadt');
         assertTextByElement('xpath', '//div[10]/div/span/label', 'PLZ');
         assertTextByElement('css', 'div.pull-left.ng-binding', '1 ARTIKEL');
-        assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $24.57');
+        assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $27.81');
         assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[2]', 'Artikel Preis: $24.57');
         assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[3]/div', 'Menge: 1');
         assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[4]', 'Gesamtpreis: $24.57');
