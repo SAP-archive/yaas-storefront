@@ -20,6 +20,11 @@ describe('ProductDetailCtrl', function () {
         published: true
     };
 
+    var dummyImg = 'dummy';
+    var mockedSettings = {
+        placeholderImage: dummyImg
+    };
+
     beforeEach(function(){
         // creating the mocked service
         mockedCartSvc = {
@@ -52,9 +57,8 @@ describe('ProductDetailCtrl', function () {
     }));
 
     beforeEach(function () {
-        var productDetailCtrl;
-        productDetailCtrl = $controller('ProductDetailCtrl', {$scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'product': mockProduct});
+        $controller('ProductDetailCtrl', {$scope: $scope, $rootScope: $rootScope,
+            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings});
 
         describe('buy published product', function () {
 
@@ -68,6 +72,12 @@ describe('ProductDetailCtrl', function () {
                 expect($scope.buyButtonEnabled).toBeFalsy();
             });
 
+        });
+
+        describe('initialization', function(){
+            it('product without image should get default image', function(){
+                expect(mockProduct.images.url).toEqualData(dummyImg);
+            });
         });
 
         describe('onCartUpdated', function () {
