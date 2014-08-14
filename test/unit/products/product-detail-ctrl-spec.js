@@ -76,7 +76,7 @@ describe('ProductDetailCtrl', function () {
 
         describe('initialization', function(){
             it('product without image should get default image', function(){
-                expect(mockProduct.images.url).toEqualData(dummyImg);
+                expect($scope.product.images[0].url).toEqualData(dummyImg);
             });
         });
 
