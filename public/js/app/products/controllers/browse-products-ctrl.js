@@ -14,6 +14,7 @@ angular.module('ds.products')
         $scope.store = GlobalData.store;
         $scope.prices = {};
         $scope.requestInProgress = false;
+        $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response

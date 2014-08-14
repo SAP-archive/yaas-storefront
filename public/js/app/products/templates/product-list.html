@@ -72,7 +72,7 @@
         <div class="item" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img ng-src="{{ product && product.images[0].url || ''}}" alt="">
+                    <img ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
                 <div class="name">{{ product.name }}</div>

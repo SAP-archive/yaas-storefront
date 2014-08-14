@@ -82,5 +82,7 @@ angular.module('ds.shared')
             stripeKey: 'payment.stripe.key.public',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
-        }
+        },
+
+        placeholderImage: 'public/img/no-image.png'
     });

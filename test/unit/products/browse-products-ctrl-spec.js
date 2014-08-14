@@ -1,4 +1,4 @@
-describe('BrowseProductsCtrl Test', function () {
+describe('BrowseProductsCtrl', function () {
 
     var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q;
     mockedGlobalData = {};
@@ -38,19 +38,20 @@ describe('BrowseProductsCtrl Test', function () {
             mockedProductSvc = {
                 query: jasmine.createSpy().andReturn({
                     then: mockedThen
-                }),
-                queryWithResultHandler: jasmine.createSpy()
+                })
             };
 
             mockedPriceSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
+                query: jasmine.createSpy()
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
             // expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
         });
 
+        it('should initialize image placeholder', function(){
+            expect($scope.PLACEHOLDER_IMAGE).toBeTruthy();
+        });
 
         it('setSortedPage should update current page and query products', function(){
 
@@ -62,7 +63,7 @@ describe('BrowseProductsCtrl Test', function () {
 
     });
 
-    describe('BrowseProductsCtrl - addMore', function () {
+    describe('addMore', function () {
 
         var products, browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
@@ -78,9 +79,6 @@ describe('BrowseProductsCtrl Test', function () {
 
             // stubbing a service with callback
             stubbedProductSvc = {
-                queryWithResultHandler: function (parms, callback) {
-                    callback(products);
-                },
                 query: jasmine.createSpy().andReturn({
                     then: mockedThen
                 })
@@ -119,7 +117,7 @@ describe('BrowseProductsCtrl Test', function () {
 
     });
 
-    describe('BrowseProductsCtrl - should scroll to top', function () {
+    describe('should scroll to top', function () {
 
         var browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
 
@@ -129,7 +127,7 @@ describe('BrowseProductsCtrl Test', function () {
 
             // stubbing a service with callback
             stubbedProductSvc = {
-                queryWithResultHandler: jasmine.createSpy(),
+
                 query: jasmine.createSpy().andReturn({
                     then: mockedThen
                 })
@@ -137,8 +135,7 @@ describe('BrowseProductsCtrl Test', function () {
             };
 
             mockedPriceSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
+                query: jasmine.createSpy()
             };
 
             browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData})
