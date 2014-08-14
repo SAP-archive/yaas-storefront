@@ -3,14 +3,23 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation bar.  Listens to the 'cart:updated' event - on update,
       * the cart icon will reflect the updated cart quantity. */
-	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart',
+	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'AuthSvc',
 
-		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart) {
+		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart, AuthSvc) {
 
             $scope.cart = cart;
 			$scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
+            $scope.isAuthenticated = false;
+
+            $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+                $scope.isAuthenticated = isAuthenticated;
+                $scope.username = AuthSvc.getToken().getUsername();
+                if ($scope.isAuthenticated) {
+                    $rootScope.showAuthPopup = false;
+                }
+            });
 
 
             var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
@@ -38,6 +47,14 @@ angular.module('ds.shared')
 
             $scope.isShowCartButton = function() {
                 return !$state.is('base.checkout.details') && !$state.is('base.confirmation');
+            };
+
+            $scope.isAuthenticated = AuthSvc.isAuthenticated;
+
+            $scope.logout = AuthSvc.signout;
+
+            $scope.login = function() {
+                $rootScope.showAuthPopup = !$rootScope.showAuthPopup;
             };
 
 	}]);
