@@ -14,6 +14,7 @@ describe('NavigationCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $injector, $state;
     var mockedGlobalData = {};
+    var MockedAuthSvc = {};
 
 
     // configure the target controller's module for testing - see angular.mock
@@ -38,7 +39,7 @@ describe('NavigationCtrl Test', function () {
         var navCtrl, cart;
         cart = {};
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData});
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc});
         });
 
         it('should change showCart value', function(){
