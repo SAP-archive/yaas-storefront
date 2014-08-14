@@ -48,12 +48,8 @@ angular.module('ds.auth')
                 };
 
                 return token;
-            },
-
-            getUsername: function() {
-                var token = this.getToken();
-                return token ? token[settings.userIdKey] : null;
             }
+
         };
 
         return CookiesStorage;
