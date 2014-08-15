@@ -241,11 +241,16 @@
 	   	font-style: italic;
 	    font-weight: normal;
 	    font-size: 12px;
+	    text-transform: none;
 	}
 	text-transform: uppercase;
 
 	h1, h2, h3, h4, h5, h6{
 		margin-top: 0px;
+	}
+
+	&+.section-headline{
+		margin-top: 45px;
 	}
 }
 
@@ -278,4 +283,21 @@
 
 .text-light{
 	opacity: 0.6;
+}
+
+
+
+
+.area{
+  padding: 0 @line-height-computed;
+  margin: @line-height-computed @line-height-computed (@line-height-computed*2) 0;
+  border-left: 1px solid @lightergrey;
+
+  p,
+  ul,
+  ol {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

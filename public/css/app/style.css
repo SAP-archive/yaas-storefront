@@ -7621,12 +7621,33 @@ section .hero-unit {
   min-width: 45px;
 }
 .account .page-headline {
-  margin-top: -1.5em;
+  margin-top: -20px;
 }
 .account .inline-label {
   font-family: Georgia, "Times New Roman", Times, serif, serif;
   font-style: italic;
   font-weight: bold;
+}
+.account .order-status {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: normal;
+}
+.account .cart-item {
+  border: none;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+.account .summary {
+  float: right;
+}
+@media screen and (max-width: 767px) {
+  .account .summary {
+    width: 100%;
+    float: none;
+  }
+}
+.account .order-tabel {
+  border-bottom: 1px solid #dddddd;
 }
 /* CUSTOM VARS */
 /* BTN */
@@ -7831,6 +7852,7 @@ section .hero-unit {
   font-style: italic;
   font-weight: normal;
   font-size: 12px;
+  text-transform: none;
 }
 .page-headline h1,
 .page-headline h2,
@@ -7839,6 +7861,9 @@ section .hero-unit {
 .page-headline h5,
 .page-headline h6 {
   margin-top: 0px;
+}
+.page-headline + .section-headline {
+  margin-top: 45px;
 }
 .section-headline h1,
 .section-headline h2,
@@ -7868,6 +7893,16 @@ section .hero-unit {
 }
 .text-light {
   opacity: 0.6;
+}
+.area {
+  padding: 0 20px;
+  margin: 20px 20px 40px 0;
+  border-left: 1px solid #eeeeee;
+}
+.area p:last-child,
+.area ul:last-child,
+.area ol:last-child {
+  margin-bottom: 0;
 }
 body {
   background: #f8f8f8;
