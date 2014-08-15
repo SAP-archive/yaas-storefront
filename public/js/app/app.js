@@ -164,6 +164,15 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+                .state('base.account', {
+                    url: '/account/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/account/templates/customer-account.html',
+                            controller: 'AccountCtrl'
+                        }
+                    }
+                })
             ;
 
             $urlRouterProvider.otherwise('/products/');

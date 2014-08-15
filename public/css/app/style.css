@@ -1409,7 +1409,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 8px;
+  padding: 12px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #dddddd;
@@ -5986,7 +5986,7 @@ body {
   }
 }
 #sidebar {
-  background: #eeeeee;
+  background: #f5f5f5;
   padding: 30px 15px ;
 }
 #sidebar a.logo {
@@ -6404,9 +6404,6 @@ body {
 .cart-item .input-group .input-group-addon {
   background: #fff;
 }
-.cart-item .btn.delete {
-  color: #f1291e;
-}
 .cart-item .img-col .delete {
   margin: 0 auto;
   display: none !important;
@@ -6542,6 +6539,9 @@ section.white {
 }
 section.lightgray {
   background: #f5f5f5;
+}
+section.mediumgray {
+  background: #eeeeee;
 }
 section.gray {
   background: #e2e2e2;
@@ -7613,6 +7613,21 @@ section .hero-unit {
     margin-left: 0;
   }
 }
+.account .form-group {
+  margin-bottom: 0px;
+}
+.account .img-circle {
+  margin-top: 25px;
+  min-width: 45px;
+}
+.account .page-headline {
+  margin-top: -1.5em;
+}
+.account .inline-label {
+  font-family: Georgia, "Times New Roman", Times, serif, serif;
+  font-style: italic;
+  font-weight: bold;
+}
 /* CUSTOM VARS */
 /* BTN */
 .btn {
@@ -7784,7 +7799,77 @@ section .hero-unit {
   font-style: italic;
   line-height: 0.6;
 }
+.table > thead > tr > th {
+  color: #6d6e6f;
+  border-bottom: 1px solid #dddddd;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.btn.btn-link.btn-toggle {
+  opacity: 0.3;
+}
+.btn.btn-link.btn-toggle:hover,
+.btn.btn-link.btn-toggle.active {
+  opacity: 1;
+  box-shadow: 0 0 0;
+}
+.btn.delete {
+  color: #f1291e;
+}
+.states-toolbar {
+  border-left: 1px solid #eee;
+  margin-right: -10px;
+}
+.img-circle {
+  border: 7px solid #e2e2e2;
+}
+.page-headline {
+  text-transform: uppercase;
+}
+.page-headline small {
+  font-family: Georgia, "Times New Roman", Times, serif, serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 12px;
+}
+.page-headline h1,
+.page-headline h2,
+.page-headline h3,
+.page-headline h4,
+.page-headline h5,
+.page-headline h6 {
+  margin-top: 0px;
+}
+.section-headline h1,
+.section-headline h2,
+.section-headline h3,
+.section-headline h4,
+.section-headline h5,
+.section-headline h6 {
+  font-family: Georgia, "Times New Roman", Times, serif, serif;
+  font-style: italic;
+  font-weight: normal;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+.area-headline {
+  font-weight: bold;
+  font-size: 12px;
+  color: #6d6e6f;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+[class*=col-] + .col-xs-12,
+[class*=col-] + .col-sm-12,
+[class*=col-] + .col-md-12,
+[class*=col-] + .col-lg-12 {
+  float: left;
+}
+.text-light {
+  opacity: 0.6;
+}
 body {
-  background: #f5f5f5;
+  background: #f8f8f8;
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */
