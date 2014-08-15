@@ -14,13 +14,11 @@
 		<div class="btn-group continue">
 			<button ng-click="toggleCart()" class="btn  btn-default continue"><span class="hyicon hyicon-chevron-thin-left"></span> {{'CONTINUE_SHOPPING' | translate}}</button>
 		</div>
-		<div class="btn-group checkout" ng-class="{ disabled: !cart.cartItems.length }">
-			<a ng-if="cart.cartItems.length" data-ui-sref="base.checkout.details" >
-		    <button class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span> </button>
-			</a>
-			<a ng-if="!cart.cartItems.length">
-		    <button class="btn">{{'CHECKOUT' | translate}} </button>
-			</a>
+		<div class="btn-group checkout">
+			<button ng-if="cart.cartItems.length" data-ui-sref="base.checkout.details" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
+			</button>
+			<button ng-if="!cart.cartItems.length" ng-class="{ disabled: !cart.cartItems.length }" class="btn">{{'CHECKOUT' | translate}} 
+			</button>
 		</div>
 	</div>
 	<div ng-if="!cart.cartItems.length" class="empty-cart-text text-center">
