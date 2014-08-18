@@ -9,7 +9,7 @@
         exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "//input[@type='number']"
-        exports.outOfStockButton = "//div[2]/button"
+        exports.outOfStockButton = "//div[2]/div[2]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
 
          exports.verifyCartAmount = function(amount) {
