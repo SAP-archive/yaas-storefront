@@ -51,7 +51,9 @@ angular.module('ds.shared')
 
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
-            $scope.logout = AuthSvc.signout;
+            $scope.logout = function() {
+                AuthSvc.signout();
+            };
 
             $scope.login = function() {
                 $rootScope.showAuthPopup = !$rootScope.showAuthPopup;

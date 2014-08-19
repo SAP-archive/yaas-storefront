@@ -65,6 +65,7 @@ window.app = angular.module('ds.router', [
         function ($rootScope, storeConfig, ConfigSvc) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             $rootScope.showAuthPopup = false;
+
         }
     ])
 
@@ -89,11 +90,18 @@ window.app = angular.module('ds.router', [
                             controller: 'CartCtrl'
                         },
                         'authorization@': {
-                            templateUrl: 'public/js/app/auth/templates/auth.html',
+                            templateUrl: 'js/app/auth/templates/auth.html',
                             controller: 'AuthCtrl'
                         }
                     },
                     resolve:  {
+                        acceesToken: function(AuthSvc) {
+                            var accessToken = AuthSvc.getToken().getAccessToken();
+                            if (!accessToken) {
+                                accessToken = AuthSvc.signin();
+                            }
+                            return accessToken;
+                        },
                         cart: function(CartSvc){
                             CartSvc.getCart();
                         }

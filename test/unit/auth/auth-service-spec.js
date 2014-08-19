@@ -14,11 +14,14 @@ describe('AuthSvc Test', function () {
 
     var AuthSvc, mockedCookiesStorage, mockedSettings, mockBackend;
     var accessToken = 123;
+    var username = 'some.user@hybris.com';
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
+    var getUsernameSpy = jasmine.createSpy('getUsernameSpy').andReturn(username);
     mockedCookiesStorage = {
         setToken: jasmine.createSpy('setToken'),
         getToken: jasmine.createSpy('getToken').andReturn({
-            getAccessToken: getAccessTokenSpy
+            getAccessToken: getAccessTokenSpy,
+            getUsername: getUsernameSpy
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
@@ -54,6 +57,8 @@ describe('AuthSvc Test', function () {
         expect(AuthSvc.setToken).toBeDefined();
         expect(AuthSvc.getToken).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
+        expect(AuthSvc.anonymousSignin).toBeDefined();
+        expect(AuthSvc.customerSignin).toBeDefined();
     });
 
     it("should delegate setToken call to Storage", function() {
@@ -69,6 +74,8 @@ describe('AuthSvc Test', function () {
     it("should check if user is authenticated and delegate call to Storage", function() {
         var isAuth = AuthSvc.isAuthenticated();
         expect(mockedCookiesStorage.getToken).wasCalled();
+        expect(getAccessTokenSpy).wasCalled();
+        expect(getUsernameSpy).wasCalled();
         expect(isAuth).toEqual(true);
     });
 
@@ -122,8 +129,11 @@ describe('AuthSvc Test', function () {
            response = {},
            successSpy = jasmine.createSpy('success'),
            errorSpy = jasmine.createSpy('error');
-       
+       spyOn(AuthSvc, 'signin').andCallThrough();
+       spyOn(AuthSvc, 'anonymousSignin').andCallThrough();
+
        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+       mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/login/anonymous?apiKey=' + mockedSettings.apis.customers.apiKey).respond(200, response);
        var promise = AuthSvc.signout(payload);
        promise.then(successSpy, errorSpy);
 
@@ -132,7 +142,10 @@ describe('AuthSvc Test', function () {
        expect(promise.then).toBeDefined();
        expect(successSpy).wasCalled();
        expect(errorSpy).not.wasCalled();
-       expect(mockedCookiesStorage.unsetToken).wasCalledWith(mockedSettings.accessTokenKey); 
+       expect(mockedCookiesStorage.unsetToken).wasCalledWith(mockedSettings.accessTokenKey);
+       // expect signin was called afterwards for anonymousSignin
+       expect(AuthSvc.signin).wasCalledWith();
+       expect(AuthSvc.anonymousSignin).wasCalledWith();
     });
 
 });
