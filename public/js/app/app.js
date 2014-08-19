@@ -81,11 +81,11 @@ window.app = angular.module('ds.router', [
                     abstract: true,
                     views: {
                         'navigation@': {
-                            templateUrl: 'public/js/app/shared/templates/navigation.html',
+                            templateUrl: 'js/app/shared/templates/navigation.html',
                             controller: 'NavigationCtrl'
                         },
                         'cart@': {
-                            templateUrl: 'public/js/app/cart/templates/cart.html',
+                            templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         },
                         'authorization@': {
@@ -103,7 +103,7 @@ window.app = angular.module('ds.router', [
                     url: '/products/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/products/templates/product-list.html',
+                            templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
                     }
@@ -112,7 +112,7 @@ window.app = angular.module('ds.router', [
                     url: ':productId/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/products/templates/product-detail.html',
+                            templateUrl: 'js/app/products/templates/product-detail.html',
                             controller: 'ProductDetailCtrl'
                         }
                     },
@@ -128,7 +128,7 @@ window.app = angular.module('ds.router', [
                 .state('base.checkout', {
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout-frame.html'
+                            templateUrl: 'js/app/checkout/templates/checkout-frame.html'
                         }
                     },
                     resolve: {
@@ -137,6 +137,9 @@ window.app = angular.module('ds.router', [
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
+                        },
+                        shippingCost: function(CheckoutSvc){
+                            return CheckoutSvc.getShippingCost();
                         }
                     }
                 })
@@ -144,11 +147,11 @@ window.app = angular.module('ds.router', [
                     url: '/checkout/',
                     views: {
                         'orderdetails': {
-                            templateUrl: 'public/js/app/checkout/templates/order-details.html',
+                            templateUrl: 'js/app/checkout/templates/order-details.html',
                             controller: 'OrderDetailCtrl'
                         },
                         'checkoutform': {
-                            templateUrl: 'public/js/app/checkout/templates/checkout-form.html',
+                            templateUrl: 'js/app/checkout/templates/checkout-form.html',
                             controller: 'CheckoutCtrl'
                         }
                     }
@@ -157,7 +160,7 @@ window.app = angular.module('ds.router', [
                     url: '/cart/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart',
+                            templateUrl: 'js/app/cart/templates/cart',
                             controller: 'CartCtrl'
                         }
                     }
@@ -166,7 +169,7 @@ window.app = angular.module('ds.router', [
                     url: '/confirmation/:orderId/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
+                            templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
                         }
                     }

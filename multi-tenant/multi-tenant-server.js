@@ -24,6 +24,7 @@ function getParameterByName(name, url) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+/*
 request.post(
         authSvcUrl + 'anonymous/login?hybris-tenant='+storeFrontProjectId,
     { form: { key: 'value' } },
@@ -35,7 +36,7 @@ request.post(
         token = getParameterByName('access_token', response.headers['location']);
 
     }
-);
+); */
 // **************************************************************************
 
 // Build the server
@@ -43,12 +44,8 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-// map store-specific access to static files in /public
-console.log('dir name is');
-console.log(__dirname);
-app.use("/:storename?/public", express.static(__dirname + '/../public'));
-console.log('public dir is ');
-console.log(__dirname+ '../public');
+app.use("/:storename?/", express.static(__dirname + '/../public'));
+
 // Generate index.html with store name injected as "title"
 // Store name is retrieved from config service
 app.get('/:storename?/', function(req, response, next){
@@ -70,7 +67,7 @@ app.get('/:storename?/', function(req, response, next){
         //console.log("got response!");
         if(!error) {
             //console.log(body);
-            response.render("index", {store: {name: JSON.parse(body).value, style: 'public/css/app/style.css'}});
+            response.render("index", {store: {name: JSON.parse(body).value, style: 'css/app/style.css'}});
         } else {
             console.log(error);
             next(error);

@@ -12,7 +12,7 @@ module.exports = function(config){
         'public/js/vendor-static/img-touch-canvas.js',
         'public/js/vendor-static/jquery.fullscreen-min.js',
         'public/js/vendor-static/main.js',
-        'public/js/vendor-static/stripe.js',
+        'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
         'public/js/vendor/angular-mocks/angular-mocks.js',
         'public/js/vendor/angular-cookies/angular-cookies.js',
