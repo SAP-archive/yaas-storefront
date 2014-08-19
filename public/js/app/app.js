@@ -169,6 +169,7 @@ window.app = angular.module('ds.router', [
                     views: {
                         'body@': {
                             templateUrl: 'public/js/app/account/templates/customer-account.html',
+                            //templateUrl: 'public/js/app/account/templates/order-detail.html',
                             controller: 'AccountCtrl'
                         }
                     }
