@@ -10,11 +10,16 @@
  * license agreement you entered into with hybris.
  */
 
-describe('NavigationCtrl Test', function () {
+describe('NavigationCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $state;
     var mockedGlobalData = {};
-
+    var mockedTranslate = {};
+    var mockedStoreConfig = {};
+    var defaultLang = 'en';
+    mockedStoreConfig.defaultLanguage = defaultLang;
+    var navCtrl, cart;
+    cart = {};
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
@@ -32,21 +37,26 @@ describe('NavigationCtrl Test', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $state = _$state_;
+        mockedGlobalData.languageCode = 'pl';
+        mockedGlobalData.acceptLanguages = 'pl';
+        mockedTranslate.use = jasmine.createSpy('use');
     }));
 
-    describe('NavigationCtrl', function () {
-        var navCtrl, cart;
-        cart = {};
-        beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData});
-        });
+    beforeEach(function () {
+        navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData,
+        $translate: mockedTranslate, storeConfig: mockedStoreConfig});
+    });
 
+    describe('toggleCart()', function () {
         it('should change showCart value', function(){
             $scope.toggleCart();
             expect($rootScope.showCart).toEqualData(true);
             $scope.toggleCart();
             expect($rootScope.showCart).toEqualData(false);
         });
+    });
+
+    describe('toggleOffCanvas()', function () {
 
         it('should toggle offCanvas', function () {
             $scope.toggleOffCanvas();
@@ -54,7 +64,39 @@ describe('NavigationCtrl Test', function () {
             $scope.toggleOffCanvas();
             expect($rootScope.showMobileNav).toEqualData(false);
         });
+    });
 
+    ddescribe('switchLanguage()', function(){
+
+        it('should notify translate service', function(){
+           var newLang = 'de';
+           $scope.switchLanguage(newLang);
+           expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
+        });
+
+        it('should update scope language', function(){
+            var newLang = 'de';
+            $scope.switchLanguage(newLang);
+            expect($scope.languageCode).toEqualData(newLang);
+        });
+
+        it('should update global data current language', function(){
+            var newLang = 'de';
+            $scope.switchLanguage(newLang);
+            expect(mockedGlobalData.languageCode).toEqualData(newLang);
+        });
+
+        it('to non-default language should update accept-languages', function(){
+           var newLang = 'de';
+            $scope.switchLanguage(newLang);
+            expect(mockedGlobalData.acceptLanguages).toEqualData('de, en');
+        });
+
+        it('to default language should set accept-language to default', function(){
+            var newLang =  defaultLang;
+            $scope.switchLanguage(newLang);
+            expect(mockedGlobalData.acceptLanguages).toEqualData(newLang);
+        });
     });
 
 
