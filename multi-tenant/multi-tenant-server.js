@@ -5,8 +5,6 @@ var path = require('path');
 var request = require('request');
 
 var token = null; // OAuth token for anonymous login
-// If no store URL prefix is indicated, use the default tenant.
-var defaultTenant =  process.env.DEFAULT_TENANT || 'ed7hrfivpvyr';
 var storeNameConfigKey = 'store.settings.name';
 var storeFrontProjectId = '93b808b0-98f0-42e3-b1a8-ef81dac762b6';
 
@@ -44,17 +42,19 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.use("/:storename?/", express.static(__dirname + '/../public'));
+app.use("/:storename/js", express.static(__dirname + '/../public/js'));
+app.use("/:storename/css", express.static(__dirname + '/../public/css'));
+app.use("/:storename/img", express.static(__dirname + '/../public/img'));
 
 // Generate index.html with store name injected as "title"
 // Store name is retrieved from config service
 app.get('/:storename?/', function(req, response, next){
     // tenant and url prefix/store name equivalent at this time
-    var tenant = defaultTenant;
-    if(req.params["storename"]) {
-        tenant =  req.params["storename"];
+    var tenant = req.params["storename"];
+    console.log('tenant is '+tenant);
+    if(!tenant){
+        console.error('missing storename path parameter!');
     }
-    //console.log('making request to config service for '+storename);
     var configSvcOptions = {
         url: configSvcUrl+storeNameConfigKey,
         headers: {
@@ -64,7 +64,6 @@ app.get('/:storename?/', function(req, response, next){
 
     //console.log(configSvcOptions);
     request.get(configSvcOptions, function(error, reponse, body) {
-        //console.log("got response!");
         if(!error) {
             //console.log(body);
             response.render("index", {store: {name: JSON.parse(body).value, style: 'css/app/style.css'}});
@@ -77,12 +76,10 @@ app.get('/:storename?/', function(req, response, next){
 
 //*********************
 // Store-Config route - returns settings with tenant and access token for a particular storefront
-app.get('/:storename?/storeconfig', function(request, response) {
+app.get('/:storename/storeconfig', function(request, response) {
     // tenant and url prefix/store name equivalent at this time
-    var tenant = defaultTenant;
-    if(request.params["storename"]) {
-        tenant =  request.params["storename"];
-    }
+    var tenant  =  request.params["storename"];
+
     console.log('request for store config for '+tenant);
     var json = JSON.stringify( {
             storeTenant: tenant,
@@ -92,13 +89,14 @@ app.get('/:storename?/storeconfig', function(request, response) {
     response.send(json);
 });
 
+
 // ANGULAR UI-ROUTER WORKAROUND - append trailing '/'
 // Long-term, this should be fixed in app.js.
-app.get("/:storename", function(request, response){
+app.get(/^\/\w+$/, function(request, response){
     var newUrl = request.url+'/';
-    //console.log('redirect to '+newUrl);
+    console.log('redirect to '+newUrl);
     response.redirect(newUrl);
-}) ;
+});
 
 module.exports = app;
 
