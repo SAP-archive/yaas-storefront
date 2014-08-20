@@ -22,6 +22,7 @@ angular.module('ds.shared')
 			$scope.switchLanguage = function(languageCode) {
 				$translate.use(languageCode);
 				$scope.languageCode = GlobalData.languageCode = languageCode;
+                GlobalData.if(languageCode!== GlobalData.defaultLanguage)
 			};
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
