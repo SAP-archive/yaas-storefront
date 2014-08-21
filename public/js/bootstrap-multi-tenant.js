@@ -9,7 +9,7 @@
     $http.get('storeconfig').then(
         function (response) {
             // HARD-CODED DEFAULT LANGUAGE - will be replaced by service that can read from admin settings
-            response.data.defaultLanguage = 'en;'
+            response.data.defaultLanguage = 'en';
             angular.module('config', []).constant('storeConfig', response.data);
 
             try {
