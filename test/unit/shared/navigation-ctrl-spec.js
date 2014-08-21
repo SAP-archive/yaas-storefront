@@ -92,7 +92,7 @@ describe('NavigationCtrl', function () {
         it('to non-default language should update accept-languages', function(){
            var newLang = 'de';
             $scope.switchLanguage(newLang);
-            expect(mockedGlobalData.acceptLanguages).toEqualData('de, en');
+            expect(mockedGlobalData.acceptLanguages).toEqualData('de;q=1,en;q=0.5');
         });
 
         it('to default language should set accept-language to default', function(){
