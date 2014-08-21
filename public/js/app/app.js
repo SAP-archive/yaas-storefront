@@ -101,7 +101,7 @@ window.app = angular.module('ds.router', [
                 .state('base.product', {
                     url: '/products/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
@@ -110,7 +110,7 @@ window.app = angular.module('ds.router', [
                 .state('base.product.detail', {
                     url: ':productId/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/products/templates/product-detail.html',
                             controller: 'ProductDetailCtrl'
                         }
@@ -126,7 +126,7 @@ window.app = angular.module('ds.router', [
                 })
                 .state('base.checkout', {
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/checkout/templates/checkout-frame.html'
                         }
                     },
@@ -158,7 +158,7 @@ window.app = angular.module('ds.router', [
                 .state('base.cart', {
                     url: '/cart/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/cart/templates/cart',
                             controller: 'CartCtrl'
                         }
@@ -167,7 +167,7 @@ window.app = angular.module('ds.router', [
                 .state('base.confirmation', {
                     url: '/confirmation/:orderId/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
                         }

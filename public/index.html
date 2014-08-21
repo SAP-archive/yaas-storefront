@@ -10,15 +10,20 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
---></head>
+</head>
 <body>
+
+<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
 <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
 <nav ui-view="mobileMenu" class="top-navigation"></nav>
 <div class="mainContent">
-    <div ui-view="body" class="main"></div>
+    <div ui-view="main" class="main"></div>
 </div>
-<div ui-view="cartIcon"></div>
+<button ng-controller="CartIconCtrl" ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
+    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
+</button>
 <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+</div>
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
 <script src="js/vendor-static/jquery.min.js"></script>
 <script src="js/vendor/angular/angular.min.js"></script>
