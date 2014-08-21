@@ -10,9 +10,6 @@ angular.module('ds.shared')
 	 */
 	.constant('settings', {
 
-		// Set default language code for the application
-		languageCode: 'en',
-
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
 
         hybrisUser: 'Anonymous',
@@ -26,7 +23,7 @@ angular.module('ds.shared')
                baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {
-                baseUrl: 'http://product-v1.test.cf.hybris.com/',
+                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
                 pageSize: 10
             },
 
@@ -71,7 +68,7 @@ angular.module('ds.shared')
                 hybrisRoles: 'hybris-roles',
                 hybrisUser: 'hybris-user',
                 hybrisApp: 'hybris-app',
-
+                language:  'accept-language',
                 paging: {
                     total: 'X-Count'
                 }
