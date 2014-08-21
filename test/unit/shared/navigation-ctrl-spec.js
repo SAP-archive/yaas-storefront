@@ -12,10 +12,11 @@
 
 describe('NavigationCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $state;
+    var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
     var mockedTranslate = {};
     var mockedStoreConfig = {};
+    var mockedState = {};
     var defaultLang = 'en';
     mockedStoreConfig.defaultLanguage = defaultLang;
     var navCtrl, cart;
@@ -25,7 +26,7 @@ describe('NavigationCtrl', function () {
     beforeEach(module('ui.router'));
     beforeEach(angular.mock.module('ds.shared'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$state_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -36,14 +37,16 @@ describe('NavigationCtrl', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
-        $state = _$state_;
+
         mockedGlobalData.languageCode = 'pl';
         mockedGlobalData.acceptLanguages = 'pl';
         mockedTranslate.use = jasmine.createSpy('use');
+        mockedState.is = jasmine.createSpy('is').andReturn(true);
+        mockedState.transitionTo = jasmine.createSpy('transitionTo');
     }));
 
     beforeEach(function () {
-        navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData,
+        navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
         $translate: mockedTranslate, storeConfig: mockedStoreConfig});
     });
 
@@ -66,7 +69,7 @@ describe('NavigationCtrl', function () {
         });
     });
 
-    ddescribe('switchLanguage()', function(){
+    describe('switchLanguage()', function(){
 
         it('should notify translate service', function(){
            var newLang = 'de';
@@ -96,6 +99,12 @@ describe('NavigationCtrl', function () {
             var newLang =  defaultLang;
             $scope.switchLanguage(newLang);
             expect(mockedGlobalData.acceptLanguages).toEqualData(newLang);
+        });
+
+        it('should reload product state', function(){
+            var newLang =  defaultLang;
+            $scope.switchLanguage(newLang);
+            expect(mockedState.transitionTo).toHaveBeenCalled();
         });
     });
 
