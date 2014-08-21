@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('NavigationCtrl Test', function () {
+describe('CartIconCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $state;
     var mockedGlobalData = {};
@@ -34,14 +34,27 @@ describe('NavigationCtrl Test', function () {
         $state = _$state_;
     }));
 
-    describe('NavigationCtrl', function () {
-        var navCtrl;
-
+    // also see changes made in localization story - will need to merge
+    describe('CartIconCtrl', function () {
+        var navCtrl, cart;
+        cart = {};
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, GlobalData: mockedGlobalData});
+            navCtrl = $controller('CartIconCtrl', {$scope: $scope, $state: $state, cart: cart});
         });
 
-        // SEE CHANGES MADE IN LOCALIZATION STORY STOR-726 - will need to merge
+        it('should change showCart value', function(){
+            $scope.toggleCart();
+            expect($rootScope.showCart).toEqualData(true);
+            $scope.toggleCart();
+            expect($rootScope.showCart).toEqualData(false);
+        });
+
+        it('should toggle offCanvas', function () {
+            $scope.toggleOffCanvas();
+            expect($rootScope.showMobileNav).toEqualData(true);
+            $scope.toggleOffCanvas();
+            expect($rootScope.showMobileNav).toEqualData(false);
+        });
 
     });
 

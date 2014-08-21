@@ -73,9 +73,18 @@ window.app = angular.module('ds.router', [
                 .state('base', {
                     abstract: true,
                     views: {
-                        'navigation@': {
-                            templateUrl: 'js/app/shared/templates/navigation.html',
+
+                        'cartIcon@':{
+                          templateUrl: 'js/app/shared/templates/cart-icon.html',
+                          controller: 'CartIconCtrl'
+                        },
+                        'sidebarNavigation@': {
+                            templateUrl: 'js/app/shared/templates/sidebar-navigation.html',
                             controller: 'NavigationCtrl'
+                        },
+                        'mobileMenu@': {
+                            templateUrl: 'js/app/shared/templates/mobile-menu.html',
+                            controller: 'MobileMenuCtrl'
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',

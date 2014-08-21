@@ -1,0 +1,12 @@
+
+
+    <a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
+                                                style="max-width:65px;"></a>
+
+    <ul class="navi">
+        <li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
+        <li><a ng-click="switchLanguage('en')">EN</a></li>
+        <li><a ng-click="switchLanguage('de')">DE</a></li>
+    </ul>
+
+
