@@ -74,17 +74,13 @@ window.app = angular.module('ds.router', [
                     abstract: true,
                     views: {
 
-                        'cartIcon@':{
-                          templateUrl: 'js/app/shared/templates/cart-icon.html',
-                          controller: 'CartIconCtrl'
-                        },
                         'sidebarNavigation@': {
                             templateUrl: 'js/app/shared/templates/sidebar-navigation.html',
-                            controller: 'NavigationCtrl'
+                            controller: 'SidebarNavigationCtrl'
                         },
-                        'mobileMenu@': {
-                            templateUrl: 'js/app/shared/templates/mobile-menu.html',
-                            controller: 'MobileMenuCtrl'
+                        'topNavigation@': {
+                            templateUrl: 'js/app/shared/templates/top-navigation.html',
+                            controller: 'TopNavigationCtrl'
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
@@ -152,15 +148,6 @@ window.app = angular.module('ds.router', [
                         'checkoutform': {
                             templateUrl: 'js/app/checkout/templates/checkout-form.html',
                             controller: 'CheckoutCtrl'
-                        }
-                    }
-                })
-                .state('base.cart', {
-                    url: '/cart/',
-                    views: {
-                        'main@': {
-                            templateUrl: 'js/app/cart/templates/cart',
-                            controller: 'CartCtrl'
                         }
                     }
                 })

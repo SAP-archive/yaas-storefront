@@ -1,17 +1,23 @@
-<!-- "hamburger" menu button-->
+<!-- mobile "hamburger" menu button-->
 <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
     <span class="hyicon hyicon-menu"></span>
 </button>
-<!-- cart icon -->
+<!-- mobile cart icon -->
 <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
         ng-click="toggleCart()">
     <span class="hyicon hyicon-cart"></span>
+    <span class="quantity">{{ cart.totalUnitsCount }}</span>
 </button>
-<!-- search button -->
+<!-- mobile search button -->
 <button type="button" class="btn btn-link navbar-btn pull-right search">
     <span class="hyicon hyicon-search"></span>
 </button>
+<!-- mobile logo -->
 <div class="logo">
     <a href=""><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
 </div>
+<!-- full size cart icon -->
+<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
+    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
+</button>
 

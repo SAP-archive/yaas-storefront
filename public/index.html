@@ -14,15 +14,10 @@
 <body>
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
 <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
-<nav ui-view="mobileMenu" class="top-navigation"></nav>
+<nav ui-view="topNavigation" class="top-navigation"></nav>
 <div class="mainContent">
     <div ui-view="main" class="main"></div>
 </div>
-<!-- @Johannes This is really ugly having right here in the index page - ideally we'd wrap this in another
-element and treat as separate view -->
-<button ng-controller="CartIconCtrl" ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
-    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
-</button>
 <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 </div>
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
@@ -42,9 +37,8 @@ element and treat as separate view -->
 <script src="js/app/shared/services/global-data.js"></script>
 <script src="js/app/shared/services/configuration-service.js"></script>
 <script src="js/app/shared/services/configuration-rest.js"></script>
-<script src="js/app/shared/controllers/navigation-ctrl.js"></script>
-<script src="js/app/shared/controllers/mobile-menu-ctrl.js"></script>
-<script src="js/app/shared/controllers/cart-icon-ctrl.js"></script>
+<script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
+<script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
 <script src="js/app/shared/i18n/i18-index.js"></script>
 <script src="js/app/shared/i18n/i18-constants.js"></script>
 <script src="js/app/shared/i18n/lang/en.js"></script>
