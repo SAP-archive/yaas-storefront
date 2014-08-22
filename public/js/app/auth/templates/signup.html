@@ -1,0 +1,15 @@
+<ul ng-if="errors && errors.signup.length">
+  <li ng-repeat="error in errors.signup">{{error.message}}</li>
+</ul>
+
+<form name="singupForm" ng-submit="signup(user.signup, singupForm)">
+  <div class="form-group">
+    <label for="emailInput">Email address</label>
+    <input type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" ng-model="user.signup.email">
+  </div>
+  <div class="form-group">
+    <label for="passwordInput">Password</label>
+    <input type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signup.password">
+  </div>
+  <button type="submit" class="btn btn-default btn-sm btn-block">Sign Up</button>
+</form>

@@ -10,6 +10,7 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.auth',
     'config'
 ])
     .constant('_', window._)
@@ -24,6 +25,10 @@ window.app = angular.module('ds.router', [
                     if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
                         config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                     }
+                    // TODO: use this once switched to proxies (passing accessToken)
+                    // if (Storage.getToken().getAccessToken()) {
+                    //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
+                    // }
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -52,12 +57,15 @@ window.app = angular.module('ds.router', [
         headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
         headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
         headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+        
         RestangularProvider.setDefaultHeaders(headers);
     }])
     // Load the basic store configuration
     .run(['$rootScope', 'storeConfig', 'ConfigSvc',
         function ($rootScope, storeConfig, ConfigSvc) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+            $rootScope.showAuthPopup = false;
+
         }
     ])
 
@@ -80,14 +88,24 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        },
+                        'authorization@': {
+                            templateUrl: 'js/app/auth/templates/auth.html',
+                            controller: 'AuthCtrl'
                         }
                     },
                     resolve:  {
+                        acceesToken: function(AuthSvc) {
+                            var accessToken = AuthSvc.getToken().getAccessToken();
+                            if (!accessToken) {
+                                accessToken = AuthSvc.signin();
+                            }
+                            return accessToken;
+                        },
                         cart: function(CartSvc){
                             CartSvc.getCart();
                         }
                     }
-
                 })
                 .state('base.product', {
                     url: '/products/',

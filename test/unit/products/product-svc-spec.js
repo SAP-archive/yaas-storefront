@@ -12,6 +12,7 @@
 describe('ProductSvc Test', function () {
 
     var productsRestUrl = 'http://product-v1-4-1.test.cf.hybris.com/products';
+
     var $scope, $rootScope, $httpBackend, productSvc;
     var mockedStoreConfig = {};
 

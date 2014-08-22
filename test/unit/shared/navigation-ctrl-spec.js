@@ -14,6 +14,10 @@ describe('NavigationCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
+<<<<<<< HEAD
+    var MockedAuthSvc = {};
+
+=======
     var mockedTranslate = {};
     var mockedStoreConfig = {};
     var mockedState = {};
@@ -21,6 +25,7 @@ describe('NavigationCtrl', function () {
     mockedStoreConfig.defaultLanguage = defaultLang;
     var navCtrl, cart;
     cart = {};
+>>>>>>> develop
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
@@ -45,10 +50,19 @@ describe('NavigationCtrl', function () {
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
     }));
 
+<<<<<<< HEAD
+    describe('NavigationCtrl', function () {
+        var navCtrl, cart;
+        cart = {};
+        beforeEach(function () {
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc});
+        });
+=======
     beforeEach(function () {
         navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
         $translate: mockedTranslate, storeConfig: mockedStoreConfig});
     });
+>>>>>>> develop
 
     describe('toggleCart()', function () {
         it('should change showCart value', function(){
