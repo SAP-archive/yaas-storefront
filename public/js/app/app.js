@@ -27,7 +27,7 @@ window.app = angular.module('ds.router', [
                     }
                     // TODO: use this once switched to proxies (passing accessToken)
                     // if (Storage.getToken().getAccessToken()) {
-                    //     // config.headers[settings.apis.headers.hybirsAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
+                    //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
                     // }
                     return config || $q.when(config);
                 },
@@ -70,11 +70,11 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'settings',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, settings) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
 
             // Set default language
-            TranslationProvider.setPreferredLanguage( settings.languageCode );
+            TranslationProvider.setPreferredLanguage( storeConfig.defaultLanguage );
 
             // States definition
             $stateProvider
