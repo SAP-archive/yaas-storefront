@@ -2,11 +2,13 @@
 
 angular.module('ds.shared')
 /** Handles interactions with mobile menu, including interaction with mobile cart icon. */
-    .controller('MobileMenuCtrl', ['$scope', '$rootScope','$state', '$controller', 'cart',
+    .controller('MobileMenuCtrl', ['$scope', '$rootScope','$state', '$controller', 'GlobalData', 'cart',
 
-        function ($scope, $rootScope, $state, $controller, cart) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, cart) {
             // Extending the basic cart icon controller
             $.extend(this, $controller('CartIconCtrl', {$scope: $scope, $rootScope: $rootScope, $state: $state, cart: cart}));
+
+            $scope.GlobalData = GlobalData;
 
             /** Toggles the navigation menu for the mobile view. */
             $scope.toggleOffCanvas = function(){

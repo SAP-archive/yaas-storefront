@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.shared')
-     /** Handles interactions in the navigation bar.   */
+     /** Handles interactions in the navigation side bar.   */
 	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants',
 
 		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants) {

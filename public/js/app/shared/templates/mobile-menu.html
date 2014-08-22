@@ -1,15 +1,17 @@
-<!-- mobile view menu with search button and cart icon -->
-
+<!-- "hamburger" menu button-->
 <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
     <span class="hyicon hyicon-menu"></span>
 </button>
-<button data-toggle="offcanvas-cart" type="button" class="btn btn-link navbar-btn pull-right cart">
-    <span class="hyicon hyicon-cart"></span><span class="quantity">0</span>
-</button>
+<!-- cart icon -->
 <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
         ng-click="toggleCart()">
     <span class="hyicon hyicon-cart"></span>
 </button>
+<!-- search button -->
+<button type="button" class="btn btn-link navbar-btn pull-right search">
+    <span class="hyicon hyicon-search"></span>
+</button>
 <div class="logo">
     <a href=""><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
 </div>
+
