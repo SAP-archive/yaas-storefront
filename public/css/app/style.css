@@ -5108,7 +5108,7 @@ button.close {
 }
 .modal-content {
   position: relative;
-  background-color: #ffffff;
+  background-color: #eeeeee;
   border: 1px solid #999999;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0px;
@@ -7823,6 +7823,10 @@ section .hero-unit {
   font-weight: normal;
   text-transform: uppercase;
 }
+.modal-title {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+}
 .btn.btn-link.btn-toggle {
   opacity: 0.3;
 }
@@ -7881,12 +7885,6 @@ section .hero-unit {
   text-transform: uppercase;
   margin-bottom: 10px;
   display: block;
-}
-[class*=col-] + .col-xs-12,
-[class*=col-] + .col-sm-12,
-[class*=col-] + .col-md-12,
-[class*=col-] + .col-lg-12 {
-  float: left;
 }
 .text-light {
   opacity: 0.6;

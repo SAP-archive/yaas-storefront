@@ -197,6 +197,18 @@
 }
 
 
+// == Modal 
+
+@modal-content-bg:@lightergrey;
+
+.modal-title{
+  font-family: @font-family-serif;
+  font-style: italic;
+}
+
+
+
+
 // ADDITIONAL CUSTOM BUTTON SKINNING
 
 	.btn{
@@ -271,14 +283,6 @@
  	text-transform: uppercase;
  	margin-bottom: 10px;
  	display: block;
-}
-
-
-// FIX FOR CLEARFIX PROBLEM WITH 100% DIVS
-[class*=col-]{
-    & + .col-xs-12, & + .col-sm-12, & + .col-md-12 , & + .col-lg-12{
-        float: left;
-    }
 }
 
 .text-light{
