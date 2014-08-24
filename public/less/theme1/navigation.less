@@ -3,7 +3,7 @@
 
 #sidebar{
 	background: @lightergrey;
-	padding: 30px 15px ;
+	//padding: 30px 15px ;
 
 
 	a.logo{
@@ -127,6 +127,9 @@
     		color: #fff;
     		background: @darkergrey;
     		position: relative;
+    		top: 0;
+    		.visible-xs;
+			.visible-sm;
 
     		.quantity{
     			font: italic 13px @font-family-serif, sans-serif;
@@ -166,6 +169,7 @@
 		.btn.cart{
 				color:#0079ff;
 				background:transparent;
+				right: 0;
 		}
 	}
 }
@@ -173,11 +177,9 @@
 
 /* NOT Mobile Cart Button */
 
-.full-nav {
-
-	& > .navbar-btn.cart{
-	position: absolute;
-	right: 0px;
+.navbar-btn.cart{
+	position: fixed;
+	right: 0;
 	top: 20px;
 	background: @darkergrey;
 	color: #fff;
@@ -186,6 +188,7 @@
 	width: 99px;
 	margin-top: 0;
 	z-index: 1030;
+	transition:  @offcanvas-transition; 
 	
 	.visible-md; 
 	.visible-lg;
@@ -200,11 +203,11 @@
 	
 	}
 
-	&.right  > .navbar-btn.cart{
+	.right .navbar-btn.cart{
 		background: @defaultblue;
 		color: #fff;
+		right: @offcanvas-right-width-d;
 	}
-}
 
 
 /* TO THE TOP BTN */
