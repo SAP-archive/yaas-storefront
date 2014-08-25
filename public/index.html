@@ -12,15 +12,15 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
-<body ng-class="{'right': showCart, 'left': showMobileNav}" class="">
-<div class="off-canvas">
-<div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
+<body>
+<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
 
-<div class="mainContent">
-    <div ui-view="topNavigation" ></div>
-    <div ui-view="main" class="main"></div>
-</div>
-<div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+    <div class="mainContent">
+        <div ui-view="topNavigation"></div>
+        <div ui-view="main" class="main"></div>
+    </div>
+    <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 </div>
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
 <script src="js/vendor-static/jquery.min.js"></script>

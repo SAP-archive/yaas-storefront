@@ -30,7 +30,8 @@ module.exports = function(config){
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
-        '../public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
+        'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
+        'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
         'public/js/app/shared/i18n/i18-constants.js',
         'public/js/app/shared/i18n/lang/en.js',
@@ -63,6 +64,7 @@ module.exports = function(config){
         'public/js/app/app.js',
 
         'public/js/vendor-static/ui-bootstrap-tpls.js',
+        'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
         'test/unit/cart/*.js',

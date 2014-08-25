@@ -21,7 +21,6 @@ angular.module('ds.shared')
              * actual cart details display, not the icon. */
             $scope.toggleCart = function () {
                 $rootScope.showCart = !$rootScope.showCart;
-                console.log('toggle cart - setting after is ' + $rootScope.showCart);
             };
 
             /** Determines if the cart icon should be displayed.*/
