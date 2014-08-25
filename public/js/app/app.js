@@ -58,6 +58,9 @@ window.app = angular.module('ds.router', [
     .run(['$rootScope', 'storeConfig', 'ConfigSvc',
         function ($rootScope, storeConfig, ConfigSvc) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+            // setting root scope variables that drive class attributes in the BODY tag
+            $rootScope.showCart =false;
+            $rootScope.showMobileNav=false;
         }
     ])
 
