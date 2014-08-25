@@ -64,8 +64,11 @@ window.app = angular.module('ds.router', [
     .run(['$rootScope', 'storeConfig', 'ConfigSvc',
         function ($rootScope, storeConfig, ConfigSvc) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            $rootScope.showAuthPopup = false;
 
+            // setting root scope variables that drive class attributes in the BODY tag
+            $rootScope.showCart =false;
+            $rootScope.showMobileNav=false;
+            $rootScope.showAuthPopup = false;
         }
     ])
 
@@ -81,9 +84,14 @@ window.app = angular.module('ds.router', [
                 .state('base', {
                     abstract: true,
                     views: {
-                        'navigation@': {
-                            templateUrl: 'js/app/shared/templates/navigation.html',
-                            controller: 'NavigationCtrl'
+
+                        'sidebarNavigation@': {
+                            templateUrl: 'js/app/shared/templates/sidebar-navigation.html',
+                            controller: 'SidebarNavigationCtrl'
+                        },
+                        'topNavigation@': {
+                            templateUrl: 'js/app/shared/templates/top-navigation.html',
+                            controller: 'TopNavigationCtrl'
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
@@ -95,7 +103,7 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve:  {
-                        acceesToken: function(AuthSvc) {
+                        accessToken: function(AuthSvc) {
                             var accessToken = AuthSvc.getToken().getAccessToken();
                             if (!accessToken) {
                                 accessToken = AuthSvc.signin();
@@ -110,7 +118,7 @@ window.app = angular.module('ds.router', [
                 .state('base.product', {
                     url: '/products/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
@@ -119,7 +127,7 @@ window.app = angular.module('ds.router', [
                 .state('base.product.detail', {
                     url: ':productId/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/products/templates/product-detail.html',
                             controller: 'ProductDetailCtrl'
                         }
@@ -135,7 +143,7 @@ window.app = angular.module('ds.router', [
                 })
                 .state('base.checkout', {
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/checkout/templates/checkout-frame.html'
                         }
                     },
@@ -164,19 +172,10 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-                .state('base.cart', {
-                    url: '/cart/',
-                    views: {
-                        'body@': {
-                            templateUrl: 'js/app/cart/templates/cart',
-                            controller: 'CartCtrl'
-                        }
-                    }
-                })
                 .state('base.confirmation', {
                     url: '/confirmation/:orderId/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
                         }
