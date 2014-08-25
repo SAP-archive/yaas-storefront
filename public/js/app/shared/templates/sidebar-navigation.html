@@ -1,12 +1,202 @@
 
 
-    <a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
-                                                style="max-width:65px;"></a>
+	<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
+												style="max-width:65px;"></a>
 
-    <ul class="navi">
-        <li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
-        <li><a ng-click="switchLanguage('en')">EN</a></li>
-        <li><a ng-click="switchLanguage('de')">DE</a></li>
-    </ul>
+	<ul class="navi">
+		<li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
+		<li class="has-sub">
+			<a href="">Level 1 <span class="hyicon hyicon-chevron-bold-right"></span></a>
+			<div class="sub-navi">
+				<ul class="sub-navi-list">
+					<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 1</a></li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+		
+				</ul>
+				
+			</div>
+		</li>
+		<li class="has-sub"><a href="">Level 1 <span class="hyicon hyicon-chevron-bold-right"></span></a>
+		<div class="sub-navi">
+				<ul class="sub-navi-list">
+					<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 1</a></li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+						<ul>
+							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+							<li><a href="">Level 3</a></li>
+						</ul>
+					</li>
+		
+				</ul>
+				
+			</div>
+		</li>
+		<li><a href="">Level 1</a></li>
+		<li><a href="">Level 1</a></li>
+		<li><a href="">Level One</a></li>
+		<li><a href="">Level 1</a></li>
+		<li><a href="">Level One</a></li>
+		<li><a href="">Level 1</a></li>
+	</ul>
+
+
+	  <ul class="navi">
+		
+		<li><a ng-click="switchLanguage('en')">EN</a></li>
+		<li><a ng-click="switchLanguage('de')">DE</a></li>
+	</ul>
 
 
