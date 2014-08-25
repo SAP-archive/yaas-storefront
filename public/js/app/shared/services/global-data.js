@@ -4,10 +4,10 @@ angular.module('ds.shared')
     /** Acts as global data store for application settings. In constrast to the "settings" constand provider,
      * these settings may change over the life of the application.
      * */
-    .service('GlobalData', ['settings', 'storeConfig', function (settings, storeConfig) {
+    .service('GlobalData', ['storeConfig', function (storeConfig) {
       
-		this.languageCode = settings.languageCode;
-
+		this.languageCode = storeConfig.defaultLanguage;
+        this.acceptLanguages = storeConfig.defaultLanguage;
 		this.products = {
 			meta: {
 				total: 0

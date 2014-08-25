@@ -15,6 +15,7 @@
 <body>
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
     <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
+    <div ui-view="authorization" ng-if="showAuthPopup"></div>
 
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
@@ -25,6 +26,7 @@
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
 <script src="js/vendor-static/jquery.min.js"></script>
 <script src="js/vendor/angular/angular.min.js"></script>
+<script src="js/vendor/angular-cookies/angular-cookies.js"></script>
 <script src="js/vendor/angular-mocks/angular-mocks.js"></script>
 <script src="js/vendor/restangular/dist/restangular.min.js"></script>
 <script src="js/vendor/angular-ui-router/release/angular-ui-router.js"></script>
@@ -66,6 +68,11 @@
 <script src="js/app/confirmation/controllers/confirmation-ctrl.js"></script>
 <script src="js/app/confirmation/services/order-details-svc.js"></script>
 <script src="js/app/confirmation/services/order-details-rest.js"></script>
+<script src="js/app/auth/auth-index.js"></script>
+<script src="js/app/auth/controllers/auth-ctrl.js"></script>
+<script src="js/app/auth/services/auth-rest.js"></script>
+<script src="js/app/auth/services/cookiesstorage-service.js"></script>
+<script src="js/app/auth/services/auth-service.js"></script>
 <script src="js/app/app.js"></script>
 <script src="js/vendor-static/bootstrap.min.js"></script>
 <script src="js/vendor-static/ui-bootstrap-tpls.js"></script>

@@ -15,6 +15,7 @@ module.exports = function(config){
         'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
         'public/js/vendor/angular-mocks/angular-mocks.js',
+        'public/js/vendor/angular-cookies/angular-cookies.js',
         'public/js/vendor/angular-resource/angular-resource.min.js',
         'public/js/vendor/restangular/dist/restangular.min.js',
         'public/js/vendor/angular-ui-router/release/angular-ui-router.min.js',
@@ -61,6 +62,12 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+        'public/js/app/auth/auth-index.js',
+        'public/js/app/auth/controllers/auth-ctrl.js',
+        'public/js/app/auth/services/auth-rest.js',
+        'public/js/app/auth/services/cookiesstorage-service.js',
+        'public/js/app/auth/services/auth-service.js',
+
         'public/js/app/app.js',
 
         'public/js/vendor-static/ui-bootstrap-tpls.js',
@@ -71,7 +78,8 @@ module.exports = function(config){
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
         'test/unit/products/*.js',
-        'test/unit/shared/*.js'
+        'test/unit/shared/*.js',
+        'test/unit/auth/*.js'
     
     ],
 

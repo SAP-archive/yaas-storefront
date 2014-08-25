@@ -10,6 +10,7 @@ angular.module('ds.shared')
             $scope.cart = cart;
 
 
+
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj;
             });

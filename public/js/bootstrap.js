@@ -5,6 +5,9 @@
 (function () {
     var storeConfig = {};
     storeConfig.storeTenant = 'ed7hrfivpvyr';
+    // acts as fallback language for localization
+    // Longterm, will be retrieved via service from admin tool configuration
+    storeConfig.defaultLanguage = 'en';
     angular.module('config', []).constant('storeConfig', storeConfig);
 
     try {
