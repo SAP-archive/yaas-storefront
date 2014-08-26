@@ -292,7 +292,7 @@ angular.module('ds.checkout')
                 $scope.$broadcast('submitting:form', form);
                 if (formValid) {
                     modal.open({
-                        templateUrl: 'public/js/app/checkout/templates/order-processing-splash-screen.html',
+                        templateUrl: 'js/app/checkout/templates/order-processing-splash-screen.html',
                         windowClass: ssClass,
                         top: '60%'
                     });

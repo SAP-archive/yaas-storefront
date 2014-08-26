@@ -1,6 +1,8 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q;
+    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings;
+    var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
+
     mockedGlobalData = {};
     mockedGlobalData.store = {};
     mockedGlobalData.products = {};
@@ -12,10 +14,11 @@ describe('BrowseProductsCtrl', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
+    beforeEach(angular.mock.module('ds.shared'));
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_,_settings_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -25,126 +28,102 @@ describe('BrowseProductsCtrl', function () {
         $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
+        settings = _settings_;
     }));
 
-    describe('BrowseProductsCtrl ', function () {
-        var mockedProductSvc, browseProdCtrl, mockedPriceSvc;
+
+    beforeEach(inject(function (_$q_) {
+
+        $q = _$q_;
+        mockedProductSvc = {};
+        productResult = [
+            {'name': 'prod1'}
+
+        ];
+        productResult.headers =  [];
+        deferredProducts = $q.defer();
+        deferredProducts.resolve(productResult);
+        mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
+
+        priceResult = [];
+        deferredPrices = $q.defer();
+        deferredPrices.resolve(priceResult);
+        mockedPriceSvc = {};
+        mockedPriceSvc.query =  jasmine.createSpy('query').andReturn(deferredPrices.promise);
+    }));
+
+    describe('Initialization', function () {
 
 
         beforeEach(function () {
 
-            mockedThen = jasmine.createSpy();
-            // creating the mocked service
-            mockedProductSvc = {
-                query: jasmine.createSpy().andReturn({
-                    then: mockedThen
-                })
-            };
+            browseProdCtrl = $controller('BrowseProductsCtrl',
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData, 'settings': settings});
 
-            mockedPriceSvc = {
-                query: jasmine.createSpy()
-            };
-
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
-            // expect(mockedProductSvc.queryWithResultHandler).toHaveBeenCalled();
         });
 
-        it('should initialize image placeholder', function(){
+        it('should set image placeholder', function(){
             expect($scope.PLACEHOLDER_IMAGE).toBeTruthy();
         });
 
-        it('setSortedPage should update current page and query products', function(){
 
-            var page = 4;
-            $scope.setSortedPage(page);
+        it('should query products', function () {
+            $scope.products = [];
+
+            // trigger promise resolution:
+            $scope.$digest();
             expect(mockedProductSvc.query).toHaveBeenCalled();
-            expect($scope.pageNumber).toEqual(page);
-        })
+            // indirect testing via resolved promise
+            expect($scope.products).toEqualData(productResult);
+        });
+
 
     });
 
-    describe('addMore', function () {
-
-        var products, browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
-
-        beforeEach(inject(function ($q) {
-
-            $q = $q;
-
-            products = [
-                {'name': 'prod1'}
-            ];
-
-            mockedThen = jasmine.createSpy();
-
-            // stubbing a service with callback
-            stubbedProductSvc = {
-                query: jasmine.createSpy().andReturn({
-                    then: mockedThen
-                })
-            };
-
-            mockedPriceSvc = {
-                query: jasmine.createSpy(),
-                queryWithResultHandler: jasmine.createSpy()
-            };
-
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
-        }));
-
-        it('should query products on initialization', function () {
-            $scope.products = [];
-            // manual injection of the mocked service into the controller
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData});
-            expect(stubbedProductSvc.query).wasCalled();
-            // expect($scope.products).toEqualData(products);
-        });
-
-        it(' should query products and add them to the scope if no sorting', function () {
-            $scope.products = [];
-            $scope.addMore();
-            // validate that "add more" added products returned by query to the scope
-            expect(stubbedProductSvc.query).wasCalled();
-            // expect($scope.products).toEqualData(products);
-        });
-
-        it(' should not query products if sorting enabled', function(){
-            $scope.sort = 'price';
-            stubbedProductSvc.query.reset();
-            $scope.addMore();
-            expect(stubbedProductSvc.query.callCount).toBe(0);
-        });
-
-    });
-
-    describe('should scroll to top', function () {
-
-        var browseProdCtrl, stubbedProductSvc, mockedPriceSvc;
-
+    describe('function', function() {
         beforeEach(function () {
+            browseProdCtrl = $controller('BrowseProductsCtrl',
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData, 'settings': settings});
 
-            mockedThen = jasmine.createSpy();
-
-            // stubbing a service with callback
-            stubbedProductSvc = {
-
-                query: jasmine.createSpy().andReturn({
-                    then: mockedThen
-                })
-
-            };
-
-            mockedPriceSvc = {
-                query: jasmine.createSpy()
-            };
-
-            browseProdCtrl = $controller('BrowseProductsCtrl', {$scope: $scope, 'ProductSvc': stubbedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData})
         });
 
-        it('should scroll to 0, 0', function () {
-            window.scrollTo(0, 5);
-            $scope.backToTop();
-            expect(window.pageYOffset).toEqualData(0);
+
+        describe('addMore', function () {
+
+            it(' should query products and add them to the scope if no sorting', function () {
+                $scope.products = [];
+                $scope.addMore();
+                // validate that "add more" added products returned by query to the scope
+                expect(mockedProductSvc.query).wasCalled();
+                // expect($scope.products).toEqualData(products);
+            });
+
+            it('should not query products if sorting enabled', function () {
+                $scope.sort = 'price';
+                mockedProductSvc.query.reset();
+                $scope.addMore();
+                expect(mockedProductSvc.query.callCount).toBe(0);
+            });
+
+        });
+
+        describe('setSortedPage', function () {
+            it('setSortedPage should update current page and query products', function () {
+
+                var page = 4;
+                $scope.setSortedPage(page);
+                expect(mockedProductSvc.query).toHaveBeenCalled();
+                expect($scope.pageNumber).toEqual(page);
+            })
+        });
+
+        describe('backToTop', function () {
+            it('should scroll to 0, 0', function () {
+                window.scrollTo(0, 5);
+                $scope.backToTop();
+                expect(window.pageYOffset).toEqualData(0);
+            });
+
         });
 
     });

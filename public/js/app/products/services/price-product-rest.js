@@ -16,7 +16,7 @@
  *  Encapsulates configuration of the price, products, and productDetails APIs.
  */
 angular.module('ds.products')
-    .factory('PriceProductREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('PriceProductREST', ['settings', 'Restangular', 'GlobalData', function(settings, Restangular, GlobalData){
 
             return {
                 /** Endpoint for Prices API.*/
@@ -32,6 +32,16 @@ angular.module('ds.products')
                             result.headers = headers;
                             return result;
                         });
+
+                    RestangularConfigurer.setFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+
+                        return {
+                            element: element,
+                            params: params,
+                            headers: _.extend(headers, {'accept-language': GlobalData.acceptLanguages}),
+                            httpConfig: httpConfig
+                        };
+                    });
                     }),
                 /** Endpoint for ProductDetails API. */
                 ProductDetails: Restangular.withConfig(function(RestangularConfigurer) {
