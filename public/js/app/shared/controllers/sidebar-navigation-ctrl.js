@@ -24,7 +24,9 @@ angular.module('ds.shared')
                 $scope.languageCode =  languageCode;
                 GlobalData.languageCode = languageCode;
                 GlobalData.acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
+
                 if($state.is('base.product') || $state.is('base.product.detail')) {
+
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: false,
