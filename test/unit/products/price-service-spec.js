@@ -12,10 +12,7 @@
 
 describe('PricesService Test', function(){
 
-    var priceUrl = "http://dummy.price.url";
     var priceUrlRest = 'http://price-v1.test.cf.hybris.com/prices';
-    var priceRoute = "/prices";
-    var testUrl = priceUrl + priceRoute;
     var $scope, $rootScope, $httpBackend, priceSvc;
 
     var priceResponse = {
@@ -35,6 +32,7 @@ describe('PricesService Test', function(){
     beforeEach(function() {
         module('restangular');
         module('ds.products');
+        module('config')
     });
 
     beforeEach(function (){

@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['CheckoutREST', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
-        function (CheckoutREST, $rootScope, StripeJS, CartSvc, settings, $q) {
+    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q',
+        function (CheckoutREST, StripeJS, CartSvc, settings, $q) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {
@@ -78,8 +78,6 @@ angular.module('ds.checkout')
                         if (response.error) {
                             deferred.reject({ type: ERROR_TYPES.stripe, error: response.error });
                         } else {
-
-                            // self.createOrder(order, response.id).$promise.then(
                             self.createOrder(order, response.id).then(
                                 // success handler
                                 function (order) {
@@ -131,6 +129,7 @@ angular.module('ds.checkout')
                 newOrder.cartId = order.cart.id;
                 newOrder.creditCardToken = token;
                 newOrder.currency = 'USD';
+                newOrder.shippingCost = order.shippingCost;
 
                 newOrder.orderTotal =  order.cart.totalPrice.price;
 
@@ -169,6 +168,25 @@ angular.module('ds.checkout')
 
                 return CheckoutREST.Checkout.all('checkouts').all('order').post(newOrder);
 
+            },
+
+            /** Returns the shipping costs for this tenant.  If no cost found, it will be set to zero.
+             */
+            getShippingCost: function() {
+                var deferred = $q.defer();
+
+                CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts){
+                    var defaultCost = {};
+                    defaultCost.price = {};
+                    defaultCost.price.price = 0;
+
+                    var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
+                    deferred.resolve(costs);
+                }, function(failure){
+                    deferred.reject(failure);
+                });
+
+                return deferred.promise;
             }
 
         };

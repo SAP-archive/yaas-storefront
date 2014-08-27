@@ -22,7 +22,7 @@ var tu = require('./protractor-utils.js');
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.css("div.pull-right.ng-binding")).getText()).toEqual('TOTAL: ' + totalPrice);
+            expect(element(by.binding("cart.totalPrice.price")).getText()).toContain(totalPrice);
             expect(element(by.css("span.value.ng-binding")).getText()).toEqual(totalPrice);
             expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
@@ -72,13 +72,13 @@ describe("checkout:", function () {
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$24.57', '1');
+            verifyCartContents('Item Price: $24.57', '$27.81', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$49.14', '2');
+            verifyCartContents('Item Price: $24.57', '$52.38', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
@@ -88,7 +88,7 @@ describe("checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$26.57', '1');
+            verifyCartContents('Item Price: $24.57', '$29.81', '1');
            });
 
            it('should allow all fields to be editable', function () {

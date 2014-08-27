@@ -10,14 +10,14 @@ angular.module('ds.shared')
 	 */
 	.constant('settings', {
 
-		// Set default language code for the application
-		languageCode: 'en',
-
         cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
 
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
+        authTokenKey: 'auth.user',
+        accessTokenKey: 'auth.accessToken',
+        userIdKey: 'user.email',
 
         // defines thea API endpoints and routes
         apis: {
@@ -26,7 +26,8 @@ angular.module('ds.shared')
                baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {
-                baseUrl: 'http://product-v1.test.cf.hybris.com',
+
+                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
                 pageSize: 10
             },
 
@@ -58,6 +59,15 @@ angular.module('ds.shared')
                 baseUrl: 'http://price-v1.test.cf.hybris.com'
             },
 
+            shippingCosts: {
+                baseUrl: 'http://shipping-cost-v1.test.cf.hybris.com'
+            },
+
+            customers: {
+                baseUrl: 'http://customer-v2.test.cf.hybris.com',
+                apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
+            },
+
             // header keys
             headers: {
 
@@ -67,6 +77,8 @@ angular.module('ds.shared')
                 hybrisRoles: 'hybris-roles',
                 hybrisUser: 'hybris-user',
                 hybrisApp: 'hybris-app',
+
+                hybrisAuthentication: 'Authentication',
 
                 paging: {
                     total: 'X-Count'
@@ -78,5 +90,7 @@ angular.module('ds.shared')
             stripeKey: 'payment.stripe.key.public',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
-        }
+        },
+
+        placeholderImage: 'img/no-image.png'
     });

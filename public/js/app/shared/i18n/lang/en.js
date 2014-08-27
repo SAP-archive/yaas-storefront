@@ -36,6 +36,7 @@ angular.module('ds.i18n')
         FIRST_NAME: 'First Name',
         FIRST_NAME_REQUIRED: 'First Name Required',
         FREE_STANDARD_SHIPPING: 'Free Standard Shipping',
+        FLAT_RATE_SHPPING: 'Flat Rate',
         INVALID_EXPIRATION_DATE: 'Invalid Expiration Date',
         ITEMS: 'Items',
         LAST_NAME: 'Last Name',
@@ -44,6 +45,7 @@ angular.module('ds.i18n')
         MONTH: 'Month',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
+        ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
         PLACE_ORDER: 'Place Order',
@@ -69,7 +71,6 @@ angular.module('ds.i18n')
         YEAR: 'Year',
         ZIP: 'Zip Code',
         ZIP_REQUIRED: 'Zip Code Required',
-        ORDER_PENDING: 'One moment... Placing your order',
 
         /*
             confirmation

@@ -1,6 +1,6 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, shippingCost, checkoutDfd, $modal, mockedModal;
     var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -15,11 +15,15 @@ describe('CheckoutCtrl', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
+    beforeEach(module('restangular'));
     beforeEach(module('ds.checkout', function($provide) {
         order = {};
         order.shipTo = {};
         cart = {};
         order.creditCard = {};
+        shippingCost = {};
+        shippingCost.price = {};
+        shippingCost.price.price = 4.99;
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         };
@@ -34,6 +38,7 @@ describe('CheckoutCtrl', function () {
 
         $provide.value('cart', cart);
         $provide.value('order', order);
+        $provide.value('shippingCost', shippingCost);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
     }));
@@ -56,6 +61,7 @@ describe('CheckoutCtrl', function () {
 
     beforeEach(function () {
         checkoutDfd = $q.defer();
+
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
         });

@@ -1,84 +1,104 @@
-/* TODO: CHANGE BEHAVOIR TO MOBILE FIRST */
+/* _____ OFFCANVAS _____ */
+// Behavoir for Main Frame
 
+// DEFAULT
+// ==========================================================================
 
 html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
-
-/* DEFAULT BEHAVOIR */ 
-.off-canvas{
+/* MENU */
+.sidebar-offcanvas{
   .clearfix;
-  position: relative;
-  transition: all 0.25s ease-out 0s;
-  right: 0;
-  padding-left: @offcanvas-left-width-d;
-
-
-  &.right{
-    right: @offcanvas-right-width-d;
-    left: auto;
-    /* Uncomment to keep left offcanvas in viewport for desktop */
-    //margin-left: @offcanvas-right-width-d;
-  }
-  &.left{
-    right: auto;
-    left: 0;
-  }
-
-}
-
-
-.offcanvas-right {
-    position: absolute;
-    top: 0;
-    width: @offcanvas-right-width-d;
-    right: -@offcanvas-right-width-d;
-    height: 100%;
-}
-
-
-.sidebar-offcanvas {
-  .clearfix;
-  position: absolute;
-  width: @offcanvas-left-width-d;
-  left:0;
-  top: 0;
-  bottom:0;
-  min-height: 100%;
-}
-
-/* SMALL SCREEN */
-@media screen and (max-width: @screen-sm-max) {
-
-  .off-canvas{
-    padding-left: 0;
-
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
+    position: fixed;
     width: @offcanvas-left-width-m;
-    left: -@offcanvas-left-width-m;
-    height: 100%
-    }
-    &.right{
-      right: @offcanvas-right-width-m;
-      left: auto;
-      margin-left: 0;
-    }
-    &.left{
-      left: auto;
-      right: -@offcanvas-left-width-m;
-    }
+    height: 100%;
+    left: -@offcanvas-left-width-m; 
+    transition: @offcanvas-transition;
+    z-index: 5000;
+    overflow: visible;
+}
+
+/* CONTENT AREA & MOBILE NAV */
+.top-navigation,
+.mainContent{
+  transition: @offcanvas-transition;
+  right: 0;
+  position: relative;
+}
+
+/* CART*/
+.offcanvas-right{
+  width: @offcanvas-right-width-m;
+  height: 100%;
+  top: 0;
+   transition: @offcanvas-transition;
+   position: fixed;
+   right: -@offcanvas-right-width-m;
+   z-index: 5000;
+   overflow: auto;
+}
+
+// ACTIVE SMALL SCREEN
+// ==========================================================================
+
+.left{
+  .sidebar-offcanvas{
+    left: 0;  
+  }
+  .mainContent{
+    right: -@offcanvas-left-width-m;
+    
+  }
+}
+
+.right{
+  .offcanvas-right{
+    right: 0;  
+  }
+  .mainContent{
+    right: @offcanvas-right-width-m;
+  }
+}
+
+
+
+// BIG SCREEN
+// ==========================================================================
+
+@media screen and (min-width: @screen-sm-max) {
+  .sidebar-offcanvas{
+    left: 0;
+    width: @offcanvas-left-width-d;
   }
 
+  .mainContent{
+    padding-left: @offcanvas-left-width-d;
+  }
 
-  .offcanvas-right {
-    position: absolute;
-    top: 0;
-    width: @offcanvas-right-width-m;
-    right: -@offcanvas-right-width-m;
-    height: 100%;
+  .offcanvas-right{
+    width: @offcanvas-right-width-d;
+  }
+
+  /* OVERWRITE MOBILE BEHAVOIR */
+  .left{
+    .mainContent{
+      right: 0;
+    }
+  }
+    /* Active Cart */
+  .right{
+    .offcanvas-right{
+      width: @offcanvas-right-width-d;
+      right: 0;
+    }
+    .sidebar-offcanvas{
+      left: -@offcanvas-right-width-d
+    }
+    .mainContent{
+      right: @offcanvas-right-width-d;
+    }
   }
 }

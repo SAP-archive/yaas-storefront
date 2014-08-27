@@ -35,7 +35,7 @@ describe("cart:", function () {
          it('should load multiple products into cart', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+           expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.frenchPress);
@@ -58,7 +58,7 @@ describe("cart:", function () {
          it('should update quantity', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+           expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.frenchPress);
@@ -85,13 +85,13 @@ describe("cart:", function () {
          it('should not add out of stock item', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+            expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('xpath', tu.contineShopping);
            tu.clickElement('xpath', tu.chemex);
            tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);
            browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+            expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('xpath', tu.contineShopping);
          });
 
