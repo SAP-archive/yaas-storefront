@@ -55,4 +55,8 @@ angular.module('ds.shared')
             
             $scope.login = AuthDialogManager.open;
 
+            $scope.myProfile = function() {
+                $state.go('base.profile');
+            };
+
 	}]);

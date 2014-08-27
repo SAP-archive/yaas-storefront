@@ -6332,16 +6332,6 @@ body {
   color: #fff;
   background: #0068b3;
 }
-.user-menu {
-  padding: 10px 0;
-}
-.user-menu a {
-  padding: 3px 10px;
-}
-.user-menu .logout {
-  color: red;
-  border-right: 1px solid #bebebe;
-}
 #cart {
   background: #eeeeee;
   /* TOP BUTTON ROW */

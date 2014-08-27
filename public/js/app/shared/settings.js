@@ -30,7 +30,7 @@ angular.module('ds.shared')
             } ,
             products: {
                 // baseUrl: 'http://product-v1.test.cf.hybris.com/',
-                baseUrl: 'http://product-v1-4-0.test.cf.hybris.com/',
+                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com/',
                 pageSize: 10
             },
 

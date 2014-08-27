@@ -34,11 +34,28 @@
 	<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!isAuthenticated" >
 		<span class="glyphicon glyphicon-user"></span>
 	</button>
-	<button type="button" class="btn btn-link navbar-btn pull-right user" ng-if="isAuthenticated" 
-		y-auth-popover 
-		options="{placement: 'bottom', html: true, templateUrl: './public/js/app/auth/templates/user-menu-mobile.html'}">
+
+
+	<div class="dropdown pull-right">
+		<a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="isAuthenticated" >
+			<span class="glyphicon glyphicon-user" style="color: #0079ff;"></span>
+		</a>
+		<ul class="dropdown-menu" class="pull-right">
+		  <li><a href="" class="logout" ng-click="logout()">Sign Out</a></li>
+		  <li class="divider"></li>
+		  <li><a href="" class="my-profile" ng-click="myProfile()">My Profile</a></li>
+		</ul>
+	</div>
+
+	<!-- <button type="button" class="btn btn-link navbar-btn pull-right signin" ng-if="isAuthenticated" data-toggle="dropdown">
 		<span class="glyphicon glyphicon-user" style="color: #0079ff;"></span>
 	</button>
+  <ul class="dropdown" role="menu">
+    <li><a href="" class="logout" ng-click="logout()">Sign Out</a></li>
+    <li class="divider"></li>
+    <li><a href="" class="my-profile" ng-click="myProfile()">My Profile</a></li>
+  </ul> -->
+
 	<button type="button" class="btn btn-link navbar-btn pull-right search">
         <span class="hyicon hyicon-search"></span>
     </button>
