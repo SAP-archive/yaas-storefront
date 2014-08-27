@@ -29,7 +29,7 @@ angular.module('ds.shared')
 
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
-                        inherit: false,
+                        inherit: true,
                         notify: true
                     });
                 }

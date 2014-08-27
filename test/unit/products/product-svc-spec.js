@@ -14,7 +14,8 @@ describe('ProductSvc', function () {
     var productsRestUrl = 'http://product-v1-4-1.test.cf.hybris.com/products';
 
     var $scope, $rootScope, $httpBackend, productSvc;
-    var mockedStoreConfig = {};
+    var acceptLang = "de"
+    var mockedGlobalData = {acceptLanguages: acceptLang};
 
 
     var prodList = [
@@ -22,8 +23,9 @@ describe('ProductSvc', function () {
         {name: 'Hat'}
     ];
 
+    beforeEach(module('restangular'));
     beforeEach(angular.mock.module('ds.products', function ($provide) {
-        $provide.value('storeConfig', mockedStoreConfig);
+        $provide.value('GlobalData', mockedGlobalData);
     }));
 
 
@@ -37,7 +39,6 @@ describe('ProductSvc', function () {
         inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-
             $httpBackend = _$httpBackend_;
             productSvc = _ProductSvc_;
         });
@@ -59,11 +60,13 @@ describe('ProductSvc', function () {
             };
         });
 
-        iit('sets language header', function(){
-            $httpBackend.expectGET(productsRestUrl, []);
+        iit('sets accept-language header', function(){
 
-             productSvc.query();
+            $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
+
+            productSvc.query();
             $httpBackend.flush();
+
         });
     });
 
