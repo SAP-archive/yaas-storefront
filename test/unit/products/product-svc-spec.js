@@ -9,12 +9,13 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
-describe('ProductSvc Test', function () {
+describe('ProductSvc', function () {
 
     var productsRestUrl = 'http://product-v1-4-1.test.cf.hybris.com/products';
 
     var $scope, $rootScope, $httpBackend, productSvc;
-    var mockedStoreConfig = {};
+    var acceptLang = "de"
+    var mockedGlobalData = {acceptLanguages: acceptLang};
 
 
     var prodList = [
@@ -22,8 +23,9 @@ describe('ProductSvc Test', function () {
         {name: 'Hat'}
     ];
 
+    beforeEach(module('restangular'));
     beforeEach(angular.mock.module('ds.products', function ($provide) {
-        $provide.value('storeConfig', mockedStoreConfig);
+        $provide.value('GlobalData', mockedGlobalData);
     }));
 
 
@@ -37,26 +39,39 @@ describe('ProductSvc Test', function () {
         inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-
             $httpBackend = _$httpBackend_;
             productSvc = _ProductSvc_;
         });
     });
 
+    describe('query', function(){
 
-    it('query returns product array', function () {
-        $httpBackend.expectGET(productsRestUrl).respond(prodList);
+        it('issues GET that returns product array', function () {
+            $httpBackend.expectGET(productsRestUrl).respond(prodList);
 
-        var products = productSvc.query();
+            var products = productSvc.query();
 
-        $httpBackend.flush();
-        expect(products.$object.length).toBeDefined();
-        expect(products.$object.length).toEqual(prodList.length);
-        for (var i = 0, prod; i < products.$object.length; i++) {
-            prod = products.$object[i];
-            expect(prod.name).toEqualData(prodList[i].name);
-        };
+            $httpBackend.flush();
+            expect(products.$object.length).toBeDefined();
+            expect(products.$object.length).toEqual(prodList.length);
+            for (var i = 0, prod; i < products.$object.length; i++) {
+                prod = products.$object[i];
+                expect(prod.name).toEqualData(prodList[i].name);
+            };
+        });
+
+        iit('sets accept-language header', function(){
+
+            $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
+
+            productSvc.query();
+            $httpBackend.flush();
+
+        });
     });
+
+
+
 
 
 });
