@@ -15,6 +15,13 @@ describe('NavigationCtrl Test', function () {
     var $scope, $rootScope, $controller, $injector, $state;
     var mockedGlobalData = {};
     var MockedAuthSvc = {};
+    var AuthDialogManager = {
+        isOpened: jasmine.createSpy('then'),
+        open: jasmine.createSpy('then').andReturn({
+            then: jasmine.createSpy('then')
+        }),
+        close: jasmine.createSpy('dismiss')
+    };
 
 
     // configure the target controller's module for testing - see angular.mock
@@ -39,7 +46,7 @@ describe('NavigationCtrl Test', function () {
         var navCtrl, cart;
         cart = {};
         beforeEach(function () {
-            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc});
+            navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc, AuthDialogManager: AuthDialogManager});
         });
 
         it('should change showCart value', function(){

@@ -12,11 +12,14 @@
 'use strict';
 
 angular.module('ds.auth')
-    .controller('AuthCtrl', ['$scope', 'AuthSvc', function($scope, AuthSvc) {
+    .controller('AuthCtrl', ['$scope', 'AuthSvc', '$q', function($scope, AuthSvc, $q) {
         
         $scope.user =  {
           signup: {},
-          signin: {}
+          signin: {
+            email: 'test@test.com',
+            password: 'password'
+          }
         };
 
         $scope.errors = {
@@ -25,11 +28,13 @@ angular.module('ds.auth')
         };
 
         var performSignin = function(authModel) {
-            AuthSvc.signin(authModel).then(function() {
+          var signInPromise = AuthSvc.signin(authModel);
+          signInPromise.then(function() {
                 $scope.errors.signin = [];
               }, function(response) {
                 $scope.errors.signin = extractServerSideErrors(response);
               });
+          return signInPromise;
         };
 
         var extractServerSideErrors = function(response) {
@@ -47,22 +52,49 @@ angular.module('ds.auth')
         };
 
         $scope.signup = function(authModel, singupForm) {
+          var deferred = $q.defer();
+
           if (singupForm.$valid) {
             AuthSvc.signup(authModel).then(
                 function() {
                   $scope.errors.signup = [];
-                  performSignin(authModel);
+                  performSignin(authModel).then(
+                    function(response) {
+                      deferred.resolve(response);
+                    },
+                    function(response) {
+                      deferred.reject(response);
+                    }
+                  );
                 }, function(response) {
                   $scope.errors.signup = extractServerSideErrors(response);
+                  deferred.reject({ message: 'Signup form is invalid!', errors: $scope.errors.signup });
                 }
               );
+          } else {
+            deferred.reject({ message: 'Signup form is invalid!'});
           }
+
+          return deferred.promise;
         };
 
-        $scope.signin = function(authModel, singinForm) {
-          if (singinForm.$valid) {
-            performSignin(authModel);
+        $scope.signin = function(authModel, signinForm) {
+          var deferred = $q.defer();
+
+          if (signinForm.$valid) {
+            performSignin(authModel).then(
+              function(response) {
+                deferred.resolve(response);
+              },
+              function(response) {
+                deferred.reject(response);
+              }
+            );
+          } else {
+            deferred.reject({ message: 'Signin form is invalid!'});
           }
+
+          return deferred.promise;
         };
 
     }]);

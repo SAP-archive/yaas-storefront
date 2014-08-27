@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal',
-        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal) {
+    .controller('CheckoutCtrl', [ '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AuthDialogManager',
+        function ($scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AuthDialogManager) {
 
 
             $scope.order = order;
@@ -53,6 +53,26 @@ angular.module('ds.checkout')
                 $scope.shippingCosts = shippingCosts.length ? shippingCosts[0] : null;
                 $scope.order.shippingCost = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].price.price || 0 : 0;
             });
+
+            var getDefaultAddress = function() {
+                AuthSvc.getProfileAddresses('default').then(
+                    function(response) {
+                        $scope.order.billTo = response;
+                    }
+                );
+            };
+
+            if (!AuthSvc.isAuthenticated()) {
+                AuthDialogManager.open(null, { required: true }).result.then(
+                    function(response) {
+                        if (response) {
+                            getDefaultAddress();
+                        }
+                    }
+                );
+            } else {
+                getDefaultAddress();
+            }
 
             $scope.badEmailAddress = false;
 

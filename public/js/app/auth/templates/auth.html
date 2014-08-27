@@ -1,14 +1,26 @@
-<section ng-controller="AuthCtrl" class="row">
-	<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="#signin" role="tab" data-toggle="tab">Sign In</a></li>
-  <li><a href="#signup" role="tab" data-toggle="tab">Create Account</a></li>
-</ul>
+<section class="row">
 
-<div class="tab-content">
-  <div class="tab-pane active" id="signin"><section ng-include="'public/js/app/auth/templates/signin.html'"></section> 	</div>
-  <div class="tab-pane" id="signup"><section ng-include="'public/js/app/auth/templates/signup.html'"></section></div>
-</div>
+	<section>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">Sign In</a></li>
+		  <li><a href="#signup" role="tab" data-toggle="tab">Create Account</a></li>
+		</ul><br>
+
+		<div class="tab-content">
+		  <div class="tab-pane active" id="signin">
+		  	<div ng-include="'public/js/app/auth/templates/signin.html'"></div>
+		  </div>
+		  <div class="tab-pane" id="signup">
+		  	<div ng-include="'public/js/app/auth/templates/signup.html'"></div>
+		  </div>
+		</div>
+
+		<hr>
+
+		<a href="" ng-click="continueAsGuest()" class="btn btn-primary btn-lg btn-block">Continue as our guest</a>
+
+	</section>
 </section>
 
 

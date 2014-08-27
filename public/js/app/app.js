@@ -61,10 +61,13 @@ window.app = angular.module('ds.router', [
         RestangularProvider.setDefaultHeaders(headers);
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
-        function ($rootScope, storeConfig, ConfigSvc) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            $rootScope.showAuthPopup = false;
+            $rootScope.$on('$stateChangeStart', function () {
+                // Make sure dialog is closed (if it was opened)
+                AuthDialogManager.close();
+            });
         }
     ])
 
@@ -87,10 +90,6 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'public/js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
-                        },
-                        'authorization@': {
-                            templateUrl: 'public/js/app/auth/templates/auth.html',
-                            controller: 'AuthCtrl'
                         }
                     },
                     resolve:  {
@@ -157,7 +156,7 @@ window.app = angular.module('ds.router', [
                     url: '/cart/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/cart/templates/cart',
+                            templateUrl: 'public/js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
                     }
@@ -168,6 +167,15 @@ window.app = angular.module('ds.router', [
                         'body@': {
                             templateUrl: 'public/js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
+                        }
+                    }
+                })
+                .state('base.profile', {
+                    url: '/profile/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'public/js/app/auth/templates/profile.html',
+                            controller: 'CartCtrl'
                         }
                     }
                 })

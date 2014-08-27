@@ -3,9 +3,9 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation bar.  Listens to the 'cart:updated' event - on update,
       * the cart icon will reflect the updated cart quantity. */
-	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'AuthSvc',
+	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'AuthSvc', 'AuthDialogManager',
 
-		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart, AuthSvc) {
+		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart, AuthSvc, AuthDialogManager) {
 
             $scope.cart = cart;
 			$scope.languageCode = GlobalData.languageCode;
@@ -16,17 +16,17 @@ angular.module('ds.shared')
             $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
                 $scope.isAuthenticated = isAuthenticated;
                 $scope.username = AuthSvc.getToken().getUsername();
-                if ($scope.isAuthenticated) {
-                    $rootScope.showAuthPopup = false;
-                }
             });
 
+            $scope.authModal = null;
 
-            var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
+            var ocu = $rootScope.$on('cart:updated', function(eve, eveObj){
                 $scope.cart = eveObj;
             });
 
-            $scope.$on('$destroy', unbind);
+            $scope.$on('$destroy', function() {
+                ocu();
+            });
 
 			$scope.switchLanguage = function(languageCode) {
 				$translate.use(languageCode);
@@ -52,9 +52,7 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
             $scope.logout = AuthSvc.signout;
-
-            $scope.login = function() {
-                $rootScope.showAuthPopup = !$rootScope.showAuthPopup;
-            };
+            
+            $scope.login = AuthDialogManager.open;
 
 	}]);

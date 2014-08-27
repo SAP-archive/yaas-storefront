@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', function(AuthREST, settings, Storage){
+    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', function(AuthREST, settings, Storage, $q){
 
         return {
 
@@ -50,6 +50,59 @@ angular.module('ds.auth')
 
             isAuthenticated: function() {
                 return !!Storage.getToken().getAccessToken();
+            },
+
+            /**
+             * Mehtod resturing logged in user profile details.
+             */
+            // TODO: replace with actual implementation (once ApiGee is in place)
+            profile: function() {
+                // Dummy implementation
+                var deferred = $q.defer();
+
+                setTimeout(function() {
+                    deferred.resolve({
+                        customerNumber: 'C123456',
+                        title: 'Dr.',
+                        firstName: 'Max',
+                        middleName: 'Simon',
+                        lastName: 'Muster',
+                        contactEmail: 'noreply@hybris.com',
+                        contactPhone: '+1 1111 2222 3333',
+                        preferredLanguage: 'en_US',
+                        preferredCurrency: 'US'
+                    });
+                }, 300);
+
+                return deferred.promise;
+            },
+
+            /**
+             * Mehtod resturing logged in user addresses or only specified address
+             */
+            // TODO: replace with actual implementation (once ApiGee is in place)
+            getProfileAddresses: function(addressId) {
+                var deferred = $q.defer(),
+                    result = [{
+                            address1: 'Hollywood Blwd.',
+                            city: 'Los Angeles',
+                            state: 'CA',
+                            zip: '123456'
+                        },
+                        {
+                            address1: 'Dead end walley',
+                            city: 'New York',
+                            state: 'New York',
+                            zip: '111222'
+                        }];
+
+                if (addressId) {
+                    result = result[0];
+                }
+
+                setTimeout(function() { deferred.resolve(result); }, 300);
+
+                return deferred.promise;
             }
 
         };

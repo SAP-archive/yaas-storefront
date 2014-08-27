@@ -12,7 +12,6 @@
 --></head>
 <body>
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-    <div ui-view="authorization" ng-if="showAuthPopup"></div>
     <div ui-view="navigation"></div>
     <div class="mainContent">
         <div ui-view="cart"></div>
@@ -65,12 +64,16 @@
 <script src="js/app/confirmation/services/order-details-rest.js"></script>
 <script src="js/app/auth/auth-index.js"></script>
 <script src="js/app/auth/controllers/auth-ctrl.js"></script>
+<script src="js/app/auth/controllers/auth-modal-dialog-ctrl.js"></script>
 <script src="js/app/auth/services/auth-rest.js"></script>
 <script src="js/app/auth/services/cookiesstorage-service.js"></script>
 <script src="js/app/auth/services/auth-service.js"></script>
+<script src="js/app/auth/services/auth-dialog-manager.js"></script>
+<script src="js/app/auth/directives/auth-popup.js"></script>
 <script src="js/app/app.js"></script>
 <script src="js/vendor-static/bootstrap.min.js"></script>
-<script src="js/vendor-static/ui-bootstrap-tpls.js"></script>
+<script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- <script src="js/vendor-static/ui-bootstrap-tpls.js"></script> -->
 <script src="js/vendor-static/stripe.js"></script>
 </body>
 <!-- endbuild--><!-- Production--><!--script(src='dist/public/js/617caaa4.multi-tenant-server.js')--></html>

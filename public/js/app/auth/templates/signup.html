@@ -4,14 +4,12 @@
 
 <form name="singupForm" ng-submit="signup(user.signup, singupForm)">
   <div class="form-group input-group">
-
-                    <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
-                    <input  type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" ng-model="user.signup.email">
-    </div>
-    <div class="form-group input-group">
-
-                    <span class="input-group-addon"><label class="control-label" for="email">{{'Password' | translate}}</label></span>
-                    <input  type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signup.password">
-    </div>
+    <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
+    <input  type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" ng-model="user.signup.email" required>
+  </div>
+  <div class="form-group input-group">
+    <span class="input-group-addon"><label class="control-label" for="email">{{'Password' | translate}}</label></span>
+    <input  type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signup.password" required>
+  </div>
   <button type="submit" class="btn btn-primary btn-lg btn-block">Create Account</button>
 </form>
