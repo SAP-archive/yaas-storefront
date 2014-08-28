@@ -60,7 +60,7 @@ describe('ProductSvc', function () {
             };
         });
 
-        iit('sets accept-language header', function(){
+        it('sets accept-language header', function(){
 
             $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
 
