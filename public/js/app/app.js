@@ -55,7 +55,7 @@ window.app = angular.module('ds.router', [
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         var headers = {};
-        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + 'jqHPA997Cpu6gdKblNiSphcQHqUW';
+        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + storeConfig.token;
           //headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
         //headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
         //headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;

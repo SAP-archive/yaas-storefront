@@ -23,16 +23,16 @@ angular.module('ds.shared')
         apis: {
 
             configuration: {
-               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
+               baseUrl: 'http://yaas-test.apigee.net/test/configuration/v1'
             } ,
             products: {
 
-                baseUrl: 'http://demo-eu04-test.apigee.net/test/products/v1',
+                baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
 
             productDetails: {
-                baseUrl: 'http://product-details-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/product-details/v1'
             },
 
             checkout: {
@@ -40,7 +40,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'http://order-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/order/v1/'
             },
 
             cartItems: {
@@ -48,7 +48,7 @@ angular.module('ds.shared')
             },
 
             cart: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/v1/cart'
             },
 
             cartDetails: {
@@ -56,15 +56,15 @@ angular.module('ds.shared')
             },
 
             prices: {
-                baseUrl: 'http://price-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/v1/price'
             },
 
             shippingCosts: {
-                baseUrl: 'http://shipping-cost-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/shipping-cost/v1'
             },
 
             customers: {
-                baseUrl: 'http://customer-v2.test.cf.hybris.com',
+                baseUrl: 'http://yaas-test.apigee.net/test/customer/v1',
                 apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
             },
 
