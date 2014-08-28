@@ -6,6 +6,14 @@
 
 		<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="" style="max-width:65px;"></a>
 
+		<div class="authentication-cnt text-center">
+			<span class="user-wellcome-msg" ng-if="isAuthenticated">
+				Wellcome, {{username}}
+			</span>
+			<a ng-click="logout()" ng-if="isAuthenticated" class="signout btn">Logout</a>
+			<a ng-click="login()" ng-if="!isAuthenticated" class="signin btn" >Sign In</a>
+		</div>
+
 		<ul class="navi">
 			<li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
 			<li><a ng-click="switchLanguage('en')">EN</a></li>
