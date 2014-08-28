@@ -6332,6 +6332,14 @@ body {
   color: #fff;
   background: #0068b3;
 }
+.user-avatar {
+  vertical-align: text-top;
+}
+.authentication-cnt .user-avatar {
+  vertical-align: middle;
+  max-height: 30px;
+  padding-right: 5px;
+}
 #cart {
   background: #eeeeee;
   /* TOP BUTTON ROW */

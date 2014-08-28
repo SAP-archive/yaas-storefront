@@ -3,8 +3,8 @@
 	<section>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">Sign In</a></li>
-		  <li><a href="#signup" role="tab" data-toggle="tab">Create Account</a></li>
+		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
+		  <li><a href="#signup" role="tab" data-toggle="tab">{{'CREATE_ACCOUNT' | translate}}</a></li>
 		</ul><br>
 
 		<div class="tab-content">
@@ -16,9 +16,10 @@
 		  </div>
 		</div>
 
-		<hr>
-
-		<a href="" ng-click="continueAsGuest()" class="btn btn-primary btn-lg btn-block">Continue as our guest</a>
+		<div class="continue-as-guest-section" ng-if="'base.checkout.details' | isState">
+			<hr>
+			<a href="" ng-click="continueAsGuest()" class="btn btn-primary btn-lg btn-block">{{'CONTINUE_AS_GUEST' | translate}}</a>
+		</div>
 
 	</section>
 </section>
