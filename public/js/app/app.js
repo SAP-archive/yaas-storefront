@@ -22,9 +22,10 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
-                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
-                    }
+                    //if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
+                      //  config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                    //}
+                    //config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer ' + Storage.getToken().getAccessToken();
                     // TODO: use this once switched to proxies (passing accessToken)
                     // if (Storage.getToken().getAccessToken()) {
                     //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
@@ -54,9 +55,10 @@ window.app = angular.module('ds.router', [
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         var headers = {};
-        headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-        headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-        headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
+        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + 'jqHPA997Cpu6gdKblNiSphcQHqUW';
+          //headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
+        //headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
+        //headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
         
         RestangularProvider.setDefaultHeaders(headers);
     }])

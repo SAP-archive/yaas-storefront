@@ -27,7 +27,7 @@ angular.module('ds.shared')
             } ,
             products: {
 
-                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
+                baseUrl: 'http://demo-eu04-test.apigee.net/test/products/v1',
                 pageSize: 10
             },
 
@@ -79,7 +79,7 @@ angular.module('ds.shared')
                 hybrisApp: 'hybris-app',
 
                 hybrisAuthentication: 'Authentication',
-
+                hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
                 }
