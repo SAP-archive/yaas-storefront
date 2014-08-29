@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['CheckoutREST', '$rootScope', 'StripeJS', 'CartSvc', 'settings', '$q',
-        function (CheckoutREST, $rootScope, StripeJS, CartSvc, settings, $q) {
+    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q',
+        function (CheckoutREST, StripeJS, CartSvc, settings, $q) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {
@@ -170,8 +170,23 @@ angular.module('ds.checkout')
 
             },
 
+            /** Returns the shipping costs for this tenant.  If no cost found, it will be set to zero.
+             */
             getShippingCost: function() {
-                return CheckoutREST.ShippingCosts.all('shippingcosts').getList();
+                var deferred = $q.defer();
+
+                CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts){
+                    var defaultCost = {};
+                    defaultCost.price = {};
+                    defaultCost.price.price = 0;
+
+                    var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
+                    deferred.resolve(costs);
+                }, function(failure){
+                    deferred.reject(failure);
+                });
+
+                return deferred.promise;
             }
 
         };

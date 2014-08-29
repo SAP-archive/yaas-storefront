@@ -98,7 +98,15 @@ so that you can use a unique Stripe API test key.
 ### 3.  Replace the default tenant id in the code base with your own.  You can find your tenant id at [todo: MARKETPLACE? link].
 In file public/js/bootstrap.js, replace the default "storeTenant" variable with your own tenant id.
 
-### 4.  Launch a new session against [todo: URL for storefront].  You should now see your customized store.
+### 4.  Launch a new session against http://localhost:9000.  You should now see your customized store.
+
+### 5.  Deploy to CloudFoundry
+
+If you don't add any server logic to your project, you can easily deploy your webapp to CloudFoundry using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
+ that utilizes [ngnix]().  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
+ [todo:  How do we limit the number of instances that users can deploy?  How do we generate a unique project/domain name?)]
+
+cf push -f static-manifest.yml
 
 ## Multi-Tenant Mode
  This project also contains the basic wiring to run the same code instance against multiple configured storefronts. In order

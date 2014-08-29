@@ -4,20 +4,20 @@
 	</button>
 	<div class="sidebar-offcanvas" id="sidebar" role="navigation">
 
-		<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'public/img/logo.png'}}" alt="" style="max-width:65px;"></a>
+		<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="" style="max-width:65px;"></a>
 
 		<div class="authentication-cnt text-center">
 			<ul class="navi authenticated">
 				<li>
 					<a href="" class="my-profile" ng-click="myProfile()" ng-if="isAuthenticated" title="{{'MY_PROFILE' | translate}}">
-						<img src="./public/img/user-icon_small_active.png" class="user-avatar">
+						<img src="./img/user-icon_small_active.png" class="user-avatar">
 					</a>
 				</li>
 				<li><a ng-click="logout()" ng-if="isAuthenticated" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
 			</ul>
 			
 			<a ng-click="login()" ng-if="!isAuthenticated" class="signin btn" >
-				<img src="./public/img/user-icon_small.png" class="user-avatar">
+				<img src="./img/user-icon_small.png" class="user-avatar">
 				{{'SIGN_IN' | translate}}
 			</a>
 		</div>
@@ -37,13 +37,13 @@
 		<span class="hyicon hyicon-cart"></span>
 	</button>
 	<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!isAuthenticated" >
-		<img src="./public/img/user-icon_small.png" class="user-avatar">
+		<img src="./img/user-icon_small.png" class="user-avatar">
 	</button>
 
 
 	<div class="dropdown pull-right">
 		<a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="isAuthenticated" >
-			<img src="./public/img/user-icon_small_active.png" class="user-avatar loggedin">
+			<img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
 		</a>
 		<ul class="dropdown-menu" class="pull-right">
 		  <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
@@ -56,6 +56,6 @@
         <span class="hyicon hyicon-search"></span>
     </button>
     <div class="logo">
-        <a href=""><img src="public/img/logo.png" alt=""></a>
+        <a href=""><img src="img/logo.png" alt=""></a>
     </div>
 </nav>

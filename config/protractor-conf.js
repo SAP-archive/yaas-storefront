@@ -9,6 +9,13 @@ exports.config = {
     'browserName': 'phantomjs'
   },
 
+  onPrepare: function() {      
+    require('jasmine-reporters');
+    jasmine.getEnv().addReporter(
+      new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
+    );
+  },
+
   baseUrl: 'http://demo-store.dev.cf.hybris.com',
 
   framework: 'jasmine',

@@ -45,6 +45,7 @@ angular.module('ds.i18n')
         MONTH: 'Monat',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
+        ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
         PLACE_ORDER: 'Bestellung aufgeben',
@@ -70,7 +71,6 @@ angular.module('ds.i18n')
         YEAR: 'Jahr',
         ZIP: 'PLZ',
         ZIP_REQUIRED: 'PLZ erforderlich',
-        ORDER_PENDING: 'One moment... Placing your order',
 
         /*
          confirmation

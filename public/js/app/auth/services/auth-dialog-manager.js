@@ -30,7 +30,7 @@ angular.module('ds.auth')
                  */
                 open: function(dialogConfig, options) {
                     var modalOpts = angular.extend({
-                            templateUrl: 'public/js/app/auth/templates/auth.html',
+                            templateUrl: './js/app/auth/templates/auth.html',
                             controller: 'AuthModalDialogCtrl'
                         }, dialogConfig || {});
 

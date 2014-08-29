@@ -3,7 +3,7 @@
 
 <section class="gray">
     <div class="hero-unit">
-        <blockquote style="background-image: url(http://media-repository.dprod.cf.hybris.com/onlineshop/demo-store/media/53ad63ec4a4e604bfa525e8a?tenantId=onlineshop);background-position:0 0;">
+        <blockquote style="background-image: url(http://sand-bsd-2.yrdrt.fra.hybris.com/Products/hero_1.jpg);background-position:0 0;">
             <p>{{store.name}}</p>
 
         </blockquote>
@@ -72,7 +72,7 @@
         <div class="item" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img ng-src="{{ product && product.images[0].url || ''}}" alt="">
+                    <img ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
                 <div class="name">{{ product.name }}</div>
@@ -98,8 +98,8 @@
 </section>
 
 
-<script src="public/js/vendor-static/img-touch-canvas.js"></script>
-<script src="public/js/vendor-static/jquery.fullscreen-min.js"></script>
-<script src="public/js/vendor-static/main.js"></script>
+<script src="js/vendor-static/img-touch-canvas.js"></script>
+<script src="js/vendor-static/jquery.fullscreen-min.js"></script>
+<script src="js/vendor-static/main.js"></script>
 
 

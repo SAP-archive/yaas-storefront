@@ -3,9 +3,8 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation bar.  Listens to the 'cart:updated' event - on update,
       * the cart icon will reflect the updated cart quantity. */
-	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'AuthSvc', 'AuthDialogManager',
-
-		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart, AuthSvc, AuthDialogManager) {
+	.controller('NavigationCtrl', ['$scope', '$state', '$rootScope','$translate', 'GlobalData', 'i18nConstants', 'cart', 'AuthSvc', 'AuthDialogManager', '$stateParams', 'storeConfig',
+		function ($scope, $state, $rootScope, $translate, GlobalData, i18nConstants, cart, AuthSvc, AuthDialogManager, $stateParams, storeConfig) {
 
             $scope.cart = cart;
 			$scope.languageCode = GlobalData.languageCode;
@@ -30,7 +29,16 @@ angular.module('ds.shared')
 
 			$scope.switchLanguage = function(languageCode) {
 				$translate.use(languageCode);
-				$scope.languageCode = GlobalData.languageCode = languageCode;
+				$scope.languageCode =  languageCode;
+                GlobalData.languageCode = languageCode;
+                GlobalData.acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
+                if($state.is('base.product') || $state.is('base.product.detail')) {
+                    $state.transitionTo($state.current, $stateParams, {
+                        reload: true,
+                        inherit: false,
+                        notify: true
+                    });
+                }
 			};
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the

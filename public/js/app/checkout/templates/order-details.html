@@ -1,7 +1,7 @@
 <h2>{{ORDER_DETAILS | translate}}</h2>
 <section class="excerpt‎">
     <div class="pull-left">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
-    <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.price + cart.shippingCost.price| currency: '$'}}</div>
+    <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.price + shippingCost.price.price | currency: '$'}}</div>
 </section>
 <section>
     <div ng-repeat="item in cart.cartItems track by $index">
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>{{'SHIPPING' | translate}}</td>
-            <td class="text-right">{{ cart.shippingCost.price | currency: '$' }}</td>
+            <td class="text-right">{{ shippingCost.price.price | currency: '$' }}</td>
         </tr>
         </tbody>
         <tfoot>

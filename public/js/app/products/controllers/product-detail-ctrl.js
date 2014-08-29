@@ -5,14 +5,19 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product',
-        function($scope, $rootScope, CartSvc, product) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings',
+        function($scope, $rootScope, CartSvc, product, settings) {
 
             $scope.product = product;
+
+            if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
+                $scope.product.images = [{url: settings.placeholderImage}];
+            }
 
             //input default values must be defined in controller, not html, if tied to ng-model
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
+
 
             // scroll to top on load
             window.scrollTo(0, 0);
