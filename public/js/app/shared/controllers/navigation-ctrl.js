@@ -17,8 +17,6 @@ angular.module('ds.shared')
                 $scope.username = AuthSvc.getToken().getUsername();
             });
 
-            $scope.authModal = null;
-
             var ocu = $rootScope.$on('cart:updated', function(eve, eveObj){
                 $scope.cart = eveObj;
             });
@@ -61,7 +59,9 @@ angular.module('ds.shared')
 
             $scope.logout = AuthSvc.signout;
             
-            $scope.login = AuthDialogManager.open;
+            $scope.login = function(dOpts, opts) {
+                AuthDialogManager.open(dOpts, opts);
+            };
 
             $scope.myProfile = function() {
                 $state.go('base.profile');

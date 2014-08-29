@@ -27,6 +27,12 @@ angular.module('ds.auth')
           signin: []
         };
 
+        $scope.isForgotPassword = false;
+
+        $scope.showForgotPassword = function() {
+          $scope.isForgotPassword = true;         
+        };
+
         var performSignin = function(authModel) {
           var signInPromise = AuthSvc.signin(authModel);
           signInPromise.then(function() {

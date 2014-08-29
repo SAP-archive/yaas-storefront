@@ -18,6 +18,9 @@ angular.module('ds.shared')
         authTokenKey: 'auth.user',
         accessTokenKey: 'auth.accessToken',
         userIdKey: 'user.email',
+        forgotPassword: {
+            paramName: 'forgotPassword'
+        },
 
         // defines thea API endpoints and routes
         apis: {

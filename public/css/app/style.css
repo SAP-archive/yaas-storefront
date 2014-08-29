@@ -6340,6 +6340,10 @@ body {
   max-height: 30px;
   padding-right: 5px;
 }
+.forgot-password-btn {
+  margin-top: 15px;
+  display: inline-block;
+}
 #cart {
   background: #eeeeee;
   /* TOP BUTTON ROW */

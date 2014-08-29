@@ -61,12 +61,17 @@ window.app = angular.module('ds.router', [
         RestangularProvider.setDefaultHeaders(headers);
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
                 AuthDialogManager.close();
+            });
+            $rootScope.$on('$locationChangeSuccess', function() {
+                if ($location.search()[settings.forgotPassword.paramName]) {
+                    AuthDialogManager.open({}, { forgotPassword: true });
+                }
             });
         }
     ])
@@ -96,6 +101,14 @@ window.app = angular.module('ds.router', [
                         cart: function(CartSvc){
                             CartSvc.getCart();
                         }
+                    },
+                    onEnter: function($location, settings, AuthDialogManager){
+                        if ($location.search()[settings.forgotPassword.paramName]) {
+                            console.log('forgotPassword parameter found');
+                            AuthDialogManager.open({
+                                templateUrl: './js/app/auth/templates/password.html'
+                            });
+                        }
                     }
                 })
                 .state('base.product', {
@@ -105,7 +118,7 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
-                    }
+                    },
                 })
                 .state('base.product.detail', {
                     url: ':productId/',

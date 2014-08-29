@@ -14,8 +14,8 @@
 
 /** Authorization manager.  */
 angular.module('ds.auth')
-    .factory('AuthDialogManager', ['$modal',
-        function($modal){
+    .factory('AuthDialogManager', ['$modal', '$location', 'settings',
+        function($modal, $location, settings){
 
             var authDialog, isOpened = false;
 
@@ -32,11 +32,14 @@ angular.module('ds.auth')
                     var modalOpts = angular.extend({
                             templateUrl: './js/app/auth/templates/auth.html',
                             controller: 'AuthModalDialogCtrl'
-                        }, dialogConfig || {});
+                        }, dialogConfig || {}),
+                        self = this;
 
                     if (options && options.required) {
                         modalOpts.keyboard = false;
                         modalOpts.backdrop = 'static';
+                    } else if (options && options.forgotPassword) {
+                        modalOpts.templateUrl = './js/app/auth/templates/password.html';
                     }
 
                     // make sure only 1 instance exists in opened state
@@ -49,9 +52,11 @@ angular.module('ds.auth')
                     authDialog.result.then(
                         function() {
                             isOpened = false;
+                            self.cleanup();
                         },
                         function() {
                             isOpened = false;
+                            self.cleanup();
                         }
                     );
                     
@@ -61,7 +66,12 @@ angular.module('ds.auth')
                 close: function() {
                     if (authDialog && isOpened) {
                         authDialog.close();
+                        isOpened = false;
                     }
+                },
+
+                cleanup: function() {
+                    $location.search(settings.forgotPassword.paramName, null);
                 }
 
             };

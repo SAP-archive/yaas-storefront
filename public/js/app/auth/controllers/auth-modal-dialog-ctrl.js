@@ -16,7 +16,7 @@ angular.module('ds.auth')
      * Authorization Dialog Controller. 
      * Proxies calls to AuthCtrl and handles the lifecycle of authorization modal (destroying it when needed ...).
      */
-    .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', function($scope, $modalInstance, $controller, $q, AuthSvc) {
+    .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', '$location', 'settings', function($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings) {
         
         $.extend(this, $controller('AuthCtrl', {$scope: $scope, AuthSvc: AuthSvc, $q: $q}));
         
@@ -41,6 +41,10 @@ angular.module('ds.auth')
 
         $scope.continueAsGuest = function() {
           $modalInstance.close();
+        };
+
+        $scope.forgotPassword = function() {
+          $location.search(settings.forgotPassword.paramName, true);
         };
 
     }]);
