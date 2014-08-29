@@ -22,9 +22,8 @@
  */
 describe('OrderDetailSvc Test', function () {
 
-    var url = 'http://dummyurl';
-    var route = '/orders/:orderId';
-    var ordersUrl = 'http://order-v1.test.cf.hybris.com/orders';
+
+    var ordersUrl = 'http://yaas-test.apigee.net/test/order/v1/orders';
     var $scope, $rootScope, $httpBackend, orderDetailSvc;
 
     var orderDetails = {};
