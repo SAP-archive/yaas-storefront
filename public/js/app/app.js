@@ -25,7 +25,7 @@ window.app = angular.module('ds.router', [
                     // tweak headers if going against non-proxied services
                     if(config.url.indexOf('yaas') < 0){
                         delete config.headers[settings.apis.headers.hybrisAuthorization];
-                        if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
+                        if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
                     }
