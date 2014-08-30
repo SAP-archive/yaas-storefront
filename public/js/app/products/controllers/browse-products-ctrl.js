@@ -30,15 +30,17 @@ angular.module('ds.products')
             PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
 
-                        var prices = pricesResponse;
+                    if (pricesResponse) {
                         var pricesMap = {};
 
-                        prices.forEach(function (price) {
+                        pricesResponse.forEach(function (price) {
                             pricesMap[price.productId] = price;
                         });
 
                         $scope.prices = angular.extend($scope.prices, pricesMap);
                     }
+
+                }
 
             );
         }
