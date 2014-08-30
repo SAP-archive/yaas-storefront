@@ -56,7 +56,7 @@ angular.module('ds.shared')
             },
 
             prices: {
-                baseUrl: 'http://yaas-test.apigee.net/test/price/v2'
+                baseUrl: 'http://price-v2.test.cf.hybris.com'
             },
 
             shippingCosts: {
