@@ -30,7 +30,7 @@ angular.module('ds.auth')
         $scope.isForgotPassword = false;
 
         $scope.showForgotPassword = function() {
-          $scope.isForgotPassword = true;         
+          $scope.isForgotPassword = true;
         };
 
         var performSignin = function(authModel) {
