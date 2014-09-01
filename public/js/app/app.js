@@ -218,7 +218,7 @@ window.app = angular.module('ds.router', [
                 .state('base.profile', {
                     url: '/profile/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/auth/templates/profile.html',
                             controller: 'CartCtrl'
                         }
@@ -227,7 +227,7 @@ window.app = angular.module('ds.router', [
                 .state('base.account', {
                     url: '/account/',
                     views: {
-                        'body@': {
+                        'main@': {
                             templateUrl: 'js/app/account/templates/customer-account.html',
                             //templateUrl: 'public/js/app/account/templates/order-detail.html',
                             controller: 'AccountCtrl'
