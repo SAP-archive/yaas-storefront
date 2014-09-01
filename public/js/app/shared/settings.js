@@ -64,7 +64,7 @@ angular.module('ds.shared')
             },
 
             customers: {
-                baseUrl: 'http://yaas-test.apigee.net/test/customer/v1',
+                baseUrl: 'http://yaas-test.apigee.net/test/customer/v2',
                 apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
             },
 
