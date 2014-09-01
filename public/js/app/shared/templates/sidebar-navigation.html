@@ -3,6 +3,22 @@
 	<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
 												style="max-width:65px;"></a>
 
+	<div class="authentication-cnt text-center">
+		<ul class="navi authenticated">
+			<li>
+				<a href="" class="my-profile" ng-click="myProfile()" ng-if="isAuthenticated" title="{{'MY_PROFILE' | translate}}">
+					<img src="./img/user-icon_small_active.png" class="user-avatar">
+				</a>
+			</li>
+			<li><a ng-click="logout()" ng-if="isAuthenticated" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
+		</ul>
+		
+		<a ng-click="login()" ng-if="!isAuthenticated" class="signin btn" >
+			<img src="./img/user-icon_small.png" class="user-avatar">
+			{{'SIGN_IN' | translate}}
+		</a>
+	</div>
+
 	<ul class="navi">
 		<li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
 		<!-- 

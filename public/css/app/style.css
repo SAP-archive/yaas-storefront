@@ -3482,7 +3482,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   max-width: none;
 }
 .nav-tabs {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid transparent;
 }
 .nav-tabs > li {
   float: left;
@@ -3495,13 +3495,13 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 0px 0px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #dddddd;
+  border-color: #eeeeee #eeeeee transparent;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -3537,17 +3537,17 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs.nav-justified > .active > a,
 .nav-tabs.nav-justified > .active > a:hover,
 .nav-tabs.nav-justified > .active > a:focus {
-  border: 1px solid #dddddd;
+  border: 1px solid transparent;
 }
 @media (min-width: 768px) {
   .nav-tabs.nav-justified > li > a {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid transparent;
     border-radius: 0px 0px 0 0;
   }
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #f5f5f5;
   }
 }
 .nav-pills > li {
@@ -3605,17 +3605,17 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs-justified > .active > a,
 .nav-tabs-justified > .active > a:hover,
 .nav-tabs-justified > .active > a:focus {
-  border: 1px solid #dddddd;
+  border: 1px solid transparent;
 }
 @media (min-width: 768px) {
   .nav-tabs-justified > li > a {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid transparent;
     border-radius: 0px 0px 0 0;
   }
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #f5f5f5;
   }
 }
 .tab-content > .tab-pane {
@@ -6624,6 +6624,18 @@ body {
   color: #fff;
   background: #0068b3;
 }
+.user-avatar {
+  vertical-align: text-top;
+}
+.authentication-cnt .user-avatar {
+  vertical-align: middle;
+  max-height: 30px;
+  padding-right: 5px;
+}
+.forgot-password-btn {
+  margin-top: 15px;
+  display: inline-block;
+}
 #cart {
   background: #eeeeee;
   /* TOP BUTTON ROW */
@@ -8075,6 +8087,12 @@ section .hero-unit {
   font-size: 23px;
   font-style: italic;
   line-height: 0.6;
+}
+.nav-tabs > li > a {
+  color: #929292;
+}
+.nav-tabs > li.active > a {
+  font-weight: bold;
 }
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */

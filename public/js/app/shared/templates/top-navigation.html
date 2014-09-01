@@ -9,6 +9,22 @@
     <span class="hyicon hyicon-cart"></span>
     <span class="quantity">{{ cart.totalUnitsCount }}</span>
 </button>
+
+<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!isAuthenticated" >
+  <img src="./img/user-icon_small.png" class="user-avatar">
+</button>
+<div class="dropdown pull-right">
+  <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="isAuthenticated" >
+    <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
+  </a>
+  <ul class="dropdown-menu" class="pull-right">
+    <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+    <li class="divider"></li>
+    <li><a href="" class="my-profile" ng-click="myProfile()">{{'MY_PROFILE' | translate}}</a></li>
+  </ul>
+</div>
+
+
 <!-- mobile search button -->
 <!-- <button type="button" class="btn btn-link navbar-btn pull-right search">
     <span class="hyicon hyicon-search"></span>
