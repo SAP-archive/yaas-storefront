@@ -5900,7 +5900,7 @@ body {
   height: 100%;
   left: -70%;
   transition: all 0.25s ease-out 0.1s;
-  z-index: 5000;
+  z-index: 500;
   overflow: visible;
 }
 .sidebar-offcanvas:before,
