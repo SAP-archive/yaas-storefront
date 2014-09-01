@@ -190,7 +190,7 @@ window.app = angular.module('ds.router', [
                     url: '/profile/',
                     views: {
                         'body@': {
-                            templateUrl: 'public/js/app/auth/templates/profile.html',
+                            templateUrl: 'js/app/auth/templates/profile.html',
                             controller: 'CartCtrl'
                         }
                     }
