@@ -224,6 +224,16 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+                .state('base.account', {
+                    url: '/account/',
+                    views: {
+                        'body@': {
+                            templateUrl: 'js/app/account/templates/customer-account.html',
+                            //templateUrl: 'public/js/app/account/templates/order-detail.html',
+                            controller: 'AccountCtrl'
+                        }
+                    }
+                })
             ;
 
             $urlRouterProvider.otherwise('/products/');

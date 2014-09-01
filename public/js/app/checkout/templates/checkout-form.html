@@ -178,6 +178,72 @@
                 <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
             </div>
 
+             <div class="col-lg-12">
+                    <div class="form-group">
+                        <button class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#myModal">Select from adressbook</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Address Book</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div class="row">
+            <div class="col-md-6">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="pull-left">
+        <address>
+                  <strong>Firstname, Secondname</strong> (default)<br>
+                  <strong>795 Folsom Ave, Suite 600</strong><br>
+                  <strong>San Francisco, CA 94107</strong><br>
+                  <strong>USA</strong><br>
+                </address>
+            </div>
+                <div class="btn-group-vertical pull-right states-toolbar">
+                    <button class="btn btn-link btn-lg active btn-toggle"><span class="glyphicon glyphicon-check"></span></button>
+                    <button class="btn btn-link btn-lg"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-link btn-lg delete"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="pull-left">
+        <address>
+                  Firstname, Secondname<br>
+                  795 Folsom Ave, Suite 600<br>
+                  San Francisco, CA 94107<br>
+                  USA<br>
+                </address>
+            </div>
+                <div class="btn-group-vertical pull-right states-toolbar">
+                    <button class="btn btn-link btn-lg btn-toggle"><span class="glyphicon glyphicon-check"></span></button>
+                    <button class="btn btn-link btn-lg"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-link btn-lg delete"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    </div>
+        <div class="text-center">
+        <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"</button>
+    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <div class="col-lg-12">
                 <div class="checkbox">
                     <label>
