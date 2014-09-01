@@ -121,6 +121,28 @@ angular.module('ds.auth')
                 setTimeout(function() { deferred.resolve(result); }, 300);
 
                 return deferred.promise;
+            },
+
+            getAddresses: function() {
+                return AuthREST.Customers.all('me').all('addresses').getList();
+            },
+
+            getAddress: function(id) {
+                return AuthREST.Customers.all('me').get('addresses', id).getList();
+            },
+
+            getDefaultAddress: function() {
+                var addresses = this.getAddresses(),
+                    deferred = $q.defer();
+
+                addresses.then(
+                    function(addresses) {
+                        deferred.resolve(_.find(addresses, function(adr) { return adr.isDefault; }));
+                    }, function() {
+                        deferred.reject();
+                    });
+
+                return deferred.promise;
             }
 
         };

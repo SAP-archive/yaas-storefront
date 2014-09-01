@@ -1,5 +1,293 @@
-<h2>My Profile</h2>
+<!--
+  ~ [y] hybris Platform
+  ~
+  ~ Copyright (c) 2000-2014 hybris AG
+  ~ All rights reserved.
+  ~
+  ~ This software is the confidential and proprietary information of hybris
+  ~ ("Confidential Information"). You shall not disclose such Confidential
+  ~ Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with hybris.
+  -->
+ <div class="account">
+<section class="white">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-9 col-sm-5">
+        <div class="page-headline">
+          <h1>
+            <small>My Account</small></br>
+            Welcome, <br/><strong>Franz Josef</strong></h1>
+        </div>
+        <address>
+          795 Folsom Ave, Suite 600<br>
+          San Francisco, CA 94107<br>
+          USA<br>
+          <span class="text-light">123-123-123</span>
+        </address>
+      </div>
+      <div class="col-xs-3 col-sm-2 text-center">
+        <img src="/public/img/user_placeholder.jpg" class="img-circle img-responsive"/>
+      </div>
+      <div class="col-sm-12 col-sm-5">
+        <div class="clearfix visible-xs"></div>
+        <span class="area-headline">Account Details</span>
+        <div class="account-details">
+          <div>
+          <span class="inline-label">Email:</span> <a href="#" alt="Edit">franz.josef@hybris.com <span class="glyphicon glyphicon-pencil"></span></a>
+        </div>
+        <div>
+          <span class="inline-label">Password:</span> <a href="#" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
+        </div>
+        <div> 
+        <span class="inline-label">Prefred Local:</span> <a href="#" >DE - German <span class="caret"></span></a>
+        </div>
+        <div>
+          <span class="inline-label">Currency:</span> <a href="#" >EUR - Euro <span class="caret"></span></a>
+        </div>
+        </div>
+      </div>
 
-<p>to be implemented</p>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="section-headline clearfix">
+    <h2 class="pull-left">Adressbook</h2>
+    <!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
+  Add
+</button>
 
-<br><br><br><br><br><br><br><br>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Address</h4>
+      </div>
+      <div class="modal-body">
+         <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.firstName.$invalid && (billToForm.firstName.$dirty  || showPristineErrors)}">
+                    <span class="input-group-addon"><label class="control-label" for="firstNameBill">{{'FIRST_NAME' | translate}}</label></span>
+                    <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstNameBill" name="firstName"
+                           ng-model="order.billTo.firstName" required autocomplete="on">
+                </div>
+
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.lastName.$invalid && (billToForm.lastName.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="lastNameBill">{{'LAST_NAME' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastNameBill" name="lastName" ng-model="order.billTo.lastName"
+                           required autocomplete="on">
+                </div>
+
+
+               
+        
+
+
+            
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="address1Bill">{{'ADDRESS' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'ADDRESS_REQUIRED' | translate}}" class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
+                           required autocomplete="on">
+                </div>
+            
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><label class="control-label" for="address2Bill">{{'ADDRESS' | translate}} 2</label></span>
+                    <input type="text" class="form-control" placeholder="(Optional)" id="address2Bill" name="address2"
+                           ng-model="order.billTo.address2">
+                </div>
+            
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="countryBill">{{'COUNTRY' | translate}}</label></span>
+                    <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" inline-error-input required>
+                        <option value="USA">USA</option>
+                    </select>
+                </div>
+
+            
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.city.$invalid && (billToForm.city.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="cityBill">{{'CITY' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'CITY_REQUIRED' | translate}}"
+                           class="form-control" id="cityBill" name="city" required autocomplete="on"
+                           ng-model="order.billTo.city">
+                </div>
+            
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="stateBill">{{'STATE' | translate}}</label></span>
+                    <select class="form-control" inline-error-input inline-error-input-required-message="{{'STATE_REQUIRED' | translate}}" required ng-model="order.billTo.state" id="stateBill" name="state">
+                        <option value=""></option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+            
+                <div class="form-group input-group"
+                     ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="zipCodeBill">{{'ZIP' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'ZIP_REQUIRED' | translate}}"
+                           class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
+                           ng-model="order.billTo.zip">
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-lg btn-block">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+    <div class="row">
+      <div class="col-sm-6 col-md-6 col-lg-4">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="pull-left">
+    <address>
+          <strong>Firstname, Secondname</strong> (default)<br>
+          <strong>795 Folsom Ave, Suite 600</strong><br>
+          <strong>San Francisco, CA 94107</strong><br>
+          <strong>USA</strong><br>
+        </address>
+      </div>
+        <div class="btn-group-vertical pull-right states-toolbar">
+          <button class="btn btn-link btn-lg active btn-toggle"><span class="glyphicon glyphicon-star"></span></button>
+          <button class="btn btn-link btn-lg"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button class="btn btn-link btn-lg delete"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-4">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="pull-left">
+    <address>
+          Firstname, Secondname<br>
+          795 Folsom Ave, Suite 600<br>
+          San Francisco, CA 94107<br>
+          USA<br>
+        </address>
+      </div>
+        <div class="btn-group-vertical pull-right states-toolbar">
+          <button class="btn btn-link btn-lg btn-toggle"><span class="glyphicon glyphicon-star"></span></button>
+          <button class="btn btn-link btn-lg"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button class="btn btn-link btn-lg delete"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  </div>
+  <div class="text-center">
+    <button class="btn btn-link" >Show All <span class="glyphicon glyphicon-chevron-down"</button>
+  </div>
+
+</section>
+<section class="mediumgray">
+    <div class="section-headline clearfix">
+    <h2>Order History</h2>
+  </div>
+  <div class="table-responsive">
+  <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Order Number</th>
+          <th>Items in order</th>
+          <th>Order total</th>
+          <th>Order status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>7/23/14</td>
+          <td><a href="#">ABC1234569679048</a></td>
+          <td>10 Items</td>
+          <td>$87.50</td>
+          <td><strong>Order Processing</strong></td>
+        </tr>
+        <tr>
+          <td>7/23/14</td>
+          <td><a href="#">ABC1234569679048</a></td>
+          <td>10 Items</td>
+          <td>$87.50</td>
+          <td><strong>Order Processing</strong></td>
+        </tr>
+        <tr>
+          <td>7/23/14</td>
+          <td><a href="#">ABC1234569679048</a></td>
+          <td>10 Items</td>
+          <td>$87.50</td>
+          <td><strong>Order Processing</strong></td>
+        </tr>
+        <tr>
+          <td>7/23/14</td>
+          <td><a href="#">ABC1234569679048</a></td>
+          <td>10 Items</td>
+          <td>$87.50</td>
+          <td><strong>Order Processing</strong></td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+  <div class="text-center">
+    <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"</button>
+  </div>
+</section>
+</div>

@@ -220,7 +220,15 @@ window.app = angular.module('ds.router', [
                     views: {
                         'main@': {
                             templateUrl: 'js/app/auth/templates/profile.html',
-                            controller: 'CartCtrl'
+                            controller: 'ProfileCtrl'
+                        }
+                    },
+                    resolve: {
+                        profile: function(AuthSvc) {
+                            return AuthSvc.profile();
+                        },
+                        addresses: function(AuthSvc) {
+                            return AuthSvc.getAddresses();
                         }
                     }
                 })

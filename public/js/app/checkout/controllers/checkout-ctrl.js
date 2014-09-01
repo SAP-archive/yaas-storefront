@@ -52,11 +52,15 @@ angular.module('ds.checkout')
             $scope.order.shippingCost = shippingCost.price.price;
 
             var getDefaultAddress = function() {
-                AuthSvc.getProfileAddresses('default').then(
-                    function(response) {
-                        $scope.order.billTo = response;
-                    }
-                );
+                // AuthSvc.getProfileAddresses('default').then(
+                //     function(response) {
+                //         $scope.order.billTo = response;
+                //     }
+                // );
+                AuthSvc.getDefaultAddress().then(
+                        function(address) {
+                            console.log('Default Address retrieved: ', address);
+                        });
             };
 
             if (!AuthSvc.isAuthenticated()) {
