@@ -13,6 +13,16 @@
 describe('AuthDialogManager Test', function () {
 
     var AuthDialogManager;
+    var mockedSettings = {
+        accessTokenKey: 'accessTokenKey',
+        userIdKey: 'userIdKey',
+        apis: {
+            customers: {
+                baseUrl: 'http://dummy-test-server.hybris.com',
+                apiKey: '123'
+            }
+        }
+    };
     var $mockedModal = {
       close: jasmine.createSpy('close'),
       open: jasmine.createSpy('open').andReturn({
@@ -25,6 +35,7 @@ describe('AuthDialogManager Test', function () {
 
     beforeEach(module('ds.auth', function($provide) {
       $provide.value('$modal', $mockedModal);
+      $provide.value('settings', mockedSettings);
     }));
 
     beforeEach(inject(function(_AuthDialogManager_) {

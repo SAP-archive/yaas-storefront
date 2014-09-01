@@ -18,7 +18,7 @@
 angular.module('ds.products')
     .factory('PriceProductREST', ['settings', 'Restangular', 'GlobalData', function(settings, Restangular, GlobalData){
         function applyLanguageHeader(RestangularConfigurer){
-            RestangularConfigurer.setFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+            RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
 
                 return {
                     element: element,

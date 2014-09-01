@@ -1,10 +1,10 @@
 ---
 applications:
-- name: store-template-simple
+- name: august-demo
   buildpack: https://github.com/drnic/staticfile-buildpack.git
   memory: 64M
-  host: store-template-simple
+  host: august-demo
   domain: dev.cf.hybris.com
   instances: 1
-  url: store-template-simple.cf1.hybris.com
+  url: august-demo.cf1.hybris.com
   path: ./public/

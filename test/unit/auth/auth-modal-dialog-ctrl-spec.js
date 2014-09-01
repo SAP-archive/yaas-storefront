@@ -13,6 +13,16 @@
 describe('AuthModalDialogCtrl Test', function () {
 
     var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, AuthSvc;
+    var mockedSettings = {
+        accessTokenKey: 'accessTokenKey',
+        userIdKey: 'userIdKey',
+        apis: {
+            customers: {
+                baseUrl: 'http://dummy-test-server.hybris.com',
+                apiKey: '123'
+            }
+        }
+    };
 
     //***********************************************************************
     // Common Setup
@@ -55,7 +65,7 @@ describe('AuthModalDialogCtrl Test', function () {
                     then: jasmine.createSpy('then')
                 })
             };
-            AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock, $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc});
+            AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock, $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, settings: mockedSettings});
         });
 
         it("should expose correct data to the scope", function() {
