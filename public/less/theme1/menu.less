@@ -1,0 +1,36 @@
+.ml-menu{
+
+	    overflow:auto;
+
+		li{
+				ul {
+		display: none;
+		opacity: 0;
+	}
+			&:hover{
+				> ul{
+							position: absolute;
+			display: block;
+			left: 100%;
+			width: @ml-menu-width;
+			height: 100%;
+			background: fade(@ml-menu-bg, @ml-menu-bg-opacity);
+			border-left: 1px solid #fff;
+			top: 0;
+			opacity: 1;
+			transition: @offcanvas-transition;
+				}
+			}
+		}
+
+		&.active{
+			position: absolute;
+			display: block;
+			left: 100%;
+			width: @ml-menu-width;
+			height: 100%;
+			background: fade(@ml-menu-bg, @ml-menu-bg-opacity);
+			border-left: 1px solid #fff;
+			top: 0;
+		}
+}

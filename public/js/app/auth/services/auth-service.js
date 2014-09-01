@@ -18,27 +18,43 @@
 angular.module('ds.auth')
     .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', function(AuthREST, settings, Storage, $q){
 
-        return {
+        var AuthenticationService = {
 
             signup: function (user) {
                 return AuthREST.Customers.all('signup').customPOST(user);
             },
 
+            customerSignin: function(user) {
+                return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
+            },
+
+            anonymousSignin: function() {
+                return AuthREST.Customers.all('login').all('anonymous').customGET('', { apiKey: settings.apis.customers.apiKey });
+            },
+
+            /**
+             * Sign in promise resolver function used for resolving the type of signin
+             * If user parameter is not provided than anonymous login will be performed, otherwise it'll initiate customer signup with provided credentials.
+             * 
+             * @param user JSON object (with email, password properties) 
+             */
             signin: function (user) {
-                var signinPromise = AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
+                var signinPromise = user ? this.customerSignin(user) : this.anonymousSignin();
                 
                 signinPromise.then(function(response) {
-                    Storage.setToken(response.accessToken, user.email);
+                    Storage.setToken(response.accessToken, user ? user.email : null);
                 });
 
                 return signinPromise;
             },
 
             signout: function() {
-                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: Storage.getToken().getAccessToken() });
+                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: Storage.getToken().getAccessToken() }),
+                    self = this;
                 
                 signoutPromise.then(function() {
                     Storage.unsetToken(settings.accessTokenKey);
+                    self.signin();  // Obtain access_token as anonymous user
                 });
 
                 return signoutPromise;
@@ -49,7 +65,9 @@ angular.module('ds.auth')
             getToken: Storage.getToken,
 
             isAuthenticated: function() {
-                return !!Storage.getToken().getAccessToken();
+                var token = Storage.getToken();
+                return !!token.getAccessToken() && !!token.getUsername();
+
             },
 
             /**
@@ -106,5 +124,7 @@ angular.module('ds.auth')
             }
 
         };
+
+        return AuthenticationService;
 
     }]);

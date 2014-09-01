@@ -29,11 +29,10 @@ angular.module('ds.products')
 
             PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
-                    if (pricesResponse && pricesResponse.prices) {
-                        var prices = pricesResponse.prices;
+                    if (pricesResponse) {
                         var pricesMap = {};
 
-                        prices.forEach(function (price) {
+                        pricesResponse.forEach(function (price) {
                             pricesMap[price.productId] = price;
                         });
 

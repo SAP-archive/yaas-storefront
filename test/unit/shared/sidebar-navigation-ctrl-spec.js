@@ -10,18 +10,12 @@
  * license agreement you entered into with hybris.
  */
 
-describe('NavigationCtrl', function () {
+describe('SidebarNavigationCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector;
+    var $scope, $rootScope, $controller, $injector, $state;
     var mockedGlobalData = {};
-    var MockedAuthSvc = {};
-    var AuthDialogManager = {
-        isOpened: jasmine.createSpy('then'),
-        open: jasmine.createSpy('then').andReturn({
-            then: jasmine.createSpy('then')
-        }),
-        close: jasmine.createSpy('dismiss')
-    };
+    var mockedAuthSvc = {};
+
     var mockedTranslate = {};
     var mockedStoreConfig = {};
     var mockedState = {};
@@ -29,12 +23,18 @@ describe('NavigationCtrl', function () {
     mockedStoreConfig.defaultLanguage = defaultLang;
     var navCtrl, cart;
     cart = {};
+    var username = 'Joe';
+    var mockedToken = {
+        getUsername: function(){
+            return username;
+        }
+    };
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
     beforeEach(angular.mock.module('ds.shared'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$state_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -45,48 +45,28 @@ describe('NavigationCtrl', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
+        $state = _$state_;
 
         mockedGlobalData.languageCode = 'pl';
         mockedGlobalData.acceptLanguages = 'pl';
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
+        mockedAuthSvc.signout = jasmine.createSpy('signout');
+        mockedAuthSvc.getToken = jasmine.createSpy('getToken').andReturn(mockedToken);
     }));
 
-    // beforeEach(function () {
-    //     navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
-    //     $translate: mockedTranslate, storeConfig: mockedStoreConfig});
-    // });
     beforeEach(function () {
-        // navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: $state, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc, AuthDialogManager: AuthDialogManager});
-        navCtrl = $controller('NavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData, AuthSvc: MockedAuthSvc, AuthDialogManager: AuthDialogManager, $translate: mockedTranslate, storeConfig: mockedStoreConfig});
-    });
-
-    describe('toggleCart()', function () {
-        it('should change showCart value', function(){
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(true);
-            $scope.toggleCart();
-            expect($rootScope.showCart).toEqualData(false);
-        });
-    });
-
-    describe('toggleOffCanvas()', function () {
-
-        it('should toggle offCanvas', function () {
-            $scope.toggleOffCanvas();
-            expect($rootScope.showMobileNav).toEqualData(true);
-            $scope.toggleOffCanvas();
-            expect($rootScope.showMobileNav).toEqualData(false);
-        });
+        navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
+            $translate: mockedTranslate, storeConfig: mockedStoreConfig, AuthSvc: mockedAuthSvc});
     });
 
     describe('switchLanguage()', function(){
 
         it('should notify translate service', function(){
-           var newLang = 'de';
-           $scope.switchLanguage(newLang);
-           expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
+            var newLang = 'de';
+            $scope.switchLanguage(newLang);
+            expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
         });
 
         it('should update scope language', function(){
@@ -102,7 +82,7 @@ describe('NavigationCtrl', function () {
         });
 
         it('to non-default language should update accept-languages', function(){
-           var newLang = 'de';
+            var newLang = 'de';
             $scope.switchLanguage(newLang);
             expect(mockedGlobalData.acceptLanguages).toEqualData('de;q=1,en;q=0.5');
         });
@@ -118,6 +98,23 @@ describe('NavigationCtrl', function () {
             $scope.switchLanguage(newLang);
             expect(mockedState.transitionTo).toHaveBeenCalled();
         });
+    });
+
+    describe('login()', function(){
+       it('should toggle showAuthPopup', function(){
+             $rootScope.showAuthPopup = false;
+             $scope.login();
+             expect($rootScope.showAuthPopup).toBeTruthy();
+             $scope.login();
+             expect($rootScope.showAuthPopup).toBeFalsy();
+       });
+    });
+
+    describe('logout()', function(){
+       it('should invoke signout on AuthSvc', function(){
+         $scope.logout();
+           expect(mockedAuthSvc.signout).toHaveBeenCalled();
+       });
     });
 
 

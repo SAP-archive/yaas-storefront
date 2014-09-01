@@ -58,7 +58,7 @@ angular.module('ds.shared')
             },
 
             prices: {
-                baseUrl: 'http://price-v1.test.cf.hybris.com'
+                baseUrl: 'http://price-v2.test.cf.hybris.com'
             },
 
             shippingCosts: {
