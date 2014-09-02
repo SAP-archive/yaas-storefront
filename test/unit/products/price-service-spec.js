@@ -13,6 +13,7 @@
 describe('PricesService Test', function(){
 
     var priceUrlRest = 'http://price-v2.test.cf.hybris.com/prices';
+
     var $scope, $rootScope, $httpBackend, priceSvc;
 
     var priceResponse = {

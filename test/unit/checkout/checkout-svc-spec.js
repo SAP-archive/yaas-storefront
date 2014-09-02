@@ -11,7 +11,7 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutOrderUrl = 'http://checkout-mashup-v1.test.cf.hybris.com/checkouts/order';
+    var checkoutOrderUrl = 'http://yaas-test.apigee.net/test/checkout-mashup/v1/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
 

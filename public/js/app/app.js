@@ -22,9 +22,16 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
-                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+
+                    // tweak headers if going against non-proxied services
+                    if(config.url.indexOf('yaas') < 0){
+                        delete config.headers[settings.apis.headers.hybrisAuthorization];
+                        if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
+                            config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                        }
                     }
+
+                    //config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer ' + Storage.getToken().getAccessToken();
                     // TODO: use this once switched to proxies (passing accessToken)
                     // if (Storage.getToken().getAccessToken()) {
                     //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
@@ -51,14 +58,29 @@ window.app = angular.module('ds.router', [
 
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
 
         var headers = {};
-        headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-        headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-        headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
-        
+        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + storeConfig.token;
+
         RestangularProvider.setDefaultHeaders(headers);
+        RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
+
+            var oldHeaders = {};
+            if(url.indexOf('yaas')<0) {
+                delete $httpProvider.defaults.headers.common[settings.apis.headers.hybrisAuthorization];
+                //work around if not going through Apigee proxy for a particular URL, such as while testing new services
+                oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
+                oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
+            }
+            return {
+                element: element,
+                params: params,
+                headers: _.extend(headers, oldHeaders),
+                httpConfig: httpConfig
+            };
+        });
     }])
     // Load the basic store configuration
     .run(['$rootScope', 'storeConfig', 'ConfigSvc',
