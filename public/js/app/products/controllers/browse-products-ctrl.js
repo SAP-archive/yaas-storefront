@@ -29,6 +29,7 @@ angular.module('ds.products')
 
             PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
+
                     if (pricesResponse) {
                         var pricesMap = {};
 
@@ -38,7 +39,9 @@ angular.module('ds.products')
 
                         $scope.prices = angular.extend($scope.prices, pricesMap);
                     }
+
                 }
+
             );
         }
 

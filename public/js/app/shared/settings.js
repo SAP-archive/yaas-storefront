@@ -27,7 +27,7 @@ angular.module('ds.shared')
             } ,
             products: {
 
-                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
+                baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
 
@@ -36,11 +36,11 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/checkout-mashup/v1'
             },
 
             orders: {
-                baseUrl: 'http://order-v1.test.cf.hybris.com'
+                baseUrl: 'http://order-v2.test.cf.hybris.com'
             },
 
             cartItems: {
@@ -64,7 +64,7 @@ angular.module('ds.shared')
             },
 
             customers: {
-                baseUrl: 'http://customer-v2.test.cf.hybris.com',
+                baseUrl: 'http://yaas-test.apigee.net/test/customer/v2',
                 apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
             },
 
@@ -79,7 +79,7 @@ angular.module('ds.shared')
                 hybrisApp: 'hybris-app',
 
                 hybrisAuthentication: 'Authentication',
-
+                hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
                 }
