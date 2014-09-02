@@ -109,9 +109,6 @@ window.app = angular.module('ds.router', [
                                 accessToken = AuthSvc.signin();
                             }
                             return accessToken;
-                        },
-                        cart: function(CartSvc){
-                            CartSvc.getCart();
                         }
                     }
                 })
@@ -142,6 +139,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.checkout', {
+                    abstract: true,
                     views: {
                         'main@': {
                             templateUrl: 'js/app/checkout/templates/checkout-frame.html'
@@ -150,11 +148,12 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
+
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function(CheckoutSvc){
+                        shippingCost: function (CheckoutSvc) {
                             return CheckoutSvc.getShippingCost();
                         }
                     }
