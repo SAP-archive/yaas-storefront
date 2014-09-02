@@ -40,7 +40,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'http://order-v1.test.cf.hybris.com'
+                baseUrl: 'http://order-v2.test.cf.hybris.com'
             },
 
             cartItems: {
