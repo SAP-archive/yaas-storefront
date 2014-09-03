@@ -22,6 +22,7 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
+
                     // tweak headers if going against non-proxied services
                     if(config.url.indexOf('yaas') < 0){
                         delete config.headers[settings.apis.headers.hybrisAuthorization];
@@ -136,8 +137,9 @@ window.app = angular.module('ds.router', [
                             }
                             return accessToken;
                         },
-                        cart: function(CartSvc){
-                            CartSvc.getCart();
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+
                         }
                     },
                     onEnter: function($location, settings, AuthDialogManager){
@@ -176,6 +178,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.checkout', {
+                    abstract: true,
                     views: {
                         'main@': {
                             templateUrl: 'js/app/checkout/templates/checkout-frame.html'
@@ -184,11 +187,12 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
+
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function(CheckoutSvc){
+                        shippingCost: function (CheckoutSvc) {
                             return CheckoutSvc.getShippingCost();
                         }
                     }
