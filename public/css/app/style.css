@@ -7938,6 +7938,9 @@ section .hero-unit {
 .account .order-tabel {
   border-bottom: 1px solid #dddddd;
 }
+.default-address span {
+  font-weight: bold;
+}
 /* CUSTOM VARS */
 /* BTN */
 .btn {

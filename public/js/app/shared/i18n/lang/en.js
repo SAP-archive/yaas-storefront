@@ -119,6 +119,17 @@ angular.module('ds.i18n')
         SIGN_IN: 'Sign In',
         MY_PROFILE: 'My Profile',
         CREATE_ACCOUNT: 'Create Account',
-        CONTINUE_AS_GUEST: 'Continue as our guest'
+        CONTINUE_AS_GUEST: 'Continue as our guest',
+
+        /*
+            profile page
+         */
+        ADDRESSBOOK: 'Adressbook',
+        NO_ADDRESSES: 'You have no addresses stored!',
+        ADD_ADDRESS: 'Add Address',
+        CONTACT_NAME: 'Contact Name',
+        CONTACT_PHONE: 'Contact Phone',
+        STREET: 'Street',
+        STREET_NUMBER: 'Street Number'
 
 	});

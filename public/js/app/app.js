@@ -129,10 +129,10 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve:  {
-                        accessToken: function(AuthSvc) {
+                        accessToken: function(AuthSvc, storeConfig) {
                             var accessToken = AuthSvc.getToken().getAccessToken();
                             if (!accessToken) {
-                                accessToken = AuthSvc.signin();
+                                accessToken = 'Bearer ' + storeConfig.token;
                             }
                             return accessToken;
                         },
@@ -231,18 +231,7 @@ window.app = angular.module('ds.router', [
                             return AuthSvc.getAddresses();
                         }
                     }
-                })
-                .state('base.account', {
-                    url: '/account/',
-                    views: {
-                        'main@': {
-                            templateUrl: 'js/app/account/templates/customer-account.html',
-                            //templateUrl: 'public/js/app/account/templates/order-detail.html',
-                            controller: 'AccountCtrl'
-                        }
-                    }
-                })
-            ;
+                });
 
             $urlRouterProvider.otherwise('/products/');
 

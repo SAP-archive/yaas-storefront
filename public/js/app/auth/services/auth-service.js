@@ -16,7 +16,14 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', function(AuthREST, settings, Storage, $q){
+    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', '$http', 'storeConfig', function(AuthREST, settings, Storage, $q, $http, storeConfig){
+
+        function getParameterByName(name, url) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
+                results = regex.exec(url);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
         var AuthenticationService = {
 
@@ -28,8 +35,34 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
             },
 
+            // anonymousSignin: function() {
+            //     return AuthREST.Customers.all('login').all('anonymous').customGET('', { apiKey: settings.apis.customers.apiKey });
+            // },
+            
             anonymousSignin: function() {
-                return AuthREST.Customers.all('login').all('anonymous').customGET('', { apiKey: settings.apis.customers.apiKey });
+                var deferred = $q.defer();
+                var accountUrl = 'http://yaas-test.apigee.net/test/account/v1';
+                
+                $http.post(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeConfig.storeTenant, '')
+                    .then(
+                    function (data) {
+                        console.log('login success');
+                        var token = getParameterByName('access_token', data.headers('Location'));
+console.log('token is '+token);
+                        storeConfig.token = token;
+console.log(storeConfig);
+                        var response = { accessToken: token };
+                        Storage.setToken(response, null);
+                        deferred.resolve(response);
+                    },
+                    function (error) {
+                        console.error('Unable to perform anonymous login:');
+                        console.error(error);
+                        deferred.resolve(error);
+                    }
+                );
+
+                return deferred.promise;
             },
 
             /**
@@ -75,24 +108,7 @@ angular.module('ds.auth')
              */
             // TODO: replace with actual implementation (once ApiGee is in place)
             profile: function() {
-                // Dummy implementation
-                var deferred = $q.defer();
-
-                setTimeout(function() {
-                    deferred.resolve({
-                        customerNumber: 'C123456',
-                        title: 'Dr.',
-                        firstName: 'Max',
-                        middleName: 'Simon',
-                        lastName: 'Muster',
-                        contactEmail: 'noreply@hybris.com',
-                        contactPhone: '+1 1111 2222 3333',
-                        preferredLanguage: 'en_US',
-                        preferredCurrency: 'US'
-                    });
-                }, 300);
-
-                return deferred.promise;
+                return AuthREST.Customers.all('me').customGET();
             },
 
             /**
@@ -128,7 +144,7 @@ angular.module('ds.auth')
             },
 
             getAddress: function(id) {
-                return AuthREST.Customers.all('me').get('addresses', id).getList();
+                return AuthREST.Customers.all('me').one('addresses', id).get();
             },
 
             getDefaultAddress: function() {
@@ -143,6 +159,15 @@ angular.module('ds.auth')
                     });
 
                 return deferred.promise;
+            },
+
+            saveAddress: function(address) {
+                var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
+                return promise;
+            },
+
+            removeAddress: function(address) {
+                return AuthREST.Customers.all('me').one('addresses', address.id).customDELETE();
             }
 
         };

@@ -33,7 +33,11 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
-                AuthSvc.signout();
+                AuthSvc.signout().then(function() {
+                    if ($state.is('base.profile')) {
+                        $state.go('base.product');
+                    }
+                });
             };
             
             $scope.login = function(dOpts, opts) {

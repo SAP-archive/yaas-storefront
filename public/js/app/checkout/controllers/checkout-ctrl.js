@@ -60,7 +60,20 @@ angular.module('ds.checkout')
                 AuthSvc.getDefaultAddress().then(
                         function(address) {
                             console.log('Default Address retrieved: ', address);
+                            $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
+                            $scope.order.billTo.country = address.country;
+                            $scope.order.billTo.city = address.city;
+                            $scope.order.billTo.state = address.state;
+                            $scope.order.billTo.zip = address.zipCode;
                         });
+            };
+
+            var getProfile = function() {
+                AuthSvc.profile().then(function(profile) {
+                    order.billTo.email = profile.contactEmail;
+                    order.billTo.firstName = profile.firstName;
+                    order.billTo.lastName = profile.lastName;
+                });
             };
 
             if (!AuthSvc.isAuthenticated()) {
@@ -68,11 +81,13 @@ angular.module('ds.checkout')
                     function(response) {
                         if (response) {
                             getDefaultAddress();
+                            getProfile();
                         }
                     }
                 );
             } else {
                 getDefaultAddress();
+                getProfile();
             }
 
             $scope.badEmailAddress = false;
