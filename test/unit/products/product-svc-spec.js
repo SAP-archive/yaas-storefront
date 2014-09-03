@@ -11,7 +11,7 @@
  */
 describe('ProductSvc', function () {
 
-    var productsRestUrl = 'http://product-v1-4-1.test.cf.hybris.com/products';
+    var productsRestUrl = 'http://yaas-test.apigee.net/test/product/v1/products';
 
     var $scope, $rootScope, $httpBackend, productSvc;
     var acceptLang = "de"
@@ -60,7 +60,7 @@ describe('ProductSvc', function () {
             };
         });
 
-        iit('sets accept-language header', function(){
+        it('sets accept-language header', function(){
 
             $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
 
