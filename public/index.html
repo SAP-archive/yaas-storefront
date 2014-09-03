@@ -15,7 +15,6 @@
 <body>
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
     <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
-    <!-- <div ui-view="authorization" ng-if="showAuthPopup"></div> -->
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
         <div ui-view="main" class="main"></div>
@@ -78,7 +77,6 @@
 <script src="js/app/app.js"></script>
 <script src="js/vendor-static/bootstrap.min.js"></script>
 <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<!-- <script src="js/vendor-static/stripe.js"></script> -->
 <script src="js/vendor-static/ui-bootstrap-tpls.js"></script>
 <script src="js/vendor-static/jquery.menu-aim.js"></script>
 <script src="https://js.stripe.com/v2/"></script>
