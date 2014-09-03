@@ -7,7 +7,7 @@
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[5]"
+        exports.backToTopButton = "(//button[@type='button'])[4]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[2]/div[2]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
