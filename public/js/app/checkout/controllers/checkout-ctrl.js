@@ -52,14 +52,8 @@ angular.module('ds.checkout')
             $scope.order.shippingCost = shippingCost.price.price;
 
             var getDefaultAddress = function() {
-                // AuthSvc.getProfileAddresses('default').then(
-                //     function(response) {
-                //         $scope.order.billTo = response;
-                //     }
-                // );
                 AuthSvc.getDefaultAddress().then(
                         function(address) {
-                            console.log('Default Address retrieved: ', address);
                             $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
                             $scope.order.billTo.country = address.country;
                             $scope.order.billTo.city = address.city;

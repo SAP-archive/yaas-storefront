@@ -25,10 +25,6 @@ angular.module('ds.auth')
                   if (accessToken) {
                       fullHeaders[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + accessToken;
                   }
-                  
-                  // Customer Id (uros.lates@snk-interactive.de) 43HykGtdRWlmrSZXUGagYOD2Xweb
-                  // var token = 'w3McVBmVLZyDYA5bX91EwKVelmll';
-                  // fullHeaders[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
 
                   return {
                       element: element,
