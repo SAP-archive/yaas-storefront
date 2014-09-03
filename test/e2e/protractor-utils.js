@@ -1,19 +1,21 @@
          
-        exports.frenchPress = "//a[contains(@href, '#!/products/53b42c5a29ce2176d046b46d/')]";
-        exports.chemex = "//a[contains(@href, '#!/products/53b42c5f29ce2176d046b471/')]";
-        exports.ringBowl = "//a[contains(@href, '#!/products/53b42c6529ce2176d046b475/')]";
+        exports.frenchPress = "//a[contains(@href, '#!/products/540751d0394edbc101ff20ef/')]";
+        exports.chemex = "//a[contains(@href, '#!/products/540751e0394edbc101ff20f3/')]";
+        exports.ringBowl = "//a[contains(@href, '#!/products/540751f8394edbc101ff20f7/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
-        exports.cartQuantity = "//input[@type='number']"
+        exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[2]/div[2]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
+        exports.tenant = '3xsfuichdoum'
+
 
          exports.verifyCartAmount = function(amount) {
-           expect(element(by.xpath("//input[@type='number']")).getAttribute("value")).toEqual(amount);
+           expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
          }
 
          exports.verifyCartTotal = function(total) {
