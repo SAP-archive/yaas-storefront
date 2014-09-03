@@ -57,7 +57,9 @@ describe('SidebarNavigationCtrl', function () {
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
-        mockedAuthSvc.signout = jasmine.createSpy('signout');
+        mockedAuthSvc.signout = jasmine.createSpy('signout').andReturn({
+            then: jasmine.createSpy('then')
+        });
         mockedAuthSvc.getToken = jasmine.createSpy('getToken').andReturn(mockedToken);
     }));
 

@@ -12,7 +12,7 @@
 
 describe('AuthCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, AuthCtrl, authModel, AuthSvc, mockedSettings, mockedCookiesStorage;
+    var $scope, $rootScope, $controller, $q, AuthCtrl, authModel, AuthSvc, mockedSettings, mockedCookiesStorage;
     
     mockedSettings = {
         accessTokenKey: 'accessTokenKey',
@@ -21,6 +21,9 @@ describe('AuthCtrl Test', function () {
             customers: {
                 baseUrl: 'http://dummy-test-server.hybris.com',
                 apiKey: '123'
+            },
+            headers: {
+              hybrisAuthorization: 'Authorization'
             }
         }
     };
@@ -33,6 +36,11 @@ describe('AuthCtrl Test', function () {
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
+    var defaultLang = 'en';
+    var mockedStoreConfig = {};
+    var storeTenant = '121212';
+    mockedStoreConfig.defaultLanguage = defaultLang;
+    mockedStoreConfig.storeTenant = storeTenant;
 
     //***********************************************************************
     // Common Setup
@@ -46,11 +54,13 @@ describe('AuthCtrl Test', function () {
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('CookiesStorage', mockedCookiesStorage);
         $provide.value('settings', mockedSettings);
+        $provide.value('storeConfig', mockedStoreConfig);
     }));
 
-    beforeEach(inject(function(_AuthSvc_, _$httpBackend_) {
+    beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
         AuthSvc = _AuthSvc_;
         mockBackend = _$httpBackend_;
+        $q = _$q_;
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, $q, _AuthSvc_) {
@@ -86,7 +96,7 @@ describe('AuthCtrl Test', function () {
                 })
             };
 
-            AuthCtrl = $controller('AuthCtrl', {$scope: $scope, 'AuthSvc': stubbedAuthSvc});
+            AuthCtrl = $controller('AuthCtrl', {$scope: $scope, 'AuthSvc': stubbedAuthSvc, $q: $q});
         });
 
         it("should expose correct data to the scope", function() {
