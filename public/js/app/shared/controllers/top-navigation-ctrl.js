@@ -2,12 +2,12 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'cart',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, cart) {
+        function ($scope, $rootScope, $state, $controller, GlobalData) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = cart;
+            $scope.cart = {};
 
 
 
