@@ -13,6 +13,11 @@
 describe('AuthSvc Test', function () {
 
     var AuthSvc, mockedCookiesStorage, mockedSettings, mockBackend;
+    var defaultLang = 'en';
+    var mockedStoreConfig = {};
+    var storeTenant = '121212';
+    mockedStoreConfig.defaultLanguage = defaultLang;
+    mockedStoreConfig.storeTenant = storeTenant;
     var accessToken = 123;
     var username = 'some.user@hybris.com';
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
@@ -32,6 +37,9 @@ describe('AuthSvc Test', function () {
             customers: {
                 baseUrl: 'http://dummy-test-server.hybris.com',
                 apiKey: '123'
+            },
+            headers: {
+              hybrisAuthorization: 'Authorization'
             }
         }
     };
@@ -43,6 +51,7 @@ describe('AuthSvc Test', function () {
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('CookiesStorage', mockedCookiesStorage);
         $provide.value('settings', mockedSettings);
+        $provide.value('storeConfig', mockedStoreConfig);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_) {
@@ -133,7 +142,8 @@ describe('AuthSvc Test', function () {
        spyOn(AuthSvc, 'anonymousSignin').andCallThrough();
 
        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
-       mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/login/anonymous?apiKey=' + mockedSettings.apis.customers.apiKey).respond(200, response);
+       var accountsBaseUrl = 'http://yaas-test.apigee.net/test/account/v1/auth/anonymous/login'
+       mockBackend.expectPOST(accountsBaseUrl + '?hybris-tenant=' + storeTenant).respond(200, response);
        var promise = AuthSvc.signout(payload);
        promise.then(successSpy, errorSpy);
 

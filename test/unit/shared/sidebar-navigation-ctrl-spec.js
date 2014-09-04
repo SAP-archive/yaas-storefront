@@ -12,7 +12,7 @@
 
 describe('SidebarNavigationCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $state;
+    var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager;
     var mockedGlobalData = {};
     var mockedAuthSvc = {};
 
@@ -46,19 +46,26 @@ describe('SidebarNavigationCtrl', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $state = _$state_;
+        AuthDialogManager = {
+            isOpened: jasmine.createSpy('isOpened'),
+            open: jasmine.createSpy('open'),
+            close: jasmine.createSpy('close')
+        };
 
         mockedGlobalData.languageCode = 'pl';
         mockedGlobalData.acceptLanguages = 'pl';
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
-        mockedAuthSvc.signout = jasmine.createSpy('signout');
+        mockedAuthSvc.signout = jasmine.createSpy('signout').andReturn({
+            then: jasmine.createSpy('then')
+        });
         mockedAuthSvc.getToken = jasmine.createSpy('getToken').andReturn(mockedToken);
     }));
 
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
-            $translate: mockedTranslate, storeConfig: mockedStoreConfig, AuthSvc: mockedAuthSvc});
+            $translate: mockedTranslate, storeConfig: mockedStoreConfig, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
     });
 
     describe('switchLanguage()', function(){
@@ -100,15 +107,8 @@ describe('SidebarNavigationCtrl', function () {
         });
     });
 
-    describe('login()', function(){
-       it('should toggle showAuthPopup', function(){
-             $rootScope.showAuthPopup = false;
-             $scope.login();
-             expect($rootScope.showAuthPopup).toBeTruthy();
-             $scope.login();
-             expect($rootScope.showAuthPopup).toBeFalsy();
-       });
-    });
+    // describe('login()', function(){
+    // });
 
     describe('logout()', function(){
        it('should invoke signout on AuthSvc', function(){

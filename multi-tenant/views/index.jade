@@ -17,7 +17,6 @@ html
 
     div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
       div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation")
-      div(ui-view="authorization", ng-if="showAuthPopup")
       div(class="mainContent")
         div(ui-view="topNavigation")
         div(class="main", ui-view="main")
@@ -41,9 +40,12 @@ html
 
     script(src='js/app/auth/auth-index.js')
     script(src='js/app/auth/controllers/auth-ctrl.js')
+    script(src='js/app/auth/controllers/profile-ctrl.js')
+    script(src='js/app/auth/controllers/auth-modal-dialog-ctrl.js')
     script(src='js/app/auth/services/auth-rest.js')
     script(src='js/app/auth/services/cookiesstorage-service.js')
     script(src='js/app/auth/services/auth-service.js')
+    script(src='js/app/auth/services/auth-dialog-manager.js')
 
     script(src='js/app/shared/shared-index.js')
     script(src='js/app/shared/settings.js')
@@ -86,6 +88,7 @@ html
     script(src='js/app/app.js')
 
     script(src='js/vendor-static/bootstrap.min.js')
+    script(src='js/vendor/angular-bootstrap/ui-bootstrap-tpls.js')
     script(src='js/vendor-static/ui-bootstrap-tpls.js')
     script(src='js/vendor-static/jquery.menu-aim.js')
     script(src='https://js.stripe.com/v2/')

@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', 'shippingCost', '$state', '$translate', '$modal',
-        function ($scope, $rootScope, $location, $anchorScroll, CheckoutSvc, cart, order, shippingCost, $state, $translate, $modal) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AuthDialogManager', 'shippingCost',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AuthDialogManager, shippingCost) {
 
             $rootScope.showCart = false;
 
@@ -50,6 +50,39 @@ angular.module('ds.checkout')
             $scope.cart = cart;
             $scope.shippingCosts = shippingCost;
             $scope.order.shippingCost = shippingCost.price.price;
+
+            var getDefaultAddress = function() {
+                AuthSvc.getDefaultAddress().then(
+                        function(address) {
+                            $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
+                            $scope.order.billTo.country = address.country;
+                            $scope.order.billTo.city = address.city;
+                            $scope.order.billTo.state = address.state;
+                            $scope.order.billTo.zip = address.zipCode;
+                        });
+            };
+
+            var getProfile = function() {
+                AuthSvc.profile().then(function(profile) {
+                    order.billTo.email = profile.contactEmail;
+                    order.billTo.firstName = profile.firstName;
+                    order.billTo.lastName = profile.lastName;
+                });
+            };
+
+            if (!AuthSvc.isAuthenticated()) {
+                AuthDialogManager.open(null, { required: true }).result.then(
+                    function(response) {
+                        if (response) {
+                            getDefaultAddress();
+                            getProfile();
+                        }
+                    }
+                );
+            } else {
+                getDefaultAddress();
+                getProfile();
+            }
 
             $scope.badEmailAddress = false;
 

@@ -2,13 +2,18 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'cart', 'AuthSvc', 'AuthDialogManager',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, cart, AuthSvc, AuthDialogManager) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = {};
+            $scope.cart = cart;
+            $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
+            $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+                $scope.isAuthenticated = isAuthenticated;
+                $scope.username = AuthSvc.getToken().getUsername();
+            });
 
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
@@ -33,6 +38,18 @@ angular.module('ds.shared')
             $scope.toggleOffCanvas = function () {
                 $rootScope.showMobileNav = !$rootScope.showMobileNav;
 
+            };
+
+            $scope.logout = function() {
+                AuthSvc.signout();
+            };
+            
+            $scope.login = function(dOpts, opts) {
+                AuthDialogManager.open(dOpts, opts);
+            };
+
+            $scope.myProfile = function() {
+                $state.go('base.profile');
             };
 
         }]);

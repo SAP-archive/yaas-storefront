@@ -113,6 +113,22 @@ angular.module('ds.i18n')
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',
 		en: 'Englisch',
-		de: 'Deutsch'
+		de: 'Deutsch',
+        SIGN_OUT: 'Austragen',
+        SIGN_IN: 'Anmelden',
+        MY_PROFILE: 'Mein Profil',
+        CREATE_ACCOUNT: 'Benutzerkonto erstellen',
+        CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
+
+        /*
+            profile page
+         */
+        ADDRESSBOOK: 'Adressbuch',
+        NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
+        ADD_ADDRESS: 'Adresse hinzufügen',
+        CONTACT_NAME: 'Kontact Name',
+        CONTACT_PHONE: 'Kontakt Telefon',
+        STREET: 'Straße',
+        STREET_NUMBER: 'Straße Anzahl'
 
     });

@@ -126,7 +126,7 @@ angular.module('ds.checkout')
             createOrder: function(order, token) {
                 var Order = function () {};
                 var newOrder = new Order();
-                newOrder.cartId = order.cart.id;
+                newOrder.cartId = order && order.cart && order.cart.id ? order.cart.id : null;
                 newOrder.creditCardToken = token;
                 newOrder.currency = 'USD';
                 newOrder.shippingCost = order.shippingCost;

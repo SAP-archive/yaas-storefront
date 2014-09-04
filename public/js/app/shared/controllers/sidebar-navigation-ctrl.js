@@ -2,11 +2,11 @@
 
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'AuthSvc',
+	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'AuthSvc', 'AuthDialogManager',
 
-		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, AuthSvc) {
+		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, AuthSvc, AuthDialogManager) {
 
-			$scope.languageCode = GlobalData.languageCode;
+            $scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
@@ -14,9 +14,6 @@ angular.module('ds.shared')
             $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
                 $scope.isAuthenticated = isAuthenticated;
                 $scope.username = AuthSvc.getToken().getUsername();
-                if ($scope.isAuthenticated) {
-                    $rootScope.showAuthPopup = false;
-                }
             });
 
             $scope.switchLanguage = function(languageCode) {
@@ -36,10 +33,18 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
-                AuthSvc.signout();
+                AuthSvc.signout().then(function() {
+                    if ($state.is('base.profile')) {
+                        $state.go('base.product');
+                    }
+                });
+            };
+            
+            $scope.login = function(dOpts, opts) {
+                AuthDialogManager.open(dOpts, opts);
             };
 
-            $scope.login = function() {
-                $rootScope.showAuthPopup = !$rootScope.showAuthPopup;
+            $scope.myProfile = function() {
+                $state.go('base.profile');
             };
 	}]);

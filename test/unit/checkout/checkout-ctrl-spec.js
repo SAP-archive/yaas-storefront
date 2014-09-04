@@ -1,6 +1,18 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, shippingCost, checkoutDfd, $modal, mockedModal;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd, shippingCost;
+    var MockedAuthSvc = {
+        isAuthenticated: jasmine.createSpy('isAuthenticated')
+    };
+    var AuthDialogManager = {
+        isOpened: jasmine.createSpy('then'),
+        open: jasmine.createSpy('then').andReturn({
+            result: {
+                then: jasmine.createSpy('then')
+            }
+        }),
+        close: jasmine.createSpy('dismiss')
+    };
     var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -56,7 +68,6 @@ describe('CheckoutCtrl', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $modal = _$modal_;
-
     }));
 
     beforeEach(function () {
@@ -66,7 +77,7 @@ describe('CheckoutCtrl', function () {
             return checkoutDfd.promise;
         });
 
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc});
     });
 
     describe('initialization', function () {

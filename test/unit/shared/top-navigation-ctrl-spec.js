@@ -17,6 +17,22 @@ describe('TopNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
     var mockedState = {};
+    var username = 'Joe';
+    var mockedToken = {
+        getUsername: function(){
+            return username;
+        }
+    };
+    var mockedAuthSvc = {
+        signout: jasmine.createSpy('signout'),
+        getToken: jasmine.createSpy('getToken').andReturn(mockedToken)
+    };
+    var AuthDialogManager = {
+        isOpened: jasmine.createSpy('isOpened'),
+        open: jasmine.createSpy('open'),
+        close: jasmine.createSpy('close')
+    };
+
 
     var navCtrl, cart;
     cart = {};
@@ -44,7 +60,7 @@ describe('TopNavigationCtrl', function () {
 
 
     beforeEach(function () {
-        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData});
+        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
     });
 
     describe('initialization', function(){

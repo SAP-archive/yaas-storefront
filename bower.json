@@ -26,7 +26,8 @@
     "restangular": "~1.4.0",
     "lodash": "~2.4.1",
     "spin.js": "~2.0.1",
-    "angular-cookies": "~1.2.22"
+    "angular-cookies": "~1.2.22",
+    "angular-bootstrap": "~0.11.0"
   },
   "install": {
     "path": {
