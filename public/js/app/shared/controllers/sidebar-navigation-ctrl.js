@@ -10,11 +10,7 @@ angular.module('ds.shared')
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
-
-            $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
-                $scope.isAuthenticated = isAuthenticated;
-                $scope.username = AuthSvc.getToken().getUsername();
-            });
+            $scope.user = GlobalData.user;
 
             $scope.switchLanguage = function(languageCode) {
                 $translate.use(languageCode);

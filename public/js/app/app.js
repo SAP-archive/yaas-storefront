@@ -74,12 +74,12 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
             CookiesStorage.setToken(storeConfig.token, null);
-
+            
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
                 AuthDialogManager.close();
@@ -88,6 +88,12 @@ window.app = angular.module('ds.router', [
                 if ($location.search()[settings.forgotPassword.paramName]) {
                     AuthDialogManager.open({}, { forgotPassword: true });
                 }
+            });
+
+            $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
+                GlobalData.user.isAuthenticated = isAuthenticated;
+                GlobalData.user.username = AuthSvc.getToken().getUsername();
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

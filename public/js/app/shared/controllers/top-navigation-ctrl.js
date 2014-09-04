@@ -9,11 +9,7 @@ angular.module('ds.shared')
             $scope.GlobalData = GlobalData;
             $scope.cart = cart;
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
-
-            $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
-                $scope.isAuthenticated = isAuthenticated;
-                $scope.username = AuthSvc.getToken().getUsername();
-            });
+            $scope.user = GlobalData.user;
 
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
