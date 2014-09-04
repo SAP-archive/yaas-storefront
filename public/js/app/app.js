@@ -16,8 +16,8 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings',
-        function ($q, settings) {
+    .factory('interceptor', ['$q', 'settings','CookiesStorage',
+        function ($q, settings, CookiesStorage) {
 
             return {
                 request: function (config) {
@@ -29,13 +29,9 @@ window.app = angular.module('ds.router', [
                         if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
+                    } else {
+                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + CookiesStorage.getToken().getAccessToken();
                     }
-
-                    //config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer ' + Storage.getToken().getAccessToken();
-                    // TODO: use this once switched to proxies (passing accessToken)
-                    // if (Storage.getToken().getAccessToken()) {
-                    //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
-                    // }
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -59,11 +55,6 @@ window.app = angular.module('ds.router', [
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
 
-
-        var headers = {};
-        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + storeConfig.token;
-
-        RestangularProvider.setDefaultHeaders(headers);
         RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
 
             var oldHeaders = {};
@@ -83,9 +74,11 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+
+            CookiesStorage.setToken(storeConfig.token, null);
 
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
@@ -130,13 +123,6 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve:  {
-                        accessToken: function(AuthSvc, storeConfig) {
-                            var accessToken = AuthSvc.getToken().getAccessToken();
-                            if (!accessToken) {
-                                accessToken = 'Bearer ' + storeConfig.token;
-                            }
-                            return accessToken;
-                        },
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
 
@@ -158,7 +144,7 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
                         }
-                    },
+                    }
                 })
                 .state('base.product.detail', {
                     url: ':productId/',

@@ -34,10 +34,6 @@ angular.module('ds.auth')
             customerSignin: function(user) {
                 return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
             },
-
-            // anonymousSignin: function() {
-            //     return AuthREST.Customers.all('login').all('anonymous').customGET('', { apiKey: settings.apis.customers.apiKey });
-            // },
             
             anonymousSignin: function() {
                 var deferred = $q.defer();

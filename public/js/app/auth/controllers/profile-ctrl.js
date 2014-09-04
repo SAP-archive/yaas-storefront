@@ -32,7 +32,7 @@ angular.module('ds.auth')
         };
         $scope.languageLocales = {
           'en_US': 'US - USA',
-          'de_DE': 'DE - German',
+          'de_DE': 'DE - German'
         };
 
         var extractServerSideErrors = function(response) {
@@ -69,7 +69,7 @@ angular.module('ds.auth')
 
         $scope.openAddressModal = function(address) {
           $scope.address = angular.copy(address || {
-            account: customerNumber,
+            account: customerNumber
           });
           $scope.showPristineErrors = false;
           $scope.errors = [];

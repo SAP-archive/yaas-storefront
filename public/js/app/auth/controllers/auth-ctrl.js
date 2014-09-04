@@ -57,10 +57,10 @@ angular.module('ds.auth')
           return errors;
         };
 
-        $scope.signup = function(authModel, singupForm) {
+        $scope.signup = function(authModel, signUpForm) {
           var deferred = $q.defer();
 
-          if (singupForm.$valid) {
+          if (signUpForm.$valid) {
             AuthSvc.signup(authModel).then(
                 function() {
                   $scope.errors.signup = [];
