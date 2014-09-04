@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AuthDialogManager', 'shippingCost',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AuthDialogManager, shippingCost) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $rootScope.showCart = false;
 
@@ -50,16 +50,45 @@ angular.module('ds.checkout')
             $scope.cart = cart;
             $scope.shippingCosts = shippingCost;
             $scope.order.shippingCost = shippingCost.price.price;
+            $scope.user = GlobalData.user;
+            $scope.addresses = [];
+            var selectedAddress;
+            var addressModalInstance;
+
+            var decorateSelectedAddress = function(addresses) {
+                if (selectedAddress) {
+                    angular.forEach(addresses, function(addr) {
+                        if (addr.id === selectedAddress.id) {
+                            addr.selected = true;
+                        }
+                    });
+                } else {
+                    angular.forEach(addresses, function(addr) {
+                        if (addr.isDefault) {
+                            addr.selected = true;
+                        }
+                    });
+                }
+                return addresses;
+            };
 
             var getDefaultAddress = function() {
                 AuthSvc.getDefaultAddress().then(
                         function(address) {
-                            $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
-                            $scope.order.billTo.country = address.country;
-                            $scope.order.billTo.city = address.city;
-                            $scope.order.billTo.state = address.state;
-                            $scope.order.billTo.zip = address.zipCode;
+                            if (address) {
+                                $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
+                                $scope.order.billTo.country = address.country;
+                                $scope.order.billTo.city = address.city;
+                                $scope.order.billTo.state = address.state;
+                                $scope.order.billTo.zip = address.zipCode;
+                            }
                         });
+            };
+
+            var getAddresses = function() {
+                AuthSvc.getAddresses().then(function(response) {
+                    $scope.addresses = decorateSelectedAddress(response);
+                });
             };
 
             var getProfile = function() {
@@ -70,19 +99,30 @@ angular.module('ds.checkout')
                 });
             };
 
-            if (!AuthSvc.isAuthenticated()) {
-                AuthDialogManager.open(null, { required: true }).result.then(
-                    function(response) {
-                        if (response) {
-                            getDefaultAddress();
-                            getProfile();
-                        }
-                    }
-                );
-            } else {
+            $scope.$on('user:signedin', function() {
+console.log('USER SIGNED IN!');
                 getDefaultAddress();
                 getProfile();
+                getAddresses();
+            });
+
+            if (!AuthSvc.isAuthenticated()) {
+                AuthDialogManager.open(null, { required: true });
+            //         function(response) {
+            //             if (response) {
+            //                 getDefaultAddress();
+            //                 getProfile();
+            //                 getAddresses();
+            //             }
+            //         }
+                }
+            // } else {
+            getDefaultAddress();
+            if (GlobalData.user.isAuthenticated) {
+                getProfile();
             }
+            getAddresses();
+            // }
 
             $scope.badEmailAddress = false;
 
@@ -343,4 +383,33 @@ angular.module('ds.checkout')
                     $scope.message = defaultErrorMsg;
                 }
             };
+
+            $scope.selectAddress = function(address) {
+                selectedAddress = address;
+                addressModalInstance.close();
+                $scope.wiz.shipToSameAsBillTo = address.isDefault;
+                $scope.order.shipTo.address1 = address.street + ' ' + address.streetNumber;
+                $scope.order.shipTo.country = address.country;
+                $scope.order.shipTo.city = address.city;
+                $scope.order.shipTo.state = address.state;
+                $scope.order.shipTo.zip = address.zipCode;
+            };
+
+            $scope.openAddressDialog = function() {
+                addressModalInstance = $modal.open({
+                    templateUrl: './js/app/auth/templates/addresses-dialog.html',
+                    scope: $scope,
+                    resolve: {
+                        addresses: function(AuthSvc) {
+                            var promise = AuthSvc.getAddresses();
+                            promise.then(function(response) {
+                                $scope.addresses = decorateSelectedAddress(response);
+                                $scope.isDialog = true;
+                            });
+                            return promise;
+                        }
+                    }
+                  });
+            };
+
         }]);

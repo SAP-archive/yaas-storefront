@@ -10,11 +10,11 @@
     <span class="quantity">{{ cart.totalUnitsCount }}</span>
 </button>
 
-<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!isAuthenticated" >
+<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!user.isAuthenticated" >
   <img src="./img/user-icon_small.png" class="user-avatar">
 </button>
 <div class="dropdown pull-right">
-  <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="isAuthenticated" >
+  <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
     <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
   </a>
   <ul class="dropdown-menu" class="pull-right">

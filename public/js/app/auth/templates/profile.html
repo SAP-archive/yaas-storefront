@@ -22,7 +22,6 @@
           </h1>
           </div>
           <address ng-if="defaultAddress">
-            <span>{{defaultAddress.contactName}}</span>
             <span>{{defaultAddress.street}}</span>
             <span>{{defaultAddress.streetNumber}}</span>
             <br>
@@ -69,30 +68,7 @@
       </button>
     </div>
     <div class="row">
-      <div class="col-sm-6 col-md-6 col-lg-4" ng-repeat="address in addresses">
-        <div class="panel">
-          <div class="panel-body">
-            <div class="pull-left">
-              <address ng-class="{ 'default-address': address.isDefault }">
-                <span>{{address.contactName}}</span> <em ng-if="address.isDefault">(default)</em><br>
-                <span>{{address.streetNumber}} {{address.street}}, {{address.streetAppendix}}</span><br>
-                <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
-                <span>{{address.country}}</span><br>
-                <span>{{address.contactPhone}}</span><br>
-              </address>
-            </div>
-            <div class="btn-group-vertical pull-right states-toolbar">
-              <button class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)"><span class="glyphicon glyphicon-star"></span></button>
-              <button class="btn btn-link btn-lg" ng-click="openAddressModal(address)"><span class="glyphicon glyphicon-pencil"></span></button>
-              <button class="btn btn-link btn-lg delete" ng-click="removeAddress(address)"><span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-12">
-        <p ng-if="!addresses.length">{{'NO_ADDRESSES' | translate}}</p>
-      </div>
-
+      <div ng-include="'./js/app/auth/templates/addresses.html'"></div>
     </div>
     <div class="text-center">
       <button class="btn btn-link" >Show All <span class="glyphicon glyphicon-chevron-down"</button>
