@@ -1,7 +1,7 @@
          
-        exports.frenchPress = "//a[contains(@href, '#!/products/540751d0394edbc101ff20ef/')]";
-        exports.chemex = "//a[contains(@href, '#!/products/540751e0394edbc101ff20f3/')]";
-        exports.ringBowl = "//a[contains(@href, '#!/products/540751f8394edbc101ff20f7/')]";
+        exports.tatteredBowls = "//a[contains(@href, '#!/products/540751ee394edbc101ff20f5/')]";
+        exports.cupWithHoles = "//a[contains(@href, '#!/products/54075212394edbc101ff20ff/')]";
+        exports.beadedNecklace = "//a[contains(@href, '#!/products/5407524a394edbc101ff2113/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
