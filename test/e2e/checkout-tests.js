@@ -58,11 +58,9 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
-        browser.get(tu.tenant + '/#!/products');
+        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
-        tu.clickElement('xpath', tu.frenchPress);
-        browser.sleep(500);
         tu.clickElement('id', tu.buyButton);
         browser.sleep(1000);
      });
@@ -84,11 +82,11 @@ describe("checkout:", function () {
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('xpath', tu.contineShopping);
             tu.clickElement('css', 'img');
-            tu.clickElement('xpath', tu.ringBowl);
+            tu.clickElement('xpath', tu.beadedNecklace);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$29.81', '1');
+            verifyCartContents('Item Price: $24.57', '$41.79', '1');
            });
 
            it('should allow all fields to be editable', function () {
