@@ -19,7 +19,7 @@ describe("product page", function () {
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
-        tu.clickElement('xpath', tu.frenchPress);
+        tu.clickElement('xpath', tu.tatteredBowls);
       });
 
       // should be # of 31, but overall product count doesn't work in phantomjs
@@ -32,32 +32,51 @@ describe("product page", function () {
       });
 
       it("should get product detail page", function () {
-        tu.scrollToBottomOfProducts(3500);
-        tu.clickElement('xpath', tu.frenchPress);
+        // tu.scrollToBottomOfProducts(3500);
+        tu.clickElement('xpath', tu.tatteredBowls);
         browser.sleep(3000);
-        expect(tu.frenchPressDescription.getText()).toEqual('Description:\nThis will make the best coffee you ever had.');
+        expect(tu.frenchPressDescription.getText()).toEqual('Description:\nThese bowls look like they were thrown across the kitchen. Why would anyone want to buy these broken bowls?');
+        tu.clickElement('linkText', 'DE');
+        browser.sleep(3000);
+        expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nDiese Schalen schauen, wie sie durch die Küche geworfen wurden. Warum sollte jemand, diese gebrochenen Schalen kaufen?');
 
     });
 
-      it("should get order of products correctly", function () {
+      it("should get order of products correctly in english", function () {
         //default load
         tu.getTextByRepeaterRow(0);
-        tu.sortAndVerifyPagination('price', 'RED RAINDROP SOAP DISH');
+        tu.sortAndVerifyPagination('price', 'FRENCH PRESS');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
         browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'COOKING UTENILS');
+        tu.sortAndVerifyPagination('-name', 'COOKING UTENSILS');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'TEST');
+        tu.sortAndVerifyPagination('-created', 'FRENCH PRESS');
     });
 
-    //   it("should redirect the user if they attempt to access unpublished product", function () {
-    //     browser.get('#!/products/WhiteBowlswithbirds1399405261020/');
-    //     browser.sleep(5000);
-    //     tu.getTextByRepeaterRow(1);
-    // });
+      it("should get order of products correctly in german", function () {
+        //default load
+        tu.getTextByRepeaterRow(0);
+        tu.clickElement('linkText', 'DE');
+        browser.sleep(3000);       
+        tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('name', 'BECHER UND FRÜHSTÜCK SCHÜSSEL');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-name', 'SCHÖNE CHINA');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-created', 'FRANZÖSISCH PRESSE');
+    });
+
+      it("should redirect the user if they attempt to access unpublished product", function () {
+        browser.get('#!/products/WhiteBowlswithbirds1399405261020/');
+        browser.sleep(5000);
+        tu.getTextByRepeaterRow(1);
+    });
 
 
   }); 
