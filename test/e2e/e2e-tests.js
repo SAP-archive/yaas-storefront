@@ -72,13 +72,6 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-created', 'FRANZÖSISCH PRESSE');
     });
 
-      it("should redirect the user if they attempt to access unpublished product", function () {
-        browser.get('#!/products/WhiteBowlswithbirds1399405261020/');
-        browser.sleep(5000);
-        tu.getTextByRepeaterRow(1);
-    });
-
-
   }); 
 }); 
 
