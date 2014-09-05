@@ -1,6 +1,30 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, shippingCost, checkoutDfd, $modal, mockedModal;
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd, shippingCost;
+    var MockedAuthSvc = {
+        isAuthenticated: jasmine.createSpy('isAuthenticated'),
+        getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn({
+            then: jasmine.createSpy('then')
+        }),
+        getAddresses: jasmine.createSpy('getAddresses').andReturn({
+            then: jasmine.createSpy('then')
+        })
+    };
+    var GlobalData = {
+        user: {
+            isAuthenticated: '',
+            user: null
+        }
+    };
+    var AuthDialogManager = {
+        isOpened: jasmine.createSpy('then'),
+        open: jasmine.createSpy('then').andReturn({
+            result: {
+                then: jasmine.createSpy('then')
+            }
+        }),
+        close: jasmine.createSpy('dismiss')
+    };
     var ERROR_TYPES = {
             stripe: 'STRIPE_ERROR',
             order: 'ORDER_ERROR'
@@ -41,6 +65,7 @@ describe('CheckoutCtrl', function () {
         $provide.value('shippingCost', shippingCost);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
+        $provide.value('GlobalData', GlobalData);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
@@ -56,7 +81,6 @@ describe('CheckoutCtrl', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $modal = _$modal_;
-
     }));
 
     beforeEach(function () {
@@ -66,7 +90,7 @@ describe('CheckoutCtrl', function () {
             return checkoutDfd.promise;
         });
 
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc});
     });
 
     describe('initialization', function () {

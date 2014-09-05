@@ -12,7 +12,7 @@
         }
 
         var storeConfig = {};
-        storeConfig.storeTenant = 'uvrwjlwtifec';
+        storeConfig.storeTenant = '3xsfuichdoum';
         // acts as fallback language for localization
         // Longterm, will be retrieved via service from admin tool configuration
         storeConfig.defaultLanguage = 'en';

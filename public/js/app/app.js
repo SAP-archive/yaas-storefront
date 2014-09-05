@@ -16,8 +16,8 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings',
-        function ($q, settings) {
+    .factory('interceptor', ['$q', 'settings','CookiesStorage',
+        function ($q, settings, CookiesStorage) {
 
             return {
                 request: function (config) {
@@ -29,13 +29,9 @@ window.app = angular.module('ds.router', [
                         if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
+                    } else {
+                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + CookiesStorage.getToken().getAccessToken();
                     }
-
-                    //config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer ' + Storage.getToken().getAccessToken();
-                    // TODO: use this once switched to proxies (passing accessToken)
-                    // if (Storage.getToken().getAccessToken()) {
-                    //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
-                    // }
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -59,11 +55,6 @@ window.app = angular.module('ds.router', [
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
 
-
-        var headers = {};
-        headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + storeConfig.token;
-
-        RestangularProvider.setDefaultHeaders(headers);
         RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
 
             var oldHeaders = {};
@@ -83,14 +74,31 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
-        function ($rootScope, storeConfig, ConfigSvc) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+
+            CookiesStorage.setToken(storeConfig.token, null);
+            
+            $rootScope.$on('$stateChangeStart', function () {
+                // Make sure dialog is closed (if it was opened)
+                AuthDialogManager.close();
+            });
+            $rootScope.$on('$locationChangeSuccess', function() {
+                if ($location.search()[settings.forgotPassword.paramName]) {
+                    AuthDialogManager.open({}, { forgotPassword: true });
+                }
+            });
+
+            $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
+                GlobalData.user.isAuthenticated = isAuthenticated;
+                GlobalData.user.username = AuthSvc.getToken().getUsername();
+            });
 
             // setting root scope variables that drive class attributes in the BODY tag
             $rootScope.showCart =false;
             $rootScope.showMobileNav=false;
-            $rootScope.showAuthPopup = false;
         }
     ])
 
@@ -118,19 +126,20 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
-                        },
-                        'authorization@': {
-                            templateUrl: 'js/app/auth/templates/auth.html',
-                            controller: 'AuthCtrl'
                         }
                     },
                     resolve:  {
-                        accessToken: function(AuthSvc) {
-                            var accessToken = AuthSvc.getToken().getAccessToken();
-                            if (!accessToken) {
-                                accessToken = AuthSvc.signin();
-                            }
-                            return accessToken;
+                        cart: function (CartSvc) {
+                            return CartSvc.getCart();
+
+                        }
+                    },
+                    onEnter: function($location, settings, AuthDialogManager){
+                        if ($location.search()[settings.forgotPassword.paramName]) {
+                            console.log('forgotPassword parameter found');
+                            AuthDialogManager.open({
+                                templateUrl: './js/app/auth/templates/password.html'
+                            });
                         }
                     }
                 })
@@ -202,7 +211,23 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-            ;
+                .state('base.profile', {
+                    url: '/profile/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/auth/templates/profile.html',
+                            controller: 'ProfileCtrl'
+                        }
+                    },
+                    resolve: {
+                        profile: function(AuthSvc) {
+                            return AuthSvc.profile();
+                        },
+                        addresses: function(AuthSvc) {
+                            return AuthSvc.getAddresses();
+                        }
+                    }
+                });
 
             $urlRouterProvider.otherwise('/products/');
 

@@ -1,20 +1,20 @@
-<ul ng-if="errors && errors.signin.length">
+<ul ng-if="errors && errors.signin.length" class="list-unstyled text-danger">
   <li ng-repeat="error in errors.signin">{{error.message}}</li>
 </ul>
 
 <form name="singinForm" ng-submit="signin(user.signin, singinForm)">
-  <div class="form-group" ng-class="{ 'has-error': singinForm.username.$invalid && singinForm.username.$dirty }">
-    <label for="usernameInput">Email address</label>
-    <input type="email" class="form-control" id="usernameInput" placeholder="Enter email" name="username" ng-model="user.signin.email" required>
-  </div>
-  <div class="form-group" ng-class="{ 'has-error': singinForm.password.$invalid && singinForm.password.$dirty }">
-    <label for="passwordInput">Password</label>
-    <input type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signin.password" required>
-  </div>
-  <div class="checkbox">
-    <label>
-      <a href="">Forgot password?</a>
-    </label>
-  </div>
-  <button type="submit" class="btn btn-default btn-sm btn-block">Sign In</button>
+    <div class="form-group input-group" ng-class="{ 'has-error': singinForm.username.$invalid && singinForm.username.$dirty }">
+        <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
+        <input type="email" class="form-control" id="usernameInput" placeholder="Enter email" name="username" ng-model="user.signin.email" required>
+    </div>
+    <div class="form-group input-group" ng-class="{ 'has-error': singinForm.password.$invalid && singinForm.password.$dirty }">
+        <span class="input-group-addon"><label class="control-label" for="email">{{'Password' | translate}}</label></span>
+        <input  type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signin.password" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">{{'SIGN_IN' | translate}}</button>
+    <br>
+    <a href="" ng-click="forgotPassword()" class="forgot-password-btn">Forgot Password?</a>
 </form>
+
+
+

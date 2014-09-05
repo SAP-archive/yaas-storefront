@@ -184,7 +184,11 @@
         "id": "5407528a394edbc101ff2121",
         "sku": "cookingutenils1399400975226",
         "name": {
+<<<<<<< HEAD
             "en": "Cooking utensils",
+=======
+            "en": "cooking utensils",
+>>>>>>> origin/STOR-870-2
             "de": "Kochutensilien"
         },
         "description": {
@@ -303,7 +307,10 @@
                 "url": "http://product-v1-4-1.test.cf.hybris.com/products/540751d0394edbc101ff20ef/media/54089d0bbe0eb3ae8682a12b/content?tenant=3xsfuichdoum"
             }
         ],
+<<<<<<< HEAD
         "inStock": true,
+=======
+>>>>>>> origin/STOR-870-2
         "created": "2014-09-04T17:01:11.467+0000",
         "price": 0,
         "customAttributes": []
@@ -547,7 +554,11 @@
         "sku": "Beautifulchina1399400709439",
         "name": {
             "en": "Beautiful china",
+<<<<<<< HEAD
             "de": "Schöne China"
+=======
+            "de": "schöne China"
+>>>>>>> origin/STOR-870-2
         },
         "description": {
             "en": "These make you look like you know how to set the table.",

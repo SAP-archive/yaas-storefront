@@ -10,23 +10,24 @@ angular.module('ds.shared')
 	 */
 	.constant('settings', {
 
-        cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
-
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
         authTokenKey: 'auth.user',
         accessTokenKey: 'auth.accessToken',
         userIdKey: 'user.email',
+        forgotPassword: {
+            paramName: 'forgotPassword'
+        },
 
         // defines thea API endpoints and routes
         apis: {
 
             configuration: {
-               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
+               baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,
             products: {
-
+                // baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
                 baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
@@ -64,8 +65,7 @@ angular.module('ds.shared')
             },
 
             customers: {
-                baseUrl: 'http://yaas-test.apigee.net/test/customer/v2',
-                apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
+                baseUrl: 'http://yaas-test.apigee.net/test/customer/v4'
             },
 
             // header keys
@@ -77,8 +77,7 @@ angular.module('ds.shared')
                 hybrisRoles: 'hybris-roles',
                 hybrisUser: 'hybris-user',
                 hybrisApp: 'hybris-app',
-
-                hybrisAuthentication: 'Authentication',
+                language:  'accept-language',
                 hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'

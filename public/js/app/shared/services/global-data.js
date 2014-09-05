@@ -22,4 +22,9 @@ angular.module('ds.shared')
 
         this.stripePublicKey = null;
 
+        this.user = {
+            isAuthenticated: false,
+            username: null
+        };
+
     }]);

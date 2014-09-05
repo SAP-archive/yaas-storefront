@@ -21,6 +21,7 @@ angular.module('ds.auth')
             Customers: Restangular.withConfig(function(RestangularConfigurer) {
                 RestangularConfigurer.setBaseUrl(settings.apis.customers.baseUrl);
             })
+
         };
 
 
