@@ -14,18 +14,13 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', function($rootScope, CartREST){
+    .factory('CartSvc', ['$rootScope', 'CartREST', '$q', function($rootScope, CartREST, $q){
 
-        // Prototype for outbound "upcate cart" call line items
-        var CartItem = function(productId, qty, itemId) {
-            this.productId = productId;
+        // Prototype for outbound "update cart" call line items
+        var CartItem = function(product, price, qty) {
+            this.product = product;
+            this.unitPrice = price;
             this.quantity = qty;
-            this.cartItemId = itemId;
-        };
-
-        // Prototype for outbound "update cart" call - matches API schema
-        var CaasUpdateCart = function() {
-            this.cartItems = [];
         };
 
         // Prototype for cart as used in UI
@@ -42,23 +37,47 @@ angular.module('ds.cart')
         // application scope cart instance
         var cart = new Cart();
 
-        /** Issues a POST for the cart item, then retrieves the updated cart information from the API.*/
-        function createCartItem(item) {
 
+        /**
+         * Returns a promise for the existing or newly created cart.
+         * (Will create a new cart if the current cart hasn't been persisted yet).
+         */
+        function getOrCreateCart() {
+            var deferredCart = $q.defer();
             var newCart = {};
             if(cart.id){
                 newCart.cartId = cart.id;
+                deferredCart.resolve(newCart);
+            } else {
+                // HARD CODED BECAUSE CART SERVICE REQUIRES CUSTOMER ID - is not really implemented yet in cart service
+                newCart.customerId = 'FAKE_AND_HARD_CODED';
+                CartREST.Cart.all('carts').post(newCart).then(function(response){
+                    cart.id = response.cartId;
+                    deferredCart.resolve(response);
+                }, function(error){
+                    console.error(error);
+                    deferredCart.reject();
+                });
             }
-
-            newCart.cartItem = item;
-
-            CartREST.CartItems.all('cartItems').post(newCart).then(function(response){
-                cart.id = response.cartId;
-                refreshCart();
-            });
+            return deferredCart.promise;
         }
 
-
+        /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
+         * cart is created first.
+         */
+        function createCartItem(product, qty) {
+            var cartPromise = getOrCreateCart();
+            cartPromise.then(function(cartResult){
+                var price = {'value': product.defaultPrice.price, 'currency': product.defaultPrice.currencyId};
+                var item = new CartItem(product, price, qty);
+                CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
+                    refreshCart();
+                });
+            }, function(error){
+                console.error(error);
+                // TODO - show notification to user
+            });
+        }
 
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
@@ -73,6 +92,12 @@ angular.module('ds.cart')
             });
         }
 
+        function updateCartItem(cartItem){
+            CartREST.Cart.one('carts', cart.id).one('items', cartItem.id).put(cartItem).then(function(){
+                refreshCart();
+            });
+        }
+
         return {
 
             /** Returns the cart instance from the application scope - does not conduct a GET from the API.*/
@@ -82,18 +107,13 @@ angular.module('ds.cart')
 
             /** Persists the cart instance via PUT request; then reloads that cart
              * from the API for consistency and in order to display the updated calculations (line item totals, etc).*/
-            updateCart: function () {
-                var newCart = new CaasUpdateCart();
-                angular.forEach(cart.cartItems, function (item) {
-                    newCart.cartItems.push(new CartItem(item.productId, item.quantity, item.cartItemId));
-                });
-
-                var cartRest = CartREST.Cart.one('carts', cart.id);
-                _.extend(cartRest, newCart);
-                cartRest.put().then(function () {
+            updateCartItem: function (itemId, itemQty) {
+                var cartItem =  new CartItem(itemId, itemQty);
+                CartREST.Cart.one('carts', cart.id).one('items', itemId).put(cartItem).then(function(){
                     refreshCart();
                 });
             },
+
 
             /*
              *   Adds a product to the cart, updates the cart (PUT) and then retrieves the updated
@@ -102,18 +122,15 @@ angular.module('ds.cart')
              *   @param productDetailQty quantity to add
              */
             addProductToCart: function (product, productDetailQty) {
-                var alreadyInCart = false;
-                for (var i = 0; cart.cartItems && i < cart.cartItems.length; i++) {
-                    if (product.id === cart.cartItems[i].productId) {
-                        cart.cartItems[i].quantity = cart.cartItems[i].quantity + productDetailQty;
-                        alreadyInCart = true;
-                        break;
+                if (productDetailQty > 0) {
+                    for (var i = 0; cart.cartItems && i < cart.cartItems.length; i++) {
+                        if (product.id === cart.cartItems[i].productId) {
+                            cart.cartItems[i].quantity = cart.cartItems[i].quantity + productDetailQty;
+                            updateCartItem(cart.cartItems[i]);
+                            return;
+                        }
                     }
-                }
-                if(alreadyInCart) {
-                    this.updateCart();
-                }  else if (productDetailQty > 0 ) {
-                    createCartItem(new CartItem(product.id, productDetailQty));
+                    createCartItem(product, productDetailQty);
                 }
             },
 

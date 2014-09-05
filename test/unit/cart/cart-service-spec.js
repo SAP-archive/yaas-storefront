@@ -15,14 +15,14 @@ describe('CartSvc Test', function () {
     var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
     var cartItemId = 'cartItemId123';
-    // var dummyUrl = 'dummyUrl';
+
     var dummyUrl = 'http://cart-v1.test.cf.hybris.com/cartItems';
     var dummyRoute = '/dummyRoute';
-    var dummyRouteWithCartId = dummyRoute+'/:cartId';
 
-    // var fullUrl = dummyUrl+dummyRoute;
+
+
     var fullUrl = dummyUrl;
-    // var fullUrlWithCart = dummyUrl+dummyRoute+'/'+cartId;
+
     var fullUrlWithCart = 'http://cart-mashup-v1.test.cf.hybris.com/carts/cartId456/details';
     var cartUrl = 'http://cart-v1.test.cf.hybris.com/carts/cartId456';
 
@@ -147,5 +147,34 @@ describe('CartSvc Test', function () {
 
     })
 
+    describe('addItemToCart', function(){
+       it('should create new cart if cart not yet saved', function(){
+
+       });
+
+       it('should create new cart item if item not yet in cart', function(){
+
+       });
+
+       it('should update qty of existing cart item if already in cart', function(){
+
+       });
+    });
+
+    describe('removeItemFromCart', function(){
+       it('should delete cart item', function(){
+
+       });
+    });
+
+    describe('update cart item qty', function(){
+       it('should update cart item if qty > 0', function(){
+
+       });
+
+       it('should delete cart item if qty == 0', function(){
+
+       });
+    });
 
 });

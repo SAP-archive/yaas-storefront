@@ -23,10 +23,6 @@ angular.module('ds.cart')
             /** Endpoint for CartDetails. */
             CartDetails: Restangular.withConfig(function(RestangularConfigurer) {
                 RestangularConfigurer.setBaseUrl(settings.apis.cartDetails.baseUrl);
-            }),
-            /** Endpoint for CartItems API. */
-            CartItems: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.cartItems.baseUrl);
             })
         };
 

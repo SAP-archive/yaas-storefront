@@ -44,12 +44,8 @@ angular.module('ds.shared')
                 baseUrl: 'http://order-v2.test.cf.hybris.com'
             },
 
-            cartItems: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
-            },
-
             cart: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
+                baseUrl: 'http://cart-v2.test.cf.hybris.com'
             },
 
             cartDetails: {
