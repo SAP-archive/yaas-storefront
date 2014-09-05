@@ -62,7 +62,7 @@ describe("checkout:", function () {
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(1000);
+        browser.sleep(4000);
      });
 
 
@@ -93,7 +93,8 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
-            expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+            browser.sleep(500)
+            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
@@ -112,7 +113,8 @@ describe("checkout:", function () {
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
-            expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+            browser.sleep(500)
+            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
             browser.sleep(200);
@@ -161,7 +163,8 @@ describe("mobile checkout:", function () {
         tu.sendKeysById('email', 'mike@night.com');
         fillCheckoutFormExceptEmail('Bill');
         tu.clickElement('xpath', continueButton1);
-        expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+        browser.sleep(500)
+            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
         tu.clickElement('id', 'shipTo');
         // fillCheckoutFormExceptEmail('Ship');
         tu.clickElement('xpath', continueButton2);
@@ -181,7 +184,8 @@ describe("mobile checkout:", function () {
         verifyValidationForEachField('Bill', 'xpath', continueButton1); 
         validateField('email', '', 'mike@night.com', 'xpath', continueButton1);
         tu.clickElement('xpath', continueButton1);
-        expect(element(by.css("span.adress.ng-binding")).getText()).toEqual('123');
+        browser.sleep(500)
+        expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
         tu.clickElement('id', 'shipTo');
         // fillCheckoutFormExceptEmail('Ship');
         verifyValidationForEachField('Ship', 'xpath', continueButton2); 
