@@ -128,12 +128,6 @@ window.app = angular.module('ds.router', [
                             controller: 'CartCtrl'
                         }
                     },
-                    resolve:  {
-                        cart: function (CartSvc) {
-                            return CartSvc.getCart();
-
-                        }
-                    },
                     onEnter: function($location, settings, AuthDialogManager){
                         if ($location.search()[settings.forgotPassword.paramName]) {
                             console.log('forgotPassword parameter found');
