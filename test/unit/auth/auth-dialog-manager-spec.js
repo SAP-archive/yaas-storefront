@@ -10,59 +10,99 @@
  * license agreement you entered into with hybris.
  */
 
-describe('AuthDialogManager Test', function () {
+describe('AuthDialogManager', function () {
 
-    var AuthDialogManager;
-    var mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
-        userIdKey: 'userIdKey',
-        apis: {
-            customers: {
-                baseUrl: 'http://dummy-test-server.hybris.com',
-                apiKey: '123'
-            }
-        }
-    };
-    var $mockedModal = {
-      close: jasmine.createSpy('close'),
-      open: jasmine.createSpy('open').andReturn({
-        result: {
-            then: jasmine.createSpy('then')
-        },
-        close: jasmine.createSpy('closemodal')
-      })
-    };
+    var AuthDialogManager, dialogPromise, $q, $location;
+    var mockedSettings = {};
+    var mockedModal = {};
+    var mockedDialog = {};
 
-    beforeEach(module('ds.auth', function($provide) {
-      $provide.value('$modal', $mockedModal);
-      $provide.value('settings', mockedSettings);
-    }));
+    beforeEach(function(){
+        module('ds.auth');
 
-    beforeEach(inject(function(_AuthDialogManager_) {
-      AuthDialogManager = _AuthDialogManager_;
-    }));
+        module(function($provide){
+            $provide.value('$modal', mockedModal);
+            $provide.value('settings', mockedSettings);
+        });
 
-    it('should expose correct interface', function () {
-      expect(AuthDialogManager.isOpened).toBeDefined();
-      expect(AuthDialogManager.open).toBeDefined();
-      expect(AuthDialogManager.close).toBeDefined();
+        inject(function(_$q_, _$location_, _AuthDialogManager_) {
+
+            $q = _$q_;
+            $location = _$location_;
+            AuthDialogManager = _AuthDialogManager_;
+        });
+
+        dialogPromise = $q.defer();
+
+        mockedDialog.close = jasmine.createSpy('close');
+        mockedDialog.result = dialogPromise.promise;
+        dialogPromise.resolve({});
+        mockedModal.open =  jasmine.createSpy('open').andReturn(mockedDialog);
     });
 
-    it("should open the dialog by delegating call to $modal instance", function() {
-      var options = {
-        templateUrl: 'abc.html',
-        controller: 'SomeCtrl'
-      };
 
-      AuthDialogManager.open(options);
-      expect($mockedModal.open).wasCalledWith(options);
-
-      $mockedModal.open.reset();
-      AuthDialogManager.open(options, {reuqired: true});
-      var expectedOptions = angular.copy(options);
-      expectedOptions.keyboard = false;
-      expectedOptions.backdrop = 'static';
-      expect($mockedModal.open).wasCalledWith(options);
+    describe('initialization', function(){
+        it('should expose correct interface', function () {
+            expect(AuthDialogManager.isOpened).toBeDefined();
+            expect(AuthDialogManager.open).toBeDefined();
+            expect(AuthDialogManager.close).toBeDefined();
+        });
     });
+
+    describe('open()', function(){
+
+        var options = {
+            templateUrl: 'abc.html',
+            controller: 'SomeCtrl'
+        };
+
+        it('should open the dialog by delegating call to $modal instance with options', function() {
+            AuthDialogManager.open(options);
+            expect(mockedModal.open).toHaveBeenCalledWith(options);
+
+            mockedModal.open.reset();
+            var expectedOptions = angular.copy(options);
+            expectedOptions.keyboard = false;
+            expectedOptions.backdrop = 'static';
+
+            AuthDialogManager.open(expectedOptions, {required: true});
+
+            expect(mockedModal.open).toHaveBeenCalledWith(expectedOptions);
+        });
+
+        it('should return promise for dialog closure', function(){
+            var onSuccess = jasmine.createSpy('success');
+            var onFailure = jasmine.createSpy('failure');
+            var resultPromise = AuthDialogManager.open(options);
+            resultPromise.then(onSuccess, onFailure);
+            expect(resultPromise).toBeTruthy();
+            expect(resultPromise.then).toBeTruthy();
+            //expect(onSuccess).toHaveBeenCalled();
+            //expect(onFailure).toHaveBeenCalled();
+        });
+
+        it('should convey the state of <<open>>', function(){
+            AuthDialogManager.open(options);
+            expect(AuthDialogManager.isOpened()).toBeTruthy();
+        });
+    });
+
+    describe('close()', function(){
+        beforeEach(function(){
+            AuthDialogManager.open({});
+        });
+
+        it('should delegate close() to $modal', function(){
+            AuthDialogManager.close();
+            expect(mockedDialog.close).toHaveBeenCalled();
+        });
+
+        it('should convey the state of <<closed>>', function(){
+            AuthDialogManager.close();
+            expect(AuthDialogManager.isOpened()).toBeFalsy();
+        });
+    });
+
+
 
 });

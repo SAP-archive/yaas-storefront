@@ -2,12 +2,12 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'cart', 'AuthSvc', 'AuthDialogManager',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, cart, AuthSvc, AuthDialogManager) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = cart;
+            $scope.cart = CartSvc.getCart();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
 

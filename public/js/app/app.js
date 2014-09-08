@@ -74,8 +74,8 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData', '$state',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData, $state) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
             CookiesStorage.setToken(storeConfig.token, null);
@@ -87,6 +87,29 @@ window.app = angular.module('ds.router', [
             $rootScope.$on('$locationChangeSuccess', function() {
                 if ($location.search()[settings.forgotPassword.paramName]) {
                     AuthDialogManager.open({}, { forgotPassword: true });
+                }
+            });
+
+            $rootScope.$on('$stateChangeStart', function(event, toState){
+                // handle attempt to access protected resource - show login dialog if user is not authenticated
+                if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
+                    var callback = function (){
+                        if(AuthSvc.isAuthenticated()){
+                            $state.go(toState);
+                        }
+                    };
+                    AuthDialogManager.open({}, {}).then(function(){
+                           callback();
+                        },
+                        function(){
+                           callback();
+                        }
+                    );
+                    // block immediate state transition to protected resources - re-navigation will be handled by callback
+                    if(!AuthSvc.isAuthenticated()){
+                        event.preventDefault();
+                        return false;
+                    }
                 }
             });
 
@@ -126,12 +149,6 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
-                        }
-                    },
-                    resolve:  {
-                        cart: function (CartSvc) {
-                            return CartSvc.getCart();
-
                         }
                     },
                     onEnter: function($location, settings, AuthDialogManager){
@@ -226,6 +243,9 @@ window.app = angular.module('ds.router', [
                         addresses: function(AuthSvc) {
                             return AuthSvc.getAddresses();
                         }
+                    },
+                    data: {
+                        auth: 'authenticated'
                     }
                 });
 
@@ -259,4 +279,5 @@ window.app = angular.module('ds.router', [
             $locationProvider.hashPrefix('!');
         }
     ]);
+
 
