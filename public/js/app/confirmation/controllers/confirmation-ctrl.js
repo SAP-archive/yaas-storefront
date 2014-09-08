@@ -44,7 +44,21 @@ angular.module('ds.confirmation')
             };
 
             ProductSvc.query(productParms).then(function(productResult){
-                 $scope.confirmationDetails.products = productResult;
+                $scope.confirmationDetails.products = productResult;
+
+                /*
+                    the product details service does not provide the actual price paid in the order,
+                    nor does it provide the quantity ordered.  So we have to map that data
+                    to each product
+                 */
+                angular.forEach(details.entries, function (entry) {
+                    angular.forEach($scope.confirmationDetails.products, function (product, key) {
+                        if (product.id === entry.sku) {
+                            $scope.confirmationDetails.products[key].price = entry.unitPrice;
+                            $scope.confirmationDetails.products[key].amount = entry.amount;
+                        }
+                    });
+                });
             });
         });
 
