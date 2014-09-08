@@ -412,4 +412,8 @@ console.log('USER SIGNED IN!');
                   });
             };
 
+            $scope.closeAddressDialog = function () {
+                addressModalInstance.close();
+            };
+
         }]);
