@@ -27,7 +27,6 @@ angular.module('ds.shared')
                baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,
             products: {
-                // baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
                 baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
