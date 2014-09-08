@@ -2,7 +2,19 @@ describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd, shippingCost;
     var MockedAuthSvc = {
-        isAuthenticated: jasmine.createSpy('isAuthenticated')
+        isAuthenticated: jasmine.createSpy('isAuthenticated'),
+        getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn({
+            then: jasmine.createSpy('then')
+        }),
+        getAddresses: jasmine.createSpy('getAddresses').andReturn({
+            then: jasmine.createSpy('then')
+        })
+    };
+    var GlobalData = {
+        user: {
+            isAuthenticated: '',
+            user: null
+        }
     };
     var AuthDialogManager = {
         isOpened: jasmine.createSpy('then'),
@@ -53,6 +65,7 @@ describe('CheckoutCtrl', function () {
         $provide.value('shippingCost', shippingCost);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
+        $provide.value('GlobalData', GlobalData);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {

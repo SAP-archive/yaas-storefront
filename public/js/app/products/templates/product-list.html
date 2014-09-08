@@ -31,8 +31,10 @@
 
                         <div>
                             <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
+                                <!-- price sorting not yet implemented on service
                                 <option value="price">{{'PRICE_LOW_HIGH' | translate}}</option>
                                 <option value="-price">{{'PRICE_HIGH_LOW' | translate}}</option>
+                                -->
                                 <option value="name">A-Z</option>
                                 <option value="-name">Z-A</option>
                                 <option value="-created">{{'NEWEST' | translate}}</option>

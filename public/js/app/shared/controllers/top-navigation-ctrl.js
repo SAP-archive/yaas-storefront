@@ -2,18 +2,14 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'cart', 'AuthSvc', 'AuthDialogManager',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, cart, AuthSvc, AuthDialogManager) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = cart;
+            $scope.cart = CartSvc.getCart();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
-
-            $scope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
-                $scope.isAuthenticated = isAuthenticated;
-                $scope.username = AuthSvc.getToken().getUsername();
-            });
+            $scope.user = GlobalData.user;
 
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {

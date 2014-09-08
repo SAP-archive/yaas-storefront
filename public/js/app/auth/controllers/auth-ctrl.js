@@ -17,8 +17,8 @@ angular.module('ds.auth')
         $scope.user =  {
           signup: {},
           signin: {
-            email: 'test@test.com',
-            password: 'password'
+            email: '',
+            password: ''
           }
         };
 
