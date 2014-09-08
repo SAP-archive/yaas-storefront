@@ -90,12 +90,12 @@ window.app = angular.module('ds.router', [
                 }
             });
 
-            $rootScope.$on('$stateChangeStart', function(event, toState){
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
                     var callback = function (){
                         if(AuthSvc.isAuthenticated()){
-                            $state.go(toState);
+                            $state.go(toState, toParams);
                         }
                     };
                     AuthDialogManager.open({}, {}).then(function(){
@@ -108,7 +108,10 @@ window.app = angular.module('ds.router', [
                     // block immediate state transition to protected resources - re-navigation will be handled by callback
                     if(!AuthSvc.isAuthenticated()){
                         event.preventDefault();
-                        return false;
+                        if(!fromState || fromState.name ==='') {
+                           $state.go('base.product');
+                        }
+
                     }
                 }
             });
