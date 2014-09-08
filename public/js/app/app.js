@@ -10,6 +10,7 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.account',
     'ds.auth',
     'config'
 ])
@@ -235,7 +236,7 @@ window.app = angular.module('ds.router', [
                     url: '/profile/',
                     views: {
                         'main@': {
-                            templateUrl: 'js/app/auth/templates/profile.html',
+                            templateUrl: 'js/app/account/templates/account.html',
                             controller: 'ProfileCtrl'
                         }
                     },
