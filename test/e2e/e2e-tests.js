@@ -63,10 +63,10 @@ describe("product page", function () {
         //price is not currently supported
         tu.clickElement('linkText', 'DE');
         browser.sleep(3000);       
-        tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
-        browser.sleep(750);
-        tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
-        browser.sleep(750);
+        // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
+        // browser.sleep(750);
+        // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
+        // browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BECHER UND FRÜHSTÜCK SCHÜSSEL');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'SCHÖNE CHINA');
