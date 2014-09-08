@@ -52,7 +52,7 @@ describe("product page", function () {
         // browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BEADED NECKLACE');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'COOKING UTENSILS');
+        tu.sortAndVerifyPagination('-name', 'YELLOW RAINDROP SOAP DISH');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-created', 'FRENCH PRESS');
     });
@@ -69,7 +69,7 @@ describe("product page", function () {
         // browser.sleep(750);
         tu.sortAndVerifyPagination('name', 'BECHER UND FRÜHSTÜCK SCHÜSSEL');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'SCHÖNE CHINA');
+        tu.sortAndVerifyPagination('-name', 'WENIG LEHM VÖGEL');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-created', 'FRANZÖSISCH PRESSE');
     });
