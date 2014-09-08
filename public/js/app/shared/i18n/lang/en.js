@@ -124,7 +124,7 @@ angular.module('ds.i18n')
         /*
             profile page
          */
-        ADDRESSBOOK: 'Adressbook',
+        ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CONTACT_NAME: 'Contact Name',
