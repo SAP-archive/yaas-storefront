@@ -30,8 +30,9 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
         assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
         assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
-        assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
-        assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
+        //price is not currently supported
+        // assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
+        // assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
         assertTextByElement('css', 'option[value="name"]', 'A-Z');
         assertTextByElement('css', 'option[value="-name"]', 'Z-A');
         assertTextByElement('css', 'option[value="-created"]', 'NEWEST');
@@ -44,8 +45,9 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
         assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
         assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
-        assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
-        assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
+        //price is not currently supported
+        // assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
+        // assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
         assertTextByElement('css', 'option[value="name"]', 'A-Z');
         assertTextByElement('css', 'option[value="-name"]', 'Z-A');
         assertTextByElement('css', 'option[value="-created"]', 'NEUESTE');
