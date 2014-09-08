@@ -48,7 +48,7 @@ angular.module('ds.confirmation')
 
                 /*
                     the product details service does not provide the actual price paid in the order,
-                    and it also does not provide the quantity ordered.  So we have to map that data
+                    nor does it provide the quantity ordered.  So we have to map that data
                     to each product
                  */
                 angular.forEach(details.entries, function (entry) {
