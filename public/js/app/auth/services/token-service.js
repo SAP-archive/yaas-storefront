@@ -16,39 +16,40 @@
  *  Encapsulates cookies based Token Storage service (storing data in cookies).
  */
 angular.module('ds.auth')
-    .factory('TokenSvc', ['settings', '$cookies', function(settings, $cookies){
-        var currentToken = null;
+    .factory('TokenSvc', ['settings', 'ipCookie', function(settings, ipCookie){
+
+
+        var Token = function(userName, accessToken) {
+            this.userName = userName;
+            this.accessToken = accessToken;
+            this.getUsername = function(){
+                return this.userName;
+            };
+            this.getAccessToken = function(){
+                return this.accessToken;
+            };
+        };
+
 
         var TokenSvc = {
 
             unsetToken: function() {
-                delete $cookies[settings.authTokenKey];
+                ipCookie.remove(settings.authTokenKey);
             },
 
             /**
              * Store token encapsulating logged in user's details into the configured Storage.
              * @param {[type]} authToken [description]
              */
-            setToken: function(accessToken, username) {
-                var token = {};
-                token[settings.accessTokenKey] = accessToken || null;
-                token[settings.userIdKey] = username || null;
-
-                $cookies[settings.authTokenKey] = JSON.stringify(token);
+            setToken: function(accessToken, userName) {
+                var token = new Token(userName, accessToken);
+                ipCookie(settings.authTokenKey, JSON.stringify(token));
             },
 
+            /** Returns a Token object with the functions getUsername() and getAccessToken(). */
             getToken: function() {
-                var token = $cookies[settings.authTokenKey];
-                token = token ? JSON.parse(token) : {};
-
-                token.getUsername = function() {
-                    return this[settings.userIdKey];
-                };
-                token.getAccessToken = function() {
-                    return this[settings.accessTokenKey];
-                };
-
-                return token;
+                var tokenCookie = ipCookie(settings.authTokenKey);
+                return tokenCookie? new Token(tokenCookie.userName, tokenCookie.accessToken) : new Token(null, null);
             }
 
         };

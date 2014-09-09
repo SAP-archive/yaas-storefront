@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'storeConfig', function(AuthREST, settings, TokenSvc, $q, $http, storeConfig){
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'storeConfig', function (AuthREST, settings, TokenSvc, $q, $http, storeConfig) {
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -25,36 +25,36 @@ angular.module('ds.auth')
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
+
+
         var AuthenticationService = {
 
             signup: function (user) {
                 return AuthREST.Customers.all('signup').customPOST(user);
             },
 
-            customerSignin: function(user) {
+            customerSignin: function (user) {
                 return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
             },
-            
-            anonymousSignin: function() {
+
+            anonymousSignin: function () {
                 var deferred = $q.defer();
                 var accountUrl = 'http://yaas-test.apigee.net/test/account/v1';
-                
+
                 $http.post(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeConfig.storeTenant, '')
                     .then(
                     function (data) {
                         console.log('login success');
                         var token = getParameterByName('access_token', data.headers('Location'));
-console.log('token is '+token);
-                        storeConfig.token = token;
-console.log(storeConfig);
-                        var response = { accessToken: token };
-                        TokenSvc.setToken(response, null);
-                        deferred.resolve(response);
+
+
+
+                        deferred.resolve({ accessToken: token });
                     },
                     function (error) {
                         console.error('Unable to perform anonymous login:');
                         console.error(error);
-                        deferred.resolve(error);
+                        deferred.reject(error);
                     }
                 );
 
@@ -62,34 +62,55 @@ console.log(storeConfig);
             },
 
             /**
-             * Sign in promise resolver function used for resolving the type of signin
-             * If user parameter is not provided than anonymous login will be performed, otherwise it'll initiate customer signup with provided credentials.
-             * 
-             * @param user JSON object (with email, password properties) 
+             * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
+             * Returns a promise for when that action has been performed.
+             *
+             * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
+                var signInDone = $q.defer();
+
                 var signinPromise = user ? this.customerSignin(user) : this.anonymousSignin();
-                
-                signinPromise.then(function(response) {
+
+                signinPromise.then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
+                    signInDone.resolve({});
+
+                }, function(error){
+                    signInDone.reject(error);
                 });
 
-                return signinPromise;
+                return signInDone;
             },
 
-            signout: function() {
-                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }),
-                    self = this;
-                
-                signoutPromise.then(function() {
-                    TokenSvc.unsetToken(settings.accessTokenKey);
-                    self.signin();  // Obtain access_token as anonymous user
+            afterLogout: function(){
+                TokenSvc.unsetToken(settings.accessTokenKey);
+                return this.signin();
+            },
+
+            /** Logs the customer out and retrieves a new OAuth token for anonymous access.*/
+            signout: function () {
+                // promise is resolved once new anonymous token has been retrieved
+                var signOutCompletedPromise = $q.defer();
+                var signInPromise = null;
+                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }).then(function(){
+                    signInPromise = this.afterLogout();
+                }, function(){
+                    // even after logout failure, proceed with token unset/anon login
+                    signInPromise = this.afterLogout();
+                });
+                signInPromise.then(function(){
+                    signOutCompletedPromise.resolve({});
+                }, function(error){
+                    signOutCompletedPromise.reject(error);
                 });
 
-                return signoutPromise;
+                return signOutCompletedPromise;
             },
 
-            isAuthenticated: function() {
+
+
+            isAuthenticated: function () {
                 var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();
             }
