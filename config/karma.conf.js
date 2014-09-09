@@ -62,6 +62,11 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+
+        'public/js/app/account/account-index.js',
+        'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/services/account-service.js',
+
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-ctrl.js',
         'public/js/app/auth/services/auth-rest.js',
@@ -76,12 +81,12 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
+        'test/unit/auth/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
         'test/unit/products/*.js',
-        'test/unit/shared/*.js',
-        'test/unit/auth/*.js'
+        'test/unit/shared/*.js'
     
     ],
 

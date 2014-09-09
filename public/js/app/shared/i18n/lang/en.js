@@ -117,12 +117,12 @@ angular.module('ds.i18n')
 		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
-        MY_PROFILE: 'My Profile',
+        MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',
 
         /*
-            profile page
+            account page
          */
         ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',

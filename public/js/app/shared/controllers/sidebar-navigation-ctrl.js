@@ -30,7 +30,7 @@ angular.module('ds.shared')
 
             $scope.logout = function() {
                 AuthSvc.signout().then(function() {
-                    if ($state.is('base.profile')) {
+                    if ($state.is('base.account')) {
                         $state.go('base.product');
                     }
                 });
@@ -40,7 +40,7 @@ angular.module('ds.shared')
                 AuthDialogManager.open(dOpts, opts);
             };
 
-            $scope.myProfile = function() {
-                $state.go('base.profile');
+            $scope.myAccount = function() {
+                $state.go('base.account');
             };
 	}]);

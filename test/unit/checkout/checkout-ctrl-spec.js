@@ -3,6 +3,8 @@ describe('CheckoutCtrl', function () {
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd, shippingCost;
     var MockedAuthSvc = {
         isAuthenticated: jasmine.createSpy('isAuthenticated'),
+    };
+    var MockedAccountSvc = {
         getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn({
             then: jasmine.createSpy('then')
         }),
@@ -90,7 +92,7 @@ describe('CheckoutCtrl', function () {
             return checkoutDfd.promise;
         });
 
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
     });
 
     describe('initialization', function () {
