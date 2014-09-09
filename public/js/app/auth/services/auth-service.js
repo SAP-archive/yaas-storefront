@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'storeConfig', function (AuthREST, settings, TokenSvc, $q, $http, storeConfig) {
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'GlobalData', function (AuthREST, settings, TokenSvc, $q, $http, GlobalData) {
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -24,8 +24,6 @@ angular.module('ds.auth')
                 results = regex.exec(url);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
-
-
 
         var AuthenticationService = {
 
@@ -41,14 +39,11 @@ angular.module('ds.auth')
                 var deferred = $q.defer();
                 var accountUrl = 'http://yaas-test.apigee.net/test/account/v1';
 
-                $http.post(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeConfig.storeTenant, '')
+                $http.post(accountUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '')
                     .then(
                     function (data) {
                         console.log('login success');
                         var token = getParameterByName('access_token', data.headers('Location'));
-
-
-
                         deferred.resolve({ accessToken: token });
                     },
                     function (error) {
@@ -98,6 +93,7 @@ angular.module('ds.auth')
                         signOutCompletedDeferred.resolve({});
                     });
                 }, function(error){
+                    console.error('Logout failed:');
                     console.error(error);
                     // even after logout failure, proceed with token unset/anon login
                     self.anonymousLoginAfterLogout().then(function(error){

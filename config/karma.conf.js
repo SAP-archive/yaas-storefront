@@ -15,7 +15,7 @@ module.exports = function(config){
         'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
         'public/js/vendor/angular-mocks/angular-mocks.js',
-        'public/js/vendor/angular-cookies/angular-cookies.js',
+        'public/js/vendor/angular-cookie/angular-cookie.min.js',
         'public/js/vendor/angular-resource/angular-resource.min.js',
         'public/js/vendor/restangular/dist/restangular.min.js',
         'public/js/vendor/angular-ui-router/release/angular-ui-router.min.js',

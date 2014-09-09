@@ -12,8 +12,8 @@
 
 describe('TokenSvc', function () {
 
-    var TokenSvc, $mockedCookies, mockedSettings;
-    $mockedCookies = {};
+    var TokenSvc, mockedCookies, mockedSettings;
+
     mockedSettings = {
         accessTokenKey: 'accessTokenKey',
         userIdKey: 'userIdKey',
@@ -21,11 +21,10 @@ describe('TokenSvc', function () {
     };
 
     beforeEach(function() {
-        module('ngCookies');
+        module('ipCookie');
     });
 
     beforeEach(module('ds.auth', function($provide) {
-        $provide.value('$cookies', $mockedCookies);
         $provide.value('settings', mockedSettings);
     }));
 
@@ -41,14 +40,16 @@ describe('TokenSvc', function () {
 
     it("should decorate returned token object with 2 accessor(extractor) methods", function() {
         var token = TokenSvc.getToken();
+
         expect(token.getUsername).toBeDefined();
         expect(token.getAccessToken).toBeDefined();
-        expect(token.getUsername()).not.toBeDefined();
-        expect(token.getAccessToken()).not.toBeDefined();
+        expect(token.getUsername()).toBeFalsy();
+        expect(token.getAccessToken()).toBeFalsy();
 
         var value = 123;
         TokenSvc.setToken(value, value);
         token = TokenSvc.getToken();
+
         expect(token.getUsername()).toBeDefined();
         expect(token.getUsername()).toEqual(value);
         expect(token.getAccessToken()).toBeDefined();
