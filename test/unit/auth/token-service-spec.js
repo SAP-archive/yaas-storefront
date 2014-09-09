@@ -15,7 +15,7 @@ describe('TokenSvc', function () {
     var TokenSvc, mockedCookies, mockedSettings;
 
     mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
+        accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         authTokenKey: 'authTokenKey'
     };

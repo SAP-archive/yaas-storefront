@@ -44,7 +44,8 @@ angular.module('ds.auth')
                     function (data) {
                         console.log('login success');
                         var token = getParameterByName('access_token', data.headers('Location'));
-                        deferred.resolve({ accessToken: token });
+                        var expiresIn = getParameterByName('expires_in', data.headers('Location'));
+                        deferred.resolve({ accessToken: token, expiresIn: expiresIn });
                     },
                     function (error) {
                         console.error('Unable to perform anonymous login:');
@@ -79,7 +80,7 @@ angular.module('ds.auth')
             },
 
             anonymousLoginAfterLogout: function(){
-                TokenSvc.unsetToken(settings.accessTokenKey);
+                TokenSvc.unsetToken(settings.accessCookie);
                 return this.signin();
             },
 

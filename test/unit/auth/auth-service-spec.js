@@ -28,7 +28,7 @@ describe('AuthSvc Test', function () {
         unsetToken: jasmine.createSpy('unsetToken')
     };
     mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
+        accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         apis: {
             customers: {
@@ -140,7 +140,7 @@ describe('AuthSvc Test', function () {
        expect(promise.then).toBeDefined();
        expect(successSpy).wasCalled();
        expect(errorSpy).not.wasCalled();
-       expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessTokenKey);
+       expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie);
        // expect signin was called afterwards for anonymousSignin
        expect(AuthSvc.signin).wasCalledWith();
        expect(AuthSvc.anonymousSignin).wasCalledWith();

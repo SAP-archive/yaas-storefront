@@ -17,7 +17,7 @@ describe('AuthCtrl Test', function () {
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
     var mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
+        accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         apis: {
             customers: {

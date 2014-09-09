@@ -18,6 +18,7 @@
 angular.module('ds.auth')
     .factory('TokenSvc', ['settings', 'ipCookie', function(settings, ipCookie){
 
+        var defaultExpirySeconds = 3599;
 
         var Token = function(userName, accessToken) {
             this.userName = userName;
@@ -34,21 +35,28 @@ angular.module('ds.auth')
         var TokenSvc = {
 
             unsetToken: function() {
-                ipCookie.remove(settings.authTokenKey);
+                ipCookie.remove(settings.accessCookie);
             },
 
-            /**
+            /** Sets an anonymous access token, only if there currently is no token. */
+            setAnonymousToken: function(accessToken) {
+                if(this.getToken().getAccessToken() === null) {
+                   this.setToken(accessToken, null);
+                }
+            },
+
+            /*
              * Store token encapsulating logged in user's details into the configured Storage.
              * @param {[type]} authToken [description]
              */
-            setToken: function(accessToken, userName) {
+            setToken: function(accessToken, userName, expiresIn) {
                 var token = new Token(userName, accessToken);
-                ipCookie(settings.authTokenKey, JSON.stringify(token));
+                ipCookie(settings.accessCookie, JSON.stringify(token), {expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds});
             },
 
             /** Returns a Token object with the functions getUsername() and getAccessToken(). */
             getToken: function() {
-                var tokenCookie = ipCookie(settings.authTokenKey);
+                var tokenCookie = ipCookie(settings.accessCookie);
                 return tokenCookie? new Token(tokenCookie.userName, tokenCookie.accessToken) : new Token(null, null);
             }
 

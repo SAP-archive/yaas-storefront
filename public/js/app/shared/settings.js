@@ -13,9 +13,8 @@ angular.module('ds.shared')
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
-        authTokenKey: 'auth.user',
-        accessTokenKey: 'auth.accessToken',
-        userIdKey: 'user.email',
+        // cookie name
+        accessCookie: 'auth.user',
         forgotPassword: {
             paramName: 'forgotPassword'
         },
