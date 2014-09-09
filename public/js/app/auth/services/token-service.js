@@ -16,9 +16,10 @@
  *  Encapsulates cookies based Token Storage service (storing data in cookies).
  */
 angular.module('ds.auth')
-    .factory('CookiesStorage', ['settings', '$cookies', function(settings, $cookies){
+    .factory('TokenSvc', ['settings', '$cookies', function(settings, $cookies){
+        var currentToken = null;
 
-        var CookiesStorage = {
+        var TokenSvc = {
 
             unsetToken: function() {
                 delete $cookies[settings.authTokenKey];
@@ -52,6 +53,6 @@ angular.module('ds.auth')
 
         };
 
-        return CookiesStorage;
+        return TokenSvc;
 
     }]);

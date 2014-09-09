@@ -52,7 +52,7 @@ describe('AuthCtrl Test', function () {
     beforeEach(angular.mock.module('restangular'));
     
     beforeEach(module('ds.auth', function($provide) {
-        $provide.value('CookiesStorage', mockedCookiesStorage);
+        $provide.value('TokenSvc', mockedCookiesStorage);
         $provide.value('settings', mockedSettings);
         $provide.value('storeConfig', mockedStoreConfig);
     }));

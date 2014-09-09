@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', '$http', 'storeConfig', function(AuthREST, settings, Storage, $q, $http, storeConfig){
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'storeConfig', function(AuthREST, settings, TokenSvc, $q, $http, storeConfig){
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -48,7 +48,7 @@ console.log('token is '+token);
                         storeConfig.token = token;
 console.log(storeConfig);
                         var response = { accessToken: token };
-                        Storage.setToken(response, null);
+                        TokenSvc.setToken(response, null);
                         deferred.resolve(response);
                     },
                     function (error) {
@@ -71,36 +71,29 @@ console.log(storeConfig);
                 var signinPromise = user ? this.customerSignin(user) : this.anonymousSignin();
                 
                 signinPromise.then(function(response) {
-                    Storage.setToken(response.accessToken, user ? user.email : null);
+                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
                 });
 
                 return signinPromise;
             },
 
             signout: function() {
-                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: Storage.getToken().getAccessToken() }),
+                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }),
                     self = this;
                 
                 signoutPromise.then(function() {
-                    Storage.unsetToken(settings.accessTokenKey);
+                    TokenSvc.unsetToken(settings.accessTokenKey);
                     self.signin();  // Obtain access_token as anonymous user
                 });
 
                 return signoutPromise;
             },
 
-            setToken: Storage.setToken,
-
-            getToken: Storage.getToken,
-
             isAuthenticated: function() {
-                var token = Storage.getToken();
+                var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();
-
             }
-
         };
-
         return AuthenticationService;
 
     }]);

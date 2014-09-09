@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.account')
-    .factory('AccountSvc', ['AuthREST', 'settings', 'CookiesStorage', '$q', function(AuthREST, settings, Storage, $q){
+    .factory('AccountSvc', ['AuthREST', 'settings', '$q', function(AuthREST, settings, $q){
 
         var AccountSvc = {
 

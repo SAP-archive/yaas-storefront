@@ -70,7 +70,7 @@ module.exports = function(config){
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-ctrl.js',
         'public/js/app/auth/services/auth-rest.js',
-        'public/js/app/auth/services/cookiesstorage-service.js',
+        'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/services/auth-dialog-manager.js',

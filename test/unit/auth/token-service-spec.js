@@ -10,9 +10,9 @@
  * license agreement you entered into with hybris.
  */
 
-describe('CookiesStorage Test', function () {
+describe('TokenSvc', function () {
 
-    var CookiesStorage, $mockedCookies, mockedSettings;
+    var TokenSvc, $mockedCookies, mockedSettings;
     $mockedCookies = {};
     mockedSettings = {
         accessTokenKey: 'accessTokenKey',
@@ -29,26 +29,26 @@ describe('CookiesStorage Test', function () {
         $provide.value('settings', mockedSettings);
     }));
 
-    beforeEach(inject(function(_CookiesStorage_) {
-        CookiesStorage = _CookiesStorage_;
+    beforeEach(inject(function(_TokenSvc_) {
+        TokenSvc = _TokenSvc_;
     }));
 
     it('should expose correct interface', function () {
-        expect(CookiesStorage.unsetToken).toBeDefined();
-        expect(CookiesStorage.setToken).toBeDefined();
-        expect(CookiesStorage.getToken).toBeDefined();
+        expect(TokenSvc.unsetToken).toBeDefined();
+        expect(TokenSvc.setToken).toBeDefined();
+        expect(TokenSvc.getToken).toBeDefined();
     });
 
     it("should decorate returned token object with 2 accessor(extractor) methods", function() {
-        var token = CookiesStorage.getToken();
+        var token = TokenSvc.getToken();
         expect(token.getUsername).toBeDefined();
         expect(token.getAccessToken).toBeDefined();
         expect(token.getUsername()).not.toBeDefined();
         expect(token.getAccessToken()).not.toBeDefined();
 
         var value = 123;
-        CookiesStorage.setToken(value, value);
-        token = CookiesStorage.getToken();
+        TokenSvc.setToken(value, value);
+        token = TokenSvc.getToken();
         expect(token.getUsername()).toBeDefined();
         expect(token.getUsername()).toEqual(value);
         expect(token.getAccessToken()).toBeDefined();

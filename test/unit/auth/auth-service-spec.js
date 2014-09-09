@@ -49,7 +49,7 @@ describe('AuthSvc Test', function () {
     });
 
     beforeEach(module('ds.auth', function($provide) {
-        $provide.value('CookiesStorage', mockedCookiesStorage);
+        $provide.value('TokenSvc', mockedCookiesStorage);
         $provide.value('settings', mockedSettings);
         $provide.value('storeConfig', mockedStoreConfig);
     }));
@@ -63,22 +63,11 @@ describe('AuthSvc Test', function () {
         expect(AuthSvc.signup).toBeDefined();
         expect(AuthSvc.signin).toBeDefined();
         expect(AuthSvc.signout).toBeDefined();
-        expect(AuthSvc.setToken).toBeDefined();
-        expect(AuthSvc.getToken).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
         expect(AuthSvc.anonymousSignin).toBeDefined();
         expect(AuthSvc.customerSignin).toBeDefined();
     });
 
-    it("should delegate setToken call to Storage", function() {
-        AuthSvc.setToken();
-        expect(mockedCookiesStorage.setToken).wasCalled();
-    });
-
-    it("should delegate getToken call to Storage", function() {
-       AuthSvc.getToken();
-       expect(mockedCookiesStorage.getToken).wasCalled(); 
-    });
 
     it("should check if user is authenticated and delegate call to Storage", function() {
         var isAuth = AuthSvc.isAuthenticated();
