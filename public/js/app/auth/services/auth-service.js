@@ -80,10 +80,10 @@ angular.module('ds.auth')
                     signInDone.reject(error);
                 });
 
-                return signInDone;
+                return signInDone.promise;
             },
 
-            afterLogout: function(){
+            anonymousLoginAfterLogout: function(){
                 TokenSvc.unsetToken(settings.accessTokenKey);
                 return this.signin();
             },
@@ -91,21 +91,20 @@ angular.module('ds.auth')
             /** Logs the customer out and retrieves a new OAuth token for anonymous access.*/
             signout: function () {
                 // promise is resolved once new anonymous token has been retrieved
-                var signOutCompletedPromise = $q.defer();
-                var signInPromise = null;
+                var signOutCompletedDeferred = $q.defer();
+                var self = this;
                 AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }).then(function(){
-                    signInPromise = this.afterLogout();
-                }, function(){
-                    // even after logout failure, proceed with token unset/anon login
-                    signInPromise = this.afterLogout();
-                });
-                signInPromise.then(function(){
-                    signOutCompletedPromise.resolve({});
+                    self.anonymousLoginAfterLogout().then(function(){
+                        signOutCompletedDeferred.resolve({});
+                    });
                 }, function(error){
-                    signOutCompletedPromise.reject(error);
+                    console.error(error);
+                    // even after logout failure, proceed with token unset/anon login
+                    self.anonymousLoginAfterLogout().then(function(error){
+                        signOutCompletedDeferred.reject(error);
+                    });
                 });
-
-                return signOutCompletedPromise;
+                return signOutCompletedDeferred.promise;
             },
 
 
