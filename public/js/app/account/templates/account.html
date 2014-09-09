@@ -71,7 +71,7 @@
       <div ng-include="'./js/app/account/templates/addresses.html'"></div>
     </div>
     <div class="text-center">
-      <button class="btn btn-link" >Show All <span class="glyphicon glyphicon-chevron-down"</button>
+      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
   <section class="mediumgray">
@@ -90,39 +90,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
+          <tr ng-repeat="order in orders">
+            <td>{{order.created | date: 'medium'}}</td>
+            <td><a href="#">{{order.id}}</a></td>
+            <td>{{order.itemCount}}</td>
+            <td>{{order.totalPrice | currency: '$'}}</td>
+            <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="text-center">
-      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"</button>
+      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
 </div>

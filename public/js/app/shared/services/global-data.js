@@ -8,6 +8,11 @@ angular.module('ds.shared')
       
 		this.languageCode = storeConfig.defaultLanguage;
         this.acceptLanguages = storeConfig.defaultLanguage;
+        this.orders = {
+            meta: {
+                total: 0
+            }
+        };
 		this.products = {
 			meta: {
 				total: 0

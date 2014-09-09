@@ -12,6 +12,7 @@ window.app = angular.module('ds.router', [
     'ds.confirmation',
     'ds.account',
     'ds.auth',
+    'ds.orders',
     'config'
 ])
     .constant('_', window._)
@@ -75,8 +76,8 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'AccountSvc', 'GlobalData', '$state',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, AccountSvc, GlobalData, $state) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'AccountSvc', 'OrderListSvc', 'GlobalData', '$state',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, AccountSvc, OrderListSvc, GlobalData, $state) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
             CookiesStorage.setToken(storeConfig.token, null);
@@ -246,6 +247,12 @@ window.app = angular.module('ds.router', [
                         },
                         addresses: function(AccountSvc) {
                             return AccountSvc.getAddresses();
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
                         }
                     },
                     data: {

@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'AccountSvc', '$modal', function($scope, $state, addresses, account, AccountSvc, $modal) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -24,7 +24,9 @@ angular.module('ds.account')
         $scope.errors = [];
         $scope.account = account;
         $scope.addresses = addresses;
+        $scope.orders = orders;
         $scope.defaultAddress = getDefaultAddress();
+        $scope.showAllButton = true;
 
         $scope.currencies = {
           'DE': 'EUR - Euro',
@@ -47,6 +49,21 @@ angular.module('ds.account')
             }
           }
           return errors;
+        };
+
+        /*
+            this function calculates the item count per order,
+            a property not provided by the service
+         */
+        var getItemCountPerOrder = function () {
+            angular.forEach($scope.orders, function (order, key) {
+                var itemCount = 0;
+                angular.forEach(order.entries, function (entry) {
+                    itemCount = itemCount + entry.amount;
+                });
+
+                $scope.orders[key].itemCount = itemCount;
+            });
         };
 
         $scope.save = function(address, formValid, form) {
@@ -124,5 +141,18 @@ angular.module('ds.account')
               }
             );
         };
+
+        $scope.showAllOrders = function () {
+            var parms = {
+                pageSize: 100
+            };
+            OrderListSvc.query(parms).then(function (orders) {
+                $scope.showAllButton = false;
+                $scope.orders = orders;
+                getItemCountPerOrder();
+            });
+        };
+
+        getItemCountPerOrder();
 
     }]);
