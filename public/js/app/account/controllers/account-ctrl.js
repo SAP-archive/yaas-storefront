@@ -12,17 +12,17 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('ProfileCtrl', ['$scope', '$state', 'addresses', 'profile', 'AuthSvc', '$modal', function($scope, $state, addresses, profile, AuthSvc, $modal) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'AccountSvc', '$modal', function($scope, $state, addresses, account, AccountSvc, $modal) {
         
         var modalInstance;
-        var customerNumber = profile.customerNumber;
+        var customerNumber = account.customerNumber;
 
         var getDefaultAddress = function() {
           return _.find($scope.addresses, function(addr) { return addr.isDefault; });
         };
 
         $scope.errors = [];
-        $scope.profile = profile;
+        $scope.account = account;
         $scope.addresses = addresses;
         $scope.defaultAddress = getDefaultAddress();
 
@@ -52,7 +52,7 @@ angular.module('ds.account')
         $scope.save = function(address, formValid, form) {
           $scope.$broadcast('submitting:form', form);
           if (formValid) {
-            AuthSvc.saveAddress(address).then(
+              AccountSvc.saveAddress(address).then(
                 function() {
                   console.log('Save address Success: ', arguments);
                   modalInstance.close();
@@ -74,7 +74,7 @@ angular.module('ds.account')
           $scope.showPristineErrors = false;
           $scope.errors = [];
           modalInstance = $modal.open({
-                templateUrl: './js/app/auth/templates/address-form.html',
+                templateUrl: './js/app/account/templates/address-form.html',
                 scope: $scope
               });
 
@@ -90,7 +90,7 @@ angular.module('ds.account')
         $scope.removeAddress = function(address) {
           address.account = customerNumber;
           if (window.confirm('Are you sure you want to remove the address?')) {
-            AuthSvc.removeAddress(address).then(
+            AccountSvc.removeAddress(address).then(
               function() {
                 console.log('Remove address Success: ', arguments);
                 $scope.refreshAddresses();
@@ -104,7 +104,7 @@ angular.module('ds.account')
         };
 
         $scope.refreshAddresses = function() {
-          AuthSvc.getAddresses().then(function(addresses) {
+          AccountSvc.getAddresses().then(function(addresses) {
             $scope.addresses = addresses;
             $scope.defaultAddress = getDefaultAddress();
           });
@@ -113,7 +113,7 @@ angular.module('ds.account')
         $scope.setAddressAsDefault = function(address) {
           address.isDefault = true;
           address.account = customerNumber;
-          AuthSvc.saveAddress(address).then(
+          AccountSvc.saveAddress(address).then(
               function() {
                 console.log('Save address as default Success: ', arguments);
                 $scope.refreshAddresses();

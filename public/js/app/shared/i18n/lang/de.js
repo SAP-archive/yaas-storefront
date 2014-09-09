@@ -116,12 +116,12 @@ angular.module('ds.i18n')
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
-        MY_PROFILE: 'Mein Profil',
+        MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Benutzerkonto erstellen',
         CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
 
         /*
-            profile page
+            account page
          */
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
