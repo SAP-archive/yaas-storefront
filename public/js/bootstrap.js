@@ -1,14 +1,7 @@
 'use strict';
 
-
 // Bootstrap the application for single tenant mode
 (function () {
-    function getParameterByName(name, url) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-            results = regex.exec(url);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
 
     var storeConfig = {};
     storeConfig.storeTenant = '3xsfuichdoum';

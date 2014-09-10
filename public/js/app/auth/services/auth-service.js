@@ -63,10 +63,10 @@ angular.module('ds.auth')
                 if(TokenSvc.getToken().getAccessToken()){
                     gotToken.resolve(TokenSvc.getToken().getAccessToken());
                 } else {
-                    signin().then(function(success){
+                    this.signin().then(function(success){
                         gotToken.resolve(success);
                     });
-                };
+                }
                 return gotToken.promise;
             },
 
@@ -92,33 +92,14 @@ angular.module('ds.auth')
                 return signInDone.promise;
             },
 
-            anonymousLoginAfterLogout: function(){
+            /** Logs the customer out and removes the token cookie. */
+            signOut: function () {
+                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
+                // unset token after logout - new anonymous token will be generated for next request automatically
                 TokenSvc.unsetToken(settings.accessCookie);
-                return this.signin();
             },
 
-            /** Logs the customer out and retrieves a new OAuth token for anonymous access.*/
-            signout: function () {
-                // promise is resolved once new anonymous token has been retrieved
-                var signOutCompletedDeferred = $q.defer();
-                var self = this;
-                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }).then(function(){
-                    self.anonymousLoginAfterLogout().then(function(){
-                        signOutCompletedDeferred.resolve({});
-                    });
-                }, function(error){
-                    console.error('Logout failed:');
-                    console.error(error);
-                    // even after logout failure, proceed with token unset/anon login
-                    self.anonymousLoginAfterLogout().then(function(error){
-                        signOutCompletedDeferred.reject(error);
-                    });
-                });
-                return signOutCompletedDeferred.promise;
-            },
-
-
-
+            /** Returns true if there is a user specific OAuth token cookie.*/
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();

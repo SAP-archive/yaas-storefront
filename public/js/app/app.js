@@ -18,8 +18,8 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings','AuthSvc', 'TokenSvc',
-        function ($q, settings, AuthSvc,  TokenSvc) {
+    .factory('interceptor', ['$q', 'settings','TokenSvc',
+        function ($q, settings,  TokenSvc) {
 
             return {
                 request: function (config) {
@@ -32,7 +32,7 @@ window.app = angular.module('ds.router', [
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
                     } else {
-                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + AuthSvc.getToken().getAccessToken();
+                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + AuthSvc.getAccessToken();
                     }
                     return config || $q.when(config);
                 },
@@ -46,20 +46,21 @@ window.app = angular.module('ds.router', [
                 },
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
-                    if (response.status == 401) {
+
+                    if (response.status === 401 && response.data && response.data.fault && response.data.fault.faultstring && response.data.fault.faultstring.indexOf('Invalid access token')>-1) {
                         TokenSvc.unsetToken();
                     }
                     return $q.reject(response);
                 }
             };
         }])
+
     // Configure HTTP and Restangular Providers - default headers, CORS
     .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
         $httpProvider.interceptors.push('interceptor');
 
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
-
         RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
 
             var oldHeaders = {};
