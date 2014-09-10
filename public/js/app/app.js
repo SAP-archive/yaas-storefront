@@ -10,7 +10,9 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.account',
     'ds.auth',
+    'ds.orders',
     'config'
 ])
     .constant('_', window._)
@@ -74,8 +76,8 @@ window.app = angular.module('ds.router', [
         });
     }])
     // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData', '$state',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData, $state) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'AccountSvc', 'OrderListSvc', 'GlobalData', '$state',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, AccountSvc, OrderListSvc, GlobalData, $state) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
             CookiesStorage.setToken(storeConfig.token, null);
@@ -231,20 +233,26 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-                .state('base.profile', {
-                    url: '/profile/',
+                .state('base.account', {
+                    url: '/account/',
                     views: {
                         'main@': {
-                            templateUrl: 'js/app/auth/templates/profile.html',
-                            controller: 'ProfileCtrl'
+                            templateUrl: 'js/app/account/templates/account.html',
+                            controller: 'AccountCtrl'
                         }
                     },
                     resolve: {
-                        profile: function(AuthSvc) {
-                            return AuthSvc.profile();
+                        account: function(AccountSvc) {
+                            return AccountSvc.account();
                         },
-                        addresses: function(AuthSvc) {
-                            return AuthSvc.getAddresses();
+                        addresses: function(AccountSvc) {
+                            return AccountSvc.getAddresses();
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
                         }
                     },
                     data: {
