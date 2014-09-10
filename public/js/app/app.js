@@ -79,7 +79,7 @@ window.app = angular.module('ds.router', [
         function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, AccountSvc, GlobalData, $state) {
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
-            TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expirySeconds);
+            TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)

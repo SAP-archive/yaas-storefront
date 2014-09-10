@@ -12,12 +12,12 @@
 
 describe('TokenSvc', function () {
 
-    var TokenSvc, mockedCookies, mockedSettings;
-
+    var TokenSvc, mockedSettings, ipCookie;
+    var cookieName = 'accessCookie';
+    var user = '123';
+    var access = 'abc';
     mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        authTokenKey: 'authTokenKey'
+        accessCookie: cookieName
     };
 
     beforeEach(function() {
@@ -28,8 +28,11 @@ describe('TokenSvc', function () {
         $provide.value('settings', mockedSettings);
     }));
 
-    beforeEach(inject(function(_TokenSvc_) {
+    beforeEach(inject(function(_TokenSvc_, _ipCookie_) {
         TokenSvc = _TokenSvc_;
+        //console.log(_ipCookie_);
+        ipCookie = _ipCookie_;
+        //console.log(ipCookie);
     }));
 
     it('should expose correct interface', function () {
@@ -38,22 +41,69 @@ describe('TokenSvc', function () {
         expect(TokenSvc.getToken).toBeDefined();
     });
 
-    it("should decorate returned token object with 2 accessor(extractor) methods", function() {
-        var token = TokenSvc.getToken();
+    beforeEach(function(){
+        ipCookie.remove(cookieName);
+        this.addMatchers({
+            toEqualData: function (expected) {
+                return angular.equals(this.actual, expected);
+            }
+        });
+    });
 
-        expect(token.getUsername).toBeDefined();
-        expect(token.getAccessToken).toBeDefined();
-        expect(token.getUsername()).toBeFalsy();
-        expect(token.getAccessToken()).toBeFalsy();
+    describe('setToken()', function(){
+        it('should set the cookie', function(){
+            TokenSvc.setToken(access, null);
+            var cookie = ipCookie(cookieName);
+            expect(cookie).toBeTruthy();
+        });
+    });
 
-        var value = 123;
-        TokenSvc.setToken(value, value);
-        token = TokenSvc.getToken();
+    describe('getToken()', function(){
 
-        expect(token.getUsername()).toBeDefined();
-        expect(token.getUsername()).toEqual(value);
-        expect(token.getAccessToken()).toBeDefined();
-        expect(token.getAccessToken()).toEqual(value);
+        it('should return a token object with empty name and access token if cookie not set', function(){
+            var token = TokenSvc.getToken();
+
+            expect(token.getUsername).toBeDefined();
+            expect(token.getAccessToken).toBeDefined();
+            expect(token.getUsername()).toBeFalsy();
+            expect(token.getAccessToken()).toBeFalsy();
+        });
+
+        it('should return a token object with user name and access token if cookie set', function() {
+
+            TokenSvc.setToken(access, user);
+            var token = TokenSvc.getToken();
+
+            expect(token.getUsername()).toBeDefined();
+            expect(token.getUsername()).toEqual(user);
+            expect(token.getAccessToken()).toBeDefined();
+            expect(token.getAccessToken()).toEqual(access);
+        });
+    });
+
+    describe('unsetToken()', function(){
+        it('should remove the cookie', function(){
+            ipCookie(cookieName, {accessToken: 'abc'});
+            TokenSvc.unsetToken();
+            expect(ipCookie(cookieName)).toBeFalsy();
+        });
+    });
+
+    describe('setAnonymousToken', function(){
+        it('should not replace the token for an authenticated user', function(){
+            var authenticatedToken = '567';
+            ipCookie(cookieName, {userName:'bob', accessToken: authenticatedToken});
+            TokenSvc.setAnonymousToken('432', 999);
+            expect(ipCookie(cookieName).accessToken).toEqualData(authenticatedToken);
+        });
+
+        it('should replace the token for an unauthenticated user', function(){
+            var anonOld = '567';
+            var anonNew = '432';
+            ipCookie(cookieName, {accessToken: anonOld});
+            TokenSvc.setAnonymousToken(anonNew, 999);
+            expect(ipCookie(cookieName).accessToken).toEqualData(anonNew);
+        });
     });
 
 });

@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- *  Encapsulates cookies based Token Storage service (storing data in cookies).
+ *  Encapsulates management of the OAuth token and user name, using cookies.
  */
 angular.module('ds.auth')
     .factory('TokenSvc', ['settings', 'ipCookie', function(settings, ipCookie){
@@ -38,16 +38,18 @@ angular.module('ds.auth')
                 ipCookie.remove(settings.accessCookie);
             },
 
-            /** Sets an anonymous access token, only if there currently is no token. */
-            setAnonymousToken: function(accessToken) {
-                if(this.getToken().getAccessToken() === null) {
-                   this.setToken(accessToken, null);
+            /** Sets an anonymous access token, only if there currently is no token for an authenticated user. */
+            setAnonymousToken: function(accessToken, expiresIn) {
+                if(!this.getToken().getUsername()) {
+                   this.setToken(accessToken, null, expiresIn);
                 }
             },
 
             /*
-             * Store token encapsulating logged in user's details into the configured Storage.
-             * @param {[type]} authToken [description]
+             * Store token as cookie.
+             * @param {String} accessToken [OAuth token]
+             * @param {String} userName [user name/email; may be null]
+             * @param {String} expiresIn [# of seconds the token will expire in; may be null]
              */
             setToken: function(accessToken, userName, expiresIn) {
                 var token = new Token(userName, accessToken);
