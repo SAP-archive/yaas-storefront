@@ -37,15 +37,19 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
-                AuthSvc.signout();
+                AuthSvc.signout().then(function() {
+                    if ($state.is('base.account')) {
+                        $state.go('base.product');
+                    }
+                });
             };
             
             $scope.login = function(dOpts, opts) {
                 AuthDialogManager.open(dOpts, opts);
             };
 
-            $scope.myProfile = function() {
-                $state.go('base.profile');
+            $scope.myAccount = function() {
+                $state.go('base.account');
             };
 
         }]);

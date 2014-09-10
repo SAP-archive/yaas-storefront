@@ -27,8 +27,9 @@ function getAnonymousToken(projectId, callback) {
             authSvcUrl + 'anonymous/login?hybris-tenant=' + projectId,
         { form: { key: 'value' } },
         function (error, response, body) {
-            //console.log('token request response: ' + response.statusCode);
-            callback(error, getParameterByName('access_token', response.headers['location']));
+            //console.log(response.headers);
+            callback(error, getParameterByName('access_token', response.headers['location']),
+                parseInt(getParameterByName('expires_in', response.headers['location'])));
         }
     );
 }
@@ -53,7 +54,7 @@ app.get('/:storename?/', function(req, response, next){
         console.error('missing storename path parameter!');
     }
 
-    var renderIndex = function (err, token) {
+    var renderIndex = function (err, token, expiresIn) {
         if(err)  {
             console.log(err);
             next(err);
@@ -87,14 +88,15 @@ app.get('/:storename/storeconfig', function(request, response) {
 
     //console.log('request for store config for '+tenant);
 
-    var sendStoreConfig = function(err, token) {
+    var sendStoreConfig = function(err, token, expiresIn) {
         if(err) {
             console.log(err);
             next(err);
         }
         var json = JSON.stringify( {
                 storeTenant: tenant,
-                token: token }
+                token: token ,
+                expiresIn: expiresIn}
         );
         //console.log(json);
         response.send(json);

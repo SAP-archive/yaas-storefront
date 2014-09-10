@@ -11,5 +11,7 @@
  */
 
 'use strict';
-
-angular.module('ds.auth', ['ipCookie']);
+/** Module related to orders */
+angular.module('ds.orders', [
+    'ds.shared'
+]);

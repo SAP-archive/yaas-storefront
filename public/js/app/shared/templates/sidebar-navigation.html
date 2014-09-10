@@ -6,14 +6,14 @@
 	<div class="authentication-cnt text-center">
 		<ul class="navi authenticated">
 			<li>
-				<a href="" class="my-profile" ng-click="myProfile()" ng-if="user.isAuthenticated" title="{{'MY_PROFILE' | translate}}">
+				<a href="" class="my-profile" ng-click="myAccount()" ng-if="user.isAuthenticated" title="{{'MY_ACCOUNT' | translate}}">
 					<img src="./img/user-icon_small_active.png" class="user-avatar">
 				</a>
 			</li>
 			<li><a ng-click="logout()" ng-if="user.isAuthenticated" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
 		</ul>
 		
-		<a ng-click="login()" ng-if="!user.isAuthenticated" class="signin btn" >
+		<a ng-click="login()" ng-if="!user.isAuthenticated" class="signin btn btn-link" >
 			<img src="./img/user-icon_small.png" class="user-avatar">
 			{{'SIGN_IN' | translate}}
 		</a>

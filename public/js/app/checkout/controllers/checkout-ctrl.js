@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AuthDialogManager, shippingCost, GlobalData) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $rootScope.showCart = false;
 
@@ -73,7 +73,7 @@ angular.module('ds.checkout')
             };
 
             var getDefaultAddress = function() {
-                AuthSvc.getDefaultAddress().then(
+                AccountSvc.getDefaultAddress().then(
                         function(address) {
                             if (address) {
                                 $scope.order.billTo.address1 = address.streetNumber + ' ' + address.street;
@@ -86,43 +86,37 @@ angular.module('ds.checkout')
             };
 
             var getAddresses = function() {
-                AuthSvc.getAddresses().then(function(response) {
+                AccountSvc.getAddresses().then(function(response) {
                     $scope.addresses = decorateSelectedAddress(response);
                 });
             };
 
-            var getProfile = function() {
-                AuthSvc.profile().then(function(profile) {
-                    order.billTo.email = profile.contactEmail;
-                    order.billTo.firstName = profile.firstName;
-                    order.billTo.lastName = profile.lastName;
+            var getAccount = function() {
+                AccountSvc.account().then(function(account) {
+                    order.billTo.email = account.contactEmail;
+                    order.billTo.firstName = account.firstName;
+                    order.billTo.lastName = account.lastName;
                 });
             };
 
             $scope.$on('user:signedin', function() {
 console.log('USER SIGNED IN!');
                 getDefaultAddress();
-                getProfile();
+                getAccount();
                 getAddresses();
             });
 
             if (!AuthSvc.isAuthenticated()) {
                 AuthDialogManager.open(null, { required: true });
-            //         function(response) {
-            //             if (response) {
-            //                 getDefaultAddress();
-            //                 getProfile();
-            //                 getAddresses();
-            //             }
-            //         }
+
                 }
-            // } else {
+
             getDefaultAddress();
             if (GlobalData.user.isAuthenticated) {
-                getProfile();
+                getAccount();
             }
             getAddresses();
-            // }
+
 
             $scope.badEmailAddress = false;
 
@@ -397,11 +391,11 @@ console.log('USER SIGNED IN!');
 
             $scope.openAddressDialog = function() {
                 addressModalInstance = $modal.open({
-                    templateUrl: './js/app/auth/templates/addresses-dialog.html',
+                    templateUrl: './js/app/account/templates/addresses-dialog.html',
                     scope: $scope,
                     resolve: {
-                        addresses: function(AuthSvc) {
-                            var promise = AuthSvc.getAddresses();
+                        addresses: function(AccountSvc) {
+                            var promise = AccountSvc.getAddresses();
                             promise.then(function(response) {
                                 $scope.addresses = decorateSelectedAddress(response);
                                 $scope.isDialog = true;
