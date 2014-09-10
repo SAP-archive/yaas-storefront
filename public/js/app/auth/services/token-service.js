@@ -38,9 +38,9 @@ angular.module('ds.auth')
                 ipCookie.remove(settings.accessCookie);
             },
 
-            /** Sets an anonymous access token, only if there currently is no token for an authenticated user. */
+            /** Sets an anonymous access token, only if there currently is no token. */
             setAnonymousToken: function(accessToken, expiresIn) {
-                if(!this.getToken().getUsername() ) {
+                if(!this.getToken().getAccessToken()) {
                    this.setToken(accessToken, null, expiresIn);
                 }
             },

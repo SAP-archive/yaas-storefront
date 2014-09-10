@@ -18,8 +18,8 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings','TokenSvc',
-        function ($q, settings, TokenSvc) {
+    .factory('interceptor', ['$q', 'settings','AuthSvc', 'TokenSvc',
+        function ($q, settings, AuthSvc,  TokenSvc) {
 
             return {
                 request: function (config) {
@@ -32,7 +32,7 @@ window.app = angular.module('ds.router', [
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
                     } else {
-                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + TokenSvc.getToken().getAccessToken();
+                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + AuthSvc.getToken().getAccessToken();
                     }
                     return config || $q.when(config);
                 },
@@ -46,6 +46,9 @@ window.app = angular.module('ds.router', [
                 },
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
+                    if (response.status == 401) {
+                        TokenSvc.unsetToken();
+                    }
                     return $q.reject(response);
                 }
             };
@@ -78,8 +81,9 @@ window.app = angular.module('ds.router', [
 
     .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state',
         function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state) {
-
-            TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+            if(storeConfig.token) {
+                TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+            }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             
