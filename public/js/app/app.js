@@ -12,6 +12,7 @@ window.app = angular.module('ds.router', [
     'ds.confirmation',
     'ds.account',
     'ds.auth',
+    'ds.orders',
     'config'
 ])
     .constant('_', window._)
@@ -74,12 +75,13 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'AccountSvc', 'GlobalData', '$state',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, AccountSvc, GlobalData, $state) {
-            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state) {
 
             TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+
+            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
@@ -246,6 +248,12 @@ window.app = angular.module('ds.router', [
                         },
                         addresses: function(AccountSvc) {
                             return AccountSvc.getAddresses();
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
                         }
                     },
                     data: {

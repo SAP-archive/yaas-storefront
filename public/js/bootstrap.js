@@ -27,7 +27,7 @@
             function (data) {
                 console.log('login success');
                 var token = getParameterByName('access_token', data.headers('Location'));
-                var expiresIn = getParameterByName('expires_in', data.headers('Location'));
+                var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                 console.log('token is '+token);
                 try {
                     storeConfig.token = token;
