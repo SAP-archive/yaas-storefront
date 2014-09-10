@@ -10,10 +10,10 @@
 					<img src="./img/user-icon_small_active.png" class="user-avatar">
 				</a>
 			</li>
-			<li><a ng-click="logout()" ng-if="user.isAuthenticated" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
+			<li><a ng-click="logout()" ng-if="user.isAuthenticated" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
 		</ul>
 		
-		<a ng-click="login()" ng-if="!user.isAuthenticated" class="signin btn btn-link" >
+		<a ng-click="login()" ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link" >
 			<img src="./img/user-icon_small.png" class="user-avatar">
 			{{'SIGN_IN' | translate}}
 		</a>
