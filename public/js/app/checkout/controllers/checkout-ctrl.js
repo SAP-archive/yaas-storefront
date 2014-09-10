@@ -76,7 +76,7 @@ angular.module('ds.checkout')
                 AuthSvc.getDefaultAddress().then(
                         function(address) {
                             if (address) {
-                                $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
+                                $scope.order.billTo.address1 = address.streetNumber + ' ' + address.street;
                                 $scope.order.billTo.country = address.country;
                                 $scope.order.billTo.city = address.city;
                                 $scope.order.billTo.state = address.state;
@@ -388,7 +388,7 @@ console.log('USER SIGNED IN!');
                 selectedAddress = address;
                 addressModalInstance.close();
                 $scope.wiz.shipToSameAsBillTo = address.isDefault;
-                $scope.order.shipTo.address1 = address.street + ' ' + address.streetNumber;
+                $scope.order.shipTo.address1 = address.streetNumber + ' ' + address.street;
                 $scope.order.shipTo.country = address.country;
                 $scope.order.shipTo.city = address.city;
                 $scope.order.shipTo.state = address.state;
@@ -410,6 +410,10 @@ console.log('USER SIGNED IN!');
                         }
                     }
                   });
+            };
+
+            $scope.closeAddressDialog = function () {
+                addressModalInstance.close();
             };
 
         }]);
