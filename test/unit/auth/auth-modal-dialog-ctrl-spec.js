@@ -14,7 +14,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
     var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, AuthSvc;
     var mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
+        accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         apis: {
             customers: {

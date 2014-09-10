@@ -108,21 +108,15 @@ console.log('USER SIGNED IN!');
 
             if (!AuthSvc.isAuthenticated()) {
                 AuthDialogManager.open(null, { required: true });
-            //         function(response) {
-            //             if (response) {
-            //                 getDefaultAddress();
-            //                 getAccount();
-            //                 getAddresses();
-            //             }
-            //         }
+
                 }
-            // } else {
+
             getDefaultAddress();
             if (GlobalData.user.isAuthenticated) {
                 getAccount();
             }
             getAddresses();
-            // }
+
 
             $scope.badEmailAddress = false;
 

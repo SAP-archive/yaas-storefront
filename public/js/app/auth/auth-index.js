@@ -12,4 +12,4 @@
 
 'use strict';
 
-angular.module('ds.auth', ['ngCookies']);
+angular.module('ds.auth', ['ipCookie']);
