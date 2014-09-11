@@ -38,8 +38,8 @@ angular.module('ds.auth')
                     $http.post(settings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
                         console.log('login success');
                         var token = getParameterByName('access_token', data.headers('Location'));
-                        var expiresIn = getParameterByName('expires_in', data.headers('Location'));
-                        TokenSvc.setToken(token, expiresIn);
+                        var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
+                        TokenSvc.setAnonymousToken(token, expiresIn);
                         inProgress = false;
                         $rootScope.$emit('authtoken:obtained', token);
                     }, function(error){
