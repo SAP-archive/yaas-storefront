@@ -13,28 +13,50 @@ window.app = angular.module('ds.router', [
     'ds.account',
     'ds.auth',
     'ds.orders',
+    'ds.queue',
     'config'
 ])
     .constant('_', window._)
+    /*
+    .factory('YaasRestangular', ['Restangular', function (Restangular) {
+        return Restangular.withConfig(function(RestangularConfigurator) {
 
+        });
+    }])*/
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings','TokenSvc',
-        function ($q, settings,  TokenSvc) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
+        function ($q, $injector, settings,  TokenSvc, httpQueue) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
+                    if(config.url.indexOf(settings.apis.account.baseUrl)< 0 && config.url.indexOf('html') < 0) {
+                        // tweak headers if going against non-proxied services
+                        if (config.url.indexOf('yaas') < 0) {
+                            delete config.headers[settings.apis.headers.hybrisAuthorization];
+                            if (config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0) {
+                                config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                            }
+                        } else {
 
-                    // tweak headers if going against non-proxied services
-                    if(config.url.indexOf('yaas') < 0){
-                        delete config.headers[settings.apis.headers.hybrisAuthorization];
-                        if(config.url.indexOf('product') < 0  && config.url.indexOf('shipping-cost') < 0 ) {
-                            config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                            var token = TokenSvc.getToken().getAccessToken();
+                            if(token) {
+                                // retrieving AnonAuthSvc via injector to avoid circular dependency at config time
+                                config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
+                            } else {
+                                // issue request to get token and "save" http request
+                                $injector.get('AnonAuthSvc').getToken();
+                                var deferred = $q.defer();
+                                httpQueue.append(config, deferred);
+                                return deferred.promise;
+                            }
                         }
-                    } else {
-                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + AuthSvc.getAccessToken();
                     }
+                    console.log('sending config');
+                    console.log(config.url);
                     return config || $q.when(config);
+
+
                 },
                 requestError: function(request){
                     document.body.style.cursor = 'auto';
@@ -54,6 +76,8 @@ window.app = angular.module('ds.router', [
                 }
             };
         }])
+
+
 
     // Configure HTTP and Restangular Providers - default headers, CORS
     .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
@@ -80,8 +104,8 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue) {
             if(storeConfig.token) {
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
@@ -92,6 +116,11 @@ window.app = angular.module('ds.router', [
                 // Make sure dialog is closed (if it was opened)
                 AuthDialogManager.close();
             });
+
+            $rootScope.$on('authtoken:obtained', function(event, token){
+                httpQueue.retryAll(token);
+            });
+
             $rootScope.$on('$locationChangeSuccess', function() {
                 if ($location.search()[settings.forgotPassword.paramName]) {
                     AuthDialogManager.open({}, { forgotPassword: true });
