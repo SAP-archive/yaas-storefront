@@ -6,7 +6,7 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'phantomjs'
+    'browserName': 'chrome'
   },
 
   onPrepare: function() {      
@@ -16,7 +16,7 @@ exports.config = {
     );
   },
 
-  baseUrl: 'http://demo-store.test.cf.hybris.com',
+  baseUrl: 'http://localhost:9000',
 
   framework: 'jasmine',
 

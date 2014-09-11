@@ -1,6 +1,7 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+var timestamp = Number(new Date());
 
 describe("login:", function () {
 
@@ -36,10 +37,26 @@ describe("login:", function () {
          browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
          expect(element(by.binding("defaultAddress.street")).getText()).toEqual("place ave street");
+         tu.clickElement('id', "logout-btn");
 
        });
 
 
+       it('should create a new user', function () {
+         tu.clickElement('id', "login-btn");
+         browser.sleep(1000);
+         tu.clickElement('linkText', 'Create Account');
+         tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
+         tu.sendKeysById('newPasswordInput', 'pass');
+         tu.clickElement('id', 'create-acct-btn');
+         expect(element(by.binding("error.message")).getText()).toEqual("password must have at least six characters");
+         tu.sendKeysById('newPasswordInput', 'password');
+         tu.clickElement('id', 'create-acct-btn');
+         browser.sleep(1000);
+         tu.clickElement('css', 'img.user-avatar');
+         expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
+
+       });
 
    });
 });
