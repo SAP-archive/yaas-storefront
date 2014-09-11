@@ -30,33 +30,28 @@ window.app = angular.module('ds.router', [
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    if(config.url.indexOf(settings.apis.account.baseUrl)< 0 && config.url.indexOf('html') < 0) {
-                        // tweak headers if going against non-proxied services
+                    // skip html requests as well as anonymous login URL
+                    if(config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl)< 0 ) {
+                        // tweak headers if going against non-proxied services (for dev purposes only)
                         if (config.url.indexOf('yaas') < 0) {
                             delete config.headers[settings.apis.headers.hybrisAuthorization];
                             if (config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0) {
                                 config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                             }
                         } else {
-
                             var token = TokenSvc.getToken().getAccessToken();
                             if(token) {
-                                // retrieving AnonAuthSvc via injector to avoid circular dependency at config time
                                 config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
                             } else {
-                                // issue request to get token and "save" http request
+                                // issue request to get token (async) and "save" http request
                                 $injector.get('AnonAuthSvc').getToken();
                                 var deferred = $q.defer();
-                                httpQueue.append(config, deferred);
+                                httpQueue.appendBlocked(config, deferred);
                                 return deferred.promise;
                             }
                         }
                     }
-                    console.log('sending config');
-                    console.log(config.url);
                     return config || $q.when(config);
-
-
                 },
                 requestError: function(request){
                     document.body.style.cursor = 'auto';
@@ -71,6 +66,11 @@ window.app = angular.module('ds.router', [
 
                     if (response.status === 401 && response.data && response.data.fault && response.data.fault.faultstring && response.data.fault.faultstring.indexOf('Invalid access token')>-1) {
                         TokenSvc.unsetToken();
+                        // issue request to get token (async) and "save" http request
+                        $injector.get('AnonAuthSvc').getToken();
+                        var deferred = $q.defer();
+                        httpQueue.appendRejected(response.config, deferred);
+                        return deferred.promise;
                     }
                     return $q.reject(response);
                 }

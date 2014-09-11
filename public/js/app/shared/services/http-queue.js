@@ -1,44 +1,58 @@
 
 'use strict';
-/** Code based on
-* @license HTTP Auth Interceptor Module for AngularJS
-* (c) 2012 Witold Szczerba
-* License: MIT
- */
+
 angular.module('ds.queue', [])
     .factory('httpQueue', ['$injector', function($injector) {
 
 
-    /** Holds all the requests, so they can be re-requested in future. */
-    var buffer = [];
+        /** Holds all the "blocked" requests, so they can be re-requested in future. */
+        var blockedBuffer = [];
+        var rejectedBuffer = [];
+        var authHeader = 'Authorization';
+        /** Service initialized later because of circular dependency problem. */
+        var $http;
 
-    /** Service initialized later because of circular dependency problem. */
-    var $http;
-
-
-
-    function retryHttpRequest(config, deferred) {
-        /*
-        function successCallback(response) {
-            deferred.resolve(response);
+        /** Submit requests that were never sent because of missing token.*/
+        function retryBlockedHttpRequest(config, deferred) {
+            deferred.resolve(config);
         }
-        function errorCallback(response) {
-            deferred.reject(response);
+
+        /** Resubmit requests that resulted in 401 due to rejected token.*/
+        function retryRejectedHttpRequest(config, deferred) {
+            function successCallback(response) {
+                deferred.resolve(response);
+            }
+
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+
+            $http = $http || $injector.get('$http');
+            $http(config).then(successCallback, errorCallback);
         }
-        $http = $http || $injector.get('$http');
-        console.log('retry:');
-        console.log(config);
-        $http(config).then(successCallback, errorCallback);
-        */
-        deferred.resolve(config);
-    }
+
+        function setToken(config, token){
+            config.headers[authHeader] = 'Bearer ' + token;
+        }
 
     return {
         /**
-         * Appends HTTP request configuration object with deferred response attached to buffer.
+         * Appends HTTP request configuration object with deferred response -
+         * use for requests that were never sent due to missing token.
          */
-        append: function (config, deferred) {
-            buffer.push({
+        appendBlocked: function (config, deferred) {
+            blockedBuffer.push({
+                config: config,
+                deferred: deferred
+            });
+        },
+
+        /**
+         * Appends HTTP request configuration object with deferred response -
+         * use for requests that were rejected by the service due to an invalid token.
+         */
+        appendRejected: function (config, deferred) {
+            rejectedBuffer.push({
                 config: config,
                 deferred: deferred
             });
@@ -46,7 +60,7 @@ angular.module('ds.queue', [])
 
         /**
          * Abandon or reject (if reason provided) all the buffered requests.
-         */
+
         rejectAll: function (reason) {
             if (reason) {
                 for (var i = 0; i < buffer.length; ++i) {
@@ -54,18 +68,26 @@ angular.module('ds.queue', [])
                 }
             }
             buffer = [];
-        },
+        },*/
 
         /**
          * Retries all the buffered requests clears the buffer.
          * @param new token
          */
         retryAll: function (token) {
-            for (var i = 0; i < buffer.length; ++i) {
-                buffer[i].config.headers['Authorization'] = 'Bearer ' + token;
-                retryHttpRequest(buffer[i].config, buffer[i].deferred);
+            var buff = blockedBuffer;
+
+            for (var i = 0; i < buff.length; ++i) {
+                setToken(buff[i].config, token);
+                retryBlockedHttpRequest(buff[i].config, buff[i].deferred);
             }
-            buffer = [];
+            blockedBuffer = [];
+            buff = rejectedBuffer;
+            for (i = 0; i < buff.length; ++i) {
+                setToken(buff[i].config, token);
+                retryRejectedHttpRequest(buff[i].config, buff[i].deferred);
+            }
+            rejectedBuffer = [];
         }
     };
     }]);
