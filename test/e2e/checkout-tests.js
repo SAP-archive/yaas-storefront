@@ -12,13 +12,13 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('zipCode' + form, '80301');
           }
 
-          function verifyOrderConfirmation() {
-            // expect(element(by.binding('span.highlight.ng-binding')).getText()).toContain('Order# ');
-            expect(element(by.css('address > span.ng-binding')).getText()).toContain('MIKE@NIGHT.COM');
-            expect(element(by.xpath('//address[2]/span')).getText()).toContain('MIKE NIGHT');
-            expect(element(by.xpath('//span[2]')).getText()).toContain('123');
-            expect(element(by.xpath('//span[3]')).getText()).toContain('BOULDER, CO 80301');
+          function verifyOrderConfirmation(email, name, number, cityStateZip) {
+            expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
+            expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
+            expect(element(by.xpath('//span[2]')).getText()).toContain(number);
+            expect(element(by.xpath('//span[3]')).getText()).toContain(cityStateZip);
           }
+
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
@@ -103,12 +103,12 @@ describe("checkout:", function () {
             expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
             browser.sleep(29000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-            verifyOrderConfirmation();
-           });
+            verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');           
+          });
 
            it('should have basic validation on all fields', function () {
             tu.clickElement('css', tu.checkoutButton);
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Bill');          
             tu.sendKeysById('email', 'mike@place.com'); 
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
@@ -131,10 +131,32 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(29000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-            verifyOrderConfirmation();
+            verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
 
+           it('should populate with existing address for logged in user', function () {
+            tu.clickElement('xpath', tu.contineShopping);            
+           	tu.clickElement('id', "login-btn");
+            browser.sleep(1000);
+            tu.sendKeysById('usernameInput', 'cool@cool.com');
+            tu.sendKeysById('passwordInput', 'coolio');
+            tu.clickElement('id', 'sign-in-button');
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
+            browser.sleep(1000);
+            tu.clickElement('css', tu.checkoutButton);
+            browser.sleep(1000);
+            tu.sendKeysById('firstNameBill', 'Mike');
+            tu.sendKeysById('lastNameBill', 'night');
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
+            browser.sleep(500)
+            tu.clickElement('id', 'place-order-btn');
+            browser.sleep(29000);
+            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+            verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
+            tu.clickElement('id', "logout-btn");
 
+           });
 
    });
 });
@@ -172,7 +194,7 @@ describe("mobile checkout:", function () {
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
         browser.sleep(29000);
-        verifyOrderConfirmation();
+        verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
        });
 
        it('should have basic validation on mobile', function () {
@@ -195,7 +217,7 @@ describe("mobile checkout:", function () {
         tu.clickElement('id', "place-order-btn");
         browser.sleep(29000);
         // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-        verifyOrderConfirmation();
+        verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
 
        });
 
