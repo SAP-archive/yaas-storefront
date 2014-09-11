@@ -66,6 +66,13 @@ angular.module('ds.account')
             });
         };
 
+        // handle dialog dismissal if user select back button, etc
+        $scope.$on('$destroy', function () {
+            if (modalInstance) {
+                modalInstance.dismiss('cancel');
+            }
+        });
+
         $scope.save = function(address, formValid, form) {
           $scope.$broadcast('submitting:form', form);
           if (formValid) {
@@ -92,7 +99,8 @@ angular.module('ds.account')
           $scope.errors = [];
           modalInstance = $modal.open({
                 templateUrl: './js/app/account/templates/address-form.html',
-                scope: $scope
+                scope: $scope,
+                backdrop: 'static'
               });
 
               modalInstance.result.then(function () {

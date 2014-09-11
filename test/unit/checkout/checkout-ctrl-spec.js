@@ -1,9 +1,9 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd, $modal, mockedModal, shippingCostsDfd, shippingCost;
-    var MockedAuthSvc = {
-        isAuthenticated: jasmine.createSpy('isAuthenticated'),
-    };
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd,
+        $modal, mockedModal, shippingCost, MockedAuthSvc;
+    var isAuthenticated;
+
     var MockedAccountSvc = {
         getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn({
             then: jasmine.createSpy('then')
@@ -61,7 +61,10 @@ describe('CheckoutCtrl', function () {
                 dismiss: jasmine.createSpy('dismiss')
             })
         };
-
+        isAuthenticated = false;
+        MockedAuthSvc = {
+            isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
+        };
         $provide.value('cart', cart);
         $provide.value('order', order);
         $provide.value('shippingCost', shippingCost);
@@ -101,6 +104,32 @@ describe('CheckoutCtrl', function () {
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
         })
+
+
+        it('should retrieve addresses for authenticated user', function(){
+            isAuthenticated = true;
+            MockedAuthSvc.isAuthenticated.reset();
+            MockedAuthSvc = {
+                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
+            };
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
+            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
+            expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
+        });
+
+        it('should not retrieve addresses for anonymous user', function(){
+            isAuthenticated = false;
+            MockedAuthSvc.isAuthenticated.reset();
+            MockedAccountSvc.getDefaultAddress.reset();
+            MockedAccountSvc.getAddresses.reset();
+            MockedAuthSvc = {
+                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
+            };
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
+
+            expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
+            expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
+        });
     });
 
     describe('Mobile Wizard Step completion', function () {
