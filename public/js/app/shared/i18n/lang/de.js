@@ -18,6 +18,8 @@ angular.module('ds.i18n')
          checkout
          */
         ADDRESS: 'Adresse',
+        ADDRESS_LINE_1: 'Adresszeile 1',
+        ADDRESS_LINE_2: 'Adresszeile 2',
         ADDRESS_REQUIRED: 'Adresse erforderlich',
         BILLING_ADDRESS: 'Rechnungsadresse',
         CC_REQUIRED: 'Kreditkarte erforderlich',

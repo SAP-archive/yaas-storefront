@@ -46,14 +46,14 @@
       </div>
   -->
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
-        <span class="input-group-addon"><label class="control-label" for="street">{{'STREET' | translate}}</label></span>
+        <span class="input-group-addon"><label class="control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="street" name="street"
         ng-model="address.street">
       </div>
-      <div class="form-group input-group" ng-class="{'has-error': addressForm.streetNumber.$invalid && (addressForm.streetNumber.$dirty  || showPristineErrors)}">
-        <span class="input-group-addon"><label class="control-label" for="streetNumber">{{'STREET_NUMBER' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="streetNumber" name="streetNumber"
-        ng-model="address.streetNumber">
+      <div class="form-group input-group" ng-class="{'has-error': addressForm.streetAppendix.$invalid && (addressForm.streetAppendix.$dirty  || showPristineErrors)}">
+        <span class="input-group-addon"><label class="control-label" for="streetAppendix">{{'ADDRESS_LINE_2' | translate}}</label></span>
+        <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="streetAppendix" name="streetAppendix"
+        ng-model="address.streetAppendix">
       </div>
 
       <div class="form-group input-group"
