@@ -36,7 +36,7 @@ describe("login:", function () {
          tu.clickElement('id', 'sign-in-button');
          browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
-         expect(element(by.binding("defaultAddress.street")).getText()).toEqual("place ave street");
+         expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 place ave street");
          tu.clickElement('id', "logout-btn");
 
        });
