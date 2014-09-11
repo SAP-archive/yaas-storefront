@@ -21,7 +21,9 @@ angular.module('ds.shared')
 
         // defines thea API endpoints and routes
         apis: {
-
+            account: {
+              baseUrl: 'http://yaas-test.apigee.net/test/account/v1'
+            },
             configuration: {
                baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,

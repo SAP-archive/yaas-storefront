@@ -53,13 +53,26 @@ angular.module('ds.auth')
                         deferred.reject(error);
                     }
                 );
-
                 return deferred.promise;
+            },
+
+            /** Ensures there is an OAuth token present.  If not, will perform anonymous login to generate one.*/
+            getToken: function(){
+                var gotToken = $q.defer();
+
+                if(TokenSvc.getToken().getAccessToken()){
+                    gotToken.resolve(TokenSvc.getToken().getAccessToken());
+                } else {
+                    this.signin().then(function(success){
+                        gotToken.resolve(success);
+                    });
+                }
+                return gotToken.promise;
             },
 
             /**
              * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
-             * Returns a promise for when that action has been performed.
+             * Returns a promise with "success" = access token for when that action has been performed.
              *
              * @param user JSON object (with email, password properties), or null for anonymous user.
              */
@@ -70,7 +83,7 @@ angular.module('ds.auth')
 
                 signinPromise.then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                    signInDone.resolve({});
+                    signInDone.resolve(response.accessToken);
 
                 }, function(error){
                     signInDone.reject(error);
@@ -79,33 +92,14 @@ angular.module('ds.auth')
                 return signInDone.promise;
             },
 
-            anonymousLoginAfterLogout: function(){
+            /** Logs the customer out and removes the token cookie. */
+            signOut: function () {
+                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
+                // unset token after logout - new anonymous token will be generated for next request automatically
                 TokenSvc.unsetToken(settings.accessCookie);
-                return this.signin();
             },
 
-            /** Logs the customer out and retrieves a new OAuth token for anonymous access.*/
-            signout: function () {
-                // promise is resolved once new anonymous token has been retrieved
-                var signOutCompletedDeferred = $q.defer();
-                var self = this;
-                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }).then(function(){
-                    self.anonymousLoginAfterLogout().then(function(){
-                        signOutCompletedDeferred.resolve({});
-                    });
-                }, function(error){
-                    console.error('Logout failed:');
-                    console.error(error);
-                    // even after logout failure, proceed with token unset/anon login
-                    self.anonymousLoginAfterLogout().then(function(error){
-                        signOutCompletedDeferred.reject(error);
-                    });
-                });
-                return signOutCompletedDeferred.promise;
-            },
-
-
-
+            /** Returns true if there is a user specific OAuth token cookie.*/
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();
