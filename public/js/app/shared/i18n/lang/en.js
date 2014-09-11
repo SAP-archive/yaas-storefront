@@ -19,6 +19,8 @@ angular.module('ds.i18n')
          */
         ADDRESS: 'Address',
         ADDRESS_REQUIRED: 'Address Required',
+        ADDRESS_LINE_1: 'Address Line 1',
+        ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CC_REQUIRED: 'Credit Card Required',
         CITY: 'City',
