@@ -73,8 +73,10 @@ angular.module('ds.checkout')
             };
 
             var getDefaultAddress = function() {
-                AccountSvc.getDefaultAddress().then(
-                        function(address) {
+                // don't retrieve address for anonymous shopper
+                if(AuthSvc.isAuthenticated()) {
+                    AccountSvc.getDefaultAddress().then(
+                        function (address) {
                             if (address) {
                                 $scope.order.billTo.address1 = address.street + ' ' + address.streetNumber;
                                 $scope.order.billTo.country = address.country;
@@ -83,12 +85,15 @@ angular.module('ds.checkout')
                                 $scope.order.billTo.zip = address.zipCode;
                             }
                         });
+                }
             };
 
             var getAddresses = function() {
-                AccountSvc.getAddresses().then(function(response) {
-                    $scope.addresses = decorateSelectedAddress(response);
-                });
+                if(AuthSvc.isAuthenticated()) {
+                    AccountSvc.getAddresses().then(function (response) {
+                        $scope.addresses = decorateSelectedAddress(response);
+                    });
+                }
             };
 
             var getAccount = function() {

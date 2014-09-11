@@ -101,6 +101,14 @@ describe('CheckoutCtrl', function () {
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
         })
+
+        it('should retrieve addresses for authenticated user', function(){
+
+        });
+
+        it('should not retrieve addresses for anonymous user', function(){
+
+        });
     });
 
     describe('Mobile Wizard Step completion', function () {
