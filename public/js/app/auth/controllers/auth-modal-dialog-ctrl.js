@@ -26,6 +26,7 @@ angular.module('ds.auth')
         $scope.signup = function(authModel, singupForm) {
           var signupPromise = oldSignup(authModel, singupForm);
           signupPromise.then(function(response) {
+              settings.hybrisUser = $scope.user.signup.email;
               $modalInstance.close(response);
             });
           return signupPromise;
@@ -34,6 +35,7 @@ angular.module('ds.auth')
         $scope.signin = function(authModel, signinForm) {
           var signinPromise = oldSignin(authModel, signinForm);
           signinPromise.then(function(response) {
+              settings.hybrisUser = $scope.user.signin.email;
               $modalInstance.close(response);
             });
           return signinPromise;

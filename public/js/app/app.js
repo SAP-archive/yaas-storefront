@@ -10,14 +10,16 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.account',
     'ds.auth',
+    'ds.orders',
     'config'
 ])
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings','CookiesStorage',
-        function ($q, settings, CookiesStorage) {
+    .factory('interceptor', ['$q', 'settings','TokenSvc',
+        function ($q, settings, TokenSvc) {
 
             return {
                 request: function (config) {
@@ -30,7 +32,7 @@ window.app = angular.module('ds.router', [
                             config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                         }
                     } else {
-                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + CookiesStorage.getToken().getAccessToken();
+                        config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + TokenSvc.getToken().getAccessToken();
                     }
                     return config || $q.when(config);
                 },
@@ -73,12 +75,13 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'CookiesStorage', 'AuthSvc', 'GlobalData',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, CookiesStorage, AuthSvc, GlobalData) {
-            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
 
-            CookiesStorage.setToken(storeConfig.token, null);
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state) {
+
+            TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+
+            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
@@ -90,10 +93,36 @@ window.app = angular.module('ds.router', [
                 }
             });
 
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
+                // handle attempt to access protected resource - show login dialog if user is not authenticated
+                if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
+                    var callback = function (){
+                        if(AuthSvc.isAuthenticated()){
+                            $state.go(toState, toParams);
+                        }
+                    };
+                    AuthDialogManager.open({}, {}).then(function(){
+                           callback();
+                        },
+                        function() {
+                            callback();
+                        }
+                    );
+                    // block immediate state transition to protected resources - re-navigation will be handled by callback
+                    if(!AuthSvc.isAuthenticated()){
+                        event.preventDefault();
+                        if(!fromState || fromState.name ==='') {
+                           $state.go('base.product');
+                        }
+
+                    }
+                }
+            });
+
             $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
                 GlobalData.user.isAuthenticated = isAuthenticated;
-                GlobalData.user.username = AuthSvc.getToken().getUsername();
+                GlobalData.user.username = TokenSvc.getToken().getUsername();
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -205,21 +234,30 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-                .state('base.profile', {
-                    url: '/profile/',
+                .state('base.account', {
+                    url: '/account/',
                     views: {
                         'main@': {
-                            templateUrl: 'js/app/auth/templates/profile.html',
-                            controller: 'ProfileCtrl'
+                            templateUrl: 'js/app/account/templates/account.html',
+                            controller: 'AccountCtrl'
                         }
                     },
                     resolve: {
-                        profile: function(AuthSvc) {
-                            return AuthSvc.profile();
+                        account: function(AccountSvc) {
+                            return AccountSvc.account();
                         },
-                        addresses: function(AuthSvc) {
-                            return AuthSvc.getAddresses();
+                        addresses: function(AccountSvc) {
+                            return AccountSvc.getAddresses();
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
                         }
+                    },
+                    data: {
+                        auth: 'authenticated'
                     }
                 });
 
@@ -253,4 +291,5 @@ window.app = angular.module('ds.router', [
             $locationProvider.hashPrefix('!');
         }
     ]);
+
 

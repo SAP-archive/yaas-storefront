@@ -12,10 +12,12 @@
 
 describe('AuthCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $q, AuthCtrl, authModel, AuthSvc, mockedSettings, mockedCookiesStorage;
-    
-    mockedSettings = {
-        accessTokenKey: 'accessTokenKey',
+    var $scope, $controller, $q, AuthCtrl, authModel, AuthSvc, mockBackend;
+    var storeTenant = '121212';
+    var mockedGlobalData = {store: {tenant: storeTenant}};
+    var accessToken = 123;
+    var mockedSettings = {
+        accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         apis: {
             customers: {
@@ -23,18 +25,9 @@ describe('AuthCtrl Test', function () {
                 apiKey: '123'
             },
             headers: {
-              hybrisAuthorization: 'Authorization'
+                hybrisAuthorization: 'Authorization'
             }
         }
-    };
-    var accessToken = 123;
-    var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
-    mockedCookiesStorage = {
-        setToken: jasmine.createSpy('setToken'),
-        getToken: jasmine.createSpy('getToken').andReturn({
-            getAccessToken: getAccessTokenSpy
-        }),
-        unsetToken: jasmine.createSpy('unsetToken')
     };
     var defaultLang = 'en';
     var mockedStoreConfig = {};
@@ -50,11 +43,9 @@ describe('AuthCtrl Test', function () {
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.auth'));
     beforeEach(angular.mock.module('restangular'));
-    
-    beforeEach(module('ds.auth', function($provide) {
-        $provide.value('CookiesStorage', mockedCookiesStorage);
+    beforeEach(module('ds.auth', function ($provide) {
         $provide.value('settings', mockedSettings);
-        $provide.value('storeConfig', mockedStoreConfig);
+        $provide.value('GlobalData', mockedGlobalData);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -70,7 +61,7 @@ describe('AuthCtrl Test', function () {
                 return angular.equals(this.actual, expected);
             }
         });
-        $rootScope =  _$rootScope_;
+
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         AuthSvc = _AuthSvc_;

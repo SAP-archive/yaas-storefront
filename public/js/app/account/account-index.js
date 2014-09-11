@@ -12,4 +12,6 @@
 
 'use strict';
 
-angular.module('ds.auth', ['ipCookie']);
+angular.module('ds.account', [
+    'ds.auth'
+]);
