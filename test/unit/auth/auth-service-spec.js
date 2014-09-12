@@ -10,9 +10,9 @@
  * license agreement you entered into with hybris.
  */
 
-ddescribe('AuthSvc Test', function () {
+describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, $q;
+    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
@@ -27,6 +27,12 @@ ddescribe('AuthSvc Test', function () {
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
+
+    mockedState = {
+        is: jasmine.createSpy('is').andReturn(true),
+        go: jasmine.createSpy('go')
+    };
+
     mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -50,6 +56,7 @@ ddescribe('AuthSvc Test', function () {
         $provide.value('TokenSvc', mockedTokenSvc);
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('$state', mockedState);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -63,7 +70,6 @@ ddescribe('AuthSvc Test', function () {
         expect(AuthSvc.signin).toBeDefined();
         expect(AuthSvc.signOut).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
-        expect(AuthSvc.anonymousSignin).toBeDefined();
         expect(AuthSvc.customerSignin).toBeDefined();
     });
 
@@ -146,6 +152,11 @@ ddescribe('AuthSvc Test', function () {
             AuthSvc.signOut(payload);
             mockBackend.flush();
             expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+        });
+
+        it('should navigate to products if state is protected', function(){
+            AuthSvc.signOut(payload);
+            expect(mockedState.go).wasCalledWith('base.product');
         });
     });
 

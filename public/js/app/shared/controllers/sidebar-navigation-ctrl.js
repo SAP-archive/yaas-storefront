@@ -30,9 +30,6 @@ angular.module('ds.shared')
 
             $scope.logout = function () {
                 AuthSvc.signOut();
-                if ($state.is('base.account')) {
-                    $state.go('base.product');
-                }
             };
             
             $scope.login = function(dOpts, opts) {

@@ -43,6 +43,7 @@ describe('AuthCtrl Test', function () {
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.auth'));
     beforeEach(angular.mock.module('restangular'));
+    beforeEach(angular.mock.module('ui.router'));
     beforeEach(module('ds.auth', function ($provide) {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
