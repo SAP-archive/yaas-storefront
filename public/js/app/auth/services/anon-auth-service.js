@@ -36,7 +36,6 @@ angular.module('ds.auth')
                 if(!inProgress) {
                     inProgress = true;
                     $http.post(settings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
-                        console.log('login success');
                         var token = getParameterByName('access_token', data.headers('Location'));
                         var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                         TokenSvc.setAnonymousToken(token, expiresIn);

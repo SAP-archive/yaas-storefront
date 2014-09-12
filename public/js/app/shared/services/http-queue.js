@@ -11,14 +11,17 @@ angular.module('ds.queue', [])
         var authHeader = 'Authorization';
         /** Service initialized later because of circular dependency problem. */
         var $http;
+        // keeps track of the last reject per URL
+        var lastRejectTime = {};
 
         /** Submit requests that were never sent because of missing token.*/
         function retryBlockedHttpRequest(config, deferred) {
             deferred.resolve(config);
         }
 
-        /** Resubmit requests that resulted in 401 due to rejected token.*/
+        /** Resubmit requests that resulted in 401 due to rejected token. */
         function retryRejectedHttpRequest(config, deferred) {
+
             function successCallback(response) {
                 deferred.resolve(response);
             }
@@ -27,8 +30,18 @@ angular.module('ds.queue', [])
                 deferred.reject(response);
             }
 
-            $http = $http || $injector.get('$http');
-            $http(config).then(successCallback, errorCallback);
+            var lastTime = lastRejectTime[config.url];
+            // If same URL was rejected less than 10 seconds ago, don't try again (this is meant to prevent a
+            // retry loop where the root cause is not being fixed and otherwise, we would attempt to submit the
+            // same failing request over and over.
+            if(lastTime && new Date().getTime() - lastTime < 10000) {
+                console.log('Too soon to retry URL '+config.url);
+                deferred.reject('Too soon to retry');
+            } else {
+                lastRejectTime[config.url] = null;
+                $http = $http || $injector.get('$http');
+                $http(config).then(successCallback, errorCallback);
+            }
         }
 
         function setToken(config, token){
@@ -56,18 +69,19 @@ angular.module('ds.queue', [])
                 config: config,
                 deferred: deferred
             });
+            lastRejectTime[config.url]= new Date().getTime();
         },
 
         /**
          * Abandon or reject (if reason provided) all the buffered requests.
 
-        rejectAll: function (reason) {
+        rejectAllRejected: function (reason) {
             if (reason) {
-                for (var i = 0; i < buffer.length; ++i) {
-                    buffer[i].deferred.reject(reason);
+                for (var i = 0; i < rejectedBuffer.length; ++i) {
+                    rejectedBuffer[i].deferred.reject(reason);
                 }
             }
-            buffer = [];
+            rejectedBuffer = [];
         },*/
 
         /**
@@ -82,6 +96,7 @@ angular.module('ds.queue', [])
                 retryBlockedHttpRequest(buff[i].config, buff[i].deferred);
             }
             blockedBuffer = [];
+
             buff = rejectedBuffer;
             for (i = 0; i < buff.length; ++i) {
                 setToken(buff[i].config, token);

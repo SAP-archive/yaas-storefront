@@ -33,7 +33,7 @@ angular.module('ds.shared')
             },
 
             productDetails: {
-                baseUrl: 'http://product-details-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/product-details/v1'
             },
 
             checkout: {

@@ -43,7 +43,7 @@ window.app = angular.module('ds.router', [
                             if(token) {
                                 config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
                             } else {
-                                // issue request to get token (async) and "save" http request
+                                // no local token - issue request to get token (async) and "save" http request for re-try
                                 $injector.get('AnonAuthSvc').getToken();
                                 var deferred = $q.defer();
                                 httpQueue.appendBlocked(config, deferred);
@@ -63,14 +63,53 @@ window.app = angular.module('ds.router', [
                 },
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
-
-                    if (response.status === 401 && response.data && response.data.fault && response.data.fault.faultstring && response.data.fault.faultstring.indexOf('Invalid access token')>-1) {
+                    var callback = function (){
+                        var $state = $injector.get('$state');
+                        $state.transitionTo($state.current, $injector.get('$stateParams'), {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
+                    };
+                    if (response.status === 401) {
+                        // remove any existing token, as it appears to be invalid
                         TokenSvc.unsetToken();
-                        // issue request to get token (async) and "save" http request
-                        $injector.get('AnonAuthSvc').getToken();
-                        var deferred = $q.defer();
-                        httpQueue.appendRejected(response.config, deferred);
-                        return deferred.promise;
+                        var $state = $injector.get('$state');
+                        // if current state requires authentication, prompt user to sign in and reload state
+                        if ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated'){
+                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
+                                    callback();
+                                },
+                                function() {
+                                    callback();
+                                }
+                            );
+                        } else {
+                            // else, retry http request - new anonymous token will be triggered automatically
+                            // issue request to get token (async) and "save" http request
+                            $injector.get('AnonAuthSvc').getToken();
+                            var deferred = $q.defer();
+                            httpQueue.appendRejected(response.config, deferred);
+                            return deferred.promise;
+                        }
+
+                    } else if(response.status === 403){
+                        // using injector lookup to prevent circular dependency
+                        var AuthSvc = $injector.get('AuthSvc');
+                        if(AuthSvc.isAuthenticated()){
+                            // User is authenticated but is not allowed to access resource
+                            // this scenario shouldn't happen, but if it does, don't fail silently
+                            window.alert('You are not authorized to access this resource!');
+                        } else {
+                            // User is not authenticated - make them log in and reload the current state
+                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
+                                    callback();
+                                },
+                                function() {
+                                    callback();
+                                }
+                            );
+                        }
                     }
                     return $q.reject(response);
                 }
