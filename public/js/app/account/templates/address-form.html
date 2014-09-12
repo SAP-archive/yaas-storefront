@@ -17,34 +17,6 @@
         <span class="input-group-addon"><label class="control-label" for="contactName">{{'CONTACT_NAME' | translate}}</label></span>
         <input inline-error-input inline-error-input-required-message="{{'CONTACT_NAME' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on">
       </div>
-  <!-- 
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.firstName.$invalid && (addressForm.firstName.$dirty  || showPristineErrors)}">
-        <span class="input-group-addon"><label class="control-label" for="firstName">{{'FIRST_NAME' | translate}}</label></span>
-        <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstName" name="firstName"
-        ng-model="address.firstName" required autocomplete="on">
-      </div>
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.lastName.$invalid && (addressForm.lastName.$dirty || showPristineErrors) }">
-        <span class="input-group-addon"><label class="control-label" for="lastName">{{'LAST_NAME' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastName" name="lastName" ng-model="address.lastName"
-        required autocomplete="on">
-      </div>
-  -->
-  <!-- 
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.address1.$invalid && (addressForm.address1.$dirty || showPristineErrors) }">
-        <span class="input-group-addon"><label class="control-label" for="address1">{{'ADDRESS' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message="{{'ADDRESS_REQUIRED' | translate}}" class="form-control" name="address1" id="address1" ng-model="address.address1"
-        required autocomplete="on">
-      </div>
-      
-      <div class="form-group input-group">
-        <span class="input-group-addon"><label class="control-label" for="address2">{{'ADDRESS' | translate}} 2</label></span>
-        <input type="text" class="form-control" placeholder="(Optional)" id="address2" name="address2"
-        ng-model="address.address2">
-      </div>
-  -->
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="street" name="street"
@@ -52,7 +24,7 @@
       </div>
       <div class="form-group input-group" ng-class="{'has-error': addressForm.streetAppendix.$invalid && (addressForm.streetAppendix.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="streetAppendix">{{'ADDRESS_LINE_2' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="streetAppendix" name="streetAppendix"
+        <input type="text" inline-error-input class="form-control" id="streetAppendix" name="streetAppendix"
         ng-model="address.streetAppendix">
       </div>
 
