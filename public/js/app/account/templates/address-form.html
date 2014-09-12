@@ -17,34 +17,6 @@
         <span class="input-group-addon"><label class="control-label" for="contactName">{{'CONTACT_NAME' | translate}}</label></span>
         <input inline-error-input inline-error-input-required-message="{{'CONTACT_NAME' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on">
       </div>
-  <!-- 
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.firstName.$invalid && (addressForm.firstName.$dirty  || showPristineErrors)}">
-        <span class="input-group-addon"><label class="control-label" for="firstName">{{'FIRST_NAME' | translate}}</label></span>
-        <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstName" name="firstName"
-        ng-model="address.firstName" required autocomplete="on">
-      </div>
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.lastName.$invalid && (addressForm.lastName.$dirty || showPristineErrors) }">
-        <span class="input-group-addon"><label class="control-label" for="lastName">{{'LAST_NAME' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastName" name="lastName" ng-model="address.lastName"
-        required autocomplete="on">
-      </div>
-  -->
-  <!-- 
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.address1.$invalid && (addressForm.address1.$dirty || showPristineErrors) }">
-        <span class="input-group-addon"><label class="control-label" for="address1">{{'ADDRESS' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message="{{'ADDRESS_REQUIRED' | translate}}" class="form-control" name="address1" id="address1" ng-model="address.address1"
-        required autocomplete="on">
-      </div>
-      
-      <div class="form-group input-group">
-        <span class="input-group-addon"><label class="control-label" for="address2">{{'ADDRESS' | translate}} 2</label></span>
-        <input type="text" class="form-control" placeholder="(Optional)" id="address2" name="address2"
-        ng-model="address.address2">
-      </div>
-  -->
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="street" name="street"
@@ -52,7 +24,7 @@
       </div>
       <div class="form-group input-group" ng-class="{'has-error': addressForm.streetAppendix.$invalid && (addressForm.streetAppendix.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="streetAppendix">{{'ADDRESS_LINE_2' | translate}}</label></span>
-        <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="streetAppendix" name="streetAppendix"
+        <input type="text" inline-error-input class="form-control" id="streetAppendix" name="streetAppendix"
         ng-model="address.streetAppendix">
       </div>
 
@@ -111,6 +83,44 @@
           <option value="NJ">New Jersey</option>
           <option value="NM">New Mexico</option>
           <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select>
+      </div>
+      
+      <div class="form-group input-group"
+        ng-class="{'has-error': addressForm.zipCode.$invalid && (addressForm.zipCode.$dirty || showPristineErrors) }">
+        <span class="input-group-addon"><label class="control-label" for="zipCode">{{'ZIP' | translate}}</label></span>
+        <input type="text" inline-error-input inline-error-input-required-message="{{'ZIP_REQUIRED' | translate}}"
+        class="form-control" id="zipCode" name="zipCode" required autocomplete="on"
+        ng-model="address.zipCode">
+      </div>
+      <div class="form-group input-group"
+        ng-class="{'has-error': addressForm.contactPhone.$invalid && (addressForm.contactPhone.$dirty || showPristineErrors) }">
+        <span class="input-group-addon"><label class="control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label></span>
+        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on">
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary btn-lg btn-block" >Save</button>
+  </div>
+</form>ork</option>
           <option value="NC">North Carolina</option>
           <option value="ND">North Dakota</option>
           <option value="OH">Ohio</option>
