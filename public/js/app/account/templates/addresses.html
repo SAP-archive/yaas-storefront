@@ -4,7 +4,7 @@
       <div class="pull-left">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
           <span>{{address.contactName}}</span> <em ng-if="address.isDefault">(default)</em><br>
-          <span>{{address.streetNumber}} {{address.street}}, {{address.streetAppendix}}</span><br>
+          <span>{{address.streetNumber}} {{address.street}}<span ng-if="address.streetAppendix">, {{address.streetAppendix}}</span></span><br>
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
           <span>{{address.country}}</span><br>
           <span>{{address.contactPhone}}</span><br>

@@ -55,6 +55,8 @@ angular.module('ds.checkout')
             var selectedAddress;
             var addressModalInstance;
 
+            $scope.order.account = {};
+
             var decorateSelectedAddress = function(addresses) {
                 if (selectedAddress) {
                     angular.forEach(addresses, function(addr) {
@@ -78,7 +80,9 @@ angular.module('ds.checkout')
                     AccountSvc.getDefaultAddress().then(
                         function (address) {
                             if (address) {
-                                $scope.order.billTo.address1 = address.streetNumber + ' ' + address.street;
+                                $scope.order.billTo.contactName = address.contactName;
+                                $scope.order.billTo.address1 = address.street;
+                                $scope.order.billTo.address2 = address.streetAppendix;
                                 $scope.order.billTo.country = address.country;
                                 $scope.order.billTo.city = address.city;
                                 $scope.order.billTo.state = address.state;
@@ -98,9 +102,9 @@ angular.module('ds.checkout')
 
             var getAccount = function() {
                 AccountSvc.account().then(function(account) {
-                    order.billTo.email = account.contactEmail;
-                    order.billTo.firstName = account.firstName;
-                    order.billTo.lastName = account.lastName;
+                    $scope.order.account.email = account.contactEmail;
+                    $scope.order.account.firstName = account.firstName;
+                    $scope.order.account.lastName = account.lastName;
                 });
             };
 
@@ -387,7 +391,9 @@ console.log('USER SIGNED IN!');
                 selectedAddress = address;
                 addressModalInstance.close();
                 $scope.wiz.shipToSameAsBillTo = address.isDefault;
-                $scope.order.shipTo.address1 = address.streetNumber + ' ' + address.street;
+                $scope.order.shipTo.contactName = address.contactName;
+                $scope.order.shipTo.address1 = address.street;
+                $scope.order.shipTo.address2 = address.streetAppendix;
                 $scope.order.shipTo.country = address.country;
                 $scope.order.shipTo.city = address.city;
                 $scope.order.shipTo.state = address.state;
