@@ -28,12 +28,8 @@ angular.module('ds.shared')
                 }
             };
 
-            $scope.logout = function() {
-                AuthSvc.signout().then(function() {
-                    if ($state.is('base.account')) {
-                        $state.go('base.product');
-                    }
-                });
+            $scope.logout = function () {
+                AuthSvc.signOut();
             };
             
             $scope.login = function(dOpts, opts) {

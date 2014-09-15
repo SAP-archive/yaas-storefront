@@ -31,6 +31,7 @@ module.exports = function(config){
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
+        'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -72,6 +73,7 @@ module.exports = function(config){
         'public/js/app/auth/services/auth-rest.js',
         'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
+        'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
 

@@ -12,7 +12,7 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, $q;
+    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
@@ -27,6 +27,12 @@ describe('AuthSvc Test', function () {
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
+
+    mockedState = {
+        is: jasmine.createSpy('is').andReturn(true),
+        go: jasmine.createSpy('go')
+    };
+
     mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -50,6 +56,7 @@ describe('AuthSvc Test', function () {
         $provide.value('TokenSvc', mockedTokenSvc);
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('$state', mockedState);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -61,9 +68,8 @@ describe('AuthSvc Test', function () {
     it('should expose correct interface', function () {
         expect(AuthSvc.signup).toBeDefined();
         expect(AuthSvc.signin).toBeDefined();
-        expect(AuthSvc.signout).toBeDefined();
+        expect(AuthSvc.signOut).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
-        expect(AuthSvc.anonymousSignin).toBeDefined();
         expect(AuthSvc.customerSignin).toBeDefined();
     });
 
@@ -118,32 +124,41 @@ describe('AuthSvc Test', function () {
        expect(mockedTokenSvc.setToken).wasCalledWith(response.accessToken, payload.email);
     });
 
-    it("should perform signout", function() {
-       var payload = {
-               email: 'some@email.com',
-               password: '123456'
-           },
-           response = {},
-           successSpy = jasmine.createSpy('success'),
-           errorSpy = jasmine.createSpy('error');
-       spyOn(AuthSvc, 'signin').andCallThrough();
-       spyOn(AuthSvc, 'anonymousSignin').andCallThrough();
+    describe('signOut()', function(){
+        var payload = {
+                email: 'some@email.com',
+                password: '123456'
+            },
+            response = {};
 
-       mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
-       var accountsBaseUrl = 'http://yaas-test.apigee.net/test/account/v1/auth/anonymous/login'
-       mockBackend.expectPOST(accountsBaseUrl + '?hybris-tenant=' + storeTenant).respond(200, response);
-       var promise = AuthSvc.signout(payload);
-       promise.then(successSpy, errorSpy);
 
-       mockBackend.flush();
-       
-       expect(promise.then).toBeDefined();
-       expect(successSpy).wasCalled();
-       expect(errorSpy).not.wasCalled();
-       expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie);
-       // expect signin was called afterwards for anonymousSignin
-       expect(AuthSvc.signin).wasCalledWith();
-       expect(AuthSvc.anonymousSignin).wasCalledWith();
+        it('should call logout', function(){
+            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+            AuthSvc.signOut(payload);
+            mockBackend.flush();
+            mockBackend.verifyNoOutstandingExpectation();
+            mockBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should unset token on logout success', function(){
+            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+            AuthSvc.signOut(payload);
+            mockBackend.flush();
+            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+        });
+
+        it('should unset token on logout failure', function(){
+            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(500, response);
+            AuthSvc.signOut(payload);
+            mockBackend.flush();
+            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+        });
+
+        it('should navigate to products if state is protected', function(){
+            AuthSvc.signOut(payload);
+            expect(mockedState.go).wasCalledWith('base.product');
+        });
     });
+
 
 });

@@ -33,15 +33,10 @@ angular.module('ds.shared')
             /** Toggles the navigation menu for the mobile view. */
             $scope.toggleOffCanvas = function () {
                 $rootScope.showMobileNav = !$rootScope.showMobileNav;
-
             };
 
             $scope.logout = function() {
-                AuthSvc.signout().then(function() {
-                    if ($state.is('base.account')) {
-                        $state.go('base.product');
-                    }
-                });
+                AuthSvc.signOut();
             };
             
             $scope.login = function(dOpts, opts) {
