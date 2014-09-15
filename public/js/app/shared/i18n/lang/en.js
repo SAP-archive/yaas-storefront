@@ -45,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
         MONTH: 'Month',
+        NAME: 'Name',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
         ORDER_PENDING: 'One moment... Placing your order',
@@ -130,8 +131,8 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CONTACT_NAME: 'Contact Name',
-        CONTACT_NAME_REQUIRED: 'Contact Name Required',
         CONTACT_PHONE: 'Contact Phone',
+        NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
         STREET_NUMBER: 'Street Number'
 
