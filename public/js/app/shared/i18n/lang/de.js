@@ -129,6 +129,7 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
         CONTACT_NAME: 'Kontact Name',
+        CONTACT_NAME_REQUIRED: 'Kontact Name Erforderlich',
         CONTACT_PHONE: 'Kontakt Telefon',
         STREET: 'Straße',
         STREET_NUMBER: 'Straße Anzahl'
