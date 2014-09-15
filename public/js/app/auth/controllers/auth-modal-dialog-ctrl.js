@@ -16,15 +16,16 @@ angular.module('ds.auth')
      * Authorization Dialog Controller. 
      * Proxies calls to AuthCtrl and handles the lifecycle of authorization modal (destroying it when needed ...).
      */
-    .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', '$location', 'settings', function($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings) {
+    .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', '$location', 'settings', 'AuthDialogManager',
+        function($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings, AuthDialogManager) {
         
         $.extend(this, $controller('AuthCtrl', {$scope: $scope, AuthSvc: AuthSvc, $q: $q}));
         
         var oldSignup = $scope.signup;
         var oldSignin = $scope.signin;
 
-        $scope.signup = function(authModel, singupForm) {
-          var signupPromise = oldSignup(authModel, singupForm);
+        $scope.signup = function(authModel, signUpForm) {
+          var signupPromise = oldSignup(authModel, signUpForm);
           signupPromise.then(function(response) {
               settings.hybrisUser = $scope.user.signup.email;
               $modalInstance.close(response);
@@ -45,8 +46,19 @@ angular.module('ds.auth')
           $modalInstance.close();
         };
 
-        $scope.forgotPassword = function() {
-          $location.search(settings.forgotPassword.paramName, true);
+
+        $scope.showResetPassword = function() {
+           AuthDialogManager.showResetPassword();
+        };
+
+        $scope.requestPasswordReset = function(email){
+            AuthSvc.requestPasswordReset(email).then(function() {
+                $modalInstance.close();
+            }, function(failure){
+                window.alert('Password reset failed: '+failure);
+                $modalInstance.close();
+            });
+
         };
 
     }]);

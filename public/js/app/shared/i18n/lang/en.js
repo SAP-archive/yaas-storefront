@@ -132,6 +132,21 @@ angular.module('ds.i18n')
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
         STREET: 'Street',
-        STREET_NUMBER: 'Street Number'
+        STREET_NUMBER: 'Street Number',
 
+        /*
+           login, password, signup
+         */
+        FORGOT_PW: 'Forgot your password?',
+        PASSWORD: 'Password',
+        CONFIRM_PASSWORD: 'Confirm Password',
+        TOKEN: 'Token',
+        RESET_PASSWORD: 'Reset Password',
+        RESET_PW_TITLE: 'Reset Your Password',
+        RESET_PW_INSTRUCT: 'Please create a new password.',
+        FORGOT_PW_INSTRUCT: 'Please enter your account email address below.  An email will be sent to you with a link to reset your password.',
+        CHECK_EMAIL:'Check Your Email',
+        CHECK_EMAIL_INSTRUCT: 'Instructions for resetting your password have been sent to your email.',
+        PW_SUCCESS: 'Success',
+        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.'
 	});

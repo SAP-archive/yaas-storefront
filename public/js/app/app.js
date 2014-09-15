@@ -160,12 +160,6 @@ window.app = angular.module('ds.router', [
                 httpQueue.retryAll(token);
             });
 
-            $rootScope.$on('$locationChangeSuccess', function() {
-                if ($location.search()[settings.forgotPassword.paramName]) {
-                    AuthDialogManager.open({}, { forgotPassword: true });
-                }
-            });
-
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
@@ -228,14 +222,6 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
-                        }
-                    },
-                    onEnter: function($location, settings, AuthDialogManager){
-                        if ($location.search()[settings.forgotPassword.paramName]) {
-                            console.log('forgotPassword parameter found');
-                            AuthDialogManager.open({
-                                templateUrl: './js/app/auth/templates/password.html'
-                            });
                         }
                     }
                 })
@@ -332,6 +318,8 @@ window.app = angular.module('ds.router', [
                     data: {
                         auth: 'authenticated'
                     }
+
+
                 });
 
             $urlRouterProvider.otherwise('/products/');

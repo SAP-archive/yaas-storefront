@@ -131,6 +131,22 @@ angular.module('ds.i18n')
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
         STREET: 'Straße',
-        STREET_NUMBER: 'Straße Anzahl'
+        STREET_NUMBER: 'Nummer',
+
+        /*
+         login, password, signup
+         */
+        PASSWORD: 'Passwort',
+        CONFIRM_PASSWORD: 'Passwort bestätigen',
+        FORGOT_PW: 'Passwort vergessen?',
+        RESET_PASSWORD: 'Neues Passwort',
+        RESET_PW_TITLE: 'Passwort Zurücksetzen',
+        RESET_PW_INSTRUCT: 'Bitte ein neues Passwort angeben.',
+        TOKEN: 'Token',
+        FORGOT_PW_INSTRUCT: 'Bitte Email Adresse angeben. Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird Ihnen zugesendet.',
+        CHECK_EMAIL:'Überprüfen Sie Ihre E-Mail',
+        CHECK_EMAIL_INSTRUCT: 'Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet.',
+        PW_SUCCESS: 'Erfolg',
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
 
     });

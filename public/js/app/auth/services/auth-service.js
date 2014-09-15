@@ -25,7 +25,7 @@ angular.module('ds.auth')
             },
 
             customerSignin: function (user) {
-                return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
+                return AuthREST.Customers.all('login').customPOST(user);
             },
 
             /**
@@ -64,6 +64,26 @@ angular.module('ds.auth')
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();
+            },
+
+            /** Issues a 'reset password' request. Returns the promise of the completed action.*/
+            requestPasswordReset: function(email) {
+                var user = {
+                    email: email
+                };
+                return AuthREST.Customers.all('password').all('reset').customPOST( user);
+            },
+
+            /** Issues a 'change password' request.  Returns the promise of the completed action.
+             * @param token that was obtained for password reset
+             * @param new password
+             */
+            changePassword: function(token, newPassword) {
+                var user = {
+                    token: token,
+                    password: newPassword
+                };
+                return AuthREST.Customers.all('password').all('reset').all('update').customPOST( user);
             }
         };
         return AuthenticationService;
