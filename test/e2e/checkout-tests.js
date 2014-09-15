@@ -1,6 +1,13 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+          var date = Date();
+          var month = date.substr(4, 3);
+          var d = new Date();
+          var curr_date = d.getDate();
+          var curr_year = d.getFullYear();
+          var currentDate = month + " " + curr_date + ", " + curr_year;
+
           function fillCheckoutFormExceptEmail(form) {
             tu.sendKeysById('firstName' + form, 'Mike');
             tu.sendKeysById('lastName' + form, 'night');
@@ -101,7 +108,7 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(250)
             expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
-            browser.sleep(29000);
+            browser.sleep(25000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');           
           });
@@ -129,7 +136,7 @@ describe("checkout:", function () {
             browser.executeScript("document.getElementById('ccNumber').style.display='block';");
             validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            browser.sleep(29000);
+            browser.sleep(20000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
@@ -151,12 +158,59 @@ describe("checkout:", function () {
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
-            browser.sleep(29000);
+            browser.sleep(20000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
             tu.clickElement('id', "logout-btn");
 
            });
+
+
+           it('should create order on account page', function () {
+            tu.clickElement('xpath', tu.contineShopping);            
+            tu.clickElement('id', "login-btn");
+            browser.sleep(1000);
+            tu.sendKeysById('usernameInput', 'cool@cool.com');
+            tu.sendKeysById('passwordInput', 'coolio');
+            tu.clickElement('id', 'sign-in-button');
+            browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            browser.sleep(1000);
+            expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
+            expect(element(by.repeater('order in orders').row(0).column('order.itemCount')).getText()).toEqual("1");          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$27.81");          
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
+
+            tu.clickElement('id', "logout-btn");
+
+           });
+
+
+            //needs to be updated after   TP-1566 is fixed 
+           // it('should populate with existing address for logged in user', function () {
+           //  tu.clickElement('xpath', tu.contineShopping);            
+           //  tu.clickElement('id', "login-btn");
+           //  browser.sleep(1000);
+           //  tu.sendKeysById('usernameInput', 'cool@cool.com');
+           //  tu.sendKeysById('passwordInput', 'coolio');
+           //  tu.clickElement('id', 'sign-in-button');
+           //  browser.sleep(1000);
+           //  tu.clickElement('id', tu.cartButtonId);
+           //  browser.sleep(1000);
+           //  tu.clickElement('css', tu.checkoutButton);
+           //  browser.sleep(1000);
+           //  tu.sendKeysById('firstNameBill', 'Mike');
+           //  tu.sendKeysById('lastNameBill', 'night');
+           //  fillCreditCardForm('5555555555554444', '06', '2015', '000')
+           //  browser.sleep(500)
+           //  tu.clickElement('id', 'place-order-btn');
+           //  browser.sleep(20000);
+           //  // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
+           //  verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
+           //  tu.clickElement('id', "logout-btn");
+
+           // });
+
 
    });
 });
@@ -193,7 +247,7 @@ describe("mobile checkout:", function () {
         fillCreditCardForm('5555555555554444', '06', '2015', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
-        browser.sleep(29000);
+        browser.sleep(20000);
         verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
        });
 
@@ -215,7 +269,7 @@ describe("mobile checkout:", function () {
         fillCreditCardForm('5555555555554444', '06', '2015', '000')
         tu.clickElement('xpath', paymentButton);
         tu.clickElement('id', "place-order-btn");
-        browser.sleep(29000);
+        browser.sleep(20000);
         // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
         verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
 
