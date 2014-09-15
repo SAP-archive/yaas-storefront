@@ -57,7 +57,7 @@ describe('SidebarNavigationCtrl', function () {
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
-        mockedAuthSvc.signout = jasmine.createSpy('signout').andReturn({
+        mockedAuthSvc.signOut = jasmine.createSpy('signOut').andReturn({
             then: jasmine.createSpy('then')
         });
         mockedAuthSvc.getToken = jasmine.createSpy('getToken').andReturn(mockedToken);
@@ -107,13 +107,11 @@ describe('SidebarNavigationCtrl', function () {
         });
     });
 
-    // describe('login()', function(){
-    // });
 
     describe('logout()', function(){
-       it('should invoke signout on AuthSvc', function(){
+       it('should invoke signOut on AuthSvc', function(){
          $scope.logout();
-           expect(mockedAuthSvc.signout).toHaveBeenCalled();
+           expect(mockedAuthSvc.signOut).toHaveBeenCalled();
        });
     });
 

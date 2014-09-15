@@ -13,17 +13,10 @@
 'use strict';
 
 /**
- *  Encapsulates access to the "authorization" service.
+ *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$q', '$http', 'GlobalData', function (AuthREST, settings, TokenSvc, $q, $http, GlobalData) {
-
-        function getParameterByName(name, url) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-                results = regex.exec(url);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$state', '$q', function (AuthREST, settings, TokenSvc, $state, $q) {
 
         var AuthenticationService = {
 
@@ -35,42 +28,20 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
             },
 
-            anonymousSignin: function () {
-                var deferred = $q.defer();
-                var accountUrl = 'http://yaas-test.apigee.net/test/account/v1';
-
-                $http.post(accountUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '')
-                    .then(
-                    function (data) {
-                        console.log('login success');
-                        var token = getParameterByName('access_token', data.headers('Location'));
-                        var expiresIn = getParameterByName('expires_in', data.headers('Location'));
-                        deferred.resolve({ accessToken: token, expiresIn: expiresIn });
-                    },
-                    function (error) {
-                        console.error('Unable to perform anonymous login:');
-                        console.error(error);
-                        deferred.reject(error);
-                    }
-                );
-
-                return deferred.promise;
-            },
-
             /**
              * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
-             * Returns a promise for when that action has been performed.
+             * Returns a promise with "success" = access token for when that action has been performed.
              *
              * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
                 var signInDone = $q.defer();
 
-                var signinPromise = user ? this.customerSignin(user) : this.anonymousSignin();
+                var signinPromise = this.customerSignin(user);
 
                 signinPromise.then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                    signInDone.resolve({});
+                    signInDone.resolve(response.accessToken);
 
                 }, function(error){
                     signInDone.reject(error);
@@ -79,33 +50,17 @@ angular.module('ds.auth')
                 return signInDone.promise;
             },
 
-            anonymousLoginAfterLogout: function(){
+            /** Logs the customer out and removes the token cookie. */
+            signOut: function () {
+                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
+                // unset token after logout - new anonymous token will be generated for next request automatically
                 TokenSvc.unsetToken(settings.accessCookie);
-                return this.signin();
+                if ($state.is('base.account')) {
+                    $state.go('base.product');
+                }
             },
 
-            /** Logs the customer out and retrieves a new OAuth token for anonymous access.*/
-            signout: function () {
-                // promise is resolved once new anonymous token has been retrieved
-                var signOutCompletedDeferred = $q.defer();
-                var self = this;
-                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() }).then(function(){
-                    self.anonymousLoginAfterLogout().then(function(){
-                        signOutCompletedDeferred.resolve({});
-                    });
-                }, function(error){
-                    console.error('Logout failed:');
-                    console.error(error);
-                    // even after logout failure, proceed with token unset/anon login
-                    self.anonymousLoginAfterLogout().then(function(error){
-                        signOutCompletedDeferred.reject(error);
-                    });
-                });
-                return signOutCompletedDeferred.promise;
-            },
-
-
-
+            /** Returns true if there is a user specific OAuth token cookie.*/
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();

@@ -90,17 +90,16 @@ describe('TokenSvc', function () {
     });
 
     describe('setAnonymousToken', function(){
-        it('should not replace the token for an authenticated user', function(){
+        it('should not replace the token if it exists', function(){
             var authenticatedToken = '567';
-            ipCookie(cookieName, {userName:'bob', accessToken: authenticatedToken});
+            ipCookie(cookieName, {accessToken: authenticatedToken});
             TokenSvc.setAnonymousToken('432', 999);
             expect(ipCookie(cookieName).accessToken).toEqualData(authenticatedToken);
         });
 
-        it('should replace the token for an unauthenticated user', function(){
-            var anonOld = '567';
+        it('should set the token if none exists', function(){
+
             var anonNew = '432';
-            ipCookie(cookieName, {accessToken: anonOld});
             TokenSvc.setAnonymousToken(anonNew, 999);
             expect(ipCookie(cookieName).accessToken).toEqualData(anonNew);
         });
