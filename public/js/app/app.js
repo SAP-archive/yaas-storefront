@@ -72,27 +72,29 @@ window.app = angular.module('ds.router', [
                         });
                     };
                     if (response.status === 401) {
-                        // remove any existing token, as it appears to be invalid
-                        TokenSvc.unsetToken();
-                        var $state = $injector.get('$state');
-                        // if current state requires authentication, prompt user to sign in and reload state
-                        if ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated'){
-                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
-                                    callback();
-                                },
-                                function() {
-                                    callback();
-                                }
-                            );
-                        } else {
-                            // else, retry http request - new anonymous token will be triggered automatically
-                            // issue request to get token (async) and "save" http request
-                            $injector.get('AnonAuthSvc').getToken();
-                            var deferred = $q.defer();
-                            httpQueue.appendRejected(response.config, deferred);
-                            return deferred.promise;
+                        // 401 on login means wrong password - requires user action
+                        if(response.config.url.indexOf('login')<0) {
+                            // remove any existing token, as it appears to be invalid
+                            TokenSvc.unsetToken();
+                            var $state = $injector.get('$state');
+                            // if current state requires authentication, prompt user to sign in and reload state
+                            if ($state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated') {
+                                $injector.get('AuthDialogManager').open({}, {}).then(function () {
+                                        callback();
+                                    },
+                                    function () {
+                                        callback();
+                                    }
+                                );
+                            } else {
+                                // else, retry http request - new anonymous token will be triggered automatically
+                                // issue request to get token (async) and "save" http request
+                                $injector.get('AnonAuthSvc').getToken();
+                                var deferred = $q.defer();
+                                httpQueue.appendRejected(response.config, deferred);
+                                return deferred.promise;
+                            }
                         }
-
                     } else if(response.status === 403){
                         // using injector lookup to prevent circular dependency
                         var AuthSvc = $injector.get('AuthSvc');
@@ -271,6 +273,7 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+
                 .state('base.checkout.details', {
                     url: '/checkout/',
                     views: {
@@ -318,9 +321,17 @@ window.app = angular.module('ds.router', [
                     data: {
                         auth: 'authenticated'
                     }
-
-
+                })
+                .state('base.changePassword', {
+                    url: '/changePassword/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/auth/templates/password-reset.html',
+                            controller: 'PasswordUpdateCtrl'
+                        }
+                    }
                 });
+
 
             $urlRouterProvider.otherwise('/products/');
 

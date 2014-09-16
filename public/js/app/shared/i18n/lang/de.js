@@ -146,6 +146,8 @@ angular.module('ds.i18n')
         FORGOT_PW_INSTRUCT: 'Bitte Email Adresse angeben. Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird Ihnen zugesendet.',
         CHECK_EMAIL:'Überprüfen Sie Ihre E-Mail',
         CHECK_EMAIL_INSTRUCT: 'Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet.',
+        PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen anforderlich.',
+        PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
 

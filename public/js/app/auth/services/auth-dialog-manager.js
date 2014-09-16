@@ -107,10 +107,12 @@ angular.module('ds.auth')
                 },
 
                 /** Shows the "check your email" dialog. */
-                showChangePassword: function(){
+                showChangePassword: function(showBackDrop){
                     var modalOpts = {
                         templateUrl: './js/app/auth/templates/password-reset.html',
-                        controller: 'PasswordResetCtrl'
+                        controller: 'PasswordResetCtrl',
+                        size: 'lg',
+                        backdrop: showBackDrop? true : false
                     };
                     return openDialog(modalOpts);
                 },

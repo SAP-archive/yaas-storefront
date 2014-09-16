@@ -13,36 +13,26 @@
 
 angular.module('ds.auth')
     /**
-     * Authorization Dialog Controller. 
-     * Proxies calls to AuthCtrl and handles the lifecycle of authorization modal (destroying it when needed ...).
+     *  Handles interaction for "request password reset" dialog with follow-up "check your email" dialog.
      */
-    .controller('PasswordResetCtrl', ['$scope', '$modalInstance', 'AuthSvc', 'AuthDialogManager',
-        function($scope, $modalInstance, AuthSvc, AuthDialogManager) {
+    .controller('PasswordResetCtrl', ['$scope', '$modalInstance', 'AuthSvc', 'AuthDialogManager', '$state',
+        function($scope, $modalInstance, AuthSvc, AuthDialogManager, $state) {
 
 
         $scope.requestPasswordReset = function(email){
             AuthSvc.requestPasswordReset(email).then(function() {
                 $modalInstance.close();
                 AuthDialogManager.showCheckEmail();
+
             }, function(failure){
                 $modalInstance.close();
                 window.alert('Password reset failed: '+failure);
             });
         };
 
+        /** Navigates to the "changePassword" state. */
         $scope.showChangePassword = function(){
             $modalInstance.close();
-            AuthDialogManager.showChangePassword();
+            $state.transitionTo('changePassword');
         };
-
-        $scope.changePassword = function(token, password) {
-            AuthSvc.changePassword(token, password).then(function(){
-                $modalInstance.close();
-                AuthDialogManager.showPasswordChanged();
-            }, function(error){
-                $modalInstance.close();
-                window.alert('Password update failed: '+error);
-            });
-        };
-
     }]);

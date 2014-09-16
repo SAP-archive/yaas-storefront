@@ -147,6 +147,8 @@ angular.module('ds.i18n')
         FORGOT_PW_INSTRUCT: 'Please enter your account email address below.  An email will be sent to you with a link to reset your password.',
         CHECK_EMAIL:'Check Your Email',
         CHECK_EMAIL_INSTRUCT: 'Instructions for resetting your password have been sent to your email.',
+        PASSWORD_REQUIRED: 'Password with 6 character minimum required.',
+        PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
         PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.'
 	});
