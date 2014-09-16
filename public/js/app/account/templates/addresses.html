@@ -1,0 +1,24 @@
+<div ng-class="{ 'col-sm-6 col-md-6 col-lg-4': !isDialog, 'col-md-6': isDialog }" ng-repeat="address in addresses">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="pull-left">
+        <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
+          <span>{{address.contactName}}</span> <em ng-if="address.isDefault">(default)</em><br>
+          <span>{{address.streetNumber}} {{address.street}}<span ng-if="address.streetAppendix">, {{address.streetAppendix}}</span></span><br>
+          <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
+          <span>{{address.country}}</span><br>
+          <span>{{address.contactPhone}}</span><br>
+        </address>
+      </div>
+      <div class="btn-group-vertical pull-right states-toolbar">
+        <button id="set-default-btn" class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-star"></span></button>
+        <button class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.selected }" ng-click="selectAddress(address)" ng-if="isDialog"><span class="glyphicon glyphicon-check"></span></button>
+        <button class="btn btn-link btn-lg" ng-click="openAddressModal(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button id="delete-address-btn" class="btn btn-link btn-lg delete" ng-click="removeAddress(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12" ng-if="!addresses.length">
+  <p>{{'NO_ADDRESSES' | translate}}</p>
+</div>

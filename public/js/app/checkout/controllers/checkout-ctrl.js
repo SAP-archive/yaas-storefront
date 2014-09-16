@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', [ '$scope', '$rootScope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', 'shippingCost', '$state', '$translate', '$modal',
-        function ($scope, $rootScope, $location, $anchorScroll, CheckoutSvc, cart, order, shippingCost, $state, $translate, $modal) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $rootScope.showCart = false;
 
@@ -50,6 +50,82 @@ angular.module('ds.checkout')
             $scope.cart = cart;
             $scope.shippingCosts = shippingCost;
             $scope.order.shippingCost = shippingCost.price.price;
+            $scope.user = GlobalData.user;
+            $scope.addresses = [];
+            var selectedAddress;
+            var addressModalInstance;
+
+            $scope.order.account = {};
+
+            var decorateSelectedAddress = function(addresses) {
+                if (selectedAddress) {
+                    angular.forEach(addresses, function(addr) {
+                        if (addr.id === selectedAddress.id) {
+                            addr.selected = true;
+                        }
+                    });
+                } else {
+                    angular.forEach(addresses, function(addr) {
+                        if (addr.isDefault) {
+                            addr.selected = true;
+                        }
+                    });
+                }
+                return addresses;
+            };
+
+            var getDefaultAddress = function() {
+                // don't retrieve address for anonymous shopper
+                if(AuthSvc.isAuthenticated()) {
+                    AccountSvc.getDefaultAddress().then(
+                        function (address) {
+                            if (address) {
+                                $scope.order.billTo.contactName = address.contactName;
+                                $scope.order.billTo.address1 = address.street;
+                                $scope.order.billTo.address2 = address.streetAppendix;
+                                $scope.order.billTo.country = address.country;
+                                $scope.order.billTo.city = address.city;
+                                $scope.order.billTo.state = address.state;
+                                $scope.order.billTo.zip = address.zipCode;
+                            }
+                        });
+                }
+            };
+
+            var getAddresses = function() {
+                if(AuthSvc.isAuthenticated()) {
+                    AccountSvc.getAddresses().then(function (response) {
+                        $scope.addresses = decorateSelectedAddress(response);
+                    });
+                }
+            };
+
+            var getAccount = function() {
+                AccountSvc.account().then(function(account) {
+                    $scope.order.account.email = account.contactEmail;
+                    $scope.order.account.firstName = account.firstName;
+                    $scope.order.account.lastName = account.lastName;
+                });
+            };
+
+            $scope.$on('user:signedin', function() {
+console.log('USER SIGNED IN!');
+                getDefaultAddress();
+                getAccount();
+                getAddresses();
+            });
+
+            if (!AuthSvc.isAuthenticated()) {
+                AuthDialogManager.open(null, { required: true });
+
+                }
+
+            getDefaultAddress();
+            if (GlobalData.user.isAuthenticated) {
+                getAccount();
+            }
+            getAddresses();
+
 
             $scope.badEmailAddress = false;
 
@@ -310,4 +386,39 @@ angular.module('ds.checkout')
                     $scope.message = defaultErrorMsg;
                 }
             };
+
+            $scope.selectAddress = function(address) {
+                selectedAddress = address;
+                addressModalInstance.close();
+                $scope.wiz.shipToSameAsBillTo = address.isDefault;
+                $scope.order.shipTo.contactName = address.contactName;
+                $scope.order.shipTo.address1 = address.street;
+                $scope.order.shipTo.address2 = address.streetAppendix;
+                $scope.order.shipTo.country = address.country;
+                $scope.order.shipTo.city = address.city;
+                $scope.order.shipTo.state = address.state;
+                $scope.order.shipTo.zip = address.zipCode;
+            };
+
+            $scope.openAddressDialog = function() {
+                addressModalInstance = $modal.open({
+                    templateUrl: './js/app/account/templates/addresses-dialog.html',
+                    scope: $scope,
+                    resolve: {
+                        addresses: function(AccountSvc) {
+                            var promise = AccountSvc.getAddresses();
+                            promise.then(function(response) {
+                                $scope.addresses = decorateSelectedAddress(response);
+                                $scope.isDialog = true;
+                            });
+                            return promise;
+                        }
+                    }
+                  });
+            };
+
+            $scope.closeAddressDialog = function () {
+                addressModalInstance.close();
+            };
+
         }]);

@@ -1,0 +1,107 @@
+<!--
+~ [y] hybris Platform
+~
+~ Copyright (c) 2000-2014 hybris AG
+~ All rights reserved.
+~
+~ This software is the confidential and proprietary information of hybris
+~ ("Confidential Information"). You shall not disclose such Confidential
+~ Information and shall use it only in accordance with the terms of the
+~ license agreement you entered into with hybris.
+-->
+<div class="account">
+  <section class="white">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-9 col-sm-5">
+          <div class="page-headline">
+            <h1>
+              <small>My Account</small></br>
+              Welcome<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
+          </h1>
+          </div>
+          <address ng-if="defaultAddress">
+            <span>{{defaultAddress.street}}</span>
+            <span>{{defaultAddress.streetNumber}}</span>
+            <br>
+            <span>{{defaultAddress.city}}</span>, {{defaultAddress.state}} {{defaultAddress.zipCode}}<br>
+            <span>{{defaultAddress.country}}</span><br>
+            <span>{{defaultAddress.contactPhone}}</span>
+          </address>
+        </div>
+        <div class="col-xs-3 col-sm-2 text-center">
+          <img src="./img/user-icon_big.png" class="img-circle img-responsive"/>
+        </div>
+        <div class="col-sm-12 col-sm-5">
+          <div class="clearfix visible-xs"></div>
+          <span class="area-headline">Account Details</span>
+          <div class="account-details">
+            <div>
+              <span class="inline-label">First Name:</span> <a href="#" alt="Edit">{{account.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div>
+              <span class="inline-label">Last Name:</span> <a href="#" alt="Edit">{{account.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div>
+              <span class="inline-label">Email:</span> <a href="#" alt="Edit">{{account.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div>
+              <span class="inline-label">Password:</span> <a href="#" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div>
+              <span class="inline-label">Preferred Locale:</span> <a href="#" >{{languageLocales[account.preferredLanguage]}} <span class="caret"></span></a>
+            </div>
+            <div>
+              <span class="inline-label">Currency:</span> <a href="#" >{{currencies[account.preferredCurrency]}} <span class="caret"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="section-headline clearfix">
+      <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
+      <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
+      Add
+      </button>
+    </div>
+    <div class="row">
+      <div ng-include="'./js/app/account/templates/addresses.html'"></div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
+    </div>
+  </section>
+  <section class="mediumgray">
+    <div class="section-headline clearfix">
+      <h2>Order History</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Order Number</th>
+            <th>Items in order</th>
+            <th>Order total</th>
+            <th>Order status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="order in orders">
+            <td>{{order.created | date: 'medium'}}</td>
+            <td><a href="#">{{order.id}}</a></td>
+            <td>{{order.itemCount}}</td>
+            <td>{{order.totalPrice | currency: '$'}}</td>
+            <td><strong>{{order.status}}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
+    </div>
+  </section>
+</div>

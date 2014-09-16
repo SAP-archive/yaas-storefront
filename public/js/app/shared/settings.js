@@ -10,37 +10,38 @@ angular.module('ds.shared')
 	 */
 	.constant('settings', {
 
-        cartTenant: 'single', // temp workaround Priceless issue with hard-coded tenant id
-
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
-        authTokenKey: 'auth.user',
-        accessTokenKey: 'auth.accessToken',
-        userIdKey: 'user.email',
+        // cookie name
+        accessCookie: 'auth.user',
+        forgotPassword: {
+            paramName: 'forgotPassword'
+        },
 
         // defines thea API endpoints and routes
         apis: {
-
+            account: {
+              baseUrl: 'http://yaas-test.apigee.net/test/account/v1'
+            },
             configuration: {
-               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
+               baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,
             products: {
-
-                baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
+                baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
 
             productDetails: {
-                baseUrl: 'http://product-details-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/product-details/v1'
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/checkout-mashup/v1'
             },
 
             orders: {
-                baseUrl: 'http://order-v1.test.cf.hybris.com'
+                baseUrl: 'http://order-v2.test.cf.hybris.com'
             },
 
             cartItems: {
@@ -56,7 +57,7 @@ angular.module('ds.shared')
             },
 
             prices: {
-                baseUrl: 'http://price-v1.test.cf.hybris.com'
+                baseUrl: 'http://price-v2.test.cf.hybris.com'
             },
 
             shippingCosts: {
@@ -64,8 +65,7 @@ angular.module('ds.shared')
             },
 
             customers: {
-                baseUrl: 'http://customer-v2.test.cf.hybris.com',
-                apiKey: 'rvwIrsuqSM2iENjhvuPgQ75HNivPQ6TT'
+                baseUrl: 'http://yaas-test.apigee.net/test/customer/v4'
             },
 
             // header keys
@@ -77,9 +77,8 @@ angular.module('ds.shared')
                 hybrisRoles: 'hybris-roles',
                 hybrisUser: 'hybris-user',
                 hybrisApp: 'hybris-app',
-
-                hybrisAuthentication: 'Authentication',
-
+                language:  'accept-language',
+                hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
                 }

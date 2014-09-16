@@ -19,6 +19,8 @@ angular.module('ds.i18n')
          */
         ADDRESS: 'Address',
         ADDRESS_REQUIRED: 'Address Required',
+        ADDRESS_LINE_1: 'Address Line 1',
+        ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CC_REQUIRED: 'Credit Card Required',
         CITY: 'City',
@@ -43,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
         MONTH: 'Month',
+        NAME: 'Name',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
         ORDER_PENDING: 'One moment... Placing your order',
@@ -114,6 +117,23 @@ angular.module('ds.i18n')
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
 		en: 'English',
-		de: 'German'
+		de: 'German',
+        SIGN_OUT: 'Sign Out',
+        SIGN_IN: 'Sign In',
+        MY_ACCOUNT: 'My Account',
+        CREATE_ACCOUNT: 'Create Account',
+        CONTINUE_AS_GUEST: 'Continue as our guest',
+
+        /*
+            account page
+         */
+        ADDRESSBOOK: 'Addressbook',
+        NO_ADDRESSES: 'You have no addresses stored!',
+        ADD_ADDRESS: 'Add Address',
+        CONTACT_NAME: 'Contact Name',
+        CONTACT_PHONE: 'Contact Phone',
+        NAME_REQUIRED: 'Name Required',
+        STREET: 'Street',
+        STREET_NUMBER: 'Street Number'
 
 	});

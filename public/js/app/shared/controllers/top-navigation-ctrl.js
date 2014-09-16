@@ -2,13 +2,14 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'cart',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, cart) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = cart;
-
+            $scope.cart = CartSvc.getCart();
+            $scope.isAuthenticated = AuthSvc.isAuthenticated;
+            $scope.user = GlobalData.user;
 
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
@@ -32,7 +33,18 @@ angular.module('ds.shared')
             /** Toggles the navigation menu for the mobile view. */
             $scope.toggleOffCanvas = function () {
                 $rootScope.showMobileNav = !$rootScope.showMobileNav;
+            };
 
+            $scope.logout = function() {
+                AuthSvc.signOut();
+            };
+            
+            $scope.login = function(dOpts, opts) {
+                AuthDialogManager.open(dOpts, opts);
+            };
+
+            $scope.myAccount = function() {
+                $state.go('base.account');
             };
 
         }]);

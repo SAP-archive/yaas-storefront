@@ -13,7 +13,7 @@
 describe('ConfirmationCtrl Test', function () {
 
     var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, mockedProductSvc, confCtrl,
-        orderDetailQueryDeferred, productQueryDeferred;
+        mockedOrderDetails, mockedProducts;
     var orderId = 123;
     var mockedOrderDetailSvc = {};
     var mockedProductSvc = {};
@@ -44,9 +44,24 @@ describe('ConfirmationCtrl Test', function () {
     }));
 
     beforeEach(function(){
-        orderDetailQueryDeferred.resolve({});
-        mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(orderDetailQueryDeferred.promise);
-        mockedProductSvc.query = jasmine.createSpy('query').andReturn(productQueryDeferred.promise);
+        mockedOrderDetails = {'id': 'order5678', 'entries': [{'sku': 'product1234', 'amount': '1', 'unitPrice': '10'}, {'sku': 'product5678', 'amount': '2', 'unitPrice': '5'}]};
+
+        mockedOrderDetails.headers = [];
+        var deferredOrderDetails = $q.defer();
+        deferredOrderDetails.resolve(mockedOrderDetails);
+
+        mockedProducts = [
+            {'id': 'product1234'},
+            {'id': 'product5678'},
+            {'id': 'product9876'}
+        ];
+
+        mockedProducts.headers = [];
+        var deferredProducts = $q.defer();
+        deferredProducts.resolve(mockedProducts);
+
+        mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(deferredOrderDetails.promise);
+        mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
     });
 
 
@@ -61,6 +76,19 @@ describe('ConfirmationCtrl Test', function () {
         it(' should inject order id ', function () {
            expect($scope.orderInfo).toBeTruthy();
            expect($scope.orderInfo.orderId).toEqualData(orderId);
+        });
+
+    });
+
+    describe('should get formatted confirmation details', function () {
+
+        it ('should get the formatted confirmation details', function () {
+            $scope.$digest();
+
+            expect($scope.confirmationDetails.products[0].price).toEqualData('10');
+            expect($scope.confirmationDetails.products[0].amount).toEqualData('1');
+            expect($scope.confirmationDetails.products[1].price).toEqualData('5');
+            expect($scope.confirmationDetails.products[1].amount).toEqualData('2');
         });
 
     });

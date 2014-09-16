@@ -17,6 +17,17 @@
  */
 angular.module('ds.products')
     .factory('PriceProductREST', ['settings', 'Restangular', 'GlobalData', function(settings, Restangular, GlobalData){
+        function applyLanguageHeader(RestangularConfigurer){
+            RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+
+                return {
+                    element: element,
+                    params: params,
+                    headers: _.extend(headers, {'accept-language': GlobalData.acceptLanguages}),
+                    httpConfig: httpConfig
+                };
+            });
+        }
 
             return {
                 /** Endpoint for Prices API.*/
@@ -32,23 +43,15 @@ angular.module('ds.products')
                             result.headers = headers;
                             return result;
                         });
+                        applyLanguageHeader(RestangularConfigurer);
 
-                    RestangularConfigurer.setFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
-
-                        return {
-                            element: element,
-                            params: params,
-                            headers: _.extend(headers, {'accept-language': GlobalData.acceptLanguages}),
-                            httpConfig: httpConfig
-                        };
-                    });
                     }),
                 /** Endpoint for ProductDetails API. */
                 ProductDetails: Restangular.withConfig(function(RestangularConfigurer) {
                     RestangularConfigurer.setBaseUrl(settings.apis.productDetails.baseUrl);
+                    applyLanguageHeader(RestangularConfigurer);
                 })
             };
-
 
 
     }]);

@@ -13,10 +13,10 @@
 'use strict';
 
 /**
- *  Encapsulates access to the "authorization" service.
+ *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'CookiesStorage', function(AuthREST, settings, Storage){
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$state', '$q', function (AuthREST, settings, TokenSvc, $state, $q) {
 
         var AuthenticationService = {
 
@@ -24,53 +24,48 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('signup').customPOST(user);
             },
 
-            customerSignin: function(user) {
+            customerSignin: function (user) {
                 return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
             },
 
-            anonymousSignin: function() {
-                return AuthREST.Customers.all('login').all('anonymous').customGET('', { apiKey: settings.apis.customers.apiKey });
-            },
-
             /**
-             * Sign in promise resolver function used for resolving the type of signin
-             * If user parameter is not provided than anonymous login will be performed, otherwise it'll initiate customer signup with provided credentials.
-             * 
-             * @param user JSON object (with email, password properties) 
+             * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
+             * Returns a promise with "success" = access token for when that action has been performed.
+             *
+             * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
-                var signinPromise = user ? this.customerSignin(user) : this.anonymousSignin();
-                
-                signinPromise.then(function(response) {
-                    Storage.setToken(response.accessToken, user ? user.email : null);
+                var signInDone = $q.defer();
+
+                var signinPromise = this.customerSignin(user);
+
+                signinPromise.then(function (response) {
+                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
+                    signInDone.resolve(response.accessToken);
+
+                }, function(error){
+                    signInDone.reject(error);
                 });
 
-                return signinPromise;
+                return signInDone.promise;
             },
 
-            signout: function() {
-                var signoutPromise = AuthREST.Customers.all('logout').customGET('', { accessToken: Storage.getToken().getAccessToken() }),
-                    self = this;
-                
-                signoutPromise.then(function() {
-                    Storage.unsetToken(settings.accessTokenKey);
-                    self.signin();  // Obtain access_token as anonymous user
-                });
-
-                return signoutPromise;
+            /** Logs the customer out and removes the token cookie. */
+            signOut: function () {
+                AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
+                // unset token after logout - new anonymous token will be generated for next request automatically
+                TokenSvc.unsetToken(settings.accessCookie);
+                if ($state.is('base.account')) {
+                    $state.go('base.product');
+                }
             },
 
-            setToken: Storage.setToken,
-
-            getToken: Storage.getToken,
-
-            isAuthenticated: function() {
-                var token = Storage.getToken();
+            /** Returns true if there is a user specific OAuth token cookie.*/
+            isAuthenticated: function () {
+                var token = TokenSvc.getToken();
                 return !!token.getAccessToken() && !!token.getUsername();
             }
-
         };
-
         return AuthenticationService;
 
     }]);

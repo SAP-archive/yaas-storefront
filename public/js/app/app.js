@@ -10,25 +10,47 @@ window.app = angular.module('ds.router', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.account',
     'ds.auth',
+    'ds.orders',
+    'ds.queue',
     'config'
 ])
     .constant('_', window._)
+    /*
+    .factory('YaasRestangular', ['Restangular', function (Restangular) {
+        return Restangular.withConfig(function(RestangularConfigurator) {
 
+        });
+    }])*/
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', 'settings',
-        function ($q, settings) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
+        function ($q, $injector, settings,  TokenSvc, httpQueue) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
-                    if(config.url.indexOf('product') < 0 && config.url.indexOf('orders') < 0 && config.url.indexOf('shipping-cost') < 0 ) {
-                        config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                    // skip html requests as well as anonymous login URL
+                    if(config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl)< 0 ) {
+                        // tweak headers if going against non-proxied services (for dev purposes only)
+                        if (config.url.indexOf('yaas') < 0) {
+                            delete config.headers[settings.apis.headers.hybrisAuthorization];
+                            if (config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0) {
+                                config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                            }
+                        } else {
+                            var token = TokenSvc.getToken().getAccessToken();
+                            if(token) {
+                                config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
+                            } else {
+                                // no local token - issue request to get token (async) and "save" http request for re-try
+                                $injector.get('AnonAuthSvc').getToken();
+                                var deferred = $q.defer();
+                                httpQueue.appendBlocked(config, deferred);
+                                return deferred.promise;
+                            }
+                        }
                     }
-                    // TODO: use this once switched to proxies (passing accessToken)
-                    // if (Storage.getToken().getAccessToken()) {
-                    //     // config.headers[settings.apis.headers.hybrisAuthentication] = 'Bearer' + Storage.getToken().getAccessToken();
-                    // }
                     return config || $q.when(config);
                 },
                 requestError: function(request){
@@ -41,34 +63,144 @@ window.app = angular.module('ds.router', [
                 },
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
+                    var callback = function (){
+                        var $state = $injector.get('$state');
+                        $state.transitionTo($state.current, $injector.get('$stateParams'), {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
+                    };
+                    if (response.status === 401) {
+                        // remove any existing token, as it appears to be invalid
+                        TokenSvc.unsetToken();
+                        var $state = $injector.get('$state');
+                        // if current state requires authentication, prompt user to sign in and reload state
+                        if ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated'){
+                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
+                                    callback();
+                                },
+                                function() {
+                                    callback();
+                                }
+                            );
+                        } else {
+                            // else, retry http request - new anonymous token will be triggered automatically
+                            // issue request to get token (async) and "save" http request
+                            $injector.get('AnonAuthSvc').getToken();
+                            var deferred = $q.defer();
+                            httpQueue.appendRejected(response.config, deferred);
+                            return deferred.promise;
+                        }
+
+                    } else if(response.status === 403){
+                        // using injector lookup to prevent circular dependency
+                        var AuthSvc = $injector.get('AuthSvc');
+                        if(AuthSvc.isAuthenticated()){
+                            // User is authenticated but is not allowed to access resource
+                            // this scenario shouldn't happen, but if it does, don't fail silently
+                            window.alert('You are not authorized to access this resource!');
+                        } else {
+                            // User is not authenticated - make them log in and reload the current state
+                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
+                                    callback();
+                                },
+                                function() {
+                                    callback();
+                                }
+                            );
+                        }
+                    }
                     return $q.reject(response);
                 }
             };
         }])
+
+
+
     // Configure HTTP and Restangular Providers - default headers, CORS
     .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
         $httpProvider.interceptors.push('interceptor');
 
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
 
-        var headers = {};
-        headers[settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-        headers[settings.apis.headers.hybrisRoles] = settings.roleSeller;
-        headers[settings.apis.headers.hybrisUser] = settings.hybrisUser;
-        
-        RestangularProvider.setDefaultHeaders(headers);
+            var oldHeaders = {};
+            if(url.indexOf('yaas')<0) {
+                delete $httpProvider.defaults.headers.common[settings.apis.headers.hybrisAuthorization];
+                //work around if not going through Apigee proxy for a particular URL, such as while testing new services
+                oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
+                oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
+            }
+            return {
+                element: element,
+                params: params,
+                headers: _.extend(headers, oldHeaders),
+                httpConfig: httpConfig
+            };
+        });
     }])
-    // Load the basic store configuration
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc',
-        function ($rootScope, storeConfig, ConfigSvc) {
+
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue) {
+            if(storeConfig.token) {
+                TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+            }
+
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+            
+            $rootScope.$on('$stateChangeStart', function () {
+                // Make sure dialog is closed (if it was opened)
+                AuthDialogManager.close();
+            });
+
+            $rootScope.$on('authtoken:obtained', function(event, token){
+                httpQueue.retryAll(token);
+            });
+
+            $rootScope.$on('$locationChangeSuccess', function() {
+                if ($location.search()[settings.forgotPassword.paramName]) {
+                    AuthDialogManager.open({}, { forgotPassword: true });
+                }
+            });
+
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
+                // handle attempt to access protected resource - show login dialog if user is not authenticated
+                if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
+                    var callback = function (){
+                        if(AuthSvc.isAuthenticated()){
+                            $state.go(toState, toParams);
+                        }
+                    };
+                    AuthDialogManager.open({}, {}).then(function(){
+                           callback();
+                        },
+                        function() {
+                            callback();
+                        }
+                    );
+                    // block immediate state transition to protected resources - re-navigation will be handled by callback
+                    if(!AuthSvc.isAuthenticated()){
+                        event.preventDefault();
+                        if(!fromState || fromState.name ==='') {
+                           $state.go('base.product');
+                        }
+
+                    }
+                }
+            });
+
+            $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
+                GlobalData.user.isAuthenticated = isAuthenticated;
+                GlobalData.user.username = TokenSvc.getToken().getUsername();
+            });
 
             // setting root scope variables that drive class attributes in the BODY tag
             $rootScope.showCart =false;
             $rootScope.showMobileNav=false;
-            $rootScope.showAuthPopup = false;
         }
     ])
 
@@ -96,22 +228,14 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
-                        },
-                        'authorization@': {
-                            templateUrl: 'js/app/auth/templates/auth.html',
-                            controller: 'AuthCtrl'
                         }
                     },
-                    resolve:  {
-                        accessToken: function(AuthSvc) {
-                            var accessToken = AuthSvc.getToken().getAccessToken();
-                            if (!accessToken) {
-                                accessToken = AuthSvc.signin();
-                            }
-                            return accessToken;
-                        },
-                        cart: function(CartSvc){
-                            CartSvc.getCart();
+                    onEnter: function($location, settings, AuthDialogManager){
+                        if ($location.search()[settings.forgotPassword.paramName]) {
+                            console.log('forgotPassword parameter found');
+                            AuthDialogManager.open({
+                                templateUrl: './js/app/auth/templates/password.html'
+                            });
                         }
                     }
                 })
@@ -142,6 +266,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.checkout', {
+                    abstract: true,
                     views: {
                         'main@': {
                             templateUrl: 'js/app/checkout/templates/checkout-frame.html'
@@ -150,11 +275,12 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
+
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function(CheckoutSvc){
+                        shippingCost: function (CheckoutSvc) {
                             return CheckoutSvc.getShippingCost();
                         }
                     }
@@ -181,7 +307,32 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
-            ;
+                .state('base.account', {
+                    url: '/account/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/account/templates/account.html',
+                            controller: 'AccountCtrl'
+                        }
+                    },
+                    resolve: {
+                        account: function(AccountSvc) {
+                            return AccountSvc.account();
+                        },
+                        addresses: function(AccountSvc) {
+                            return AccountSvc.getAddresses();
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
+                        }
+                    },
+                    data: {
+                        auth: 'authenticated'
+                    }
+                });
 
             $urlRouterProvider.otherwise('/products/');
 
@@ -213,4 +364,5 @@ window.app = angular.module('ds.router', [
             $locationProvider.hashPrefix('!');
         }
     ]);
+
 

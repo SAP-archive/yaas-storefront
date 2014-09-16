@@ -9,23 +9,12 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
-/**
- * [y] hybris Platform
- *
- * Copyright (c) 2000-2014 hybris AG
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of hybris
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with hybris.
- */
 describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
     var fullUrl = url+dummyRoute;
-    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
+    var configurationsUrl = 'http://yaas-test.apigee.net/test/configuration/v2/configurations';
     var $scope, $rootScope, $httpBackend, configSvc, globalData;
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';

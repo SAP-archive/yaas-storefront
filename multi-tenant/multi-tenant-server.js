@@ -3,13 +3,12 @@ var http = require('http');
 var express = require('express');
 var path = require('path');
 var request = require('request');
+var async = require('async');
 
-var token = null; // OAuth token for anonymous login
 var storeNameConfigKey = 'store.settings.name';
-var storeFrontProjectId = '93b808b0-98f0-42e3-b1a8-ef81dac762b6';
 
 var configSvcUrl = 'http://configuration-v2.test.cf.hybris.com/configurations/';
-var authSvcUrl = 'http://user-service.test.cf.hybris.com/auth/';
+var authSvcUrl = 'http://yaas-test.apigee.net/test/account/v1/auth/';
 
 
 //****************************************************************
@@ -22,19 +21,18 @@ function getParameterByName(name, url) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-/*
-request.post(
-        authSvcUrl + 'anonymous/login?hybris-tenant='+storeFrontProjectId,
-    { form: { key: 'value' } },
-    function (error, response, body) {
-        console.log('token request response: '+ response.statusCode);
-        if (error ) {
-            console.log(error);
-        }
-        token = getParameterByName('access_token', response.headers['location']);
 
-    }
-); */
+function getAnonymousToken(projectId, callback) {
+    request.post(
+            authSvcUrl + 'anonymous/login?hybris-tenant=' + projectId,
+        { form: { key: 'value' } },
+        function (error, response, body) {
+            //console.log(response.headers);
+            callback(error, getParameterByName('access_token', response.headers['location']),
+                parseInt(getParameterByName('expires_in', response.headers['location'])));
+        }
+    );
+}
 // **************************************************************************
 
 // Build the server
@@ -55,23 +53,31 @@ app.get('/:storename?/', function(req, response, next){
     if(!tenant){
         console.error('missing storename path parameter!');
     }
-    var configSvcOptions = {
-        url: configSvcUrl+storeNameConfigKey,
-        headers: {
-            'hybris-tenant': tenant
+
+    var renderIndex = function (err, token, expiresIn) {
+        if(err)  {
+            console.log(err);
+            next(err);
         }
+        var configSvcOptions = {
+            url: configSvcUrl+storeNameConfigKey,
+            headers: {
+                'hybris-tenant': tenant,
+                'Authorization' : token
+            }
+        };
+        request.get(configSvcOptions, function(err, reponse, body) {
+            if(!err) {
+                //console.log(body);
+                response.render("index", {store: {name: JSON.parse(body).value, style: 'css/app/style.css'}});
+            } else {
+                console.log(err);
+                next(err);
+            }
+        })
     };
 
-    //console.log(configSvcOptions);
-    request.get(configSvcOptions, function(error, reponse, body) {
-        if(!error) {
-            //console.log(body);
-            response.render("index", {store: {name: JSON.parse(body).value, style: 'css/app/style.css'}});
-        } else {
-            console.log(error);
-            next(error);
-        }
-    })
+    getAnonymousToken(tenant, renderIndex);
 });
 
 //*********************
@@ -80,13 +86,24 @@ app.get('/:storename/storeconfig', function(request, response) {
     // tenant and url prefix/store name equivalent at this time
     var tenant  =  request.params["storename"];
 
-    console.log('request for store config for '+tenant);
-    var json = JSON.stringify( {
-            storeTenant: tenant,
-            accessToken: token }
-    );
-    //console.log(json);
-    response.send(json);
+    //console.log('request for store config for '+tenant);
+
+    var sendStoreConfig = function(err, token, expiresIn) {
+        if(err) {
+            console.log(err);
+            next(err);
+        }
+        var json = JSON.stringify( {
+                storeTenant: tenant,
+                token: token ,
+                expiresIn: expiresIn}
+        );
+        //console.log(json);
+        response.send(json);
+    }
+
+    getAnonymousToken(tenant, sendStoreConfig);
+
 });
 
 

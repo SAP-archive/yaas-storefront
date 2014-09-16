@@ -18,6 +18,8 @@ angular.module('ds.i18n')
          checkout
          */
         ADDRESS: 'Adresse',
+        ADDRESS_LINE_1: 'Adresszeile 1',
+        ADDRESS_LINE_2: 'Adresszeile 2',
         ADDRESS_REQUIRED: 'Adresse erforderlich',
         BILLING_ADDRESS: 'Rechnungsadresse',
         CC_REQUIRED: 'Kreditkarte erforderlich',
@@ -43,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Nachname Pflicht',
         METHOD: 'Verfahren',
         MONTH: 'Monat',
+        NAME: 'Name',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
@@ -113,6 +116,23 @@ angular.module('ds.i18n')
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',
 		en: 'Englisch',
-		de: 'Deutsch'
+		de: 'Deutsch',
+        SIGN_OUT: 'Austragen',
+        SIGN_IN: 'Anmelden',
+        MY_ACCOUNT: 'Mein Profil',
+        CREATE_ACCOUNT: 'Benutzerkonto erstellen',
+        CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
+
+        /*
+            account page
+         */
+        ADDRESSBOOK: 'Adressbuch',
+        NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
+        ADD_ADDRESS: 'Adresse hinzufügen',
+        CONTACT_NAME: 'Kontact Name',
+        CONTACT_PHONE: 'Kontakt Telefon',
+        NAME_REQUIRED: 'Name Erforderlich',
+        STREET: 'Straße',
+        STREET_NUMBER: 'Straße Anzahl'
 
     });
