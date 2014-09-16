@@ -13,7 +13,8 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockBackend, authModel;
+    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockBackend, authModel,
+        deferredSignIn, deferredSignUp;
     var mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -68,12 +69,15 @@ describe('AuthModalDialogCtrl Test', function () {
     }));
 
     beforeEach(function () {
+        deferredSignIn = $q.defer();
+        deferredSignUp = $q.defer();
+
         MockedAuthSvc = {
-            signin: jasmine.createSpy('signin').andReturn({
-                then: jasmine.createSpy('then')
+            signin: jasmine.createSpy('signin').andCallFake(function(){
+                return deferredSignIn.promise;
             }),
-            signup: jasmine.createSpy('signup').andReturn({
-                then: jasmine.createSpy('then')
+            signup: jasmine.createSpy('signup').andCallFake(function() {
+                return deferredSignUp.promise;
             })
         };
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
