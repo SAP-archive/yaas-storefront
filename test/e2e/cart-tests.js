@@ -22,7 +22,7 @@ describe("cart:", function () {
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.tatteredBowls);
-         browser.sleep(1500);
+         browser.sleep(2000);
          tu.clickElement('id', tu.buyButton);
          browser.sleep(250);
          tu.verifyCartAmount("1");
@@ -40,7 +40,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.tatteredBowls);
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
@@ -64,7 +64,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.tatteredBowls);
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
@@ -104,7 +104,7 @@ describe("cart:", function () {
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.tatteredBowls);
-          browser.sleep(1000);
+          browser.sleep(2000);
           tu.clickElement('id', tu.buyButton); 
           browser.sleep(250);
           tu.verifyCartTotal("$10.67");
