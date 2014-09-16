@@ -9,8 +9,7 @@ var tu = require('./protractor-utils.js');
           var currentDate = month + " " + curr_date + ", " + curr_year;
 
           function fillCheckoutFormExceptEmail(form) {
-            tu.sendKeysById('firstName' + form, 'Mike');
-            tu.sendKeysById('lastName' + form, 'night');
+            tu.sendKeysById('contactName' + form, 'Mike Night');
             tu.sendKeysById('address1' + form, '123');
             tu.sendKeysById('address2' + form, '321');
             tu.sendKeysById('city' + form, 'Boulder');
@@ -45,8 +44,7 @@ var tu = require('./protractor-utils.js');
 
           function verifyValidationForEachField(form, buttonType, button) {
             validateField('zipCode', form, '80301', buttonType, button);
-            validateField('firstName', form, 'Mike', buttonType, button);
-            validateField('lastName', form, 'Night', buttonType, button);
+            validateField('contactName', form, 'Mike Night', buttonType, button);
             validateField('address1', form, '123', buttonType, button);
             validateField('city', form, 'Boulder', buttonType, button);
           }
@@ -100,6 +98,8 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
@@ -117,6 +117,8 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');          
             tu.sendKeysById('email', 'mike@place.com'); 
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
@@ -153,14 +155,14 @@ describe("checkout:", function () {
             browser.sleep(1000);
             tu.clickElement('css', tu.checkoutButton);
             browser.sleep(1000);
-            tu.sendKeysById('firstNameBill', 'Mike');
-            tu.sendKeysById('lastNameBill', 'night');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-            verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
+            verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
             tu.clickElement('id', "logout-btn");
 
            });
@@ -227,7 +229,7 @@ describe("mobile checkout:", function () {
        browser.sleep(8000);
      });
 
-     var continueButton1 = '//div[11]/button'
+     var continueButton1 = '//div[12]/button'
      var continueButton2 = '//div[6]/button'
      var paymentButton = "//button[@type='submit']"
    
@@ -237,6 +239,8 @@ describe("mobile checkout:", function () {
         browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
+        tu.sendKeysById('firstNameAccount', 'Mike');
+        tu.sendKeysById('lastNameAccount', 'Night');
         fillCheckoutFormExceptEmail('Bill');
         tu.clickElement('xpath', continueButton1);
         browser.sleep(500)
@@ -256,6 +260,8 @@ describe("mobile checkout:", function () {
         browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
+        tu.sendKeysById('firstNameAccount', 'Mike');
+        tu.sendKeysById('lastNameAccount', 'Night');
         fillCheckoutFormExceptEmail('Bill');
         verifyValidationForEachField('Bill', 'xpath', continueButton1); 
         validateField('email', '', 'mike@night.com', 'xpath', continueButton1);
