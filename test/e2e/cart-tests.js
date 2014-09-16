@@ -22,7 +22,7 @@ describe("cart:", function () {
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.tatteredBowls);
-         browser.sleep(1000);
+         browser.sleep(1500);
          tu.clickElement('id', tu.buyButton);
          browser.sleep(250);
          tu.verifyCartAmount("1");
