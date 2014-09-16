@@ -29,6 +29,7 @@ angular.module('ds.auth')
 
             $scope.changePassword = function(token, password) {
                 $scope.submitDisabled = true;
+                $scope.message = null;
                 AuthSvc.changePassword(token, password).then(function(){
                     AuthDialogManager.showPasswordChanged();
                 }, function(error){

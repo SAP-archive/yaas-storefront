@@ -1,7 +1,7 @@
 /**
  * Created by i839794 on 9/16/14.
  */
-describe('confirm-input directive', function() {
+describe('directive: confirm-input', function() {
     var scope,
         elem,
         directive,
@@ -13,7 +13,7 @@ describe('confirm-input directive', function() {
         module('ds.auth');
 
         //set our view html.
-        html = '<input type="text" id="field1"></input><input type="text" id="field2" confirm-input="field1"></input>';
+        html = '<input type="text" id="field1" ng-model="fieldA"></input><input type="text" id="field2" ng-model="fieldB" confirm-input="field1"></input>';
 
         inject(function($compile, $rootScope) {
             //create a scope (you could just use $rootScope, I suppose)
@@ -35,12 +35,12 @@ describe('confirm-input directive', function() {
     });
 
     it('should flag field as invalid if input does not match', function(){
-
+        // TODO
     });
 
     it('should flag field as valid if input does match', function(){
-
+// TODO
     });
 
-    
+
 });

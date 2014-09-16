@@ -93,7 +93,7 @@ describe('PasswordResetCtrl Test', function () {
 
         it('should transition to <<change password>> state', function(){
             $scope.showChangePassword();
-            expect(mockedState.transitionTo).wasCalledWith('changePassword');
+            expect(mockedState.transitionTo).wasCalledWith('base.changePassword');
         });
     });
 

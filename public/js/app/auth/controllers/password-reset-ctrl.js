@@ -33,6 +33,6 @@ angular.module('ds.auth')
         /** Navigates to the "changePassword" state. */
         $scope.showChangePassword = function(){
             $modalInstance.close();
-            $state.transitionTo('changePassword');
+            $state.transitionTo('base.changePassword');
         };
     }]);
