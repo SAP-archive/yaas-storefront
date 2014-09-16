@@ -15,8 +15,8 @@ angular.module('ds.auth')
     /**
      *  Displays the "indicate new password" page.
      */
-    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', '$state', 'AuthSvc',
-        function($scope, AuthDialogManager, $state, AuthSvc) {
+    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc',
+        function($scope, AuthDialogManager, AuthSvc) {
 
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
@@ -26,6 +26,7 @@ angular.module('ds.auth')
                 $scope.showPristineErrors = true;
                 return true;
             };
+
             $scope.changePassword = function(token, password) {
                 $scope.submitDisabled = true;
                 AuthSvc.changePassword(token, password).then(function(){

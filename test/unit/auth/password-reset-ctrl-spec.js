@@ -16,6 +16,10 @@ describe('PasswordResetCtrl Test', function () {
         close: jasmine.createSpy('close')
     };
 
+    var mockedState = {
+        transitionTo: jasmine.createSpy('transitionTo')
+    };
+
     var mockedAuthSvc = {
         requestPasswordReset: jasmine.createSpy('requestPasswordReset').andCallFake(function(){
             return deferredPwReset.promise;
@@ -37,6 +41,7 @@ describe('PasswordResetCtrl Test', function () {
         module(function($provide){
             $provide.value('$modalInstance', mockedModal);
             $provide.value('AuthSvc', mockedAuthSvc);
+            $provide.value('$state', mockedState);
         });
     });
 
@@ -86,31 +91,9 @@ describe('PasswordResetCtrl Test', function () {
             expect(mockedModal.close).wasCalled();
         });
 
-        it('should delegate to AuthDialogManager', function(){
+        it('should transition to <<change password>> state', function(){
             $scope.showChangePassword();
-            expect(mockedAuthDialogManager.showChangePassword).wasCalled();
-        });
-    });
-
-    describe('changePassword()', function(){
-        it('should delegate to AuthSvc', function(){
-           $scope.changePassword();
-            expect(mockedAuthSvc.changePassword).wasCalled();
-        });
-
-        it('on success, should close dialog and show password changed', function(){
-           $scope.changePassword();
-            deferredChangePassword.resolve({});
-            $scope.$apply();
-            expect(mockedModal.close).wasCalled();
-            expect(mockedAuthDialogManager.showPasswordChanged).wasCalled();
-        });
-
-        it('on failure, should close dialog', function(){
-            $scope.changePassword();
-            deferredChangePassword.reject({});
-            $scope.$apply();
-            expect(mockedModal.close).wasCalled();
+            expect(mockedState.transitionTo).wasCalledWith('changePassword');
         });
     });
 
