@@ -112,7 +112,7 @@ describe('AuthSvc Test', function () {
            successSpy = jasmine.createSpy('success'),
            errorSpy = jasmine.createSpy('error');
        
-       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login?apiKey=' + mockedSettings.apis.customers.apiKey, payload).respond(200, response);
+       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, response);
        var promise = AuthSvc.signin(payload);
        promise.then(successSpy, errorSpy);
 

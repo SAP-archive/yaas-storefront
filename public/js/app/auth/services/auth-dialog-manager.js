@@ -87,6 +87,7 @@ angular.module('ds.auth')
                     }
                 },
 
+
                 /** Shows the "reset password dialog. */
                 showResetPassword: function(){
                    var modalOpts = {

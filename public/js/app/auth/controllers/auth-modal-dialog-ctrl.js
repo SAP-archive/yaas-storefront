@@ -12,53 +12,107 @@
 'use strict';
 
 angular.module('ds.auth')
-    /**
-     * Authorization Dialog Controller. 
-     * Proxies calls to AuthCtrl and handles the lifecycle of authorization modal (destroying it when needed ...).
-     */
+/**
+ * Controller for handling authentication related modal dialogs (signUp/signIn).
+ */
     .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', '$location', 'settings', 'AuthDialogManager',
-        function($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings, AuthDialogManager) {
-        
-        $.extend(this, $controller('AuthCtrl', {$scope: $scope, AuthSvc: AuthSvc, $q: $q}));
-        
-        var oldSignup = $scope.signup;
-        var oldSignin = $scope.signin;
+        function ($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings, AuthDialogManager) {
 
-        $scope.signup = function(authModel, signUpForm) {
-          var signupPromise = oldSignup(authModel, signUpForm);
-          signupPromise.then(function(response) {
-              settings.hybrisUser = $scope.user.signup.email;
-              $modalInstance.close(response);
-            });
-          return signupPromise;
-        };
+            $scope.user = {
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            };
 
-        $scope.signin = function(authModel, signinForm) {
-          var signinPromise = oldSignin(authModel, signinForm);
-          signinPromise.then(function(response) {
-              settings.hybrisUser = $scope.user.signin.email;
-              $modalInstance.close(response);
-            });
-          return signinPromise;
-        };
-
-        $scope.continueAsGuest = function() {
-          $modalInstance.close();
-        };
+            $scope.errors = {
+                signup: [],
+                signin: []
+            };
 
 
-        $scope.showResetPassword = function() {
-           AuthDialogManager.showResetPassword();
-        };
+            var performSignin = function (authModel) {
+                var signInPromise = AuthSvc.signin(authModel);
+                signInPromise.then(function () {
+                    $scope.errors.signin = [];
+                }, function (response) {
+                    $scope.errors.signin = extractServerSideErrors(response);
+                });
+                return signInPromise;
+            };
 
-        $scope.requestPasswordReset = function(email){
-            AuthSvc.requestPasswordReset(email).then(function() {
+            var extractServerSideErrors = function (response) {
+                var errors = [];
+                if (response.status === 400) {
+                    if (response.data && response.data.details && response.data.details.length) {
+                        errors = response.data.details;
+                    }
+                } else if (response.status === 409 || response.status === 401 || response.status === 404 || response.status === 500) {
+                    if (response.data && response.data.message) {
+                        errors.push({ message: response.data.message });
+                    }
+                }
+                return errors;
+            };
+
+            $scope.signup = function (authModel, signUpForm) {
+                var deferred = $q.defer();
+
+                if (signUpForm.$valid) {
+                    AuthSvc.signup(authModel).then(
+                        function () {
+                            $scope.errors.signup = [];
+                            performSignin(authModel).then(
+                                function (response) {
+                                    settings.hybrisUser = $scope.user.signup.email;
+                                    $modalInstance.close(response);
+                                    deferred.resolve(response);
+                                },
+                                function (response) {
+                                    deferred.reject(response);
+                                }
+                            );
+                        }, function (response) {
+                            $scope.errors.signup = extractServerSideErrors(response);
+                            deferred.reject({ message: 'Signup form is invalid!', errors: $scope.errors.signup });
+                        }
+                    );
+                } else {
+                    deferred.reject({ message: 'Signup form is invalid!'});
+                }
+
+                return deferred.promise;
+            };
+
+            $scope.signin = function (authModel, signinForm) {
+                var deferred = $q.defer();
+
+                if (signinForm.$valid) {
+                    performSignin(authModel).then(
+                        function (response) {
+                            settings.hybrisUser = $scope.user.signin.email;
+                            $modalInstance.close(response);
+                            deferred.resolve(response);
+                        },
+                        function (response) {
+                            deferred.reject(response);
+                        }
+                    );
+                } else {
+                    deferred.reject({ message: 'Signin form is invalid!'});
+                }
+                return deferred.promise;
+            };
+
+
+            $scope.continueAsGuest = function () {
                 $modalInstance.close();
-            }, function(failure){
-                window.alert('Password reset failed: '+failure);
-                $modalInstance.close();
-            });
+            };
 
-        };
+            $scope.showResetPassword = function () {
+                AuthDialogManager.showResetPassword();
+            };
 
-    }]);
+
+        }]);
