@@ -160,5 +160,24 @@ describe('AuthSvc Test', function () {
         });
     });
 
+    describe('requestPasswordReset()', function(){
+        it('should issue POST on reset route', function(){
+            var email = "foo@bar.com";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset', {'email': email}).respond(200, {});
+            AuthSvc.requestPasswordReset(email);
+            mockBackend.flush();
+        });
+    });
+
+    describe('changePassword()', function(){
+        it('should issue POST on update route', function(){
+            var token = "abc123";
+            var newPw = "wordpass";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset/update', {'token': token, 'password': newPw}).respond(200, {});
+            AuthSvc.changePassword(token, newPw);
+            mockBackend.flush();
+        });
+    });
+
 
 });

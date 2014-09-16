@@ -13,8 +13,9 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockBackend, authModel,
+    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockBackend,
         deferredSignIn, deferredSignUp;
+    var mockedForm = {};
     var mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -32,8 +33,9 @@ describe('AuthModalDialogCtrl Test', function () {
         showResetPassword: jasmine.createSpy('showResetPassword')
     };
 
-    authModel = {
-        email: 'some.user@hybris.com',
+    var email = 'some.user@hybris.com';
+    var authModel = {
+        email: email,
         password: 'secret'
     };
     $modalInstanceMock = {
@@ -80,6 +82,7 @@ describe('AuthModalDialogCtrl Test', function () {
                 return deferredSignUp.promise;
             })
         };
+        mockedSettings.hybrisUser = null;
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
             $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager });
     });
@@ -98,86 +101,65 @@ describe('AuthModalDialogCtrl Test', function () {
     });
 
     describe('signin()', function(){
+
         it("should call AuthSvc signin if form valid", function() {
-            var mockedForm = {};
             mockedForm.$valid = true;
             $scope.signin(authModel, mockedForm);
             expect(MockedAuthSvc.signin).wasCalledWith(authModel);
         });
 
         it('should not call AuthSvc if form invalid', function(){
-            var mockedForm = {};
             mockedForm.$valid = false;
             $scope.signin(authModel, mockedForm);
             expect(MockedAuthSvc.signin).not.wasCalled();
+        });
+
+        xit('on success should set hybris user and close dialog', function(){
+            mockedForm.$valid = false;
+            $scope.signin(authModel, mockedForm);
+            deferredSignIn.resolve({});
+            $scope.$apply();
+            var scopeEmail = 'scope.email';
+            $scope.user = {
+                signin: {
+                    email: scopeEmail
+                }
+            };
+            expect($modalInstanceMock.close).wasCalled();
+            //expect(mockedSettings.hybrisUser).toEqualData(scopeEmail);
         });
     });
 
     describe('signup', function(){
 
         it("should call AuthSvc signup if form valid", function() {
-            var mockedForm = {};
             mockedForm.$valid = true;
             $scope.signup(authModel, mockedForm);
             expect(MockedAuthSvc.signup).wasCalledWith(authModel);
         });
 
         it('should not call AuthSvc if form invalid', function(){
-            var mockedForm = {};
             mockedForm.$valid = false;
             $scope.signup(authModel, mockedForm);
             expect(MockedAuthSvc.signup).not.wasCalled();
         });
 
         it('should call signin after successful signup', function(){
-            var mockedForm = {};
             mockedForm.$valid = true;
             $scope.signup(authModel, mockedForm);
-            // NEED PROMISE
-            //expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+            deferredSignUp.resolve({});
+            $scope.$apply();
+            expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+        });
+
+        it('should not call signin after failed signup', function(){
+            mockedForm.$valid = true;
+            $scope.signup(authModel, mockedForm);
+            deferredSignUp.reject({});
+            $scope.$apply();
+            expect(MockedAuthSvc.signin).not.wasCalledWith();
         });
     });
-
-
-    /*
-    describe("Actual flow", function() {
-
-
-
-        it("should issue signin after successfull signup", function() {
-            var mockedForm = {};
-            var response = { accessToken: '12345' };
-
-            mockedForm.$valid = true;
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/signup', authModel).respond({});
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login?apiKey=' + mockedSettings.apis.customers.apiKey, authModel).respond(200, response);
-            spyOn(AuthSvc, 'signup').andCallThrough();
-            spyOn(AuthSvc, 'signin').andCallThrough();
-
-            $scope.signup(authModel, mockedForm);
-            mockBackend.flush();
-
-            expect(AuthSvc.signup).wasCalled();
-            expect(AuthSvc.signin).wasCalled();
-        });
-
-        it("should not have issued signin after unsuccessfull signup", function() {
-            var mockedForm = {};
-            var response = { status: 400, data: { details: 'Something serious is going on!'} };
-
-            mockedForm.$valid = true;
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/signup', authModel).respond(response.status, response);
-            spyOn(AuthSvc, 'signup').andCallThrough();
-            spyOn(AuthSvc, 'signin').andCallThrough();
-
-            $scope.signup(authModel, mockedForm);
-            mockBackend.flush();
-
-            expect(AuthSvc.signup).wasCalled();
-            expect(AuthSvc.signin).not.wasCalled();
-        });
-
-    });*/
 
     describe('showResetPassword()', function(){
        it('should delegate to AuthDialogManager', function(){
