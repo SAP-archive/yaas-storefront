@@ -103,6 +103,26 @@ describe('AuthDialogManager', function () {
         });
     });
 
+    describe('show custom dialog', function(){
+        it('showResetPassword should open modal', function(){
+            AuthDialogManager.showResetPassword();
+            expect(mockedModal.open).wasCalled();
+        });
 
+        it('showCheckEmail should open modal', function(){
+            AuthDialogManager.showCheckEmail();
+            expect(mockedModal.open).wasCalled();
+        });
+
+        it('showChangePassword should open modal', function(){
+            AuthDialogManager.showChangePassword();
+            expect(mockedModal.open).wasCalled();
+        });
+
+        it('showPasswordChanged should open modal', function(){
+            AuthDialogManager.showPasswordChanged();
+            expect(mockedModal.open).wasCalled();
+        });
+    })
 
 });
