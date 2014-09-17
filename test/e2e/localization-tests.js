@@ -19,7 +19,7 @@ describe("Localization", function () {
   describe("verify localized properties", function () {
 
     beforeEach(function () {
-      browser.get('zndop5ubaq3n/#!/products');
+      browser.get(tu.tenant + '/#!/products');
       browser.driver.manage().window().maximize();
       browser.sleep(9000);
     });
@@ -30,8 +30,9 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
         assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
         assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
-        assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
-        assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
+        //price is not currently supported
+        // assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
+        // assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
         assertTextByElement('css', 'option[value="name"]', 'A-Z');
         assertTextByElement('css', 'option[value="-name"]', 'Z-A');
         assertTextByElement('css', 'option[value="-created"]', 'NEWEST');
@@ -44,8 +45,9 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
         assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
         assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
-        assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
-        assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
+        //price is not currently supported
+        // assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
+        // assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
         assertTextByElement('css', 'option[value="name"]', 'A-Z');
         assertTextByElement('css', 'option[value="-name"]', 'Z-A');
         assertTextByElement('css', 'option[value="-created"]', 'NEUESTE');
@@ -110,10 +112,10 @@ describe("Localization", function () {
         assertTextByElement('xpath', '//div[8]/div/span/label', 'Stadt');
         assertTextByElement('xpath', '//div[10]/div/span/label', 'PLZ');
         assertTextByElement('css', 'div.pull-left.ng-binding', '1 ARTIKEL');
-        assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $27.81');
-        assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[2]', 'Artikel Preis: $24.57');
+        assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $13.91');
+        assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[2]', 'Artikel Preis: $10.67');
         assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[3]/div', 'Menge: 1');
-        assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[4]', 'Gesamtpreis: $24.57');
+        assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[4]', 'Gesamtpreis: $10.67');
         assertTextByElement('css', 'section.summary.ng-scope > table.table > tbody > tr > td.ng-binding', 'ZWISCHENSUMME');
         assertTextByElement('xpath', '//tr[2]/td', 'VERSAND');
         assertTextByElement('css', 'tfoot > tr > td.ng-binding', 'GESAMTSUMME');

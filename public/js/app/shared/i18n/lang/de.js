@@ -45,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Nachname Pflicht',
         METHOD: 'Verfahren',
         MONTH: 'Monat',
+        NAME: 'Name',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
@@ -130,6 +131,7 @@ angular.module('ds.i18n')
         ADD_ADDRESS: 'Adresse hinzufügen',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
+        NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         STREET_NUMBER: 'Nummer',
 

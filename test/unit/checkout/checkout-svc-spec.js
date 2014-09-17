@@ -17,20 +17,23 @@ describe('CheckoutSvc', function () {
 
     var order = {};
 
+    order.account = {
+        firstName: 'Michael',
+        lastName: 'Jordan',
+        email: 'bs@sushi.com'
+    };
+
     order.billTo = {
-        firstName: 'Bob',
-        lastName: 'Smith',
+        contactName: 'Bob Smith',
         address1: 'Bill Str. 14',
         city:    'Amarillo',
         state:  'TX',
         zip: '79109',
-        country: 'USA',
-        email: 'bs@sushi.com'
+        country: 'USA'
     };
 
     order.shipTo = {
-        firstName: 'Amy',
-        lastName: 'Willis',
+        contactName: 'Amy Willis',
         address1: 'Ship Lane 56',
         city: 'Arvada',
         state: 'CO',
@@ -51,13 +54,13 @@ describe('CheckoutSvc', function () {
     order.cart = cart;
 
 
-    var checkoutJson =  {"cartId":"abcCart","currency":"USD","orderTotal":7.79,
+    var checkoutJson =  {"cartId":"abcCart","currency":"USD","shippingCost": 4.5,"orderTotal":7.79,
         "addresses":[
             {"contactName":"Bob Smith","street":"Bill Str. 14","city":"Amarillo","state":"TX","zipCode":"79109",
                 "country":"USA","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
-                "country":"USA","type":"SHIPPING"}],
-        "customer":{"name":"Bob Smith","email":"bs@sushi.com"}, "shippingCost": 4.5}
+                "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
+        "customer":{"name":"Michael Jordan","email":"bs@sushi.com"}};
 
     mockedStripeJS = {};
     mockedCartSvc = {};
