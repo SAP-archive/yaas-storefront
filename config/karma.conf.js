@@ -66,6 +66,7 @@ module.exports = function(config){
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
         'public/js/app/auth/auth-index.js',

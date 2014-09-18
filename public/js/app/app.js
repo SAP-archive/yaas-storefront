@@ -330,6 +330,25 @@ window.app = angular.module('ds.router', [
                             controller: 'PasswordUpdateCtrl'
                         }
                     }
+                })
+                .state('base.orderDetail', {
+                    url: '/orderDetail/:orderId',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/account/templates/order-detail.html',
+                            controller: 'AccountOrderDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        order: function ($stateParams, OrdersREST) {
+                            return OrdersREST.Orders.one('orders', $stateParams.orderId).get()
+                                .then(function (result) {
+                                    window.scrollTo(0, 0);
+                                    result.id = $stateParams.id;
+                                    return result;
+                                });
+                        }
+                    }
                 });
 
 
