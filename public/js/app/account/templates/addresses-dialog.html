@@ -1,10 +1,10 @@
 <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <button type="button" class="close" ng-click="closeAddressDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
   <h4 class="modal-title" id="myModalLabel">Address Book</h4>
 </div>
 <div class="modal-body">
   <div class="row">
-    <div ng-include="'./js/app/auth/templates/addresses.html'"></div>
+    <div ng-include="'./js/app/account/templates/addresses.html'"></div>
   </div>
   <!-- 
   <div class="text-center">

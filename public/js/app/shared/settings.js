@@ -13,27 +13,24 @@ angular.module('ds.shared')
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
         roleSeller: 'seller',
-        authTokenKey: 'auth.user',
-        accessTokenKey: 'auth.accessToken',
-        userIdKey: 'user.email',
-        forgotPassword: {
-            paramName: 'forgotPassword'
-        },
+        // cookie name
+        accessCookie: 'auth.user',
 
         // defines thea API endpoints and routes
         apis: {
-
+            account: {
+              baseUrl: 'http://yaas-test.apigee.net/test/account/v1'
+            },
             configuration: {
                baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,
             products: {
-                // baseUrl: 'http://product-v1-4-1.test.cf.hybris.com',
                 baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
 
             productDetails: {
-                baseUrl: 'http://product-details-v1.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/product-details/v1'
             },
 
             checkout: {

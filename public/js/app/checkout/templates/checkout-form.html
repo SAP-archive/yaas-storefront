@@ -11,17 +11,17 @@
     <div class="row step-detail">
         <div class="col-lg-6 col">
             <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.firstName.$invalid && (billToForm.firstName.$dirty  || showPristineErrors)}">
-                <span class="input-group-addon"><label class="control-label" for="firstNameBill">{{'FIRST_NAME' | translate}}</label></span>
-                <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstNameBill" name="firstName"
-                ng-model="order.billTo.firstName" required autocomplete="on">
+                ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
+                <span class="input-group-addon"><label class="control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label></span>
+                <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
+                ng-model="order.account.firstName" required autocomplete="on">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.lastName.$invalid && (billToForm.lastName.$dirty || showPristineErrors) }">
-                <span class="input-group-addon"><label class="control-label" for="lastNameBill">{{'LAST_NAME' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastNameBill" name="lastName" ng-model="order.billTo.lastName"
+                ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
+                <span class="input-group-addon"><label class="control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label></span>
+                <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
                 required autocomplete="on">
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
                 <input type="text" inline-error-input
                 inline-error-input-required-message="{{'EMAIL_REQUIRED' | translate}}" class="form-control" id="email"
-                name="email" ng-model="order.billTo.email" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"
+                name="email" ng-model="order.account.email" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"
                 required autocomplete="on"
                 ng-focus="billToForm.email.focused=true"
                 ng-blur="billToForm.email.focused=false" >
@@ -44,6 +44,14 @@
         </div>
         <div class="col-lg-12">
             <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group input-group"
+                 ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
+                <span class="input-group-addon"><label class="control-label" for="contactNameBill">{{'NAME' | translate}}</label></span>
+                <input type="text" inline-error-input inline-error-input-required-message="{{'NAME_REQUIRED' | translate}}" class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
+                       required autocomplete="on">
+            </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group input-group"
@@ -166,7 +174,7 @@
         </div>
         <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
             <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" ng-click="openAddressDialog()">Select from adressbook</button>
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn" ng-click="openAddressDialog()">Select from addressbook</button>
             </div>
         </div>
         <div class="col-lg-12">
@@ -180,20 +188,12 @@
             </div>
         </div>
         <div id="ship-to-fields" ng-hide="wiz.shipToSameAsBillTo">
-            <div class="col-lg-6 col">
+            <div class="col-lg-12">
                 <div class="form-group input-group"
-                    ng-class="{'has-error': !wiz.shipToSameAsBillTo && shipToForm.firstName.$invalid && (shipToForm.firstName.$dirty || showPristineErrors) }">
-                    <span class="input-group-addon"><label class="control-label" for="firstNameShip">{{'FIRST_NAME' | translate}}</label></span>
-                    <input type="text" inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" class="form-control ui-autocomplete" id="firstNameShip" name="firstName"
-                    ng-model="order.shipTo.firstName" ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group input-group"
-                    ng-class="{'has-error': !wiz.shipToSameAsBillTo && shipToForm.lastName.$invalid && (shipToForm.lastName.$dirty || showPristineErrors) }">
-                    <span class="input-group-addon"><label class="control-label" for="lastNameShip">{{'LAST_NAME' | translate}}</label></span>
-                    <input type="text" inline-error-input inline-error-input-required-message="{{'LAST_NAME_REQUIRED' | translate}}" class="form-control" id="lastNameShip" name="lastName" ng-model="order.shipTo.lastName"
-                    ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
+                     ng-class="{'has-error': !wiz.shipToSameAsBillTo && shipToForm.contactName.$invalid && (shipToForm.contactName.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="contactNameShip">{{'NAME' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'NAME_REQUIRED' | translate}}" class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
+                           ng-required="!wiz.shipToSameAsBillTo" autocomplete="on">
                 </div>
             </div>
             <div class="col-lg-6">

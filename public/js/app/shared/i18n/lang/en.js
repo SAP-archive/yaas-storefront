@@ -19,6 +19,8 @@ angular.module('ds.i18n')
          */
         ADDRESS: 'Address',
         ADDRESS_REQUIRED: 'Address Required',
+        ADDRESS_LINE_1: 'Address Line 1',
+        ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CC_REQUIRED: 'Credit Card Required',
         CITY: 'City',
@@ -43,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
         MONTH: 'Month',
+        NAME: 'Name',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
         ORDER_PENDING: 'One moment... Placing your order',
@@ -117,19 +120,37 @@ angular.module('ds.i18n')
 		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
-        MY_PROFILE: 'My Profile',
+        MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',
 
         /*
-            profile page
+            account page
          */
-        ADDRESSBOOK: 'Adressbook',
+        ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
+        NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
-        STREET_NUMBER: 'Street Number'
+        STREET_NUMBER: 'Street Number',
 
+        /*
+           login, password, signup
+         */
+        FORGOT_PW: 'Forgot your password?',
+        PASSWORD: 'Password',
+        CONFIRM_PASSWORD: 'Confirm Password',
+        TOKEN: 'Token',
+        RESET_PASSWORD: 'Reset Password',
+        RESET_PW_TITLE: 'Reset Your Password',
+        RESET_PW_INSTRUCT: 'Please create a new password.',
+        FORGOT_PW_INSTRUCT: 'Please enter your account email address below.  An email will be sent to you with a link to reset your password.',
+        CHECK_EMAIL:'Check Your Email',
+        CHECK_EMAIL_INSTRUCT: 'Instructions for resetting your password have been sent to your email.',
+        PASSWORD_REQUIRED: 'Password with 6 character minimum required.',
+        PASSWORDS_MUST_MATCH: 'Passwords must match.',
+        PW_SUCCESS: 'Success',
+        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.'
 	});

@@ -28,19 +28,20 @@ angular.module('ds.shared')
                 }
             };
 
-            $scope.logout = function() {
-                AuthSvc.signout().then(function() {
-                    if ($state.is('base.profile')) {
-                        $state.go('base.product');
-                    }
-                });
+            $scope.logout = function () {
+                AuthSvc.signOut();
             };
             
             $scope.login = function(dOpts, opts) {
                 AuthDialogManager.open(dOpts, opts);
             };
 
-            $scope.myProfile = function() {
-                $state.go('base.profile');
+            $scope.myAccount = function() {
+                $state.go('base.account');
+            };
+
+            $scope.showProducts = function(){
+                $rootScope.showMobileNav = false;
+                $state.go('base.product');
             };
 	}]);

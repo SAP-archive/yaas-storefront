@@ -27,7 +27,7 @@ html
     script(src='js/vendor-static/jquery.min.js')
     script(src='js/vendor/angular/angular.min.js')
     script(src='js/vendor/angular-mocks/angular-mocks.js')
-    script(src='js/vendor/angular-cookies/angular-cookies.js')
+    script(src='js/vendor/angular-cookie/angular-cookie.js')
     script(src='js/vendor/restangular/dist/restangular.min.js')
     script(src='js/vendor/angular-ui-router/release/angular-ui-router.min.js')
     script(src='js/vendor/angular-translate/angular-translate.min.js')
@@ -38,20 +38,27 @@ html
 
     script(src='js/bootstrap-multi-tenant.js')
 
+    script(src='js/app/account/account-index.js')
+    script(src='js/app/account/controllers/account-ctrl.js')
+    script(src='js/app/account/services/account-service.js')
+
     script(src='js/app/auth/auth-index.js')
-    script(src='js/app/auth/controllers/auth-ctrl.js')
-    script(src='js/app/auth/controllers/profile-ctrl.js')
     script(src='js/app/auth/controllers/auth-modal-dialog-ctrl.js')
+    script(src='js/app/auth/controllers/password-reset-ctrl.js')
+    script(src='js/app/auth/controllers/password-update-ctrl.js')
+    script(src='js/app/auth/directives/confirm-input.js')
     script(src='js/app/auth/services/auth-rest.js')
-    script(src='js/app/auth/services/cookiesstorage-service.js')
+    script(src='js/app/auth/services/token-service.js')
     script(src='js/app/auth/services/auth-service.js')
     script(src='js/app/auth/services/auth-dialog-manager.js')
+    script(src='js/app/auth/services/anon-auth-service.js')
 
     script(src='js/app/shared/shared-index.js')
     script(src='js/app/shared/settings.js')
     script(src='js/app/shared/services/global-data.js')
     script(src='js/app/shared/services/configuration-service.js')
     script(src='js/app/shared/services/configuration-rest.js')
+    script(src='js/app/shared/services/http-queue.js')
     script(src='js/app/shared/controllers/sidebar-navigation-ctrl.js')
     script(src='js/app/shared/controllers/top-navigation-ctrl.js')
 
@@ -60,6 +67,10 @@ html
     script(src='js/app/shared/i18n/lang/en.js')
     script(src='js/app/shared/i18n/lang/de.js')
     script(src='js/app/shared/i18n/providers/translation-provider.js')
+
+    script(src='js/app/orders/orders-index.js')
+    script(src='js/app/orders/services/order-list-service.js')
+    script(src='js/app/orders/services/orders-rest.js')
 
     script(src='js/app/products/products-index.js')
     script(src='js/app/products/controllers/browse-products-ctrl.js')

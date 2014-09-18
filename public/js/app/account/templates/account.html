@@ -17,8 +17,8 @@
           <div class="page-headline">
             <h1>
               <small>My Account</small></br>
-              Welcome<span ng-if="profile.firstName || profile.lasttName">,</span> <br/>
-              <strong>{{profile.firstName}} {{profile.middleName}} {{profile.lastName}}</strong>
+              Welcome<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
           </h1>
           </div>
           <address ng-if="defaultAddress">
@@ -38,22 +38,22 @@
           <span class="area-headline">Account Details</span>
           <div class="account-details">
             <div>
-              <span class="inline-label">First Name:</span> <a href="#" alt="Edit">{{profile.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">First Name:</span> <a href="#" alt="Edit">{{account.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Last Name:</span> <a href="#" alt="Edit">{{profile.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Last Name:</span> <a href="#" alt="Edit">{{account.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Email:</span> <a href="#" alt="Edit">{{profile.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Email:</span> <a href="#" alt="Edit">{{account.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">Password:</span> <a href="#" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Prefred Local:</span> <a href="#" >{{languageLocales[profile.preferredLanguage]}} <span class="caret"></span></a>
+              <span class="inline-label">Preferred Locale:</span> <a href="#" >{{languageLocales[account.preferredLanguage]}} <span class="caret"></span></a>
             </div>
             <div>
-              <span class="inline-label">Currency:</span> <a href="#" >{{currencies[profile.preferredCurrency]}} <span class="caret"></span></a>
+              <span class="inline-label">Currency:</span> <a href="#" >{{currencies[account.preferredCurrency]}} <span class="caret"></span></a>
             </div>
           </div>
         </div>
@@ -63,15 +63,15 @@
   <section>
     <div class="section-headline clearfix">
       <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
-      <button class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
+      <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
       Add
       </button>
     </div>
     <div class="row">
-      <div ng-include="'./js/app/auth/templates/addresses.html'"></div>
+      <div ng-include="'./js/app/account/templates/addresses.html'"></div>
     </div>
     <div class="text-center">
-      <button class="btn btn-link" >Show All <span class="glyphicon glyphicon-chevron-down"</button>
+      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
   <section class="mediumgray">
@@ -90,39 +90,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
-          </tr>
-          <tr>
-            <td>7/23/14</td>
-            <td><a href="#">ABC1234569679048</a></td>
-            <td>10 Items</td>
-            <td>$87.50</td>
-            <td><strong>Order Processing</strong></td>
+          <tr ng-repeat="order in orders">
+            <td>{{order.created | date: 'medium'}}</td>
+            <td><a href="#">{{order.id}}</a></td>
+            <td>{{order.itemCount}}</td>
+            <td>{{order.totalPrice | currency: '$'}}</td>
+            <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="text-center">
-      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"</button>
+      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
 </div>

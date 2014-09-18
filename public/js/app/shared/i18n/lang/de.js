@@ -18,6 +18,8 @@ angular.module('ds.i18n')
          checkout
          */
         ADDRESS: 'Adresse',
+        ADDRESS_LINE_1: 'Adresszeile 1',
+        ADDRESS_LINE_2: 'Adresszeile 2',
         ADDRESS_REQUIRED: 'Adresse erforderlich',
         BILLING_ADDRESS: 'Rechnungsadresse',
         CC_REQUIRED: 'Kreditkarte erforderlich',
@@ -43,6 +45,7 @@ angular.module('ds.i18n')
         LAST_NAME_REQUIRED: 'Nachname Pflicht',
         METHOD: 'Verfahren',
         MONTH: 'Monat',
+        NAME: 'Name',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
@@ -116,19 +119,38 @@ angular.module('ds.i18n')
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
-        MY_PROFILE: 'Mein Profil',
+        MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Benutzerkonto erstellen',
         CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
 
         /*
-            profile page
+            account page
          */
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
+        NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
-        STREET_NUMBER: 'Straße Anzahl'
+        STREET_NUMBER: 'Nummer',
+
+        /*
+         login, password, signup
+         */
+        PASSWORD: 'Passwort',
+        CONFIRM_PASSWORD: 'Passwort bestätigen',
+        FORGOT_PW: 'Passwort vergessen?',
+        RESET_PASSWORD: 'Neues Passwort',
+        RESET_PW_TITLE: 'Passwort Zurücksetzen',
+        RESET_PW_INSTRUCT: 'Bitte ein neues Passwort angeben.',
+        TOKEN: 'Token',
+        FORGOT_PW_INSTRUCT: 'Bitte Email Adresse angeben. Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird Ihnen zugesendet.',
+        CHECK_EMAIL:'Überprüfen Sie Ihre E-Mail',
+        CHECK_EMAIL_INSTRUCT: 'Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet.',
+        PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen anforderlich.',
+        PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
+        PW_SUCCESS: 'Erfolg',
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
 
     });

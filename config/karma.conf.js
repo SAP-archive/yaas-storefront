@@ -15,7 +15,7 @@ module.exports = function(config){
         'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
         'public/js/vendor/angular-mocks/angular-mocks.js',
-        'public/js/vendor/angular-cookies/angular-cookies.js',
+        'public/js/vendor/angular-cookie/angular-cookie.min.js',
         'public/js/vendor/angular-resource/angular-resource.min.js',
         'public/js/vendor/restangular/dist/restangular.min.js',
         'public/js/vendor/angular-ui-router/release/angular-ui-router.min.js',
@@ -31,6 +31,7 @@ module.exports = function(config){
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
+        'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -62,13 +63,26 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+
+        'public/js/app/account/account-index.js',
+        'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/services/account-service.js',
+
         'public/js/app/auth/auth-index.js',
-        'public/js/app/auth/controllers/auth-ctrl.js',
-        'public/js/app/auth/services/auth-rest.js',
-        'public/js/app/auth/services/cookiesstorage-service.js',
-        'public/js/app/auth/services/auth-service.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
+        'public/js/app/auth/controllers/password-reset-ctrl.js',
+        'public/js/app/auth/controllers/password-update-ctrl.js',
+        'public/js/app/auth/directives/confirm-input.js',
+        'public/js/app/auth/services/auth-rest.js',
+        'public/js/app/auth/services/token-service.js',
+        'public/js/app/auth/services/auth-service.js',
+        'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
+
+
+        'public/js/app/orders/orders-index.js',
+        'public/js/app/orders/services/order-list-service.js',
+        'public/js/app/orders/services/orders-rest.js',
 
         'public/js/app/app.js',
 
@@ -76,12 +90,13 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
+        'test/unit/auth/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
+        'test/unit/orders/*.js',
         'test/unit/products/*.js',
-        'test/unit/shared/*.js',
-        'test/unit/auth/*.js'
+        'test/unit/shared/*.js'
     
     ],
 

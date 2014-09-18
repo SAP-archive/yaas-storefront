@@ -17,6 +17,9 @@ describe('TopNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
     var mockedState = {};
+    var mockedCartSvc = {};
+    var navCtrl, cart;
+    cart = {};
     var username = 'Joe';
     var mockedToken = {
         getUsername: function(){
@@ -33,14 +36,16 @@ describe('TopNavigationCtrl', function () {
         close: jasmine.createSpy('close')
     };
 
+    var mockedCartSvc = {
+        getCart: jasmine.createSpy('getCart').andReturn(cart)
+    }
 
-    var navCtrl, cart;
-    cart = {};
 
 
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
+    beforeEach(module('ds.cart'));
     beforeEach(angular.mock.module('ds.shared'));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
@@ -60,7 +65,7 @@ describe('TopNavigationCtrl', function () {
 
 
     beforeEach(function () {
-        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
+        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc, GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
     });
 
     describe('initialization', function(){

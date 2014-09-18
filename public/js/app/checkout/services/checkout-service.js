@@ -133,35 +133,36 @@ angular.module('ds.checkout')
 
                 newOrder.orderTotal =  order.cart.totalPrice.price;
 
-                var name = order.billTo.firstName + ' ' + order.billTo.lastName;
                 newOrder.addresses = [];
                 var billTo = {};
-                billTo.contactName = name;
+                billTo.contactName = order.billTo.contactName;
                 billTo.street = order.billTo.address1;
                 // TODO - what about 2nd street line?
+                //billTo.streetAppendix = order.billTo.address2;
                 billTo.city = order.billTo.city;
                 billTo.state = order.billTo.state;
                 billTo.zipCode = order.billTo.zip;
                 billTo.country = order.billTo.country;
-                billTo.account = order.billTo.email;
+                billTo.account = order.account.email;
                 billTo.type = 'BILLING';
                 newOrder.addresses.push(billTo);
 
                 var shipTo = {};
-                shipTo.contactName = order.shipTo.firstName + ' '+order.shipTo.lastName;
+                shipTo.contactName = order.shipTo.contactName;
                 shipTo.street = order.shipTo.address1;
+                //shipTo.streetAppendix = order.shipTo.address2;
                 // TODO - what about 2nd street line?
                 shipTo.city = order.shipTo.city;
                 shipTo.state = order.shipTo.state;
                 shipTo.zipCode = order.shipTo.zip;
                 shipTo.country = order.shipTo.country;
-                shipTo.account = order.shipTo.email;
+                shipTo.account = order.account.email;
                 shipTo.type = 'SHIPPING';
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
-                newOrder.customer.name = name;
-                newOrder.customer.email = order.billTo.email;
+                newOrder.customer.name = order.account.firstName + ' ' + order.account.lastName;
+                newOrder.customer.email = order.account.email;
 
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = newOrder.customer.email;
