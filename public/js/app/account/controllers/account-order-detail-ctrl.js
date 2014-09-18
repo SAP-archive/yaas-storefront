@@ -40,7 +40,7 @@ angular.module('ds.account')
 
             payment.paidAmount = order.payments[0].paidAmount;
 
-            $scope.payment = payment;
+            return payment;
         };
 
         var getItemsOrderedCount = function () {
@@ -48,7 +48,7 @@ angular.module('ds.account')
             angular.forEach(order.entries, function (entry) {
                 count += entry.amount;
             });
-            $scope.itemCount = count;
+            return count;
         };
 
         /*
@@ -72,9 +72,9 @@ angular.module('ds.account')
 
         };
 
-        getItemsOrderedCount();
+        $scope.itemCount = getItemsOrderedCount();
 
-        getPaymentInfo();
+        $scope.payment = getPaymentInfo();
 
         var query = getProductsInOrder();
 
