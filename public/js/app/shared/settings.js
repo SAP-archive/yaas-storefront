@@ -45,11 +45,7 @@ angular.module('ds.shared')
             },
 
             cart: {
-                baseUrl: 'http://cart-v2.test.cf.hybris.com'
-            },
-
-            cartDetails: {
-                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com'
+                baseUrl: 'http://cart-snapshot.test.cf.hybris.com'  //'http://cart-v2.test.cf.hybris.com'
             },
 
             prices: {
