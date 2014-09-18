@@ -40,7 +40,7 @@ angular.module('ds.account')
 
             payment.paidAmount = order.payments[0].paidAmount;
 
-            return payment;
+            $scope.payment = payment;
         };
 
         var getItemsOrderedCount = function () {
@@ -48,7 +48,7 @@ angular.module('ds.account')
             angular.forEach(order.entries, function (entry) {
                 count += entry.amount;
             });
-            return count;
+            $scope.itemCount = count;
         };
 
         /*
@@ -72,11 +72,11 @@ angular.module('ds.account')
 
         };
 
+        getItemsOrderedCount();
+
+        getPaymentInfo();
+
         var query = getProductsInOrder();
-
-        $scope.itemCount = getItemsOrderedCount();
-
-        $scope.payment = getPaymentInfo();
 
         ProductSvc.query(query).then(function (products) {
             if (products) {
