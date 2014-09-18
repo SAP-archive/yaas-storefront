@@ -102,9 +102,9 @@ describe("login:", function () {
           expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("USA");
           expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual("720-555-1234");
           tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
-          browser.sleep(1000);
+          browser.sleep(1500);
           expect(element(by.binding("defaultAddress.street")).getText()).toEqual("321 phony street");
-          tu.clickElement('id', 'set-default-btn');
+          tu.clickElement('xpath', "(  //button[@id='set-default-btn'])[2]");
           browser.sleep(1000);
           expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
           tu.clickElement('id', 'delete-address-btn');  
