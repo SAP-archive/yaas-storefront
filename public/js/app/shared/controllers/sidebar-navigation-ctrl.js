@@ -39,4 +39,9 @@ angular.module('ds.shared')
             $scope.myAccount = function() {
                 $state.go('base.account');
             };
+
+            $scope.showProducts = function(){
+                $rootScope.showMobileNav = false;
+                $state.go('base.product');
+            };
 	}]);

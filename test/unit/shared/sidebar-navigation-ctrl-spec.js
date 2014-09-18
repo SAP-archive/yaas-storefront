@@ -115,7 +115,17 @@ describe('SidebarNavigationCtrl', function () {
        });
     });
 
+    describe('showProducts()', function(){
+       it('should hide mobile nav', function(){
+           $scope.showProducts();
+           expect($rootScope.showMobileNav).toBeFalsy();
+       });
 
+        it('should navigate to main products view', function(){
+            $scope.showProducts();
+            expect(mockedState.transitionTo).toHaveBeenCalledWith('base.product');
+        });
+    });
 
 });
 
