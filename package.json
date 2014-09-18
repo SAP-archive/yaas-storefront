@@ -51,7 +51,7 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-script-launcher": "~0.1.0",
     "phantomcss": "^0.4.5",
-    "istanbul": "0.3.0"
+    "istanbul": "0.3.0",
     "phantomjs": "^1.9.7-15",
     "protractor": "^1.2.0",
     "resemblejs": "^1.0.1"
