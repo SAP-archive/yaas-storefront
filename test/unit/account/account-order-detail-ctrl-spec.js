@@ -109,19 +109,7 @@ describe('AccountOrderDetailCtrl Test', function () {
         it('should get the correct item count', function () {
             expect($scope.itemCount).toEqualData(3);
         });
-
-<<<<<<< Updated upstream
-=======
-        it('should get the prices for the products', function () {
-            $scope.$digest();
-
-            expect($scope.prices.product1.priceId).toEqualData('price123');
-            expect($scope.prices.product2.priceId).toEqualData('price456');
-            expect($scope.prices.product1.value).toEqualData('50');
-            expect($scope.prices.product2.value).toEqualData('25');
-        });
-
->>>>>>> Stashed changes
+        
     });
 
 });
