@@ -66,6 +66,7 @@ module.exports = function(config){
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
         'public/js/app/auth/auth-index.js',
@@ -90,6 +91,7 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
+        'test/unit/account/*.js',
         'test/unit/auth/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
