@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -22,6 +22,9 @@ angular.module('ds.account')
         };
 
         $scope.errors = [];
+        if (!account.preferredLanguage) {
+          account.preferredLanguage = GlobalData.languageCode;
+        }
         $scope.account = account;
         $scope.addresses = addresses;
         $scope.orders = orders;
@@ -31,7 +34,7 @@ angular.module('ds.account')
         $scope.currencies = [
           { value: 'EUR', text: 'EUR - Euro' },
           { value: 'USD', text: 'US - Dollar' },
-          { value: 'GBP', text: 'en_UK' }
+          { value: 'GBP', text: 'UK - Pound' }
         ];
 
         $scope.showCurrency = function() {
@@ -176,7 +179,11 @@ angular.module('ds.account')
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
           account[field] = data;
-          return AccountSvc.updateAccount(account);
+          return AccountSvc.updateAccount(account).then(function() {
+            if (field === 'preferredLanguage' && data) {
+              $scope.$emit('language:switch', data.split('_')[0]);
+            }
+          });
         };
 
         getItemCountPerOrder();

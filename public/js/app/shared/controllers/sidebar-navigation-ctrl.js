@@ -39,4 +39,10 @@ angular.module('ds.shared')
             $scope.myAccount = function() {
                 $state.go('base.account');
             };
+
+            var unbind = $rootScope.$on('language:switch', function (eve, languageCode) {
+                $scope.switchLanguage(languageCode);
+            });
+
+            $scope.$on('$destroy', unbind);
 	}]);

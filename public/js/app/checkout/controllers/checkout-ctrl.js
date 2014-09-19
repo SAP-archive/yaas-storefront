@@ -109,7 +109,6 @@ angular.module('ds.checkout')
             };
 
             $scope.$on('user:signedin', function() {
-console.log('USER SIGNED IN!');
                 getDefaultAddress();
                 getAccount();
                 getAddresses();
