@@ -102,9 +102,9 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{product.price | currency: '$'}}</td>
+                    <td>{{prices[product.id].value | currency: '$'}}</td>
                     <td>{{product.quantity}}</td>
-                    <td>{{product.price * product.quantity | currency: '$'}}</td>
+                    <td>{{prices[product.id].value * product.quantity | currency: '$'}}</td>
                 </tr>
                 </tbody>
             </table>
