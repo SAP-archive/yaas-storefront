@@ -30,7 +30,7 @@
   		</span>
                     <address>
                         {{order.shippingAddress.contactName}}<br>
-                        {{order.shippingAddress.street}}<div ng-if="{{order.shippingAddress.streetAppendix}}">, {{order.shippingAddress.streetAppendix}}</div><br>
+                        {{order.shippingAddress.street}}<div ng-if="order.shippingAddress.streetAppendix">, {{order.shippingAddress.streetAppendix}}</div><br>
                         {{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zipCode}}<br>
                         {{order.shippingAddress.country}}<br>
                     </address>
@@ -44,7 +44,7 @@
   		</span>
                     <address>
                         {{order.billingAddress.contactName}}<br>
-                        {{order.billingAddress.street}}<div ng-if="{{order.billingAddress.streetAppendix}}">, {{order.billingAddress.streetAppendix}}</div><br>
+                        {{order.billingAddress.street}}<div ng-if="order.billingAddress.streetAppendix">, {{order.billingAddress.streetAppendix}}</div><br>
                         {{order.billingAddress.city}}, {{order.billingAddress.state}} {{order.billingAddress.zipCode}}<br>
                         {{order.billingAddress.country}}<br>
                     </address>
