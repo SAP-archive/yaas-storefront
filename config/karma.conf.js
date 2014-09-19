@@ -66,15 +66,18 @@ module.exports = function(config){
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
         'public/js/app/auth/auth-index.js',
-        'public/js/app/auth/controllers/auth-ctrl.js',
+        'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
+        'public/js/app/auth/controllers/password-reset-ctrl.js',
+        'public/js/app/auth/controllers/password-update-ctrl.js',
+        'public/js/app/auth/directives/confirm-input.js',
         'public/js/app/auth/services/auth-rest.js',
         'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
         'public/js/app/auth/services/anon-auth-service.js',
-        'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
 
 
@@ -88,6 +91,7 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
+        'test/unit/account/*.js',
         'test/unit/auth/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',

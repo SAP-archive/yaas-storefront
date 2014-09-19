@@ -56,6 +56,7 @@ describe('SidebarNavigationCtrl', function () {
         mockedGlobalData.acceptLanguages = 'pl';
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
+        mockedState.go = jasmine.createSpy('go');
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
         mockedAuthSvc.signOut = jasmine.createSpy('signOut').andReturn({
             then: jasmine.createSpy('then')
@@ -123,7 +124,7 @@ describe('SidebarNavigationCtrl', function () {
 
         it('should navigate to main products view', function(){
             $scope.showProducts();
-            expect(mockedState.transitionTo).toHaveBeenCalledWith('base.product');
+            expect(mockedState.go).toHaveBeenCalledWith('base.product');
         });
     });
 
