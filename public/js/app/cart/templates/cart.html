@@ -47,17 +47,17 @@
 					<div class="cart-item row">
 						<div class="col-xs-4 col-md-4 text-center img-col">
 							<img ng-src="{{ item && item.product.images[0].url || ''}}" class="img-responsive"/>
-							<button ng-click="removeProductFromCart(item.product.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+							<button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 						</div>
 						<div class="col-xs-8 col-md-8  detail-col">
-							<button ng-click="removeProductFromCart(item.product.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+							<button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 							<div class="name">{{item.product.name}}</div>
 							<div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: '$'}}</span> </div>
 							<div class="clearfix">
 								<div class="input-group pull-left">
 									<span class="input-group-addon">{{'QTY' | translate}}:</span>
 									<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
-										ng-change="item.quantity > 0 && updateCartItem(item, item.quantity)" ng-blur="(!item.quantity || item.quantity === 0) && removeProductFromCart(item.product.id)"
+										ng-change="item.quantity > 0 && updateCartItem(item, item.quantity)" ng-blur="(!item.quantity || item.quantity === 0) && removeProductFromCart(item.id)"
 		                                onkeydown="return ( event.ctrlKey || event.altKey
 		                    					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
 		                    					|| (95<event.keyCode && event.keyCode<106)
@@ -66,7 +66,7 @@
 		                    					|| (event.keyCode==46) )" />
 								</div>
 							</div>
-							<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{item.totalPrice.value || 0 | currency: '$'}}</span></div>
+							<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) || 0 | currency: '$'}}</span></div>
 						</div>
 					</div>
 				</div>

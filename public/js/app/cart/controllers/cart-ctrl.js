@@ -27,10 +27,10 @@ angular.module('ds.cart')
         $scope.$on('$destroy', unbind);
 
         /** Remove a product from the cart.
-         * @param productId
+         * @param cart item id
          * */
-        $scope.removeProductFromCart = function (productId) {
-            CartSvc.removeProductFromCart(productId);
+        $scope.removeProductFromCart = function (itemId) {
+            CartSvc.removeProductFromCart(itemId);
         };
 
         /** Toggles the "show cart view" property.

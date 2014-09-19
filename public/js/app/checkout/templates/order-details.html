@@ -17,7 +17,7 @@
                 <div class="variants row item-attr">
                     <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
                 </div>
-                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{item.totalPrice.value | currency: '$'}}</span>
+                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) | currency: '$'}}</span>
                 </div>
             </div>
         </div>

@@ -18,14 +18,16 @@ angular.module('ds.cart')
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
-            this.product = product;
+            this.product = {
+                id: product.id
+            };
             this.unitPrice = price;
             this.quantity = qty;
         };
 
         // Prototype for cart as used in UI
         var Cart = function(){
-           this.cartItems = [];
+           this.items = [];
            this.totalUnitsCount = 0;
            this.subTotalPrice = {};
            this.subTotalPrice.value = 0;
@@ -89,6 +91,7 @@ angular.module('ds.cart')
                 });
             }, function(error){
                 console.error(error);
+                refreshCart();
                 // TODO - show notification to user
             });
         }
@@ -104,16 +107,6 @@ angular.module('ds.cart')
         }
 
 
-        function deleteCartItem(cartItem){
-            CartREST.Cart.one('carts', cart.id).one('items', cartItem.id).customDELETE().then(function(){
-                refreshCart();
-            }, function(error){
-                console.error(error);
-                // error handling should be moved to controller
-                refreshCart();
-            });
-        }
-
         return {
 
             /** Returns the cart instance from the application scope - does not conduct a GET from the API.*/
@@ -124,11 +117,13 @@ angular.module('ds.cart')
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
              * from the API for consistency and in order to display the updated calculations (line item totals, etc).*/
             updateCartItem: function (item, qty) {
-                console.log('updateCartItem()');
-                console.log(item);
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
+                        refreshCart();
+                    }, function(error){
+                        // TODO - should handle in controller - in UI
+                        console.error(error);
                         refreshCart();
                     });
                 }
@@ -140,11 +135,13 @@ angular.module('ds.cart')
              * Removes a product from the cart, issues a PUT, and then a GET for the updated information.
              * @param productId
              */
-            removeProductFromCart: function (productId) {
-                angular.forEach(cart.items, function (cartItem) {
-                    if(cartItem.productId === productId) {
-                        deleteCartItem(cartItem);
-                    }
+            removeProductFromCart: function (itemId) {
+                CartREST.Cart.one('carts', cart.id).one('items', itemId).customDELETE().then(function(){
+                    refreshCart();
+                }, function(error){
+                    console.error(error);
+                    // error handling should be moved to controller
+                    refreshCart();
                 });
 
             },
@@ -160,18 +157,15 @@ angular.module('ds.cart')
                     var item = null;
                     for (var i = 0; cart.items && i < cart.items.length; i++) {
                         item = cart.items[i];
-                        if (product.id === item.productId) {
-                            item.quantity = item.quantity + productDetailQty;
-                            this.updateCartItem(item.id, item.productId, item.price, item.quantity);
+                        if (product.id === item.product.id) {
+                            var qty = item.quantity + productDetailQty;
+                            this.updateCartItem(item, qty);
                             return;
                         }
                     }
                     createCartItem(product, productDetailQty);
                 }
             },
-
-
-
 
             /**
              * Creates a new Cart instance that does not have an ID.
