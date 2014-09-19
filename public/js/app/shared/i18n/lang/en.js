@@ -134,6 +134,7 @@ angular.module('ds.i18n')
         CONTACT_PHONE: 'Contact Phone',
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
-        STREET_NUMBER: 'Street Number'
+        STREET_NUMBER: 'Street Number',
+        SAVE: 'Save'
 
 	});

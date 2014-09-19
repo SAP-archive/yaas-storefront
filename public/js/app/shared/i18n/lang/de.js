@@ -133,6 +133,7 @@ angular.module('ds.i18n')
         CONTACT_PHONE: 'Kontakt Telefon',
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
-        STREET_NUMBER: 'Straße Anzahl'
+        STREET_NUMBER: 'Straße Anzahl',
+        SAVE: 'Speichern'
 
     });
