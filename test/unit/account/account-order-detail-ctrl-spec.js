@@ -29,7 +29,7 @@ describe('AccountOrderDetailCtrl Test', function () {
     }));
 
     describe('AccountOrderDetailCtrl ', function () {
-        var mockedOrderSvc, mockedProductSvc, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams;
+        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams;
 
         beforeEach(function () {
 
@@ -43,14 +43,12 @@ describe('AccountOrderDetailCtrl Test', function () {
                 {
                     id: 'product1',
                     sku: 'product1',
-                    amount: 1,
-                    price: 50
+                    amount: 1
                 },
                 {
                     id: 'product2',
                     sku: 'product2',
-                    amount: 2,
-                    price: 25
+                    amount: 2
                 }
             ];
 
@@ -90,13 +88,24 @@ describe('AccountOrderDetailCtrl Test', function () {
                 ]
             };
 
+            mockedPricesArray = [
+                {'priceId': 'price123', 'productId': 'product1', 'value': '50'},
+                {'priceId': 'price456', 'productId': 'product2', 'value': '25'}
+            ];
+
+            mockedPricesArray.headers = [];
+            var deferredPrices = $q.defer();
+            deferredPrices.resolve(mockedPricesArray);
+            mockedPriceSvc = {};
+            mockedPriceSvc.query = jasmine.createSpy('query').andReturn(deferredPrices.promise);
+
             $scope.orderProducts = mockedProductsArray;
             angular.forEach(mockedProductsArray, function (entry, key) {
                 $scope.orderProducts[key].quantity = entry.amount;
             });
 
             accountOrderDetailCtrl = $controller('AccountOrderDetailCtrl',
-                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, $stateParams: mockedStateParams});
+                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams});
         });
 
         it('should parse the payment information', function () {
@@ -109,7 +118,16 @@ describe('AccountOrderDetailCtrl Test', function () {
         it('should get the correct item count', function () {
             expect($scope.itemCount).toEqualData(3);
         });
-        
+
+        it('should get the prices for the products', function () {
+            $scope.$digest();
+            
+            expect($scope.prices.product1.priceId).toEqualData('price123');
+            expect($scope.prices.product2.priceId).toEqualData('price456');
+            expect($scope.prices.product1.value).toEqualData('50');
+            expect($scope.prices.product2.value).toEqualData('25');
+        });
+
     });
 
 });
