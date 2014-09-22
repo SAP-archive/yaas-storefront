@@ -14,7 +14,7 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', '$q', function($rootScope, CartREST, $q){
+    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', '$q', function($rootScope, CartREST, ProductSvc, $q){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -101,11 +101,29 @@ angular.module('ds.cart')
         function refreshCart(){
             var newCart = CartREST.Cart.one('carts', cart.id).get();
             newCart.then(function(response){
+
                 cart = response;
+                if(response.items && response.items.length) {
+                    // we need to retrieve images for the items in the cart:
+                    var productIds = response.items.map(function (item) {
+                        return item.product.id;
+                    });
+                    var productParms = {
+                        q: 'id:(' + productIds + ')'
+                    };
+                    ProductSvc.query(productParms).then(function (productResults) {
+                        angular.forEach(cart.items, function (item) {
+                            angular.forEach(productResults, function (product) {
+                                if (product.id === item.product.id) {
+                                    item.images = product.images;
+                                }
+                            });
+                        });
+                    });
+                }
                 $rootScope.$emit('cart:updated', cart);
             });
         }
-
 
         return {
 

@@ -18,6 +18,25 @@ describe('CartSvc Test', function () {
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {price: 5.00, currency: 'USD'}};
     var itemId = '0';
+    var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
+    var cartResponse = {
+        "items" : [ {
+            "id" : "0",
+            "unitPrice" : {
+                "currency" : "USD",
+                "value" : 10.67
+            },
+            "product" : {
+                "id" : "540751ee394edbc101ff20f5",
+                "inStock" : false
+            },
+            "totalItemPrice" : {
+                "currency" : "USD",
+                "value" : 10.67
+            },
+            "quantity" : 1.0
+        } ]
+    };
 
     //***********************************************************************
     // Common Setup
@@ -26,7 +45,10 @@ describe('CartSvc Test', function () {
 
     beforeEach(function () {
         module('restangular');
-        angular.mock.module('ds.cart');
+        module('ds.cart', function($provide){
+            $provide.value('ProductSvc', mockedProductSvc);
+        });
+
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -66,7 +88,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":"123"},"unitPrice":{"value":5},"quantity":2})
                 .respond(201, {});
             cartSvc.addProductToCart(prod1, 2);
-            mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, {});
+            mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
             mockBackend.flush();
         });
     });
@@ -129,7 +151,7 @@ describe('CartSvc Test', function () {
                 expect(updatedCart.items.length).toEqualData(1);
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 3})
                     .respond(201, {});
-                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 cartSvc.addProductToCart(prod1, 1);
                 mockBackend.flush();
             });
@@ -138,7 +160,7 @@ describe('CartSvc Test', function () {
         describe('removeProductFromCart()', function () {
             it('should delete cart item', function () {
                 mockBackend.expectDELETE(cartUrl+'/'+cartId+'/items/'+itemId).respond(200, {});
-                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 cartSvc.removeProductFromCart(itemId);
                 mockBackend.flush();
             });
@@ -149,7 +171,7 @@ describe('CartSvc Test', function () {
                 var item = cartSvc.getCart().items[0];
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 5})
                     .respond(201, {});
-                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 cartSvc.updateCartItem(item, 5);
                 mockBackend.flush();
             });

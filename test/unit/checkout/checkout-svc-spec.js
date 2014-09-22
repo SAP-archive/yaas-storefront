@@ -244,12 +244,15 @@ describe('CheckoutSvc', function () {
             }
         };
 
+
         beforeEach(function() {
             module('restangular');
-            module('ds.checkout');
+            module('ds.checkout', function($provide){
+                $provide.value('CartSvc', mockedCartSvc);
+            });
         });
 
-        beforeEach(function($provide) {
+        beforeEach(function() {
             inject(function (_$httpBackend_,_CheckoutSvc_) {
                 $httpBackend = _$httpBackend_;
                 checkoutSvc = _CheckoutSvc_;
