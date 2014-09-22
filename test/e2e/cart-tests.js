@@ -80,7 +80,9 @@ describe("cart:", function () {
            tu.sendKeysByXpath(tu.cartQuantity, '5');
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
+           browser.sleep(250);
            tu.sendKeysByXpath(tu.cartQuantity, '10');
+           browser.sleep(250);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
          });
