@@ -22,6 +22,7 @@ module.exports = function(config){
         'public/js/vendor/angular-translate/angular-translate.min.js',
         'public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
         'public/js/vendor/angular-stripe-js/build/angular-stripe-js.min.js',
+        'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',
@@ -93,6 +94,7 @@ module.exports = function(config){
         'test/unit/*.js',
         'test/unit/account/*.js',
         'test/unit/auth/*.js',
+        'test/unit/account/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
