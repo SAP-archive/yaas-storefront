@@ -38,23 +38,26 @@
           <span class="area-headline">Account Details</span>
           <div class="account-details">
             <div>
-              <span class="inline-label">First Name:</span> <a href="#" alt="Edit">{{account.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">First Name:</span> <a href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Last Name:</span> <a href="#" alt="Edit">{{account.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Middle Name:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Email:</span> <a href="#" alt="Edit">{{account.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Last Name:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Password:</span> <a href="#" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
             </div>
+            <!-- <div>
+              <span class="inline-label">Password:</span> <a href="#" editable-password="account.password" onbeforesave="updateAccount('password', $data)" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
+            </div> -->
             <div>
-              <span class="inline-label">Preferred Locale:</span> <a href="#" >{{languageLocales[account.preferredLanguage]}} <span class="caret"></span></a>
+              <span class="inline-label">Preferred Locale:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span class="caret"></span></a>
             </div>
-            <div>
-              <span class="inline-label">Currency:</span> <a href="#" >{{currencies[account.preferredCurrency]}} <span class="caret"></span></a>
-            </div>
+            <!-- <div>
+              <span class="inline-label">Currency:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.value as currency.text for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
+            </div> -->
           </div>
         </div>
       </div>
