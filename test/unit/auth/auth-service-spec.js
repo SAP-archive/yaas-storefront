@@ -112,7 +112,7 @@ describe('AuthSvc Test', function () {
            successSpy = jasmine.createSpy('success'),
            errorSpy = jasmine.createSpy('error');
        
-       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login?apiKey=' + mockedSettings.apis.customers.apiKey, payload).respond(200, response);
+       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, response);
        var promise = AuthSvc.signin(payload);
        promise.then(successSpy, errorSpy);
 
@@ -157,6 +157,25 @@ describe('AuthSvc Test', function () {
         it('should navigate to products if state is protected', function(){
             AuthSvc.signOut(payload);
             expect(mockedState.go).wasCalledWith('base.product');
+        });
+    });
+
+    describe('requestPasswordReset()', function(){
+        it('should issue POST on reset route', function(){
+            var email = "foo@bar.com";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset', {'email': email}).respond(200, {});
+            AuthSvc.requestPasswordReset(email);
+            mockBackend.flush();
+        });
+    });
+
+    describe('changePassword()', function(){
+        it('should issue POST on update route', function(){
+            var token = "abc123";
+            var newPw = "wordpass";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset/update', {'token': token, 'password': newPw}).respond(200, {});
+            AuthSvc.changePassword(token, newPw);
+            mockBackend.flush();
         });
     });
 

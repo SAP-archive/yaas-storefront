@@ -19,18 +19,38 @@ angular.module('ds.auth')
 
             var authDialog, isOpened = false;
 
-            function cleanUp() {
-                $location.search(settings.forgotPassword.paramName, null);
-            }
 
             function onDialogClosed(callback) {
                 isOpened = false;
-                cleanUp();
+
                 if(callback){
                     callback();
                 }
             }
 
+
+            function openDialog(options) {
+                var deferResult = $q.defer();
+                // make sure only 1 instance exists in opened state
+                if (authDialog && isOpened) {
+                    authDialog.close();
+                }
+                authDialog = $modal.open(options);
+                isOpened = true;
+                authDialog.result.then(
+                    // dialog closed
+                    function(success) {
+                        onDialogClosed();
+                        deferResult.resolve(success);
+                    },
+                    // dialog dismissed
+                    function(error) {
+                        onDialogClosed();
+                        deferResult.reject(error);
+                    }
+                );
+                return deferResult.promise;
+            }
 
             return {
 
@@ -39,13 +59,13 @@ angular.module('ds.auth')
                 },
                 
                 /**
-                 * Creates and opens the authorization dialog, optionally with the "forgot password" feature.
+                 * Creates and opens the authorization dialog for sign in/create account.
                  * Returns the promise returned by $modal.result (see angular bootstrap) - the success handler will
                  * be invoked if the the dialog was closed and the "reject" handler will be invoked if the dialog was
                  * dismissed.
                  */
                 open: function(dialogConfig, options) {
-                    var deferResult = $q.defer();
+
                     var modalOpts = angular.extend({
                             templateUrl: './js/app/auth/templates/auth.html',
                             controller: 'AuthModalDialogCtrl'
@@ -54,30 +74,10 @@ angular.module('ds.auth')
                     if (options && options.required) {
                         modalOpts.keyboard = false;
                         modalOpts.backdrop = 'static';
-                    } else if (options && options.forgotPassword) {
-                        modalOpts.templateUrl = './js/app/auth/templates/password.html';
                     }
 
-                    // make sure only 1 instance exists in opened state
-                    if (authDialog && isOpened) {
-                        authDialog.close();
-                    }
-                    authDialog = $modal.open(modalOpts);
-                    isOpened = true;
-                    
-                    authDialog.result.then(
-                        // dialog closed
-                        function(success) {
-                            onDialogClosed();
-                            deferResult.resolve(success);
-                        },
-                        // dialog dismissed
-                        function(error) {
-                            onDialogClosed();
-                            deferResult.reject(error);
-                        }
-                    );
-                    return deferResult.promise;
+                    return openDialog(modalOpts);
+
                 },
 
                 close: function() {
@@ -85,6 +85,45 @@ angular.module('ds.auth')
                         authDialog.close();
                         isOpened = false;
                     }
+                },
+
+
+                /** Shows the "reset password dialog. */
+                showResetPassword: function(){
+                   var modalOpts = {
+                       templateUrl: './js/app/auth/templates/password-request-reset.html',
+                       controller: 'PasswordResetCtrl'
+                   };
+                   return openDialog(modalOpts);
+                },
+
+                /** Shows the "check your email" dialog. */
+                showCheckEmail: function(){
+                    var modalOpts = {
+                        templateUrl: './js/app/auth/templates/check-email.html',
+                        controller: 'PasswordResetCtrl'
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                /** Shows the "check your email" dialog. */
+                showChangePassword: function(showBackDrop){
+                    var modalOpts = {
+                        templateUrl: './js/app/auth/templates/password-reset.html',
+                        controller: 'PasswordResetCtrl',
+                        size: 'lg',
+                        backdrop: showBackDrop? true : false
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                /** Shows the 'password changed successfully' dialog. */
+                showPasswordChanged: function(){
+                    var modalOpts = {
+                        templateUrl: './js/app/auth/templates/pw-change-success.html',
+                        controller: 'PasswordResetCtrl'
+                    };
+                    return openDialog(modalOpts);
                 }
 
 

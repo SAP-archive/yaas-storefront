@@ -15,9 +15,6 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
-        forgotPassword: {
-            paramName: 'forgotPassword'
-        },
 
         // defines thea API endpoints and routes
         apis: {
