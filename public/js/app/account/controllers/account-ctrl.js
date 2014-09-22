@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -22,19 +22,34 @@ angular.module('ds.account')
         };
 
         $scope.errors = [];
+        if (!account.preferredLanguage) {
+          account.preferredLanguage = GlobalData.languageCode;
+        }
         $scope.account = account;
         $scope.addresses = addresses;
         $scope.orders = orders;
         $scope.defaultAddress = getDefaultAddress();
         $scope.showAllButton = true;
 
-        $scope.currencies = {
-          'DE': 'EUR - Euro',
-          'US': 'US - Dollar'
+        $scope.currencies = [
+          { value: 'EUR', text: 'EUR - Euro' },
+          { value: 'USD', text: 'US - Dollar' },
+          { value: 'GBP', text: 'UK - Pound' }
+        ];
+
+        $scope.showCurrency = function() {
+         var selected = $filter('filter')($scope.currencies, {value: $scope.account.preferredCurrency});
+         return ($scope.account.preferredCurrency && selected.length) ? selected[0].text : 'Not set';
         };
-        $scope.languageLocales = {
-          'en_US': 'US - USA',
-          'de_DE': 'DE - German'
+        
+        $scope.languageLocales = [
+          { value: 'en_US', text: 'US - USA' },
+          { value: 'de_DE', text: 'DE - German' }
+        ];
+
+        $scope.showLanguageLocale = function() {
+         var selected = $filter('filter')($scope.languageLocales, {value: $scope.account.preferredLanguage});
+         return ($scope.account.preferredLanguage && selected.length) ? selected[0].text : 'Not set';
         };
 
         var extractServerSideErrors = function(response) {
@@ -159,6 +174,16 @@ angular.module('ds.account')
                 $scope.orders = orders;
                 getItemCountPerOrder();
             });
+        };
+
+        $scope.updateAccount = function(field, data) {
+          var account = angular.copy($scope.account);
+          account[field] = data;
+          return AccountSvc.updateAccount(account).then(function() {
+            if (field === 'preferredLanguage' && data) {
+              $scope.$emit('language:switch', data.split('_')[0]);
+            }
+          });
         };
 
         getItemCountPerOrder();

@@ -133,6 +133,8 @@ angular.module('ds.i18n')
         CONTACT_PHONE: 'Kontakt Telefon',
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
+        SAVE: 'Speichern',
+
         STREET_NUMBER: 'Nummer',
 
         /*
@@ -152,5 +154,6 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
+
 
     });

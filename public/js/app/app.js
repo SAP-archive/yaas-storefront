@@ -14,7 +14,8 @@ window.app = angular.module('ds.router', [
     'ds.auth',
     'ds.orders',
     'ds.queue',
-    'config'
+    'config',
+    'xeditable'
 ])
     .constant('_', window._)
     /*
@@ -145,8 +146,11 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+            editableOptions.theme = 'bs3';
+            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
+
             if(storeConfig.token) {
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }

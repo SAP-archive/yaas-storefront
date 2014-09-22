@@ -13,11 +13,43 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountOrderDetailCtrl', ['$scope', 'order', 'ProductSvc', '$stateParams', function($scope, order, ProductSvc, $stateParams) {
+    .controller('AccountOrderDetailCtrl', ['$scope', 'order', 'ProductSvc', 'PriceSvc', '$stateParams', function($scope, order, ProductSvc, PriceSvc, $stateParams) {
 
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
         $scope.orderProducts = [];
+        $scope.prices = {};
+
+        /*
+         Retrieves pricing information for the list of products.
+         */
+        var getPrices = function() {
+            var productIds = '';
+            angular.forEach($scope.order.entries, function (entry, key) {
+                if (key === $scope.order.entries.length - 1) {
+                    productIds = productIds + (entry.sku);
+                }
+                else {
+                    productIds = productIds + (entry.sku + ',');
+                }
+            });
+            var queryPrices = {
+                q: 'productId:(' + productIds + ')'
+            };
+
+            PriceSvc.query(queryPrices).then(
+                function (pricesResponse) {
+                    if (pricesResponse) {
+                        var pricesMap = {};
+
+                        pricesResponse.forEach(function (price) {
+                            pricesMap[price.productId] = price;
+                        });
+
+                        $scope.prices = angular.extend($scope.prices, pricesMap);
+                    }
+                });
+        };
 
         var getPaymentInfo = function () {
             var payment = {};
@@ -77,6 +109,8 @@ angular.module('ds.account')
         $scope.payment = getPaymentInfo();
 
         var query = getProductsInOrder();
+
+        getPrices();
 
         ProductSvc.query(query).then(function (products) {
             if (products) {
