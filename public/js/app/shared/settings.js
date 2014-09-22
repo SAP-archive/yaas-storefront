@@ -34,11 +34,11 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://yaas-test.apigee.net/test/checkout-mashup/v1'
+                baseUrl: 'http://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             orders: {
-                baseUrl: 'http://order-v2.test.cf.hybris.com'
+                baseUrl: 'http://order-v2.test.cf.hybris.com' //'http://yaas-test.apigee.net/test/order/v2'
             },
 
             cart: {
@@ -46,7 +46,7 @@ angular.module('ds.shared')
             },
 
             prices: {
-                baseUrl: 'http://price-v2.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/price/v2'
             },
 
             shippingCosts: {
