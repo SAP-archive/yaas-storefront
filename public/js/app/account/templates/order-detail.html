@@ -88,12 +88,13 @@
                         <div class="cart-item">
 
                             <div class="col-xs-2 col-md-4 text-center img-col">
-                                <img class="img-responsive" ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}">
-
+                                <a ui-sref="base.product.detail( {productId: product.id} )">
+                                    <img class="img-responsive" ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}">
+                                </a>
                             </div>
                             <div class="col-xs-4 col-md-4  detail-col">
 
-                                <div class="name "><a href="#">{{product.name}}</a></div>
+                                <div class="name "><a ui-sref="base.product.detail( {productId: product.id} )">{{product.name}}</a></div>
                                 <div class="price item-attr ">SKU: <span> {{product.sku}}</span></div>
                                 <!--div class="variants row item-attr">
                                     <div class="variant col-lg-6 ">Color: <span>Stone</span></div>
