@@ -15,8 +15,8 @@ angular.module('ds.auth')
     /**
      *  Handles interaction for "request password reset" dialog with follow-up "check your email" dialog.
      */
-    .controller('PasswordResetCtrl', ['$scope', '$modalInstance', 'AuthSvc', 'AuthDialogManager', '$state', '$stateParms',
-        function($scope, $modalInstance, AuthSvc, AuthDialogManager, $state,  $stateParams) {
+    .controller('PasswordResetCtrl', ['$scope', '$modalInstance', 'AuthSvc', 'AuthDialogManager', '$state',
+        function($scope, $modalInstance, AuthSvc, AuthDialogManager, $state) {
 
 
         $scope.requestPasswordReset = function(email){
@@ -26,7 +26,7 @@ angular.module('ds.auth')
 
             }, function(failure){
                 $modalInstance.close();
-                window.alert('Password reset failed: '+failure.data.message);
+                $scope.message = 'Password reset failed: '+failure.data.message;
             });
         };
 

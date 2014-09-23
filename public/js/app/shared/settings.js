@@ -22,7 +22,7 @@ angular.module('ds.shared')
               baseUrl: 'http://yaas-test.apigee.net/test/account/v1'
             },
             configuration: {
-               baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
+               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
             products: {
                 baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
