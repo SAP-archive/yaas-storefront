@@ -28,7 +28,6 @@ angular.module('ds.auth')
                 $modalInstance.close();
                 var errorDetail = 'Unknown Error';
                 if(failure && failure.data && failure.data.message) {
-                    'Unknown Error';
                     errorDetail = failure.data.message;
                 }
                 $scope.message = 'Password reset failed: '+ errorDetail;
