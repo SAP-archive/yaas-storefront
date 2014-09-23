@@ -15,7 +15,7 @@
         <div class="page-headline">
             <h1>
                 <small><a href="/account/">My Account</a> / Order Details</small></br>
-                Order ABC123981349
+                Order {{order.id}}
             </h1>
         </div>
         <div class="section-headline">
@@ -29,10 +29,10 @@
   			Shipping Address
   		</span>
                     <address>
-                        Firstname, Secondname<br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        USA<br>
+                        {{order.shippingAddress.contactName}}<br>
+                        {{order.shippingAddress.street}}<div ng-if="order.shippingAddress.streetAppendix">, {{order.shippingAddress.streetAppendix}}</div><br>
+                        {{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zipCode}}<br>
+                        {{order.shippingAddress.country}}<br>
                     </address>
                 </div>
             </div>
@@ -43,10 +43,10 @@
   			Billing Address
   		</span>
                     <address>
-                        Firstname, Secondname<br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        USA<br>
+                        {{order.billingAddress.contactName}}<br>
+                        {{order.billingAddress.street}}<div ng-if="order.billingAddress.streetAppendix">, {{order.billingAddress.streetAppendix}}</div><br>
+                        {{order.billingAddress.city}}, {{order.billingAddress.state}} {{order.billingAddress.zipCode}}<br>
+                        {{order.billingAddress.country}}<br>
                     </address>
                 </div>
             </div>
@@ -56,7 +56,7 @@
   		<span class="area-headline">
   			Payment
   		</span>
-                    <p>Paypal #123838938</p>
+                    <p>{{payment.method}}, {{payment.paidAmount | currency: '$'}}, {{payment.status}}</p>
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
     </section>
     <section>
         <div class="section-headline">
-            <h2>Orderstatus <span class="order-status">- Shipped!</span></h2>
+            <h2>Order Status <span class="order-status">- {{order.status}}</span></h2>
         </div>
     </section>
     <section class="mediumgray clearfix">
@@ -82,54 +82,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr ng-repeat="product in orderProducts">
 
                     <td >
                         <div class="cart-item">
 
                             <div class="col-xs-2 col-md-4 text-center img-col">
-                                <img class="img-responsive" ng-src="http://product-v1.test.cf.hybris.com/products/53ebcaca394edbc101fec8f9/media/53ebcad1be0eb3ae86804c62/content?tenant=ed7hrfivpvyr" src="http://product-v1.test.cf.hybris.com/products/53ebcaca394edbc101fec8f9/media/53ebcad1be0eb3ae86804c62/content?tenant=ed7hrfivpvyr">
-
+                                <a ui-sref="base.product.detail( {productId: product.id} )">
+                                    <img class="img-responsive" ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}">
+                                </a>
                             </div>
                             <div class="col-xs-4 col-md-4  detail-col">
 
-                                <div class="name "><a href="#">Tattered Bowls</a></div>
-                                <div class="price item-attr ">SKU: <span> asdflkjasdklfj30</span></div>
-                                <div class="variants row item-attr">
+                                <div class="name "><a ui-sref="base.product.detail( {productId: product.id} )">{{product.name}}</a></div>
+                                <div class="price item-attr ">SKU: <span> {{product.sku}}</span></div>
+                                <!--div class="variants row item-attr">
                                     <div class="variant col-lg-6 ">Color: <span>Stone</span></div>
                                     <div class="variant col-lg-6 ">Size: <span>30 ml</span></div>
-                                </div>
+                                </div-->
                             </div>
                         </div>
                     </td>
-                    <td>$20</td>
-                    <td>2</td>
-                    <td>$40</td>
-                </tr>
-
-                <tr>
-
-                    <td >
-                        <div class="cart-item">
-
-                            <div class="col-xs-2 col-md-4 text-center img-col">
-                                <img class="img-responsive" ng-src="http://product-v1.test.cf.hybris.com/products/53ebcaca394edbc101fec8f9/media/53ebcad1be0eb3ae86804c62/content?tenant=ed7hrfivpvyr" src="http://product-v1.test.cf.hybris.com/products/53ebcaca394edbc101fec8f9/media/53ebcad1be0eb3ae86804c62/content?tenant=ed7hrfivpvyr">
-
-                            </div>
-                            <div class="col-xs-4 col-md-4  detail-col">
-
-                                <div class="name "><a href="#">Tattered Bowls</a></div>
-                                <div class="price item-attr ">SKU: <span> asdflkjasdklfj30</span></div>
-                                <div class="variants row item-attr">
-                                    <div class="variant col-lg-6 ">Color: <span>Stone</span></div>
-                                    <div class="variant col-lg-6 ">Size: <span>30 ml</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>$20</td>
-                    <td>2</td>
-                    <td>$40</td>
+                    <td>{{prices[product.id].value | currency: '$'}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td>{{prices[product.id].value * product.quantity | currency: '$'}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -139,17 +115,17 @@
                 <tbody>
                 <tr>
                     <td >Subtotal</td>
-                    <td class="text-right">$26.57</td>
+                    <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: '$'}}</td>
                 </tr>
                 <tr>
                     <td>Shipping</td>
-                    <td class="text-right">$9.00</td>
+                    <td class="text-right">{{order.shippingCost | currency: '$'}}</td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
                     <td>Order Total</td>
-                    <td class="text-right">$35.57</td>
+                    <td class="text-right">{{order.totalPrice | currency: '$'}}</td>
                 </tr>
                 </tfoot>
             </table>
