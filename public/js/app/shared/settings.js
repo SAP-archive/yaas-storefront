@@ -38,7 +38,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'http://order-v2.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/order/v2'
             },
 
             cartItems: {

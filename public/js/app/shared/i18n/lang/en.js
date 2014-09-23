@@ -136,6 +136,8 @@ angular.module('ds.i18n')
         STREET: 'Street',
         STREET_NUMBER: 'Street Number',
 
+        SAVE: 'Save',
+
         /*
            login, password, signup
          */

@@ -21,49 +21,33 @@ angular.module('ds.account')
         var AccountSvc = {
 
             /**
-             * Mehtod resturing logged in user account details.
+             * Retrieve account details of logged in customer.
              */
-            // TODO: replace with actual implementation (once ApiGee is in place)
             account: function() {
                 return AuthREST.Customers.all('me').customGET();
             },
 
-            /**
-             * Mehtod resturing logged in user addresses or only specified address
-             */
-            // TODO: replace with actual implementation (once ApiGee is in place)
-            getAccountAddresses: function(addressId) {
-                var deferred = $q.defer(),
-                    result = [{
-                        address1: 'Hollywood Blwd.',
-                        city: 'Los Angeles',
-                        state: 'CA',
-                        zip: '123456'
-                    },
-                        {
-                            address1: 'Dead end walley',
-                            city: 'New York',
-                            state: 'New York',
-                            zip: '111222'
-                        }];
-
-                if (addressId) {
-                    result = result[0];
-                }
-
-                setTimeout(function() { deferred.resolve(result); }, 300);
-
-                return deferred.promise;
+            updateAccount: function(account) {
+                return AuthREST.Customers.all('me').customPUT(account, '');
             },
 
+            /**
+             * Retrieve addresses of logged in customer.
+             */
             getAddresses: function() {
                 return AuthREST.Customers.all('me').all('addresses').getList();
             },
 
+            /**
+             * Retrieve specified address of logged in customer.
+             */
             getAddress: function(id) {
                 return AuthREST.Customers.all('me').one('addresses', id).get();
             },
 
+            /**
+             * Retrieve default address of logged in customer.
+             */
             getDefaultAddress: function() {
                 var addresses = this.getAddresses(),
                     deferred = $q.defer();
@@ -78,11 +62,17 @@ angular.module('ds.account')
                 return deferred.promise;
             },
 
+            /**
+             * Save addresses within logged in customer's address book.
+             */
             saveAddress: function(address) {
                 var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
                 return promise;
             },
 
+            /**
+             * Remove specified address from logged in customer's address book.
+             */
             removeAddress: function(address) {
                 return AuthREST.Customers.all('me').one('addresses', address.id).customDELETE();
             }

@@ -40,8 +40,16 @@ angular.module('ds.shared')
                 $state.go('base.account');
             };
 
+
+            var unbind = $rootScope.$on('language:switch', function (eve, languageCode) {
+                $scope.switchLanguage(languageCode);
+            });
+
+            $scope.$on('$destroy', unbind);
+            
             $scope.showProducts = function(){
                 $rootScope.showMobileNav = false;
                 $state.go('base.product');
             };
+
 	}]);
