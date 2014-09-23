@@ -58,7 +58,7 @@ angular.module('ds.shared')
             },
 
             shippingCosts: {
-                baseUrl: 'http://shipping-cost-v1.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v1'
             },
 
             customers: {
