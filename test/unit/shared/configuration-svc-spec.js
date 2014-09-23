@@ -14,7 +14,7 @@ describe('ConfigurationSvc Test', function () {
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
     var fullUrl = url+dummyRoute;
-    var configurationsUrl = 'http://yaas-test.apigee.net/test/configuration/v2/configurations';
+    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
     var $scope, $rootScope, $httpBackend, configSvc, globalData;
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';

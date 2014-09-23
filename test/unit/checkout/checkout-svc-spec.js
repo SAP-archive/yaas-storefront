@@ -231,7 +231,7 @@ describe('CheckoutSvc', function () {
     });
 
     describe('getShippingCost', function(){
-        var shippingCostUrl = 'http://shipping-cost-v1.test.cf.hybris.com/shippingcosts';
+        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v1/shippingcosts';
         var
             onSuccessSpy,
             onErrorSpy;
