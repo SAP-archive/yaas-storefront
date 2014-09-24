@@ -31,13 +31,14 @@ angular.module('ds.shared')
         var LanguageCookieSvc = {
 
             setLanguageCookie: function(languageCode, expiresIn) {
+                ipCookie.remove(settings.languageCookie);
                 var languageCookie = new LanguageCookie(languageCode);
                 ipCookie(settings.languageCookie, JSON.stringify(languageCookie), {expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds});
             },
 
             getLanguageCookie: function () {
                 var languageCookie = ipCookie(settings.languageCookie);
-                return languageCookie ? new LanguageCookie(languageCookie.languageCode) : new LanguageCookie(null);
+                return languageCookie ? new LanguageCookie(languageCookie.languageCode) : false;
             }
 
         };

@@ -146,20 +146,24 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'LanguageCookieSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, LanguageCookieSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'LanguageCookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, LanguageCookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
-            /*
-             save the language to a cookie when it changes
-             */
-            $rootScope.$on('language:switch', function (event, languageCode) {
-                LanguageCookieSvc.setLanguageCookie(languageCode);
-            });
-
             if(storeConfig.token) {
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+            }
+
+            /*
+             get the language cookie if it exists
+             */
+            var languageCookie = LanguageCookieSvc.getLanguageCookie();
+
+            if (languageCookie) {
+                $translate.use(languageCookie.languageCode);
+                GlobalData.languageCode = languageCookie.languageCode;
+                GlobalData.acceptLanguages = (languageCookie.languageCode === storeConfig.defaultLanguage ? languageCookie.languageCode : languageCookie.languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
@@ -215,8 +219,7 @@ window.app = angular.module('ds.router', [
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
         function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
 
-            // Set default language
-            TranslationProvider.setPreferredLanguage( storeConfig.defaultLanguage );
+            TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
             // States definition
             $stateProvider
