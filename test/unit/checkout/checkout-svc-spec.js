@@ -11,7 +11,7 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutOrderUrl = 'http://checkout-mashup-v3.test.cf.hybris.com/checkouts/order';
+    var checkoutOrderUrl = 'https://checkout-mashup-v3.test.cf.hybris.com/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
 
@@ -232,7 +232,7 @@ describe('CheckoutSvc', function () {
     });
 
     describe('getShippingCost', function(){
-        var shippingCostUrl = 'http://shipping-cost-v1.test.cf.hybris.com/shippingcosts';
+        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v1/shippingcosts';
         var
             onSuccessSpy,
             onErrorSpy;

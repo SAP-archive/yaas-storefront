@@ -12,9 +12,9 @@
 
 describe('CartSvc Test', function () {
 
-    var mockBackend, $scope, $rootScope, $q, cartSvc;
+    var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
-    var cartUrl = 'http://cart-snapshot.test.cf.hybris.com/carts';
+    var cartUrl = 'http://cart-v3.test.cf.hybris.com/carts';
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {price: 5.00, currency: 'USD'}};
     var itemId = '0';
