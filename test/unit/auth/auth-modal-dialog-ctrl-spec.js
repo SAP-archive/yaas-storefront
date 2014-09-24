@@ -13,7 +13,7 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockBackend,
+    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedAccount, mockedAccountSvc, mockedCookieSvc, mockBackend,
         deferredSignIn, deferredSignUp;
     var mockedForm = {};
     var mockedSettings = {
@@ -83,8 +83,22 @@ describe('AuthModalDialogCtrl Test', function () {
             })
         };
         mockedSettings.hybrisUser = null;
+
+        mockedAccount = {
+            preferredLanguage: 'en_EN'
+        };
+        mockedAccount.headers =  [];
+        var deferredAccount = $q.defer();
+        deferredAccount.resolve(mockedAccount);
+        mockedAccountSvc = {};
+        mockedAccountSvc.account = jasmine.createSpy('account').andReturn(deferredAccount.promise);
+        mockedCookieSvc = {
+            setLanguageCookie: jasmine.createSpy('setLanguageCookie')
+        };
+
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
-            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager });
+            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, AccountSvc: mockedAccountSvc,
+            CookieSvc: mockedCookieSvc, settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager });
     });
 
     it("should expose correct data to the scope", function() {

@@ -146,8 +146,9 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'LanguageCookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, LanguageCookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
@@ -158,7 +159,7 @@ window.app = angular.module('ds.router', [
             /*
              get the language cookie if it exists
              */
-            var languageCookie = LanguageCookieSvc.getLanguageCookie();
+            var languageCookie = CookieSvc.getLanguageCookie();
 
             if (languageCookie) {
                 $translate.use(languageCookie.languageCode);

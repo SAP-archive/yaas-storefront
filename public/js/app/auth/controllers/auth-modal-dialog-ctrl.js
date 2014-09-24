@@ -15,8 +15,8 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', '$location', 'settings', 'AuthDialogManager',
-        function ($scope, $modalInstance, $controller, $q, AuthSvc, $location, settings, AuthDialogManager) {
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'AccountSvc', 'CookieSvc', '$location', 'settings', 'AuthDialogManager',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, AccountSvc, CookieSvc, $location, settings, AuthDialogManager) {
 
             $scope.user = {
                 signup: {},
@@ -36,6 +36,12 @@ angular.module('ds.auth')
                 var signInPromise = AuthSvc.signin(authModel);
                 signInPromise.then(function () {
                     $scope.errors.signin = [];
+                    var accountPromise = AccountSvc.account();
+                    accountPromise.then(function () {
+                        var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
+                        $rootScope.$emit('language:switch', languageCode);
+                        CookieSvc.setLanguageCookie(languageCode);
+                    });
                 }, function (response) {
                     $scope.errors.signin = extractServerSideErrors(response);
                 });
