@@ -146,10 +146,17 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'LanguageCookieSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, LanguageCookieSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
+
+            /*
+             save the language to a cookie when it changes
+             */
+            $rootScope.$on('language:switch', function (event, languageCode) {
+                LanguageCookieSvc.setLanguageCookie(languageCode);
+            });
 
             if(storeConfig.token) {
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);

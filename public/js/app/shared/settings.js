@@ -15,6 +15,7 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
+        languageCookie: 'languageCookie',
 
         // defines thea API endpoints and routes
         apis: {
