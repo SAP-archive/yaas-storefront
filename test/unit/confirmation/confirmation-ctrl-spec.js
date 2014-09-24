@@ -51,9 +51,9 @@ describe('ConfirmationCtrl Test', function () {
         deferredOrderDetails.resolve(mockedOrderDetails);
 
         mockedProducts = [
-            {'id': 'product1234'},
-            {'id': 'product5678'},
-            {'id': 'product9876'}
+            {'sku': 'product1234'},
+            {'sku': 'product5678'},
+            {'sku': 'product9876'}
         ];
 
         mockedProducts.headers = [];

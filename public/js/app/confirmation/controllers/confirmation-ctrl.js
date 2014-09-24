@@ -29,7 +29,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
-            var productIds = details.entries.map(function (entry) {
+            var productSkus = details.entries.map(function (entry) {
                 return entry.sku;
             });
             var amount = details.entries.map(function(entry){
@@ -40,7 +40,7 @@ angular.module('ds.confirmation')
             });
 
             var productParms = {
-                q: 'id:(' + productIds + ')'
+                q: 'sku:(' + productSkus + ')'
             };
 
             ProductSvc.query(productParms).then(function(productResult){
@@ -53,7 +53,7 @@ angular.module('ds.confirmation')
                  */
                 angular.forEach(details.entries, function (entry) {
                     angular.forEach($scope.confirmationDetails.products, function (product, key) {
-                        if (product.id === entry.sku) {
+                        if (product.sku === entry.sku) {
                             $scope.confirmationDetails.products[key].price = entry.unitPrice;
                             $scope.confirmationDetails.products[key].amount = entry.amount;
                         }

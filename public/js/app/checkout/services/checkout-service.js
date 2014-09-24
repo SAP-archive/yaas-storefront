@@ -131,8 +131,7 @@ angular.module('ds.checkout')
                 newOrder.currency = 'USD';
                 newOrder.shippingCost = order.shippingCost;
 
-                newOrder.orderTotal =  order.cart.totalPrice.price;
-
+                newOrder.orderTotal =  order.cart.totalPrice.value;
                 newOrder.addresses = [];
                 var billTo = {};
                 billTo.contactName = order.billTo.contactName;
@@ -161,11 +160,12 @@ angular.module('ds.checkout')
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
+                newOrder.customer.id = order.cart.customerId;
                 newOrder.customer.name = order.account.firstName + ' ' + order.account.lastName;
                 newOrder.customer.email = order.account.email;
 
                 // Will be submitted as "hybris-user" request header
-                settings.hybrisUser = newOrder.customer.email;
+                settings.hybrisUser = order.account.email;
 
                 return CheckoutREST.Checkout.all('checkouts').all('order').post(newOrder);
 

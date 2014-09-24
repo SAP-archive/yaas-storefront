@@ -11,7 +11,7 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutOrderUrl = 'http://yaas-test.apigee.net/test/checkout-mashup/v1/checkouts/order';
+    var checkoutOrderUrl = 'https://checkout-mashup-v3.test.cf.hybris.com/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
 
@@ -49,18 +49,19 @@ describe('CheckoutSvc', function () {
     cart.subtotal = 2.99;
     cart.estTax = 0.3;
     var totalPrice = {};
-    totalPrice.price = 7.79;
+    totalPrice.value = 7.79;
     cart.totalPrice = totalPrice;
     order.cart = cart;
 
 
-    var checkoutJson =  {"cartId":"abcCart","currency":"USD","shippingCost": 4.5,"orderTotal":7.79,
+    var checkoutJson =  {"cartId":"abcCart","currency":"USD",
         "addresses":[
             {"contactName":"Bob Smith","street":"Bill Str. 14","city":"Amarillo","state":"TX","zipCode":"79109",
                 "country":"USA","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
-        "customer":{"name":"Michael Jordan","email":"bs@sushi.com"}};
+        "customer":{"name":"Michael Jordan","email":"bs@sushi.com"},
+        "orderTotal":7.79,"shippingCost": 4.5};
 
     mockedStripeJS = {};
     mockedCartSvc = {};
@@ -231,7 +232,7 @@ describe('CheckoutSvc', function () {
     });
 
     describe('getShippingCost', function(){
-        var shippingCostUrl = 'http://shipping-cost-v1.test.cf.hybris.com/shippingcosts';
+        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v1/shippingcosts';
         var
             onSuccessSpy,
             onErrorSpy;
@@ -243,12 +244,15 @@ describe('CheckoutSvc', function () {
             }
         };
 
+
         beforeEach(function() {
             module('restangular');
-            module('ds.checkout');
+            module('ds.checkout', function($provide){
+                $provide.value('CartSvc', mockedCartSvc);
+            });
         });
 
-        beforeEach(function($provide) {
+        beforeEach(function() {
             inject(function (_$httpBackend_,_CheckoutSvc_) {
                 $httpBackend = _$httpBackend_;
                 checkoutSvc = _CheckoutSvc_;
