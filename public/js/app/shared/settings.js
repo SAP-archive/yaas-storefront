@@ -19,50 +19,46 @@ angular.module('ds.shared')
         // defines thea API endpoints and routes
         apis: {
             account: {
-              baseUrl: 'http://yaas-test.apigee.net/test/account/v1'
+              baseUrl: 'https://yaas-test.apigee.net/test/account/v1'
             },
             configuration: {
                baseUrl: 'http://yaas-test.apigee.net/test/configuration/v2'
             } ,
             products: {
-                baseUrl: 'http://yaas-test.apigee.net/test/product/v1',
+                baseUrl: 'https://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
             },
 
             productDetails: {
-                baseUrl: 'http://yaas-test.apigee.net/test/product-details/v1'
+                baseUrl: 'https://yaas-test.apigee.net/test/product-details/v1'
             },
 
             checkout: {
-                baseUrl: 'http://yaas-test.apigee.net/test/checkout-mashup/v1'
+                baseUrl: 'https://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             orders: {
-                baseUrl: 'http://yaas-test.apigee.net/test/order/v2'
+                baseUrl: 'https://yaas-test.apigee.net/test/order/v2'
             },
 
             cartItems: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
+                baseUrl: 'https://cart-v1.test.cf.hybris.com'
             },
 
             cart: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
-            },
-
-            cartDetails: {
-                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com'
+                baseUrl: 'https://cart-snapshot.test.cf.hybris.com'  //'http://cart-v2.test.cf.hybris.com'
             },
 
             prices: {
-                baseUrl: 'http://price-v2.test.cf.hybris.com'
+                baseUrl: 'http://yaas-test.apigee.net/test/price/v2'
             },
 
             shippingCosts: {
-                baseUrl: 'http://shipping-cost-v1.test.cf.hybris.com'
+                baseUrl: 'https://shipping-cost-v1.test.cf.hybris.com'
             },
 
             customers: {
-                baseUrl: 'http://yaas-test.apigee.net/test/customer/v4'
+                baseUrl: 'https://yaas-test.apigee.net/test/customer/v4'
             },
 
             // header keys
