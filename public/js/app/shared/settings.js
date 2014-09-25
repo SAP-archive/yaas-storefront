@@ -37,7 +37,7 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'https://checkout-mashup-v3.test.cf.hybris.com'
+                baseUrl: 'http://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             orders: {
