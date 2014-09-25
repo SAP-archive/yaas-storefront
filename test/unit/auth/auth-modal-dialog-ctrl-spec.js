@@ -173,6 +173,14 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.$apply();
             expect(MockedAuthSvc.signin).not.wasCalledWith();
         });
+
+        it('should update account from signup', function () {
+            mockedForm.$valid = true;
+            $scope.signup(authModel, mockedForm);
+            deferredSignUp.resolve({});
+            $scope.$apply();
+            expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+        });
     });
 
     describe('showResetPassword()', function(){
