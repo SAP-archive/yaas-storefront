@@ -18,12 +18,7 @@ window.app = angular.module('ds.router', [
     'xeditable'
 ])
     .constant('_', window._)
-    /*
-    .factory('YaasRestangular', ['Restangular', function (Restangular) {
-        return Restangular.withConfig(function(RestangularConfigurator) {
 
-        });
-    }])*/
       /** Defines the HTTP interceptors. */
     .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
         function ($q, $injector, settings,  TokenSvc, httpQueue) {
@@ -36,7 +31,8 @@ window.app = angular.module('ds.router', [
                         // tweak headers if going against non-proxied services (for dev purposes only)
                         if (config.url.indexOf('yaas') < 0) {
                             delete config.headers[settings.apis.headers.hybrisAuthorization];
-                            if (config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0) {
+                            if (config.url.indexOf('categories') < 0 && config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0
+                                ) {
                                 config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                             }
                         } else {
@@ -146,8 +142,8 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'CategorySvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, CategorySvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
@@ -156,6 +152,9 @@ window.app = angular.module('ds.router', [
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+            CategorySvc.query().then(function(result){
+                console.log(result);
+            });
             
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
