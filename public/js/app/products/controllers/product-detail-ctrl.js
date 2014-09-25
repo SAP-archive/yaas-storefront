@@ -10,12 +10,6 @@ angular.module('ds.products')
 
             $scope.product = product;
 
-            var getPrices = function(prod){
-                prod.defaultPrice = {price: 2.99, currencyId: 'USD'};
-            };
-            // TEMPORARY WORKAROUND TUE TO PROD DETAIL SVC BREAKAGE trigger price retrieval for product
-            getPrices($scope.product);
-
             if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
                 $scope.product.images = [{url: settings.placeholderImage}];
             }
