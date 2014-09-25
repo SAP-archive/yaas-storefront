@@ -16,7 +16,7 @@ describe('CartSvc Test', function () {
     var cartId = 'cartId456';
     var cartUrl = 'http://cart-v3.test.cf.hybris.com/carts';
     var prodId = '123';
-    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {price: 5.00, currency: 'USD'}};
+    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
     var cartResponse = {
@@ -37,6 +37,7 @@ describe('CartSvc Test', function () {
             "quantity" : 1.0
         } ]
     };
+
 
     //***********************************************************************
     // Common Setup
@@ -85,7 +86,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":"123"},"unitPrice":{"value":5},"quantity":2})
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
             cartSvc.addProductToCart(prod1, 2);
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
@@ -99,7 +100,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product": {"id": "123"}, "unitPrice": {"value": 5}, "quantity": 2})
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
             cartSvc.addProductToCart(prod1, 2);
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
