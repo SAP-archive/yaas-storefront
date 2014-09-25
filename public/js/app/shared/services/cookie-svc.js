@@ -16,7 +16,7 @@
  *  Encapsulates management of the OAuth token and user name, using cookies.
  */
 angular.module('ds.shared')
-    .factory('LanguageCookieSvc', ['settings', 'ipCookie', function(settings, ipCookie){
+    .factory('CookieSvc', ['settings', 'ipCookie', function(settings, ipCookie){
 
         var defaultExpirySeconds = 100000;
 
