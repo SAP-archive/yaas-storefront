@@ -63,7 +63,7 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+        browser.get(tu.tenant + '/#!/products/542419d0c1ae628d8adcd0e1/');
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
@@ -226,7 +226,7 @@ describe("mobile checkout:", function () {
 
      beforeEach(function () {
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+        browser.get(tu.tenant + '/#!/products/542419d0c1ae628d8adcd0e1/');
        browser.sleep(8000);
      });
 

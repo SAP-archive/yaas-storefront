@@ -54,7 +54,7 @@ describe("product page", function () {
         browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'YELLOW RAINDROP SOAP DISH');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'FRENCH PRESS');
+        tu.sortAndVerifyPagination('-created', 'BICYCLE!');
     });
 
       it("should get order of products correctly in german", function () {
@@ -71,7 +71,7 @@ describe("product page", function () {
         browser.sleep(750);
         tu.sortAndVerifyPagination('-name', 'WENIG LEHM VÖGEL');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'FRANZÖSISCH PRESSE');
+        tu.sortAndVerifyPagination('-created', 'FAHRRAD');
     });
 
   }); 
