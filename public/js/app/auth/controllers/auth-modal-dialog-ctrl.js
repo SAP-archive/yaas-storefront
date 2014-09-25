@@ -15,8 +15,8 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'AccountSvc', 'CookieSvc', '$location', 'settings', 'AuthDialogManager',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, AccountSvc, CookieSvc, $location, settings, AuthDialogManager) {
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'AccountSvc', 'CookieSvc', '$location', 'settings', 'AuthDialogManager', 'GlobalData',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, AccountSvc, CookieSvc, $location, settings, AuthDialogManager, GlobalData) {
 
             $scope.user = {
                 signup: {},
@@ -32,15 +32,21 @@ angular.module('ds.auth')
             };
 
 
-            var performSignin = function (authModel) {
+            var performSignin = function (authModel, fromSignup) {
                 var signInPromise = AuthSvc.signin(authModel);
                 signInPromise.then(function () {
                     $scope.errors.signin = [];
                     var accountPromise = AccountSvc.account();
                     accountPromise.then(function () {
-                        var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
-                        $rootScope.$emit('language:switch', languageCode);
-                        CookieSvc.setLanguageCookie(languageCode);
+                        if (fromSignup) {
+                            accountPromise.$object.preferredLanguage = GlobalData.languageCode;
+                            AccountSvc.updateAccount(accountPromise.$object);
+                        }
+                        else {
+                            var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
+                            $rootScope.$emit('language:switch', languageCode);
+                            CookieSvc.setLanguageCookie(languageCode);
+                        }
                     });
                 }, function (response) {
                     $scope.errors.signin = extractServerSideErrors(response);
@@ -69,7 +75,7 @@ angular.module('ds.auth')
                     AuthSvc.signup(authModel).then(
                         function () {
                             $scope.errors.signup = [];
-                            performSignin(authModel).then(
+                            performSignin(authModel, true).then(
                                 function (response) {
                                     settings.hybrisUser = $scope.user.signup.email;
                                     $modalInstance.close(response);
