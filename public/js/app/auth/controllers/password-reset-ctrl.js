@@ -26,7 +26,11 @@ angular.module('ds.auth')
 
             }, function(failure){
                 $modalInstance.close();
-                window.alert('Password reset failed: '+failure);
+                var errorDetail = 'Unknown Error';
+                if(failure && failure.data && failure.data.message) {
+                    errorDetail = failure.data.message;
+                }
+                $scope.message = 'Password reset failed: '+ errorDetail;
             });
         };
 
