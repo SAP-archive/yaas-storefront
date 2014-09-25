@@ -27,10 +27,10 @@ angular.module('ds.cart')
         $scope.$on('$destroy', unbind);
 
         /** Remove a product from the cart.
-         * @param productId
+         * @param cart item id
          * */
-        $scope.removeProductFromCart = function (productId) {
-            CartSvc.removeProductFromCart(productId);
+        $scope.removeProductFromCart = function (itemId) {
+            CartSvc.removeProductFromCart(itemId);
         };
 
         /** Toggles the "show cart view" property.
@@ -43,8 +43,8 @@ angular.module('ds.cart')
          *  Issues an "update cart" call to the service.
          */
          
-        $scope.updateCart = function () {
-            CartSvc.updateCart();
+        $scope.updateCartItem = function (itemId, itemQty) {
+            CartSvc.updateCartItem(itemId, itemQty);
         };
 
     }]);

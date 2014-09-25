@@ -12,7 +12,7 @@
 
 describe('PricesService Test', function(){
 
-    var priceUrlRest = 'http://price-v2.test.cf.hybris.com/prices';
+    var priceUrlRest = 'https://yaas-test.apigee.net/test/price/v2/prices';
 
     var $scope, $rootScope, $httpBackend, priceSvc;
 

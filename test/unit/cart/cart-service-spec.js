@@ -14,138 +14,183 @@ describe('CartSvc Test', function () {
 
     var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
-    var cartItemId = 'cartItemId123';
-    // var dummyUrl = 'dummyUrl';
-    var dummyUrl = 'http://cart-v1.test.cf.hybris.com/cartItems';
-    var dummyRoute = '/dummyRoute';
-    var dummyRouteWithCartId = dummyRoute+'/:cartId';
+    var cartUrl = 'http://cart-v3.test.cf.hybris.com/carts';
+    var prodId = '123';
+    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
+    var itemId = '0';
+    var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
+    var cartResponse = {
+        "items" : [ {
+            "id" : "0",
+            "unitPrice" : {
+                "currency" : "USD",
+                "value" : 10.67
+            },
+            "product" : {
+                "id" : "540751ee394edbc101ff20f5",
+                "inStock" : false
+            },
+            "totalItemPrice" : {
+                "currency" : "USD",
+                "value" : 10.67
+            },
+            "quantity" : 1.0
+        } ]
+    };
 
-    // var fullUrl = dummyUrl+dummyRoute;
-    var fullUrl = dummyUrl;
-    // var fullUrlWithCart = dummyUrl+dummyRoute+'/'+cartId;
-    var fullUrlWithCart = 'http://cart-mashup-v1.test.cf.hybris.com/carts/cartId456/details';
-    var cartUrl = 'http://cart-v1.test.cf.hybris.com/carts/cartId456';
-
-    var sku1 =  'guitar1234';
-    var prod1 =    {'name': 'Electric Guitar', 'id': sku1, 'price': 1000.00};
 
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('restangular');
-        module('ds.cart');
-    });
+        module('ds.cart', function($provide){
+            $provide.value('ProductSvc', mockedProductSvc);
+        });
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, CartSvc) {
 
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
             }
         });
+    });
+
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _$q_, CartSvc) {
+
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
+
+        this.addMatchers({
+            toEqualData: function (expected) {
+                return angular.equals(this.actual, expected);
+            }
+        });
     }));
 
+    describe('getCart', function () {
 
-    describe('Add-to-Cart', function(){
-
-        it('should issue POST and refresh/GET', function(){
-             mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
-                 "cartId" : cartId,
-                 "cartItemId" : cartItemId
-             });
-             mockBackend.expectGET(fullUrlWithCart).respond({});
-             cartSvc.addProductToCart(prod1, 1 );
-             mockBackend.flush();
-        })
-
-        it('should increment the item qty if same item is added again', function(){
-            mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
-                "cartId" : cartId,
-                "cartItemId" : cartItemId
-            });
-
-
-            mockBackend.expectGET(fullUrlWithCart).respond(
-                {"customerId":null,"totalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"},
-                    "subTotalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"},
-                    "shippingCost":{"priceId":null,"price":0.0,"currencyId":"USD"},
-                    "totalUnitsCount":1.0,"cartItems":[
-                    {"productId":sku1,"product":
-                    {"images":[{"url":"http://dummyurl","id":null}],"inStock":true,"sku":null,"description":"Most famous way to make a cuppa","name":"Espresso Machine"},
-                        "cartItemId":cartItemId,"quantity":1.0,
-                        "unitPrice":{"priceId":"123","price":599.95,"currencyId":"USD"},
-                        "totalPrice":{"priceId":null,"price":599.95,"currencyId":"USD"}}],"createdDate":null,"updatedDate":null}
-            );
-            cartSvc.addProductToCart(prod1, 1);
-            mockBackend.flush();
-            mockBackend.expectPUT(cartUrl, {"id": "cartId456", "cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
-            mockBackend.expectGET(fullUrlWithCart).respond({});
-            // mockBackend.expectPUT(fullUrlWithCart, {"cartItems":[{"productId":sku1,"quantity":2,"cartItemId":cartItemId}]}).respond({});
-            // mockBackend.expectGET(fullUrlWithCart).respond({});
-            cartSvc.addProductToCart(prod1, 1 );
-            mockBackend.flush();
+        it('should return cart', function () {
+            var cart = cartSvc.getCart();
+            expect(cart).toBeTruthy();
         });
-
     });
 
-    describe('getCart', function(){
-
-        it('should return cart', function(){
-           var cart = cartSvc.getCart();
-           expect(cart).toBeTruthy();
+    describe('new cart', function () {
+        it('should create new cart if cart not yet saved, plus create cart item and get new cart', function () {
+            mockBackend.expectPOST(cartUrl).respond({
+                "cartId": cartId
+            });
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
+                .respond(201, {});
+            cartSvc.addProductToCart(prod1, 2);
+            mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
+            mockBackend.flush();
         });
     });
 
 
-
-    describe('cart update', function(){
-        beforeEach(function(){
-            cartSvc.addProductToCart(prod1, 1);
-            mockBackend.expectPOST(fullUrl, {"cartItem":{"productId":sku1,"quantity":1}}).respond({
-                "cartId" : cartId,
-                "cartItemId" : cartItemId
+    describe('existing cart', function () {
+        beforeEach(function () {
+            mockBackend.expectPOST(cartUrl).respond({
+                "cartId": cartId
             });
-            mockBackend.expectGET(fullUrlWithCart).respond({"cartItems":[{"productId":sku1,"quantity":1,"cartItemId":cartItemId}]});
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
+                .respond(201, {});
+            cartSvc.addProductToCart(prod1, 2);
+            mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
+                {
+                    "currency": "USD",
+                    "subTotalPrice": {
+                        "currency": "USD",
+                        "value": 10.00
+                    },
+                    "totalUnitsCount": 1.0,
+                    "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
+                    "items": [
+                        {
+                            "product": {
+                                "sku": "sku1",
+                                "inStock": true,
+                                "description": "desc",
+                                "id": prodId,
+                                "name": "Electric Guitar"
+                            },
+                            "unitPrice": {
+                                "currency": "USD",
+                                "value": 5.00
+                            },
+                            "id": itemId,
+                            "quantity": 2.0
+                        }
+                    ],
+                    "totalPrice": {
+                        "currency": "USD",
+                        "value": 13.24
+                    },
+                    "id": cartId,
+                    "shippingCost": {
+                        "currency": "USD",
+                        "value": 3.24
+                    }
+                });
             mockBackend.flush();
+            var updatedCart = cartSvc.getCart();
+            expect(updatedCart.items.length).toEqualData(1);
+
+        });
+
+        describe('addProductToCart()', function () {
+
+            it('should update qty of existing cart item if already in cart', function () {
+                var updatedCart = cartSvc.getCart();
+                expect(updatedCart.items.length).toEqualData(1);
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 3})
+                    .respond(201, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
+                cartSvc.addProductToCart(prod1, 1);
+                mockBackend.flush();
+            });
+        });
+
+        describe('removeProductFromCart()', function () {
+            it('should delete cart item', function () {
+                mockBackend.expectDELETE(cartUrl+'/'+cartId+'/items/'+itemId).respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
+                cartSvc.removeProductFromCart(itemId);
+                mockBackend.flush();
+            });
+        });
+
+        describe('updateCartItem()', function(){
+            it('should update cart item if qty > 0', function(){
+                var item = cartSvc.getCart().items[0];
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 5})
+                    .respond(201, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
+                cartSvc.updateCartItem(item, 5);
+                mockBackend.flush();
+            });
+
+            it('should issue no calls if qty < 1', function(){
+                var item = cartSvc.getCart().items[0];
+                cartSvc.updateCartItem(item, 0);
+                mockBackend.verifyNoOutstandingRequest();
+            });
         });
 
         describe('resetCart', function() {
-            it('should create new cart without id', function () {
+            it('should create an empty cart', function () {
                 cartSvc.resetCart();
-                var cart = cartSvc.getCart();
-                expect(cart.id).toBeFalsy();
+                expect(cartSvc.getCart().items.length).toBeFalsy();
             });
         });
 
-        describe('removeProductFromCart', function() {
-            it('should should issue PUT with qty = 0', function () {
-                mockBackend.expectPUT(cartUrl, {"id":"cartId456","cartItems":[{"productId":"guitar1234","quantity":0,"cartItemId":"cartItemId123"}]}).respond({});
-                mockBackend.expectGET(fullUrlWithCart).respond({});
-                cartSvc.removeProductFromCart(sku1);
-                mockBackend.flush();
-            });
-        });
-
-        describe('updateProductQty with qty > 0', function(){
-            it('should should issue PUT with qty > 0', function () {
-                mockBackend.expectPUT(cartUrl, {"id":"cartId456","cartItems":[{"productId":"guitar1234","quantity":2,"cartItemId":"cartItemId123"}]}).respond({});
-                mockBackend.expectGET(fullUrlWithCart).respond({});
-                var cart = cartSvc.getCart();
-                cart.cartItems[0].quantity = 2;
-                cartSvc.updateCart();
-                mockBackend.flush();
-            });
-        });
-
-    })
-
+    });
 
 });

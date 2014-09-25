@@ -49,7 +49,7 @@ describe('CartCtrl Test', function () {
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
-            updateCart: jasmine.createSpy(),
+            updateCartItem: jasmine.createSpy(),
             getCart: jasmine.createSpy().andReturn(cart)
         };
 
@@ -70,8 +70,8 @@ describe('CartCtrl Test', function () {
     describe('update line item', function () {
 
         it(' should call service update', function () {
-            $scope.updateCart();
-            expect(stubbedCartSvc.updateCart).toHaveBeenCalled;
+            $scope.updateCartItem();
+            expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
         });
 
     });

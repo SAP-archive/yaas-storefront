@@ -21,9 +21,11 @@ angular.module('ds.shared')
             account: {
               baseUrl: 'https://yaas-test.apigee.net/test/account/v1'
             },
+
             configuration: {
                baseUrl: 'http://configuration-v2.test.cf.hybris.com'
             } ,
+
             products: {
                 baseUrl: 'https://yaas-test.apigee.net/test/product/v1',
                 pageSize: 10
@@ -42,19 +44,15 @@ angular.module('ds.shared')
             },
 
             cartItems: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
+                baseUrl: 'http://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             cart: {
-                baseUrl: 'http://cart-v1.test.cf.hybris.com'
-            },
-
-            cartDetails: {
-                baseUrl: 'http://cart-mashup-v1.test.cf.hybris.com'
+                baseUrl: 'http://cart-v3.test.cf.hybris.com'
             },
 
             prices: {
-                baseUrl: 'http://price-v2.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/price/v2'
             },
 
             shippingCosts: {
