@@ -5919,6 +5919,9 @@ body {
 .sidebar-offcanvas:after {
   clear: both;
 }
+.mainContent {
+  background: #f8f8f8;
+}
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
 .mainContent {
@@ -5953,9 +5956,12 @@ body {
   .sidebar-offcanvas {
     left: 0;
     width: 210px;
+    position: absolute;
+    float: left;
   }
   .mainContent {
-    padding-left: 210px;
+    margin-left: 210px;
+    z-index: 400;
   }
   .offcanvas-right {
     width: 500px;
@@ -6112,21 +6118,9 @@ body {
     bottom: 0;
     left: 100%;
     padding: 66px 28px 86px;
-    width: 489px;
+    min-width: 250px;
     white-space: nowrap;
     background: #e2e2e2;
-    -moz-column-gap: 56px;
-    -moz-columns: 188px;
-    -moz-column-rule: solid 1px #fff;
-    -moz-column-fill: auto;
-    -webkit-column-gap: 56px;
-    -webkit-columns: 188px;
-    -webkit-column-rule: solid 1px #fff;
-    -webkit-column-fill: auto;
-    column-gap: 56px;
-    columns: 188px;
-    column-rule: solid 1px #fff;
-    column-fill: auto;
   }
   #sidebar .sub-navi .sub-navi-list {
     padding-left: 0;
@@ -6134,6 +6128,7 @@ body {
     text-align: center;
   }
   #sidebar .sub-navi .sub-navi-list ul {
+    display: none;
     padding-left: 0;
     list-style: none;
     margin: 0 0 30px 0 ;
@@ -8207,6 +8202,6 @@ section .hero-unit {
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
 body {
-  background: #f8f8f8;
+  background: #eeeeee;
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */

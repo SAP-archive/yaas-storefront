@@ -22,6 +22,10 @@ body {
     
 }
 
+.mainContent{
+  background: @lightestgreyplus;
+}
+
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
 .mainContent{
@@ -73,10 +77,13 @@ body {
   .sidebar-offcanvas{
     left: 0;
     width: @offcanvas-left-width-d;
-  }
+    position: absolute;
+    float: left;
+}
 
   .mainContent{
-    padding-left: @offcanvas-left-width-d;
+    margin-left: @offcanvas-left-width-d;
+    z-index: 400;
   }
 
   .offcanvas-right{

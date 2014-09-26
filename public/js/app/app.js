@@ -327,7 +327,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.changePassword', {
-                    url: '/changePassword/',
+                    url: '/changePassword?token',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/auth/templates/password-reset.html',
