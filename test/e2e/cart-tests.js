@@ -1,13 +1,6 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
-       function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
-       }
-
 
 describe("cart:", function () {
 
@@ -23,7 +16,7 @@ describe("cart:", function () {
      });
 
 
-       iit('should load one product into cart', function () {
+       it('should load one product into cart', function () {
          tu.clickElement('id', tu.cartButtonId);
          browser.sleep(250);
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
