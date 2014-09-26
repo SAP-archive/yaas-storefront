@@ -24,11 +24,6 @@ describe("cart:", function () {
 
 
        iit('should load one product into cart', function () {
-
-           browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/i840624/Documents/development/main-page.png');
-           });
-
          tu.clickElement('id', tu.cartButtonId);
          browser.sleep(250);
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
