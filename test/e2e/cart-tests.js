@@ -1,6 +1,13 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+       function writeScreenShot(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'base64'));
+           stream.end();
+       }
+
 
 describe("cart:", function () {
 
@@ -16,13 +23,18 @@ describe("cart:", function () {
      });
 
 
-       it('should load one product into cart', function () {
+       iit('should load one product into cart', function () {
+
+           browser.takeScreenshot().then(function (png) {
+               writeScreenShot(png, '/Users/i840624/Documents/development/main-page.png');
+           });
+
          tu.clickElement('id', tu.cartButtonId);
          browser.sleep(250);
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.tatteredBowls);
-         browser.sleep(2000);
+         browser.sleep(1000);
          tu.clickElement('id', tu.buyButton);
          browser.sleep(250);
          tu.verifyCartAmount("1");
@@ -40,7 +52,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.tatteredBowls);
-           browser.sleep(2000);
+           browser.sleep(1000);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
@@ -64,7 +76,7 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.tatteredBowls);
-           browser.sleep(2000);
+           browser.sleep(1000);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(250);
            tu.verifyCartAmount("1");
@@ -80,9 +92,7 @@ describe("cart:", function () {
            tu.sendKeysByXpath(tu.cartQuantity, '5');
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
-           browser.sleep(250);
            tu.sendKeysByXpath(tu.cartQuantity, '10');
-           browser.sleep(250);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
          });
@@ -106,7 +116,7 @@ describe("cart:", function () {
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.tatteredBowls);
-          browser.sleep(2000);
+          browser.sleep(1000);
           tu.clickElement('id', tu.buyButton); 
           browser.sleep(250);
           tu.verifyCartTotal("$10.67");

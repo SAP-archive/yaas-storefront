@@ -3,12 +3,11 @@ var tu = require('./protractor-utils.js');
 
 var timestamp = Number(new Date());
 
-        function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
-       }
+  function updateAccountField(fieldName, text) {
+        tu.clickElement('id', fieldName);
+        tu.sendKeysByXpath("//input[@type='text']", text);
+        tu.clickElement('xpath', "//button[@type='submit']");
+  }
 
   function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
          tu.sendKeysById('contactName', contact);
@@ -43,12 +42,10 @@ describe("login:", function () {
          browser.sleep(500);
          tu.clickElement('id', 'sign-in-button');
          browser.sleep(1000);
-
          expect(element(by.binding("error.message")).getText()).toEqual("Account with e-mail 'bad@bad.com' not found.");
-         // expect(element(by.css("li.ng-binding.ng-scope")).getText()).toEqual("Account with e-mail 'bad@bad.com' not found.");
        });
 
-       iit('should allow existing user to login', function () {
+       it('should allow existing user to login', function () {
          tu.clickElement('id', "login-btn");
          browser.sleep(1000);
          tu.sendKeysById('usernameInput', 'cool@cool.com');
@@ -57,14 +54,34 @@ describe("login:", function () {
          browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
-             browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/i840624/Documents/development/main-page.png');
-           });
-         expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123place ave street");
+         expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
          tu.clickElement('id', "logout-btn");
 
        });
 
+       it('should allow user to update account info', function () {
+         tu.clickElement('id', "login-btn");
+         browser.sleep(1000);
+         tu.sendKeysById('usernameInput', 'cool@cool.com');
+         tu.sendKeysById('passwordInput', 'coolio');
+         tu.clickElement('id', 'sign-in-button');
+         browser.sleep(1000);
+         tu.clickElement('css', 'img.user-avatar');
+         browser.sleep(1000);
+         expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
+         updateAccountField('first-name-edit', 'first');
+         expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST C COOL");
+         updateAccountField('middle-name-edit', 'middle');
+         expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE COOL");
+         updateAccountField('last-name-edit', 'last');
+         expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE LAST");
+         updateAccountField('email-edit', 'cool@cool.com');
+         updateAccountField('first-name-edit', 'Joe');
+         updateAccountField('middle-name-edit', 'C');
+         updateAccountField('last-name-edit', 'Cool');
+         tu.clickElement('id', "logout-btn");
+
+       });
 
        it('should create a new user', function () {
          tu.clickElement('id', "login-btn");
