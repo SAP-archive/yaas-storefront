@@ -167,6 +167,16 @@ window.app = angular.module('ds.router', [
                 GlobalData.acceptLanguages = (languageCookie.languageCode === storeConfig.defaultLanguage ? languageCookie.languageCode : languageCookie.languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
             }
 
+            /*
+             get the currency cookie if it exists
+             */
+            var currencyCookie = CookieSvc.getCurrencyCookie();
+
+            if (currencyCookie) {
+                GlobalData.storeCurrency = currencyCookie.currency;
+                GlobalData.storeCurrencySymbol = GlobalData.getCurrencySymbol();
+            }
+
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             
             $rootScope.$on('$stateChangeStart', function () {

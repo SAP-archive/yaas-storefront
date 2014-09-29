@@ -37,9 +37,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive"
                             src="{{ product.images && product.images[0].url || product.externalImages[0]}}"><br/>
                             <strong>{{product.name}}</strong><br>
-                            {{'ITEM_PRICE' | translate}}: {{product.price | currency: '$'}} <br>
+                            {{'ITEM_PRICE' | translate}}: {{product.price | currency: currencySymbol}} <br>
                             {{'QTY' | translate}}: {{product.amount}} <br>
-                            {{'TOTAL_PRICE' | translate}}: {{product.price * product.amount | currency: '$'}} <br>
+                            {{'TOTAL_PRICE' | translate}}: {{product.price * product.amount | currency: currencySymbol}} <br>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,13 @@ angular.module('ds.shared')
 
         var defaultExpirySeconds = 100000;
 
+        var CurrencyCookie = function(currency) {
+            this.currency = currency;
+            this.getCurrency = function () {
+                return this.currency;
+            };
+        };
+
         var LanguageCookie = function(languageCode) {
             this.languageCode = languageCode;
             this.getLanguageCode = function () {
@@ -28,7 +35,18 @@ angular.module('ds.shared')
         };
 
 
-        var LanguageCookieSvc = {
+        var CookieSvc = {
+
+            setCurrencyCookie: function(currency, expiresIn) {
+                ipCookie.remove(settings.currencyCookie);
+                var currencyCookie = new CurrencyCookie(currency);
+                ipCookie(settings.currencyCookie, JSON.stringify(currencyCookie), {expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds});
+            },
+
+            getCurrencyCookie: function () {
+                var currencyCookie = ipCookie(settings.currencyCookie);
+                return currencyCookie ? new CurrencyCookie(currencyCookie.currency) : false;
+            },
 
             setLanguageCookie: function(languageCode, expiresIn) {
                 ipCookie.remove(settings.languageCookie);
@@ -43,6 +61,6 @@ angular.module('ds.shared')
 
         };
 
-        return LanguageCookieSvc;
+        return CookieSvc;
 
     }]);

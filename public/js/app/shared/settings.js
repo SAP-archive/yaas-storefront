@@ -15,6 +15,7 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
+        currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
 
         // defines thea API endpoints and routes
@@ -79,6 +80,7 @@ angular.module('ds.shared')
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
+            storeCurrencies: 'project_curr',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
         },

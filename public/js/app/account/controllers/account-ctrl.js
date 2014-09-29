@@ -23,6 +23,7 @@ angular.module('ds.account')
 
         $scope.errors = [];
         if (!account.preferredLanguage) {
+          account.preferredCurrency = GlobalData.storeCurrency;
           account.preferredLanguage = GlobalData.languageCode;
         }
         $scope.account = account;
