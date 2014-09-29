@@ -14,7 +14,7 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', '$q', function($rootScope, CartREST, ProductSvc, $q){
+    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'GlobalData', '$q', function($rootScope, CartREST, ProductSvc, GlobalData, $q){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -39,18 +39,7 @@ angular.module('ds.cart')
         // application scope cart instance
         var cart = new Cart();
 
-        // create new random "customer id" for anonymous shopper
-        var guid = (function() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return function() {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
-            };
-        })();
+
 
         /**
          * Returns a promise for the existing or newly created cart.
@@ -64,7 +53,7 @@ angular.module('ds.cart')
                 deferredCart.resolve(newCart);
             } else {
                 // create new random id for an anonymous user
-                newCart.customerId = guid();
+                newCart.customerId = GlobalData.customerAccount.customerNumber;
                 newCart.currency = 'USD';
                 CartREST.Cart.all('carts').post(newCart).then(function(response){
                     cart.id = response.cartId;

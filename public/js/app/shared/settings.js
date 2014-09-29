@@ -37,15 +37,15 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-v3.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             orders: {
-                baseUrl: 'http://order-v2.staged.cf.hybris.com'
+                baseUrl: 'https://yaas-stage-test.apigee.net/staged/order/v2' //'http://order-v2.staged.cf.hybris.com'
             },
 
             cart: {
-                baseUrl: 'http://cart-v3.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'http://cart-v3.test.cf.hybris.com'
             },
 
             prices: {
