@@ -15,6 +15,9 @@ describe('SidebarNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager;
     var mockedGlobalData = {};
     var mockedAuthSvc = {};
+    var mockedCookieSvc = {
+        setLanguageCookie: jasmine.createSpy()
+    };
 
     var mockedTranslate = {};
     var mockedStoreConfig = {};
@@ -66,7 +69,7 @@ describe('SidebarNavigationCtrl', function () {
 
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
-            $translate: mockedTranslate, storeConfig: mockedStoreConfig, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
+            $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
     });
 
     describe('switchLanguage()', function(){
@@ -75,6 +78,7 @@ describe('SidebarNavigationCtrl', function () {
             var newLang = 'de';
             $scope.switchLanguage(newLang);
             expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
+            expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
         });
 
         it('should update scope language', function(){

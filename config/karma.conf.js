@@ -29,6 +29,7 @@ module.exports = function(config){
 
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/settings.js',
+        'public/js/app/shared/services/cookie-svc.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
