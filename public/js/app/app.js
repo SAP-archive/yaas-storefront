@@ -146,13 +146,25 @@ window.app = angular.module('ds.router', [
         });
     }])
 
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
             if(storeConfig.token) {
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
+            }
+
+            /*
+             get the language cookie if it exists
+             */
+            var languageCookie = CookieSvc.getLanguageCookie();
+
+            if (languageCookie) {
+                $translate.use(languageCookie.languageCode);
+                GlobalData.languageCode = languageCookie.languageCode;
+                GlobalData.acceptLanguages = (languageCookie.languageCode === storeConfig.defaultLanguage ? languageCookie.languageCode : languageCookie.languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
@@ -208,8 +220,7 @@ window.app = angular.module('ds.router', [
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
         function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
 
-            // Set default language
-            TranslationProvider.setPreferredLanguage( storeConfig.defaultLanguage );
+            TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
             // States definition
             $stateProvider
