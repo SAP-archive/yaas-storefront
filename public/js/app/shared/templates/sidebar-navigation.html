@@ -19,8 +19,10 @@
 		</a>
 	</div>
 
-	<ul class="navi">
-		<li><a ng-click="showProducts()">{{'PRODUCTS' | translate}}</a></li>
+	<ul class="navi" ng-repeat="category in categories">
+
+            <li><a ng-click="showProducts()">category.name</a></li>
+
 		<!-- 
 		 static example  for multi hierarchy - remove after sampledata is there
 		

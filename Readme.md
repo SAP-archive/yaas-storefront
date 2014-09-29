@@ -100,9 +100,11 @@ In file public/js/bootstrap.js, replace the default "storeTenant" variable with 
 
 ### 4.  Launch a new session against http://localhost:9000.  You should now see your customized store.
 
-### 5.  Deploy to CloudFoundry
+### 5.  Deploy to any Server
 
-If you don't add any server logic to your project, you can easily deploy your webapp to CloudFoundry using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
+At this point, you can deploy your project to any server and run the app from there.  
+
+The following example shows a CloudFoundry deployment using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
  that utilizes [ngnix]().  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
  [todo:  How do we limit the number of instances that users can deploy?  How do we generate a unique project/domain name?)]
 

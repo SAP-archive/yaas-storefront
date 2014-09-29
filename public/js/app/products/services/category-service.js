@@ -4,17 +4,27 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('CategorySvc', ['PriceProductREST', function(PriceProductREST){
-
+    .factory('CategorySvc', ['PriceProductREST', 'GlobalData', '$q', function(PriceProductREST, GlobalData, $q){
 
 
         return {
-            /**
-             * Returns all categories.
-             */
-            query: function() {
-                return PriceProductREST.Categories.all('categories').getList();
+
+            /** Returns a promise over the category list.*/
+            getCategories: function(){
+                var catDef = $q.defer();
+                if(GlobalData.categories){
+                    catDef.resolve(GlobalData.categories);
+                } else {
+                    PriceProductREST.Categories.all('categories').getList().then(function(result){
+                        catDef.resolve(result.plain());
+                    }, function(error){
+                        catDef.reject(error);
+                    });
+                }
+                return catDef.promise;
             }
+
+
 
 
         };

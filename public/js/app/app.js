@@ -152,10 +152,7 @@ window.app = angular.module('ds.router', [
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            CategorySvc.query().then(function(result){
-                console.log(result);
-            });
-            
+
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
                 AuthDialogManager.close();
@@ -227,6 +224,11 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        }
+                    },
+                    resolve: {
+                        categories: function(CategorySvc){
+                            return CategorySvc.getCategories();
                         }
                     }
                 })
