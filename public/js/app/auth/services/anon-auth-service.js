@@ -25,18 +25,7 @@ angular.module('ds.auth')
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
-        // create new random "customer id" for anonymous shopper
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return function() {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
-            };
-        }
+
 
         var inProgress = false;
         return {
@@ -52,10 +41,6 @@ angular.module('ds.auth')
                         var token = getParameterByName('access_token', data.headers('Location'));
                         var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                         TokenSvc.setAnonymousToken(token, expiresIn);
-
-                        GlobalData.customerAccount = {
-                            customerNumber: guid()
-                        };
                         inProgress = false;
                         $rootScope.$emit('authtoken:obtained', token);
                     }, function(error){

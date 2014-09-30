@@ -43,7 +43,6 @@ angular.module('ds.auth')
 
                 signinPromise.then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                    GlobalData.customerAccount = response.plain();
                     signInDone.resolve(response.accessToken);
 
                 }, function(error){

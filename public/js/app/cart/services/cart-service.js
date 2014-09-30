@@ -14,7 +14,7 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'GlobalData', '$q', function($rootScope, CartREST, ProductSvc, GlobalData, $q){
+    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', function($rootScope, CartREST, ProductSvc, AccountSvc, $q){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -53,15 +53,21 @@ angular.module('ds.cart')
                 deferredCart.resolve(newCart);
             } else {
                 // create new random id for an anonymous user
-                newCart.customerId = GlobalData.customerAccount.customerNumber;
-                newCart.currency = 'USD';
-                CartREST.Cart.all('carts').post(newCart).then(function(response){
-                    cart.id = response.cartId;
-                    deferredCart.resolve(response);
-                }, function(error){
-                    console.error(error);
-                    deferredCart.reject();
+                AccountSvc.getCurrentAccount().then(function(successAccount){
+
+                    newCart.customerId = successAccount.id;
+                    newCart.currency = 'USD';
+                    CartREST.Cart.all('carts').post(newCart).then(function(response){
+                        cart.id = response.cartId;
+                        deferredCart.resolve(response);
+                    }, function(error){
+                        console.error(error);
+                        deferredCart.reject();
+                    });
+                }, function(failAccount){
+                    deferredCart.reject('Unable to retrieve account details: '+failAccount);
                 });
+
             }
             return deferredCart.promise;
         }
