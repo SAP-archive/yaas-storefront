@@ -19,14 +19,17 @@
 		</a>
 	</div>
 
-	<ul class="navi" ng-repeat="category in categories">
+	<ul class="navi" >
 <!--
             <li><a ng-click="showProducts()">category.name</a></li>
 -->
 		<!-- 
 		 static example  for multi hierarchy - remove after sampledata is there
 -->
-		<li class="has-sub">
+        <li class="has-sub">
+            <a ui-sref="base.category( {catId: 0} )">{{ 'ALL_PRODUCTS' | translate  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+        </li>
+		<li class="has-sub" ng-repeat="category in categories">
 			<a ui-sref="base.category( {catId: category.id} )">{{ category.name  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
          <!--
 			<div class="sub-navi">

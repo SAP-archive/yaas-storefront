@@ -2,8 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category',
-        function ($scope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', 'elements',
+        function ($scope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, elements) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -17,7 +17,18 @@ angular.module('ds.products')
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
         $scope.category = category;
+        $scope.elements = elements;
 
+        function getProductIdsFromElements(elements){
+
+            return elements.map(function(element){
+                if(element.ref.type === 'product') {
+                    return element.ref.id;
+                } else {
+                    return '';
+                }
+            });
+        }
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response
@@ -62,11 +73,15 @@ angular.module('ds.products')
 
                     if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
+                        var qSpec = 'published:true';
+                        if(elements && elements.length > 0 ) {
+                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+                        }
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
                             // we only want to show published products on this list
-                            q: 'published:true'
+                            q: qSpec
                         };
 
                         if ($scope.sort) {

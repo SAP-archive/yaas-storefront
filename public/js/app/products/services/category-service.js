@@ -44,6 +44,10 @@ angular.module('ds.products')
                     });
                 }
                 return cdef.promise;
+            },
+
+            getProducts: function(categoryId){
+                return PriceProductREST.Categories.all('categories').one(categoryId).all('elements').getList();
             }
         };
 }]);

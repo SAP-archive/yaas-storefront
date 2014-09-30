@@ -260,6 +260,13 @@ window.app = angular.module('ds.router', [
                                     return result;
                                 });
 
+                        },
+                        elements: function($stateParams, CategorySvc){
+                            if($stateParams.catId > 0) {
+                                return CategorySvc.getProducts($stateParams.catId);
+                            } else {
+                                return [];
+                            }
                         }
                     }
                 })
