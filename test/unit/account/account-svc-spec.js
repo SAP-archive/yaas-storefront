@@ -12,24 +12,9 @@
 
 describe('AccountSvc Test', function () {
 
-    var AccountSvc, mockedSettings, mockBackend, $q;
+    var AccountSvc, mockedSettings, mockBackend, $q, mockedGlobalData={}, $scope;
     var account = {"contactEmail":"test@test.com","customerNumber":"C2191375191","firstName":"TestFn","id":"C2191375191","lastName":"TestLn","middleName":"TestMn","preferredCurrency":"EUR","preferredLanguage":"de_DE"};
     var addresses = [{"id":"541abacd07ce5813586182a5","contactName":"hybris UK Ltd.","street":"5th Floor, 2 Copthall Avenue","zipCode":"121212","city":"London","country":"USA","state":"TX","contactPhone":"+44 20 36088011","isDefault":true},{"id":"54083abe9d6eebfd91e20a6f","contactName":"Munich Offices","street":"Mailinger Str","streetNumber":"23","zipCode":"233212","city":"Munich","country":"USA","state":"IL","contactPhone":"+49 12 333 222","isDefault":false,"tags":[]},{"id":"54083adbdbee363ff47c3200","contactName":"Boulder Offices 1","street":"No name blvd","streetNumber":"12","zipCode":"2332232","city":"Boulder","country":"USA","state":"CO","contactPhone":"+1212 1221 1221","isDefault":false,"tags":[]}];
-    // var storeTenant = '121212';
-    // var mockedGlobalData = {store: {tenant: storeTenant}};
-    // var accessToken = 123;
-    // var username = 'some.user@hybris.com';
-    // var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
-    // var getUsernameSpy = jasmine.createSpy('getUsernameSpy').andReturn(username);
-    
-    // mockedTokenSvc = {
-    //     setToken: jasmine.createSpy('setToken'),
-    //     getToken: jasmine.createSpy('getToken').andReturn({
-    //         getAccessToken: getAccessTokenSpy,
-    //         getUsername: getUsernameSpy
-    //     }),
-    //     unsetToken: jasmine.createSpy('unsetToken')
-    // };
 
     mockedSettings = {
         accessCookie: 'accessCookie',
@@ -47,16 +32,24 @@ describe('AccountSvc Test', function () {
 
     beforeEach(function() {
         module('restangular');
+        this.addMatchers({
+            toEqualData: function (expected) {
+                return angular.equals(this.actual, expected);
+            }
+        });
     });
 
 
     beforeEach(module('ds.account', function($provide) {
         $provide.value('settings', mockedSettings);
+        $provide.value('GlobalData', mockedGlobalData);
     }));
 
-    beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_) {
+    beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_, _$rootScope_) {
         AccountSvc = _AccountSvc_;
+
         mockBackend = _$httpBackend_;
+        $scope = _$rootScope_.$new();
         $q = _$q_;
     }));
 
@@ -68,6 +61,7 @@ describe('AccountSvc Test', function () {
         expect(AccountSvc.getDefaultAddress).toBeDefined();
         expect(AccountSvc.saveAddress).toBeDefined();
         expect(AccountSvc.removeAddress).toBeDefined();
+        expect(AccountSvc.getCurrentAccount).toBeDefined();
     });
 
 
@@ -181,6 +175,40 @@ describe('AccountSvc Test', function () {
         expect(promise.then).toBeDefined();
         expect(successSpy).wasCalled();
         expect(errorSpy).not.wasCalled(); 
+    });
+
+    xdescribe('getCurrentAccount()', function(){
+
+        beforeEach(function(){
+           mockedGlobalData.customerAccount = null;
+           mockedGlobalData.user = {isAuthenticated: false};
+        });
+
+        it('should use account from GlobalData if available', function(){
+            var id = 'abc';
+            mockedGlobalData.customerAcount = {id: id};
+            var promise = AccountSvc.getCurrentAccount();
+            expect(promise.then).toBeDefined();
+            console.log(promise);
+            $scope.$apply();
+            promise.then(function(curAccount){
+                console.log(curAccount);
+                expect(curAccount).toBeTruthy();
+                expect(curAccount.id).toEqualData(id);
+            }, then(function(failure){
+                console.error(failure);
+                expect(true).toBeFalsy();// fail
+            }));
+
+        });
+
+        it('should call account() for authenticated user, if no account in GlobalData', function(){
+
+        });
+
+        it('should create dummy account for unauthenticated account, if no account in GlobalData', function(){
+
+        });
     });
 
 });

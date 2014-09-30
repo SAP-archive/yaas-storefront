@@ -14,11 +14,13 @@ describe('CartSvc Test', function () {
 
     var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
-    var cartUrl = 'http://cart-v3.test.cf.hybris.com/carts';
+    var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
+    var mockedAccountSvc = {};
+    var deferredAccount;
     var cartResponse = {
         "items" : [ {
             "id" : "0",
@@ -48,6 +50,7 @@ describe('CartSvc Test', function () {
         module('restangular');
         module('ds.cart', function($provide){
             $provide.value('ProductSvc', mockedProductSvc);
+            $provide.value('AccountSvc', mockedAccountSvc);
         });
 
 
@@ -65,7 +68,10 @@ describe('CartSvc Test', function () {
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
-
+        deferredAccount = _$q_.defer();
+        mockedAccountSvc.getCurrentAccount =  jasmine.createSpy('getCurrentAccount').andReturn(deferredAccount.promise);
+        deferredAccount.resolve({id:'abc', customerNumber: '123'});
+        $scope.$apply();
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
