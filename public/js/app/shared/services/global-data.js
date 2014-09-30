@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ds.shared')
-    /** Acts as global data store for application settings. In constrast to the "settings" constand provider,
+    /** Acts as global data store for application settings. In constrast to the "settings" constant provider,
      * these settings may change over the life of the application.
      * */
     .service('GlobalData', ['$rootScope', 'storeConfig', function ($rootScope, storeConfig) {
@@ -28,6 +28,8 @@ angular.module('ds.shared')
         };
 
         this.stripePublicKey = null;
+
+        this.categoryMap = null;
 
         this.user = {
             isAuthenticated: false,

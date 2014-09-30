@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings;
+    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={}, mockedElements=[];
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -59,7 +59,8 @@ describe('BrowseProductsCtrl', function () {
         beforeEach(function () {
 
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData, 'settings': settings});
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
 
         });
 
@@ -84,7 +85,8 @@ describe('BrowseProductsCtrl', function () {
     describe('function', function() {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData, 'settings': settings});
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
+                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
 
         });
 

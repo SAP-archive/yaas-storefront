@@ -18,12 +18,7 @@ window.app = angular.module('ds.router', [
     'xeditable'
 ])
     .constant('_', window._)
-    /*
-    .factory('YaasRestangular', ['Restangular', function (Restangular) {
-        return Restangular.withConfig(function(RestangularConfigurator) {
 
-        });
-    }])*/
       /** Defines the HTTP interceptors. */
     .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
         function ($q, $injector, settings,  TokenSvc, httpQueue) {
@@ -36,7 +31,8 @@ window.app = angular.module('ds.router', [
                         // tweak headers if going against non-proxied services (for dev purposes only)
                         if (config.url.indexOf('yaas') < 0) {
                             delete config.headers[settings.apis.headers.hybrisAuthorization];
-                            if (config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0) {
+                            if (config.url.indexOf('categories') < 0 && config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0
+                                ) {
                                 config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
                             }
                         } else {
@@ -145,7 +141,6 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-
     .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
         function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
 
@@ -177,7 +172,7 @@ window.app = angular.module('ds.router', [
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            
+
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)
                 AuthDialogManager.close();
@@ -249,14 +244,38 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve: {
+                        categories: function(CategorySvc){
+                            return CategorySvc.getCategories();
+                        }
                     }
                 })
                 .state('base.product', {
                     url: '/products/',
+                    abstract: true
+                })
+                .state('base.category', {
+                    url: '/cat/:catId/',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
+                        }
+                    },
+                    resolve: {
+                        category: function ($stateParams, CategorySvc) {
+                            return CategorySvc.getCategory($stateParams.catId).then(function (result) {
+                                    return result;
+                                });
+
+                        },
+                        elements: function($stateParams, CategorySvc){
+                            if($stateParams.catId > 0) {
+                                return CategorySvc.getProducts($stateParams.catId);
+                            } else {
+                                return [];
+                            }
                         }
                     }
                 })
@@ -269,11 +288,12 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function( $stateParams, PriceProductREST) {
+                        product: function ($stateParams, PriceProductREST) {
                             return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                .then(function(result){
+                                .then(function (result) {
                                     return result;
                                 });
+
                         }
                     }
                 })
@@ -376,7 +396,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/products/');
+            $urlRouterProvider.otherwise('/cat/0');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
