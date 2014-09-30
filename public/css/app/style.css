@@ -7889,8 +7889,16 @@ section .hero-unit {
   font-style: italic;
   font-size: 14px;
 }
-.confirm .order-detail .row > div {
-  margin-bottom: 20px;
+.confirm .order-detail .subheadline {
+  font-family: Georgia, "Times New Roman", Times, serif, "Times New Roman", serif;
+  font-style: italic;
+  color: #3c3c3c;
+  font-size: 26px;
+  text-align: center;
+}
+.confirm .order-detail .cart-item .item-attr {
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 @media screen and (min-width: 768px) {
   .confirm {
