@@ -174,7 +174,6 @@ window.app = angular.module('ds.router', [
 
             if (currencyCookie) {
                 GlobalData.storeCurrency = currencyCookie.currency;
-                GlobalData.storeCurrencySymbol = GlobalData.getCurrencySymbol();
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);

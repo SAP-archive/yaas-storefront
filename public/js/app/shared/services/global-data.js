@@ -9,7 +9,6 @@ angular.module('ds.shared')
 		this.languageCode = storeConfig.defaultLanguage;
         this.acceptLanguages = storeConfig.defaultLanguage;
         this.storeCurrency = storeConfig.defaultCurrency;
-        this.storeCurrencySymbol = storeConfig.defaultCurrencySymbol;
 
         this.orders = {
             meta: {
@@ -43,7 +42,6 @@ angular.module('ds.shared')
             else if (this.storeCurrency === 'EUR') {
                 symbol = '\u20AC';
             }
-            this.storeCurrencySymbol = symbol;
             return symbol;
         };
 

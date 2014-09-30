@@ -19,7 +19,7 @@ angular.module('ds.cart')
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
         $scope.cart = CartSvc.getCart();
-        $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj;

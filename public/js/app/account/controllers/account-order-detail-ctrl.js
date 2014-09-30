@@ -19,7 +19,7 @@ angular.module('ds.account')
         $scope.order.id = $stateParams.orderId;
         $scope.orderProducts = [];
         $scope.prices = {};
-        $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
         /*
          Retrieves pricing information for the list of products.

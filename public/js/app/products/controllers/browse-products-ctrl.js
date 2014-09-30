@@ -15,7 +15,7 @@ angular.module('ds.products')
         $scope.prices = {};
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
-        $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response

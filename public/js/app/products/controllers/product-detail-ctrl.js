@@ -9,7 +9,7 @@ angular.module('ds.products')
         function($scope, $rootScope, CartSvc, product, settings, GlobalData) {
 
             $scope.product = product;
-            $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
             if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
                 $scope.product.images = [{url: settings.placeholderImage}];

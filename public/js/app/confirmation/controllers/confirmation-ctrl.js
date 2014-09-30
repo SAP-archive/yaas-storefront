@@ -19,7 +19,7 @@ angular.module('ds.confirmation')
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
-        $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         window.scrollTo(0, 0);
 
         /* OrderDetails are retrieved on controller instantiation, rather than being injected

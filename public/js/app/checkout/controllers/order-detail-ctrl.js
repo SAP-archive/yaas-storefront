@@ -17,6 +17,6 @@ angular.module('ds.checkout')
 
         $scope.cart = cart;
         $scope.shippingCost = shippingCost;
-        $scope.currencySymbol = GlobalData.storeCurrencySymbol;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
     }]);
