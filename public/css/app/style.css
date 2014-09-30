@@ -5893,6 +5893,9 @@ body {
   overflow-x: hidden;
   /* Prevent scroll on narrow devices */
 }
+html.disable-scroll {
+  overflow: hidden;
+}
 /* MENU */
 .sidebar-offcanvas {
   position: fixed;
