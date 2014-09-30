@@ -28,10 +28,10 @@ angular.module('ds.account')
             var productIds = '';
             angular.forEach($scope.order.entries, function (entry, key) {
                 if (key === $scope.order.entries.length - 1) {
-                    productIds = productIds + (entry.sku);
+                    productIds = productIds + (entry.id);
                 }
                 else {
-                    productIds = productIds + (entry.sku + ',');
+                    productIds = productIds + (entry.id + ',');
                 }
             });
             var queryPrices = {
@@ -93,7 +93,7 @@ angular.module('ds.account')
             var ids = '';
 
             angular.forEach(order.entries, function (entry, key) {
-                ids += entry.sku;
+                ids += entry.id;
                 if (key !== ($scope.order.entries.length - 1)) {
                     ids += ',';
                 }
