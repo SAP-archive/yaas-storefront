@@ -112,6 +112,7 @@ angular.module('ds.i18n')
         PRICE_LOW_HIGH: 'Preis aufsteigend',
         SORT_BY: 'Sortieren',
         VIEWING: 'Anzeige',
+        ALL_PRODUCTS: 'Alle Produkte',
 
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',

@@ -13,7 +13,8 @@
 
     <div class="refine-section">
         <div class="row">
-             <div class="col-xs-12 col-sm-6  title">Category Name</div>
+             <div ng-if="categoryName" class="col-xs-12 col-sm-6  title">{{ categoryName }}</div>
+            <div ng-if="!categoryName" class="col-xs-12 col-sm-6  title">{{ 'ALL_PRODUCTS' | translate }}</div>
             <div class="col-sm-4 col-md-3 pull-right">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>

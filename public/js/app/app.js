@@ -243,7 +243,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.product', {
-                    url: '/products/',
+                    url: '/products?categoryId&categoryName',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
@@ -261,10 +261,15 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function( $stateParams, PriceProductREST) {
-                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                .then(function(result){
-                                    return result;
-                                });
+                            if($stateParams.productId){
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                    .then(function(result){
+                                        return result;
+                                    });
+                            } else {
+                                return null;
+                            }
+
                         }
                     }
                 })

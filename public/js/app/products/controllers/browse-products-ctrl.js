@@ -2,7 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', function ($scope, ProductSvc, PriceSvc, GlobalData, settings) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', '$stateParams',
+        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, $stateParams) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -15,6 +16,8 @@ angular.module('ds.products')
         $scope.prices = {};
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+        $scope.categoryName = $stateParams.categoryName;
+        $scope.categoryId = $stateParams.categoryId;
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response
