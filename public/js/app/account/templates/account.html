@@ -97,7 +97,7 @@
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
             <td>{{order.itemCount}}</td>
-            <td>{{order.totalPrice | currency: '$'}}</td>
+            <td>{{order.totalPrice | currency: currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>

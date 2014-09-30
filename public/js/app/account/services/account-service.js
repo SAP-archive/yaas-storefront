@@ -16,15 +16,33 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.account')
-    .factory('AccountSvc', ['AuthREST', 'settings', '$q', function(AuthREST, settings, $q){
+    .factory('AccountSvc', ['AuthREST', 'settings', 'GlobalData', '$q', function(AuthREST, settings, GlobalData, $q){
+
+        // create new random "customer id" for anonymous shopper
+        var guid = (function() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return function() {
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                    s4() + '-' + s4() + s4() + s4();
+            };
+        })();
 
         var AccountSvc = {
 
             /**
-             * Retrieve account details of logged in customer.
+             * Retrieves the account details of logged-in customer and stores the result in the GlobalData service.
+             * Returns a promise of the result.
              */
             account: function() {
-                return AuthREST.Customers.all('me').customGET();
+                var promise = AuthREST.Customers.all('me').customGET();
+                promise.then(function(success){
+                   GlobalData.customerAccount = success.plain();
+                });
+                return promise;
             },
 
             updateAccount: function(account) {
@@ -75,6 +93,37 @@ angular.module('ds.account')
              */
             removeAddress: function(address) {
                 return AuthREST.Customers.all('me').one('addresses', address.id).customDELETE();
+            },
+
+            /**
+             * Returns a promise to the customer account in the local scope, or retrieves and sets the data if needed.
+             */
+            getCurrentAccount: function() {
+                var defAccount = $q.defer();
+                console.debug(GlobalData.customerAcount);
+                if(GlobalData.customerAccount){
+                    console.debug('use existing');
+                    defAccount.resolve(GlobalData.customerAccount);
+                } else if(GlobalData.user.isAuthenticated) {
+                    console.debug('use account()');
+                    this.account().then(function(success){
+                        defAccount.resolve(success);
+                    }, function(failure){
+                        defAccount.reject(failure);
+                    });
+                } else {
+                    console.debug('create fake');
+                    var gId = guid();
+                    GlobalData.customerAccount = {
+                        customerNumber: gId,
+                        id: gId
+                    };
+                    console.debug(GlobalData.customerAcount);
+                    defAccount.resolve(GlobalData.customerAccount);
+                }
+                console.log(defAccount.promise);
+                return defAccount.promise;
+
             }
 
         };

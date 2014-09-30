@@ -14,11 +14,12 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc, GlobalData) {
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         window.scrollTo(0, 0);
 
         /* OrderDetails are retrieved on controller instantiation, rather than being injected

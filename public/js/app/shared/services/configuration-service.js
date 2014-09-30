@@ -40,6 +40,8 @@ angular.module('ds.shared')
                             GlobalData.store.name = value;
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
+                        } else if (key === settings.configKeys.storeCurrencies) {
+                            GlobalData.store.currencies = JSON.parse(value);
                         }
                     }
                 }, function(error){

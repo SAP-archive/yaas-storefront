@@ -5893,6 +5893,9 @@ body {
   overflow-x: hidden;
   /* Prevent scroll on narrow devices */
 }
+html.disable-scroll {
+  overflow: hidden;
+}
 /* MENU */
 .sidebar-offcanvas {
   position: fixed;
@@ -6677,7 +6680,7 @@ body {
   margin: 0;
 }
 .cart-item .input-group {
-  max-width: 115px;
+  max-width: 145px;
 }
 .cart-item .input-group .form-control {
   box-shadow: 0 0 0;
@@ -7889,8 +7892,16 @@ section .hero-unit {
   font-style: italic;
   font-size: 14px;
 }
-.confirm .order-detail .row > div {
-  margin-bottom: 20px;
+.confirm .order-detail .subheadline {
+  font-family: Georgia, "Times New Roman", Times, serif, "Times New Roman", serif;
+  font-style: italic;
+  color: #3c3c3c;
+  font-size: 26px;
+  text-align: center;
+}
+.confirm .order-detail .cart-item .item-attr {
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 @media screen and (min-width: 768px) {
   .confirm {
@@ -7979,7 +7990,6 @@ section .hero-unit {
   border-left-width: 0px;
   padding: 13px 6px 13px 7px;
   box-shadow: 0 0 0;
-  text-transform: uppercase;
 }
 .input-group .form-control .style {
   color: #929292;

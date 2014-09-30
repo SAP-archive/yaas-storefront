@@ -16,6 +16,7 @@ angular.module('ds.products')
         $scope.prices = {};
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+
         $scope.category = category;
         $scope.elements = elements;
 
@@ -29,6 +30,9 @@ angular.module('ds.products')
                 }
             });
         }
+
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
+
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response
@@ -48,7 +52,9 @@ angular.module('ds.products')
                         var pricesMap = {};
 
                         pricesResponse.forEach(function (price) {
-                            pricesMap[price.productId] = price;
+                            if (price.currency === GlobalData.storeCurrency) {
+                                pricesMap[price.productId] = price;
+                            }
                         });
 
                         $scope.prices = angular.extend($scope.prices, pricesMap);

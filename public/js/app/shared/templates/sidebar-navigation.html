@@ -226,4 +226,6 @@
         <li><a ng-click="switchLanguage('de')">DE</a></li>
     </ul>
 
-
+    <ul class="navi">
+        <li ng-repeat="currency in GlobalData.store.currencies"><a ng-click="switchCurrency(currency.id)">{{currency.label}}</a></li>
+    </ul>

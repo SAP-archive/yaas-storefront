@@ -15,6 +15,7 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
+        currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
 
         // defines thea API endpoints and routes
@@ -41,15 +42,15 @@ angular.module('ds.shared')
             },
 
             checkout: {
-                baseUrl: 'http://checkout-mashup-v3.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
             },
 
             orders: {
-                baseUrl: 'http://order-v2.staged.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
             },
 
             cart: {
-                baseUrl: 'http://cart-v3.test.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'http://cart-v3.test.cf.hybris.com'
             },
 
             prices: {
@@ -83,6 +84,7 @@ angular.module('ds.shared')
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
+            storeCurrencies: 'project_curr',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
         },

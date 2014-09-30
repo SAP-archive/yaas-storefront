@@ -81,7 +81,7 @@
 
                 </div>
                 <div class="name">{{ product.name }}</div>
-                <div class="price">{{ prices[product.id].value | currency: '$'}}</div>
+                <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
             </a>
         </div>
 		<div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="row">
