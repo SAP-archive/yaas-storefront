@@ -32,4 +32,6 @@ angular.module('ds.shared')
             username: null
         };
 
+        this.customerAccount = null;
+
     }]);
