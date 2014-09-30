@@ -56,7 +56,7 @@
   		<span class="area-headline">
   			Payment
   		</span>
-                    <p>{{payment.method}}, {{payment.paidAmount | currency: '$'}}, {{payment.status}}</p>
+                    <p>{{payment.method}}, {{payment.paidAmount | currency: currencySymbol}}, {{payment.status}}</p>
                 </div>
             </div>
 
@@ -103,9 +103,9 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{prices[product.id].value | currency: '$'}}</td>
+                    <td>{{prices[product.id].value | currency: currencySymbol}}</td>
                     <td>{{product.quantity}}</td>
-                    <td>{{prices[product.id].value * product.quantity | currency: '$'}}</td>
+                    <td>{{prices[product.id].value * product.quantity | currency: currencySymbol}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -115,17 +115,17 @@
                 <tbody>
                 <tr>
                     <td >Subtotal</td>
-                    <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: '$'}}</td>
+                    <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
                 </tr>
                 <tr>
                     <td>Shipping</td>
-                    <td class="text-right">{{order.shippingCost | currency: '$'}}</td>
+                    <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
                     <td>Order Total</td>
-                    <td class="text-right">{{order.totalPrice | currency: '$'}}</td>
+                    <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
                 </tr>
                 </tfoot>
             </table>

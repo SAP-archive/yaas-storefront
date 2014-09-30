@@ -8,6 +8,7 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products = {};
     mockedGlobalData.products.meta = {};
     mockedGlobalData.products.meta.total = 10;
+    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
 
     //***********************************************************************
     // Common Setup

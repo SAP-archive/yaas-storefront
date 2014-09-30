@@ -13,12 +13,13 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountOrderDetailCtrl', ['$scope', 'order', 'ProductSvc', 'PriceSvc', '$stateParams', function($scope, order, ProductSvc, PriceSvc, $stateParams) {
+    .controller('AccountOrderDetailCtrl', ['$scope', 'order', 'ProductSvc', 'PriceSvc', '$stateParams', 'GlobalData', function($scope, order, ProductSvc, PriceSvc, $stateParams, GlobalData) {
 
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
         $scope.orderProducts = [];
         $scope.prices = {};
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
         /*
          Retrieves pricing information for the list of products.

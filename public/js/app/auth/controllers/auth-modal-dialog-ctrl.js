@@ -39,12 +39,15 @@ angular.module('ds.auth')
                     var accountPromise = AccountSvc.account();
                     accountPromise.then(function () {
                         if (fromSignup) {
+                            accountPromise.$object.preferredCurrency = GlobalData.storeCurrency;
                             accountPromise.$object.preferredLanguage = GlobalData.languageCode;
                             AccountSvc.updateAccount(accountPromise.$object);
                         }
                         else {
                             var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
+                            var currency = accountPromise.$object.preferredCurrency;
                             $rootScope.$emit('language:switch', languageCode);
+                            CookieSvc.setCurrencyCookie(currency);
                             CookieSvc.setLanguageCookie(languageCode);
                         }
                     });

@@ -9,8 +9,21 @@ angular.module('ds.shared')
             $scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
+
+            $scope.switchCurrency = function (currency) {
+                GlobalData.storeCurrency = currency;
+
+                $state.transitionTo($state.current, $stateParams, {
+                    reload: true,
+                    inherit: true,
+                    notify: true
+                });
+
+                CookieSvc.setCurrencyCookie(currency);
+            };
 
             $scope.switchLanguage = function(languageCode) {
                 $translate.use(languageCode);

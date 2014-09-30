@@ -57,6 +57,7 @@ describe('SidebarNavigationCtrl', function () {
 
         mockedGlobalData.languageCode = 'pl';
         mockedGlobalData.acceptLanguages = 'pl';
+        mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.go = jasmine.createSpy('go');
