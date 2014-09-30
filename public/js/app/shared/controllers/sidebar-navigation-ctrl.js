@@ -2,9 +2,10 @@
 
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'AuthSvc', 'AuthDialogManager', 'categories',
 
-		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, AuthSvc, AuthDialogManager, categories) {
+	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','categories'
+
+		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, CookieSvc, AuthSvc, AuthDialogManager, categories) {
 
             $scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
@@ -27,6 +28,7 @@ angular.module('ds.shared')
                         notify: true
                     });
                 }
+                CookieSvc.setLanguageCookie(languageCode);
             };
 
             $scope.logout = function () {

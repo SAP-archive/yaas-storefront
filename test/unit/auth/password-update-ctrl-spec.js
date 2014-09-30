@@ -11,7 +11,7 @@
  */
 
 describe('PasswordUpdateCtrl Test', function () {
-    var $scope, $controller, deferredChangePassword;
+    var $scope, $controller, deferredChangePassword, mockedStateParams = {};
 
     var mockedAuthSvc = {
 
@@ -45,7 +45,7 @@ describe('PasswordUpdateCtrl Test', function () {
         $controller = _$controller_;
         deferredChangePassword = _$q_.defer();
         $controller('PasswordUpdateCtrl', {$scope: $scope,
-            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager });
+            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $stateParams: mockedStateParams });
     }));
 
     describe('showAllErrors', function(){

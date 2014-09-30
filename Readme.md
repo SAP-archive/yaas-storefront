@@ -98,22 +98,24 @@ so that you can use a unique Stripe API test key.
 ### 3.  Replace the default tenant id in the code base with your own.  You can find your tenant id at [todo: MARKETPLACE? link].
 In file public/js/bootstrap.js, replace the default "storeTenant" variable with your own tenant id.
 
-### 4.  Launch a new session against http://localhost:9000.  You should now see your customized store.
+### 4.  Launch a new session 
+Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
 
-### 5.  Deploy to any Server
+### 5.  Customize the style or logic of your storefront as desired
+You can now modify the style or logic of your storefront.  Any new JS scripts or CSS files need to be added to index.html.
 
-At this point, you can deploy your project to any server and run the app from there.  
+### 6.  Deploy application to server
 
-The following example shows a CloudFoundry deployment using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
- that utilizes [ngnix]().  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
- [todo:  How do we limit the number of instances that users can deploy?  How do we generate a unique project/domain name?)]
+You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single tenant mode (default),
+you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
+ that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
 
 cf push -f static-manifest.yml
 
 ## Multi-Tenant Mode
  This project also contains the basic wiring to run the same code instance against multiple configured storefronts. In order
- to do so, start the server by calling  npm run-script multiTenant.  This will start up the Express.JS server configured in file
- multi-tenant/multi-tenant-service.js.
+ to do so, start the server by calling  "npm run-script multiTenant".  This will start up the Express.JS server configured in file
+ multi-tenant/multi-tenant-service.js.  When running in multi-tenant mode, any new JS files introduced need to be added to multi-tenant/views/index.jade
  
 
 ## Limitations in the current service layer
