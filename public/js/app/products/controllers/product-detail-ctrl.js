@@ -8,7 +8,7 @@ angular.module('ds.products')
     .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData', 'PriceSvc',
         function($scope, $rootScope, CartSvc, product, settings, GlobalData, PriceSvc) {
 
-            $scope.price = {};
+
             $scope.product = product;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
@@ -49,7 +49,7 @@ angular.module('ds.products')
                 PriceSvc.query(query).then(function (result) {
                     angular.forEach(result, function (price) {
                         if (price.currency === GlobalData.storeCurrency) {
-                            $scope.price = price;
+                            product.price = price;
                         }
                     });
                 });

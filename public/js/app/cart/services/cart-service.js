@@ -78,7 +78,7 @@ angular.module('ds.cart')
         function createCartItem(product, qty) {
             var cartPromise = getOrCreateCart();
             cartPromise.then(function(cartResult){
-                var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
+                var price = {'value': product.price.value, 'currency': product.price.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
 

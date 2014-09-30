@@ -16,7 +16,7 @@ describe('CartSvc Test', function () {
     var cartId = 'cartId456';
     var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
     var prodId = '123';
-    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
+    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'price': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
     var mockedAccountSvc = {};
