@@ -23,7 +23,7 @@
 describe('OrderDetailSvc Test', function () {
 
 
-    var ordersUrl = 'https://yaas-stage-test.apigee.net/staged/order/v2/orders';
+    var ordersUrl = 'https://yaas-test.apigee.net/test/order/v2/orders';
     var $scope, $rootScope, $httpBackend, orderDetailSvc;
 
     var orderDetails = {};

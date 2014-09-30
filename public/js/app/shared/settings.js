@@ -41,7 +41,7 @@ angular.module('ds.shared')
             },
 
             orders: {
-                baseUrl: 'https://yaas-stage-test.apigee.net/staged/order/v2' //'http://order-v2.staged.cf.hybris.com'
+                baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
             },
 
             cart: {
