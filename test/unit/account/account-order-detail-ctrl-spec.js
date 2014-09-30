@@ -29,9 +29,13 @@ describe('AccountOrderDetailCtrl Test', function () {
     }));
 
     describe('AccountOrderDetailCtrl ', function () {
-        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams;
+        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams, mockedGlobalData;
 
         beforeEach(function () {
+
+            mockedGlobalData = {
+                getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+            };
 
             // creating the mocked service
             mockedOrderSvc = {
@@ -105,7 +109,7 @@ describe('AccountOrderDetailCtrl Test', function () {
             });
 
             accountOrderDetailCtrl = $controller('AccountOrderDetailCtrl',
-                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams});
+                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams, GlobalData: mockedGlobalData});
         });
 
         it('should parse the payment information', function () {

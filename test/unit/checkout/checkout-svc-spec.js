@@ -11,7 +11,7 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutOrderUrl = 'http://checkout-mashup-v3.test.cf.hybris.com/checkouts/order';
+    var checkoutOrderUrl = 'https://yaas-test.apigee.net/test/checkout-mashup/v3/checkouts/order';
 
     var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
 
@@ -61,7 +61,7 @@ describe('CheckoutSvc', function () {
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
         "customer":{"name":"Michael Jordan","email":"bs@sushi.com"},
-        "orderTotal":7.79,"shippingCost": 4.5};
+        "totalPrice":7.79,"shippingCost": 4.5};
 
     mockedStripeJS = {};
     mockedCartSvc = {};

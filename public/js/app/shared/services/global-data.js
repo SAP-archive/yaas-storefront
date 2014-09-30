@@ -45,4 +45,6 @@ angular.module('ds.shared')
             return symbol;
         };
 
+        this.customerAccount = null;
+
     }]);
