@@ -4,7 +4,6 @@
 (function () {
 
     var storeConfig = {};
-
     storeConfig.storeTenant = '8bwhetym79cq';
 
     // acts as fallback language for localization
