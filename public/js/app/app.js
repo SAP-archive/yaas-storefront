@@ -152,7 +152,7 @@ window.app = angular.module('ds.router', [
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
-            if(storeConfig.token) {
+            if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
