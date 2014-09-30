@@ -2,8 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', 'elements',
-        function ($scope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, elements) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category', 'elements',
+        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category, elements) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -138,7 +138,11 @@ angular.module('ds.products')
             };
 
             //we only want to show published products on this list
-            query.q = 'published:true';
+            var qSpec =  'published:true';
+            if(elements && elements.length > 0 ) {
+                qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+            }
+            query.q = qSpec;
 
             ProductSvc.query(query).then(function(products) {
                 $scope.products = products;
