@@ -27,9 +27,15 @@ function getAnonymousToken(projectId, callback) {
             authSvcUrl + 'anonymous/login?hybris-tenant=' + projectId,
         { form: { key: 'value' } },
         function (error, response, body) {
-            //console.log(response.headers);
-            callback(error, getParameterByName('access_token', response.headers['location']),
-                parseInt(getParameterByName('expires_in', response.headers['location'])));
+            if(error){
+                console.error(error);
+                 console.error(error.stack);
+            }
+            if(response) {
+                //console.log(response.headers);
+                callback(error, getParameterByName('access_token', response.headers['location']),
+                    parseInt(getParameterByName('expires_in', response.headers['location'])));
+            }
         }
     );
 }
