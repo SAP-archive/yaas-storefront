@@ -27,7 +27,7 @@ angular.module('ds.shared')
 
         this.stripePublicKey = null;
 
-        this.categories = null;
+        this.categoryMap = null;
 
         this.user = {
             isAuthenticated: false,

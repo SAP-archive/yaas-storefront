@@ -10,22 +10,40 @@ angular.module('ds.products')
         return {
 
             /** Returns a promise over the category list.*/
-            getCategories: function(){
+            getCategories: function () {
                 var catDef = $q.defer();
-                if(GlobalData.categories){
-                    catDef.resolve(GlobalData.categories);
+
+                PriceProductREST.Categories.all('categories').getList().then(function (result) {
+
+                    var catMap = [];
+                    angular.forEach(result.plain(), function (category) {
+                        catMap[category.id] = category;
+                    }, catMap);
+
+                    GlobalData.categoryMap = catMap;
+                    catDef.resolve(result.plain());
+                }, function (error) {
+                    catDef.reject(error);
+                });
+
+                return catDef.promise;
+            },
+
+            getCategory: function(categoryId) {
+                var cdef = $q.defer();
+                if(GlobalData.categoryMap){
+                    var category = GlobalData.categoryMap[categoryId];
+                    cdef.resolve(category);
                 } else {
-                    PriceProductREST.Categories.all('categories').getList().then(function(result){
-                        catDef.resolve(result.plain());
-                    }, function(error){
-                        catDef.reject(error);
+                    this.getCategories().then(function () {
+                        var category = GlobalData.categoryMap[categoryId];
+                        if(!category) {
+                            category = {};
+                        }
+                        cdef.resolve(category);
                     });
                 }
-                return catDef.promise;
+                return cdef.promise;
             }
-
-
-
-
         };
 }]);

@@ -243,11 +243,23 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.product', {
-                    url: '/products?categoryId&categoryName',
+                    url: '/products/',
+                    abstract: true
+                })
+                .state('base.category', {
+                    url: '/cat/:catId/',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
+                        }
+                    },
+                    resolve: {
+                        category: function ($stateParams, CategorySvc) {
+                            return CategorySvc.getCategory($stateParams.catId).then(function (result) {
+                                    return result;
+                                });
+
                         }
                     }
                 })
@@ -260,15 +272,11 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function( $stateParams, PriceProductREST) {
-                            if($stateParams.productId){
-                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                    .then(function(result){
-                                        return result;
-                                    });
-                            } else {
-                                return null;
-                            }
+                        product: function ($stateParams, PriceProductREST) {
+                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                .then(function (result) {
+                                    return result;
+                                });
 
                         }
                     }
@@ -372,7 +380,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/products/');
+            $urlRouterProvider.otherwise('/cat/0');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
