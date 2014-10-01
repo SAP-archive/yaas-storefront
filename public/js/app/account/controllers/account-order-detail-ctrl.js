@@ -93,7 +93,7 @@ angular.module('ds.account')
             var ids = '';
 
             angular.forEach(order.entries, function (entry, key) {
-                ids += entry.id;
+                ids += entry.product.id;
                 if (key !== ($scope.order.entries.length - 1)) {
                     ids += ',';
                 }
