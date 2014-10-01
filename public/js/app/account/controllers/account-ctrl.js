@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -179,6 +179,10 @@ angular.module('ds.account')
 
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
+          var emailRegexp = /\S+@\S+\.\S+/;
+          if (field === 'contactEmail' && !emailRegexp.test(data)) {
+            return $translate('PLEASE_ENTER_VALID_EMAIL');
+          }
           account[field] = data;
           return AccountSvc.updateAccount(account).then(function() {
             if (field === 'preferredLanguage' && data) {
