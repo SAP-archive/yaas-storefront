@@ -154,7 +154,10 @@ angular.module('ds.i18n')
         PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen anforderlich.',
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
-        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
-
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .',
+        LOGIN_404: 'Anmeldeinformation ungültig',
+        LOGIN_401: 'Anmeldeinformation ungültig',
+        LOGIN_403: 'Konto gesperrt',
+        LOGIN_409: 'Emailadresse schon in Benutz.'
 
     });

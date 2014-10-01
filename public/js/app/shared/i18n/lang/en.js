@@ -155,5 +155,9 @@ angular.module('ds.i18n')
         PASSWORD_REQUIRED: 'Password with 6 character minimum required.',
         PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
-        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.'
+        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
+        LOGIN_404: 'Credentials invalid.',
+        LOGIN_401: 'Credentials invalid.',
+        LOGIN_403: 'Account locked.',
+        LOGIN_409: 'Email address already in use for existing account.'
 	});
