@@ -25,7 +25,7 @@ angular.module('ds.shared')
             },
 
             categories: {
-                baseUrl:  'http://category-dev-v0.test.cf.hybris.com' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
+                baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
             },
 
             configuration: {

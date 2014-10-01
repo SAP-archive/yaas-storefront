@@ -59,7 +59,7 @@ angular.module('ds.auth')
                 TokenSvc.unsetToken(settings.accessCookie);
                 GlobalData.customerAccount = null;
                 if ($state.is('base.account')) {
-                    $state.go('base.product');
+                    $state.go('base.category');
                 }
             },
 

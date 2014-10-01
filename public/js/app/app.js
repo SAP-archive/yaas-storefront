@@ -201,7 +201,7 @@ window.app = angular.module('ds.router', [
                     if(!AuthSvc.isAuthenticated()){
                         event.preventDefault();
                         if(!fromState || fromState.name ==='') {
-                           $state.go('base.product');
+                           $state.go('base.category');
                         }
 
                     }
