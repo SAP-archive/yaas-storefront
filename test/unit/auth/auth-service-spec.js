@@ -163,7 +163,7 @@ describe('AuthSvc Test', function () {
 
         it('should navigate to products if state is protected', function(){
             AuthSvc.signOut(payload);
-            expect(mockedState.go).wasCalledWith('base.product');
+            expect(mockedState.go).wasCalledWith('base.category');
         });
     });
 
