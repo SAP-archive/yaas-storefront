@@ -7950,6 +7950,9 @@ section .hero-unit {
 .editable-buttons .btn.btn-default {
   display: none;
 }
+.editable-controls .editable-error {
+  color: #a94442 !important;
+}
 /* CUSTOM VARS */
 /* BTN */
 .btn {
