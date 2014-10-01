@@ -20,8 +20,12 @@ describe('PasswordUpdateCtrl Test', function () {
         })
     }
 
+    var mockedState ={
+        transitionTo: jasmine.createSpy('transitionTo')
+    }
+
     var mockedAuthDialogManager = {
-        showPasswordChanged: jasmine.createSpy('showPasswordChanged')
+        showPasswordChanged: jasmine.createSpy('showPasswordChanged').andReturn({then: jasmine.createSpy('then')})
     }
 
     beforeEach(function(){
@@ -45,7 +49,7 @@ describe('PasswordUpdateCtrl Test', function () {
         $controller = _$controller_;
         deferredChangePassword = _$q_.defer();
         $controller('PasswordUpdateCtrl', {$scope: $scope,
-            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $stateParams: mockedStateParams });
+            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams });
     }));
 
     describe('showAllErrors', function(){

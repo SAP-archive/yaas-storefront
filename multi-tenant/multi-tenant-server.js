@@ -3,6 +3,7 @@ var http = require('http');
 var express = require('express');
 var path = require('path');
 var request = require('request');
+require('request').debug = true;
 var async = require('async');
 
 var storeNameConfigKey = 'store.settings.name';
@@ -22,19 +23,25 @@ function getParameterByName(name, url) {
 }
 
 
-function getAnonymousToken(projectId, callback) {
+function getAnonymousToken(tenant, callback) {
+    console.log("get anon token for "+tenant);
     request.post(
-            authSvcUrl + 'anonymous/login?hybris-tenant=' + projectId,
-        { form: { key: 'value' } },
+        { url: authSvcUrl + 'anonymous/login?hybris-tenant=' +tenant,
+        formData: { key: 'value' } },
         function (error, response, body) {
-            if(error){
-                console.error(error);
-                 console.error(error.stack);
-            }
+
             if(response) {
-                //console.log(response.headers);
-                callback(error, getParameterByName('access_token', response.headers['location']),
+                console.log('got response!');
+                callback(null, getParameterByName('access_token', response.headers['location']),
                     parseInt(getParameterByName('expires_in', response.headers['location'])));
+            } else {
+                console.log('no anon login response');
+                if(error) {
+                    console.log(error.message);
+                    console.log(error.stack);
+                }
+
+                callback(error);
             }
         }
     );
@@ -60,10 +67,9 @@ app.get('/:storename?/', function(req, response, next){
         console.error('missing storename path parameter!');
     }
 
-    var renderIndex = function (err, token, expiresIn) {
-        if(err)  {
-            console.log(err);
-            next(err);
+    var renderIndex = function (error, token) {
+        if(error){
+            return next(error);
         }
         var configSvcOptions = {
             url: configSvcUrl+storeNameConfigKey,
@@ -72,13 +78,13 @@ app.get('/:storename?/', function(req, response, next){
                 'Authorization' : token
             }
         };
-        request.get(configSvcOptions, function(err, reponse, body) {
+        request.get(configSvcOptions, function(err, resp, body) {
             if(!err) {
-                //console.log(body);
+                console.log('return index');
                 response.render("index", {store: {name: JSON.parse(body).value, style: 'css/app/style.css'}});
             } else {
                 console.log(err);
-                next(err);
+                return next(err);
             }
         })
     };
@@ -88,24 +94,27 @@ app.get('/:storename?/', function(req, response, next){
 
 //*********************
 // Store-Config route - returns settings with tenant and access token for a particular storefront
-app.get('/:storename/storeconfig', function(request, response) {
+app.get('/:storename/storeconfig', function(request, response, next) {
     // tenant and url prefix/store name equivalent at this time
     var tenant  =  request.params["storename"];
 
-    //console.log('request for store config for '+tenant);
+    console.log('request for store config for '+tenant);
 
     var sendStoreConfig = function(err, token, expiresIn) {
         if(err) {
             console.log(err);
-            next(err);
+            return next(err);
+        } else {
+            console.log('returning store config');
+            var json = JSON.stringify( {
+                    storeTenant: tenant,
+                    token: token ,
+                    expiresIn: expiresIn}
+            );
+            //console.log(json);
+            response.send(json);
         }
-        var json = JSON.stringify( {
-                storeTenant: tenant,
-                token: token ,
-                expiresIn: expiresIn}
-        );
-        //console.log(json);
-        response.send(json);
+
     }
 
     getAnonymousToken(tenant, sendStoreConfig);
@@ -122,7 +131,6 @@ app.get(/^\/\w+$/, function(request, response){
 });
 
 module.exports = app;
-
 
 
 
