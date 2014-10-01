@@ -12,7 +12,7 @@
 
 describe('AccountCtrl Test', function () {
 
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, OrderListSvc, addresses, account, orders, modalPromise;
+    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, OrderListSvc, addresses, account, orders, modalPromise, mockedTranslate;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
@@ -37,6 +37,7 @@ describe('AccountCtrl Test', function () {
     var address = {};
     mockedStoreConfig.defaultLanguage = defaultLang;
     mockedStoreConfig.storeTenant = storeTenant;
+    mockedTranslate = jasmine.createSpy('translate');
 
     //***********************************************************************
     // Common Setup
@@ -52,6 +53,7 @@ describe('AccountCtrl Test', function () {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$modal', mockedModal);
         $provide.value('OrderListSvc', mockedOrderList);
+        $provide.value('$translate', mockedTranslate);
     }));
 
     beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_, _OrderListSvc_) {
