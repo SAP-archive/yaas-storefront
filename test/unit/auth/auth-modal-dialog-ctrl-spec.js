@@ -53,6 +53,7 @@ describe('AuthModalDialogCtrl Test', function () {
     beforeEach(module('ds.auth', function ($provide) {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('$translate', {});
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_) {

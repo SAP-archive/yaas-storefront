@@ -1,5 +1,5 @@
 <ul ng-if="errors && errors.signup.length" class="text-danger list-unstyled">
-  <li ng-repeat="error in errors.signup">{{error.message}}</li>
+  <li ng-repeat="error in errors.signup">{{error.message | translate}}</li>
 </ul>
 
 <form name="singupForm" ng-submit="signup(user.signup, singupForm)">
