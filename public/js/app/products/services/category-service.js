@@ -50,6 +50,10 @@ angular.module('ds.products')
 
             getProducts: function(categoryId){
                 return PriceProductREST.Categories.all('categories').one(categoryId).all('elements').getList();
+            },
+
+            clearCategoryCache: function(){
+                GlobalData.categoryMap = null;
             }
         };
 }]);
