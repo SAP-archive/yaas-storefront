@@ -12,7 +12,9 @@
 
 describe('SidebarNavigationCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategories = {};
+    var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
+        getCategories: jasmine.createSpy().andReturn({then: function(){}})
+    };
     var mockedGlobalData = {};
     var mockedAuthSvc = {};
     var mockedCookieSvc = {
@@ -71,7 +73,13 @@ describe('SidebarNavigationCtrl', function () {
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
             $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc,
-            AuthDialogManager:AuthDialogManager, categories: mockedCategories});
+            AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
+    });
+
+    describe('onInitialization', function(){
+        it('should retrieve categories', function(){
+           expect(mockedCategorySvc.getCategories).wasCalled();
+        });
     });
 
     describe('switchLanguage()', function(){

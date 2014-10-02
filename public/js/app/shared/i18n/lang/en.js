@@ -136,7 +136,8 @@ angular.module('ds.i18n')
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
         STREET_NUMBER: 'Street Number',
-
+        WELLCOME: 'Wellcome',
+        ORDER_HISTORY: 'Order History',
         SAVE: 'Save',
 
         /*
@@ -155,5 +156,10 @@ angular.module('ds.i18n')
         PASSWORD_REQUIRED: 'Password with 6 character minimum required.',
         PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
-        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.'
+        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
+
+        INVALID_CREDENTIALS: 'You entered an invalid email or password.',
+        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please 5 minutes.',
+        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.'
+
 	});

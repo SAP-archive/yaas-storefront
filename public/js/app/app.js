@@ -244,11 +244,6 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
-                    },
-                    resolve: {
-                        categories: function(CategorySvc){
-                            return CategorySvc.getCategories();
-                        }
                     }
                 })
                 .state('base.product', {
