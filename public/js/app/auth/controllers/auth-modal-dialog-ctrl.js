@@ -63,10 +63,16 @@ angular.module('ds.auth')
                     if (response.data && response.data.details && response.data.details.length) {
                         errors = response.data.details;
                     }
-                } else if (response.status === 409 || response.status === 401 || response.status === 404 || response.status === 500) {
+                } else if (response.status === 404 || response.status === 500) {
                     if (response.data && response.data.message) {
                         errors.push({ message: response.data.message });
                     }
+                } else if (response.status === 409) {
+                    errors.push({ message: 'ACCOUNT_ALREADY_EXISTS' });
+                } else if (response.status === 403) {
+                    errors.push({ message: 'ACCOUNT_LOCKED' });
+                } else if (response.status === 401) {
+                    errors.push({ message: 'UNAUTHORIZED_TO_SIGNIN' });
                 }
                 return errors;
             };

@@ -135,7 +135,8 @@ angular.module('ds.i18n')
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         SAVE: 'Speichern',
-
+        WELLCOME: 'Willkommen',
+        ORDER_HISTORY: 'Bestellverlauf',
         STREET_NUMBER: 'Nummer',
 
         /*
@@ -154,7 +155,10 @@ angular.module('ds.i18n')
         PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen anforderlich.',
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
-        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
+        UNAUTHORIZED_TO_SIGNIN: 'Sie haben eine ungültige Passwort für dieses Konto.',
+        ACCOUNT_LOCKED: 'Konto wurde wegen zu hoher Anzahl der ungültigen Anmeldeversuche gesperrt. Bitte warten Sie 5 Minuten bis zum nächsten Anmeldeversuch.',
+        ACCOUNT_ALREADY_EXISTS: 'Elbe Konto wurde bereits erstellt!'
 
 
     });
