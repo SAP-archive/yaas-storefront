@@ -31,7 +31,9 @@ angular.module('ds.products')
 
             getCategory: function(categoryId) {
                 var cdef = $q.defer();
-                if(GlobalData.categoryMap){
+                if(categoryId === '0'){
+                    cdef.resolve(null);
+                } else if(GlobalData.categoryMap){
                     var category = GlobalData.categoryMap[categoryId];
                     cdef.resolve(category);
                 } else {

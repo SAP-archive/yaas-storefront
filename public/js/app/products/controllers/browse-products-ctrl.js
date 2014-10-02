@@ -159,9 +159,4 @@ angular.module('ds.products')
             $scope.refineContainerShowing = !$scope.refineContainerShowing;
         };
 
-        /** Scrolls browser window to top left of page.*/
-        $scope.backToTop = function () {
-            window.scrollTo(0, 0);
-        };
-
     }]);

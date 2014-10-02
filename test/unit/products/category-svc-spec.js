@@ -9,21 +9,28 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
-describe('ProductSvc Test', function () {
+describe('CategorySvc', function () {
 
-    var productUrl = 'http://dummy.product.url';
-    var productRoute = '/products';
-    var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v1/products';
 
-    var $scope, $rootScope, $httpBackend, productSvc;
+    var categoryUrl = 'https://yaas-test.apigee.net/test/category/v1/categories';
+
+    var $scope, $rootScope, $httpBackend, categorySvc;
     var acceptLang = "de";
     var mockedGlobalData = {acceptLanguages: acceptLang};
 
-
-    var prodList = [
-        {name: 'Shirt'},
-        {name: 'Hat'}
-    ];
+    var categoryResponse = [ {
+        "id" : "117767936",
+        "name" : "Accessories"
+    }, {
+        "id" : "117767168",
+        "name" : "Office Supply"
+    }, {
+        "id" : "117770496",
+        "name" : "Computer Accessories"
+    }, {
+        "id" : "117771264",
+        "name" : "Cosmetics"
+    }];
 
     beforeEach(module('restangular'));
     beforeEach(angular.mock.module('ds.products', function ($provide) {
@@ -38,20 +45,20 @@ describe('ProductSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
+        inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
-            productSvc = _ProductSvc_;
+            categorySvc = _CategorySvc_;
         });
     });
 
-    describe('query', function(){
+    describe('getCategories', function(){
 
-        it('issues GET that returns product array', function () {
-            $httpBackend.expectGET(productsRestUrl).respond(prodList);
+        it('issues GET and stores categories map in GlobalData', function () {
+            $httpBackend.expectGET(categoryUrl).respond(categoryResponse);
 
-            var products = productSvc.query();
+            var products = categorySvc.query();
 
             $httpBackend.flush();
             expect(products.$object.length).toBeDefined();
@@ -64,12 +71,20 @@ describe('ProductSvc Test', function () {
 
         it('sets accept-language header', function(){
 
-            $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
+            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond({});
 
-            productSvc.query();
+            categorySvc.query();
             $httpBackend.flush();
 
         });
+    });
+
+    describe('getCategory()', function(){
+
+    });
+
+    describe('getProducts()', function(){
+
     });
 
 
