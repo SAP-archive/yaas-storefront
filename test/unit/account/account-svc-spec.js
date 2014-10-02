@@ -12,11 +12,20 @@
 
 describe('AccountSvc Test', function () {
 
-    var AccountSvc, mockedSettings, mockBackend, $q, mockedGlobalData={}, $scope;
+    var AccountSvc, mockedSettings, mockBackend, $q, $scope;
     var account = {"contactEmail":"test@test.com","customerNumber":"C2191375191","firstName":"TestFn","id":"C2191375191","lastName":"TestLn","middleName":"TestMn","preferredCurrency":"EUR","preferredLanguage":"de_DE"};
     var addresses = [{"id":"541abacd07ce5813586182a5","contactName":"hybris UK Ltd.","street":"5th Floor, 2 Copthall Avenue","zipCode":"121212","city":"London","country":"USA","state":"TX","contactPhone":"+44 20 36088011","isDefault":true},{"id":"54083abe9d6eebfd91e20a6f","contactName":"Munich Offices","street":"Mailinger Str","streetNumber":"23","zipCode":"233212","city":"Munich","country":"USA","state":"IL","contactPhone":"+49 12 333 222","isDefault":false,"tags":[]},{"id":"54083adbdbee363ff47c3200","contactName":"Boulder Offices 1","street":"No name blvd","streetNumber":"12","zipCode":"2332232","city":"Boulder","country":"USA","state":"CO","contactPhone":"+1212 1221 1221","isDefault":false,"tags":[]}];
-
-    mockedSettings = {
+    var mockedGlobalData={
+        customerAccount: null,
+        user: {isAuthenticated: false},
+        setCustomerAccount: function(acc){
+            this.customerAccount = acc;
+        },
+        setAuthenticated: function(is){
+            this.user.isAuthenticated = is;
+        }
+    };
+        mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
         apis: {
@@ -51,6 +60,8 @@ describe('AccountSvc Test', function () {
         mockBackend = _$httpBackend_;
         $scope = _$rootScope_.$new();
         $q = _$q_;
+        mockedGlobalData.setAuthenticated(false);
+        mockedGlobalData.setCustomerAccount(null);
     }));
 
     it('should expose correct interface', function () {
@@ -64,21 +75,24 @@ describe('AccountSvc Test', function () {
         expect(AccountSvc.getCurrentAccount).toBeDefined();
     });
 
+    describe('account()', function(){
+        it("should retrieve account details and set account in GlobalData", function() {
+            var successSpy = jasmine.createSpy('success'),
+                errorSpy = jasmine.createSpy('error');
 
-    it("should retrieve account details by calling account method", function() {
-        var successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-        
-        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me').respond(account);
-        var promise = AccountSvc.account();
-        promise.then(successSpy, errorSpy);
+            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me').respond(account);
+            var promise = AccountSvc.account();
+            promise.then(successSpy, errorSpy);
 
-        mockBackend.flush();
-        
-        expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled();
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).wasCalled();
+            expect(errorSpy).not.wasCalled();
+            expect(mockedGlobalData.customerAccount).toEqualData(account);
+        });
     });
+
 
     it("should update account's details by calling updateAccount method", function() {
        var payload = angular.copy(account),
@@ -177,38 +191,52 @@ describe('AccountSvc Test', function () {
         expect(errorSpy).not.wasCalled(); 
     });
 
-    xdescribe('getCurrentAccount()', function(){
+    describe('getCurrentAccount()', function(){
+        describe(' - not yet loaded - ', function(){
 
-        beforeEach(function(){
-           mockedGlobalData.customerAccount = null;
-           mockedGlobalData.user = {isAuthenticated: false};
+            it('should retrieve account data for authenticated user', function(){
+                mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me').respond(account);
+                mockedGlobalData.setAuthenticated(true);
+                var currentAccount;
+                AccountSvc.getCurrentAccount().then(function(acc){
+                    currentAccount = acc.plain();
+                });
+                mockBackend.flush();
+                expect(currentAccount).toEqualData(account);
+            });
+
+            it('should create dummy account for unauthenticated account, if no account in GlobalData', function(){
+                var currentAccount;
+                AccountSvc.getCurrentAccount().then(function(acc){
+                    currentAccount = acc;
+                });
+                $scope.$apply();
+                expect(currentAccount.id).toBeTruthy();
+                mockBackend.verifyNoOutstandingRequest();
+            });
         });
 
-        it('should use account from GlobalData if available', function(){
+        describe(' - already exists - ', function(){
+
             var id = 'abc';
-            mockedGlobalData.customerAcount = {id: id};
-            var promise = AccountSvc.getCurrentAccount();
-            expect(promise.then).toBeDefined();
-            console.log(promise);
-            $scope.$apply();
-            promise.then(function(curAccount){
-                console.log(curAccount);
+
+            beforeEach(function(){
+                mockedGlobalData.setCustomerAccount({id: id});
+            });
+
+            it('should use account from GlobalData if available', function(){
+                var curAccount = null;
+                AccountSvc.getCurrentAccount().then(function(acc){
+                    curAccount = acc;
+                });
+
+                $scope.$apply();
                 expect(curAccount).toBeTruthy();
                 expect(curAccount.id).toEqualData(id);
-            }, then(function(failure){
-                console.error(failure);
-                expect(true).toBeFalsy();// fail
-            }));
-
-        });
-
-        it('should call account() for authenticated user, if no account in GlobalData', function(){
-
-        });
-
-        it('should create dummy account for unauthenticated account, if no account in GlobalData', function(){
-
+                mockBackend.verifyNoOutstandingRequest();
+            });
         });
     });
+
 
 });

@@ -52,7 +52,6 @@ angular.module('ds.cart')
                 newCart.cartId = cart.id;
                 deferredCart.resolve(newCart);
             } else {
-                // create new random id for an anonymous user
                 AccountSvc.getCurrentAccount().then(function(successAccount){
 
                     newCart.customerId = successAccount.id;
