@@ -156,9 +156,9 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
-        UNAUTHORIZED_TO_SIGNIN: 'Sie haben eine ungültige Passwort für dieses Konto.',
-        ACCOUNT_LOCKED: 'Konto wurde wegen zu hoher Anzahl der ungültigen Anmeldeversuche gesperrt. Bitte warten Sie 5 Minuten bis zum nächsten Anmeldeversuch.',
-        ACCOUNT_ALREADY_EXISTS: 'Elbe Konto wurde bereits erstellt!'
 
+        INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
+        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuche gesperrt. Bitte warten Sie 5 Minuten.',
+        ACCOUNT_ALREADY_EXISTS: 'Eine Konto für diese Emailadresse wurde bereits erstellt.'
 
     });
