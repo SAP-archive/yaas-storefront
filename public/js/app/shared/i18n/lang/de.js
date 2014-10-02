@@ -158,7 +158,7 @@ angular.module('ds.i18n')
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
 
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
-        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuche gesperrt. Bitte warten Sie 5 Minuten.',
-        ACCOUNT_ALREADY_EXISTS: 'Eine Konto für diese Emailadresse wurde bereits erstellt.'
+        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',
+        ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.'
 
     });
