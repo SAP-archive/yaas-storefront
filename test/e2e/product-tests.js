@@ -19,7 +19,7 @@ describe("product page", function () {
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
-        tu.clickElement('xpath', tu.tatteredBowls);
+        tu.clickElement('xpath', tu.whiteCoffeeMug);
       });
 
       // should be # of 31, but overall product count doesn't work in phantomjs
@@ -33,7 +33,7 @@ describe("product page", function () {
 
       it("should get product detail page", function () {
         // tu.scrollToBottomOfProducts(3500);
-        tu.clickElement('xpath', tu.tatteredBowls);
+        tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nThese bowls look like they were thrown across the kitchen. Why would anyone want to buy these broken bowls?');
         tu.clickElement('linkText', 'DE');

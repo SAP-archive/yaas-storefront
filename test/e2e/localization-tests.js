@@ -26,8 +26,9 @@
 
         
         it('should load product-list in english', function () {
-          assertTextByElement('linkText', 'PRODUCTS', 'PRODUCTS');
-          assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
+          tu.clickElement('linkText', 'EN');
+          assertTextByElement('linkText', 'ALL PRODUCTS', 'ALL PRODUCTS');
+          assertTextByElement('xpath', '//section/div[2]/div/div', 'All Products');
           assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
           //price is not currently supported
@@ -41,8 +42,8 @@
 
         it('should load product-list in german', function () {
           tu.clickElement('linkText', 'DE');
-          assertTextByElement('linkText', 'PRODUKTE', 'PRODUKTE');
-          assertTextByElement('xpath', '//section/div[2]/div/div', 'Category Name');
+          assertTextByElement('linkText', 'ALLE PRODUKTE', 'ALLE PRODUKTE');
+          assertTextByElement('xpath', '//section/div[2]/div/div', 'Alle Produkte');
           assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
           //price is not currently supported
@@ -54,6 +55,7 @@
         });
 
         it('should load product-detail in english', function () {
+          tu.clickElement('linkText', 'EN');
           tu.clickElement('css', 'div.thumb');
           assertTextByElement('css', 'label.ng-binding', 'QTY:');
           assertTextByElement('id', 'buy-button', 'BUY');
@@ -69,6 +71,7 @@
         });
 
         it('should load cart in english', function () {
+          tu.clickElement('linkText', 'EN');
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
           assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');

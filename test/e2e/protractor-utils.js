@@ -1,7 +1,7 @@
          
-        exports.tatteredBowls = "//a[contains(@href, '#!/products/542419bbc1ae628d8adcd0d7/')]";
-        exports.cupWithHoles = "//a[contains(@href, '#!/products/542419bdc1ae628d8adcd0d8/')]";
-        exports.beadedNecklace = "//a[contains(@href, '#!/products/542419c2c1ae628d8adcd0da/')]";
+        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/542da5950c4e7c0409a167e6/')]";
+        exports.blackCoffeeMug = "//a[contains(@href, '#!/products/542da59b0c4e7c0409a167e9/')]";
+        exports.whiteThermos = "//a[contains(@href, '#!/products/542da59e0c4e7c0409a167ea/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
