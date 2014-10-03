@@ -100,7 +100,7 @@ angular.module('ds.i18n')
          */
         BUY: 'In den Warenkorb',
         DESCRIPTION: 'Beschreibung',
-        OUT_OF_STOCK: 'ausverkauft',
+        OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
 
         /*
@@ -121,8 +121,8 @@ angular.module('ds.i18n')
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
         MY_ACCOUNT: 'Mein Profil',
-        CREATE_ACCOUNT: 'Benutzerkonto erstellen',
-        CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
+        CREATE_ACCOUNT: 'Konto erstellen',
+        CONTINUE_AS_GUEST: 'Weiter als Gast',
 
         /*
             account page

@@ -3,9 +3,11 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
 
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','categories',
+	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData',
+        'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','CategorySvc',
 
-		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, CookieSvc, AuthSvc, AuthDialogManager, categories) {
+		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants,
+                  CookieSvc, AuthSvc, AuthDialogManager, CategorySvc) {
 
             $scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
@@ -13,7 +15,11 @@ angular.module('ds.shared')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
-            $scope.categories = categories;
+            $scope.categories = [];
+
+            CategorySvc.getCategories().then(function(categories){
+                $scope.categories = categories;
+            });
 
             $scope.switchCurrency = function (currency) {
                 GlobalData.storeCurrency = currency;
