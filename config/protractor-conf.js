@@ -6,8 +6,8 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'chrome'
-    // 'phantomjs.cli.args':['--ignore-ssl-errors=true', '--web-security=false']
+    'browserName': 'phantomjs',
+    'phantomjs.cli.args':['--ignore-ssl-errors=true', '--web-security=false']
   },
 
   onPrepare: function() {      
