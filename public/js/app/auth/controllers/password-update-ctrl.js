@@ -34,6 +34,7 @@ angular.module('ds.auth')
                 AuthSvc.changePassword(token, password).then( function(){
                     var dlgPromise = AuthDialogManager.showPasswordChanged();
                     dlgPromise.then(function() {
+                           // won't be called
                         },
                         function(){ // on dismiss - only option
                             var loginPromise = AuthDialogManager.open();
