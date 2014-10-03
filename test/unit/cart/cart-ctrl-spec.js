@@ -34,7 +34,7 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, products, cartCtrl, stubbedCartSvc;
+    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData;
 
     beforeEach(function () {
         cart = {};
@@ -53,7 +53,11 @@ describe('CartCtrl Test', function () {
             getCart: jasmine.createSpy().andReturn(cart)
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc});
+        mockedGlobalData = {
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+        };
+
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
 
         $rootScope.cart = products;
     });

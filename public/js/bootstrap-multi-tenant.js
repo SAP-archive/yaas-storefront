@@ -8,8 +8,9 @@
     var $http = initInjector.get('$http');
     $http.get('storeconfig').then(
         function (response) {
-            // HARD-CODED DEFAULT LANGUAGE - will be replaced by service that can read from admin settings
+            // HARD-CODED DEFAULT LANGUAGE AND CURRENCY - will be replaced by service that can read from admin settings
             response.data.defaultLanguage = 'en';
+            response.data.defaultCurrency = 'USD';
             angular.module('config', []).constant('storeConfig', response.data);
 
             try {

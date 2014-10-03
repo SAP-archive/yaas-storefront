@@ -15,8 +15,10 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'AccountSvc', 'CookieSvc', '$location', 'settings', 'AuthDialogManager', 'GlobalData',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, AccountSvc, CookieSvc, $location, settings, AuthDialogManager, GlobalData) {
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc',
+        'AccountSvc', 'CookieSvc', '$location', 'settings', 'AuthDialogManager', 'GlobalData',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, AccountSvc, CookieSvc, $location,
+                  settings, AuthDialogManager, GlobalData) {
 
             $scope.user = {
                 signup: {},
@@ -39,12 +41,15 @@ angular.module('ds.auth')
                     var accountPromise = AccountSvc.account();
                     accountPromise.then(function () {
                         if (fromSignup) {
+                            accountPromise.$object.preferredCurrency = GlobalData.storeCurrency;
                             accountPromise.$object.preferredLanguage = GlobalData.languageCode;
                             AccountSvc.updateAccount(accountPromise.$object);
                         }
                         else {
                             var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
+                            var currency = accountPromise.$object.preferredCurrency;
                             $rootScope.$emit('language:switch', languageCode);
+                            CookieSvc.setCurrencyCookie(currency);
                             CookieSvc.setLanguageCookie(languageCode);
                         }
                     });
@@ -56,14 +61,18 @@ angular.module('ds.auth')
 
             var extractServerSideErrors = function (response) {
                 var errors = [];
-                if (response.status === 400) {
-                    if (response.data && response.data.details && response.data.details.length) {
-                        errors = response.data.details;
-                    }
-                } else if (response.status === 409 || response.status === 401 || response.status === 404 || response.status === 500) {
-                    if (response.data && response.data.message) {
-                        errors.push({ message: response.data.message });
-                    }
+                if (response.status === 401 || response.status === 404) {
+                    errors.push({ message: 'INVALID_CREDENTIALS' });
+                } else if (response.status === 409) {
+                    errors.push({ message: 'ACCOUNT_ALREADY_EXISTS' });
+                } else if (response.status === 403) {
+                    errors.push({ message: 'ACCOUNT_LOCKED' });
+                } else if (response.data && response.data.details && response.data.details.length) {
+                    errors.push(response.data.details);
+                } else if (response.data && response.data.message) {
+                    errors.push({ message: response.data.message });
+                } else {
+                    errors.push({message: response.status});
                 }
                 return errors;
             };

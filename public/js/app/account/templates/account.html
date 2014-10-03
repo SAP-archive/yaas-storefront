@@ -16,8 +16,8 @@
         <div class="col-xs-9 col-sm-5">
           <div class="page-headline">
             <h1>
-              <small>My Account</small></br>
-              Welcome<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              <small>{{'MY_ACCOUNT' | translate}}</small></br>
+              {{'WELLCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
               <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
           </h1>
           </div>
@@ -79,7 +79,7 @@
   </section>
   <section class="mediumgray">
     <div class="section-headline clearfix">
-      <h2>Order History</h2>
+      <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
     <div class="table-responsive">
       <table class="table">
@@ -97,7 +97,7 @@
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
             <td>{{order.itemCount}}</td>
-            <td>{{order.totalPrice | currency: '$'}}</td>
+            <td>{{order.totalPrice | currency: currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>

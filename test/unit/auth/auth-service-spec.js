@@ -17,13 +17,19 @@ describe('AuthSvc Test', function () {
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
     var username = 'some.user@hybris.com';
+    var storeConfig = {
+        storeTenant: storeTenant
+    };
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
     var getUsernameSpy = jasmine.createSpy('getUsernameSpy').andReturn(username);
     mockedTokenSvc = {
         setToken: jasmine.createSpy('setToken'),
         getToken: jasmine.createSpy('getToken').andReturn({
             getAccessToken: getAccessTokenSpy,
-            getUsername: getUsernameSpy
+            getUsername: getUsernameSpy,
+            getTenant: function(){
+                return storeTenant;
+            }
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
@@ -57,6 +63,7 @@ describe('AuthSvc Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
+        $provide.value('storeConfig', storeConfig);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -156,7 +163,7 @@ describe('AuthSvc Test', function () {
 
         it('should navigate to products if state is protected', function(){
             AuthSvc.signOut(payload);
-            expect(mockedState.go).wasCalledWith('base.product');
+            expect(mockedState.go).wasCalledWith('base.category');
         });
     });
 

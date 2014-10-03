@@ -16,6 +16,10 @@ describe('TokenSvc', function () {
     var cookieName = 'accessCookie';
     var user = '123';
     var access = 'abc';
+    var tenant = 'tenant';
+    var storeConfig = {
+        storeTenant: tenant
+    };
     mockedSettings = {
         accessCookie: cookieName
     };
@@ -26,6 +30,7 @@ describe('TokenSvc', function () {
 
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('settings', mockedSettings);
+        $provide.value('storeConfig', storeConfig);
     }));
 
     beforeEach(inject(function(_TokenSvc_, _ipCookie_) {
@@ -90,9 +95,17 @@ describe('TokenSvc', function () {
     });
 
     describe('setAnonymousToken', function(){
-        it('should not replace the token if it exists', function(){
+        it('should replace the token if it exists for different tenant', function(){
             var authenticatedToken = '567';
-            ipCookie(cookieName, {accessToken: authenticatedToken});
+            ipCookie(cookieName, {accessToken: authenticatedToken, tenant: 'oldTenant'});
+            var newToken = '432';
+            TokenSvc.setAnonymousToken(newToken, 999);
+            expect(ipCookie(cookieName).accessToken).toEqualData(newToken);
+        });
+
+        it('should not replace the token if it exists for same tenant', function(){
+            var authenticatedToken = '567';
+            ipCookie(cookieName, {accessToken: authenticatedToken, tenant: tenant});
             TokenSvc.setAnonymousToken('432', 999);
             expect(ipCookie(cookieName).accessToken).toEqualData(authenticatedToken);
         });

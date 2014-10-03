@@ -15,12 +15,17 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
+        currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
 
         // defines thea API endpoints and routes
         apis: {
             account: {
               baseUrl: 'https://yaas-test.apigee.net/test/account/v1'
+            },
+
+            categories: {
+                baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
             },
 
             configuration: {
@@ -79,6 +84,7 @@ angular.module('ds.shared')
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
+            storeCurrencies: 'project_curr',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
         },

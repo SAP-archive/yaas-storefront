@@ -98,7 +98,8 @@ so that you can use a unique Stripe API test key.
 ### 3.  Replace the default tenant id in the code base with your own.  You can find your tenant id at [todo: MARKETPLACE? link].
 In file public/js/bootstrap.js, replace the default "storeTenant" variable with your own tenant id.
 
-### 4.  Launch a new session against http://localhost:9000 via "npm start".  You should now see your customized store.
+### 4.  Launch a new session 
+Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
 
 ### 5.  Customize the style or logic of your storefront as desired
 You can now modify the style or logic of your storefront.  Any new JS scripts or CSS files need to be added to index.html.

@@ -29,9 +29,13 @@ describe('AccountOrderDetailCtrl Test', function () {
     }));
 
     describe('AccountOrderDetailCtrl ', function () {
-        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams;
+        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams, mockedGlobalData;
 
         beforeEach(function () {
+
+            mockedGlobalData = {
+                getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+            };
 
             // creating the mocked service
             mockedOrderSvc = {
@@ -74,13 +78,17 @@ describe('AccountOrderDetailCtrl Test', function () {
                 totalPrice: 100,
                 entries: [
                     {
-                        id: 'product1',
+                        product: {
+                            id: 'product1'
+                        },
                         sku: 'product1',
                         amount: 1,
                         price: 50
                     },
                     {
-                        id: 'product2',
+                        product: {
+                            id: 'product2'
+                        },
                         sku: 'product2',
                         amount: 2,
                         price: 25
@@ -105,7 +113,7 @@ describe('AccountOrderDetailCtrl Test', function () {
             });
 
             accountOrderDetailCtrl = $controller('AccountOrderDetailCtrl',
-                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams});
+                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams, GlobalData: mockedGlobalData});
         });
 
         it('should parse the payment information', function () {

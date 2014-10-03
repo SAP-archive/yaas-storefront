@@ -30,6 +30,7 @@ module.exports = function(config){
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/settings.js',
         'public/js/app/shared/services/cookie-svc.js',
+        'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
@@ -43,11 +44,12 @@ module.exports = function(config){
         'public/js/app/shared/i18n/providers/translation-provider.js',
 
         'public/js/app/products/products-index.js',
-        'public/js/app/products/services/product-service.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
+        'public/js/app/products/services/product-service.js',
         'public/js/app/products/services/price-service.js',
         'public/js/app/products/services/price-product-rest.js',
+        'public/js/app/products/services/category-service.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',

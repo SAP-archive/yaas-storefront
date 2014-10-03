@@ -2,7 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', function ($scope, ProductSvc, PriceSvc, GlobalData, settings) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category', 'elements',
+        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category, elements) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -15,6 +16,23 @@ angular.module('ds.products')
         $scope.prices = {};
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+
+        $scope.category = category;
+        $scope.elements = elements;
+
+        function getProductIdsFromElements(elements){
+
+            return elements.map(function(element){
+                if(element.ref.type === 'product') {
+                    return element.ref.id;
+                } else {
+                    return '';
+                }
+            });
+        }
+
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
+
 
         /** Retrieves pricing information for the list of products.
          * @param products JSON product list response
@@ -34,14 +52,14 @@ angular.module('ds.products')
                         var pricesMap = {};
 
                         pricesResponse.forEach(function (price) {
-                            pricesMap[price.productId] = price;
+                            if (price.currency === GlobalData.storeCurrency) {
+                                pricesMap[price.productId] = price;
+                            }
                         });
 
                         $scope.prices = angular.extend($scope.prices, pricesMap);
                     }
-
                 }
-
             );
         }
 
@@ -61,11 +79,15 @@ angular.module('ds.products')
 
                     if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
+                        var qSpec = 'published:true';
+                        if(elements && elements.length > 0 ) {
+                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+                        }
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
                             // we only want to show published products on this list
-                            q: 'published:true'
+                            q: qSpec
                         };
 
                         if ($scope.sort) {
@@ -122,7 +144,11 @@ angular.module('ds.products')
             };
 
             //we only want to show published products on this list
-            query.q = 'published:true';
+            var qSpec =  'published:true';
+            if(elements && elements.length > 0 ) {
+                qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+            }
+            query.q = qSpec;
 
             ProductSvc.query(query).then(function(products) {
                 $scope.products = products;
@@ -131,11 +157,6 @@ angular.module('ds.products')
 
         $scope.showRefineContainer = function () {
             $scope.refineContainerShowing = !$scope.refineContainerShowing;
-        };
-
-        /** Scrolls browser window to top left of page.*/
-        $scope.backToTop = function () {
-            window.scrollTo(0, 0);
         };
 
     }]);

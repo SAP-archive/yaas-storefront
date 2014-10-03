@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-class="{'disable-scroll': showCart}">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,6 +45,7 @@
 <script src="js/app/shared/services/http-queue.js"></script>
 <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
 <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
+<script src="js/app/shared/filters/filters.js"></script>
 <script src="js/app/shared/i18n/i18-index.js"></script>
 <script src="js/app/shared/i18n/i18-constants.js"></script>
 <script src="js/app/shared/i18n/lang/en.js"></script>
@@ -59,6 +60,7 @@
 <script src="js/app/products/services/product-service.js"></script>
 <script src="js/app/products/services/price-service.js"></script>
 <script src="js/app/products/services/price-product-rest.js"></script>
+<script src="js/app/products/services/category-service.js"></script>
 <script src="js/app/cart/cart-index.js"></script>
 <script src="js/app/cart/controllers/cart-ctrl.js"></script>
 <script src="js/app/cart/services/cart-rest.js"></script>

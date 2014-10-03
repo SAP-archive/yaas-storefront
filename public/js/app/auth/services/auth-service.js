@@ -16,7 +16,7 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', '$state', '$q', function (AuthREST, settings, TokenSvc, GlobalData, $state, $q) {
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q) {
 
 
 
@@ -59,14 +59,14 @@ angular.module('ds.auth')
                 TokenSvc.unsetToken(settings.accessCookie);
                 GlobalData.customerAccount = null;
                 if ($state.is('base.account')) {
-                    $state.go('base.product');
+                    $state.go('base.category');
                 }
             },
 
-            /** Returns true if there is a user specific OAuth token cookie.*/
+            /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
-                return !!token.getAccessToken() && !!token.getUsername();
+                return !!token.getAccessToken() && !!token.getUsername() && token.getTenant() === storeConfig.storeTenant;
             },
 
             /** Issues a 'reset password' request. Returns the promise of the completed action.*/

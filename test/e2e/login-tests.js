@@ -42,7 +42,7 @@ describe("login:", function () {
          browser.sleep(500);
          tu.clickElement('id', 'sign-in-button');
          browser.sleep(1000);
-         expect(element(by.binding("error.message")).getText()).toEqual("Account with e-mail 'bad@bad.com' not found.");
+         expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.	");
        });
 
        it('should allow existing user to login', function () {
