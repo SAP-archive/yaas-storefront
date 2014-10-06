@@ -64,4 +64,8 @@ angular.module('ds.auth')
                 });
             };
 
+            $scope.clearErrors = function(){
+                $scope.message = '';
+            };
+
     }]);

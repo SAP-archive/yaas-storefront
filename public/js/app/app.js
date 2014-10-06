@@ -93,21 +93,24 @@ window.app = angular.module('ds.router', [
                             }
                         }
                     } else if(response.status === 403){
-                        // using injector lookup to prevent circular dependency
-                        var AuthSvc = $injector.get('AuthSvc');
-                        if(AuthSvc.isAuthenticated()){
-                            // User is authenticated but is not allowed to access resource
-                            // this scenario shouldn't happen, but if it does, don't fail silently
-                            window.alert('You are not authorized to access this resource!');
-                        } else {
-                            // User is not authenticated - make them log in and reload the current state
-                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
-                                    callback();
-                                },
-                                function() {
-                                    callback();
-                                }
-                            );
+                        // if 403 during login, should already be handled by auth dialog controller
+                        if(response.config.url.indexOf('login')<0) {
+                            // using injector lookup to prevent circular dependency
+                            var AuthSvc = $injector.get('AuthSvc');
+                            if (AuthSvc.isAuthenticated()) {
+                                // User is authenticated but is not allowed to access resource
+                                // this scenario shouldn't happen, but if it does, don't fail silently
+                                window.alert('You are not authorized to access this resource!');
+                            } else {
+                                // User is not authenticated - make them log in and reload the current state
+                                $injector.get('AuthDialogManager').open({}, {}).then(function () {
+                                        callback();
+                                    },
+                                    function () {
+                                        callback();
+                                    }
+                                );
+                            }
                         }
                     }
                     return $q.reject(response);
