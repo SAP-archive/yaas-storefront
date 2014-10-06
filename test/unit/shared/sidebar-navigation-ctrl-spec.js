@@ -17,6 +17,9 @@ describe('SidebarNavigationCtrl', function () {
     };
     var mockedGlobalData = {};
     var mockedAuthSvc = {};
+    var mockedCartSvc = {
+        switchCurrency: jasmine.createSpy()
+    };
     var mockedCookieSvc = {
         setLanguageCookie: jasmine.createSpy()
     };
@@ -73,7 +76,7 @@ describe('SidebarNavigationCtrl', function () {
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
             $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc,
-            AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
+            AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc, CartSvc: mockedCartSvc});
     });
 
     describe('onInitialization', function(){

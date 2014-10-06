@@ -36,6 +36,7 @@ angular.module('ds.cart')
            this.id = null;
         };
 
+        // Prototype for outbound currency switch call
         var Currency = function(code) {
             this.currency = code;
         };

@@ -51,6 +51,7 @@ describe('CheckoutSvc', function () {
     var totalPrice = {};
     totalPrice.value = 7.79;
     cart.totalPrice = totalPrice;
+    cart.currency = 'USD';
     order.cart = cart;
 
 

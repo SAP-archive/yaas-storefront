@@ -20,6 +20,9 @@ describe('CartSvc Test', function () {
     var itemId = '0';
     var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
     var mockedAccountSvc = {};
+    var mockedGlobalData = {
+        storeCurrency: 'EUR'
+    };
     var deferredAccount;
     var cartResponse = {
         "items" : [ {
@@ -51,6 +54,7 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
             $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
+            $provide.value('GlobalData', mockedGlobalData);
         });
 
 
@@ -194,6 +198,51 @@ describe('CartSvc Test', function () {
             it('should create an empty cart', function () {
                 cartSvc.resetCart();
                 expect(cartSvc.getCart().items.length).toBeFalsy();
+            });
+        });
+
+        describe('switchCurrency', function() {
+            it('should switch the cart currency', function () {
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', {"currency": "EUR"})
+                    .respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
+                    {
+                        "currency": "EUR",
+                        "subTotalPrice": {
+                            "currency": "USD",
+                            "value": 10.00
+                        },
+                        "totalUnitsCount": 1.0,
+                        "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
+                        "items": [
+                            {
+                                "product": {
+                                    "sku": "sku1",
+                                    "inStock": true,
+                                    "description": "desc",
+                                    "id": prodId,
+                                    "name": "Electric Guitar"
+                                },
+                                "unitPrice": {
+                                    "currency": "USD",
+                                    "value": 5.00
+                                },
+                                "id": itemId,
+                                "quantity": 2.0
+                            }
+                        ],
+                        "totalPrice": {
+                            "currency": "USD",
+                            "value": 13.24
+                        },
+                        "id": cartId,
+                        "shippingCost": {
+                            "currency": "USD",
+                            "value": 3.24
+                        }
+                    });
+                cartSvc.switchCurrency('EUR');
+                mockBackend.flush();
             });
         });
 
