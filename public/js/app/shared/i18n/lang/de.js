@@ -100,7 +100,7 @@ angular.module('ds.i18n')
          */
         BUY: 'In den Warenkorb',
         DESCRIPTION: 'Beschreibung',
-        OUT_OF_STOCK: 'ausverkauft',
+        OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
 
         /*
@@ -112,6 +112,7 @@ angular.module('ds.i18n')
         PRICE_LOW_HIGH: 'Preis aufsteigend',
         SORT_BY: 'Sortieren',
         VIEWING: 'Anzeige',
+        ALL_PRODUCTS: 'Alle Produkte',
 
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',
@@ -120,8 +121,8 @@ angular.module('ds.i18n')
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
         MY_ACCOUNT: 'Mein Profil',
-        CREATE_ACCOUNT: 'Benutzerkonto erstellen',
-        CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
+        CREATE_ACCOUNT: 'Konto erstellen',
+        CONTINUE_AS_GUEST: 'Weiter als Gast',
 
         /*
             account page
@@ -134,7 +135,8 @@ angular.module('ds.i18n')
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         SAVE: 'Speichern',
-
+        WELLCOME: 'Willkommen',
+        ORDER_HISTORY: 'Bestellverlauf',
         STREET_NUMBER: 'Nummer',
 
         /*
@@ -153,7 +155,10 @@ angular.module('ds.i18n')
         PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen anforderlich.',
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
-        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden .'
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
 
+        INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
+        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',
+        ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.'
 
     });

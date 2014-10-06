@@ -15,8 +15,8 @@ angular.module('ds.auth')
     /**
      *  Displays the "indicate new password" page.
      */
-    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$stateParams',
-        function($scope, AuthDialogManager, AuthSvc, $stateParams) {
+    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams',
+        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams) {
             $scope.token = $stateParams.token || '';
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
@@ -30,8 +30,30 @@ angular.module('ds.auth')
             $scope.changePassword = function(token, password) {
                 $scope.submitDisabled = true;
                 $scope.message = null;
-                AuthSvc.changePassword(token, password).then(function(){
-                    AuthDialogManager.showPasswordChanged();
+
+                AuthSvc.changePassword(token, password).then( function(){
+                    var dlgPromise = AuthDialogManager.showPasswordChanged();
+                    dlgPromise.then(function() {
+                           // won't be called
+                        },
+                        function(){ // on dismiss - only option
+                            var loginPromise = AuthDialogManager.open();
+                            loginPromise.then(function(){
+                                $state.transitionTo('base.category', $stateParams, {
+                                    reload: true,
+                                    inherit: true,
+                                    notify: true
+                                });
+                            }, function(){
+                                $state.transitionTo('base.category', $stateParams, {
+                                    reload: true,
+                                    inherit: true,
+                                    notify: true
+                                });
+                            });
+
+                        }
+                    );
                 }, function(error){
                     $scope.submitDisabled = false;
                     var details = 'No details provided';

@@ -31,6 +31,13 @@ angular.module('ds.account')
             };
         })();
 
+        /*
+         'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+         return v.toString(16);
+         });
+         */
+
         var AccountSvc = {
 
             /**
@@ -97,31 +104,28 @@ angular.module('ds.account')
 
             /**
              * Returns a promise to the customer account in the local scope, or retrieves and sets the data if needed.
+             * If the current customer is anonymous and no local scope account has been created yet, it will create
+             * said account with a fake ID.
              */
             getCurrentAccount: function() {
                 var defAccount = $q.defer();
-                console.debug(GlobalData.customerAcount);
+
                 if(GlobalData.customerAccount){
-                    console.debug('use existing');
                     defAccount.resolve(GlobalData.customerAccount);
                 } else if(GlobalData.user.isAuthenticated) {
-                    console.debug('use account()');
                     this.account().then(function(success){
                         defAccount.resolve(success);
                     }, function(failure){
                         defAccount.reject(failure);
                     });
                 } else {
-                    console.debug('create fake');
                     var gId = guid();
                     GlobalData.customerAccount = {
                         customerNumber: gId,
                         id: gId
                     };
-                    console.debug(GlobalData.customerAcount);
                     defAccount.resolve(GlobalData.customerAccount);
                 }
-                console.log(defAccount.promise);
                 return defAccount.promise;
 
             }

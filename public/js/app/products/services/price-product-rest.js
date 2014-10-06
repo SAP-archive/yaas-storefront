@@ -50,6 +50,11 @@ angular.module('ds.products')
                 ProductDetails: Restangular.withConfig(function(RestangularConfigurer) {
                     RestangularConfigurer.setBaseUrl(settings.apis.productDetails.baseUrl);
                     applyLanguageHeader(RestangularConfigurer);
+                }),
+                /** Endpoint for Category API.*/
+                Categories: Restangular.withConfig(function(RestangularConfigurer) {
+                    RestangularConfigurer.setBaseUrl(settings.apis.categories.baseUrl);
+                    applyLanguageHeader(RestangularConfigurer);
                 })
             };
 

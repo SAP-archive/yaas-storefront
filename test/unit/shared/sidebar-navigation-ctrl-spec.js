@@ -12,7 +12,9 @@
 
 describe('SidebarNavigationCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager;
+    var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
+        getCategories: jasmine.createSpy().andReturn({then: function(){}})
+    };
     var mockedGlobalData = {};
     var mockedAuthSvc = {};
     var mockedCookieSvc = {
@@ -70,7 +72,14 @@ describe('SidebarNavigationCtrl', function () {
 
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
-            $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
+            $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc,
+            AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
+    });
+
+    describe('onInitialization', function(){
+        it('should retrieve categories', function(){
+           expect(mockedCategorySvc.getCategories).wasCalled();
+        });
     });
 
     describe('switchLanguage()', function(){
@@ -129,7 +138,7 @@ describe('SidebarNavigationCtrl', function () {
 
         it('should navigate to main products view', function(){
             $scope.showProducts();
-            expect(mockedState.go).toHaveBeenCalledWith('base.product');
+            expect(mockedState.go).toHaveBeenCalledWith('base.category');
         });
     });
 

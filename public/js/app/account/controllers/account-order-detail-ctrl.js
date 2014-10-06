@@ -28,14 +28,14 @@ angular.module('ds.account')
             var productIds = '';
             angular.forEach($scope.order.entries, function (entry, key) {
                 if (key === $scope.order.entries.length - 1) {
-                    productIds = productIds + (entry.sku);
+                    productIds = productIds + (entry.product.id);
                 }
                 else {
-                    productIds = productIds + (entry.sku + ',');
+                    productIds = productIds + (entry.product.id + ',');
                 }
             });
             var queryPrices = {
-                q: 'productId:(' + productIds + ')'
+                q: 'productId:(' + productIds + ')' + ' currency:' + GlobalData.storeCurrency
             };
 
             PriceSvc.query(queryPrices).then(
@@ -93,7 +93,7 @@ angular.module('ds.account')
             var ids = '';
 
             angular.forEach(order.entries, function (entry, key) {
-                ids += entry.sku;
+                ids += entry.product.id;
                 if (key !== ($scope.order.entries.length - 1)) {
                     ids += ',';
                 }

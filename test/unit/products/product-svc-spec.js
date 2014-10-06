@@ -13,9 +13,7 @@ describe('ProductSvc Test', function () {
 
     var productUrl = 'http://dummy.product.url';
     var productRoute = '/products';
-    var testUrl = productUrl+productRoute;
     var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v1/products';
-    // var productsRestUrl = 'http://product-v1-4-1.test.cf.hybris.com/products';
 
     var $scope, $rootScope, $httpBackend, productSvc;
     var acceptLang = "de";
