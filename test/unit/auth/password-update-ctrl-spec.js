@@ -117,5 +117,15 @@ describe('PasswordUpdateCtrl Test', function () {
 
     });
 
+    describe('clearErrors()', function () {
+        it('should set error message to empty', function () {
+            $scope.message = 'something is wrong';
+
+            $scope.clearErrors();
+            expect($scope.message).toEqualData('');
+
+        });
+    });
+
 
 });
