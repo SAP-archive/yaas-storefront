@@ -14,7 +14,8 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData', function($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData){
+    .factory('CartSvc', ['$rootScope', '$state', '$stateParams', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData',
+        function($rootScope, $state, $stateParams, CartREST, ProductSvc, AccountSvc, $q, GlobalData){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -199,14 +200,25 @@ angular.module('ds.cart')
              *  @param currency code to switch to
              */
             switchCurrency: function (code) {
-                var newCurrency = new Currency(code);
-                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency).then(function(){
-                    refreshCart();
-                }, function(error){
-                    // TODO - should handle in controller - in UI
-                    console.error(error);
-                    refreshCart();
-                });
+                if (cart.id) {
+                    var newCurrency = new Currency(code);
+                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
+                        .then( function () {
+                            refreshCart();
+
+                            /*
+                                need to reload checkout page if user switches currencies
+                             */
+                            if ($state.current === 'base.checkout') {
+                                $state.transitionTo($state.current, $stateParams, {
+                                    reload: true,
+                                    inherit: true,
+                                    notify: true
+                                });
+                            }
+                        }
+                    );
+                }
             }
 
         };
