@@ -87,8 +87,8 @@ describe('CartSvc Test', function () {
         });
     });
 
-    describe('new cart', function () {
-        it('should create new cart if cart not yet saved, plus create cart item and get new cart', function () {
+    describe('addProductToCart - new cart', function () {
+        it('should create new cart, create cart item and GET new cart', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });

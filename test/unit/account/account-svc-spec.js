@@ -205,15 +205,7 @@ describe('AccountSvc Test', function () {
                 expect(currentAccount).toEqualData(account);
             });
 
-            it('should create dummy account for unauthenticated account, if no account in GlobalData', function(){
-                var currentAccount;
-                AccountSvc.getCurrentAccount().then(function(acc){
-                    currentAccount = acc;
-                });
-                $scope.$apply();
-                expect(currentAccount.id).toBeTruthy();
-                mockBackend.verifyNoOutstandingRequest();
-            });
+           
         });
 
         describe(' - already exists - ', function(){
