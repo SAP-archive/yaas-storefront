@@ -56,6 +56,7 @@ angular.module('ds.checkout')
             var addressModalInstance;
 
             $scope.order.account = {};
+            window.scrollTo(0, 0);
 
             var decorateSelectedAddress = function(addresses) {
                 if (selectedAddress) {

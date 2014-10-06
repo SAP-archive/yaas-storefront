@@ -89,6 +89,7 @@ angular.module('ds.i18n')
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
         YOUR_ORDER_IS: 'Your order is',
+        SKU: 'SKU',
 
         /*
             navigation
