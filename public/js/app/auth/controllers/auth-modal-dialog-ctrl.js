@@ -116,7 +116,6 @@ angular.module('ds.auth')
                     performSignin(authModel).then(
                         function (response) {
                             settings.hybrisUser = $scope.user.signin.email;
-                            console.log('email is '+$scope.user.signin.email);
                             $modalInstance.close(response);
                             deferred.resolve(response);
                         },

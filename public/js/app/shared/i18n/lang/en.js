@@ -162,6 +162,8 @@ angular.module('ds.i18n')
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
         ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please 5 minutes.',
         ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
-        FORGOT_PASSWORD: 'Forgot password?'
+        FORGOT_PASSWORD: 'Forgot password?',
+        EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
+        ENTER_EMAIL: 'Enter Email'
 
 	});
