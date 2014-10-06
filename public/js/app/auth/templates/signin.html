@@ -3,7 +3,7 @@
 <form name="singinForm" ng-submit="signin(user.signin, singinForm)">
     <div class="form-group input-group" ng-class="{ 'has-error': singinForm.username.$invalid && singinForm.username.$dirty }">
         <span class="input-group-addon"><label class="control-label" for="usernameInput">{{'EMAIL' | translate}}</label></span>
-        <input type="email" class="form-control" id="usernameInput" placeholder="Enter email" name="username"
+        <input type="email" class="form-control" id="usernameInput" placeholder="{{'ENTER_EMAIL' | translate}}" name="username"
                ng-model="user.signin.email" required ng-focus="clearErrors()">
     </div>
     <div class="form-group input-group" ng-class="{ 'has-error': singinForm.password.$invalid && singinForm.password.$dirty }">
