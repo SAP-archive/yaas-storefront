@@ -14,7 +14,7 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', function($rootScope, CartREST, ProductSvc, AccountSvc, $q){
+    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData', function($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -36,6 +36,10 @@ angular.module('ds.cart')
            this.id = null;
         };
 
+        var Currency = function(code) {
+            this.currency = code;
+        };
+
         // application scope cart instance
         var cart = new Cart();
 
@@ -55,7 +59,7 @@ angular.module('ds.cart')
                 AccountSvc.getCurrentAccount().then(function(successAccount){
 
                     newCart.customerId = successAccount.id;
-                    newCart.currency = 'USD';
+                    newCart.currency = GlobalData.storeCurrency;
                     CartREST.Cart.all('carts').post(newCart).then(function(response){
                         cart.id = response.cartId;
                         deferredCart.resolve(response);
@@ -187,6 +191,21 @@ angular.module('ds.cart')
             resetCart: function () {
                cart = new Cart();
                $rootScope.$emit('cart:updated', cart);
+            },
+
+            /*
+             *  This function switches the cart's currency and refreshes the cart
+             *  @param currency code to switch to
+             */
+            switchCurrency: function (code) {
+                var newCurrency = new Currency(code);
+                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency).then(function(){
+                    refreshCart();
+                }, function(error){
+                    // TODO - should handle in controller - in UI
+                    console.error(error);
+                    refreshCart();
+                });
             }
 
         };

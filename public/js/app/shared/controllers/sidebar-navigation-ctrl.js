@@ -4,10 +4,10 @@ angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
 
 	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData',
-        'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','CategorySvc',
+        'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','CategorySvc', 'CartSvc',
 
 		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants,
-                  CookieSvc, AuthSvc, AuthDialogManager, CategorySvc) {
+                  CookieSvc, AuthSvc, AuthDialogManager, CategorySvc, CartSvc) {
 
             $scope.languageCode = GlobalData.languageCode;
             $scope.languageCodes = i18nConstants.getLanguageCodes();
@@ -23,6 +23,8 @@ angular.module('ds.shared')
 
             $scope.switchCurrency = function (currency) {
                 GlobalData.storeCurrency = currency;
+
+                CartSvc.switchCurrency(currency);
 
                 $state.transitionTo($state.current, $stateParams, {
                     reload: true,
