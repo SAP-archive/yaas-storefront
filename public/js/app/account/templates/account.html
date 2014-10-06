@@ -16,8 +16,8 @@
         <div class="col-xs-9 col-sm-5">
           <div class="page-headline">
             <h1>
-              <small>My Account</small></br>
-              Welcome<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              <small>{{'MY_ACCOUNT' | translate}}</small></br>
+              {{'WELLCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
               <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
           </h1>
           </div>
@@ -38,22 +38,22 @@
           <span class="area-headline">Account Details</span>
           <div class="account-details">
             <div>
-              <span class="inline-label">First Name:</span> <a href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">First Name:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Middle Name:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Middle Name:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Last Name:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Last Name:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <!-- <div>
               <span class="inline-label">Password:</span> <a href="#" editable-password="account.password" onbeforesave="updateAccount('password', $data)" alt="Edit">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span class="glyphicon glyphicon-pencil"></span></a>
             </div> -->
             <div>
-              <span class="inline-label">Preferred Locale:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span class="caret"></span></a>
+              <span class="inline-label">Preferred Locale:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
             </div>
             <!-- <div>
               <span class="inline-label">Currency:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.value as currency.text for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
@@ -79,7 +79,7 @@
   </section>
   <section class="mediumgray">
     <div class="section-headline clearfix">
-      <h2>Order History</h2>
+      <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
     <div class="table-responsive">
       <table class="table">

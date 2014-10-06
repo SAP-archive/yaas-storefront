@@ -11,7 +11,7 @@
  */
 
 describe('PasswordUpdateCtrl Test', function () {
-    var $scope, $controller, deferredChangePassword, mockedStateParams = {};
+    var $scope, $controller, deferredChangePassword, deferredShowDone, deferredLogin, mockedStateParams = {};
 
     var mockedAuthSvc = {
 
@@ -25,7 +25,12 @@ describe('PasswordUpdateCtrl Test', function () {
     }
 
     var mockedAuthDialogManager = {
-        showPasswordChanged: jasmine.createSpy('showPasswordChanged').andReturn({then: jasmine.createSpy('then')})
+        showPasswordChanged: jasmine.createSpy('showPasswordChanged').andCallFake(function(){
+            return deferredShowDone.promise
+        }),
+        open:  jasmine.createSpy('open').andCallFake(function(){
+            return deferredLogin.promise
+        })
     }
 
     beforeEach(function(){
@@ -48,6 +53,8 @@ describe('PasswordUpdateCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         deferredChangePassword = _$q_.defer();
+        deferredLogin = _$q_.defer();
+        deferredShowDone = _$q_.defer();
         $controller('PasswordUpdateCtrl', {$scope: $scope,
             AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams });
     }));
@@ -78,6 +85,15 @@ describe('PasswordUpdateCtrl Test', function () {
 
             it('should show <<password changed>>', function(){
                 expect(mockedAuthDialogManager.showPasswordChanged).wasCalled();
+            });
+
+            it('should redirect to sign-in and then main page', function(){
+                deferredShowDone.reject({});
+                $scope.$apply();
+                expect(mockedAuthDialogManager.open).wasCalled();
+                deferredLogin.resolve({});
+                $scope.$apply();
+                expect(mockedState.transitionTo).wasCalledWith('base.category', {  }, { reload : true, inherit : true, notify : true } );
             });
         });
 

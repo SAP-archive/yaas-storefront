@@ -9,8 +9,7 @@ var tu = require('./protractor-utils.js');
           var currentDate = month + " " + curr_date + ", " + curr_year;
 
           function fillCheckoutFormExceptEmail(form) {
-            tu.sendKeysById('firstName' + form, 'Mike');
-            tu.sendKeysById('lastName' + form, 'night');
+            tu.sendKeysById('contactName' + form, 'Mike Night');
             tu.sendKeysById('address1' + form, '123');
             tu.sendKeysById('address2' + form, '321');
             tu.sendKeysById('city' + form, 'Boulder');
@@ -29,8 +28,8 @@ var tu = require('./protractor-utils.js');
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.binding("cart.totalPrice.price")).getText()).toContain(totalPrice);
-            expect(element(by.css("span.value.ng-binding")).getText()).toEqual(totalPrice);
+            expect(element(by.binding("cart.totalPrice.value")).getText()).toContain(totalPrice);
+            expect(element(by.css("tfoot > tr > td.text-right.ng-binding")).getText()).toEqual(totalPrice);
             expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
           }
@@ -45,8 +44,7 @@ var tu = require('./protractor-utils.js');
 
           function verifyValidationForEachField(form, buttonType, button) {
             validateField('zipCode', form, '80301', buttonType, button);
-            validateField('firstName', form, 'Mike', buttonType, button);
-            validateField('lastName', form, 'Night', buttonType, button);
+            validateField('contactName', form, 'Mike Night', buttonType, button);
             validateField('address1', form, '123', buttonType, button);
             validateField('city', form, 'Boulder', buttonType, button);
           }
@@ -65,7 +63,7 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+        browser.get(tu.tenant + '/#!/products/542da5d60c4e7c0409a167fb/');
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
@@ -89,7 +87,7 @@ describe("checkout:", function () {
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('xpath', tu.contineShopping);
             tu.clickElement('css', 'img');
-            tu.clickElement('xpath', tu.beadedNecklace);
+            tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
@@ -100,13 +98,15 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
-            browser.sleep(250)
+            browser.sleep(500)
             expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
             browser.sleep(25000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
@@ -117,6 +117,8 @@ describe("checkout:", function () {
             tu.clickElement('css', tu.checkoutButton);
             fillCheckoutFormExceptEmail('Bill');          
             tu.sendKeysById('email', 'mike@place.com'); 
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
@@ -153,14 +155,14 @@ describe("checkout:", function () {
             browser.sleep(1000);
             tu.clickElement('css', tu.checkoutButton);
             browser.sleep(1000);
-            tu.sendKeysById('firstNameBill', 'Mike');
-            tu.sendKeysById('lastNameBill', 'night');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-            verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
+            verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
             tu.clickElement('id', "logout-btn");
 
            });
@@ -180,7 +182,8 @@ describe("checkout:", function () {
             expect(element(by.repeater('order in orders').row(0).column('order.itemCount')).getText()).toEqual("1");          
             expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$27.81");          
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
-
+            element(by.repeater('order in orders').row(0).column('order.created')).click();
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
             tu.clickElement('id', "logout-btn");
 
            });
@@ -223,11 +226,11 @@ describe("mobile checkout:", function () {
 
      beforeEach(function () {
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+        browser.get(tu.tenant + '/#!/products/542da5d60c4e7c0409a167fb/');
        browser.sleep(8000);
      });
 
-     var continueButton1 = '//div[11]/button'
+     var continueButton1 = '//div[12]/button'
      var continueButton2 = '//div[6]/button'
      var paymentButton = "//button[@type='submit']"
    
@@ -237,6 +240,8 @@ describe("mobile checkout:", function () {
         browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
+        tu.sendKeysById('firstNameAccount', 'Mike');
+        tu.sendKeysById('lastNameAccount', 'Night');
         fillCheckoutFormExceptEmail('Bill');
         tu.clickElement('xpath', continueButton1);
         browser.sleep(500)
@@ -256,6 +261,8 @@ describe("mobile checkout:", function () {
         browser.sleep(1000);
         tu.clickElement('css', tu.checkoutButton);
         tu.sendKeysById('email', 'mike@night.com');
+        tu.sendKeysById('firstNameAccount', 'Mike');
+        tu.sendKeysById('lastNameAccount', 'Night');
         fillCheckoutFormExceptEmail('Bill');
         verifyValidationForEachField('Bill', 'xpath', continueButton1); 
         validateField('email', '', 'mike@night.com', 'xpath', continueButton1);

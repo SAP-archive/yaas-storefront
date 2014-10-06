@@ -49,4 +49,6 @@ angular.module('ds.shared')
 
         this.customerAccount = null;
 
+
+
     }]);
