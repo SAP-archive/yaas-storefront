@@ -86,7 +86,9 @@ angular.module('ds.cart')
                 var price = {'value': product.price.value, 'currency': product.price.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-                    refreshCart(cartResult.cartId);
+                    refreshCart(cartResult.cartId).then(function () {
+                        $rootScope.showCart = true;
+                    });
                 });
             }, function(error){
                 window.alert(error);
@@ -219,8 +221,14 @@ angular.module('ds.cart')
                 if (cart.id) {
                     var newCurrency = new Currency(code);
                     CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
-                        .then( function () {
-                            //do stuff
+                        .then(function () {
+                            refreshCart(cart.id).then(function () {
+                                $state.transitionTo($state.current, $stateParams, {
+                                    reload: true,
+                                    inherit: true,
+                                    notify: true
+                                });
+                            });
                         }
                     );
                 }

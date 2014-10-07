@@ -87,9 +87,6 @@ describe('ProductDetailCtrl', function () {
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated');
         });
-        it('should show cart', function () {
-            expect($rootScope.showCart).toBeTruthy();
-        });
 
         it('should enable buy button', function () {
             expect($scope.buyButtonEnabled).toBeTruthy();

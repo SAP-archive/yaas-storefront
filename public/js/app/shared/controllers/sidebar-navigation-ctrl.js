@@ -26,12 +26,6 @@ angular.module('ds.shared')
 
                 CartSvc.switchCurrency(currency);
 
-                $state.transitionTo($state.current, $stateParams, {
-                    reload: true,
-                    inherit: true,
-                    notify: true
-                });
-
                 CookieSvc.setCurrencyCookie(currency);
             };
 
