@@ -26,6 +26,7 @@ angular.module('ds.products')
 
             var unbind = $rootScope.$on('cart:updated', function () {
                 $scope.buyButtonEnabled = true;
+                getPriceForStoreCurrency();
             });
 
             $scope.$on('$destroy', unbind);
@@ -42,15 +43,23 @@ angular.module('ds.products')
              we need to get all prices for this product for currency switching purposes
              */
             var getPriceForStoreCurrency = function () {
+                var foundPrice = false;
                 var query = {
                     q: 'productId:(' + product.id + ')'
                 };
                 PriceSvc.query(query).then(function (result) {
                     angular.forEach(result, function (price) {
                         if (price.currency === GlobalData.storeCurrency) {
+                            foundPrice = true;
                             product.price = price;
                         }
                     });
+                    /*
+                     need to disable buy button if no price is available
+                     */
+                    if (!foundPrice) {
+                        $scope.buyButtonEnabled = false;
+                    }
                 });
             };
 
