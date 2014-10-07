@@ -139,6 +139,13 @@ angular.module('ds.i18n')
         WELLCOME: 'Wellcome',
         ORDER_HISTORY: 'Order History',
         SAVE: 'Save',
+        UPDATE_PASSWORD: 'Update password',
+        CURRENT_PASSWORD: 'Current password',
+        NEW_PASSWORD: 'New password',
+        CONFIRM_NEW_PASSWORD: 'Confirm new password',
+        PASSWORDS_NO_MATCH: 'Passwords do not match',
+        WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
+        PASSWORD_TOO_SHORT: 'Password too short',
 
         /*
            login, password, signup

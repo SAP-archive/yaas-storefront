@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -189,6 +189,10 @@ angular.module('ds.account')
               $scope.$emit('language:switch', data.split('_')[0]);
             }
           });
+        };
+
+        $scope.updatePassword = function() {
+          AuthDialogManager.showUpdatePassword();
         };
 
         getItemCountPerOrder();

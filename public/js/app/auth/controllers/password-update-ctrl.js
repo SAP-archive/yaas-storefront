@@ -15,12 +15,13 @@ angular.module('ds.auth')
     /**
      *  Displays the "indicate new password" page.
      */
-    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams',
-        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams) {
+    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams', 'TokenSvc', '$modalInstance',
+        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams, TokenSvc, $modalInstance) {
             $scope.token = $stateParams.token || '';
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
             $scope.message = null;
+            $scope.errors = [];
 
             $scope.showAllErrors = function(){
                 $scope.showPristineErrors = true;
@@ -62,6 +63,28 @@ angular.module('ds.auth')
                     }
                     $scope.message = 'Update of password failed: '+details;
                 });
+            };
+
+            $scope.updatePassword = function(oldPassword, newPassword) {
+                $scope.submitDisabled = true;
+                $scope.errors = [];
+
+                AuthSvc.updatePassword(oldPassword, newPassword, TokenSvc.getToken().getUsername() || '').then(
+                    function() {
+                        $modalInstance.close();
+                    },
+                    function(error){
+                        $scope.submitDisabled = false;
+
+                        if (error.status === 401) {
+                            $scope.errors.push({ message: 'WRONG_CURRENT_PASSWORD' });
+                            $scope.message = 'WRONG_CURRENT_PASSWORD';
+                        } else if(error.data && error.data.message) {
+                            $scope.errors.push({ message: error.data.message });
+                            $scope.message = error.data.message;
+                        }
+                    }
+                );
             };
 
     }]);
