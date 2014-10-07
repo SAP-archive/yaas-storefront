@@ -179,7 +179,7 @@ angular.module('ds.account')
 
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
-          var emailRegexp = /\S+@\S+\.\S+/;
+          var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
           if (field === 'contactEmail' && !emailRegexp.test(data)) {
             return $translate('PLEASE_ENTER_VALID_EMAIL');
           }
