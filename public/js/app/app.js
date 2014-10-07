@@ -175,7 +175,7 @@ window.app = angular.module('ds.router', [
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            CartSvc.initializeCart();
+            CartSvc.getCart();
 
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)

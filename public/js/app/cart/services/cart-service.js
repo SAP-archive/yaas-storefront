@@ -90,7 +90,9 @@ angular.module('ds.cart')
             });
         }
 
-        function getCartForCurrentUser(cartId){
+        /** Retrieves the current cart state from the service, updates the local instance
+         * and fires the 'cart:updated' event.*/
+        function refreshCart(cartId){
             var defCart = $q.defer();
             CartREST.Cart.one('carts', cartId).get().then(function(response){
                 cart = response.plain();
@@ -120,16 +122,13 @@ angular.module('ds.cart')
                 cart = {};
                 defCart.resolve(cart);
             });
+            defCart.promise.then(function(){
+                $rootScope.$emit('cart:updated', cart);
+            });
             return defCart.promise;
         }
 
-        /** Retrieves the current cart state from the service, updates the local instance
-         * and fires the 'cart:updated' event.*/
-        function refreshCart(cartId){
-            getCartForCurrentUser(cartId).then(function(updatedCart){
-                $rootScope.$emit('cart:updated', updatedCart);
-            });
-        }
+
 
         return {
 
@@ -138,14 +137,10 @@ angular.module('ds.cart')
                 return cart;
             },
 
-            /** Returns a promise over the cart associated with the current user.*/
+            /** Returns a promise over the cart associated with the current user
+             * (unauthenticated only at this time).*/
             getCart: function(){
-                return getCartForCurrentUser();
-            },
-
-            /** Retrieves the cart associated with the current session, if available.  Fires 'cart:updated' once done. */
-            initializeCart: function() {
-                refreshCart(null);
+                return refreshCart(cart.id? cart.id : null);
             },
 
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
