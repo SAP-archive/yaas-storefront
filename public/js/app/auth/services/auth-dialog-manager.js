@@ -129,7 +129,8 @@ angular.module('ds.auth')
                 showUpdatePassword: function(){
                     var modalOpts = {
                         templateUrl: './js/app/auth/templates/password-update.html',
-                        controller: 'PasswordUpdateCtrl'
+                        controller: 'PasswordUpdateCtrl',
+                        backdrop: 'static'
                     };
                     return openDialog(modalOpts);
                 },

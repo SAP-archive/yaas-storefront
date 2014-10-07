@@ -85,6 +85,17 @@ angular.module('ds.auth')
                 );
             };
 
+            $scope.updatePasswordOnEnter = function($event, oldPassword, newPassword) {
+                if ($event.keyCode === 13) {
+                    $event.preventDefault();
+                    $scope.updatePassword(oldPassword, newPassword);
+                }
+            };
+
+            $scope.close = function() {
+                $modalInstance.dismiss('cancel');
+            };
+
             $scope.clearErrors = function(){
                 $scope.message = '';
             };
