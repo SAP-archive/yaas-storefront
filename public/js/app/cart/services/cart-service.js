@@ -232,6 +232,13 @@ angular.module('ds.cart')
                         }
                     );
                 }
+                else {
+                    $state.transitionTo($state.current, $stateParams, {
+                        reload: true,
+                        inherit: true,
+                        notify: true
+                    });
+                }
             }
 
         };

@@ -59,11 +59,16 @@ angular.module('ds.shared')
             };
 
 
-            var unbind = $rootScope.$on('language:switch', function (eve, languageCode) {
+            var unbindLanguage = $rootScope.$on('language:switch', function (eve, languageCode) {
                 $scope.switchLanguage(languageCode);
             });
 
-            $scope.$on('$destroy', unbind);
+            var unbindCurrency = $rootScope.$on('currency:switch', function (eve, currencyCode) {
+                $scope.switchCurrency(currencyCode);
+            });
+
+            $scope.$on('$destroy', unbindLanguage);
+            $scope.$on('$destroy', unbindCurrency);
             
             $scope.showProducts = function(categoryId){
                 $rootScope.showMobileNav = false;

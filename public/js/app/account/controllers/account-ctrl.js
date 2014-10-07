@@ -179,6 +179,12 @@ angular.module('ds.account')
 
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
+          if (field === 'preferredCurrency' && data != account.preferredCurrency) {
+            $rootScope.$emit('currency:switch', data);
+          }
+          else if (field === 'preferredLanguage' && data != account.preferredLanguage) {
+            $rootScope.$emit('language:switch', data);
+          }
           var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
           if (field === 'contactEmail' && !emailRegexp.test(data)) {
             return $translate('PLEASE_ENTER_VALID_EMAIL');

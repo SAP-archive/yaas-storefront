@@ -49,6 +49,7 @@ angular.module('ds.auth')
                             var languageCode = accountPromise.$object.preferredLanguage.split('_')[0];
                             var currency = accountPromise.$object.preferredCurrency;
                             $rootScope.$emit('language:switch', languageCode);
+                            $rootScope.$emit('currency:switch', currency);
                             CookieSvc.setCurrencyCookie(currency);
                             CookieSvc.setLanguageCookie(languageCode);
                         }
