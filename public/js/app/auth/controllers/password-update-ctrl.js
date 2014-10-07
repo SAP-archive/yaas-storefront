@@ -78,13 +78,15 @@ angular.module('ds.auth')
 
                         if (error.status === 401) {
                             $scope.errors.push({ message: 'WRONG_CURRENT_PASSWORD' });
-                            $scope.message = 'WRONG_CURRENT_PASSWORD';
                         } else if(error.data && error.data.message) {
                             $scope.errors.push({ message: error.data.message });
-                            $scope.message = error.data.message;
                         }
                     }
                 );
+            };
+
+            $scope.clearErrors = function(){
+                $scope.message = '';
             };
 
     }]);

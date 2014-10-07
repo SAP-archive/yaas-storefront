@@ -18,25 +18,7 @@
 angular.module('ds.account')
     .factory('AccountSvc', ['AuthREST', 'settings', 'GlobalData', '$q', function(AuthREST, settings, GlobalData, $q){
 
-        // create new random "customer id" for anonymous shopper
-        var guid = (function() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return function() {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
-            };
-        })();
 
-        /*
-         'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-         return v.toString(16);
-         });
-         */
 
         var AccountSvc = {
 
@@ -119,12 +101,7 @@ angular.module('ds.account')
                         defAccount.reject(failure);
                     });
                 } else {
-                    var gId = guid();
-                    GlobalData.customerAccount = {
-                        customerNumber: gId,
-                        id: gId
-                    };
-                    defAccount.resolve(GlobalData.customerAccount);
+                   defAccount.reject();
                 }
                 return defAccount.promise;
 

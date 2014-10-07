@@ -89,6 +89,7 @@ angular.module('ds.i18n')
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
         YOUR_ORDER_IS: 'Your order is',
+        SKU: 'SKU',
 
         /*
             navigation
@@ -166,7 +167,11 @@ angular.module('ds.i18n')
         PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
-        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please 5 minutes.',
-        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.'
+        PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
+        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please wait 5 minutes and try again.',
+        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
+        FORGOT_PASSWORD: 'Forgot password?',
+        EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
+        ENTER_EMAIL: 'Enter Email'
 
 	});
