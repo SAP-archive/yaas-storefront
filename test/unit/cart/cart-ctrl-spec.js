@@ -50,7 +50,8 @@ describe('CartCtrl Test', function () {
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
             updateCartItem: jasmine.createSpy(),
-            getCart: jasmine.createSpy().andReturn(cart)
+            getCart: jasmine.createSpy().andReturn(cart),
+            getLocalCart: jasmine.createSpy().andReturn(cart)
         };
 
         mockedGlobalData = {

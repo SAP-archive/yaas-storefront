@@ -70,7 +70,7 @@ window.app = angular.module('ds.router', [
                     };
                     if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
-                        if(response.config.url.indexOf('login')<0) {
+                        if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
                             // remove any existing token, as it appears to be invalid
                             TokenSvc.unsetToken();
                             var $state = $injector.get('$state');
@@ -93,29 +93,30 @@ window.app = angular.module('ds.router', [
                             }
                         }
                     } else if(response.status === 403){
-                        // using injector lookup to prevent circular dependency
-                        var AuthSvc = $injector.get('AuthSvc');
-                        if(AuthSvc.isAuthenticated()){
-                            // User is authenticated but is not allowed to access resource
-                            // this scenario shouldn't happen, but if it does, don't fail silently
-                            window.alert('You are not authorized to access this resource!');
-                        } else {
-                            // User is not authenticated - make them log in and reload the current state
-                            $injector.get('AuthDialogManager').open({}, {}).then(function(){
-                                    callback();
-                                },
-                                function() {
-                                    callback();
-                                }
-                            );
+                        // if 403 during login, should already be handled by auth dialog controller
+                        if(response.config.url.indexOf('login')<0) {
+                            // using injector lookup to prevent circular dependency
+                            var AuthSvc = $injector.get('AuthSvc');
+                            if (AuthSvc.isAuthenticated()) {
+                                // User is authenticated but is not allowed to access resource
+                                // this scenario shouldn't happen, but if it does, don't fail silently
+                                window.alert('You are not authorized to access this resource!');
+                            } else {
+                                // User is not authenticated - make them log in and reload the current state
+                                $injector.get('AuthDialogManager').open({}, {}).then(function () {
+                                        callback();
+                                    },
+                                    function () {
+                                        callback();
+                                    }
+                                );
+                            }
                         }
                     }
                     return $q.reject(response);
                 }
             };
         }])
-
-
 
     // Configure HTTP and Restangular Providers - default headers, CORS
     .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig', function ($httpProvider, RestangularProvider, settings, storeConfig) {
@@ -141,8 +142,10 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc', '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc, $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes) {
+    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc',
+        '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
+        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc,
+                  $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
@@ -172,6 +175,7 @@ window.app = angular.module('ds.router', [
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
+            CartSvc.getCart();
 
             $rootScope.$on('$stateChangeStart', function () {
                 // Make sure dialog is closed (if it was opened)

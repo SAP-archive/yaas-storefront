@@ -137,8 +137,9 @@ describe('SidebarNavigationCtrl', function () {
        });
 
         it('should navigate to main products view', function(){
-            $scope.showProducts();
-            expect(mockedState.go).toHaveBeenCalledWith('base.category');
+            var categoryId = "456";
+            $scope.showProducts(categoryId);
+            expect(mockedState.go).toHaveBeenCalledWith('base.category', {catId: categoryId});
         });
     });
 
