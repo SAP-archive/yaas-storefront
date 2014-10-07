@@ -15,13 +15,9 @@ describe('PasswordUpdateCtrl Test', function () {
 
     var mockedAuthSvc = {
 
-        changePassword: jasmine.createSpy('changePassword').andCallFake(function(){
-            return deferredChangePassword.promise;
-        }),
-
         updatePassword: jasmine.createSpy('updatePassword').andCallFake(function(){
             return deferredUpdatePassword.promise;
-        }),
+        })
     }
 
     var mockedTokenSvc = {
@@ -80,57 +76,7 @@ describe('PasswordUpdateCtrl Test', function () {
            expect($scope.showPristineErrors).toBeTruthy();
        });
     });
-    describe('changePassword()', function(){
-        it('should delegate to AuthSvc', function(){
-           $scope.changePassword();
-            expect(mockedAuthSvc.changePassword).wasCalled();
-        });
 
-        it('should disable Submit', function(){
-            $scope.changePassword();
-            expect($scope.submitDisabled).toBeTruthy();
-        });
-
-        describe('on success', function(){
-            beforeEach(function(){
-                $scope.changePassword();
-                deferredChangePassword.resolve({});
-                $scope.$apply();
-            });
-
-            it('should show <<password changed>>', function(){
-                expect(mockedAuthDialogManager.showPasswordChanged).wasCalled();
-            });
-
-            it('should redirect to sign-in and then main page', function(){
-                deferredShowDone.reject({});
-                $scope.$apply();
-                expect(mockedAuthDialogManager.open).wasCalled();
-                deferredLogin.resolve({});
-                $scope.$apply();
-                expect(mockedState.transitionTo).wasCalledWith('base.category', {  }, { reload : true, inherit : true, notify : true } );
-            });
-        });
-
-        describe('on failure', function(){
-            beforeEach(function(){
-                $scope.changePassword();
-                deferredChangePassword.reject({});
-                $scope.$apply();
-            });
-
-            it('should set message', function(){
-               expect($scope.message).toBeTruthy();
-            });
-
-            it('should re-enable submit', function(){
-                expect($scope.submitDisabled).toBeFalsy();
-            });
-
-        });
-
-
-    });
 
     describe('updatePassword()', function(){
         it('should delegate to AuthSvc', function(){
@@ -197,10 +143,10 @@ describe('PasswordUpdateCtrl Test', function () {
 
     describe('clearErrors()', function () {
         it('should set error message to empty', function () {
-            $scope.message = 'something is wrong';
+            $scope.errors = [{message:'something is wrong'}];
 
             $scope.clearErrors();
-            expect($scope.message).toEqualData('');
+            expect($scope.errors).toEqualData([]);
 
         });
     });

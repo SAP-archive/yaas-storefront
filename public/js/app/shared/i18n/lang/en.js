@@ -165,6 +165,9 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
         PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
+        INVALID_TOKEN: 'Token invalid.',
+        PW_CHANGE_FAILED: 'Update of password failed.',
+        FIELD_REQUIRED: 'Input required',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',

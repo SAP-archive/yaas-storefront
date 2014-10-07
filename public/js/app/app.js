@@ -370,7 +370,7 @@ window.app = angular.module('ds.router', [
                     views: {
                         'main@': {
                             templateUrl: 'js/app/auth/templates/password-reset.html',
-                            controller: 'PasswordUpdateCtrl'
+                            controller: 'ResetPasswordUpdateCtrl'
                         }
                     }
                 })

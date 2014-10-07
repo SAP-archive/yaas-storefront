@@ -144,7 +144,7 @@ angular.module('ds.i18n')
         NEW_PASSWORD: 'Neues Passwort',
         CONFIRM_NEW_PASSWORD: 'Neues Passwort bestätigen',
         PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
-        WRONG_CURRENT_PASSWORD: 'Bitte geben Sie eine gültige, aktuelle Passwort!',
+        WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
 
         /*
@@ -164,6 +164,9 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
+        INVALID_TOKEN: 'Passwort Token ungültig.',
+        PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
+        FIELD_REQUIRED: 'Angabe erforderlich',
 
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
@@ -172,5 +175,6 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben'
+
 
     });
