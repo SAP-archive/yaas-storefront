@@ -37,7 +37,8 @@ describe('TopNavigationCtrl', function () {
     };
 
     var mockedCartSvc = {
-        getCart: jasmine.createSpy('getCart').andReturn(cart)
+        getCart: jasmine.createSpy('getCart').andReturn(cart),
+        getLocalCart: jasmine.createSpy('getLocalCart').andReturn(cart)
     }
 
 
