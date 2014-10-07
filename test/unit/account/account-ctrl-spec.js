@@ -48,6 +48,12 @@ describe('AccountCtrl Test', function () {
     mockedStoreConfig.defaultLanguage = defaultLang;
     mockedStoreConfig.storeTenant = storeTenant;
     mockedTranslate = jasmine.createSpy('translate');
+    var updatePasswordDfd;
+    var mockedAuthDialogManager = {
+        showUpdatePassword: jasmine.createSpy('showUpdatePassword').andCallFake(function(){
+            return updatePasswordDfd.promise;
+        })
+    };
 
     //***********************************************************************
     // Common Setup
@@ -78,6 +84,7 @@ describe('AccountCtrl Test', function () {
         mockedModal.result = modalPromise.promise;
         // modalPromise.resolve({});
         mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
+        updatePasswordDfd = $q.defer();
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, $q, _AccountSvc_, _$modal_) {
@@ -123,7 +130,7 @@ describe('AccountCtrl Test', function () {
     describe("Controller tests", function() {
 
         beforeEach(function () {
-            AccountCtrl = $controller('AccountCtrl', {$scope: $scope, 'AccountSvc': AccountSvc, addresses: addresses, account: account, orders: orders, OrderListSvc: mockedOrderListSvc});
+            AccountCtrl = $controller('AccountCtrl', {$scope: $scope, 'AccountSvc': AccountSvc, addresses: addresses, account: account, orders: orders, OrderListSvc: mockedOrderListSvc, AuthDialogManager: mockedAuthDialogManager});
         });
 
         it("should expose correct scope inteface", function() {
@@ -145,6 +152,7 @@ describe('AccountCtrl Test', function () {
             expect($scope.setAddressAsDefault).toBeDefined();
             expect($scope.showAllOrders).toBeDefined();
             expect($scope.updateAccount).toBeDefined();
+            expect($scope.updatePassword).toBeDefined();
         });
 
         it("should save address if form is valid", function() {
@@ -235,6 +243,11 @@ describe('AccountCtrl Test', function () {
             $scope.openAddressModal({'id': 'address123'});
             $scope.closeAddressModal();
             expect(mockedModal.close).toHaveBeenCalled();
+        });
+
+        it("should delegate call to AuthDialogManager's showUpdatePassword method", function() {
+            $scope.updatePassword();
+            expect(mockedAuthDialogManager.showUpdatePassword).wasCalled();
         });
 
     });

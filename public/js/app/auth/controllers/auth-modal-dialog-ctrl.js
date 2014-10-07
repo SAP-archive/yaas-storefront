@@ -61,19 +61,22 @@ angular.module('ds.auth')
 
             var extractServerSideErrors = function (response) {
                 var errors = [];
-                if (response.status === 401 || response.status === 404) {
+                if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
+                    errors.push({message: 'PASSWORD_INVALID'});
+                } else if (response.status === 401 || response.status === 404) {
                     errors.push({ message: 'INVALID_CREDENTIALS' });
                 } else if (response.status === 409) {
                     errors.push({ message: 'ACCOUNT_ALREADY_EXISTS' });
                 } else if (response.status === 403) {
                     errors.push({ message: 'ACCOUNT_LOCKED' });
-                } else if (response.data && response.data.details && response.data.details.length) {
-                    errors.push(response.data.details);
+                } else if (response.data && response.data.details && response.data.details.message) {
+                    errors.push(response.data.details.message);
                 } else if (response.data && response.data.message) {
                     errors.push({ message: response.data.message });
                 } else {
                     errors.push({message: response.status});
                 }
+
                 return errors;
             };
 
@@ -113,7 +116,6 @@ angular.module('ds.auth')
                     performSignin(authModel).then(
                         function (response) {
                             settings.hybrisUser = $scope.user.signin.email;
-                            console.log('email is '+$scope.user.signin.email);
                             $modalInstance.close(response);
                             deferred.resolve(response);
                         },
@@ -134,6 +136,11 @@ angular.module('ds.auth')
 
             $scope.showResetPassword = function () {
                 AuthDialogManager.showResetPassword();
+            };
+
+            $scope.clearErrors = function(){
+                $scope.errors.signin = [];
+                $scope.errors.signup = [];
             };
 
 

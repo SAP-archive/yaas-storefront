@@ -1,19 +1,22 @@
-<ul ng-if="errors && errors.signin.length" class="list-unstyled text-danger">
-  <li ng-repeat="error in errors.signin">{{error.message | translate}}</li>
-</ul>
+
 
 <form name="singinForm" ng-submit="signin(user.signin, singinForm)">
     <div class="form-group input-group" ng-class="{ 'has-error': singinForm.username.$invalid && singinForm.username.$dirty }">
-        <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
-        <input type="email" class="form-control" id="usernameInput" placeholder="Enter email" name="username" ng-model="user.signin.email" required>
+        <span class="input-group-addon"><label class="control-label" for="usernameInput">{{'EMAIL' | translate}}</label></span>
+        <input type="email" class="form-control" id="usernameInput" placeholder="{{'ENTER_EMAIL' | translate}}" name="username"
+               ng-model="user.signin.email" required ng-focus="clearErrors()">
     </div>
     <div class="form-group input-group" ng-class="{ 'has-error': singinForm.password.$invalid && singinForm.password.$dirty }">
-        <span class="input-group-addon"><label class="control-label" for="email">{{'Password' | translate}}</label></span>
-        <input  type="password" class="form-control" id="passwordInput" placeholder="Password" name="password" ng-model="user.signin.password" required>
+        <span class="input-group-addon"><label class="control-label" for="passwordInput">{{'PASSWORD' | translate}}</label></span>
+        <input  type="password" class="form-control" id="passwordInput" placeholder="{{'PASSWORD'| translate}}" name="password"
+                ng-model="user.signin.password" required ng-focus="clearErrors()">
     </div>
+    <ul ng-if="errors && errors.signin.length" class="list-unstyled text-danger">
+        <li ng-repeat="error in errors.signin">{{error.message | translate}}</li>
+    </ul>
     <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-in-button">{{'SIGN_IN' | translate}}</button>
     <br>
-    <a ng-click="showResetPassword()" class="forgot-password-btn">Forgot Password?</a>
+    <a ng-click="showResetPassword()" class="forgot-password-btn">{{'FORGOT_PASSWORD' | translate }}</a>
 </form>
 
 

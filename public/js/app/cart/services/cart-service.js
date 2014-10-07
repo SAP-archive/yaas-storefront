@@ -43,36 +43,36 @@ angular.module('ds.cart')
         };
 
         // application scope cart instance
-        var cart = new Cart();
+        var cart = {};
 
 
-
-        /**
-         * Returns a promise for the existing or newly created cart.
+        /**  Ensure there is a cart associated with the current session.
+         * Returns a promise for the existing or newly created cart.  Cart will only contain the id.
          * (Will create a new cart if the current cart hasn't been persisted yet).
          */
         function getOrCreateCart() {
             var deferredCart = $q.defer();
-            var newCart = {};
-            if(cart.id){
-                newCart.cartId = cart.id;
-                deferredCart.resolve(newCart);
+            // Use copy of cart from local scope if it exists - don't want to use same instance because we don't want
+            //   data binding
+            if (cart.id) {
+                deferredCart.resolve({ cartId: cart.id});
             } else {
-                AccountSvc.getCurrentAccount().then(function(successAccount){
 
+                var newCart = {};
+                var accPromise = AccountSvc.getCurrentAccount();
+                accPromise.then(function (successAccount) {
                     newCart.customerId = successAccount.id;
+                });
+                accPromise.finally(function () {
                     newCart.currency = GlobalData.storeCurrency;
-                    CartREST.Cart.all('carts').post(newCart).then(function(response){
+                    CartREST.Cart.all('carts').post(newCart).then(function (response) {
                         cart.id = response.cartId;
-                        deferredCart.resolve(response);
-                    }, function(error){
+                        deferredCart.resolve({ cartId: cart.id});
+                    }, function (error) {
                         console.error(error);
                         deferredCart.reject();
                     });
-                }, function(failAccount){
-                    deferredCart.reject('Unable to retrieve account details: '+failAccount);
                 });
-
             }
             return deferredCart.promise;
         }
@@ -86,23 +86,22 @@ angular.module('ds.cart')
                 var price = {'value': product.price.value, 'currency': product.price.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-
-                    refreshCart();
+                    refreshCart(cartResult.cartId);
                 });
             }, function(error){
+                window.alert(error);
                 console.error(error);
-                refreshCart();
+                refreshCart(cart.id);
                 // TODO - show notification to user
             });
         }
 
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
-        function refreshCart(){
-            var newCart = CartREST.Cart.one('carts', cart.id).get();
-            newCart.then(function(response){
-
-                cart = response;
+        function refreshCart(cartId){
+            var defCart = $q.defer();
+            CartREST.Cart.one('carts', cartId).get().then(function(response){
+                cart = response.plain();
                 if(response.items && response.items.length) {
                     // we need to retrieve images for the items in the cart:
                     var productIds = response.items.map(function (item) {
@@ -119,17 +118,35 @@ angular.module('ds.cart')
                                 }
                             });
                         });
+                        defCart.resolve(cart);
+                    }, function(){
+                        defCart.resolve(cart);
                     });
                 }
+
+            }, function(){
+                cart = {};
+                defCart.resolve(cart);
+            });
+            defCart.promise.then(function(){
                 $rootScope.$emit('cart:updated', cart);
             });
+            return defCart.promise;
         }
+
+
 
         return {
 
-            /** Returns the cart instance from the application scope - does not conduct a GET from the API.*/
-            getCart: function() {
+            /** Returns the cart as stored in the local scope.*/
+            getLocalCart: function(){
                 return cart;
+            },
+
+            /** Returns a promise over the cart associated with the current user
+             * (unauthenticated only at this time).*/
+            getCart: function(){
+                return refreshCart(cart.id? cart.id : null);
             },
 
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
@@ -138,16 +155,15 @@ angular.module('ds.cart')
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
-                        refreshCart();
+                        refreshCart(cart.id);
                     }, function(error){
                         // TODO - should handle in controller - in UI
+                        window.alert(error);
                         console.error(error);
-                        refreshCart();
+                        refreshCart(cart.id);
                     });
                 }
             },
-
-
 
             /**
              * Removes a product from the cart, issues a PUT, and then a GET for the updated information.
@@ -155,11 +171,11 @@ angular.module('ds.cart')
              */
             removeProductFromCart: function (itemId) {
                 CartREST.Cart.one('carts', cart.id).one('items', itemId).customDELETE().then(function(){
-                    refreshCart();
+                    refreshCart(cart.id);
                 }, function(error){
                     console.error(error);
                     // error handling should be moved to controller
-                    refreshCart();
+                    refreshCart(cart.id);
                 });
 
             },
@@ -204,18 +220,7 @@ angular.module('ds.cart')
                     var newCurrency = new Currency(code);
                     CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
                         .then( function () {
-                            refreshCart();
-
-                            /*
-                                need to reload checkout page if user switches currencies
-                             */
-                            if ($state.current === 'base.checkout') {
-                                $state.transitionTo($state.current, $stateParams, {
-                                    reload: true,
-                                    inherit: true,
-                                    notify: true
-                                });
-                            }
+                            //do stuff
                         }
                     );
                 }
