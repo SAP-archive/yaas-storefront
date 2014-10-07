@@ -70,7 +70,7 @@ window.app = angular.module('ds.router', [
                     };
                     if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
-                        if(response.config.url.indexOf('login')<0) {
+                        if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
                             // remove any existing token, as it appears to be invalid
                             TokenSvc.unsetToken();
                             var $state = $injector.get('$state');

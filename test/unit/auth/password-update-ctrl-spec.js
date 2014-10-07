@@ -11,14 +11,28 @@
  */
 
 describe('PasswordUpdateCtrl Test', function () {
-    var $scope, $controller, deferredChangePassword, deferredShowDone, deferredLogin, mockedStateParams = {};
+    var $scope, $controller, deferredChangePassword, deferredUpdatePassword, deferredShowDone, deferredLogin, mockedStateParams = {};
 
     var mockedAuthSvc = {
 
         changePassword: jasmine.createSpy('changePassword').andCallFake(function(){
             return deferredChangePassword.promise;
-        })
+        }),
+
+        updatePassword: jasmine.createSpy('updatePassword').andCallFake(function(){
+            return deferredUpdatePassword.promise;
+        }),
     }
+
+    var mockedTokenSvc = {
+        getToken: jasmine.createSpy('getToken').andReturn({
+            getUsername: jasmine.createSpy('getUsername')
+        })
+    };
+
+    var mockedModalInstance = {
+        close: jasmine.createSpy('changePassword')
+    };
 
     var mockedState ={
         transitionTo: jasmine.createSpy('transitionTo')
@@ -53,10 +67,11 @@ describe('PasswordUpdateCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         deferredChangePassword = _$q_.defer();
+        deferredUpdatePassword = _$q_.defer();
         deferredLogin = _$q_.defer();
         deferredShowDone = _$q_.defer();
         $controller('PasswordUpdateCtrl', {$scope: $scope,
-            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams });
+            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams, TokenSvc: mockedTokenSvc, $modalInstance: mockedModalInstance });
     }));
 
     describe('showAllErrors', function(){
@@ -114,6 +129,69 @@ describe('PasswordUpdateCtrl Test', function () {
 
         });
 
+
+    });
+
+    describe('updatePassword()', function(){
+        it('should delegate to AuthSvc', function(){
+           $scope.updatePassword();
+            expect(mockedAuthSvc.updatePassword).wasCalled();
+        });
+
+        it('should disable Submit', function(){
+            $scope.updatePassword();
+            expect($scope.submitDisabled).toBeTruthy();
+        });
+
+        describe('on success', function(){
+            beforeEach(function(){
+                $scope.updatePassword();
+                deferredUpdatePassword.resolve({});
+                $scope.$apply();
+            });
+
+            it('should close the modal dialog', function(){
+                expect(mockedModalInstance.close).wasCalled();
+            });
+        });
+
+        describe('on failure', function(){
+
+            describe("Wrong password", function() {
+                beforeEach(function(){
+                  $scope.updatePassword();
+                  deferredUpdatePassword.reject({ status: 401 });
+                  $scope.$apply();
+                });
+
+                it('should set error', function(){
+                 expect($scope.errors.length > 0).toBeTruthy();
+                 expect($scope.errors[0]).toEqual({ message: 'WRONG_CURRENT_PASSWORD' });
+                });
+
+                it('should re-enable submit', function(){
+                  expect($scope.submitDisabled).toBeFalsy();
+                });
+            });
+            
+            describe("Server Error has occured", function() {
+                var response = { data: { message: 'Error message' } };
+                beforeEach(function(){
+                  $scope.updatePassword();
+                  deferredUpdatePassword.reject(response);
+                  $scope.$apply();
+                });
+
+                it('should set error', function(){
+                 expect($scope.errors.length > 0).toBeTruthy();
+                 expect($scope.errors[0]).toEqual(response.data);
+                });
+
+                it('should re-enable submit', function(){
+                  expect($scope.submitDisabled).toBeFalsy();
+                });
+            });
+        });
 
     });
 

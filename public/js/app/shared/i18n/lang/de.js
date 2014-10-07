@@ -139,6 +139,13 @@ angular.module('ds.i18n')
         WELLCOME: 'Willkommen',
         ORDER_HISTORY: 'Bestellverlauf',
         STREET_NUMBER: 'Nummer',
+        UPDATE_PASSWORD: 'Passwort aktualisieren',
+        CURRENT_PASSWORD: 'Aktuelles Passwort',
+        NEW_PASSWORD: 'Neues Passwort',
+        CONFIRM_NEW_PASSWORD: 'Neues Passwort bestätigen',
+        PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
+        WRONG_CURRENT_PASSWORD: 'Bitte geben Sie eine gültige, aktuelle Passwort!',
+        PASSWORD_TOO_SHORT: 'Passwort zu kurz',
 
         /*
          login, password, signup
