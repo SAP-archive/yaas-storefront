@@ -37,7 +37,7 @@ angular.module('ds.cart')
         };
 
         // application scope cart instance
-        var cart = new Cart();
+        var cart = {};
 
 
         /**  Ensure there is a cart associated with the current session.
@@ -90,9 +90,8 @@ angular.module('ds.cart')
             });
         }
 
-        /** Retrieves the current cart state from the service, updates the local instance
-         * and fires the 'cart:updated' event.*/
-        function refreshCart(cartId){
+        function getCartForCurrentUser(cartId){
+            var defCart = $q.defer();
             CartREST.Cart.one('carts', cartId).get().then(function(response){
                 cart = response.plain();
                 if(response.items && response.items.length) {
@@ -111,17 +110,37 @@ angular.module('ds.cart')
                                 }
                             });
                         });
+                        defCart.resolve(cart);
+                    }, function(){
+                        defCart.resolve(cart);
                     });
                 }
-                $rootScope.$emit('cart:updated', cart);
+
+            }, function(){
+                cart = {};
+                defCart.resolve(cart);
+            });
+            return defCart.promise;
+        }
+
+        /** Retrieves the current cart state from the service, updates the local instance
+         * and fires the 'cart:updated' event.*/
+        function refreshCart(cartId){
+            getCartForCurrentUser(cartId).then(function(updatedCart){
+                $rootScope.$emit('cart:updated', updatedCart);
             });
         }
 
         return {
 
-            /** Returns the cart currently associated with the local scope.*/
-            getCart: function(){
+            /** Returns the cart as stored in the local scope.*/
+            getLocalCart: function(){
                 return cart;
+            },
+
+            /** Returns a promise over the cart associated with the current user.*/
+            getCart: function(){
+                return getCartForCurrentUser();
             },
 
             /** Retrieves the cart associated with the current session, if available.  Fires 'cart:updated' once done. */
