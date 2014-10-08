@@ -27,7 +27,7 @@
 		 static example  for multi hierarchy - remove after sampledata is there
 -->
         <li>
-            <a ui-sref="base.category" ng-click="hideMobileNav()">{{ 'ALL_PRODUCTS' | translate  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+            <a ui-sref="base.category({catName: null})" ng-click="hideMobileNav()">{{ 'ALL_PRODUCTS' | translate  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
         </li>
 
 		<li ng-repeat="category in categories"> <!-- class="has-sub" -->
