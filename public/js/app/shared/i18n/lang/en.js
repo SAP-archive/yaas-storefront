@@ -165,8 +165,9 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
         PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
-        INVALID_TOKEN: 'Token invalid.',
+        INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
         PW_CHANGE_FAILED: 'Update of password failed.',
+        RESET_PW_REPEAT: 'Request another reset-password link.',
         FIELD_REQUIRED: 'Input required',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',

@@ -30,7 +30,8 @@ describe('PasswordResetUpdateCtrl Test', function () {
         }),
         open:  jasmine.createSpy('open').andCallFake(function(){
             return deferredLogin.promise
-        })
+        }),
+        showResetPassword:  jasmine.createSpy()
     }
 
     beforeEach(function(){
@@ -59,12 +60,19 @@ describe('PasswordResetUpdateCtrl Test', function () {
             AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams });
     }));
 
+    describe('initial state', function(){
+       it('should initialize as expected', function(){
+          expect($scope.showRetryLink).toBeFalsy();
+       });
+    });
+
     describe('showAllErrors', function(){
         it('should set showPristineErrors to true', function(){
             $scope.showAllErrors();
             expect($scope.showPristineErrors).toBeTruthy();
         });
     });
+
     describe('changePassword()', function(){
         it('should delegate to AuthSvc', function(){
             $scope.changePassword();
@@ -112,6 +120,10 @@ describe('PasswordResetUpdateCtrl Test', function () {
                 expect($scope.submitDisabled).toBeFalsy();
             });
 
+            it('should enable retry link', function(){
+               expect($scope.showRetryLink).toBeTruthy();
+            });
+
         });
 
 
@@ -126,6 +138,13 @@ describe('PasswordResetUpdateCtrl Test', function () {
             expect($scope.error.details).toEqualData('');
 
         });
+    });
+
+    describe('showRequestPasswordReset()', function(){
+       it('should delegate to AuthDialogMgr', function(){
+          $scope.showRequestPasswordReset();
+           expect(mockedAuthDialogManager.showResetPassword).wasCalled();
+       });
     });
 
 

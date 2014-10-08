@@ -22,6 +22,7 @@ angular.module('ds.auth')
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
             $scope.error = {};
+            $scope.showRetryLink =  false;
 
             $scope.showAllErrors = function () {
                 $scope.showPristineErrors = true;
@@ -55,6 +56,7 @@ angular.module('ds.auth')
                         }
                     );
                 }, function (error) {
+                    $scope.showRetryLink = true;
                     $scope.submitDisabled = false;
                     if(error.status === 400 && error.data && error.data.message && error.data.message.toLowerCase().indexOf('invalid token')> -1) {
                         $scope.error.message = 'INVALID_TOKEN';
@@ -65,6 +67,10 @@ angular.module('ds.auth')
                         }
                     }
                 });
+            };
+
+            $scope.showRequestPasswordReset = function() {
+                AuthDialogManager.showResetPassword();
             };
 
             $scope.clearErrors = function () {

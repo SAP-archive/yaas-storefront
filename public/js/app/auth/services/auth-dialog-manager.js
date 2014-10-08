@@ -133,7 +133,7 @@ angular.module('ds.auth')
                         backdrop: 'static'
                     };
                     return openDialog(modalOpts);
-                },
+                }
 
 
             };
