@@ -33,7 +33,7 @@ angular.module('ds.shared')
             } ,
 
             products: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product/v1',
+                baseUrl: 'https://yaas-test.apigee.net/test/product/v2',
                 pageSize: 10
             },
 
@@ -58,7 +58,7 @@ angular.module('ds.shared')
             },
 
             shippingCosts: {
-                baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v1'
+                baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v2'
             },
 
             customers: {
