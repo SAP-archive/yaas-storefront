@@ -232,7 +232,7 @@ describe('CheckoutSvc', function () {
     });
 
     describe('getShippingCost', function(){
-        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v1/shippingcosts';
+        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v2/shippingcosts';
         var
             onSuccessSpy,
             onErrorSpy;
