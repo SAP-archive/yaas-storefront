@@ -38,7 +38,7 @@ angular.module('ds.shared')
             },
 
             productDetails: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product-details/v1'
+                baseUrl: 'https://yaas-test.apigee.net/test/product-details/v2'
             },
 
             checkout: {
@@ -78,7 +78,8 @@ angular.module('ds.shared')
                 hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
-                }
+                },
+                hybrisCurrency: 'hybris-currency'
             }
         },
         // relevant keys from configuration service:

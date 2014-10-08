@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+    .controller('AccountCtrl', ['$rootScope', '$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($rootScope, $scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -179,10 +179,10 @@ angular.module('ds.account')
 
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
-          if (field === 'preferredCurrency' && data != account.preferredCurrency) {
+          if (field === 'preferredCurrency' && data !== account.preferredCurrency) {
             $rootScope.$emit('currency:switch', data);
           }
-          else if (field === 'preferredLanguage' && data != account.preferredLanguage) {
+          else if (field === 'preferredLanguage' && data !== account.preferredLanguage) {
             $rootScope.$emit('language:switch', data);
           }
           var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;

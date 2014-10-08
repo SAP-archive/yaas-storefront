@@ -20,8 +20,8 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
-        function ($q, $injector, settings,  TokenSvc, httpQueue) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData',
+        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData) {
 
             return {
                 request: function (config) {
@@ -45,6 +45,9 @@ window.app = angular.module('ds.router', [
                                 var deferred = $q.defer();
                                 httpQueue.appendBlocked(config, deferred);
                                 return deferred.promise;
+                            }
+                            if (config.url.indexOf('product-details') > -1) {
+                                config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.storeCurrency;
                             }
                         }
                     }
