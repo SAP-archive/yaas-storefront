@@ -60,6 +60,7 @@ angular.module('ds.shared')
 
             $scope.myAccount = function() {
                 $state.go('base.account');
+                $scope.hideMobileNav();
             };
 
 

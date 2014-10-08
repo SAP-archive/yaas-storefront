@@ -177,38 +177,30 @@ window.app = angular.module('ds.router', [
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);
             CartSvc.getCart();
 
-            $rootScope.$on('$stateChangeStart', function () {
-                // Make sure dialog is closed (if it was opened)
-                AuthDialogManager.close();
-            });
-
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
             });
 
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
+                AuthDialogManager.close();
+                console.log('before state transition - from '+fromState.name+' to ' +toState.name);
+
+                console.log(event);
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
                     var callback = function (){
                         if(AuthSvc.isAuthenticated()){
                             $state.go(toState, toParams);
+                        } else {
+                            console.log('not authenticated - go to category');
+                            $state.go('base.category');
                         }
                     };
-                    AuthDialogManager.open({}, {}).then(function(){
-                           callback();
-                        },
-                        function() {
-                            callback();
-                        }
-                    );
-                    // block immediate state transition to protected resources - re-navigation will be handled by callback
-                    if(!AuthSvc.isAuthenticated()){
-                        event.preventDefault();
-                        if(!fromState || fromState.name ==='') {
-                           $state.go('base.category');
-                        }
+                    // block immediate state transition
+                    event.preventDefault();
 
-                    }
+                    AuthDialogManager.open({}, {}).then(callback, callback);
+
                 }
             });
 
