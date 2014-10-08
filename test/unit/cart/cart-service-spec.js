@@ -15,7 +15,7 @@ describe('CartSvc Test', function () {
     var mockBackend, $scope, $rootScope, cartSvc;
     var cartId = 'cartId456';
     var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
-    var productUrl = 'https://yaas-test.apigee.net/test/product/v1/products';
+    var productUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'price': {value: 5.00, currency: 'USD'}};
     var itemId = '0';

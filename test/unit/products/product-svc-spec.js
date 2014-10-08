@@ -11,7 +11,7 @@
  */
 describe('ProductSvc Test', function () {
 
-    var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v1/products';
+    var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
 
     var $scope, $rootScope, $httpBackend, productSvc;
     var acceptLang = "de";
