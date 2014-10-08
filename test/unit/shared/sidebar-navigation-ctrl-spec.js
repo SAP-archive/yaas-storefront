@@ -96,7 +96,7 @@ describe('SidebarNavigationCtrl', function () {
         });
 
         it('should reload product state', function(){
-            var newLang =  defaultLang;
+            var newLang =  'pl';
             $scope.switchLanguage(newLang);
             expect(mockedState.transitionTo).toHaveBeenCalled();
         });

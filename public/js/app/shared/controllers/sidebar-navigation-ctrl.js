@@ -18,7 +18,7 @@ angular.module('ds.shared')
             $scope.categories = [];
 
             CategorySvc.getCategories().then(function(categories){
-                $scope.categories = categories;d
+                $scope.categories = categories;
             });
 
             $scope.switchCurrency = function (currency) {

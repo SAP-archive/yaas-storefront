@@ -181,7 +181,7 @@ window.app = angular.module('ds.router', [
                 httpQueue.retryAll(token);
             });
 
-            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
                 AuthDialogManager.close();
 
                 // handle attempt to access protected resource - show login dialog if user is not authenticated

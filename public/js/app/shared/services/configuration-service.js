@@ -25,6 +25,7 @@ angular.module('ds.shared')
              * These settings are then stored in the GlobalData service.
              */
             loadConfiguration: function() {
+
                 var config = ConfigurationREST.Config.one('configurations').get();
                 config.then(function (result) {
                     var key = null;

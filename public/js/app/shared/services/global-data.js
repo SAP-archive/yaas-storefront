@@ -6,13 +6,12 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .service('GlobalData', ['$rootScope', 'storeConfig', '$translate', 'CookieSvc',
-        function ($rootScope, storeConfig, $translate, CookieSvc) {
+    .service('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
+        function (storeConfig, $translate, CookieSvc) {
 
             this.languageCode = storeConfig.defaultLanguage;
             this.acceptLanguages = storeConfig.defaultLanguage;
             this.storeCurrency = storeConfig.defaultCurrency;
-
 
             return {
                 orders: {
@@ -31,7 +30,6 @@ angular.module('ds.shared')
                     name: '',
                     logo: null
                 },
-
 
                 user: {
                     isAuthenticated: false,
@@ -60,10 +58,14 @@ angular.module('ds.shared')
                     CookieSvc.setLanguageCookie(this.languageCode);
                 },
 
+                getLanguageCode: function(){
+                    return this.languageCode;
+                },
+
                 setCurrency: function (newCurr) {
 
-                    this.storeCurrency = currency;
-                    CookieSvc.setCurrencyCookie(currency);
+                    this.storeCurrency = newCurr;
+                    CookieSvc.setCurrencyCookie(newCurr);
                 }
             };
 
