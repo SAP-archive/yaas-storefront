@@ -75,6 +75,32 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES');
     });
 
+
+      it("should navigate by categories", function () {
+        //default load
+        tu.getTextByRepeaterRow(0);
+        //price is not currently supported
+        tu.clickElement('linkText', 'EN');
+        browser.sleep(3000);       
+        tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
+        tu.assertProductByRepeaterRow(0, 'EARBUDS');
+        tu.sortAndVerifyPagination('name', 'EARBUDS');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-name', 'USB');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-created', 'PENHOLDER');
+        browser.get(tu.tenant + '/#!/ct/mugs');
+        browser.driver.manage().window().maximize();
+        browser.sleep(5000);
+        tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
+        tu.sortAndVerifyPagination('name', 'BEER MUG');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-name', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE');
+        browser.sleep(750);
+        tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES');
+        browser.get(tu.tenant + '/#!/ct/cosmetics');
+    });
+
   }); 
 }); 
 
