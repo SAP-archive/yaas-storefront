@@ -40,4 +40,8 @@ angular.module('ds.auth')
             $modalInstance.close();
             $state.transitionTo('base.changePassword');
         };
+
+        $scope.clearErrors = function(){
+            $scope.message = '';
+        };
     }]);
