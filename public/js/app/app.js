@@ -255,7 +255,7 @@ window.app = angular.module('ds.router', [
                     abstract: true
                 })
                 .state('base.category', {
-                    url: '/cat/:catId/',
+                    url: '/ct/:catName',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
@@ -264,17 +264,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         category: function ($stateParams, CategorySvc) {
-                            return CategorySvc.getCategory($stateParams.catId).then(function (result) {
-                                    return result;
-                                });
-
-                        },
-                        elements: function($stateParams, CategorySvc){
-                            if($stateParams.catId > 0) {
-                                return CategorySvc.getProducts($stateParams.catId);
-                            } else {
-                                return [];
-                            }
+                            return CategorySvc.getCategoryWithProducts($stateParams.catName);
                         }
                     }
                 })
@@ -395,7 +385,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/cat/0');
+            $urlRouterProvider.otherwise('/ct/');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
