@@ -88,6 +88,7 @@ angular.module('ds.checkout')
                                 $scope.order.billTo.city = address.city;
                                 $scope.order.billTo.state = address.state;
                                 $scope.order.billTo.zip = address.zipCode;
+                                $scope.order.billTo.contactPhone = address.contactPhone;
                             }
                         });
                 }
@@ -398,6 +399,7 @@ angular.module('ds.checkout')
                 $scope.order.shipTo.city = address.city;
                 $scope.order.shipTo.state = address.state;
                 $scope.order.shipTo.zip = address.zipCode;
+                $scope.order.shipTo.contactPhone = address.contactPhone;
             };
 
             $scope.openAddressDialog = function() {

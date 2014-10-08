@@ -51,6 +51,7 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
+        PHONE_REQUIRED: 'Phone Required',
         PLACE_ORDER: 'Place Order',
         PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',

@@ -51,6 +51,7 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
+        PHONE_REQUIRED: 'Telefon Pflicht',
         PLACE_ORDER: 'Bestellung aufgeben',
         PLEASE_CORRECT_ERRORS: 'Bitte korrigieren sie alle Fehler.',
         PLEASE_ENTER_VALID_CC: 'Bitte geben Sie eine gültige Kreditkartennummer an.',
