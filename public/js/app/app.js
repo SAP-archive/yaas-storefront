@@ -183,16 +183,14 @@ window.app = angular.module('ds.router', [
 
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 AuthDialogManager.close();
-                console.log('before state transition - from '+fromState.name+' to ' +toState.name);
 
-                console.log(event);
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
                     var callback = function (){
                         if(AuthSvc.isAuthenticated()){
                             $state.go(toState, toParams);
                         } else {
-                            console.log('not authenticated - go to category');
+                            
                             $state.go('base.category');
                         }
                     };
