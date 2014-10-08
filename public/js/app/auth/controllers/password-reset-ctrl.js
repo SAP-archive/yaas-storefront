@@ -25,12 +25,13 @@ angular.module('ds.auth')
                 AuthDialogManager.showCheckEmail();
 
             }, function(failure){
-                $modalInstance.close();
-                var errorDetail = 'Unknown Error';
-                if(failure && failure.data && failure.data.message) {
-                    errorDetail = failure.data.message;
-                }
-                $scope.message = 'Password reset failed: '+ errorDetail;
+               if(failure.status === 404){
+                   $scope.message = 'EMAIL_NOT_FOUND';
+               } else {
+                   $scope.message = failure.message;
+               }
+
+
             });
         };
 
@@ -38,5 +39,9 @@ angular.module('ds.auth')
         $scope.showChangePassword = function(){
             $modalInstance.close();
             $state.transitionTo('base.changePassword');
+        };
+
+        $scope.clearErrors = function(){
+            $scope.message = '';
         };
     }]);

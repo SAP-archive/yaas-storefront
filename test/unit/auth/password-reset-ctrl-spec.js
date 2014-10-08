@@ -97,5 +97,13 @@ describe('PasswordResetCtrl Test', function () {
         });
     });
 
+    describe('clearErrors()', function(){
+       it('should remove error message', function(){
+            $scope.message = 'something';
+            $scope.clearErrors();
+           expect($scope.message).toEqualData('');
+       });
+    });
+
 
 });

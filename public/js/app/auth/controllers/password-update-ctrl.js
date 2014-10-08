@@ -13,55 +13,54 @@
 
 angular.module('ds.auth')
     /**
-     *  Displays the "indicate new password" page.
+     *  Displays the "change password" modal dialog.  This is initiated directly by the user
+     *  (not via the 'reset password' function) and does not require a token.
      */
-    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams',
-        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams) {
-            $scope.token = $stateParams.token || '';
+    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams', 'TokenSvc', '$modalInstance',
+        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams, TokenSvc, $modalInstance) {
+
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
-            $scope.message = null;
+            $scope.errors = [];
 
             $scope.showAllErrors = function(){
                 $scope.showPristineErrors = true;
                 return true;
             };
 
-            $scope.changePassword = function(token, password) {
+            $scope.updatePassword = function(oldPassword, newPassword) {
                 $scope.submitDisabled = true;
-                $scope.message = null;
+                $scope.errors = [];
 
-                AuthSvc.changePassword(token, password).then( function(){
-                    var dlgPromise = AuthDialogManager.showPasswordChanged();
-                    dlgPromise.then(function() {
-                           // won't be called
-                        },
-                        function(){ // on dismiss - only option
-                            var loginPromise = AuthDialogManager.open();
-                            loginPromise.then(function(){
-                                $state.transitionTo('base.category', $stateParams, {
-                                    reload: true,
-                                    inherit: true,
-                                    notify: true
-                                });
-                            }, function(){
-                                $state.transitionTo('base.category', $stateParams, {
-                                    reload: true,
-                                    inherit: true,
-                                    notify: true
-                                });
-                            });
+                AuthSvc.updatePassword(oldPassword, newPassword, TokenSvc.getToken().getUsername() || '').then(
+                    function() {
+                        $modalInstance.close();
+                    },
+                    function(error){
+                        $scope.submitDisabled = false;
 
+                        if (error.status === 401) {
+                            $scope.errors.push({ message: 'WRONG_CURRENT_PASSWORD' });
+                        } else if(error.data && error.data.message) {
+                            $scope.errors.push({ message: error.data.message });
                         }
-                    );
-                }, function(error){
-                    $scope.submitDisabled = false;
-                    var details = 'No details provided';
-                    if(error.data && error.data.message) {
-                        details = error.data.message;
                     }
-                    $scope.message = 'Update of password failed: '+details;
-                });
+                );
+            };
+
+            $scope.updatePasswordOnEnter = function($event, oldPassword, newPassword) {
+                if ($event.keyCode === 13) {
+                    $event.preventDefault();
+                    $scope.updatePassword(oldPassword, newPassword);
+                }
+            };
+
+            $scope.close = function() {
+                $modalInstance.dismiss('cancel');
+            };
+
+            $scope.clearErrors = function(){
+                $scope.errors = [];
             };
 
     }]);

@@ -113,6 +113,7 @@ describe('AuthModalDialogCtrl Test', function () {
         expect($scope.signin).toBeDefined();
         expect($scope.continueAsGuest).toBeDefined();
         expect($scope.showResetPassword).toBeDefined();
+        expect($scope.clearErrors).toBeDefined();
     });
 
     describe('signin()', function(){
@@ -196,6 +197,16 @@ describe('AuthModalDialogCtrl Test', function () {
            $scope.continueAsGuest();
            expect($modalInstanceMock.close).wasCalled();
        });
+    });
+
+    describe('clearErrors()', function () {
+        it('should set error message to empty', function () {
+            $scope.errors.signin = ['something is wrong'];
+            $scope.errors.signup = ['more stuff wrong'];
+            $scope.clearErrors();
+            expect($scope.errors.signin).toEqualData([]);
+            expect($scope.errors.signup).toEqualData([]);
+        });
     });
 
 });

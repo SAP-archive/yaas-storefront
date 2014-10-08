@@ -87,6 +87,15 @@ angular.module('ds.auth')
                     password: newPassword
                 };
                 return AuthREST.Customers.all('password').all('reset').all('update').customPOST( user);
+            },
+
+            updatePassword: function(oldPassword, newPassword, email) {
+                var payload = {
+                    currentPassword: oldPassword,
+                    newPassword: newPassword,
+                    email: email
+                };
+                return AuthREST.Customers.all('password').all('change').customPOST(payload);
             }
         };
         return AuthenticationService;

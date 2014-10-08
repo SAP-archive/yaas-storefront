@@ -124,6 +124,15 @@ angular.module('ds.auth')
                         controller: 'PasswordResetCtrl'
                     };
                     return openDialog(modalOpts);
+                },
+
+                showUpdatePassword: function(){
+                    var modalOpts = {
+                        templateUrl: './js/app/auth/templates/password-update.html',
+                        controller: 'PasswordUpdateCtrl',
+                        backdrop: 'static'
+                    };
+                    return openDialog(modalOpts);
                 }
 
 
