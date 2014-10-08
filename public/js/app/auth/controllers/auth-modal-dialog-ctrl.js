@@ -81,6 +81,7 @@ angular.module('ds.auth')
                 return errors;
             };
 
+            /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
                 var deferred = $q.defer();
 
@@ -110,6 +111,7 @@ angular.module('ds.auth')
                 return deferred.promise;
             };
 
+            /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
                 var deferred = $q.defer();
 
@@ -130,11 +132,12 @@ angular.module('ds.auth')
                 return deferred.promise;
             };
 
-
+            /** Closes the dialog. */
             $scope.continueAsGuest = function () {
                 $modalInstance.close();
             };
 
+            /** Shows the "request password reset" dialog.*/
             $scope.showResetPassword = function () {
                 AuthDialogManager.showResetPassword();
             };
