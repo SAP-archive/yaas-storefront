@@ -65,7 +65,7 @@
         exports.clickByRepeaterRow = function(number) {
           element(by.repeater('product in products').row(number).column('product.name')).click();
         }
-        var assertTextByRepeaterRow = function findProductByRepeaterRow(number, productName) {
+        var assertTextByRepeaterRow = exports.assertProductByRepeaterRow = function(number, productName) {
           var number, productName
           expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
         }
