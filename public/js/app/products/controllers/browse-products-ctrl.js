@@ -47,7 +47,6 @@ angular.module('ds.products')
 
             PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
-
                     if (pricesResponse) {
                         var pricesMap = {};
 
@@ -151,7 +150,16 @@ angular.module('ds.products')
             query.q = qSpec;
 
             ProductSvc.query(query).then(function(products) {
-                $scope.products = products;
+                if (products) {
+                    GlobalData.products.meta.total = parseInt(products.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
+                    $scope.products = products;
+                    $scope.productsTo = $scope.products.length;
+                    $scope.total = GlobalData.products.meta.total;
+                    getPrices(products);
+                }
+                else {
+                    $scope.requestInProgress = false;
+                }
             });
         };
 
