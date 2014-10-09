@@ -68,9 +68,9 @@ describe("product page", function () {
         // browser.sleep(750);
         // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
         // browser.sleep(750);
-        tu.sortAndVerifyPagination('name', 'BIERKRUG W / HELLES');
+        tu.sortAndVerifyPagination('name', 'BIERKRUG');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'HYBRIS-KAFFEETASSE - WEIÃŸ');
+        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES');
     });

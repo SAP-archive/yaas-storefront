@@ -42,7 +42,7 @@ describe("login:", function () {
          browser.sleep(500);
          tu.clickElement('id', 'sign-in-button');
          browser.sleep(1000);
-         expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.	");
+         expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
        });
 
        it('should allow existing user to login', function () {
@@ -90,7 +90,7 @@ describe("login:", function () {
          tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
          tu.sendKeysById('newPasswordInput', 'pass');
          tu.clickElement('id', 'create-acct-btn');
-         expect(element(by.binding("error.message")).getText()).toEqual("password must have at least six characters");
+         expect(element(by.binding("error.message")).getText()).toEqual("Password invalid - minimum of 6 characters required.");
          tu.sendKeysById('newPasswordInput', 'password');
          tu.clickElement('id', 'create-acct-btn');
          browser.sleep(1000);
