@@ -302,12 +302,12 @@
                     <input type="text" inline-error-input inline-error-input-required-message="{{'ZIP_REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="postal" id="zipCodeShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="form-group input-group"
-                 ng-class="{'has-error': shipToForm.contactPhone.$invalid && ( shipToForm.contactPhone.$dirty || showPristineErrors) }">
-                <span class="input-group-addon"><label class="control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'PHONE_REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
+            <div class="col-lg-12">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': shipToForm.contactPhone.$invalid && ( shipToForm.contactPhone.$dirty || showPristineErrors) }">
+                    <span class="input-group-addon"><label class="control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label></span>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'PHONE_REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
+                </div>
             </div>
         </div>
         <div class="col-lg-12">

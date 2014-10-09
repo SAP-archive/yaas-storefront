@@ -143,6 +143,7 @@ angular.module('ds.checkout')
                 billTo.zipCode = order.billTo.zip;
                 billTo.country = order.billTo.country;
                 billTo.account = order.account.email;
+                billTo.contactPhone = order.billTo.contactPhone;
                 billTo.type = 'BILLING';
                 newOrder.addresses.push(billTo);
 
@@ -156,6 +157,7 @@ angular.module('ds.checkout')
                 shipTo.zipCode = order.shipTo.zip;
                 shipTo.country = order.shipTo.country;
                 shipTo.account = order.account.email;
+                shipTo.contactPhone = order.shipTo.contactPhone;
                 shipTo.type = 'SHIPPING';
                 newOrder.addresses.push(shipTo);
 
