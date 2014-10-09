@@ -6,7 +6,7 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .service('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
         function (storeConfig, $translate, CookieSvc) {
 
             this.languageCode = storeConfig.defaultLanguage;
