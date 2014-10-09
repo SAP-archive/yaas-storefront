@@ -14,10 +14,7 @@ describe('ProductDetailCtrl', function () {
 
     var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
-    },
-        mockedPriceSvc={
-            query: jasmine.createSpy('query').andReturn({then: function(){}})
-        };
+    };
 
     var mockProduct = {
         name: 'product1',
@@ -53,13 +50,8 @@ describe('ProductDetailCtrl', function () {
         };
 
         $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData,
-            'PriceSvc': mockedPriceSvc});
+            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
 
-    });
-
-    it('should retrieve product price on init', function(){
-       expect(mockedPriceSvc.query).wasCalled();
     });
 
     describe('buy published product', function () {
