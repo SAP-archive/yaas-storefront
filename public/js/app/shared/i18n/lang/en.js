@@ -44,6 +44,7 @@ angular.module('ds.i18n')
         LAST_NAME: 'Last Name',
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
+        MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
         OPTIONAL: 'Optional',
@@ -177,6 +178,13 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
-        ENTER_EMAIL: 'Enter Email'
+        ENTER_EMAIL: 'Enter Email',
 
+        /*
+            titles
+         */
+        DR: 'Dr.',
+        MR: 'Mr.',
+        MRS: 'Mrs.',
+        MS: 'Ms.'
 	});

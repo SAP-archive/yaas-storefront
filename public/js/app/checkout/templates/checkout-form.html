@@ -9,12 +9,32 @@
     <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
     ng-click="editBillTo()"></span></h2>
     <div class="row step-detail">
+        <div class="col-lg-6">
+            <div class="form-group input-group"
+                 ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
+                <span class="input-group-addon"><label class="control-label" for="titleAccount">{{'TITLE' | translate}}</label></span>
+                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title">
+                    <option value="Mr.">{{'MR' | translate}}</option>
+                    <option value="Ms.">{{'MS' | translate}}</option>
+                    <option value="Mrs.">{{'MRS' | translate}}</option>
+                    <option value="Dr.">{{'DR' | translate}}</option>
+                </select>
+            </div>
+        </div>
         <div class="col-lg-6 col">
             <div class="form-group input-group"
                 ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
                 <span class="input-group-addon"><label class="control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label></span>
                 <input inline-error-input inline-error-input-required-message="{{'FIRST_NAME_REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
                 ng-model="order.account.firstName" required autocomplete="on">
+            </div>
+        </div>
+        <div class="col-lg-6 col">
+            <div class="form-group input-group"
+                 ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
+                <span class="input-group-addon"><label class="control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label></span>
+                <input type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
+                       ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
             </div>
         </div>
         <div class="col-lg-6">

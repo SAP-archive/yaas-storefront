@@ -48,6 +48,13 @@ angular.module('ds.account')
           { value: 'de_DE', text: 'DE - German' }
         ];
 
+        $scope.titles = [
+            'Mr.',
+            'Ms.',
+            'Mrs.',
+            'Dr.'
+        ];
+
         $scope.showLanguageLocale = function() {
          var selected = $filter('filter')($scope.languageLocales, {value: $scope.account.preferredLanguage});
          return ($scope.account.preferredLanguage && selected.length) ? selected[0].text : 'Not set';
