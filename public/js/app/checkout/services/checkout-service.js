@@ -49,7 +49,7 @@ angular.module('ds.checkout')
             if (account.middleName) {
                 name = name + account.middleName + ' ';
             }
-            
+
             name = name + account.lastName;
 
             return name;
