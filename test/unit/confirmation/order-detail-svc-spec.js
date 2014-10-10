@@ -89,8 +89,8 @@ describe('OrderDetailSvc Test', function () {
             result = details;
         });
         $httpBackend.flush();
-        expect(result).toEqualData({shippingAddressLine1: 'Acme, Inc.', shippingAddressLine2: '1 Marienplatz a',
-            shippingAddressLine3: 'Munich, Bavaria 80538', emailAddress : 'your.name@email.com', entries: [] });
+        expect(result).toEqualData({shippingAddressName: 'Acme, Inc.', shippingAddressStreetLine1: '1 Marienplatz a',
+            shippingAddressCityStateZip: 'Munich, Bavaria 80538', emailAddress: 'your.name@email.com', entries: [ ]});
 
     });
 });
