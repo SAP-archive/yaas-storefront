@@ -52,11 +52,11 @@ describe("product page", function () {
         // browser.sleep(750);
         // tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
         // browser.sleep(750);
-        tu.sortAndVerifyPagination('name', 'BEER MUG');
+        tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', "WOMEN'S T-SHIRT - GRAY");
+        tu.sortAndVerifyPagination('-name', "WOMEN'S T-SHIRT - GRAY", '$14.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES');
+        tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
     });
 
       it("should get order of products correctly in german", function () {
@@ -69,11 +69,11 @@ describe("product page", function () {
         // browser.sleep(750);
         // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
         // browser.sleep(750);
-        tu.sortAndVerifyPagination('name', 'BIERKRUG');
+        tu.sortAndVerifyPagination('name', 'BIERKRUG', '$6.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE');
+        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '$24.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES');
+        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '$7.99');
     });
 
 
@@ -85,20 +85,20 @@ describe("product page", function () {
         browser.sleep(3000);       
         tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
         tu.assertProductByRepeaterRow(0, 'EARBUDS');
-        tu.sortAndVerifyPagination('name', 'EARBUDS');
+        tu.sortAndVerifyPagination('name', 'EARBUDS', '$15.00');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'USB');
+        tu.sortAndVerifyPagination('-name', 'USB', '$5.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'PENHOLDER');
+        tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
         browser.get(tu.tenant + '/#!/ct/mugs');
         browser.driver.manage().window().maximize();
         browser.sleep(5000);
         tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
-        tu.sortAndVerifyPagination('name', 'BEER MUG');
+        tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE');
+        tu.sortAndVerifyPagination('-name', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES');
+        tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
         browser.get(tu.tenant + '/#!/ct/cosmetics');
     });
 
