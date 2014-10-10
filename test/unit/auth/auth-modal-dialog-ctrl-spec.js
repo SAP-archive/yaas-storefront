@@ -13,7 +13,10 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedAccount, mockedAccountSvc, mockedCookieSvc, mockBackend,
+    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
+       mockedSessionSvc={
+           afterLogIn: jasmine.createSpy()
+       }, mockBackend,
         deferredSignIn, deferredSignUp;
     var mockedForm = {};
     var mockedSettings = {
@@ -54,6 +57,7 @@ describe('AuthModalDialogCtrl Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$translate', {});
+        $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_) {
@@ -85,21 +89,10 @@ describe('AuthModalDialogCtrl Test', function () {
         };
         mockedSettings.hybrisUser = null;
 
-        mockedAccount = {
-            preferredLanguage: 'en_EN'
-        };
-        mockedAccount.headers =  [];
-        var deferredAccount = $q.defer();
-        deferredAccount.resolve(mockedAccount);
-        mockedAccountSvc = {};
-        mockedAccountSvc.account = jasmine.createSpy('account').andReturn(deferredAccount.promise);
-        mockedCookieSvc = {
-            setLanguageCookie: jasmine.createSpy('setLanguageCookie')
-        };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
-            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, AccountSvc: mockedAccountSvc,
-            CookieSvc: mockedCookieSvc, settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager });
+            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
+           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts });
     });
 
     it("should expose correct data to the scope", function() {

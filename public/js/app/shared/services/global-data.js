@@ -6,8 +6,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
-        function (storeConfig, $translate, CookieSvc) {
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$state', '$stateParams',
+        function (storeConfig, $translate, CookieSvc, $state, $stateParams) {
 
             this.languageCode = storeConfig.defaultLanguage;
             this.acceptLanguages = storeConfig.defaultLanguage;
@@ -48,12 +48,17 @@ angular.module('ds.shared')
                     return symbol;
                 },
 
-
                 setLanguage: function (newLangCode) {
                     if (this.languageCode !== newLangCode) {
                         this.languageCode = newLangCode;
                         $translate.use(this.languageCode);
                         this.acceptLanguages = (this.languageCode === storeConfig.defaultLanguage ? this.languageCode : this.languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+
+                        $state.transitionTo($state.current, $stateParams, {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
                     }
                     CookieSvc.setLanguageCookie(this.languageCode);
                 },
@@ -63,9 +68,12 @@ angular.module('ds.shared')
                 },
 
                 setCurrency: function (newCurr) {
-
                     this.storeCurrency = newCurr;
                     CookieSvc.setCurrencyCookie(newCurr);
+                },
+
+                getCurrency: function(){
+                    return this.storeCurrency;
                 }
             };
 

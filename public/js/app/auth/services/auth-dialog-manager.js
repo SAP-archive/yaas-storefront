@@ -63,15 +63,23 @@ angular.module('ds.auth')
                  * Returns the promise returned by $modal.result (see angular bootstrap) - the success handler will
                  * be invoked if the the dialog was closed and the "reject" handler will be invoked if the dialog was
                  * dismissed.
+                 * @param dialogConfig
+                 * @param dialogOptions
+                 * @param loginOptions - options for "post login" processing, such as the target URL
                  */
-                open: function(dialogConfig, options) {
+                open: function(dialogConfig, dialogOptions, loginOptions) {
 
                     var modalOpts = angular.extend({
                             templateUrl: './js/app/auth/templates/auth.html',
-                            controller: 'AuthModalDialogCtrl'
+                            controller: 'AuthModalDialogCtrl',
+                            resolve: {
+                                loginOpts: function() {
+                                    return loginOptions || {};
+                                }
+                            }
                         }, dialogConfig || {});
 
-                    if (options && options.required) {
+                    if (dialogOptions && dialogOptions.required) {
                         modalOpts.keyboard = false;
                         modalOpts.backdrop = 'static';
                     }

@@ -27,25 +27,17 @@ window.app = angular.module('ds.router', [
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     // skip html requests as well as anonymous login URL
-                    if(config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl)< 0 ) {
-                        // tweak headers if going against non-proxied services (for dev purposes only)
-                        if (config.url.indexOf('yaas') < 0) {
-                            delete config.headers[settings.apis.headers.hybrisAuthorization];
-                            if (config.url.indexOf('categories') < 0 && config.url.indexOf('product') < 0 && config.url.indexOf('shipping-cost') < 0
-                                ) {
-                                config.headers[settings.apis.headers.hybrisApp] = settings.hybrisApp;
-                            }
+                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl) < 0) {
+
+                        var token = TokenSvc.getToken().getAccessToken();
+                        if (token) {
+                            config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
                         } else {
-                            var token = TokenSvc.getToken().getAccessToken();
-                            if(token) {
-                                config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
-                            } else {
-                                // no local token - issue request to get token (async) and "save" http request for re-try
-                                $injector.get('AnonAuthSvc').getToken();
-                                var deferred = $q.defer();
-                                httpQueue.appendBlocked(config, deferred);
-                                return deferred.promise;
-                            }
+                            // no local token - issue request to get token (async) and "save" http request for re-try
+                            $injector.get('AnonAuthSvc').getToken();
+                            var deferred = $q.defer();
+                            httpQueue.appendBlocked(config, deferred);
+                            return deferred.promise;
                         }
                     }
                     return config || $q.when(config);
@@ -60,14 +52,7 @@ window.app = angular.module('ds.router', [
                 },
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
-                    var callback = function (){
-                        var $state = $injector.get('$state');
-                        $state.transitionTo($state.current, $injector.get('$stateParams'), {
-                            reload: true,
-                            inherit: true,
-                            notify: true
-                        });
-                    };
+
                     if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
                         if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
@@ -76,13 +61,7 @@ window.app = angular.module('ds.router', [
                             var $state = $injector.get('$state');
                             // if current state requires authentication, prompt user to sign in and reload state
                             if ($state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated') {
-                                $injector.get('AuthDialogManager').open({}, {}).then(function () {
-                                        callback();
-                                    },
-                                    function () {
-                                        callback();
-                                    }
-                                );
+                                $injector.get('AuthDialogManager').open({}, {}, {});
                             } else {
                                 // else, retry http request - new anonymous token will be triggered automatically
                                 // issue request to get token (async) and "save" http request
@@ -103,13 +82,7 @@ window.app = angular.module('ds.router', [
                                 window.alert('You are not authorized to access this resource!');
                             } else {
                                 // User is not authenticated - make them log in and reload the current state
-                                $injector.get('AuthDialogManager').open({}, {}).then(function () {
-                                        callback();
-                                    },
-                                    function () {
-                                        callback();
-                                    }
-                                );
+                                $injector.get('AuthDialogManager').open({}, {}, {});
                             }
                         }
                     }
@@ -142,9 +115,9 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', 'storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc',
+    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc',
         '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
-        function ($rootScope, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc,
+        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc,
                   $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
             editableOptions.theme = 'bs3';
@@ -186,18 +159,11 @@ window.app = angular.module('ds.router', [
 
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
-                    var callback = function (){
-                        if(AuthSvc.isAuthenticated()){
-                            $state.go(toState, toParams);
-                        } else {
-                            
-                            $state.go('base.category');
-                        }
-                    };
+
                     // block immediate state transition
                     event.preventDefault();
 
-                    AuthDialogManager.open({}, {}).then(callback, callback);
+                    $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
 
                 }
             });
