@@ -34,7 +34,6 @@ angular.module('ds.auth')
                 signin: []
             };
 
-            console.log(loginOpts);
             var performSignin = function (authModel) {
                 var signInPromise = AuthSvc.signin(authModel);
                 signInPromise.then(function () {

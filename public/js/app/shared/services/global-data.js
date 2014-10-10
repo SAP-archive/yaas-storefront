@@ -6,8 +6,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$state', '$stateParams',
-        function (storeConfig, $translate, CookieSvc, $state, $stateParams) {
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
+        function (storeConfig, $translate, CookieSvc) {
 
             this.languageCode = storeConfig.defaultLanguage;
             this.acceptLanguages = storeConfig.defaultLanguage;
@@ -53,12 +53,6 @@ angular.module('ds.shared')
                         this.languageCode = newLangCode;
                         $translate.use(this.languageCode);
                         this.acceptLanguages = (this.languageCode === storeConfig.defaultLanguage ? this.languageCode : this.languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
-
-                        $state.transitionTo($state.current, $stateParams, {
-                            reload: true,
-                            inherit: true,
-                            notify: true
-                        });
                     }
                     CookieSvc.setLanguageCookie(this.languageCode);
                 },

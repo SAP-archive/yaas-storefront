@@ -82,7 +82,12 @@ window.app = angular.module('ds.router', [
                                 window.alert('You are not authorized to access this resource!');
                             } else {
                                 // User is not authenticated - make them log in and reload the current state
-                                $injector.get('AuthDialogManager').open({}, {}, {});
+                                $injector.get('AuthDialogManager').open({}, {}, {}).then(
+                                    // success scenario handled as part of "logged in" workflow
+                                    function(){},
+                                function(){ // on dismiss, re-route to home page
+                                    $injector.get('$state').go(settings.homeState);
+                                });
                             }
                         }
                     }
@@ -163,7 +168,10 @@ window.app = angular.module('ds.router', [
                     // block immediate state transition
                     event.preventDefault();
 
-                    $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
+                    var dlg = $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
+                    dlg.then(function(){}, function(){
+                        $state.go(settings.homeState);
+                    });
 
                 }
             });

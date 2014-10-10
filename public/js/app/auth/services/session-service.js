@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('ds.auth')
-    /** Encapsulates the logic for what needs to happen once a user is logged in.*/
+    /** Encapsulates the logic for what needs to happen once a user is logged i or logged out.*/
     .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings',
         function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings) {
         return {
@@ -52,7 +52,7 @@ angular.module('ds.auth')
 
             afterLogOut: function(){
                 GlobalData.customerAccount = null;
-                if ( $state.is('base.checkout') || ( $state.data && $state.data.auth && $state.data.auth === 'authenticated')) {
+                if ( $state.is('base.checkout') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
                     $state.go(settings.homeState);
                 }
             }

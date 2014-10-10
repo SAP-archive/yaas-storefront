@@ -25,6 +25,7 @@ describe('GlobalData', function () {
             $provide.value('CookieSvc', mockedCookieSvc);
             //$provide.value('$translate', mockedTranslate);
             $provide.constant('storeConfig', {defaultLanguage: defaultLang});
+            $provide.constant('')
         });
 
         inject(function(_GlobalData_){

@@ -12,10 +12,14 @@
 
 describe('AccountCtrl Test', function () {
 
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, modalPromise, mockedTranslate;
+    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses,
+        account, orders, modalPromise, mockedTranslate;
     var storeTenant = '121212';
-    var mockedGlobalData = {store: {tenant: storeTenant}};
-    var accessToken = 123;
+    var mockedGlobalData = {
+        store: {tenant: storeTenant},
+        setLanguage: jasmine.createSpy()
+    };
+
     var mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -54,6 +58,8 @@ describe('AccountCtrl Test', function () {
             return updatePasswordDfd.promise;
         })
     };
+
+
 
     //***********************************************************************
     // Common Setup
@@ -213,6 +219,7 @@ describe('AccountCtrl Test', function () {
             $scope.updateAccount('preferredLanguage', 'en_US');
             $scope.$digest();
             expect(AccountSvc.updateAccount).toHaveBeenCalled();
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
         });
 
         it("should show the currency as expected", function () {
