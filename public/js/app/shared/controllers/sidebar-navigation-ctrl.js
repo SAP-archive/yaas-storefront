@@ -69,9 +69,9 @@ angular.module('ds.shared')
 
             $scope.$on('$destroy', unbind);
             
-            $scope.showProducts = function(){
+            $scope.hideMobileNav = function(){
                 $rootScope.showMobileNav = false;
-                $state.go('base.category');
+
             };
 
 	}]);

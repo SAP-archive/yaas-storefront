@@ -78,6 +78,7 @@ describe('AuthSvc Test', function () {
         expect(AuthSvc.signOut).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
         expect(AuthSvc.customerSignin).toBeDefined();
+        expect(AuthSvc.updatePassword).toBeDefined();
     });
 
 
@@ -186,5 +187,17 @@ describe('AuthSvc Test', function () {
         });
     });
 
+    describe('updatePassword()', function(){
+        it('should issue POST on password/change route', function(){
+            var payload = {
+                    currentPassword: 'currentPassword',
+                    newPassword: 'newPassword',
+                    email: 'test@test.com'
+                };
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/change').respond(200, {});
+            AuthSvc.updatePassword(payload.oldPassword, payload.newPassword, payload.email);
+            mockBackend.flush();
+        });
+    });
 
 });

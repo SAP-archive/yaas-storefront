@@ -19,6 +19,8 @@ describe('CategorySvc', function () {
     var mockedGlobalData = {acceptLanguages: acceptLang};
 
     var cosmeticsId = "117771264";
+    var cosmeticsSlug = 'cosmetics';
+
     var categoryResponse = [ {
         "id" : "117767936",
         "name" : "Accessories"
@@ -35,11 +37,12 @@ describe('CategorySvc', function () {
 
     var mockedCatId = 'catId';
     var mockedCatName = 'catName';
+    var mockedSlug = 'catname';
 
     beforeEach(module('restangular'));
     beforeEach(angular.mock.module('ds.products', function ($provide) {
         var catMap = {};
-        catMap[mockedCatId] = {name: mockedCatName};
+        catMap[mockedSlug] = {name: mockedCatName, slug: mockedSlug, id:mockedCatId};
         mockedGlobalData.categoryMap = catMap;
         $provide.value('GlobalData', mockedGlobalData);
     }));
@@ -70,7 +73,7 @@ describe('CategorySvc', function () {
             $httpBackend.flush();
             expect(cats).toBeDefined();
 
-            var cat = mockedGlobalData.categoryMap[cosmeticsId];
+            var cat = mockedGlobalData.categoryMap[cosmeticsSlug];
             expect(cat.name).toEqualData('Cosmetics');
         });
 
@@ -81,13 +84,15 @@ describe('CategorySvc', function () {
         });
     });
 
-    describe('getCategory()', function () {
+    describe('getCategoryWithProducts()', function () {
         it('should return category from GlobalData if loaded', function () {
+            $httpBackend.expectGET(categoryUrl+'/'+mockedCatId+'/elements').respond([]);
             var cat = null;
-            categorySvc.getCategory(mockedCatId).then(function (category) {
+            categorySvc.getCategoryWithProducts(mockedSlug).then(function (category) {
                 cat = category;
             });
             $scope.$apply();
+            $httpBackend.flush();
             expect(cat).toBeTruthy();
             expect(cat.name).toEqualData(mockedCatName);
             $httpBackend.verifyNoOutstandingRequest();
@@ -98,9 +103,9 @@ describe('CategorySvc', function () {
             categorySvc.clearCategoryCache();
 
             $httpBackend.expectGET(categoryUrl).respond(categoryResponse);
-
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements').respond([]);
             var cat = null;
-            categorySvc.getCategory(cosmeticsId).then(function(category){
+            categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function(category){
                 cat = category;
             });
             $httpBackend.flush();
@@ -109,16 +114,6 @@ describe('CategorySvc', function () {
 
 
     });
-
-    describe('getProducts()', function(){
-        it('should GET elements for category id', function(){
-           $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements').respond([]);
-            categorySvc.getProducts(cosmeticsId);
-            $httpBackend.flush();
-        });
-    });
-
-
 
 
 

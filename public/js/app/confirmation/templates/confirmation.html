@@ -50,6 +50,7 @@
                                 <div class="col-xs-8 col-md-8  detail-col">
 
                                     <div class="name">{{product.name}}</div>
+                                    <div class="sku item-attr">{{'SKU' | translate}}: <span> {{product.sku }}</span></div>
                                     <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{product.price | currency: '$'}}</span></div>
                                     <div class="variants row item-attr">
                                         <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{product.amount}}</span></div>

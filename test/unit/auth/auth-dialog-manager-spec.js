@@ -46,6 +46,7 @@ describe('AuthDialogManager', function () {
             expect(AuthDialogManager.isOpened).toBeDefined();
             expect(AuthDialogManager.open).toBeDefined();
             expect(AuthDialogManager.close).toBeDefined();
+            expect(AuthDialogManager.showUpdatePassword).toBeDefined();
         });
     });
 
@@ -123,6 +124,11 @@ describe('AuthDialogManager', function () {
             AuthDialogManager.showPasswordChanged();
             expect(mockedModal.open).wasCalled();
         });
-    })
+
+        it('showUpdatePassword should open modal', function(){
+            AuthDialogManager.showUpdatePassword();
+            expect(mockedModal.open).wasCalled();
+        });
+    });
 
 });

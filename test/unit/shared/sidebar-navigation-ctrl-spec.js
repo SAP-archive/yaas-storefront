@@ -130,16 +130,13 @@ describe('SidebarNavigationCtrl', function () {
        });
     });
 
-    describe('showProducts()', function(){
+    describe('hideMobileNav()', function(){
        it('should hide mobile nav', function(){
-           $scope.showProducts();
+           $scope.hideMobileNav();
            expect($rootScope.showMobileNav).toBeFalsy();
        });
 
-        it('should navigate to main products view', function(){
-            $scope.showProducts();
-            expect(mockedState.go).toHaveBeenCalledWith('base.category');
-        });
+
     });
 
 });

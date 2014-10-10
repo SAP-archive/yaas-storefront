@@ -2,8 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category', 'elements',
-        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category, elements) {
+    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category',
+        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -17,8 +17,8 @@ angular.module('ds.products')
         $scope.requestInProgress = false;
         $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
-        $scope.category = category;
-        $scope.elements = elements;
+        $scope.category = category || {};
+
 
         function getProductIdsFromElements(elements){
 
@@ -47,7 +47,6 @@ angular.module('ds.products')
 
             PriceSvc.query(queryPrices).then(
                 function (pricesResponse) {
-
                     if (pricesResponse) {
                         var pricesMap = {};
 
@@ -80,8 +79,8 @@ angular.module('ds.products')
                     if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
                         var qSpec = 'published:true';
-                        if(elements && elements.length > 0 ) {
-                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+                        if($scope.category.elements && $scope.category.elements.length > 0 ) {
+                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
                         }
                         var query = {
                             pageNumber: $scope.pageNumber,
@@ -145,13 +144,22 @@ angular.module('ds.products')
 
             //we only want to show published products on this list
             var qSpec =  'published:true';
-            if(elements && elements.length > 0 ) {
-                qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements(elements) + ')';
+            if($scope.category.elements && $scope.category.elements.length > 0 ) {
+                qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
             }
             query.q = qSpec;
 
             ProductSvc.query(query).then(function(products) {
-                $scope.products = products;
+                if (products) {
+                    GlobalData.products.meta.total = parseInt(products.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
+                    $scope.products = products;
+                    $scope.productsTo = $scope.products.length;
+                    $scope.total = GlobalData.products.meta.total;
+                    getPrices(products);
+                }
+                else {
+                    $scope.requestInProgress = false;
+                }
             });
         };
 

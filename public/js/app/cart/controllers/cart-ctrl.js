@@ -18,9 +18,9 @@ angular.module('ds.cart')
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
-        $scope.cart = CartSvc.getCart();
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
+        $scope.cart = CartSvc.getLocalCart();
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj;
         });

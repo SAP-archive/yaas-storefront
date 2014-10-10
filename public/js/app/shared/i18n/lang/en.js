@@ -89,6 +89,7 @@ angular.module('ds.i18n')
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
         YOUR_ORDER_IS: 'Your order is',
+        SKU: 'SKU',
 
         /*
             navigation
@@ -139,6 +140,13 @@ angular.module('ds.i18n')
         WELLCOME: 'Wellcome',
         ORDER_HISTORY: 'Order History',
         SAVE: 'Save',
+        UPDATE_PASSWORD: 'Update password',
+        CURRENT_PASSWORD: 'Current password',
+        NEW_PASSWORD: 'New password',
+        CONFIRM_NEW_PASSWORD: 'Confirm new password',
+        PASSWORDS_NO_MATCH: 'Passwords do not match',
+        WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
+        PASSWORD_TOO_SHORT: 'Password too short',
 
         /*
            login, password, signup
@@ -157,9 +165,17 @@ angular.module('ds.i18n')
         PASSWORDS_MUST_MATCH: 'Passwords must match.',
         PW_SUCCESS: 'Success',
         PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
+        INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
+        PW_CHANGE_FAILED: 'Update of password failed.',
+        RESET_PW_REPEAT: 'Request another reset-password link.',
+        FIELD_REQUIRED: 'Input required',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
-        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please 5 minutes.',
-        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.'
+        PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
+        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please wait 5 minutes and try again.',
+        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
+        FORGOT_PASSWORD: 'Forgot password?',
+        EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
+        ENTER_EMAIL: 'Enter Email'
 
 	});
