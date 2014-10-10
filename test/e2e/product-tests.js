@@ -6,6 +6,7 @@ describe("product page", function () {
   describe("verify product pages", function () {
 
     beforeEach(function () {
+      browser.manage().deleteAllCookies();    	
       browser.get(tu.tenant + '/#!/products');
       browser.driver.manage().window().maximize();
       browser.sleep(9000);
