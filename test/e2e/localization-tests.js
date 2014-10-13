@@ -12,6 +12,8 @@
               expect(element(by.css(pageElement)).getText()).toEqual(textValue);
             } else if(type === 'linkText') {
               expect(element(by.linkText(pageElement)).getText()).toEqual(textValue);
+            } else if(type === 'binding') {
+              expect(element(by.binding(pageElement)).getText()).toEqual(textValue);            
             }
             
           };
@@ -19,6 +21,7 @@
     describe("verify localized properties", function () {
 
       beforeEach(function () {
+        browser.manage().deleteAllCookies();
         browser.get(tu.tenant + '/#!/products');
         browser.driver.manage().window().maximize();
         browser.sleep(9000);
@@ -28,7 +31,7 @@
         it('should load product-list in english', function () {
           tu.clickElement('linkText', 'EN');
           assertTextByElement('linkText', 'ALL PRODUCTS', 'ALL PRODUCTS');
-          assertTextByElement('xpath', '//section/div[2]/div/div', 'All Products');
+          assertTextByElement('binding', 'category.name', 'MUGS');
           assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
           //price is not currently supported
@@ -43,7 +46,7 @@
         it('should load product-list in german', function () {
           tu.clickElement('linkText', 'DE');
           assertTextByElement('linkText', 'ALLE PRODUKTE', 'ALLE PRODUKTE');
-          assertTextByElement('xpath', '//section/div[2]/div/div', 'Alle Produkte');
+          assertTextByElement('binding', 'category.name', 'TASSEN');
           assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
           //price is not currently supported
@@ -116,7 +119,7 @@
           assertTextByElement('xpath', '//div[10]/div/span/label', 'Bundesland');
           assertTextByElement('xpath', '//div[11]/div/span/label', 'PLZ');
           assertTextByElement('css', 'div.pull-left.ng-binding', '1 ARTIKEL');
-          assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $13.91');
+          assertTextByElement('css', 'div.pull-right.ng-binding', 'GESAMT: $13.94');
           assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[2]', 'Artikel Preis: $10.67');
           assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[3]/div', 'Menge: 1');
           assertTextByElement('xpath', '//div[2]/div[2]/div/div/div[2]/section[2]/div/div/div[2]/div[4]', 'Gesamtpreis: $10.67');
