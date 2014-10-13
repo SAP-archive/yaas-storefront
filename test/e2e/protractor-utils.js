@@ -1,7 +1,7 @@
          
-        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/542da5950c4e7c0409a167e6/')]";
-        exports.blackCoffeeMug = "//a[contains(@href, '#!/products/542da59b0c4e7c0409a167e9/')]";
-        exports.whiteThermos = "//a[contains(@href, '#!/products/542da59e0c4e7c0409a167ea/')]";
+        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/5436f99f5acee4d3c910c082/')]";
+        exports.blackCoffeeMug = "//a[contains(@href, '#!/products/5436f9a25acee4d3c910c085/')]";
+        exports.whiteThermos = "//a[contains(@href, '#!/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
@@ -11,7 +11,7 @@
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[2]/div[2]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
-        exports.tenant = 'im2bwehwne0f'
+        exports.tenant = 'ytvlw4f7ebox'
 
 
          exports.verifyCartAmount = function(amount) {
@@ -74,10 +74,11 @@
           element(by.css('select option[value="'+ option +'"]')).click()
         }
 
-        exports.sortAndVerifyPagination = function(sort, product1){
+        exports.sortAndVerifyPagination = function(sort, product1, price1){
             selectOption(sort);
             browser.sleep(250);
             assertTextByRepeaterRow(0, product1);
+            expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
         }
 
         exports.sendKeysByXpath = function(pageElement, keys) {

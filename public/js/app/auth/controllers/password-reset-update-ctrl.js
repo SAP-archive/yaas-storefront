@@ -56,11 +56,13 @@ angular.module('ds.auth')
                         }
                     );
                 }, function (error) {
-                    $scope.showRetryLink = true;
                     $scope.submitDisabled = false;
                     if(error.status === 400 && error.data && error.data.message && error.data.message.toLowerCase().indexOf('invalid token')> -1) {
-                        $scope.error.message = 'INVALID_TOKEN';
+
+                        AuthDialogManager.showResetPassword({title: 'REQUEST_PW_EXPIRED', instructions:'REQUEST_PW_EXPIRED_MSG'});
+
                     } else {
+                        $scope.showRetryLink = true;
                         $scope.error.message= 'PW_CHANGE_FAILED';
                         if (error.data && error.data.message) {
                             $scope.error.details = error.data.message;
