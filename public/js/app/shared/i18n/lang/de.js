@@ -185,8 +185,8 @@ angular.module('ds.i18n')
          titles
          */
         DR: 'Dr.',
-        MR: 'Mr.',
-        MRS: 'Mrs.',
-        MS: 'Ms.'
+        MR: 'Herr',
+        MRS: 'Frau',
+        MS: 'Fräulein'
 
     });
