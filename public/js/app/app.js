@@ -343,6 +343,9 @@ window.app = angular.module('ds.router', [
                                     return result;
                                 });
                         }
+                    },
+                    data: {
+                        auth: 'authenticated'
                     }
                 });
 
