@@ -99,11 +99,46 @@ describe('CartSvc Test', function () {
             });
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
-            cartSvc.addProductToCart(prod1, 2);
+
+            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var successSpy = jasmine.createSpy();
+            cartPromise.then(successSpy);
+
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
             mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
             mockBackend.flush();
+
+            expect(successSpy).wasCalled();
         });
+
+        it('should return failing promise if cart POST fails', function(){
+            mockBackend.expectPOST(cartUrl).respond(500, {});
+
+            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var failureSpy = jasmine.createSpy();
+            cartPromise.then(function(){}, failureSpy);
+
+            mockBackend.flush();
+            expect(failureSpy).wasCalled();
+        });
+
+        it('should return failing promise if cart item POST fails', function(){
+            mockBackend.expectPOST(cartUrl).respond({
+                "cartId": cartId
+            });
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
+                .respond(500, {});
+
+            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var failureSpy = jasmine.createSpy();
+            cartPromise.then(function(){}, failureSpy);
+            mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
+            mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
+            mockBackend.flush();
+            expect(failureSpy).wasCalled();
+        });
+
+
     });
 
 
@@ -167,8 +202,28 @@ describe('CartSvc Test', function () {
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
-                cartSvc.addProductToCart(prod1, 1);
+                var promise = cartSvc.addProductToCart(prod1, 1);
+                var successSpy = jasmine.createSpy();
+                promise.then(successSpy);
                 mockBackend.flush();
+                expect(successSpy).wasCalled();
+            });
+
+            it('should return rejected promise if update fails', function(){
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 3})
+                    .respond(500, {});
+                var promise = cartSvc.addProductToCart(prod1, 1);
+                var failureSpy = jasmine.createSpy();
+                promise.then(function(){}, failureSpy);
+                mockBackend.flush();
+                expect(failureSpy).wasCalled();
+            });
+
+            it('should return promise if attempting update with qty = 0', function(){
+                var promise = cartSvc.addProductToCart(prod1, 0);
+                $scope.$apply();
+                expect(promise).toBeTruthy();
+                expect(promise.then).toBeTruthy();
             });
         });
 
@@ -179,6 +234,13 @@ describe('CartSvc Test', function () {
                 mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
                 cartSvc.removeProductFromCart(itemId);
                 mockBackend.flush();
+            });
+
+            it('should set item error if delete fails', function(){
+                mockBackend.expectDELETE(cartUrl+'/'+cartId+'/items/'+itemId).respond(500, {});
+                cartSvc.removeProductFromCart(itemId);
+                mockBackend.flush();
+                expect(cartSvc.getLocalCart().items[0].error).toBeTruthy();
             });
         });
 
@@ -198,6 +260,15 @@ describe('CartSvc Test', function () {
                 cartSvc.updateCartItem(item, 0);
                 mockBackend.verifyNoOutstandingRequest();
             });
+
+            it('should set item error if update fails', function(){
+                var item = cartSvc.getLocalCart().items[0];
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 5})
+                    .respond(500, {});
+                cartSvc.updateCartItem(item, 5);
+                mockBackend.flush();
+                expect(cartSvc.getLocalCart().items[0].error).toBeTruthy();
+            });
         });
 
         describe('resetCart', function() {
@@ -210,7 +281,7 @@ describe('CartSvc Test', function () {
     });
 
     describe('getCart() for anonymous user', function() {
-       it('should GET cart', function(){
+       it('should GET cart and retrieve product info', function(){
            var successCallback = jasmine.createSpy('success');
            var failureCallback = jasmine.createSpy('failure');
            mockBackend.expectGET(cartUrl).respond(200,
@@ -255,8 +326,59 @@ describe('CartSvc Test', function () {
            mockBackend.flush();
            expect(successCallback).wasCalled();
            expect(failureCallback).not.wasCalled();
-
        });
+
+        it('should GET cart and not retrieve product info if no line items', function(){
+            var cart = null;
+
+            mockBackend.expectGET(cartUrl).respond(200,
+                {
+                    "currency": "USD",
+                    "subTotalPrice": {
+                        "currency": "USD",
+                        "value": 10.00
+                    },
+                    "totalUnitsCount": 1.0,
+                    "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
+                    "totalPrice": {
+                        "currency": "USD",
+                        "value": 13.24
+                    },
+                    "id": cartId,
+                    "shippingCost": {
+                        "currency": "USD",
+                        "value": 3.24
+                    }
+                });
+
+            var promise = cartSvc.getCart();
+            promise.then(function(result){
+                cart = result;
+            });
+            mockBackend.flush();
+           expect(cart).toBeTruthy();
+           expect(cart.totalPrice.value).toEqualData(13.24);
+        });
+
+        it('should set cart error if GET results in non-404 error', function(){
+            var cart = null;
+            mockBackend.expectGET(cartUrl).respond(500,{});
+            var promise = cartSvc.getCart();
+            promise.then(function(result){cart = result});
+            mockBackend.flush();
+            expect(cart).toBeTruthy();
+            expect(cart.error).toBeTruthy();
+        });
+
+        it('should not set cart error if GET results in 404', function(){
+            var cart = null;
+            mockBackend.expectGET(cartUrl).respond(404,{});
+            var promise = cartSvc.getCart();
+            promise.then(function(result){cart = result});
+            mockBackend.flush();
+            expect(cart).toBeTruthy();
+            expect(cart.error).toBeFalsy();
+        });
     });
 
 });

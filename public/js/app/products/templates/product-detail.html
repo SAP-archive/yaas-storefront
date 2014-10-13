@@ -38,6 +38,11 @@
                     </div>  
 
                     <div class="row">
+                        <div class="error col-md-10 col-lg-8" ng-show="error" style="color:red">
+                            <small class="help-inline has-error">
+                                {{'ERROR_ADDING_TO_CART' | translate}}
+                            </small>
+                        </div>
                         <div ng-show="{{product.inStock}}" class="col-md-10 col-lg-8">
                             <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
                         </div>

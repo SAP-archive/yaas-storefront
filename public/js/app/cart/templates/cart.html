@@ -21,9 +21,12 @@
 			</button>
 		</div>
 	</div>
-	<div ng-if="!cart.items.length" class="empty-cart-text text-center">
-		Your cart is empty
-	</div>
+<div ng-if="!cart.error && !cart.items.length" class="empty-cart-text text-center">
+    {{'CART_EMPTY' | translate}}
+</div>
+<div ng-if="cart.error" class="empty-cart-text text-center">
+    {{'CART_UNAVAILABLE' | translate}}
+</div>
 	<div ng-if="cart.items.length">
 			<section class="summary">
 				<table class="table">
@@ -44,6 +47,9 @@
 			<section>
 				<!-- Cart Item -->
 				<div ng-repeat="item in cart.items">
+                    <div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
+                        {{'CART_ITEM_UPDATE_ERROR' | translate}}
+                    </div>
 					<div class="cart-item row">
 						<div class="col-xs-4 col-md-4 text-center img-col">
 							<img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>

@@ -72,7 +72,7 @@ describe('Checkout InlineErrorInput directive Test', function () {
 
             expect(clonedInput.val()).toEqual('');
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
         });
 
         it("shouldn't set cloned element value if correct value was entered", function() {
@@ -87,14 +87,14 @@ describe('Checkout InlineErrorInput directive Test', function () {
             input.val('');
             controller.$setViewValue('');
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
 
             // Setting valid value - no errors
             var value = 'Test';
             input.val(value);
             controller.$setViewValue(value);
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
         });        
 
     });
