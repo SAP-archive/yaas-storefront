@@ -191,7 +191,7 @@ describe("checkout:", function () {
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(1000);
+            browser.sleep(3000);
             expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
             expect(element(by.repeater('order in orders').row(0).column('order.itemCount')).getText()).toEqual("1");          
             expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$13.94");          
@@ -239,6 +239,8 @@ describe("mobile checkout:", function () {
    describe("verify mobile checkout functionality", function () {
 
      beforeEach(function () {
+      browser.manage().deleteAllCookies();    	
+
         browser.driver.manage().window().setSize(750, 1100);       
         browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
        browser.sleep(8000);

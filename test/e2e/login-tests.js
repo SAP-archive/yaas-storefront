@@ -28,6 +28,7 @@ describe("login:", function () {
 
      beforeEach(function () {
          // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
+      browser.manage().deleteAllCookies();    	
        browser.driver.manage().window().maximize();
        browser.get(tu.tenant + '/#!/products');
        browser.sleep(8000);
