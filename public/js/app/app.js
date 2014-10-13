@@ -138,9 +138,7 @@ window.app = angular.module('ds.router', [
             var languageCookie = CookieSvc.getLanguageCookie();
 
             if (languageCookie) {
-                $translate.use(languageCookie.languageCode);
-                GlobalData.languageCode = languageCookie.languageCode;
-                GlobalData.acceptLanguages = (languageCookie.languageCode === storeConfig.defaultLanguage ? languageCookie.languageCode : languageCookie.languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
+                GlobalData.setLanguage( languageCookie.languageCode);
             }
 
             /*
@@ -149,7 +147,7 @@ window.app = angular.module('ds.router', [
             var currencyCookie = CookieSvc.getCurrencyCookie();
 
             if (currencyCookie) {
-                GlobalData.storeCurrency = currencyCookie.currency;
+                GlobalData.setCurrency(currencyCookie.currency);
             }
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant);

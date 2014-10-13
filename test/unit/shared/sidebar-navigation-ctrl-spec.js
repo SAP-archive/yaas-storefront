@@ -17,7 +17,13 @@ describe('SidebarNavigationCtrl', function () {
     };
     var mockedGlobalData = {
         setLanguage: jasmine.createSpy(),
-        setCurrency: jasmine.createSpy()
+        setCurrency: jasmine.createSpy(),
+        getLanguageCode: function(){
+            return 'en';
+        },
+        getCurrency: function(){
+            return 'USD';
+        }
     };
     var mockedAuthSvc = {};
 

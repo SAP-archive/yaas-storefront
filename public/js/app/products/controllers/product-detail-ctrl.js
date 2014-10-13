@@ -48,7 +48,7 @@ angular.module('ds.products')
                 };
                 PriceSvc.query(query).then(function (result) {
                     angular.forEach(result, function (price) {
-                        if (price.currency === GlobalData.storeCurrency) {
+                        if (price.currency === GlobalData.getCurrency()) {
                             product.price = price;
                         }
                     });

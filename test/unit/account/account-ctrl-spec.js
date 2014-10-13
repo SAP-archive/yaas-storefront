@@ -17,7 +17,10 @@ describe('AccountCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {
         store: {tenant: storeTenant},
-        setLanguage: jasmine.createSpy()
+        setLanguage: jasmine.createSpy(),
+        getLanguageCode: function(){ return null},
+        getCurrency: function() { return null}
+
     };
 
     var mockedSettings = {

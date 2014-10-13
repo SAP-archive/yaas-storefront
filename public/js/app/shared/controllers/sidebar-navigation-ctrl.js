@@ -9,7 +9,7 @@ angular.module('ds.shared')
 		function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
                   AuthSvc, AuthDialogManager, CategorySvc) {
 
-            $scope.languageCode = GlobalData.languageCode;
+            $scope.languageCode = GlobalData.getLanguageCode();
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
