@@ -10,7 +10,7 @@ body {
 }
 
 html.disable-scroll{
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 /* MENU */
@@ -23,11 +23,17 @@ html.disable-scroll{
     transition: @offcanvas-transition;
     z-index: @zIndex-5--offcanvas-sidebar;
     overflow: visible;
+    top: 0;
+
     
 }
 
 .mainContent{
   background: @lightestgreyplus;
+
+  @media (max-width: @screen-md-min){
+      margin-top: @topNavigationHeight;
+  }
 }
 
 /* CONTENT AREA & MOBILE NAV */
@@ -58,8 +64,10 @@ html.disable-scroll{
     left: 0;  
   }
   .mainContent{
-    right: -@offcanvas-left-width-m;
-    
+    right: -@offcanvas-left-width-m; 
+  }
+  .top-navigation{
+    right: -@offcanvas-left-width-m; 
   }
 }
 
@@ -69,6 +77,9 @@ html.disable-scroll{
   }
   .mainContent{
     right: @offcanvas-right-width-m;
+  }
+    .top-navigation{
+    right: @offcanvas-right-width-m; 
   }
 }
 
