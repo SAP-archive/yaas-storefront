@@ -100,22 +100,22 @@ describe('AuthDialogManager', function () {
     describe('show custom dialog', function(){
         it('showResetPassword should open modal', function(){
             AuthDialogManager.showResetPassword();
-            expect(mockedModal.open).wasCalled();
+            expect(mockedModal.open).toHaveBeenCalled();
         });
 
         it('showCheckEmail should open modal', function(){
             AuthDialogManager.showCheckEmail();
-            expect(mockedModal.open).wasCalled();
+            expect(mockedModal.open).toHaveBeenCalled();
         });
 
         it('showPasswordChanged should open modal', function(){
             AuthDialogManager.showPasswordChanged();
-            expect(mockedModal.open).wasCalled();
+            expect(mockedModal.open).toHaveBeenCalled();
         });
 
         it('showUpdatePassword should open modal', function(){
             AuthDialogManager.showUpdatePassword();
-            expect(mockedModal.open).wasCalled();
+            expect(mockedModal.open).toHaveBeenCalled();
         });
     });
 

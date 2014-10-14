@@ -248,7 +248,7 @@ describe('CheckoutCtrl', function () {
 
         it('should not place order if form invalid', function(){
             $scope.placeOrder(false, formName);
-            expect(mockedCheckoutSvc.checkout).wasNotCalled();
+            expect(mockedCheckoutSvc.checkout).not.toHaveBeenCalled();
         });
 
         it('should show pristine errors if form invalid', function(){

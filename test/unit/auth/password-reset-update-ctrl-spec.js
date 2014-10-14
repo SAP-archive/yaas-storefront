@@ -76,7 +76,7 @@ describe('PasswordResetUpdateCtrl Test', function () {
     describe('changePassword()', function(){
         it('should delegate to AuthSvc', function(){
             $scope.changePassword();
-            expect(mockedAuthSvc.changePassword).wasCalled();
+            expect(mockedAuthSvc.changePassword).toHaveBeenCalled();
         });
 
         it('should disable Submit', function(){
@@ -92,16 +92,16 @@ describe('PasswordResetUpdateCtrl Test', function () {
             });
 
             it('should show <<password changed>>', function(){
-                expect(mockedAuthDialogManager.showPasswordChanged).wasCalled();
+                expect(mockedAuthDialogManager.showPasswordChanged).toHaveBeenCalled();
             });
 
             it('should redirect to sign-in and then main page', function(){
                 deferredShowDone.reject({});
                 $scope.$apply();
-                expect(mockedAuthDialogManager.open).wasCalled();
+                expect(mockedAuthDialogManager.open).toHaveBeenCalled();
                 deferredLogin.resolve({});
                 $scope.$apply();
-                expect(mockedState.transitionTo).wasCalledWith('base.category', {  }, { reload : true, inherit : true, notify : true } );
+                expect(mockedState.transitionTo).toHaveBeenCalledWith('base.category', {  }, { reload : true, inherit : true, notify : true } );
             });
         });
 
@@ -143,7 +143,7 @@ describe('PasswordResetUpdateCtrl Test', function () {
     describe('showRequestPasswordReset()', function(){
        it('should delegate to AuthDialogMgr', function(){
           $scope.showRequestPasswordReset();
-           expect(mockedAuthDialogManager.showResetPassword).wasCalled();
+           expect(mockedAuthDialogManager.showResetPassword).toHaveBeenCalled();
        });
     });
 

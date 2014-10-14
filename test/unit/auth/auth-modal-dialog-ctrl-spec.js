@@ -114,13 +114,13 @@ describe('AuthModalDialogCtrl Test', function () {
         it("should call AuthSvc signin if form valid", function() {
             mockedForm.$valid = true;
             $scope.signin(authModel, mockedForm);
-            expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
         });
 
         it('should not call AuthSvc if form invalid', function(){
             mockedForm.$valid = false;
             $scope.signin(authModel, mockedForm);
-            expect(MockedAuthSvc.signin).not.wasCalled();
+            expect(MockedAuthSvc.signin).not.toHaveBeenCalled();
         });
 
         xit('on success should set hybris user and close dialog', function(){
@@ -134,7 +134,7 @@ describe('AuthModalDialogCtrl Test', function () {
                     email: scopeEmail
                 }
             };
-            expect($modalInstanceMock.close).wasCalled();
+            expect($modalInstanceMock.close).toHaveBeenCalled();
             //expect(mockedSettings.hybrisUser).toEqualData(scopeEmail);
         });
     });
@@ -144,13 +144,13 @@ describe('AuthModalDialogCtrl Test', function () {
         it("should call AuthSvc signup if form valid", function() {
             mockedForm.$valid = true;
             $scope.signup(authModel, mockedForm);
-            expect(MockedAuthSvc.signup).wasCalledWith(authModel);
+            expect(MockedAuthSvc.signup).toHaveBeenCalledWith(authModel);
         });
 
         it('should not call AuthSvc if form invalid', function(){
             mockedForm.$valid = false;
             $scope.signup(authModel, mockedForm);
-            expect(MockedAuthSvc.signup).not.wasCalled();
+            expect(MockedAuthSvc.signup).not.toHaveBeenCalled();
         });
 
         it('should call signin after successful signup', function(){
@@ -158,7 +158,7 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.signup(authModel, mockedForm);
             deferredSignUp.resolve({});
             $scope.$apply();
-            expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
         });
 
         it('should not call signin after failed signup', function(){
@@ -166,7 +166,7 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.signup(authModel, mockedForm);
             deferredSignUp.reject({});
             $scope.$apply();
-            expect(MockedAuthSvc.signin).not.wasCalledWith();
+            expect(MockedAuthSvc.signin).not.toHaveBeenCalledWith();
         });
 
         it('should update account from signup', function () {
@@ -174,21 +174,21 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.signup(authModel, mockedForm);
             deferredSignUp.resolve({});
             $scope.$apply();
-            expect(MockedAuthSvc.signin).wasCalledWith(authModel);
+            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
         });
     });
 
     describe('showResetPassword()', function(){
        it('should delegate to AuthDialogManager', function(){
           $scope.showResetPassword();
-           expect(mockedAuthDialogManager.showResetPassword).wasCalled();
+           expect(mockedAuthDialogManager.showResetPassword).toHaveBeenCalled();
        });
     });
 
     describe('continueAsGuest()', function(){
        it('should close dialog', function(){
            $scope.continueAsGuest();
-           expect($modalInstanceMock.close).wasCalled();
+           expect($modalInstanceMock.close).toHaveBeenCalled();
        });
     });
 

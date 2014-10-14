@@ -87,9 +87,9 @@ describe('AuthSvc Test', function () {
 
     it("should check if user is authenticated and delegate call to Storage", function() {
         var isAuth = AuthSvc.isAuthenticated();
-        expect(mockedTokenSvc.getToken).wasCalled();
-        expect(getAccessTokenSpy).wasCalled();
-        expect(getUsernameSpy).wasCalled();
+        expect(mockedTokenSvc.getToken).toHaveBeenCalled();
+        expect(getAccessTokenSpy).toHaveBeenCalled();
+        expect(getUsernameSpy).toHaveBeenCalled();
         expect(isAuth).toEqual(true);
     });
 
@@ -108,8 +108,8 @@ describe('AuthSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled();
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should perform signin", function() {
@@ -130,9 +130,9 @@ describe('AuthSvc Test', function () {
        mockBackend.flush();
        
        expect(promise.then).toBeDefined();
-       expect(successSpy).wasCalled();
-       expect(errorSpy).not.wasCalled();
-       expect(mockedTokenSvc.setToken).wasCalledWith(response.accessToken, payload.email);
+       expect(successSpy).toHaveBeenCalled();
+       expect(errorSpy).not.toHaveBeenCalled();
+       expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(response.accessToken, payload.email);
     });
 
     describe('signOut()', function(){
@@ -155,19 +155,20 @@ describe('AuthSvc Test', function () {
             mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
         });
 
         it('should unset token on logout failure', function(){
             mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(500, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
         });
 
         it('should invoke session service after logout', function(){
             AuthSvc.signOut(payload);
-            expect(mockedSessionSvc.afterLogOut).wasCalled;
+            expect(mockedSessionSvc.afterLogOut).toHaveBeenCalled;
+
         });
     });
 

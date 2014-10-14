@@ -59,7 +59,7 @@ describe('ProductDetailCtrl', function () {
     });
 
     it('should retrieve product price on init', function(){
-       expect(mockedPriceSvc.query).wasCalled();
+       expect(mockedPriceSvc.query).toHaveBeenCalled();
     });
 
     describe('buy published product', function () {

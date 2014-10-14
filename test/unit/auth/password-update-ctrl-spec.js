@@ -81,7 +81,7 @@ describe('PasswordUpdateCtrl Test', function () {
     describe('updatePassword()', function(){
         it('should delegate to AuthSvc', function(){
            $scope.updatePassword();
-            expect(mockedAuthSvc.updatePassword).wasCalled();
+            expect(mockedAuthSvc.updatePassword).toHaveBeenCalled();
         });
 
         it('should disable Submit', function(){
@@ -97,7 +97,7 @@ describe('PasswordUpdateCtrl Test', function () {
             });
 
             it('should close the modal dialog', function(){
-                expect(mockedModalInstance.close).wasCalled();
+                expect(mockedModalInstance.close).toHaveBeenCalled();
             });
         });
 
