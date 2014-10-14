@@ -12,7 +12,9 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q;
+    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q, mockedSessionSvc={
+        afterLogOut: jasmine.createSpy()
+    };
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
@@ -64,6 +66,7 @@ describe('AuthSvc Test', function () {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
         $provide.value('storeConfig', storeConfig);
+        $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -162,9 +165,10 @@ describe('AuthSvc Test', function () {
             expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
         });
 
-        it('should navigate to products if state is protected', function(){
+        it('should invoke session service after logout', function(){
             AuthSvc.signOut(payload);
-            expect(mockedState.go).toHaveBeenCalledWith('base.category');
+            expect(mockedSessionSvc.afterLogOut).toHaveBeenCalled;
+
         });
     });
 

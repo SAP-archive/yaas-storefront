@@ -54,7 +54,13 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
            // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
-            $provide.value('GlobalData', {});
+            $provide.value('GlobalData', { getCurrency: function (){
+                return 'USD'
+            }, getLanguage: function(){
+                return 'en'
+            }, getAcceptLanguages: function(){
+                return 'en'
+            }});
             $provide.value('storeConfig', {});
         });
 

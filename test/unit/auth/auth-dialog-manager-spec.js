@@ -52,7 +52,10 @@ describe('AuthDialogManager', function () {
 
         var options = {
             templateUrl: 'abc.html',
-            controller: 'SomeCtrl'
+            controller: 'SomeCtrl',
+            resolve: {
+                loginOpts: {targetState: 'target'}
+            }
         };
 
         it('should open the dialog by delegating call to $modal instance with options', function() {
