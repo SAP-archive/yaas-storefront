@@ -10,12 +10,14 @@
 
     </div>
 
-
+    <div class="row">
+        <div ng-if="category.name" class="col-xs-12 col-sm-6  title"><a ui-sref="base.category({catName: null})">{{ 'ALL_PRODUCTS' | translate }}</a> / {{ category.name }}</div>
+    </div>
     <div class="refine-section">
 
         <div class="row">
 
-             <div ng-if="category.name" class="col-xs-12 col-sm-6  title">{{ category.name }}</div>
+            <div ng-if="category.name" class="col-xs-12 col-sm-6  title">{{ category.name }}</div>
             <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'ALL_PRODUCTS' | translate }}</div>
             <div class="col-sm-4 col-md-3 pull-right">
                 <div class="viewingContainer">

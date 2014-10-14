@@ -12,7 +12,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -179,7 +179,7 @@ angular.module('ds.account')
 
         $scope.updateAccount = function(field, data) {
           var account = angular.copy($scope.account);
-          var emailRegexp = /\S+@\S+\.\S+/;
+          var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
           if (field === 'contactEmail' && !emailRegexp.test(data)) {
             return $translate('PLEASE_ENTER_VALID_EMAIL');
           }
@@ -189,6 +189,10 @@ angular.module('ds.account')
               $scope.$emit('language:switch', data.split('_')[0]);
             }
           });
+        };
+
+        $scope.updatePassword = function() {
+          AuthDialogManager.showUpdatePassword();
         };
 
         getItemCountPerOrder();

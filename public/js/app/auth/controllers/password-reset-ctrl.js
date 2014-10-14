@@ -15,13 +15,15 @@ angular.module('ds.auth')
     /**
      *  Handles interaction for "request password reset" dialog with follow-up "check your email" dialog.
      */
-    .controller('PasswordResetCtrl', ['$scope', '$modalInstance', 'AuthSvc', 'AuthDialogManager', '$state',
-        function($scope, $modalInstance, AuthSvc, AuthDialogManager, $state) {
+    .controller('PasswordResetCtrl', ['$scope', 'AuthSvc', 'AuthDialogManager', '$state', 'title', 'instructions',
+        function($scope, AuthSvc, AuthDialogManager, $state, title, instructions ) {
 
+        $scope.title = title || 'FORGOT_PW' ;
+        $scope.instructions = instructions || 'FORGOT_PW_INSTRUCT';
 
         $scope.requestPasswordReset = function(email){
-            AuthSvc.requestPasswordReset(email).then(function() {
-                $modalInstance.close();
+           AuthSvc.requestPasswordReset(email).then(function() {
+                AuthDialogManager.close();
                 AuthDialogManager.showCheckEmail();
 
             }, function(failure){
@@ -30,14 +32,10 @@ angular.module('ds.auth')
                } else {
                    $scope.message = failure.message;
                }
-
-
             });
         };
 
-        /** Navigates to the "changePassword" state. */
-        $scope.showChangePassword = function(){
-            $modalInstance.close();
-            $state.transitionTo('base.changePassword');
+        $scope.clearErrors = function(){
+            $scope.message = '';
         };
     }]);

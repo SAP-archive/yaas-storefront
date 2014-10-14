@@ -32,7 +32,8 @@ describe('PasswordResetCtrl Test', function () {
     var mockedAuthDialogManager = {
         showCheckEmail: jasmine.createSpy('showCheckEmail'),
         showPasswordChanged: jasmine.createSpy('showPasswordChanged'),
-        showChangePassword: jasmine.createSpy('showChangePassword')
+        showChangePassword: jasmine.createSpy('showChangePassword'),
+        close: jasmine.createSpy()
     }
 
     beforeEach(function(){
@@ -59,8 +60,8 @@ describe('PasswordResetCtrl Test', function () {
         deferredChangePassword = _$q_.defer();
         deferredPwReset = _$q_.defer();
 
-        $controller('PasswordResetCtrl', {$scope: $scope, $modalInstance: mockedModal,
-            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager });
+        $controller('PasswordResetCtrl', {$scope: $scope,
+            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, title: 'title', instructions: 'instruct' });
     }));
 
     describe('requestPasswordReset()', function(){
@@ -73,28 +74,26 @@ describe('PasswordResetCtrl Test', function () {
             $scope.requestPasswordReset();
             deferredPwReset.resolve({});
             $scope.$apply();
-            expect(mockedModal.close).wasCalled();
+            expect(mockedAuthDialogManager.close).wasCalled();
             expect(mockedAuthDialogManager.showCheckEmail).wasCalled();
         });
 
         it('on failure, should close dialog', function(){
             $scope.requestPasswordReset();
-            deferredPwReset.reject({});
+            deferredPwReset.reject({message: 'failure'});
             $scope.$apply();
-            expect(mockedModal.close).wasCalled();
+            expect($scope.message).toBeTruthy();
         });
     });
 
-    describe('showChangePassword()', function(){
-        it('should close current modal', function(){
-            $scope.showChangePassword();
-            expect(mockedModal.close).wasCalled();
-        });
 
-        it('should transition to <<change password>> state', function(){
-            $scope.showChangePassword();
-            expect(mockedState.transitionTo).wasCalledWith('base.changePassword');
-        });
+
+    describe('clearErrors()', function(){
+       it('should remove error message', function(){
+            $scope.message = 'something';
+            $scope.clearErrors();
+           expect($scope.message).toEqualData('');
+       });
     });
 
 

@@ -70,7 +70,7 @@ window.app = angular.module('ds.router', [
                     };
                     if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
-                        if(response.config.url.indexOf('login')<0) {
+                        if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
                             // remove any existing token, as it appears to be invalid
                             TokenSvc.unsetToken();
                             var $state = $injector.get('$state');
@@ -255,7 +255,7 @@ window.app = angular.module('ds.router', [
                     abstract: true
                 })
                 .state('base.category', {
-                    url: '/cat/:catId/',
+                    url: '/ct/:catName',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
@@ -264,17 +264,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         category: function ($stateParams, CategorySvc) {
-                            return CategorySvc.getCategory($stateParams.catId).then(function (result) {
-                                    return result;
-                                });
-
-                        },
-                        elements: function($stateParams, CategorySvc){
-                            if($stateParams.catId > 0) {
-                                return CategorySvc.getProducts($stateParams.catId);
-                            } else {
-                                return [];
-                            }
+                            return CategorySvc.getCategoryWithProducts($stateParams.catName);
                         }
                     }
                 })
@@ -370,7 +360,7 @@ window.app = angular.module('ds.router', [
                     views: {
                         'main@': {
                             templateUrl: 'js/app/auth/templates/password-reset.html',
-                            controller: 'PasswordUpdateCtrl'
+                            controller: 'ResetPasswordUpdateCtrl'
                         }
                     }
                 })
@@ -395,7 +385,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/cat/0');
+            $urlRouterProvider.otherwise('/ct/');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {

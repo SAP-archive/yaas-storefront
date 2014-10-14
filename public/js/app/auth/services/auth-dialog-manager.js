@@ -17,35 +17,27 @@ angular.module('ds.auth')
     .factory('AuthDialogManager', ['$modal', '$location', 'settings', '$q',
         function($modal, $location, settings, $q){
 
-            var authDialog, isOpened = false;
-
-
-            function onDialogClosed(callback) {
-                isOpened = false;
-
-                if(callback){
-                    callback();
-                }
-            }
-
+            var authDialog;
 
             function openDialog(options) {
                 var deferResult = $q.defer();
                 // make sure only 1 instance exists in opened state
-                if (authDialog && isOpened) {
-                    authDialog.close();
+                if (authDialog) {
+                    try {
+                        authDialog.close();
+                    } catch(err){
+
+                    }
                 }
                 authDialog = $modal.open(options);
-                isOpened = true;
+
                 authDialog.result.then(
                     // dialog closed
                     function(success) {
-                        onDialogClosed();
                         deferResult.resolve(success);
                     },
                     // dialog dismissed
                     function(error) {
-                        onDialogClosed();
                         deferResult.reject(error);
                     }
                 );
@@ -54,10 +46,6 @@ angular.module('ds.auth')
 
             return {
 
-                isOpened: function() {
-                    return isOpened;
-                },
-                
                 /**
                  * Creates and opens the authorization dialog for sign in/create account.
                  * Returns the promise returned by $modal.result (see angular bootstrap) - the success handler will
@@ -81,18 +69,27 @@ angular.module('ds.auth')
                 },
 
                 close: function() {
-                    if (authDialog && isOpened) {
-                        authDialog.close();
-                        isOpened = false;
+                    if (authDialog ) {
+                        try {
+                            authDialog.close();
+                        } catch (err){
+
+                        }
                     }
                 },
 
 
-                /** Shows the "reset password dialog. */
-                showResetPassword: function(){
+                /** Shows the "reset password dialog.
+                 * @param opts optional override for 'title' and 'msg'.
+                 * */
+                showResetPassword: function(opts){
                    var modalOpts = {
                        templateUrl: './js/app/auth/templates/password-request-reset.html',
-                       controller: 'PasswordResetCtrl'
+                       controller: 'PasswordResetCtrl',
+                       resolve:{
+                           title: function(){return opts? opts.title : null;},
+                           instructions: function(){return opts? opts.instructions : null;}
+                       }
                    };
                    return openDialog(modalOpts);
                 },
@@ -100,19 +97,7 @@ angular.module('ds.auth')
                 /** Shows the "check your email" dialog. */
                 showCheckEmail: function(){
                     var modalOpts = {
-                        templateUrl: './js/app/auth/templates/check-email.html',
-                        controller: 'PasswordResetCtrl'
-                    };
-                    return openDialog(modalOpts);
-                },
-
-                /** Shows the "check your email" dialog. */
-                showChangePassword: function(showBackDrop){
-                    var modalOpts = {
-                        templateUrl: './js/app/auth/templates/password-reset.html',
-                        controller: 'PasswordResetCtrl',
-                        size: 'lg',
-                        backdrop: showBackDrop? true : false
+                        templateUrl: './js/app/auth/templates/check-email.html'
                     };
                     return openDialog(modalOpts);
                 },
@@ -120,8 +105,17 @@ angular.module('ds.auth')
                 /** Shows the 'password changed successfully' dialog. */
                 showPasswordChanged: function(){
                     var modalOpts = {
-                        templateUrl: './js/app/auth/templates/pw-change-success.html',
-                        controller: 'PasswordResetCtrl'
+                        templateUrl: './js/app/auth/templates/pw-change-success.html'
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                /** Shows "update password" dialog for an authenticated user.*/
+                showUpdatePassword: function(){
+                    var modalOpts = {
+                        templateUrl: './js/app/auth/templates/password-update.html',
+                        controller: 'PasswordUpdateCtrl',
+                        backdrop: 'static'
                     };
                     return openDialog(modalOpts);
                 }

@@ -139,6 +139,13 @@ angular.module('ds.i18n')
         WELLCOME: 'Willkommen',
         ORDER_HISTORY: 'Bestellverlauf',
         STREET_NUMBER: 'Nummer',
+        UPDATE_PASSWORD: 'Passwort aktualisieren',
+        CURRENT_PASSWORD: 'Aktuelles Passwort',
+        NEW_PASSWORD: 'Neues Passwort',
+        CONFIRM_NEW_PASSWORD: 'Neues Passwort bestätigen',
+        PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
+        WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
+        PASSWORD_TOO_SHORT: 'Passwort zu kurz',
 
         /*
          login, password, signup
@@ -150,13 +157,19 @@ angular.module('ds.i18n')
         RESET_PW_TITLE: 'Passwort Zurücksetzen',
         RESET_PW_INSTRUCT: 'Bitte ein neues Passwort angeben.',
         TOKEN: 'Token',
-        FORGOT_PW_INSTRUCT: 'Bitte Emailadresse angeben. Eine E-Mail mit einer Verweisung zum Zurücksetzen des Passworts wird Ihnen dann zugesendet.',
-        CHECK_EMAIL:'Überprüfen Sie Ihre E-Mail',
-        CHECK_EMAIL_INSTRUCT: 'Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet.',
+        FORGOT_PW_INSTRUCT: 'Bitte Emailadresse angeben. Ein Link zum Zurücksetzen des Passworts wird Ihnen dann zugesendet.',
+        REQUEST_PW_EXPIRED: 'Passwort Zurücksetzung Abgelaufen',
+        REQUEST_PW_EXPIRED_MSG: 'Die Anfrage zum Zurücksetzen des Passworts ist abgelaufen.  Bitte Emailadresse angeben und noch einmal anfordern.',
+        CHECK_EMAIL:'Überprüfen Sie Ihre Email',
+        CHECK_EMAIL_INSTRUCT: '... und klicken auf den Link zum Zurücksetzen des Passworts.  Gültig für 24 Stunden.',
         PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen erforderlich.',
         PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
         PW_SUCCESS: 'Erfolg',
         PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
+        INVALID_TOKEN: 'Dieser Link is nicht gültig. Bitte neu anfordern.',
+        PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
+        RESET_PW_REPEAT: 'Link nochmal anfordern.',
+        FIELD_REQUIRED: 'Angabe erforderlich',
 
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
@@ -165,5 +178,6 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben'
+
 
     });

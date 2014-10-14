@@ -26,7 +26,6 @@ describe('AuthDialogManager', function () {
         });
 
         inject(function(_$q_, _$location_, _AuthDialogManager_) {
-
             $q = _$q_;
             $location = _$location_;
             AuthDialogManager = _AuthDialogManager_;
@@ -43,9 +42,9 @@ describe('AuthDialogManager', function () {
 
     describe('initialization', function(){
         it('should expose correct interface', function () {
-            expect(AuthDialogManager.isOpened).toBeDefined();
             expect(AuthDialogManager.open).toBeDefined();
             expect(AuthDialogManager.close).toBeDefined();
+            expect(AuthDialogManager.showUpdatePassword).toBeDefined();
         });
     });
 
@@ -81,10 +80,6 @@ describe('AuthDialogManager', function () {
             //expect(onFailure).toHaveBeenCalled();
         });
 
-        it('should convey the state of <<open>>', function(){
-            AuthDialogManager.open(options);
-            expect(AuthDialogManager.isOpened()).toBeTruthy();
-        });
     });
 
     describe('close()', function(){
@@ -97,10 +92,6 @@ describe('AuthDialogManager', function () {
             expect(mockedDialog.close).toHaveBeenCalled();
         });
 
-        it('should convey the state of <<closed>>', function(){
-            AuthDialogManager.close();
-            expect(AuthDialogManager.isOpened()).toBeFalsy();
-        });
     });
 
     describe('show custom dialog', function(){
@@ -114,15 +105,15 @@ describe('AuthDialogManager', function () {
             expect(mockedModal.open).wasCalled();
         });
 
-        it('showChangePassword should open modal', function(){
-            AuthDialogManager.showChangePassword();
-            expect(mockedModal.open).wasCalled();
-        });
-
         it('showPasswordChanged should open modal', function(){
             AuthDialogManager.showPasswordChanged();
             expect(mockedModal.open).wasCalled();
         });
-    })
+
+        it('showUpdatePassword should open modal', function(){
+            AuthDialogManager.showUpdatePassword();
+            expect(mockedModal.open).wasCalled();
+        });
+    });
 
 });
