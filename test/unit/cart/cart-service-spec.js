@@ -310,8 +310,8 @@ describe('CartSvc Test', function () {
            var promise = cartSvc.getCart();
            promise.then(successCallback, failureCallback);
            mockBackend.flush();
-           expect(successCallback).wasCalled();
-           expect(failureCallback).not.wasCalled();
+           expect(successCallback).toHaveBeenCalled();
+           expect(failureCallback).not.toHaveBeenCalled();
 
        });
     });

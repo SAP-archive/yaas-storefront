@@ -81,7 +81,7 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('onInitialization', function(){
         it('should retrieve categories', function(){
-           expect(mockedCategorySvc.getCategories).wasCalled();
+           expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
         });
     });
 

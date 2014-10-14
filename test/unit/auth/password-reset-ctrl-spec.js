@@ -67,15 +67,15 @@ describe('PasswordResetCtrl Test', function () {
     describe('requestPasswordReset()', function(){
         it('should delegate to AuthSvc', function(){
             $scope.requestPasswordReset();
-            expect(mockedAuthSvc.requestPasswordReset).wasCalled();
+            expect(mockedAuthSvc.requestPasswordReset).toHaveBeenCalled();
         });
 
         it('on success, should close dialog and show check email', function(){
             $scope.requestPasswordReset();
             deferredPwReset.resolve({});
             $scope.$apply();
-            expect(mockedAuthDialogManager.close).wasCalled();
-            expect(mockedAuthDialogManager.showCheckEmail).wasCalled();
+            expect(mockedAuthDialogManager.close).toHaveBeenCalled();
+            expect(mockedAuthDialogManager.showCheckEmail).toHaveBeenCalled();
         });
 
         it('on failure, should close dialog', function(){
