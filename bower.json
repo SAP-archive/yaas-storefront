@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "jquery": "latest",
-    "angular": "latest",
+    "angular": "1.2.26",
     "angular-resource": "latest",
     "angular-ui-router": "~0.2.8",
     "angular-mocks": "~1.2.14",
@@ -35,5 +35,8 @@
       "css": "public/css/vendor",
       "js": "public/js/vendor"
     }
+  },
+  "resolutions": {
+    "angular": "1.2.26"
   }
 }
