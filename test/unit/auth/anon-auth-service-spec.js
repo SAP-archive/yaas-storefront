@@ -83,7 +83,7 @@ describe('AnonAuthSvc', function () {
             it('should save token', function(){
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
-                expect(mockedTokenSvc.setAnonymousToken).wasCalledWith(accessToken, expiresIn);
+                expect(mockedTokenSvc.setAnonymousToken).toHaveBeenCalledWith(accessToken, expiresIn);
             });
 
             it('should re-enable new login attempt after token retrieval', function(){
