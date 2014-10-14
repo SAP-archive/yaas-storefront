@@ -327,6 +327,11 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
                         }
+                    },
+                    resolve: {
+                        isAuthenticated: function(AuthSvc){
+                            return AuthSvc.isAuthenticated();
+                        }
                     }
                 })
                 .state('base.account', {
