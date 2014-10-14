@@ -81,6 +81,35 @@ describe('SidebarNavigationCtrl', function () {
         it('should retrieve categories', function(){
            expect(mockedCategorySvc.getCategories).wasCalled();
         });
+
+        it("should have language related selectbox variables set correctly", function() {
+            expect($scope.language).toBeDefined();
+            expect($scope.language.selected).toBeDefined();
+            expect($scope.languageCode).toBeDefined();
+            expect($scope.language.selected.iso).toBeDefined();
+            expect($scope.language.selected.iso).toEqual($scope.languageCode);
+            expect($scope.language.selected.value).toBeDefined();
+            expect($scope.language.selected.value).toEqual($scope.languageCode);
+            
+            expect($scope.languages).toBeDefined();
+            expect($scope.languages.length).toEqual($scope.languageCodes.length);
+            for (var i = 0; i < $scope.languageCodes.length; i++) {
+                expect($scope.languages[i].iso).toEqual($scope.languageCodes[i]);
+                expect($scope.languages[i].value).toEqual($scope.languageCodes[i]);
+            };
+        });
+
+        it("should have currency selectobx variables set correctly", function() {
+            expect($scope.currencies).not.toBeDefined();
+            var currencies = [{id: 'USD', label: 'English'}, {id: 'EUR', label: 'German'}];
+            $scope.GlobalData.store.currencies = currencies;
+            $scope.$digest();
+            expect($scope.currencies).toBeDefined();
+            expect($scope.currencies.length).toEqual(currencies.length);
+            for (var i = 0; i < currencies.length; i++) {
+                expect($scope.currencies[i]).toEqual(currencies[i]);
+            };
+        });
     });
 
     describe('switchLanguage()', function(){
