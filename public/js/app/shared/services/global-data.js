@@ -9,9 +9,9 @@ angular.module('ds.shared')
     .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
         function (storeConfig, $translate, CookieSvc) {
 
-            this.languageCode = storeConfig.defaultLanguage;
-            this.acceptLanguages = storeConfig.defaultLanguage;
-            this.storeCurrency = storeConfig.defaultCurrency;
+            var languageCode = storeConfig.defaultLanguage || 'en';
+            var acceptLanguages = languageCode;
+            var storeCurrency = storeConfig.defaultCurrency || 'USD';
 
             return {
                 orders: {
@@ -39,35 +39,43 @@ angular.module('ds.shared')
 
                 getCurrencySymbol: function () {
                     var symbol = '?';
-                    if (this.storeCurrency === 'USD') {
+                    if (storeCurrency === 'USD') {
                         symbol = '$';
                     }
-                    else if (this.storeCurrency === 'EUR') {
+                    else if (storeCurrency === 'EUR') {
                         symbol = '\u20AC';
                     }
                     return symbol;
                 },
 
                 setLanguage: function (newLangCode) {
-                    if (this.languageCode !== newLangCode) {
-                        this.languageCode = newLangCode;
-                        $translate.use(this.languageCode);
-                        this.acceptLanguages = (this.languageCode === storeConfig.defaultLanguage ? this.languageCode : this.languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                    if(newLangCode) {
+                        if (languageCode !== newLangCode) {
+                            languageCode = newLangCode;
+                            $translate.use(languageCode);
+                            acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                        }
+                        CookieSvc.setLanguageCookie(languageCode);
                     }
-                    CookieSvc.setLanguageCookie(this.languageCode);
                 },
 
                 getLanguageCode: function(){
-                    return this.languageCode;
+                    return languageCode;
+                },
+
+                getAcceptLanguages: function(){
+                  return acceptLanguages;
                 },
 
                 setCurrency: function (newCurr) {
-                    this.storeCurrency = newCurr;
-                    CookieSvc.setCurrencyCookie(newCurr);
+                    if(newCurr) {
+                        storeCurrency = newCurr;
+                        CookieSvc.setCurrencyCookie(newCurr);
+                    }
                 },
 
                 getCurrency: function(){
-                    return this.storeCurrency;
+                    return storeCurrency;
                 }
             };
 

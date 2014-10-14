@@ -25,7 +25,6 @@ describe('GlobalData', function () {
             $provide.value('CookieSvc', mockedCookieSvc);
             //$provide.value('$translate', mockedTranslate);
             $provide.constant('storeConfig', {defaultLanguage: defaultLang});
-            $provide.constant('')
         });
 
         inject(function(_GlobalData_){
@@ -44,24 +43,22 @@ describe('GlobalData', function () {
             expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
         });
 
-        it('should update global data current language', function () {
+        it('should update global data to current language', function () {
             var newLang = 'de';
             GlobalData.setLanguage(newLang);
-            expect(GlobalData.languageCode).toEqualData(newLang);
-            var curLang = GlobalData.getLanguageCode();
-            expect(curLang).toEqualData(newLang);
+            expect(GlobalData.getLanguageCode()).toEqualData(newLang);
         });
 
         it('to non-default language should update accept-languages', function () {
             var newLang = 'de';
             GlobalData.setLanguage(newLang);
-            expect(GlobalData.acceptLanguages).toEqualData('de;q=1,en;q=0.5');
+            expect(GlobalData.getAcceptLanguages()).toEqualData('de;q=1,en;q=0.5');
         });
 
         it('to default language should set accept-language to default', function () {
             var newLang = defaultLang;
             GlobalData.setLanguage(newLang);
-            expect(GlobalData.acceptLanguages).toEqualData(newLang);
+            expect(GlobalData.getAcceptLanguages()).toEqualData(newLang);
         });
 
     });
@@ -80,7 +77,7 @@ describe('GlobalData', function () {
         });
 
         it('should set the store currency', function(){
-            expect(GlobalData.storeCurrency).toEqualData(newCur);
+            expect(GlobalData.getCurrency()).toEqualData(newCur);
         });
 
         it('should return the correct currency symbol', function(){
