@@ -38,15 +38,17 @@
                     </div>  
 
                     <div class="row">
-                        <div class="error col-md-10 col-lg-8" ng-show="error" style="color:red">
-                            <small class="help-inline has-error">
-                                {{'ERROR_ADDING_TO_CART' | translate}}
-                            </small>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="error" >
+                                <small class="help-inline has-error">
+                                    {{'ERROR_ADDING_TO_CART' | translate}}
+                                </small>
+                            </div>
                         </div>
-                        <div ng-show="{{product.inStock}}" class="col-md-10 col-lg-8">
+                        <div ng-show="{{product.inStock}}" class="col-md-12 col-lg-12">
                             <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
                         </div>
-                        <div ng-show="{{!product.inStock}}" class="col-md-10 col-lg-8">
+                        <div ng-show="{{!product.inStock}}" class="col-md-12 col-lg-12">
                             <button class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
                         </div>
                     </div>

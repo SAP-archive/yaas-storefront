@@ -7709,7 +7709,6 @@ section .hero-unit {
   margin: 0;
 }
 .checkout .error {
-  color: #e63c19;
   padding: 4px 0;
 }
 .checkout h1 {
@@ -7957,7 +7956,6 @@ address {
 .editable-controls .editable-error {
   color: #a94442 !important;
 }
-/* CUSTOM VARS */
 /* BTN */
 .btn {
   text-transform: uppercase;
@@ -8218,6 +8216,13 @@ address {
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
+.error {
+  color: #f1291e;
+  padding: 15px;
+  background: #f7c5ba;
+  margin: 5px 0 10px;
+  font-weight: bold;
+}
 body {
   background: #eeeeee;
 }
