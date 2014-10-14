@@ -158,7 +158,7 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
 
-           iit('should populate with existing address for logged in user', function () {
+           it('should populate with existing address for logged in user', function () {
             tu.clickElement('xpath', tu.contineShopping);            
            	tu.clickElement('id', "login-btn");
             browser.sleep(1000);
@@ -182,7 +182,7 @@ describe("checkout:", function () {
            });
 
 
-           iit('should create order on account page', function () {
+           it('should create order on account page', function () {
             tu.clickElement('xpath', tu.contineShopping);            
             tu.clickElement('id', "login-btn");
             browser.sleep(1000);
