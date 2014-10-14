@@ -134,11 +134,15 @@ angular.module('ds.i18n')
         ADD_ADDRESS: 'Add Address',
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
+        DATE: 'Date',
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
         STREET_NUMBER: 'Street Number',
-        WELLCOME: 'Wellcome',
+        WELCOME: 'Welcome',
+        ITEMS_IN_ORDER: 'Items In Order',
         ORDER_HISTORY: 'Order History',
+        ORDER_NUMBER: 'Order Number',
+        ORDER_STATUS: 'Order Status',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
@@ -147,6 +151,7 @@ angular.module('ds.i18n')
         PASSWORDS_NO_MATCH: 'Passwords do not match',
         WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
         PASSWORD_TOO_SHORT: 'Password too short',
+        SHOW_ALL: 'Show all',
 
         /*
            login, password, signup
@@ -170,7 +175,9 @@ angular.module('ds.i18n')
         INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
         PW_CHANGE_FAILED: 'Update of password failed.',
         RESET_PW_REPEAT: 'Request another reset-password link.',
-        FIELD_REQUIRED: 'Input required',
+        FIELD_REQUIRED: 'Field is required!',
+        FIELD_TOO_SHORT: 'Field too short!',
+        FIELDS_NOT_MATCHING: 'Fields not matching!',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',

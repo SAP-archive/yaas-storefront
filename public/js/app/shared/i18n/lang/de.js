@@ -128,16 +128,21 @@ angular.module('ds.i18n')
         /*
             account page
          */
+        ACCOUNT_DETAILS: 'Kontodaten',
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
+        DATE: 'Datum',
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         SAVE: 'Speichern',
-        WELLCOME: 'Willkommen',
+        WELCOME: 'Willkommen',
+        ITEMS_IN_ORDER: 'Postenzähler',
         ORDER_HISTORY: 'Bestellverlauf',
+        ORDER_NUMBER: 'Bestellnummer',
+        ORDER_STATUS: 'Auftragsstatus',
         STREET_NUMBER: 'Nummer',
         UPDATE_PASSWORD: 'Passwort aktualisieren',
         CURRENT_PASSWORD: 'Aktuelles Passwort',
@@ -146,6 +151,7 @@ angular.module('ds.i18n')
         PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
         WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
+        SHOW_ALL: 'Alle anzeigen',
 
         /*
          login, password, signup
@@ -170,6 +176,8 @@ angular.module('ds.i18n')
         PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
         RESET_PW_REPEAT: 'Link nochmal anfordern.',
         FIELD_REQUIRED: 'Angabe erforderlich',
+        FIELD_TOO_SHORT: 'Feld zu kurz!',
+        FIELDS_NOT_MATCHING: 'Angaben stimmen nicht überein!',
 
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
