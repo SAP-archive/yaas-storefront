@@ -7530,32 +7530,6 @@ section .hero-unit {
 .product-details .price {
   font: italic bold 19px/30px Georgia, "Times New Roman", Times, serif, sans-serif;
 }
-.product-details .cartPanel .form-group {
-  border: 1px solid #d8d8d8;
-  height: 37px;
-}
-.product-details .cartPanel .form-group .form-control {
-  border: 0;
-  border-radius: 0;
-}
-.product-details .cartPanel .form-group.qty {
-  position: relative;
-}
-.product-details .cartPanel .form-group.qty label {
-  font: 14px/37px "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
-  color: #555;
-  text-transform: uppercase;
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  display: block;
-  width: 60px;
-  height: 37px;
-  padding: 0 5px 0 5px;
-}
-.product-details .cartPanel .form-group.qty input.form-control {
-  padding: 0 0 0 70px;
-}
 .product-details .checkout-form {
   margin: 30px 0;
 }
@@ -8219,7 +8193,7 @@ address {
 .error {
   color: #f1291e;
   padding: 15px;
-  background: #f7c5ba;
+  background: #fbc9c6;
   margin: 5px 0 10px;
   font-weight: bold;
 }
