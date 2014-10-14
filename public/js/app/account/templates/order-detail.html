@@ -89,7 +89,7 @@
 
                             <div class="col-xs-2 col-md-4 text-center img-col">
                                 <a ui-sref="base.product.detail( {productId: entry.product.id} )">
-                                    <img class="img-responsive" ng-src="{{ entry && entry.images[0].url || PLACEHOLDER_IMAGE}}">
+                                    <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
                                 </a>
                             </div>
                             <div class="col-xs-4 col-md-4  detail-col">
