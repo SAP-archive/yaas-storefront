@@ -67,21 +67,6 @@ angular.module('ds.account')
           return errors;
         };
 
-        /*
-            this function calculates the item count per order,
-            a property not provided by the service
-         */
-        var getItemCountPerOrder = function () {
-            angular.forEach($scope.orders, function (order, key) {
-                var itemCount = 0;
-                angular.forEach(order.entries, function (entry) {
-                    itemCount = itemCount + entry.amount;
-                });
-
-                $scope.orders[key].itemCount = itemCount;
-            });
-        };
-
         // handle dialog dismissal if user select back button, etc
         $scope.$on('$destroy', function () {
             if (modalInstance) {
@@ -173,7 +158,6 @@ angular.module('ds.account')
             OrderListSvc.query(parms).then(function (orders) {
                 $scope.showAllButton = false;
                 $scope.orders = orders;
-                getItemCountPerOrder();
             });
         };
 
@@ -194,7 +178,5 @@ angular.module('ds.account')
         $scope.updatePassword = function() {
           AuthDialogManager.showUpdatePassword();
         };
-
-        getItemCountPerOrder();
 
     }]);
