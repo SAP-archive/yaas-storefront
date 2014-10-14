@@ -87,7 +87,7 @@
           <tr>
             <th>Date</th>
             <th>Order Number</th>
-            <th>Items in order</th>
+            <!-- <th>Items in order</th> -->
             <th>Order total</th>
             <th>Order status</th>
           </tr>
@@ -96,7 +96,7 @@
           <tr ng-repeat="order in orders">
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.itemCount}}</td>
+            <!-- <td>{{order.itemCount}}</td> -->
             <td>{{order.totalPrice | currency: currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
