@@ -18,7 +18,10 @@ describe('ProductDetailCtrl', function () {
 
     var mockProduct = {
         name: 'product1',
-        price: '5000',
+        defaultPrice: {
+            currency: 'USD',
+            value: 5000
+        },
         published: true
     };
 
