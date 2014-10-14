@@ -87,7 +87,6 @@
           <tr>
             <th>{{'DATE' | translate}}</th>
             <th>{{'ORDER_NUMBER' | translate}}</th>
-            <th>{{'ITEMS_IN_ORDER' | translate}}</th>
             <th>{{'ORDER_TOTAL' | translate}}</th>
             <th>{{'ORDER_STATUS' | translate}}</th>
           </tr>
@@ -96,7 +95,6 @@
           <tr ng-repeat="order in orders">
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.itemCount}}</td>
             <td>{{order.totalPrice | currency: currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
