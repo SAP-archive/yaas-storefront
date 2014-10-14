@@ -17,6 +17,25 @@ angular.module('ds.shared')
             $scope.user = GlobalData.user;
             $scope.categories = [];
 
+            $scope.language = { selected: { iso: $scope.languageCode, value: $scope.languageCode }};
+            $scope.languages = $scope.languageCodes.map(function(lang) { return { iso:  lang, value: lang }; });
+            $scope.$watch('language.selected', function(newValue, oldValue) {
+                if (!angular.equals(newValue, oldValue) && newValue.iso) {
+                    $scope.switchLanguage(newValue.iso);
+                }
+            });
+
+            $scope.currency = { selected: { id: GlobalData.storeCurrency, label: GlobalData.storeCurrency }};
+            $scope.currencies = GlobalData.store.currencies;
+            $scope.$watch('GlobalData.store.currencies', function() {
+                $scope.currencies = GlobalData.store.currencies;
+            });
+            $scope.$watch('currency.selected', function(newValue, oldValue) {
+                if (!angular.equals(newValue, oldValue) && newValue.id) {
+                    $scope.switchCurrency(newValue.id);
+                }
+            });
+
             CategorySvc.getCategories().then(function(categories){
                 $scope.categories = categories;
             });
@@ -35,7 +54,6 @@ angular.module('ds.shared')
 
             $scope.switchLanguage = function(languageCode) {
                 $translate.use(languageCode);
-                $scope.languageCode =  languageCode;
                 GlobalData.languageCode = languageCode;
                 GlobalData.acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
 

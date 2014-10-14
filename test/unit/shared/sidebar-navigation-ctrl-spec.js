@@ -60,6 +60,7 @@ describe('SidebarNavigationCtrl', function () {
         mockedGlobalData.languageCode = 'pl';
         mockedGlobalData.acceptLanguages = 'pl';
         mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
+        mockedGlobalData.store = {};
         mockedTranslate.use = jasmine.createSpy('use');
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.go = jasmine.createSpy('go');
@@ -89,12 +90,6 @@ describe('SidebarNavigationCtrl', function () {
             $scope.switchLanguage(newLang);
             expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
             expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
-        });
-
-        it('should update scope language', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect($scope.languageCode).toEqualData(newLang);
         });
 
         it('should update global data current language', function(){

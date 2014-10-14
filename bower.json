@@ -28,7 +28,9 @@
     "spin.js": "~2.0.1",
     "angular-cookie": "~4.0.2",
     "angular-bootstrap": "~0.11.0",
-    "angular-xeditable": "~0.1.8"
+    "angular-xeditable": "~0.1.8",
+    "angular-ui-select": "~0.8.2",
+    "angular-sanitize": "~1.3.0"
   },
   "install": {
     "path": {

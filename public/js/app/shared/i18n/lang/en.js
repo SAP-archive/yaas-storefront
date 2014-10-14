@@ -178,6 +178,12 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
-        ENTER_EMAIL: 'Enter Email'
+        ENTER_EMAIL: 'Enter Email',
+
+        /*
+            Currencies
+         */
+        USD: '$',
+        EUR: '€',
 
 	});

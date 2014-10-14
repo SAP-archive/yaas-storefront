@@ -23,6 +23,8 @@ module.exports = function(config){
         'public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
         'public/js/vendor/angular-stripe-js/build/angular-stripe-js.min.js',
         'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
+        'public/js/vendor/angular-sanitize/angular-sanitize.js',
+        'public/js/vendor/angular-ui-select/dist/select.min.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',

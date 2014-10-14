@@ -177,7 +177,12 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.',
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
-        ENTER_EMAIL: 'Emailadresse angeben'
+        ENTER_EMAIL: 'Emailadresse angeben',
 
+        /*
+            Currencies
+         */
+        USD: '$',
+        EUR: '€',
 
     });
