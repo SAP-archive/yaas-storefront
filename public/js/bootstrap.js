@@ -4,10 +4,13 @@
 (function () {
 
     var storeConfig = {};
-    storeConfig.storeTenant = '3xsfuichdoum';
+    storeConfig.storeTenant = '8bwhetym79cq';
+
     // acts as fallback language for localization
     // Longterm, will be retrieved via service from admin tool configuration
     storeConfig.defaultLanguage = 'en';
+    storeConfig.defaultCurrency = 'USD';
+    storeConfig.defaultCurrencySymbol = '$';
 
     try {
         console.log(storeConfig);

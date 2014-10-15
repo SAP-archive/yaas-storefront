@@ -12,7 +12,7 @@
 
 describe('PricesService Test', function(){
 
-    var priceUrlRest = 'http://price-v2.test.cf.hybris.com/prices';
+    var priceUrlRest = 'https://yaas-test.apigee.net/test/price/v2/prices';
 
     var $scope, $rootScope, $httpBackend, priceSvc;
 
@@ -30,14 +30,15 @@ describe('PricesService Test', function(){
         }]
     };
 
-    beforeEach(function() {
-        module('restangular');
-        module('ds.products');
-        module('config')
-    });
+
+    beforeEach(angular.mock.module('ds.products',function($provide) {
+       $provide.value('GlobalData', {});
+       $provide.value('storeConfig', {});
+
+    }));
 
     beforeEach(function (){
-
+        module('restangular');
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);

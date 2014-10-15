@@ -16,7 +16,10 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', '$state', '$q', function (AuthREST, settings, TokenSvc, $state, $q) {
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc',
+        function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc) {
+
+
 
         var AuthenticationService = {
 
@@ -25,7 +28,7 @@ angular.module('ds.auth')
             },
 
             customerSignin: function (user) {
-                return AuthREST.Customers.all('login').customPOST(user, '', { apiKey: settings.apis.customers.apiKey });
+                return AuthREST.Customers.all('login').customPOST(user);
             },
 
             /**
@@ -55,15 +58,42 @@ angular.module('ds.auth')
                 AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
                 // unset token after logout - new anonymous token will be generated for next request automatically
                 TokenSvc.unsetToken(settings.accessCookie);
-                if ($state.is('base.account')) {
-                    $state.go('base.product');
-                }
+                SessionSvc.afterLogOut();
             },
 
-            /** Returns true if there is a user specific OAuth token cookie.*/
+            /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/
             isAuthenticated: function () {
                 var token = TokenSvc.getToken();
-                return !!token.getAccessToken() && !!token.getUsername();
+                return !!token.getAccessToken() && !!token.getUsername() && token.getTenant() === storeConfig.storeTenant;
+            },
+
+            /** Issues a 'reset password' request. Returns the promise of the completed action.*/
+            requestPasswordReset: function(email) {
+                var user = {
+                    email: email
+                };
+                return AuthREST.Customers.all('password').all('reset').customPOST( user);
+            },
+
+            /** Issues a 'change password' request.  Returns the promise of the completed action.
+             * @param token that was obtained for password reset
+             * @param new password
+             */
+            changePassword: function(token, newPassword) {
+                var user = {
+                    token: token,
+                    password: newPassword
+                };
+                return AuthREST.Customers.all('password').all('reset').all('update').customPOST( user);
+            },
+
+            updatePassword: function(oldPassword, newPassword, email) {
+                var payload = {
+                    currentPassword: oldPassword,
+                    newPassword: newPassword,
+                    email: email
+                };
+                return AuthREST.Customers.all('password').all('change').customPOST(payload);
             }
         };
         return AuthenticationService;

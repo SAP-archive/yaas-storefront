@@ -85,12 +85,15 @@
 					display: block;
 					color:#202122;
 					font-size: 15px;
-					line-height: 46px;
+					//line-height: 46px;
+					padding-top: 15px;
+					padding-bottom: 15px;
 					text-transform: uppercase;
 					text-align: center;
 
 					&:hover{
 						text-decoration: none;
+						color: @lightblue;
 					}
 
 					
@@ -122,32 +125,17 @@
 			bottom: 0;
 			left: 100%;
 			padding: 66px 28px 86px;
-			width: 489px;
+			min-width: 250px;
 
 			white-space:nowrap;
 			background: #e2e2e2;
-			
-			-moz-column-gap:56px;
-			-moz-columns:188px;
-			-moz-column-rule: solid 1px #fff;	
-			-moz-column-fill: auto;
-
-			-webkit-column-gap:56px;
-			-webkit-columns:188px;
-			-webkit-column-rule: solid 1px #fff;	
-			-webkit-column-fill: auto;
-
-			column-gap:56px;
-			columns:188px;
-			column-rule: solid 1px #fff;	
-			column-fill: auto;
-
 
 			.sub-navi-list{
 				.list-unstyled;
 				text-align: center;
 
 				ul{
+					display: none;
 					.list-unstyled;
 					margin: 0 0 30px 0 ;
 					& > li{
@@ -204,7 +192,7 @@
 
 
 	@media (max-width: @screen-sm-max){
-		overflow: hidden;
+		overflow: auto;
 		.navi{
 
 			margin:  0 0 0 0;
@@ -415,15 +403,6 @@
 
 
 
-
-
-
-
-
-
-
-
-@topNavigationHeight:75px;
 .top-navigation{
 	.navbar; 
 	.navbar-default;
@@ -435,6 +414,10 @@
 	background: @lightergrey;
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	top: 0;
+	position: fixed;
+	z-index: 1030;
 
 	.navbar-btn{
 		margin-bottom: 0px;
@@ -522,10 +505,12 @@
 	
 	}
 
-	.right .navbar-btn.cart{
-		background: @defaultblue;
-		color: #fff;
-		right: @offcanvas-right-width-d;
+	.right {
+		.navbar-btn.cart{
+			background: @defaultblue;
+			color: #fff;
+			right: @offcanvas-right-width-d;
+		}
 	}
 
 

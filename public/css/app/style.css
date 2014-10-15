@@ -5893,6 +5893,9 @@ body {
   overflow-x: hidden;
   /* Prevent scroll on narrow devices */
 }
+html.disable-scroll {
+  overflow-y: hidden;
+}
 /* MENU */
 .sidebar-offcanvas {
   position: fixed;
@@ -5902,6 +5905,7 @@ body {
   transition: all 0.25s ease-out 0.1s;
   z-index: 500;
   overflow: visible;
+  top: 0;
 }
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
@@ -5918,6 +5922,14 @@ body {
 }
 .sidebar-offcanvas:after {
   clear: both;
+}
+.mainContent {
+  background: #f8f8f8;
+}
+@media (max-width: 992px) {
+  .mainContent {
+    margin-top: 75px;
+  }
 }
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
@@ -5943,19 +5955,28 @@ body {
 .left .mainContent {
   right: -70%;
 }
+.left .top-navigation {
+  right: -70%;
+}
 .right .offcanvas-right {
   right: 0;
 }
 .right .mainContent {
   right: 85%;
 }
+.right .top-navigation {
+  right: 85%;
+}
 @media screen and (min-width: 991px) {
   .sidebar-offcanvas {
     left: 0;
     width: 210px;
+    position: absolute;
+    float: left;
   }
   .mainContent {
-    padding-left: 210px;
+    margin-left: 210px;
+    z-index: 400;
   }
   .offcanvas-right {
     width: 500px;
@@ -6092,12 +6113,14 @@ body {
     display: block;
     color: #202122;
     font-size: 15px;
-    line-height: 46px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-transform: uppercase;
     text-align: center;
   }
   #sidebar .navi > li > a:hover {
     text-decoration: none;
+    color: #0079ff;
   }
   #sidebar .navi > li.active > a {
     color: #0079ff;
@@ -6112,21 +6135,9 @@ body {
     bottom: 0;
     left: 100%;
     padding: 66px 28px 86px;
-    width: 489px;
+    min-width: 250px;
     white-space: nowrap;
     background: #e2e2e2;
-    -moz-column-gap: 56px;
-    -moz-columns: 188px;
-    -moz-column-rule: solid 1px #fff;
-    -moz-column-fill: auto;
-    -webkit-column-gap: 56px;
-    -webkit-columns: 188px;
-    -webkit-column-rule: solid 1px #fff;
-    -webkit-column-fill: auto;
-    column-gap: 56px;
-    columns: 188px;
-    column-rule: solid 1px #fff;
-    column-fill: auto;
   }
   #sidebar .sub-navi .sub-navi-list {
     padding-left: 0;
@@ -6134,6 +6145,7 @@ body {
     text-align: center;
   }
   #sidebar .sub-navi .sub-navi-list ul {
+    display: none;
     padding-left: 0;
     list-style: none;
     margin: 0 0 30px 0 ;
@@ -6173,7 +6185,7 @@ body {
 }
 @media (max-width: 991px) {
   #sidebar {
-    overflow: hidden;
+    overflow: auto;
   }
   #sidebar .navi {
     margin: 0 0 0 0;
@@ -6362,6 +6374,10 @@ body {
   background: #eeeeee;
   margin: 0;
   padding: 0;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 1030;
 }
 @media (min-width: 768px) {
   .top-navigation {
@@ -6682,7 +6698,7 @@ body {
   margin: 0;
 }
 .cart-item .input-group {
-  max-width: 115px;
+  max-width: 145px;
 }
 .cart-item .input-group .form-control {
   box-shadow: 0 0 0;
@@ -7894,8 +7910,16 @@ section .hero-unit {
   font-style: italic;
   font-size: 14px;
 }
-.confirm .order-detail .row > div {
-  margin-bottom: 20px;
+.confirm .order-detail .subheadline {
+  font-family: Georgia, "Times New Roman", Times, serif, "Times New Roman", serif;
+  font-style: italic;
+  color: #3c3c3c;
+  font-size: 26px;
+  text-align: center;
+}
+.confirm .order-detail .cart-item .item-attr {
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 @media screen and (min-width: 768px) {
   .confirm {
@@ -7941,6 +7965,16 @@ section .hero-unit {
 .default-address span {
   font-weight: bold;
 }
+address {
+  min-height: 120px;
+  overflow: hidden;
+}
+.editable-buttons .btn.btn-default {
+  display: none;
+}
+.editable-controls .editable-error {
+  color: #a94442 !important;
+}
 /* CUSTOM VARS */
 /* BTN */
 .btn {
@@ -7981,7 +8015,6 @@ section .hero-unit {
   border-left-width: 0px;
   padding: 13px 6px 13px 7px;
   box-shadow: 0 0 0;
-  text-transform: uppercase;
 }
 .input-group .form-control .style {
   color: #929292;
@@ -8203,7 +8236,18 @@ section .hero-unit {
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
+/* TOPLEVEL BAR */
 body {
-  background: #f8f8f8;
+  background: #eeeeee;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */

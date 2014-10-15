@@ -16,54 +16,45 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.account')
-    .factory('AccountSvc', ['AuthREST', 'settings', '$q', function(AuthREST, settings, $q){
+    .factory('AccountSvc', ['AuthREST', 'settings', 'GlobalData', '$q', function(AuthREST, settings, GlobalData, $q){
+
+
 
         var AccountSvc = {
 
             /**
-             * Mehtod resturing logged in user account details.
+             * Retrieves the account details of logged-in customer and stores the result in the GlobalData service.
+             * Returns a promise of the result.
              */
-            // TODO: replace with actual implementation (once ApiGee is in place)
             account: function() {
-                return AuthREST.Customers.all('me').customGET();
+                var promise = AuthREST.Customers.all('me').customGET();
+                promise.then(function(success){
+                   GlobalData.customerAccount = success.plain();
+                });
+                return promise;
+            },
+
+            updateAccount: function(account) {
+                return AuthREST.Customers.all('me').customPUT(account, '');
             },
 
             /**
-             * Mehtod resturing logged in user addresses or only specified address
+             * Retrieve addresses of logged in customer.
              */
-            // TODO: replace with actual implementation (once ApiGee is in place)
-            getAccountAddresses: function(addressId) {
-                var deferred = $q.defer(),
-                    result = [{
-                        address1: 'Hollywood Blwd.',
-                        city: 'Los Angeles',
-                        state: 'CA',
-                        zip: '123456'
-                    },
-                        {
-                            address1: 'Dead end walley',
-                            city: 'New York',
-                            state: 'New York',
-                            zip: '111222'
-                        }];
-
-                if (addressId) {
-                    result = result[0];
-                }
-
-                setTimeout(function() { deferred.resolve(result); }, 300);
-
-                return deferred.promise;
-            },
-
             getAddresses: function() {
                 return AuthREST.Customers.all('me').all('addresses').getList();
             },
 
+            /**
+             * Retrieve specified address of logged in customer.
+             */
             getAddress: function(id) {
                 return AuthREST.Customers.all('me').one('addresses', id).get();
             },
 
+            /**
+             * Retrieve default address of logged in customer.
+             */
             getDefaultAddress: function() {
                 var addresses = this.getAddresses(),
                     deferred = $q.defer();
@@ -78,13 +69,42 @@ angular.module('ds.account')
                 return deferred.promise;
             },
 
+            /**
+             * Save addresses within logged in customer's address book.
+             */
             saveAddress: function(address) {
                 var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
                 return promise;
             },
 
+            /**
+             * Remove specified address from logged in customer's address book.
+             */
             removeAddress: function(address) {
                 return AuthREST.Customers.all('me').one('addresses', address.id).customDELETE();
+            },
+
+            /**
+             * Returns a promise to the customer account in the local scope, or retrieves and sets the data if needed.
+             * If the current customer is anonymous and no local scope account has been created yet, it will create
+             * said account with a fake ID.
+             */
+            getCurrentAccount: function() {
+                var defAccount = $q.defer();
+
+                if(GlobalData.customerAccount){
+                    defAccount.resolve(GlobalData.customerAccount);
+                } else if(GlobalData.user.isAuthenticated) {
+                    this.account().then(function(success){
+                        defAccount.resolve(success);
+                    }, function(failure){
+                        defAccount.reject(failure);
+                    });
+                } else {
+                   defAccount.reject();
+                }
+                return defAccount.promise;
+
             }
 
         };

@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings;
+    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={}, mockedElements=[];
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -8,6 +8,7 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products = {};
     mockedGlobalData.products.meta = {};
     mockedGlobalData.products.meta.total = 10;
+    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
 
     //***********************************************************************
     // Common Setup
@@ -58,7 +59,8 @@ describe('BrowseProductsCtrl', function () {
         beforeEach(function () {
 
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData, 'settings': settings});
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
 
         });
 
@@ -83,7 +85,8 @@ describe('BrowseProductsCtrl', function () {
     describe('function', function() {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData, 'settings': settings});
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
+                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
 
         });
 
@@ -94,7 +97,7 @@ describe('BrowseProductsCtrl', function () {
                 $scope.products = [];
                 $scope.addMore();
                 // validate that "add more" added products returned by query to the scope
-                expect(mockedProductSvc.query).wasCalled();
+                expect(mockedProductSvc.query).toHaveBeenCalled();
                 // expect($scope.products).toEqualData(products);
             });
 

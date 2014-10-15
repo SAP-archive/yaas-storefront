@@ -25,6 +25,8 @@ angular.module('ds.auth')
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
+
+
         var inProgress = false;
         return {
 

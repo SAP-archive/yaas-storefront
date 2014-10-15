@@ -9,6 +9,10 @@ body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
+html.disable-scroll{
+  overflow-y: hidden;
+}
+
 /* MENU */
 .sidebar-offcanvas{
   .clearfix;
@@ -19,7 +23,17 @@ body {
     transition: @offcanvas-transition;
     z-index: @zIndex-5--offcanvas-sidebar;
     overflow: visible;
+    top: 0;
+
     
+}
+
+.mainContent{
+  background: @lightestgreyplus;
+
+  @media (max-width: @screen-md-min){
+      margin-top: @topNavigationHeight;
+  }
 }
 
 /* CONTENT AREA & MOBILE NAV */
@@ -50,8 +64,10 @@ body {
     left: 0;  
   }
   .mainContent{
-    right: -@offcanvas-left-width-m;
-    
+    right: -@offcanvas-left-width-m; 
+  }
+  .top-navigation{
+    right: -@offcanvas-left-width-m; 
   }
 }
 
@@ -61,6 +77,9 @@ body {
   }
   .mainContent{
     right: @offcanvas-right-width-m;
+  }
+    .top-navigation{
+    right: @offcanvas-right-width-m; 
   }
 }
 
@@ -73,10 +92,13 @@ body {
   .sidebar-offcanvas{
     left: 0;
     width: @offcanvas-left-width-d;
-  }
+    position: absolute;
+    float: left;
+}
 
   .mainContent{
-    padding-left: @offcanvas-left-width-d;
+    margin-left: @offcanvas-left-width-d;
+    z-index: 400;
   }
 
   .offcanvas-right{

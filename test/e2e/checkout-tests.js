@@ -8,6 +8,20 @@ var tu = require('./protractor-utils.js');
           var curr_year = d.getFullYear();
           var currentDate = month + " " + curr_date + ", " + curr_year;
 
+      function writeHtml(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'utf8'));
+           stream.end();
+      }
+
+      function writeScreenShot(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'base64'));
+           stream.end();
+       }
+
           function fillCheckoutFormExceptEmail(form) {
             tu.sendKeysById('contactName' + form, 'Mike Night');
             tu.sendKeysById('address1' + form, '123');
@@ -28,8 +42,8 @@ var tu = require('./protractor-utils.js');
 
           function verifyCartContents(itemPrice, totalPrice, quantity) {
             expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-            expect(element(by.binding("cart.totalPrice.price")).getText()).toContain(totalPrice);
-            expect(element(by.css("span.value.ng-binding")).getText()).toEqual(totalPrice);
+            expect(element(by.binding("cart.totalPrice.value")).getText()).toContain(totalPrice);
+            expect(element(by.css("tfoot > tr > td.text-right.ng-binding")).getText()).toEqual(totalPrice);
             expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
           }
@@ -63,7 +77,8 @@ describe("checkout:", function () {
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+     	browser.manage().deleteAllCookies();
+        browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
@@ -75,23 +90,23 @@ describe("checkout:", function () {
 
            it('should load one product into cart and move to checkout', function () {
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$27.81', '1');
+            verifyCartContents('Item Price: $10.67', '$13.94', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$52.38', '2');
+            verifyCartContents('Item Price: $10.67', '$24.61', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('xpath', tu.contineShopping);
             tu.clickElement('css', 'img');
-            tu.clickElement('xpath', tu.beadedNecklace);
+            tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('css', tu.checkoutButton);
-            verifyCartContents('Item Price: $24.57', '$41.79', '1');
+            verifyCartContents('Item Price: $10.67', '$23.92', '1');
            });
 
            it('should allow all fields to be editable', function () {
@@ -106,8 +121,8 @@ describe("checkout:", function () {
             // fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
-            browser.sleep(250)
-            expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
+            browser.sleep(1000)
+            // expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
             browser.sleep(25000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');           
@@ -155,13 +170,12 @@ describe("checkout:", function () {
             browser.sleep(1000);
             tu.clickElement('css', tu.checkoutButton);
             browser.sleep(1000);
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            // tu.sendKeysById('firstNameAccount', 'Mike');
+            // tu.sendKeysById('lastNameAccount', 'Night');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
-            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
             tu.clickElement('id', "logout-btn");
 
@@ -177,12 +191,12 @@ describe("checkout:", function () {
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(1000);
+            browser.sleep(3000);
             expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.itemCount')).getText()).toEqual("1");          
-            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$27.81");          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$13.94");          
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
-
+            element(by.repeater('order in orders').row(0).column('order.created')).click();
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
             tu.clickElement('id', "logout-btn");
 
            });
@@ -224,8 +238,10 @@ describe("mobile checkout:", function () {
    describe("verify mobile checkout functionality", function () {
 
      beforeEach(function () {
+      browser.manage().deleteAllCookies();    	
+
         browser.driver.manage().window().setSize(750, 1100);       
-        browser.get(tu.tenant + '/#!/products/540751d0394edbc101ff20ef/');
+        browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
        browser.sleep(8000);
      });
 

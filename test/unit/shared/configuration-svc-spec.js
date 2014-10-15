@@ -14,8 +14,8 @@ describe('ConfigurationSvc Test', function () {
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
     var fullUrl = url+dummyRoute;
-    var configurationsUrl = 'http://yaas-test.apigee.net/test/configuration/v2/configurations';
-    var $scope, $rootScope, $httpBackend, configSvc, globalData;
+    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
+    var $scope, $rootScope, $httpBackend, configSvc, mockedGlobalData={store:{}};
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
     var mockedStoreConfig = {"properties":[{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
@@ -27,7 +27,8 @@ describe('ConfigurationSvc Test', function () {
     });
 
     beforeEach(module('ds.shared', function ($provide) {
-        $provide.value('storeConfig', mockedStoreConfig);
+        $provide.constant('storeConfig', mockedStoreConfig);
+        $provide.value('GlobalData', mockedGlobalData)
     }));
 
     beforeEach(function () {
@@ -37,12 +38,12 @@ describe('ConfigurationSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _GlobalData_) {
+        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
 
             $httpBackend = _$httpBackend_;
-            globalData = _GlobalData_;
+
             configSvc = _ConfigSvc_;
         });
     });
@@ -55,8 +56,8 @@ describe('ConfigurationSvc Test', function () {
 
             $httpBackend.flush();
 
-            expect(globalData.store.name).toEqualData(storeName);
-            expect(globalData.store.logo).toEqualData(logoUrl);
+            expect(mockedGlobalData.store.name).toEqualData(storeName);
+            expect(mockedGlobalData.store.logo).toEqualData(logoUrl);
         });
     }) ;
 

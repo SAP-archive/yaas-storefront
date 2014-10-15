@@ -2,23 +2,40 @@
 
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData', 'storeConfig', 'i18nConstants', 'AuthSvc', 'AuthDialogManager',
 
-		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants, AuthSvc, AuthDialogManager) {
+	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
+        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc',
 
-            $scope.languageCode = GlobalData.languageCode;
+		function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
+                  AuthSvc, AuthDialogManager, CategorySvc) {
+
+            $scope.languageCode = GlobalData.getLanguageCode();
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
+            $scope.categories = [];
+
+            CategorySvc.getCategories().then(function(categories){
+                $scope.categories = categories;
+            });
+
+            $scope.switchCurrency = function (currency) {
+                GlobalData.setCurrency(currency);
+                $state.transitionTo($state.current, $stateParams, {
+                    reload: true,
+                    inherit: true,
+                    notify: true
+                });
+            };
 
             $scope.switchLanguage = function(languageCode) {
-                $translate.use(languageCode);
-                $scope.languageCode =  languageCode;
-                GlobalData.languageCode = languageCode;
-                GlobalData.acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
 
-                if($state.is('base.product') || $state.is('base.product.detail')) {
+                $scope.languageCode =  languageCode;
+                GlobalData.setLanguage(languageCode);
+
+                if($state.is('base.category') || $state.is('base.product.detail')) {
 
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
@@ -38,5 +55,12 @@ angular.module('ds.shared')
 
             $scope.myAccount = function() {
                 $state.go('base.account');
+                $scope.hideMobileNav();
             };
+
+            $scope.hideMobileNav = function(){
+                $rootScope.showMobileNav = false;
+
+            };
+
 	}]);

@@ -60,12 +60,23 @@ angular.module('ds.checkout')
                                         errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
                                     }
                                     break;
+                                case 'minlength':
+                                    if (ngModel.$error.minlength) {
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputMinLengthMessage || 'Field is too short!');
+                                    }
+                                    break;
+                                case 'equal':
+                                    if (ngModel.$error.equal) {
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputEqualMessage || 'Fields not matching!');
+                                    }
+                                    break;
                             }
                         }
                         return errorMsgs;
                     },
                     validate = function() {
                         scope.message = '';
+
                         if (ngModel.$invalid) {
                             var errorMsgs = getErrorMessages();
                             if (elementClone.is('select')) {
@@ -85,6 +96,24 @@ angular.module('ds.checkout')
                             }
                         }
                     };
+
+                // equality check
+                if (attrs.inlineErrorInputEqual) {
+                    var otherInput = element.inheritedData('$formController')[attrs.inlineErrorInputEqual];
+
+                    ngModel.$parsers.push(function(value) {
+                        if(value === otherInput.$viewValue) {
+                            ngModel.$setValidity('equal', true);
+                            return value;
+                        }
+                        ngModel.$setValidity('equal', false);
+                    });
+
+                    otherInput.$parsers.push(function(value) {
+                        ngModel.$setValidity('equal', value === ngModel.$viewValue);
+                        return value;
+                    });
+                }
 
                 elementClone.addClass('error-input');
                 elementClone.removeAttr('id');
@@ -118,7 +147,7 @@ angular.module('ds.checkout')
                     }
                 });
 
-                scope.$watch(function() { return GlobalData.languageCode; }, function (currentLang, previousLang) {
+                scope.$watch(function() { return GlobalData.getLanguageCode(); }, function (currentLang, previousLang) {
                     if (currentLang && previousLang && currentLang !== previousLang) {
                         onInputChanged();
                     }

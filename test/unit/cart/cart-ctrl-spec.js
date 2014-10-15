@@ -34,7 +34,7 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, products, cartCtrl, stubbedCartSvc;
+    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData;
 
     beforeEach(function () {
         cart = {};
@@ -49,11 +49,16 @@ describe('CartCtrl Test', function () {
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
-            updateCart: jasmine.createSpy(),
-            getCart: jasmine.createSpy().andReturn(cart)
+            updateCartItem: jasmine.createSpy(),
+            getCart: jasmine.createSpy().andReturn(cart),
+            getLocalCart: jasmine.createSpy().andReturn(cart)
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc});
+        mockedGlobalData = {
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+        };
+
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
 
         $rootScope.cart = products;
     });
@@ -70,8 +75,8 @@ describe('CartCtrl Test', function () {
     describe('update line item', function () {
 
         it(' should call service update', function () {
-            $scope.updateCart();
-            expect(stubbedCartSvc.updateCart).toHaveBeenCalled;
+            $scope.updateCartItem();
+            expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
         });
 
     });

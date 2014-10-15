@@ -34,9 +34,9 @@
             <div class="form-group input-group"
                 ng-class="{ 'has-error': !billToForm.email.focused && billToForm.email.$invalid &&  ( billToForm.email.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
-                <input type="text" inline-error-input
+                <input type="email" inline-error-input
                 inline-error-input-required-message="{{'EMAIL_REQUIRED' | translate}}" class="form-control" id="email"
-                name="email" ng-model="order.account.email" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"
+                name="email" ng-model="order.account.email"
                 required autocomplete="on"
                 ng-focus="billToForm.email.focused=true"
                 ng-blur="billToForm.email.focused=false" >
@@ -428,7 +428,7 @@
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
     <div class="col-xs-6 text-right">
-        <span class="value">{{cart.totalPrice.price | currency: '$'}}</span>
+        <span class="value">{{cart.totalPrice.price | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"

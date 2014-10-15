@@ -1,15 +1,16 @@
-<ul ng-if="errors && errors.signup.length" class="text-danger list-unstyled">
-  <li ng-repeat="error in errors.signup">{{error.message}}</li>
-</ul>
-
 <form name="singupForm" ng-submit="signup(user.signup, singupForm)">
   <div class="form-group input-group">
-    <span class="input-group-addon"><label class="control-label" for="email">{{'EMAIL' | translate}}</label></span>
-    <input  type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" ng-model="user.signup.email" required>
+    <span class="input-group-addon"><label class="control-label" for="emailInput">{{'EMAIL' | translate}}</label></span>
+    <input  type="email" class="form-control" id="emailInput" placeholder="{{'ENTER_EMAIL' | translate}}" name="email"
+            ng-model="user.signup.email" required ng-focus="clearErrors()">
   </div>
   <div class="form-group input-group">
-    <span class="input-group-addon"><label class="control-label" for="email">{{'Password' | translate}}</label></span>
-    <input  type="password" class="form-control" id="newPasswordInput" placeholder="Password" name="password" ng-model="user.signup.password" required>
+    <span class="input-group-addon"><label class="control-label" for="newPasswordInput">{{'PASSWORD' | translate}}</label></span>
+    <input  type="password" class="form-control" id="newPasswordInput" placeholder="{{'PASSWORD'| translate}}" name="password"
+            ng-model="user.signup.password" required ng-focus="clearErrors()">
   </div>
+    <ul ng-if="errors && errors.signup.length" class="text-danger list-unstyled">
+        <li ng-repeat="error in errors.signup">{{error.message | translate}}</li>
+    </ul>
   <button type="submit" id="create-acct-btn" class="btn btn-primary btn-lg btn-block">{{'CREATE_ACCOUNT' | translate}}</button>
 </form>

@@ -89,6 +89,7 @@ angular.module('ds.i18n')
         THANK_YOU: 'Vielen Dank',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
         YOUR_ORDER_IS: 'Ihre Bestellung ist',
+        SKU: 'SKU',
 
         /*
          navigation
@@ -100,7 +101,7 @@ angular.module('ds.i18n')
          */
         BUY: 'In den Warenkorb',
         DESCRIPTION: 'Beschreibung',
-        OUT_OF_STOCK: 'ausverkauft',
+        OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
 
         /*
@@ -112,6 +113,7 @@ angular.module('ds.i18n')
         PRICE_LOW_HIGH: 'Preis aufsteigend',
         SORT_BY: 'Sortieren',
         VIEWING: 'Anzeige',
+        ALL_PRODUCTS: 'Alle Produkte',
 
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',
@@ -120,8 +122,8 @@ angular.module('ds.i18n')
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
         MY_ACCOUNT: 'Mein Profil',
-        CREATE_ACCOUNT: 'Benutzerkonto erstellen',
-        CONTINUE_AS_GUEST: 'Weiterhin als unseren Gast',
+        CREATE_ACCOUNT: 'Konto erstellen',
+        CONTINUE_AS_GUEST: 'Weiter als Gast',
 
         /*
             account page
@@ -133,6 +135,49 @@ angular.module('ds.i18n')
         CONTACT_PHONE: 'Kontakt Telefon',
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
-        STREET_NUMBER: 'Straße Anzahl'
+        SAVE: 'Speichern',
+        WELLCOME: 'Willkommen',
+        ORDER_HISTORY: 'Bestellverlauf',
+        STREET_NUMBER: 'Nummer',
+        UPDATE_PASSWORD: 'Passwort aktualisieren',
+        CURRENT_PASSWORD: 'Aktuelles Passwort',
+        NEW_PASSWORD: 'Neues Passwort',
+        CONFIRM_NEW_PASSWORD: 'Neues Passwort bestätigen',
+        PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
+        WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
+        PASSWORD_TOO_SHORT: 'Passwort zu kurz',
+
+        /*
+         login, password, signup
+         */
+        PASSWORD: 'Passwort',
+        CONFIRM_PASSWORD: 'Passwort bestätigen',
+        FORGOT_PW: 'Passwort vergessen?',
+        RESET_PASSWORD: 'Neues Passwort',
+        RESET_PW_TITLE: 'Passwort Zurücksetzen',
+        RESET_PW_INSTRUCT: 'Bitte ein neues Passwort angeben.',
+        TOKEN: 'Token',
+        FORGOT_PW_INSTRUCT: 'Bitte Emailadresse angeben. Ein Link zum Zurücksetzen des Passworts wird Ihnen dann zugesendet.',
+        REQUEST_PW_EXPIRED: 'Passwort Zurücksetzung Abgelaufen',
+        REQUEST_PW_EXPIRED_MSG: 'Die Anfrage zum Zurücksetzen des Passworts ist abgelaufen.  Bitte Emailadresse angeben und noch einmal anfordern.',
+        CHECK_EMAIL:'Überprüfen Sie Ihre Email',
+        CHECK_EMAIL_INSTRUCT: '... und klicken auf den Link zum Zurücksetzen des Passworts.  Gültig für 24 Stunden.',
+        PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen erforderlich.',
+        PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
+        PW_SUCCESS: 'Erfolg',
+        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
+        INVALID_TOKEN: 'Dieser Link is nicht gültig. Bitte neu anfordern.',
+        PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
+        RESET_PW_REPEAT: 'Link nochmal anfordern.',
+        FIELD_REQUIRED: 'Angabe erforderlich',
+
+        INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
+        PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
+        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',
+        ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.',
+        FORGOT_PASSWORD: 'Passwort vergessen?',
+        EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
+        ENTER_EMAIL: 'Emailadresse angeben'
+
 
     });

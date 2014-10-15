@@ -56,6 +56,7 @@ angular.module('ds.checkout')
             var addressModalInstance;
 
             $scope.order.account = {};
+            window.scrollTo(0, 0);
 
             var decorateSelectedAddress = function(addresses) {
                 if (selectedAddress) {
@@ -109,7 +110,6 @@ angular.module('ds.checkout')
             };
 
             $scope.$on('user:signedin', function() {
-console.log('USER SIGNED IN!');
                 getDefaultAddress();
                 getAccount();
                 getAddresses();

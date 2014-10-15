@@ -23,7 +23,7 @@ angular.module('ds.products')
                 return {
                     element: element,
                     params: params,
-                    headers: _.extend(headers, {'accept-language': GlobalData.acceptLanguages}),
+                    headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
                     httpConfig: httpConfig
                 };
             });
@@ -49,6 +49,11 @@ angular.module('ds.products')
                 /** Endpoint for ProductDetails API. */
                 ProductDetails: Restangular.withConfig(function(RestangularConfigurer) {
                     RestangularConfigurer.setBaseUrl(settings.apis.productDetails.baseUrl);
+                    applyLanguageHeader(RestangularConfigurer);
+                }),
+                /** Endpoint for Category API.*/
+                Categories: Restangular.withConfig(function(RestangularConfigurer) {
+                    RestangularConfigurer.setBaseUrl(settings.apis.categories.baseUrl);
                     applyLanguageHeader(RestangularConfigurer);
                 })
             };

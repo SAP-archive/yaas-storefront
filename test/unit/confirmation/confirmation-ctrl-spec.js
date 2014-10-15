@@ -13,7 +13,7 @@
 describe('ConfirmationCtrl Test', function () {
 
     var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, mockedProductSvc, confCtrl,
-        mockedOrderDetails, mockedProducts;
+        mockedOrderDetails, mockedProducts, mockedGlobalData;
     var orderId = 123;
     var mockedOrderDetailSvc = {};
     var mockedProductSvc = {};
@@ -51,14 +51,18 @@ describe('ConfirmationCtrl Test', function () {
         deferredOrderDetails.resolve(mockedOrderDetails);
 
         mockedProducts = [
-            {'id': 'product1234'},
-            {'id': 'product5678'},
-            {'id': 'product9876'}
+            {'sku': 'product1234'},
+            {'sku': 'product5678'},
+            {'sku': 'product9876'}
         ];
 
         mockedProducts.headers = [];
         var deferredProducts = $q.defer();
         deferredProducts.resolve(mockedProducts);
+
+        mockedGlobalData = {
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+        };
 
         mockedOrderDetailSvc.getFormattedConfirmationDetails = jasmine.createSpy('getFormattedConfirmationDetails').andReturn(deferredOrderDetails.promise);
         mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
@@ -68,7 +72,7 @@ describe('ConfirmationCtrl Test', function () {
 
     beforeEach(function () {
         confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams,
-            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc});
+            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData});
     });
 
     describe(' initialization', function () {

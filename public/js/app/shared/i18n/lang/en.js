@@ -89,6 +89,7 @@ angular.module('ds.i18n')
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
         YOUR_ORDER_IS: 'Your order is',
+        SKU: 'SKU',
 
         /*
             navigation
@@ -112,6 +113,7 @@ angular.module('ds.i18n')
         PRICE_LOW_HIGH: 'price low - high',
         SORT_BY: 'Sort by',
         VIEWING: 'Viewing',
+        ALL_PRODUCTS: 'All Products',
 
 
 		EMPTY_MSG: 'Demo Store - Coming Soon',
@@ -134,6 +136,48 @@ angular.module('ds.i18n')
         CONTACT_PHONE: 'Contact Phone',
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
-        STREET_NUMBER: 'Street Number'
+        STREET_NUMBER: 'Street Number',
+        WELLCOME: 'Wellcome',
+        ORDER_HISTORY: 'Order History',
+        SAVE: 'Save',
+        UPDATE_PASSWORD: 'Update password',
+        CURRENT_PASSWORD: 'Current password',
+        NEW_PASSWORD: 'New password',
+        CONFIRM_NEW_PASSWORD: 'Confirm new password',
+        PASSWORDS_NO_MATCH: 'Passwords do not match',
+        WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
+        PASSWORD_TOO_SHORT: 'Password too short',
+
+        /*
+           login, password, signup
+         */
+        FORGOT_PW: 'Forgot your password?',
+        PASSWORD: 'Password',
+        CONFIRM_PASSWORD: 'Confirm Password',
+        TOKEN: 'Token',
+        RESET_PASSWORD: 'Reset Password',
+        RESET_PW_TITLE: 'Reset Your Password',
+        RESET_PW_INSTRUCT: 'Please create a new password.',
+        FORGOT_PW_INSTRUCT: 'Please enter your account email address below.  An email will be sent to you with a link to reset your password.',
+        REQUEST_PW_EXPIRED: 'Reset Password Request Expired',
+        REQUEST_PW_EXPIRED_MSG: 'The request to reset your password has expired. Please enter your email to make a new request.',
+        CHECK_EMAIL:'Check Your Email',
+        CHECK_EMAIL_INSTRUCT: '...and follow the link to reset your password. The link will be valid for 24 hours.',
+        PASSWORD_REQUIRED: 'Password with 6 character minimum required.',
+        PASSWORDS_MUST_MATCH: 'Passwords must match.',
+        PW_SUCCESS: 'Success',
+        PW_CHANGED_MSG: 'Your password has been reset. You can now sign into your account.',
+        INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
+        PW_CHANGE_FAILED: 'Update of password failed.',
+        RESET_PW_REPEAT: 'Request another reset-password link.',
+        FIELD_REQUIRED: 'Input required',
+
+        INVALID_CREDENTIALS: 'You entered an invalid email or password.',
+        PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
+        ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please wait 5 minutes and try again.',
+        ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
+        FORGOT_PASSWORD: 'Forgot password?',
+        EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
+        ENTER_EMAIL: 'Enter Email'
 
 	});

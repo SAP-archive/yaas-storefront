@@ -14,11 +14,12 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc, GlobalData) {
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
+        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         window.scrollTo(0, 0);
 
         /* OrderDetails are retrieved on controller instantiation, rather than being injected
@@ -29,7 +30,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
-            var productIds = details.entries.map(function (entry) {
+            var productSkus = details.entries.map(function (entry) {
                 return entry.sku;
             });
             var amount = details.entries.map(function(entry){
@@ -40,7 +41,7 @@ angular.module('ds.confirmation')
             });
 
             var productParms = {
-                q: 'id:(' + productIds + ')'
+                q: 'sku:(' + productSkus + ')'
             };
 
             ProductSvc.query(productParms).then(function(productResult){
@@ -53,7 +54,7 @@ angular.module('ds.confirmation')
                  */
                 angular.forEach(details.entries, function (entry) {
                     angular.forEach($scope.confirmationDetails.products, function (product, key) {
-                        if (product.id === entry.sku) {
+                        if (product.sku === entry.sku) {
                             $scope.confirmationDetails.products[key].price = entry.unitPrice;
                             $scope.confirmationDetails.products[key].amount = entry.amount;
                         }

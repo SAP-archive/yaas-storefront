@@ -22,12 +22,15 @@ module.exports = function(config){
         'public/js/vendor/angular-translate/angular-translate.min.js',
         'public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
         'public/js/vendor/angular-stripe-js/build/angular-stripe-js.min.js',
+        'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',
 
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/settings.js',
+        'public/js/app/shared/services/cookie-svc.js',
+        'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
@@ -41,11 +44,12 @@ module.exports = function(config){
         'public/js/app/shared/i18n/providers/translation-provider.js',
 
         'public/js/app/products/products-index.js',
-        'public/js/app/products/services/product-service.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
+        'public/js/app/products/services/product-service.js',
         'public/js/app/products/services/price-service.js',
         'public/js/app/products/services/price-product-rest.js',
+        'public/js/app/products/services/category-service.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
@@ -66,17 +70,21 @@ module.exports = function(config){
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
+        'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
         'public/js/app/auth/auth-index.js',
-        'public/js/app/auth/controllers/auth-ctrl.js',
+        'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
+        'public/js/app/auth/controllers/password-reset-ctrl.js',
+        'public/js/app/auth/controllers/password-update-ctrl.js',
+        'public/js/app/auth/controllers/password-reset-update-ctrl.js',
+        'public/js/app/auth/directives/confirm-input.js',
         'public/js/app/auth/services/auth-rest.js',
         'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
         'public/js/app/auth/services/anon-auth-service.js',
-        'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
-
+        'public/js/app/auth/services/session-service.js',
 
         'public/js/app/orders/orders-index.js',
         'public/js/app/orders/services/order-list-service.js',
@@ -88,7 +96,9 @@ module.exports = function(config){
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
+        'test/unit/account/*.js',
         'test/unit/auth/*.js',
+        'test/unit/account/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',

@@ -1,17 +1,17 @@
          
-        exports.tatteredBowls = "//a[contains(@href, '#!/products/540751ee394edbc101ff20f5/')]";
-        exports.cupWithHoles = "//a[contains(@href, '#!/products/54075212394edbc101ff20ff/')]";
-        exports.beadedNecklace = "//a[contains(@href, '#!/products/5407524a394edbc101ff2113/')]";
+        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/5436f99f5acee4d3c910c082/')]";
+        exports.blackCoffeeMug = "//a[contains(@href, '#!/products/5436f9a25acee4d3c910c085/')]";
+        exports.whiteThermos = "//a[contains(@href, '#!/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[4]"
+        exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[2]/div[2]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
-        exports.tenant = '3xsfuichdoum'
+        exports.tenant = 'ytvlw4f7ebox'
 
 
          exports.verifyCartAmount = function(amount) {
@@ -65,7 +65,7 @@
         exports.clickByRepeaterRow = function(number) {
           element(by.repeater('product in products').row(number).column('product.name')).click();
         }
-        var assertTextByRepeaterRow = function findProductByRepeaterRow(number, productName) {
+        var assertTextByRepeaterRow = exports.assertProductByRepeaterRow = function(number, productName) {
           var number, productName
           expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
         }
@@ -74,10 +74,11 @@
           element(by.css('select option[value="'+ option +'"]')).click()
         }
 
-        exports.sortAndVerifyPagination = function(sort, product1){
+        exports.sortAndVerifyPagination = function(sort, product1, price1){
             selectOption(sort);
             browser.sleep(250);
             assertTextByRepeaterRow(0, product1);
+            expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
         }
 
         exports.sendKeysByXpath = function(pageElement, keys) {

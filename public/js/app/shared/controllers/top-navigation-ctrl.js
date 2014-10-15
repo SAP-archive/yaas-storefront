@@ -7,17 +7,17 @@ angular.module('ds.shared')
         function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager) {
 
             $scope.GlobalData = GlobalData;
-            $scope.cart = CartSvc.getCart();
+
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
 
 
+            $scope.cart =  CartSvc.getLocalCart();
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj;
             });
 
             $scope.$on('$destroy', unbind);
-
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */

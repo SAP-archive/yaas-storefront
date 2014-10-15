@@ -1,6 +1,6 @@
 
 
-	<a ui-sref="base.product" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
+	<a ui-sref="base.category" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""
 												style="max-width:65px;"></a>
 
 	<div class="authentication-cnt text-center">
@@ -19,17 +19,24 @@
 		</a>
 	</div>
 
-	<ul class="navi">
-		<li><a ui-sref="base.product">{{'PRODUCTS' | translate}}</a></li>
+	<ul class="navi" >
+<!--
+            <li><a ng-click="showProducts()">category.name</a></li>
+-->
 		<!-- 
 		 static example  for multi hierarchy - remove after sampledata is there
-		
-		<li class="has-sub">
-			<a href="">Level 1 <span class="hyicon hyicon-chevron-bold-right"></span></a>
+-->
+        <li>
+            <a ui-sref="base.category({catName: null})" ng-click="hideMobileNav()">{{ 'ALL_PRODUCTS' | translate  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+        </li>
+
+		<li ng-repeat="category in categories"> <!-- class="has-sub" -->
+			<a ui-sref="base.category( {catName: category.slug} )" ng-click="hideMobileNav()">{{ category.name  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+         <!--
 			<div class="sub-navi">
 				<ul class="sub-navi-list">
 					<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 1</a></li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 1<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -39,7 +46,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 2<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -49,7 +56,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 3<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -59,7 +66,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 4<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -69,7 +76,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 5<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -79,7 +86,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 6<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -89,7 +96,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 7<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -99,7 +106,7 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
+					<li class="has-sub"><a href="">Level Two 8<span class="hyicon hyicon-chevron-bold-right"></span></a>
 						<ul>
 							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
 							<li><a href="">Level 3</a></li>
@@ -109,11 +116,13 @@
 							<li><a href="">Level 3</a></li>
 						</ul>
 					</li>
-		
+
 				</ul>
 				
 			</div>
-		</li>
+		-->
+        </li>
+        <!--
 		<li class="has-sub"><a href="">Level 1 <span class="hyicon hyicon-chevron-bold-right"></span></a>
 		<div class="sub-navi">
 				<ul class="sub-navi-list">
@@ -208,14 +217,16 @@
 		<li><a href="">Level One</a></li>
 		<li><a href="">Level 1</a></li>
 		<li><a href="">Level One</a></li>
-		<li><a href="">Level 1</a></li> -->
+		<li><a href="">Level 1</a></li>
+        -->
 	</ul>
 
+    <ul class="navi">
 
-	  <ul class="navi">
-		
-		<li><a ng-click="switchLanguage('en')">EN</a></li>
-		<li><a ng-click="switchLanguage('de')">DE</a></li>
-	</ul>
+        <li><a ng-click="switchLanguage('en')">EN</a></li>
+        <li><a ng-click="switchLanguage('de')">DE</a></li>
+    </ul>
 
-
+    <ul class="navi">
+        <li ng-repeat="currency in GlobalData.store.currencies"><a ng-click="switchCurrency(currency.id)">{{currency.label}}</a></li>
+    </ul>

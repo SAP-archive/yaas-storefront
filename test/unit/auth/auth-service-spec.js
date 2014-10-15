@@ -12,18 +12,26 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q;
+    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q, mockedSessionSvc={
+        afterLogOut: jasmine.createSpy()
+    };
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
     var username = 'some.user@hybris.com';
+    var storeConfig = {
+        storeTenant: storeTenant
+    };
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
     var getUsernameSpy = jasmine.createSpy('getUsernameSpy').andReturn(username);
     mockedTokenSvc = {
         setToken: jasmine.createSpy('setToken'),
         getToken: jasmine.createSpy('getToken').andReturn({
             getAccessToken: getAccessTokenSpy,
-            getUsername: getUsernameSpy
+            getUsername: getUsernameSpy,
+            getTenant: function(){
+                return storeTenant;
+            }
         }),
         unsetToken: jasmine.createSpy('unsetToken')
     };
@@ -57,6 +65,8 @@ describe('AuthSvc Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
+        $provide.value('storeConfig', storeConfig);
+        $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
@@ -71,14 +81,15 @@ describe('AuthSvc Test', function () {
         expect(AuthSvc.signOut).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
         expect(AuthSvc.customerSignin).toBeDefined();
+        expect(AuthSvc.updatePassword).toBeDefined();
     });
 
 
     it("should check if user is authenticated and delegate call to Storage", function() {
         var isAuth = AuthSvc.isAuthenticated();
-        expect(mockedTokenSvc.getToken).wasCalled();
-        expect(getAccessTokenSpy).wasCalled();
-        expect(getUsernameSpy).wasCalled();
+        expect(mockedTokenSvc.getToken).toHaveBeenCalled();
+        expect(getAccessTokenSpy).toHaveBeenCalled();
+        expect(getUsernameSpy).toHaveBeenCalled();
         expect(isAuth).toEqual(true);
     });
 
@@ -97,8 +108,8 @@ describe('AuthSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled();
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should perform signin", function() {
@@ -112,16 +123,16 @@ describe('AuthSvc Test', function () {
            successSpy = jasmine.createSpy('success'),
            errorSpy = jasmine.createSpy('error');
        
-       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login?apiKey=' + mockedSettings.apis.customers.apiKey, payload).respond(200, response);
+       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, response);
        var promise = AuthSvc.signin(payload);
        promise.then(successSpy, errorSpy);
 
        mockBackend.flush();
        
        expect(promise.then).toBeDefined();
-       expect(successSpy).wasCalled();
-       expect(errorSpy).not.wasCalled();
-       expect(mockedTokenSvc.setToken).wasCalledWith(response.accessToken, payload.email);
+       expect(successSpy).toHaveBeenCalled();
+       expect(errorSpy).not.toHaveBeenCalled();
+       expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(response.accessToken, payload.email);
     });
 
     describe('signOut()', function(){
@@ -144,21 +155,53 @@ describe('AuthSvc Test', function () {
             mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
         });
 
         it('should unset token on logout failure', function(){
             mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(500, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).wasCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
         });
 
-        it('should navigate to products if state is protected', function(){
+        it('should invoke session service after logout', function(){
             AuthSvc.signOut(payload);
-            expect(mockedState.go).wasCalledWith('base.product');
+            expect(mockedSessionSvc.afterLogOut).toHaveBeenCalled;
+
         });
     });
 
+    describe('requestPasswordReset()', function(){
+        it('should issue POST on reset route', function(){
+            var email = "foo@bar.com";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset', {'email': email}).respond(200, {});
+            AuthSvc.requestPasswordReset(email);
+            mockBackend.flush();
+        });
+    });
+
+    describe('changePassword()', function(){
+        it('should issue POST on update route', function(){
+            var token = "abc123";
+            var newPw = "wordpass";
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset/update', {'token': token, 'password': newPw}).respond(200, {});
+            AuthSvc.changePassword(token, newPw);
+            mockBackend.flush();
+        });
+    });
+
+    describe('updatePassword()', function(){
+        it('should issue POST on password/change route', function(){
+            var payload = {
+                    currentPassword: 'currentPassword',
+                    newPassword: 'newPassword',
+                    email: 'test@test.com'
+                };
+            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/change').respond(200, {});
+            AuthSvc.updatePassword(payload.oldPassword, payload.newPassword, payload.email);
+            mockBackend.flush();
+        });
+    });
 
 });
