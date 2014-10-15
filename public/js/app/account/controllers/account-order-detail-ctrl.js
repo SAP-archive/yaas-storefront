@@ -35,7 +35,7 @@ angular.module('ds.account')
                 }
             });
             var queryPrices = {
-                q: 'productId:(' + productIds + ')' + ' currency:' + GlobalData.getCurrency()
+                q: 'productId:(' + productIds + ')' + ' currency:' + GlobalData.getCurrencyId()
             };
 
             PriceSvc.query(queryPrices).then(

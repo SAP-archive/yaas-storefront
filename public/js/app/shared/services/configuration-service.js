@@ -17,27 +17,14 @@
 angular.module('ds.shared')
     .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationREST', function(settings, GlobalData, ConfigurationREST){
 
-        function setCurrency(currs){
-            var currencies = [];
-            var defaultCurrency = null;
-            angular.forEach(currs, function(currency){
-                currencies.push(currency.id);
-                if(currency.default){
-                    defaultCurrency = currency.id;
-                }
-            });
-            GlobalData.setAvailableCurrencies(currencies);
-            if(defaultCurrency){
-                GlobalData.setCurrency(defaultCurrency);
-            }
-        }
+
 
         return {
-
 
             /**
              * Loads the store configuration settings - the public Stripe key, store name and logo.
              * These settings are then stored in the GlobalData service.
+             * Returns promise once done.
              */
             loadConfiguration: function() {
 
@@ -57,13 +44,15 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
-                           setCurrency(JSON.parse(value));
+                           GlobalData.setAvailableCurrencies(JSON.parse(value));
                         }
                     }
+
                 }, function(error){
                     console.error('Store settings retrieval failed: '+ JSON.stringify(error));
-                });
 
+                });
+                return config;
             }
 
         };

@@ -25,7 +25,7 @@ angular.module('ds.auth')
                 // there must be an account
                 accountPromise.then(function (account) {
                     if (context && context.fromSignUp) {
-                        account.preferredCurrency = GlobalData.getCurrency();
+                        account.preferredCurrency = GlobalData.getCurrencyId();
                         account.preferredLanguage = GlobalData.getLanguageCode();
                         AccountSvc.updateAccount(account);
                     }

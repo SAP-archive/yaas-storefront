@@ -40,7 +40,7 @@ window.app = angular.module('ds.router', [
                             return deferred.promise;
                         }
                         if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.storeCurrency;
+                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
                     return config || $q.when(config);
@@ -135,26 +135,27 @@ window.app = angular.module('ds.router', [
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
-            /*
-             get the language cookie if it exists
-             */
-            var languageCookie = CookieSvc.getLanguageCookie();
 
-            if (languageCookie) {
-                GlobalData.setLanguage( languageCookie.languageCode);
-            }
+            ConfigSvc.loadConfiguration(storeConfig.storeTenant).finally(function(){
+                /*
+                 get the currency cookie if it exists
+                 */
+                var currencyCookie = CookieSvc.getCurrencyCookie();
+                if (currencyCookie) {
+                    GlobalData.setCurrency(currencyCookie.currency);
+                }
 
-            /*
-             get the currency cookie if it exists
-             */
-            var currencyCookie = CookieSvc.getCurrencyCookie();
+                /*
+                get the language cookie if it exists
+                */
+                var languageCookie = CookieSvc.getLanguageCookie();
+                if (languageCookie) {
+                    GlobalData.setLanguage( languageCookie.languageCode);
+                }
+                CartSvc.getCart();
+            });
 
-            if (currencyCookie) {
-                GlobalData.setCurrency(currencyCookie.currency);
-            }
 
-            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            CartSvc.getCart();
 
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
@@ -183,6 +184,10 @@ window.app = angular.module('ds.router', [
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
                 GlobalData.user.isAuthenticated = isAuthenticated;
                 GlobalData.user.username = TokenSvc.getToken().getUsername();
+            });
+
+            $rootScope.$on('currency:updated', function (event, newCurr) {
+                CartSvc.switchCurrency(newCurr);
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

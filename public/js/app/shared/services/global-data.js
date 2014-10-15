@@ -11,8 +11,9 @@ angular.module('ds.shared')
 
             var languageCode = 'en';
             var acceptLanguages = languageCode;
-            var storeCurrency = 'USD';
-            var availableCurrencies = [storeCurrency];
+            var activeCurrencyId = 'USD';
+            var availableCurrencies = [{id: activeCurrencyId, label: 'US Dollar'}];
+            var currencyIds=[];
 
             return {
                 orders: {
@@ -37,18 +38,20 @@ angular.module('ds.shared')
                     username: null
                 },
 
-
-                getCurrencySymbol: function () {
+                /** Returns the currency symbol of the active currency.*/
+                getCurrencySymbol: function (optionalId) {
+                    var id = optionalId || activeCurrencyId;
                     var symbol = '?';
-                    if (storeCurrency === 'USD') {
+                    if (id === 'USD') {
                         symbol = '$';
                     }
-                    else if (storeCurrency === 'EUR') {
+                    else if (id === 'EUR') {
                         symbol = '\u20AC';
                     }
                     return symbol;
                 },
 
+                /** Sets the code of the language that's supposed to be active for the store.*/
                 setLanguage: function (newLangCode) {
                     if(newLangCode) {
                         if (languageCode !== newLangCode) {
@@ -60,18 +63,22 @@ angular.module('ds.shared')
                     }
                 },
 
+                /** Returns the language code that's currently active for the store.*/
                 getLanguageCode: function(){
                     return languageCode;
                 },
 
+                /** Returns the 'accept-languages' header for the application.*/
                 getAcceptLanguages: function(){
                   return acceptLanguages;
                 },
 
+                /** Sets the currency id that's supposed to be active for this store.
+                 * If the id is not part of the "available" currencies, the update will be silently rejected.*/
                 setCurrency: function (newCurr) {
-                    if(newCurr && availableCurrencies && availableCurrencies.indexOf(newCurr)>-1) {
-                        if(newCurr!==storeCurrency){
-                            storeCurrency = newCurr;
+                    if(newCurr && currencyIds && currencyIds.indexOf(newCurr)>-1) {
+                        if(newCurr!==activeCurrencyId){
+                            activeCurrencyId = newCurr;
                             $rootScope.$emit('currency:updated', newCurr);
                         }
                         CookieSvc.setCurrencyCookie(newCurr);
@@ -80,14 +87,28 @@ angular.module('ds.shared')
                     }
                 },
 
-                getCurrency: function(){
-                    return storeCurrency;
+                /** Returns the id of the currency that's currently active for the store.*/
+                getCurrencyId: function(){
+                    return activeCurrencyId;
                 },
 
-                setAvailableCurrencies: function(currs){
-                    availableCurrencies = currs;
+                /** Sets an array of currency instances from which a shopper should be able to choose.*/
+                setAvailableCurrencies: function(currencies){
+                    if(currencies) {
+                        availableCurrencies = currencies;
+                        var self = this;
+
+                        angular.forEach(currencies, function (currency) {
+                            currencyIds.push(currency.id);
+                            if (currency.default) {
+                                self.setCurrency(currency.id);
+                            }
+                        });
+                    }
+
                 },
 
+                /** Returns an array of currency instances supported by this project.*/
                 getAvailableCurrencies: function(){
                     return availableCurrencies;
                 }

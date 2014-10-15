@@ -10,6 +10,7 @@ describe('GlobalData', function () {
         };
     var GlobalData = null;
     var defaultLang = 'en';
+    var $rootScope;
 
     beforeEach( function() {
 
@@ -27,9 +28,9 @@ describe('GlobalData', function () {
             $provide.constant('storeConfig', {defaultLanguage: defaultLang});
         });
 
-        inject(function(_GlobalData_){
+        inject(function(_GlobalData_, _$rootScope_){
             GlobalData = _GlobalData_;
-
+            $rootScope = _$rootScope_;
         });
 
     });
@@ -66,18 +67,27 @@ describe('GlobalData', function () {
 
     describe('setCurrency()', function(){
         var newCur = 'EUR';
+        var currencyEventSpy;
 
         beforeEach(function(){
-            GlobalData.setAvailableCurrencies(['EUR', 'USD']);
+            currencyEventSpy =  jasmine.createSpy();
+            $rootScope.$on('currency:updated', currencyEventSpy);
+            GlobalData.setAvailableCurrencies([{id:'EUR'}, {id:'USD'}]);
             GlobalData.setCurrency(newCur);
         });
 
         it('should set the currency as cookie', function(){
-            expect(mockedCookieSvc.setCurrencyCookie).toHaveBeenCalled();
+            var update = 'USD';
+            GlobalData.setCurrency(update);
+            expect(mockedCookieSvc.setCurrencyCookie).toHaveBeenCalledWith(update);
+        });
+
+        it('should raise event <<currency:updated>> if currency changed', function(){
+            expect(currencyEventSpy).toHaveBeenCalled();
         });
 
         it('should set the store currency', function(){
-            expect(GlobalData.getCurrency()).toEqualData(newCur);
+            expect(GlobalData.getCurrencyId()).toEqualData(newCur);
         });
 
         it('should return the correct currency symbol', function(){
@@ -87,7 +97,7 @@ describe('GlobalData', function () {
 
         it('should reject the currency update if currency not among available currencies', function(){
            GlobalData.setCurrency('pl');
-            expect(GlobalData.getCurrency()).toEqualData(newCur);
+            expect(GlobalData.getCurrencyId()).toEqualData(newCur);
 
         });
 

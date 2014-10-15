@@ -20,11 +20,8 @@ describe('CartSvc Test', function () {
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var productIdFromCart = '540751ee394edbc101ff20f5';
-    //var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
     var mockedAccountSvc = {};
-    var mockedGlobalData = {
-        storeCurrency: 'EUR'
-    };
+
     var mockedState = {
         current: 'base.checkout',
         go: jasmine.createSpy(),
@@ -64,10 +61,9 @@ describe('CartSvc Test', function () {
            // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
 
-            $provide.value('GlobalData', { getCurrency: function (){
+            $provide.value('GlobalData', {
+                getCurrencyId: function (){
                 return 'USD'
-            }, getLanguage: function(){
-                return 'en'
             }, getAcceptLanguages: function(){
                 return 'en'
             }});

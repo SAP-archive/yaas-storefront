@@ -17,21 +17,15 @@ angular.module('ds.cart')
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
-
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         $scope.cart = CartSvc.getLocalCart();
+        $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
-
-
-        var unbindCurrency = $rootScope.$on('currency:updated', function(event, newCurr){
-            CartSvc.switchCurrency(newCurr);
-            $scope.currencySymbol = GlobalData.getCurrencySymbol();
-        });
-
-        $scope.$on('$destroy', unbind, unbindCurrency);
+        $scope.$on('$destroy', unbind);
 
         /** Remove a product from the cart.
          * @param cart item id
