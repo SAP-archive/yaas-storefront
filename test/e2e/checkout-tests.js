@@ -177,6 +177,8 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
             verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 Fake Ave Place");
             tu.clickElement('id', "logout-btn");
 
            });
