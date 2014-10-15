@@ -87,8 +87,8 @@ angular.module('ds.i18n')
         RETURN_TO_SHOPPING: 'Return to shopping',
         SUCCESS: 'Success!',
         THANK_YOU: 'Thank you',
-        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
-        YOUR_ORDER_IS: 'Your order is',
+        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
+        YOUR_ORDER_IS: 'Your order # is ',
         SKU: 'SKU',
 
         /*
