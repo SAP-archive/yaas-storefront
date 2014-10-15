@@ -7594,6 +7594,9 @@ section .hero-unit {
   font: italic 13px/25px Georgia, "Times New Roman", Times, serif, sans-serif;
   color: #454545;
 }
+.product-gallery {
+  max-width: 500px;
+}
 .product-gallery .image {
   margin: 0 0 30px 0;
   position: relative;
@@ -8190,6 +8193,9 @@ address {
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
+body {
+  background: red;
+}
 .error {
   color: #f1291e;
   padding: 15px;
