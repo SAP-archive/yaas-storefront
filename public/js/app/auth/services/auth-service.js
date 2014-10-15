@@ -16,7 +16,8 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q) {
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc',
+        function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc) {
 
 
 
@@ -57,10 +58,7 @@ angular.module('ds.auth')
                 AuthREST.Customers.all('logout').customGET('', { accessToken: TokenSvc.getToken().getAccessToken() });
                 // unset token after logout - new anonymous token will be generated for next request automatically
                 TokenSvc.unsetToken(settings.accessCookie);
-                GlobalData.customerAccount = null;
-                if ($state.is('base.account')) {
-                    $state.go('base.category');
-                }
+                SessionSvc.afterLogOut();
             },
 
             /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/

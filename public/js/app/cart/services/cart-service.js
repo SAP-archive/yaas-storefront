@@ -64,7 +64,7 @@ angular.module('ds.cart')
                     newCart.customerId = successAccount.id;
                 });
                 accPromise.finally(function () {
-                    newCart.currency = GlobalData.storeCurrency;
+                    newCart.currency = GlobalData.getCurrency();
                     CartREST.Cart.all('carts').post(newCart).then(function (response) {
                         cart.id = response.cartId;
                         deferredCart.resolve({ cartId: cart.id});

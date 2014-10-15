@@ -90,5 +90,7 @@ angular.module('ds.shared')
             storeLogo: 'store.settings.image.logo.url'
         },
 
-        placeholderImage: 'img/no-image.png'
+        placeholderImage: 'img/no-image.png',
+
+        homeState: 'base.category'
     });

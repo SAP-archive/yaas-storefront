@@ -63,7 +63,15 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
            // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
-            $provide.value('GlobalData', mockedGlobalData);
+
+            $provide.value('GlobalData', { getCurrency: function (){
+                return 'USD'
+            }, getLanguage: function(){
+                return 'en'
+            }, getAcceptLanguages: function(){
+                return 'en'
+            }});
+
             $provide.value('storeConfig', {});
             $provide.value('$state', mockedState);
             $provide.value('$stateParams', {});

@@ -34,7 +34,6 @@ angular.module('ds.shared')
             };
         };
 
-
         var CookieSvc = {
 
             setCurrencyCookie: function(currency, expiresIn) {

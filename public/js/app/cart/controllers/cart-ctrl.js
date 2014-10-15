@@ -13,8 +13,7 @@
 'use strict';
 
 angular.module('ds.cart')
-    /** This controller manages the interactions for the cart icon in the navigation bar, as well as the
-     * cart maintenance function of the cart view. The controller is also listening to the 'cart:udpated' event
+    /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
@@ -25,7 +24,14 @@ angular.module('ds.cart')
             $scope.cart = eveObj;
         });
 
-        $scope.$on('$destroy', unbind);
+
+
+        var unbindCurrency = $rootScope.$on('currency:updated', function(event, newCurr){
+            CartSvc.switchCurrency(newCurr);
+            $scope.currencySymbol = GlobalData.getCurrencySymbol();
+        });
+
+        $scope.$on('$destroy', unbind, unbindCurrency);
 
         /** Remove a product from the cart.
          * @param cart item id

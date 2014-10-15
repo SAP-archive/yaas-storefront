@@ -3,13 +3,15 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
 
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope','$translate', 'GlobalData',
-        'storeConfig', 'i18nConstants', 'CookieSvc', 'AuthSvc', 'AuthDialogManager','CategorySvc', 'CartSvc',
 
-		function ($scope, $state, $stateParams, $rootScope, $translate, GlobalData, storeConfig, i18nConstants,
-                  CookieSvc, AuthSvc, AuthDialogManager, CategorySvc, CartSvc) {
+	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
+        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc',
 
-            $scope.languageCode = GlobalData.languageCode;
+		function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
+                  AuthSvc, AuthDialogManager, CategorySvc) {
+
+
+            $scope.languageCode = GlobalData.getLanguageCode();
             $scope.languageCodes = i18nConstants.getLanguageCodes();
             $scope.GlobalData = GlobalData;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -22,18 +24,20 @@ angular.module('ds.shared')
             });
 
             $scope.switchCurrency = function (currency) {
-                GlobalData.storeCurrency = currency;
 
-                CartSvc.switchCurrency(currency);
+                GlobalData.setCurrency(currency);
+                $state.transitionTo($state.current, $stateParams, {
+                    reload: true,
+                    inherit: true,
+                    notify: true
+                });
 
-                CookieSvc.setCurrencyCookie(currency);
             };
 
             $scope.switchLanguage = function(languageCode) {
-                $translate.use(languageCode);
+
                 $scope.languageCode =  languageCode;
-                GlobalData.languageCode = languageCode;
-                GlobalData.acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode+ ';q=1,'+storeConfig.defaultLanguage+';q=0.5');
+                GlobalData.setLanguage(languageCode);
 
                 if($state.is('base.category') || $state.is('base.product.detail')) {
 
@@ -43,7 +47,6 @@ angular.module('ds.shared')
                         notify: true
                     });
                 }
-                CookieSvc.setLanguageCookie(languageCode);
             };
 
             $scope.logout = function () {
@@ -54,25 +57,13 @@ angular.module('ds.shared')
                 AuthDialogManager.open(dOpts, opts);
             };
 
-            $scope.myAccount = function() {
-                $state.go('base.account');
-            };
-
-
-            var unbindLanguage = $rootScope.$on('language:switch', function (eve, languageCode) {
-                $scope.switchLanguage(languageCode);
-            });
-
-            var unbindCurrency = $rootScope.$on('currency:switch', function (eve, currencyCode) {
-                $scope.switchCurrency(currencyCode);
-            });
-
-            $scope.$on('$destroy', unbindLanguage);
-            $scope.$on('$destroy', unbindCurrency);
-            
             $scope.hideMobileNav = function(){
                 $rootScope.showMobileNav = false;
+            };
 
+            $scope.myAccount = function() {
+                $state.go('base.account');
+                $scope.hideMobileNav();
             };
 
 	}]);
