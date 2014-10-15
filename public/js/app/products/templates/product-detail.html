@@ -41,8 +41,8 @@
 
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
-                            <div class="error" >
-                                <small class="help-inline has-error" ng-show="error">
+                            <div ng-if="error" class="error" >
+                                <small class="help-inline has-error">
                                     {{'ERROR_ADDING_TO_CART' | translate}}
                                 </small>
                             </div>
