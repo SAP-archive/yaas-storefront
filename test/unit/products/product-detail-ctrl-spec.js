@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
     };
 
@@ -48,8 +48,11 @@ describe('ProductDetailCtrl', function () {
 
     beforeEach(function () {
         // creating the mocked service
+        cartDef = $q.defer();
         mockedCartSvc = {
-            addProductToCart: jasmine.createSpy()
+            addProductToCart: jasmine.createSpy().andCallFake(function(){
+                return cartDef.promise;
+            })
         };
 
         $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
@@ -69,6 +72,13 @@ describe('ProductDetailCtrl', function () {
             expect($scope.buyButtonEnabled).toBeFalsy();
         });
 
+        it('should set error msg on error', function(){
+            $scope.addToCartFromDetailPage();
+            cartDef.reject();
+            $scope.$apply();
+            expect($scope.error).toBeTruthy();
+        });
+
     });
 
     describe('initialization', function () {
@@ -78,14 +88,27 @@ describe('ProductDetailCtrl', function () {
     });
 
     describe('onCartUpdated', function () {
+
         beforeEach(function () {
+            $scope.error = 'error';
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated');
         });
+<<<<<<< HEAD
+=======
+
+        it('should show cart', function () {
+            expect($rootScope.showCart).toBeTruthy();
+        });
+>>>>>>> STOR-900
 
         it('should enable buy button', function () {
             expect($scope.buyButtonEnabled).toBeTruthy();
         });
+
+        it('should remove any error', function(){
+            expect($scope.error).toBeFalsy();
+        })
     });
 
 

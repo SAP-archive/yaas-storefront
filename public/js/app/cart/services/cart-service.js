@@ -68,8 +68,7 @@ angular.module('ds.cart')
                     CartREST.Cart.all('carts').post(newCart).then(function (response) {
                         cart.id = response.cartId;
                         deferredCart.resolve({ cartId: cart.id});
-                    }, function (error) {
-                        console.error(error);
+                    }, function () {
                         deferredCart.reject();
                     });
                 });
@@ -81,21 +80,23 @@ angular.module('ds.cart')
          * cart is created first.
          */
         function createCartItem(product, qty) {
-            var cartPromise = getOrCreateCart();
-            cartPromise.then(function(cartResult){
-                var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
+
+            var createItemDef = $q.defer();
+            getOrCreateCart().then(function(cartResult){
+                var price = {'value': product.price.value, 'currency': product.price.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-                    refreshCart(cartResult.cartId).then(function () {
-                        $rootScope.showCart = true;
-                    });
+                    refreshCart(cartResult.cartId);
+                    createItemDef.resolve();
+                }, function(){
+                    refreshCart(cart.id);
+                    createItemDef.reject();
                 });
-            }, function(error){
-                window.alert(error);
-                console.error(error);
-                refreshCart(cart.id);
-                // TODO - show notification to user
+
+            }, function(){
+                createItemDef.reject();
             });
+            return createItemDef.promise;
         }
 
         /** Retrieves the current cart state from the service, updates the local instance
@@ -124,10 +125,15 @@ angular.module('ds.cart')
                     }, function(){
                         defCart.resolve(cart);
                     });
+                }  else {
+                    defCart.resolve(cart);
                 }
 
-            }, function(){
+            }, function(response){
                 cart = {};
+                if(!response || response.status!== 404) {
+                    cart.error = true;
+                }
                 defCart.resolve(cart);
             });
             defCart.promise.then(function(){
@@ -152,19 +158,25 @@ angular.module('ds.cart')
             },
 
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
-             * from the API for consistency and in order to display the updated calculations (line item totals, etc).*/
+             * from the API for consistency and in order to display the updated calculations (line item totals, etc).
+             * @return promise to signal success/failure*/
             updateCartItem: function (item, qty) {
+                var updateDef = $q.defer();
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
                         refreshCart(cart.id);
-                    }, function(error){
-                        // TODO - should handle in controller - in UI
-                        window.alert(error);
-                        console.error(error);
-                        refreshCart(cart.id);
+                        updateDef.resolve();
+                    }, function(){
+                        angular.forEach(cart.items, function(it){
+                            if(item.id === it.id){
+                                item.error = true;
+                            }
+                        });
+                        updateDef.reject();
                     });
                 }
+                return updateDef.promise;
             },
 
             /**
@@ -174,12 +186,13 @@ angular.module('ds.cart')
             removeProductFromCart: function (itemId) {
                 CartREST.Cart.one('carts', cart.id).one('items', itemId).customDELETE().then(function(){
                     refreshCart(cart.id);
-                }, function(error){
-                    console.error(error);
-                    // error handling should be moved to controller
-                    refreshCart(cart.id);
+                }, function(){
+                    angular.forEach(cart.items, function(item) {
+                        if(item.id === itemId) {
+                            item.error = true;
+                        }
+                    });
                 });
-
             },
 
             /*
@@ -187,6 +200,7 @@ angular.module('ds.cart')
              *   cart information (GET).
              *   @param product to add
              *   @param productDetailQty quantity to add
+             *   @return promise over success/failure
              */
             addProductToCart: function (product, productDetailQty) {
                 if (productDetailQty > 0) {
@@ -195,11 +209,12 @@ angular.module('ds.cart')
                         item = cart.items[i];
                         if (product.id === item.product.id) {
                             var qty = item.quantity + productDetailQty;
-                            this.updateCartItem(item, qty);
-                            return;
+                            return this.updateCartItem(item, qty);
                         }
                     }
-                    createCartItem(product, productDetailQty);
+                    return createCartItem(product, productDetailQty);
+                } else {
+                    return $q.when({});
                 }
             },
 
