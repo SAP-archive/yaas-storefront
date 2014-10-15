@@ -68,7 +68,7 @@ angular.module('ds.shared')
                 },
 
                 setCurrency: function (newCurr) {
-                    if(newCurr) {
+                    if(newCurr && !Array.isArray(newCurr)) {
                         storeCurrency = newCurr;
                         CookieSvc.setCurrencyCookie(newCurr);
                     }
