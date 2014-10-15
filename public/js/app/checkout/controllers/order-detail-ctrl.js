@@ -13,8 +13,8 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('OrderDetailCtrl', ['$scope', 'cart', 'shippingCost', 'GlobalData', 'CartSvc',
-        function ($scope, cart, shippingCost, GlobalData, CartSvc) {
+    .controller('OrderDetailCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData', 'CartSvc',
+        function ($scope, $rootScope, cart, shippingCost, GlobalData, CartSvc) {
 
             $scope.cart = cart;
             $scope.shippingCost = shippingCost;

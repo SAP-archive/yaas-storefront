@@ -94,13 +94,10 @@ describe('ProductDetailCtrl', function () {
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated');
         });
-<<<<<<< HEAD
-=======
 
         it('should show cart', function () {
             expect($rootScope.showCart).toBeTruthy();
         });
->>>>>>> STOR-900
 
         it('should enable buy button', function () {
             expect($scope.buyButtonEnabled).toBeTruthy();

@@ -9,7 +9,7 @@ angular.module('ds.shared')
     .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope',
         function (storeConfig, $translate, CookieSvc, $rootScope) {
 
-            var languageCode = storeConfig.defaultLanguage || 'en';
+            var languageCode = 'en';
             var acceptLanguages = languageCode;
             var storeCurrency = 'USD';
             var availableCurrencies = [storeCurrency];

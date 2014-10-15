@@ -68,11 +68,11 @@ describe('GlobalData', function () {
         var newCur = 'EUR';
 
         beforeEach(function(){
+            GlobalData.setAvailableCurrencies(['EUR', 'USD']);
             GlobalData.setCurrency(newCur);
         });
 
         it('should set the currency as cookie', function(){
-
             expect(mockedCookieSvc.setCurrencyCookie).toHaveBeenCalled();
         });
 
@@ -83,7 +83,15 @@ describe('GlobalData', function () {
         it('should return the correct currency symbol', function(){
             var curSymbol = GlobalData.getCurrencySymbol();
             expect(curSymbol).toEqualData('\u20AC');
-        })
+        });
+
+        it('should reject the currency update if currency not among available currencies', function(){
+           GlobalData.setCurrency('pl');
+            expect(GlobalData.getCurrency()).toEqualData(newCur);
+
+        });
+
+
     });
 
 

@@ -17,6 +17,21 @@
 angular.module('ds.shared')
     .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationREST', function(settings, GlobalData, ConfigurationREST){
 
+        function setCurrency(currs){
+            var currencies = [];
+            var defaultCurrency = null;
+            angular.forEach(currs, function(currency){
+                currencies.push(currency.id);
+                if(currency.default){
+                    defaultCurrency = currency.id;
+                }
+            });
+            GlobalData.setAvailableCurrencies(currencies);
+            if(defaultCurrency){
+                GlobalData.setCurrency(defaultCurrency);
+            }
+        }
+
         return {
 
 
@@ -42,18 +57,7 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
-                            var currencies = [];
-                            var defaultCurrency = null;
-                            angular.forEach(JSON.parse(value), function(currency){
-                               currencies.push(currency.id);
-                                if(currency.default){
-                                    defaultCurrency = currency.id;
-                                }
-                            });
-                            GlobalData.setAvailableCurrencies(currencies);
-                            if(defaultCurrency){
-                                GlobalData.setCurrency(defaultCurrency);
-                            }
+                           setCurrency(JSON.parse(value));
                         }
                     }
                 }, function(error){

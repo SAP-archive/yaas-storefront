@@ -8,6 +8,11 @@ angular.module('ds.auth')
         function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings) {
         return {
 
+            /** Coordinates activities to set up basic application state as app is loaded. */
+            onApplicationLaunch: function(){
+
+            },
+
             /** Performs application logic for the scenario of a successful login.
              * @param context - optional configuration instance with the following optional properties:
              * - fromSignUp - set to true if this login followed the creation of a new account

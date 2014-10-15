@@ -26,6 +26,7 @@ angular.module('ds.products')
             window.scrollTo(0, 0);
 
             var unbind = $rootScope.$on('cart:updated', function () {
+                $rootScope.showCart = true;
                 $scope.buyButtonEnabled = true;
             });
 
