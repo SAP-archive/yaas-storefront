@@ -17,7 +17,7 @@ describe('CartSvc Test', function () {
     var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
     var productUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
     var prodId = '123';
-    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'price': {value: 5.00, currency: 'USD'}};
+    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var productIdFromCart = '540751ee394edbc101ff20f5';
     //var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
