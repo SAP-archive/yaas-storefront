@@ -222,23 +222,14 @@ angular.module('ds.cart')
                     var newCurrency = new Currency(code);
                     CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
                         .then(function () {
-                            refreshCart(cart.id).then(function () {
-                                $state.transitionTo($state.current, $stateParams, {
-                                    reload: true,
-                                    inherit: true,
-                                    notify: true
-                                });
-                            });
-                        }
-                    );
+                            refreshCart(cart.id);
+                    }, function(){
+                            // TODO - set error in cart
+                        });
+
+
                 }
-                else {
-                    $state.transitionTo($state.current, $stateParams, {
-                        reload: true,
-                        inherit: true,
-                        notify: true
-                    });
-                }
+
             }
 
         };

@@ -11,7 +11,8 @@ angular.module('ds.shared')
 
             var languageCode = storeConfig.defaultLanguage || 'en';
             var acceptLanguages = languageCode;
-            var storeCurrency = storeConfig.defaultCurrency || 'USD';
+            var storeCurrency = 'USD';
+            var availableCurrencies = [storeCurrency];
 
             return {
                 orders: {
@@ -68,15 +69,27 @@ angular.module('ds.shared')
                 },
 
                 setCurrency: function (newCurr) {
-                    if(newCurr) {
-                        storeCurrency = newCurr;
+                    if(newCurr && availableCurrencies && availableCurrencies.indexOf(newCurr)>-1) {
+                        if(newCurr!==storeCurrency){
+                            storeCurrency = newCurr;
+                            $rootScope.$emit('currency:updated', newCurr);
+                        }
                         CookieSvc.setCurrencyCookie(newCurr);
-                        $rootScope.$emit('currency:updated', newCurr);
+                    } else {
+                        console.error('Currency not valid: '+newCurr);
                     }
                 },
 
                 getCurrency: function(){
                     return storeCurrency;
+                },
+
+                setAvailableCurrencies: function(currs){
+                    availableCurrencies = currs;
+                },
+
+                getAvailableCurrencies: function(){
+                    return availableCurrencies;
                 }
             };
 

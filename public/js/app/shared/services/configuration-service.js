@@ -42,7 +42,18 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
-                            GlobalData.setCurrency(JSON.parse(value));
+                            var currencies = [];
+                            var defaultCurrency = null;
+                            angular.forEach(JSON.parse(value), function(currency){
+                               currencies.push(currency.id);
+                                if(currency.default){
+                                    defaultCurrency = currency.id;
+                                }
+                            });
+                            GlobalData.setAvailableCurrencies(currencies);
+                            if(defaultCurrency){
+                                GlobalData.setCurrency(defaultCurrency);
+                            }
                         }
                     }
                 }, function(error){
