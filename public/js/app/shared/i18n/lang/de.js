@@ -187,6 +187,7 @@ angular.module('ds.i18n')
         DR: 'Dr.',
         MR: 'Herr',
         MRS: 'Frau',
-        MS: 'Fräulein'
+        MS: 'Fräulein',
+        TITLE: 'Anrede'
 
     });
