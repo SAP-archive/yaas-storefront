@@ -4,7 +4,7 @@
 (function () {
 
     var storeConfig = {};
-    storeConfig.storeTenant = 'zfzq82gtrxlj';
+    storeConfig.storeTenant = '8bwhetym79cq';
 
     try {
         console.log(storeConfig);
