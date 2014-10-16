@@ -133,8 +133,15 @@ window.app = angular.module('ds.router', [
             }
 
             /*
-             get the language cookie if it exists
+             closeOffcanvas func for mask 
              */
+
+            $rootScope.closeOffcanvas = function(){
+                $rootScope.showMobileNav = false;
+                $rootScope.showCart = false;
+            };
+
+            
             var languageCookie = CookieSvc.getLanguageCookie();
 
             if (languageCookie) {

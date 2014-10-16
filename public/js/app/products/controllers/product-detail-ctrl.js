@@ -11,6 +11,7 @@ angular.module('ds.products')
 
             $scope.product = product;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
+            $scope.error=null;
 
             if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
                 $scope.product.images = [{url: settings.placeholderImage}];
@@ -33,12 +34,16 @@ angular.module('ds.products')
 
             /** Add the product to the cart.  'Buy' button is disabled while cart update is in progress. */
             $scope.addToCartFromDetailPage = function () {
+                $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product, $scope.productDetailQty);
+                CartSvc.addProductToCart(product, $scope.productDetailQty).then(function(){},
+                function(){
+                    $scope.error = 'ERROR_ADDING_TO_CART';
+                });
             };
 
             /*
-             TODO
+             TODO - remove once we can get currency from product detail service.
              because the product detail service only returns the default price right now,
              we need to get all prices for this product for currency switching purposes
              */

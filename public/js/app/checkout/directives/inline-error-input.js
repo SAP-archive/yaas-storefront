@@ -57,7 +57,7 @@ angular.module('ds.checkout')
                             switch(errorsJSON[errorKey]) {
                                 case 'required':
                                     if (ngModel.$error.required) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'REQUIRED');
                                     }
                                     break;
                                 case 'minlength':
