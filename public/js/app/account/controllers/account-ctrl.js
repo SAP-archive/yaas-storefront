@@ -55,7 +55,9 @@ angular.module('ds.account')
          need to translate titles on page load
          */
         angular.forEach(titlesToTranslate, function (title) {
-            $scope.titles.push($translate(title));
+            $translate(title).then(function (translatedValue) {
+                $scope.titles.push(translatedValue);
+            });
         });
 
         $scope.showLanguageLocale = function() {
