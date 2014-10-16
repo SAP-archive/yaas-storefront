@@ -188,6 +188,14 @@ angular.module('ds.i18n')
         MR: 'Herr',
         MRS: 'Frau',
         MS: 'Fräulein',
-        TITLE: 'Anrede'
+        TITLE: 'Anrede',
 
+        /*
+         order statuses
+         */
+        COMPLETED: 'Fertiggestellt',
+        CONFIRMED: 'Bestätigt',
+        CREATED: 'Erstellt',
+        DECLINED: 'Zurückgegangen',
+        SHIPPED: 'Ausgeliefert'
     });

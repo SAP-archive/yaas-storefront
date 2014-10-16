@@ -190,4 +190,13 @@ angular.module('ds.i18n')
         MRS: 'Mrs.',
         MS: 'Ms.',
         TITLE: 'Title',
+
+        /*
+         order statuses
+         */
+        COMPLETED: 'Completed',
+        CONFIRMED: 'Confirmed',
+        CREATED: 'Created',
+        DECLINED: 'Declined',
+        SHIPPED: 'Shipped'
 	});
