@@ -133,18 +133,6 @@ window.app = angular.module('ds.router', [
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
-
-            ConfigSvc.loadConfiguration(storeConfig.storeTenant).finally(function(){
-                GlobalData.loadInitialCurrency();
-                GlobalData.loadLanguageFromCookie();
-
-                CartSvc.getCart().then(function(cart){
-                   if(cart.currency !==  GlobalData.getCurrencyId()){
-                       CartSvc.switchCurrency(GlobalData.getCurrencyId());
-                   }
-                });
-            });
-
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
@@ -209,6 +197,13 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
                     }
                 })
                 .state('base.product', {
@@ -224,6 +219,7 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
+
                         category: function ($stateParams, CategorySvc) {
                             return CategorySvc.getCategoryWithProducts($stateParams.catName);
                         }
@@ -243,7 +239,6 @@ window.app = angular.module('ds.router', [
                                 .then(function (result) {
                                     return result;
                                 });
-
                         }
                     }
                 })
@@ -257,7 +252,6 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
-
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();

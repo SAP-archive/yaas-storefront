@@ -15,44 +15,88 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['settings', 'GlobalData', 'ConfigurationREST', function(settings, GlobalData, ConfigurationREST){
-
-
-
-        return {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc) {
+            var initialized = false;
 
             /**
              * Loads the store configuration settings - the public Stripe key, store name and logo.
              * These settings are then stored in the GlobalData service.
              * Returns promise once done.
              */
-            loadConfiguration: function() {
-
+            function loadConfiguration() {
                 var configPromise = ConfigurationREST.Config.one('configurations').get().then(function (result) {
                     var key = null;
                     var value = null;
-                    for (var i=0,  tot=result.properties.length; i < tot; i++) {
-                        key =  result.properties[i].key;
+                    for (var i = 0, tot = result.properties.length; i < tot; i++) {
+                        key = result.properties[i].key;
                         value = result.properties[i].value;
-                        if(key === settings.configKeys.stripeKey) {
+                        if (key === settings.configKeys.stripeKey) {
                             /* jshint ignore:start */
                             Stripe.setPublishableKey(value);
                             /* jshint ignore:end */
-                        }  else if (key === settings.configKeys.storeName) {
+                        } else if (key === settings.configKeys.storeName) {
                             GlobalData.store.name = value;
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
-                           GlobalData.setAvailableCurrencies(JSON.parse(value));
+                            GlobalData.setAvailableCurrencies(JSON.parse(value));
                         }
                     }
                     return result;
-                }, function(error){
-                    console.error('Store settings retrieval failed: '+ JSON.stringify(error));
+                }, function (error) {
+                    console.error('Store settings retrieval failed: ' + JSON.stringify(error));
                 });
                 return configPromise;
 
             }
 
-        };
-    }]);
+
+            return {
+
+                /**
+                 * Returns an empty promise that is resolved once the app has been initialized with all essential data.
+                 */
+                initializeApp: function () {
+                    var def = $q.defer();
+                    if (initialized) {
+                        def.resolve({});
+                    } else {
+                        loadConfiguration(GlobalData.store.tenant).finally(function () {
+                            var languageSet = false;
+                            var currencySet = false;
+                            if (AuthSvc.isAuthenticated()) { // if session still in tact, load use preferences
+                                AccountSvc.account().then(function (account) {
+                                    if (account.preferredLanguage) {
+                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
+                                        languageSet = true;
+                                    }
+                                    if (account.preferredCurrency) {
+                                        GlobalData.setCurrency(account.preferredCurrency);
+                                        currencySet = true;
+                                    }
+
+                                });
+                            }
+                            if (!languageSet) {
+                                GlobalData.loadLanguageFromCookie();
+                            }
+                            if (!currencySet) {
+                                GlobalData.loadInitialCurrency();
+                            }
+                            def.resolve({});
+                            initialized = true;
+
+                            CartSvc.getCart().then(function (cart) {
+                                if (cart.currency !== GlobalData.getCurrencyId()) {
+                                    CartSvc.switchCurrency(GlobalData.getCurrencyId());
+                                }
+                            });
+                        });
+                    }
+                    return def.promise;
+                }
+
+
+            };
+        }]);
