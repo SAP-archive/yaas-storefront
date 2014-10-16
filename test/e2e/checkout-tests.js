@@ -183,6 +183,8 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
             verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 Fake Ave Place");
             tu.clickElement('id', "logout-btn");
 
            });
@@ -199,7 +201,6 @@ describe("checkout:", function () {
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(3000);
             expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.itemCount')).getText()).toEqual("1");          
             expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$13.94");          
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
             element(by.repeater('order in orders').row(0).column('order.created')).click();

@@ -30,14 +30,15 @@ describe('PricesService Test', function(){
         }]
     };
 
-    beforeEach(function() {
-        module('restangular');
-        module('ds.products');
-        module('config')
-    });
+
+    beforeEach(angular.mock.module('ds.products',function($provide) {
+       $provide.value('GlobalData', {});
+       $provide.value('storeConfig', {});
+
+    }));
 
     beforeEach(function (){
-
+        module('restangular');
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);

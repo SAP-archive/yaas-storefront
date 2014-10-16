@@ -15,7 +15,7 @@ describe('ProductSvc Test', function () {
 
     var $scope, $rootScope, $httpBackend, productSvc;
     var acceptLang = "de";
-    var mockedGlobalData = {acceptLanguages: acceptLang};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
 
 
     var prodList = [

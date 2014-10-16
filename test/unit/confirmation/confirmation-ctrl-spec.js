@@ -38,8 +38,7 @@ describe('ConfirmationCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $q = _$q_;
-        orderDetailQueryDeferred = $q.defer();
-        productQueryDeferred = $q.defer();
+
 
     }));
 
@@ -72,7 +71,7 @@ describe('ConfirmationCtrl Test', function () {
 
     beforeEach(function () {
         confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams,
-            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData});
+            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData, 'isAuthenticated': true});
     });
 
     describe(' initialization', function () {
