@@ -123,13 +123,11 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc',
-        '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc,
-                  $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
+    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
+        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
-            editableOptions.theme = 'bs3';
-            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
@@ -137,31 +135,22 @@ window.app = angular.module('ds.router', [
 
 
             ConfigSvc.loadConfiguration(storeConfig.storeTenant).finally(function(){
-                /*
-                 get the currency cookie if it exists
-                 */
-                var currencyCookie = CookieSvc.getCurrencyCookie();
-                if (currencyCookie) {
-                    GlobalData.setCurrency(currencyCookie.currency);
-                }
+                GlobalData.loadInitialCurrency();
+                GlobalData.loadLanguageFromCookie();
 
-                /*
-                get the language cookie if it exists
-                */
-                var languageCookie = CookieSvc.getLanguageCookie();
-                if (languageCookie) {
-                    GlobalData.setLanguage( languageCookie.languageCode);
-                }
-                CartSvc.getCart();
+                CartSvc.getCart().then(function(cart){
+                   if(cart.currency !==  GlobalData.getCurrencyId()){
+                       CartSvc.switchCurrency(GlobalData.getCurrencyId());
+                   }
+                });
             });
 
-
+            editableOptions.theme = 'bs3';
+            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
             });
-
-
 
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
                 AuthDialogManager.close();

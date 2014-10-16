@@ -11,9 +11,38 @@ angular.module('ds.shared')
 
             var languageCode = 'en';
             var acceptLanguages = languageCode;
+            var storeDefaultCurrency;
             var activeCurrencyId = 'USD';
             var availableCurrencies = [{id: activeCurrencyId, label: 'US Dollar'}];
             var currencyIds=[];
+
+
+            function setCurrencyWithOptionalCookie(currencyId, setCookie) {
+                if(currencyId && currencyIds && currencyIds.indexOf( currencyId)>-1) {
+                    if( currencyId!==activeCurrencyId){
+                        activeCurrencyId =  currencyId;
+                        $rootScope.$emit('currency:updated',  currencyId);
+                    }
+                    if(setCookie){
+                        CookieSvc.setCurrencyCookie(currencyId);
+                    }
+                } else {
+                    console.error('Currency not valid: '+currencyId);
+                }
+            }
+
+            function setLanguageWithOptionalCookie(newLangCode, setCookie){
+                if(newLangCode) {
+                    if (languageCode !== newLangCode) {
+                        languageCode = newLangCode;
+                        $translate.use(languageCode);
+                        acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                    }
+                }
+                if(setCookie) {
+                    CookieSvc.setLanguageCookie(languageCode);
+                }
+            }
 
             return {
                 orders: {
@@ -53,13 +82,13 @@ angular.module('ds.shared')
 
                 /** Sets the code of the language that's supposed to be active for the store.*/
                 setLanguage: function (newLangCode) {
-                    if(newLangCode) {
-                        if (languageCode !== newLangCode) {
-                            languageCode = newLangCode;
-                            $translate.use(languageCode);
-                            acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
-                        }
-                        CookieSvc.setLanguageCookie(languageCode);
+                    setLanguageWithOptionalCookie(newLangCode, true);
+                },
+
+                loadLanguageFromCookie: function(){
+                    var languageCookie = CookieSvc.getLanguageCookie();
+                    if (languageCookie &&languageCookie.languageCode ) {
+                        setLanguageWithOptionalCookie(languageCookie.languageCode, false);
                     }
                 },
 
@@ -73,17 +102,24 @@ angular.module('ds.shared')
                   return acceptLanguages;
                 },
 
-                /** Sets the currency id that's supposed to be active for this store.
-                 * If the id is not part of the "available" currencies, the update will be silently rejected.*/
-                setCurrency: function (newCurr) {
-                    if(newCurr && currencyIds && currencyIds.indexOf(newCurr)>-1) {
-                        if(newCurr!==activeCurrencyId){
-                            activeCurrencyId = newCurr;
-                            $rootScope.$emit('currency:updated', newCurr);
-                        }
-                        CookieSvc.setCurrencyCookie(newCurr);
+
+                /** Sets the currency id that's supposed to be active for this store and stores it to a
+                 * cookie.
+                 * If the id is not part of the "available" currencies, the update will be silently rejected.
+                 * @param object with property id === currency id; if property setCookie === true, setting will
+                 * be written to cookie (if valid)*/
+                setCurrency: function (currency) {
+                   setCurrencyWithOptionalCookie(currency, true);
+                },
+
+                /** Determines the initial active currency for the store, based on store configuration and
+                 * any existing cookie settings. */
+                loadInitialCurrency: function(){
+                    var currencyCookie = CookieSvc.getCurrencyCookie();
+                    if(currencyCookie && currencyCookie.currency){
+                        setCurrencyWithOptionalCookie(currencyCookie.currency, false);
                     } else {
-                        console.error('Currency not valid: '+newCurr);
+                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true);
                     }
                 },
 
@@ -96,22 +132,22 @@ angular.module('ds.shared')
                 setAvailableCurrencies: function(currencies){
                     if(currencies) {
                         availableCurrencies = currencies;
-                        var self = this;
 
                         angular.forEach(currencies, function (currency) {
                             currencyIds.push(currency.id);
                             if (currency.default) {
-                                self.setCurrency(currency.id);
+                                storeDefaultCurrency = currency.id;
                             }
                         });
                     }
-
                 },
 
                 /** Returns an array of currency instances supported by this project.*/
                 getAvailableCurrencies: function(){
                     return availableCurrencies;
                 }
+
+
             };
 
         }]);

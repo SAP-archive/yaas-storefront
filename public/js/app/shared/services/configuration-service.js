@@ -28,8 +28,7 @@ angular.module('ds.shared')
              */
             loadConfiguration: function() {
 
-                var config = ConfigurationREST.Config.one('configurations').get();
-                config.then(function (result) {
+                var configPromise = ConfigurationREST.Config.one('configurations').get().then(function (result) {
                     var key = null;
                     var value = null;
                     for (var i=0,  tot=result.properties.length; i < tot; i++) {
@@ -47,12 +46,12 @@ angular.module('ds.shared')
                            GlobalData.setAvailableCurrencies(JSON.parse(value));
                         }
                     }
-
+                    return result;
                 }, function(error){
                     console.error('Store settings retrieval failed: '+ JSON.stringify(error));
-
                 });
-                return config;
+                return configPromise;
+
             }
 
         };
