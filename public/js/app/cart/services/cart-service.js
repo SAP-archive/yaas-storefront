@@ -74,9 +74,10 @@ angular.module('ds.cart')
          * cart is created first.
          */
         function createCartItem(product, qty) {
+
             var createItemDef = $q.defer();
             getOrCreateCart().then(function(cartResult){
-                var price = {'value': product.price.value, 'currency': product.price.currency};
+            var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
                     refreshCart(cartResult.cartId);
