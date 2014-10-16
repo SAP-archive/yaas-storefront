@@ -82,7 +82,7 @@ angular.module('ds.i18n')
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'Eine Bestellbestätigung wurde Ihnen zugesendet',
         ENJOY_YOUR_ITEMS: 'Viel Spass mit ihrer Bestellung!',
         FOR_YOUR_ORDER: 'für Ihre Bestellung!',
-        ITEMS_IN_YOUR_ORDER: 'Alle Artikel ihrer Bestellung',
+        ITEMS_IN_YOUR_ORDER: 'Artikel in Ihrer Bestellung',
         QUESTIONS: 'Wenn Sie irgendwelche Fragen haben, kontaktieren Sie uns unter',
         ORDER: 'Bestellung',
         RETURN_TO_SHOPPING: 'Weiter einkaufen',
@@ -130,9 +130,11 @@ angular.module('ds.i18n')
             account page
          */
         ACCOUNT_DETAILS: 'Kontodaten',
+        ADD: 'Hinzufügen',
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
+        CLOSE: 'Schließen',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
         CURRENCY: 'Währung',

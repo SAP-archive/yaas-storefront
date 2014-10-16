@@ -130,9 +130,12 @@ angular.module('ds.i18n')
         /*
             account page
          */
+        ACCOUNT_DETAILS: 'Account details',
+        ADD: 'Add',
         ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
+        CLOSE: 'Close',
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
         CURRENCY: 'Currency',

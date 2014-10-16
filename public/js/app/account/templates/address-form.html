@@ -1,7 +1,7 @@
 <!-- Modal -->
 <form name="addressForm" ng-submit="save(address, addressForm.$valid, addressForm.$name)" novalidate>
   <div class="modal-header">
-    <button class="close" ng-click="closeAddressModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <button class="close" ng-click="closeAddressModal()"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
     <h4 class="modal-title" id="myModalLabel">{{'ADD_ADDRESS' | translate}}</h4>
   </div>
   <div class="modal-body">
@@ -118,6 +118,6 @@
       </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" id="save-address-btn" class="btn btn-primary btn-lg btn-block" >Save</button>
+    <button type="submit" id="save-address-btn" class="btn btn-primary btn-lg btn-block" >{{'SAVE' | translate}}</button>
   </div>
 </form>
