@@ -25,6 +25,7 @@ angular.module('ds.shared')
              * These settings are then stored in the GlobalData service.
              */
             loadConfiguration: function() {
+
                 var config = ConfigurationREST.Config.one('configurations').get();
                 config.then(function (result) {
                     var key = null;
@@ -41,7 +42,7 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
-                            GlobalData.store.currencies = JSON.parse(value);
+                            GlobalData.setCurrency(JSON.parse(value));
                         }
                     }
                 }, function(error){

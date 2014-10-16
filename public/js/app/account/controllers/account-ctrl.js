@@ -12,7 +12,8 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
+        function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -23,8 +24,8 @@ angular.module('ds.account')
 
         $scope.errors = [];
         if (!account.preferredLanguage) {
-          account.preferredCurrency = GlobalData.storeCurrency;
-          account.preferredLanguage = GlobalData.languageCode;
+          account.preferredCurrency = GlobalData.getCurrency();
+          account.preferredLanguage = GlobalData.getLanguageCode();
         }
         $scope.account = account;
         $scope.addresses = addresses;
@@ -67,21 +68,6 @@ angular.module('ds.account')
           return errors;
         };
 
-        /*
-            this function calculates the item count per order,
-            a property not provided by the service
-         */
-        var getItemCountPerOrder = function () {
-            angular.forEach($scope.orders, function (order, key) {
-                var itemCount = 0;
-                angular.forEach(order.entries, function (entry) {
-                    itemCount = itemCount + entry.amount;
-                });
-
-                $scope.orders[key].itemCount = itemCount;
-            });
-        };
-
         // handle dialog dismissal if user select back button, etc
         $scope.$on('$destroy', function () {
             if (modalInstance) {
@@ -94,11 +80,9 @@ angular.module('ds.account')
           if (formValid) {
               AccountSvc.saveAddress(address).then(
                 function() {
-                  console.log('Save address Success: ', arguments);
                   modalInstance.close();
                 },
                 function(response) {
-                  console.log('Save address Errors: ', arguments);
                   $scope.errors = extractServerSideErrors(response);
                 }
               );
@@ -133,11 +117,9 @@ angular.module('ds.account')
           if (window.confirm('Are you sure you want to remove the address?')) {
             AccountSvc.removeAddress(address).then(
               function() {
-                console.log('Remove address Success: ', arguments);
                 $scope.refreshAddresses();
               },
               function(response) {
-                console.log('Remove address Errors: ', arguments);
                 $scope.errors = extractServerSideErrors(response);
               }
             );
@@ -156,11 +138,9 @@ angular.module('ds.account')
           address.account = customerNumber;
           AccountSvc.saveAddress(address).then(
               function() {
-                console.log('Save address as default Success: ', arguments);
                 $scope.refreshAddresses();
               },
               function(response) {
-                console.log('Save address as default Errors: ', arguments);
                 $scope.errors = extractServerSideErrors(response);
               }
             );
@@ -173,7 +153,6 @@ angular.module('ds.account')
             OrderListSvc.query(parms).then(function (orders) {
                 $scope.showAllButton = false;
                 $scope.orders = orders;
-                getItemCountPerOrder();
             });
         };
 
@@ -186,7 +165,8 @@ angular.module('ds.account')
           account[field] = data;
           return AccountSvc.updateAccount(account).then(function() {
             if (field === 'preferredLanguage' && data) {
-              $scope.$emit('language:switch', data.split('_')[0]);
+                GlobalData.setLanguage( data.split('_')[0]);
+
             }
           });
         };
@@ -194,7 +174,5 @@ angular.module('ds.account')
         $scope.updatePassword = function() {
           AuthDialogManager.showUpdatePassword();
         };
-
-        getItemCountPerOrder();
 
     }]);

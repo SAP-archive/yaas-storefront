@@ -51,7 +51,7 @@ angular.module('ds.products')
                         var pricesMap = {};
 
                         pricesResponse.forEach(function (price) {
-                            if (price.currency === GlobalData.storeCurrency) {
+                            if (price.currency === GlobalData.getCurrency()) {
                                 pricesMap[price.productId] = price;
                             }
                         });

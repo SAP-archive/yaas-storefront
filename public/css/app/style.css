@@ -5894,7 +5894,7 @@ body {
   /* Prevent scroll on narrow devices */
 }
 html.disable-scroll {
-  overflow: hidden;
+  overflow-y: hidden;
 }
 /* MENU */
 .sidebar-offcanvas {
@@ -5905,6 +5905,7 @@ html.disable-scroll {
   transition: all 0.25s ease-out 0.1s;
   z-index: 500;
   overflow: visible;
+  top: 0;
 }
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
@@ -5924,6 +5925,11 @@ html.disable-scroll {
 }
 .mainContent {
   background: #f8f8f8;
+}
+@media (max-width: 992px) {
+  .mainContent {
+    margin-top: 75px;
+  }
 }
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
@@ -5949,10 +5955,16 @@ html.disable-scroll {
 .left .mainContent {
   right: -70%;
 }
+.left .top-navigation {
+  right: -70%;
+}
 .right .offcanvas-right {
   right: 0;
 }
 .right .mainContent {
+  right: 85%;
+}
+.right .top-navigation {
   right: 85%;
 }
 @media screen and (min-width: 991px) {
@@ -6101,12 +6113,14 @@ html.disable-scroll {
     display: block;
     color: #202122;
     font-size: 15px;
-    line-height: 46px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-transform: uppercase;
     text-align: center;
   }
   #sidebar .navi > li > a:hover {
     text-decoration: none;
+    color: #0079ff;
   }
   #sidebar .navi > li.active > a {
     color: #0079ff;
@@ -6171,7 +6185,7 @@ html.disable-scroll {
 }
 @media (max-width: 991px) {
   #sidebar {
-    overflow: hidden;
+    overflow: auto;
   }
   #sidebar .navi {
     margin: 0 0 0 0;
@@ -6360,6 +6374,10 @@ html.disable-scroll {
   background: #eeeeee;
   margin: 0;
   padding: 0;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 1030;
 }
 @media (min-width: 768px) {
   .top-navigation {
@@ -8193,6 +8211,7 @@ address {
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
+/* TOPLEVEL BAR */
 body {
   background: red;
 }
@@ -8223,5 +8242,15 @@ body {
 }
 body {
   background: #eeeeee;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */

@@ -54,7 +54,13 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
            // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
-            $provide.value('GlobalData', {});
+            $provide.value('GlobalData', { getCurrency: function (){
+                return 'USD'
+            }, getLanguage: function(){
+                return 'en'
+            }, getAcceptLanguages: function(){
+                return 'en'
+            }});
             $provide.value('storeConfig', {});
         });
 
@@ -324,8 +330,10 @@ describe('CartSvc Test', function () {
           var promise = cartSvc.getCart();
           promise.then(successCallback, failureCallback);
            mockBackend.flush();
-           expect(successCallback).wasCalled();
-           expect(failureCallback).not.wasCalled();
+
+           expect(successCallback).toHaveBeenCalled();
+           expect(failureCallback).not.toHaveBeenCalled();
+
        });
 
         it('should GET cart and not retrieve product info if no line items', function(){
