@@ -38,6 +38,7 @@ angular.module('ds.i18n')
         ITEMS: 'Items',
         LAST_NAME: 'Last Name',
         METHOD: 'Method',
+        MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
         OPTIONAL: 'Optional',
@@ -45,6 +46,7 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
+        PHONE_REQUIRED: 'Phone Required',
         PLACE_ORDER: 'Place Order',
         PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
@@ -173,6 +175,23 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
-        ENTER_EMAIL: 'Enter Email'
+        ENTER_EMAIL: 'Enter Email',
 
+        /*
+            titles
+         */
+        DR: 'Dr.',
+        MR: 'Mr.',
+        MRS: 'Mrs.',
+        MS: 'Ms.',
+        TITLE: 'Title',
+
+        /*
+         order statuses
+         */
+        COMPLETED: 'Completed',
+        CONFIRMED: 'Confirmed',
+        CREATED: 'Created',
+        DECLINED: 'Declined',
+        SHIPPED: 'Shipped'
 	});

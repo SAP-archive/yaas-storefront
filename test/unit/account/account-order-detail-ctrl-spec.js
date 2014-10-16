@@ -119,8 +119,8 @@ describe('AccountOrderDetailCtrl Test', function () {
 
         it('should parse the payment information', function () {
             expect($scope.payment.currency).toEqualData('USD');
-            expect($scope.payment.status).toEqualData('Order Paid');
-            expect($scope.payment.method).toEqualData('Credit Card/Stripe');
+            expect($scope.payment.status).toEqualData('SUCCESS');
+            expect($scope.payment.method).toEqualData('STRIPE');
             expect($scope.payment.paidAmount).toEqualData(100);
         });
 
