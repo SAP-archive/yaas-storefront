@@ -12,7 +12,7 @@
 
 describe('AccountCtrl Test', function () {
 
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, translations, modalPromise, mockedTranslate;
+    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, translations, modalPromise;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
@@ -47,9 +47,12 @@ describe('AccountCtrl Test', function () {
     var address = {};
     mockedStoreConfig.defaultLanguage = defaultLang;
     mockedStoreConfig.storeTenant = storeTenant;
-    mockedTranslate = jasmine.createSpy().andCallFake(function (value) {
-        return value;
-    });
+    var translateReturn = {
+        then: jasmine.createSpy()
+    };
+    function mockedTranslate(title) {
+        return translateReturn;
+    }
     var updatePasswordDfd;
     var mockedAuthDialogManager = {
         showUpdatePassword: jasmine.createSpy('showUpdatePassword').andCallFake(function(){
@@ -211,7 +214,7 @@ describe('AccountCtrl Test', function () {
             $scope.updateAccount('contactEmail', 'notAnEmailAddress');
             $scope.$digest();
             expect(AccountSvc.updateAccount).wasNotCalled();
-            expect(mockedTranslate).toHaveBeenCalledWith('PLEASE_ENTER_VALID_EMAIL');
+            expect(translateReturn.then).toHaveBeenCalled();
             $scope.updateAccount('preferredLanguage', 'en_US');
             $scope.$digest();
             expect(AccountSvc.updateAccount).toHaveBeenCalled();

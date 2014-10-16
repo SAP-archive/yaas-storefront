@@ -188,5 +188,6 @@ angular.module('ds.i18n')
         DR: 'Dr.',
         MR: 'Mr.',
         MRS: 'Mrs.',
-        MS: 'Ms.'
+        MS: 'Ms.',
+        TITLE: 'Title',
 	});
