@@ -385,8 +385,10 @@ describe('CartSvc Test', function () {
            var promise = cartSvc.getCart();
            promise.then(successCallback, failureCallback);
            mockBackend.flush();
+
            expect(successCallback).toHaveBeenCalled();
            expect(failureCallback).not.toHaveBeenCalled();
+
        });
 
         it('should GET cart and not retrieve product info if no line items', function(){

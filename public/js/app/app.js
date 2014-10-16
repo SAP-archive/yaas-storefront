@@ -136,6 +136,7 @@ window.app = angular.module('ds.router', [
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
+
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
             });
@@ -281,6 +282,11 @@ window.app = angular.module('ds.router', [
                         'main@': {
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
+                        }
+                    },
+                    resolve: {
+                        isAuthenticated: function(AuthSvc){
+                            return AuthSvc.isAuthenticated();
                         }
                     }
                 })

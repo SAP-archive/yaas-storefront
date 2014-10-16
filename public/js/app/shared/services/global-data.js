@@ -103,6 +103,7 @@ angular.module('ds.shared')
                 },
 
 
+
                 /** Sets the currency id that's supposed to be active for this store and stores it to a
                  * cookie.
                  * If the id is not part of the "available" currencies, the update will be silently rejected.
