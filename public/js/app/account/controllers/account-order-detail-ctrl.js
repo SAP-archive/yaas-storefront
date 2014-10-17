@@ -18,29 +18,9 @@ angular.module('ds.account')
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
         $scope.currencySymbol = GlobalData.getCurrencySymbol();
-
+        
         var getPaymentInfo = function () {
-            var payment = {};
-
-            if (order.payments[0].status === 'SUCCESS') {
-                payment.status = 'Order Paid';
-            }
-            else {
-                payment.status = 'Order Not Yet Paid';
-            }
-
-            if (order.payments[0].method === 'STRIPE') {
-                payment.method = 'Credit Card/Stripe';
-            }
-            else {
-                payment.method = 'Other Payment Method';
-            }
-
-            payment.currency = order.payments[0].currency;
-
-            payment.paidAmount = order.payments[0].paidAmount;
-
-            return payment;
+            return $scope.order.payments[0];
         };
 
         var getItemsOrderedCount = function () {

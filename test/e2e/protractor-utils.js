@@ -9,7 +9,7 @@
         exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
-        exports.outOfStockButton = "//div[2]/div[2]/button"
+        exports.outOfStockButton = "//div[3]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
         exports.tenant = 'ytvlw4f7ebox'
 
@@ -46,6 +46,8 @@
             element(by.css(pageElement)).click();
           } else if(type === 'linkText') {
             element(by.linkText(pageElement)).click();
+          } else if(type === 'binding') {
+            element(by.binding(pageElement)).click();
           }
           
         };

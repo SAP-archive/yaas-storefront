@@ -25,6 +25,7 @@ angular.module('ds.shared')
              * These settings are then stored in the GlobalData service.
              */
             loadConfiguration: function() {
+
                 var config = ConfigurationREST.Config.one('configurations').get();
                 config.then(function (result) {
                     var key = null;
@@ -40,9 +41,13 @@ angular.module('ds.shared')
                             GlobalData.store.name = value;
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
-                        } else if (key === settings.configKeys.storeCurrencies) {
-                            GlobalData.store.currencies = JSON.parse(value);
                         }
+                        /**  Disable until the "currency story" is pulled in.  For now, will remain hard-coded to USD
+                         * since that's the only one that works
+                        else if (key === settings.configKeys.storeCurrencies) {
+                            var curCode
+                            GlobalData.setCurrency(JSON.parse(value));
+                        }*/
                     }
                 }, function(error){
                     console.error('Store settings retrieval failed: '+ JSON.stringify(error));

@@ -15,17 +15,22 @@ describe('SidebarNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
         getCategories: jasmine.createSpy().andReturn({then: function(){}})
     };
-    var mockedGlobalData = {};
-    var mockedAuthSvc = {};
-    var mockedCookieSvc = {
-        setLanguageCookie: jasmine.createSpy()
+    var mockedGlobalData = {
+        setLanguage: jasmine.createSpy(),
+        setCurrency: jasmine.createSpy(),
+        getLanguageCode: function(){
+            return 'en';
+        },
+        getCurrency: function(){
+            return 'USD';
+        }
     };
+    var mockedAuthSvc = {};
 
     var mockedTranslate = {};
-    var mockedStoreConfig = {};
+
+
     var mockedState = {};
-    var defaultLang = 'en';
-    mockedStoreConfig.defaultLanguage = defaultLang;
     var navCtrl, cart;
     cart = {};
     var username = 'Joe';
@@ -72,23 +77,22 @@ describe('SidebarNavigationCtrl', function () {
 
     beforeEach(function () {
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
-            $translate: mockedTranslate, storeConfig: mockedStoreConfig, CookieSvc: mockedCookieSvc, AuthSvc: mockedAuthSvc,
+             AuthSvc: mockedAuthSvc,
             AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
     });
 
     describe('onInitialization', function(){
         it('should retrieve categories', function(){
-           expect(mockedCategorySvc.getCategories).wasCalled();
+           expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
         });
     });
 
     describe('switchLanguage()', function(){
 
-        it('should notify translate service', function(){
+        it('should setLangauge in GlobalData', function(){
             var newLang = 'de';
             $scope.switchLanguage(newLang);
-            expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
-            expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
         });
 
         it('should update scope language', function(){
@@ -97,26 +101,8 @@ describe('SidebarNavigationCtrl', function () {
             expect($scope.languageCode).toEqualData(newLang);
         });
 
-        it('should update global data current language', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect(mockedGlobalData.languageCode).toEqualData(newLang);
-        });
-
-        it('to non-default language should update accept-languages', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect(mockedGlobalData.acceptLanguages).toEqualData('de;q=1,en;q=0.5');
-        });
-
-        it('to default language should set accept-language to default', function(){
-            var newLang =  defaultLang;
-            $scope.switchLanguage(newLang);
-            expect(mockedGlobalData.acceptLanguages).toEqualData(newLang);
-        });
-
         it('should reload product state', function(){
-            var newLang =  defaultLang;
+            var newLang =  'pl';
             $scope.switchLanguage(newLang);
             expect(mockedState.transitionTo).toHaveBeenCalled();
         });
@@ -135,8 +121,36 @@ describe('SidebarNavigationCtrl', function () {
            $scope.hideMobileNav();
            expect($rootScope.showMobileNav).toBeFalsy();
        });
+    });
 
+    describe('myAccount()', function(){
+       it('should hide mobile nav', function(){
+          $scope.myAccount();
+           expect($rootScope.showMobileNav).toBeFalsy();
+       });
+    });
 
+    describe('switchCurrency()', function(){
+        var cur = 'EU';
+        beforeEach(function(){
+            var cur = 'EU';
+            $scope.switchCurrency(cur);
+        });
+
+        it('should set currency in GlobalData', function(){
+            expect(mockedGlobalData.setCurrency).wasCalledWith(cur);
+        });
+
+        it('should reload current state', function(){
+            expect(mockedState.transitionTo).toHaveBeenCalled();
+        });
+    });
+
+    describe('login()', function(){
+       it('should delegate to AuthDialogMgr', function(){
+         $scope.login();
+           expect(AuthDialogManager.open).wasCalled();
+       });
     });
 
 });

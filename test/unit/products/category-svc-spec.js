@@ -16,7 +16,7 @@ describe('CategorySvc', function () {
 
     var $scope, $rootScope, $httpBackend, categorySvc;
     var acceptLang = "de";
-    var mockedGlobalData = {acceptLanguages: acceptLang};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
 
     var cosmeticsId = "117771264";
     var cosmeticsSlug = 'cosmetics';

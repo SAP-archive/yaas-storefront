@@ -84,7 +84,7 @@ module.exports = function(config){
         'public/js/app/auth/services/auth-service.js',
         'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
-
+        'public/js/app/auth/services/session-service.js',
 
         'public/js/app/orders/orders-index.js',
         'public/js/app/orders/services/order-list-service.js',
