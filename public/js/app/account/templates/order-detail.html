@@ -33,6 +33,7 @@
                         {{order.shippingAddress.street}}<div ng-if="order.shippingAddress.streetAppendix">, {{order.shippingAddress.streetAppendix}}</div><br>
                         {{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zipCode}}<br>
                         {{order.shippingAddress.country}}<br>
+                        {{order.shippingAddress.contactPhone}}<br>
                     </address>
                 </div>
             </div>
@@ -47,6 +48,7 @@
                         {{order.billingAddress.street}}<div ng-if="order.billingAddress.streetAppendix">, {{order.billingAddress.streetAppendix}}</div><br>
                         {{order.billingAddress.city}}, {{order.billingAddress.state}} {{order.billingAddress.zipCode}}<br>
                         {{order.billingAddress.country}}<br>
+                        {{order.billingAddress.contactPhone}}
                     </address>
                 </div>
             </div>
@@ -56,7 +58,7 @@
   		<span class="area-headline">
   			Payment
   		</span>
-                    <p>{{payment.method}}, {{payment.paidAmount | currency: currencySymbol}}, {{payment.status}}</p>
+                    <p>{{payment.method | translate}}, {{payment.paidAmount}} {{payment.currency}}, {{payment.status | translate}}</p>
                 </div>
             </div>
 
@@ -64,7 +66,7 @@
     </section>
     <section>
         <div class="section-headline">
-            <h2>Order Status <span class="order-status">- {{order.status}}</span></h2>
+            <h2>Order Status <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
     </section>
     <section class="mediumgray clearfix">
@@ -82,20 +84,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="product in orderProducts">
+                <tr ng-repeat="entry in order.entries">
 
                     <td >
                         <div class="cart-item">
 
                             <div class="col-xs-2 col-md-4 text-center img-col">
-                                <a ui-sref="base.product.detail( {productId: product.id} )">
-                                    <img class="img-responsive" ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}">
+                                <a ui-sref="base.product.detail( {productId: entry.product.id} )">
+                                    <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
                                 </a>
                             </div>
                             <div class="col-xs-4 col-md-4  detail-col">
 
-                                <div class="name "><a ui-sref="base.product.detail( {productId: product.id} )">{{product.name}}</a></div>
-                                <div class="price item-attr ">SKU: <span> {{product.sku}}</span></div>
+                                <div class="name "><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
+                                <div class="price item-attr ">SKU: <span> {{entry.product.sku}}</span></div>
                                 <!--div class="variants row item-attr">
                                     <div class="variant col-lg-6 ">Color: <span>Stone</span></div>
                                     <div class="variant col-lg-6 ">Size: <span>30 ml</span></div>
@@ -103,9 +105,9 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{prices[product.id].value | currency: currencySymbol}}</td>
-                    <td>{{product.quantity}}</td>
-                    <td>{{prices[product.id].value * product.quantity | currency: currencySymbol}}</td>
+                    <td>{{entry.unitPrice | currency: currencySymbol}}</td>
+                    <td>{{entry.amount}}</td>
+                    <td>{{entry.totalPrice | currency: currencySymbol}}</td>
                 </tr>
                 </tbody>
             </table>

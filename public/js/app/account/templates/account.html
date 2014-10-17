@@ -17,9 +17,9 @@
           <div class="page-headline">
             <h1>
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELLCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
               <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
-          </h1>
+            </h1>
           </div>
           <address ng-if="defaultAddress">
             <span>{{defaultAddress.street}}</span>
@@ -37,6 +37,9 @@
           <div class="clearfix visible-xs"></div>
           <span class="area-headline">Account Details</span>
           <div class="account-details">
+            <div>
+              <span class="inline-label">Title:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
+            </div>
             <div>
               <span class="inline-label">First Name:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>

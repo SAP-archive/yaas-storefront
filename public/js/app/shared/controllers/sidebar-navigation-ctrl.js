@@ -35,7 +35,7 @@ angular.module('ds.shared')
                 $scope.languageCode =  languageCode;
                 GlobalData.setLanguage(languageCode);
 
-                if($state.is('base.category') || $state.is('base.product.detail')) {
+                if($state.is('base.category') || $state.is('base.product.detail') || $state.is('base.account')) {
 
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
