@@ -30,9 +30,10 @@ angular.module('ds.shared')
                 config.then(function (result) {
                     var key = null;
                     var value = null;
-                    for (var i=0,  tot=result.properties.length; i < tot; i++) {
-                        key =  result.properties[i].key;
-                        value = result.properties[i].value;
+                    for (var i=0,  tot=result.length; i < tot; i++) {
+                        var entry = result[i];
+                        key =  entry.key;
+                        value = entry.value;
                         if(key === settings.configKeys.stripeKey) {
                             /* jshint ignore:start */
                             Stripe.setPublishableKey(value);

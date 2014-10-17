@@ -99,7 +99,7 @@ describe("cart:", function () {
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
          });
