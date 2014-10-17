@@ -27,7 +27,7 @@ describe("cart:", function () {
        browser.driver.manage().window().maximize();
        browser.manage().deleteAllCookies();
        browser.get(tu.tenant + '/#!/products');
-       browser.sleep(8000);
+       browser.sleep(10000);
      });
 
 

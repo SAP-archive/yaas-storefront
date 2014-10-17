@@ -9,7 +9,7 @@ describe("product page", function () {
       browser.manage().deleteAllCookies();    	
       browser.get(tu.tenant + '/#!/products');
       browser.driver.manage().window().maximize();
-      browser.sleep(9000);
+      browser.sleep(10000);
     });
 
       
