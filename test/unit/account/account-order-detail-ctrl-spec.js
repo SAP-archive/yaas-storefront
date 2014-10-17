@@ -29,7 +29,7 @@ describe('AccountOrderDetailCtrl Test', function () {
     }));
 
     describe('AccountOrderDetailCtrl ', function () {
-        var mockedOrderSvc, mockedProductSvc, mockedPriceSvc, mockedPricesArray, accountOrderDetailCtrl, mockedOrder, mockedProductsArray, deferredProducts, mockedStateParams, mockedGlobalData;
+        var mockedOrderSvc, accountOrderDetailCtrl, mockedOrder, mockedStateParams, mockedGlobalData;
 
         beforeEach(function () {
 
@@ -44,27 +44,9 @@ describe('AccountOrderDetailCtrl Test', function () {
                 delete: jasmine.createSpy()
             };
 
-            mockedProductsArray = [
-                {
-                    id: 'product1',
-                    sku: 'product1',
-                    amount: 1
-                },
-                {
-                    id: 'product2',
-                    sku: 'product2',
-                    amount: 2
-                }
-            ];
-
             mockedStateParams = {
                 orderId: '12345'
             };
-
-            mockedProductSvc = {};
-            deferredProducts = $q.defer();
-            deferredProducts.resolve(mockedProductsArray);
-            mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
 
             mockedOrder = {
                 id: '12345',
@@ -76,6 +58,9 @@ describe('AccountOrderDetailCtrl Test', function () {
                         paidAmount: 100
                     }
                 ],
+                shippingCost: 0.00,
+                tax: 0.00,
+                currency: 'USD',
                 totalPrice: 100,
                 entries: [
                     {
@@ -84,7 +69,8 @@ describe('AccountOrderDetailCtrl Test', function () {
                         },
                         sku: 'product1',
                         amount: 1,
-                        price: 50
+                        unitPrice: 50.00,
+                        totalPrice: 50.00
                     },
                     {
                         product: {
@@ -92,29 +78,14 @@ describe('AccountOrderDetailCtrl Test', function () {
                         },
                         sku: 'product2',
                         amount: 2,
-                        price: 25
+                        unitPrice: 25.00,
+                        totalPrice: 50.00
                     }
                 ]
             };
 
-            mockedPricesArray = [
-                {'priceId': 'price123', 'productId': 'product1', 'value': '50'},
-                {'priceId': 'price456', 'productId': 'product2', 'value': '25'}
-            ];
-
-            mockedPricesArray.headers = [];
-            var deferredPrices = $q.defer();
-            deferredPrices.resolve(mockedPricesArray);
-            mockedPriceSvc = {};
-            mockedPriceSvc.query = jasmine.createSpy('query').andReturn(deferredPrices.promise);
-
-            $scope.orderProducts = mockedProductsArray;
-            angular.forEach(mockedProductsArray, function (entry, key) {
-                $scope.orderProducts[key].quantity = entry.amount;
-            });
-
             accountOrderDetailCtrl = $controller('AccountOrderDetailCtrl',
-                {$scope: $scope, 'order': mockedOrder, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, $stateParams: mockedStateParams, GlobalData: mockedGlobalData});
+                {$scope: $scope, 'order': mockedOrder, $stateParams: mockedStateParams, GlobalData: mockedGlobalData});
         });
 
         it('should parse the payment information', function () {
@@ -126,15 +97,6 @@ describe('AccountOrderDetailCtrl Test', function () {
 
         it('should get the correct item count', function () {
             expect($scope.itemCount).toEqualData(3);
-        });
-
-        it('should get the prices for the products', function () {
-            $scope.$digest();
-            
-            expect($scope.prices.product1.priceId).toEqualData('price123');
-            expect($scope.prices.product2.priceId).toEqualData('price456');
-            expect($scope.prices.product1.value).toEqualData('50');
-            expect($scope.prices.product2.value).toEqualData('25');
         });
 
     });
