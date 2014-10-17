@@ -1,5 +1,5 @@
          
-        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/5436f99f5acee4d3c910c082/')]";
+        exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
         exports.blackCoffeeMug = "//a[contains(@href, '#!/products/5436f9a25acee4d3c910c085/')]";
         exports.whiteThermos = "//a[contains(@href, '#!/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
