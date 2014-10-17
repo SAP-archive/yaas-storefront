@@ -14,12 +14,12 @@ describe('ConfigurationSvc Test', function () {
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
     var fullUrl = url+dummyRoute;
-    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
+    var configurationsUrl = 'http://configuration-v3.test.cf.hybris.com/configurations';
     var $scope, $rootScope, $httpBackend, configSvc, mockedGlobalData={store:{}};
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
-    var mockedStoreConfig = {"properties":[{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
-        "value":logoUrl}]};
+    var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
+        "value":logoUrl}];
 
 
     beforeEach(function() {
