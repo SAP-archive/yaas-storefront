@@ -18,7 +18,9 @@ describe('CheckoutSvc', function () {
     var order = {};
 
     order.account = {
+        title: 'Mr.',
         firstName: 'Michael',
+        middleName: 'Jeffrey',
         lastName: 'Jordan',
         email: 'bs@sushi.com'
     };
@@ -61,7 +63,7 @@ describe('CheckoutSvc', function () {
                 "country":"USA","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
-        "customer":{"name":"Michael Jordan","email":"bs@sushi.com"},
+        "customer":{"name":"Mr. Michael Jeffrey Jordan","email":"bs@sushi.com"},
         "totalPrice":7.79,"shippingCost": 4.5};
 
     mockedStripeJS = {};

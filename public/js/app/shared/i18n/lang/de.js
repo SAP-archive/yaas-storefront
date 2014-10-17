@@ -38,6 +38,7 @@ angular.module('ds.i18n')
         ITEMS: 'Artikel',
         LAST_NAME: 'Nachname',
         METHOD: 'Verfahren',
+        MIDDLE_NAME: 'zweiter Vorname',
         MONTH: 'Monat',
         NAME: 'Name',
         OPTIONAL: 'optional',
@@ -45,6 +46,7 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
+        PHONE_REQUIRED: 'Telefon Pflicht',
         PLACE_ORDER: 'Bestellung aufgeben',
         PLEASE_CORRECT_ERRORS: 'Bitte korrigieren sie alle Fehler.',
         PLEASE_ENTER_VALID_CC: 'Bitte geben Sie eine gültige Kreditkartennummer an.',
@@ -176,9 +178,21 @@ angular.module('ds.i18n')
         ENTER_EMAIL: 'Emailadresse angeben',
 
         /*
-            Currencies
-         */
-        USD: '$',
-        EUR: '€',
+         titles
+    */
+        DR: 'Dr.',
+        MR: 'Herr',
+        MRS: 'Frau',
+        MS: 'Fräulein',
+        TITLE: 'Anrede',
 
+
+        /*
+         order statuses
+         */
+        COMPLETED: 'Fertiggestellt',
+        CONFIRMED: 'Bestätigt',
+        CREATED: 'Erstellt',
+        DECLINED: 'Zurückgegangen',
+        SHIPPED: 'Ausgeliefert'
     });
