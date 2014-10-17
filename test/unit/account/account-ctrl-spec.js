@@ -12,10 +12,17 @@
 
 describe('AccountCtrl Test', function () {
 
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, modalPromise, mockedTranslate;
+    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses,
+        account, orders, modalPromise, mockedTranslate;
     var storeTenant = '121212';
-    var mockedGlobalData = {store: {tenant: storeTenant}};
-    var accessToken = 123;
+    var mockedGlobalData = {
+        store: {tenant: storeTenant},
+        setLanguage: jasmine.createSpy(),
+        getLanguageCode: function(){ return null},
+        getCurrency: function() { return null}
+
+    };
+
     var mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -54,6 +61,8 @@ describe('AccountCtrl Test', function () {
             return updatePasswordDfd.promise;
         })
     };
+
+
 
     //***********************************************************************
     // Common Setup
@@ -159,15 +168,15 @@ describe('AccountCtrl Test', function () {
             $scope.openAddressModal(address);
             $scope.save(address, false);
             $scope.$digest();
-            expect(AccountSvc.saveAddress).not.wasCalled();
+            expect(AccountSvc.saveAddress).not.toHaveBeenCalled();
             $scope.save(address, true);
             $scope.$digest();
-            expect(AccountSvc.saveAddress).wasCalled();
+            expect(AccountSvc.saveAddress).toHaveBeenCalled();
         });
 
         it("should open the modal dialog when calling opeAddressModal method", function() {
             $scope.openAddressModal(address);
-            expect(mockedModal.open).wasCalled();
+            expect(mockedModal.open).toHaveBeenCalled();
         });
 
         it("should remove address by executing removeAddress with confirmation", function() {
@@ -175,44 +184,45 @@ describe('AccountCtrl Test', function () {
             spyOn(window, 'confirm').andReturn(true);
             $scope.removeAddress(address);
             $scope.$digest();
-            expect(AccountSvc.removeAddress).wasCalled();
+            expect(AccountSvc.removeAddress).toHaveBeenCalled();
         });
 
         it("should not remove address by executing removeAddress without confirmation", function() {
             spyOn(window, 'confirm').andReturn(false);
             $scope.removeAddress(address);
             $scope.$digest();
-            expect(AccountSvc.removeAddress).not.wasCalled();
+            expect(AccountSvc.removeAddress).not.toHaveBeenCalled();
         });
 
         it("should refresh addresss by executing refreshAddresses", function() {
             $scope.refreshAddresses();
             $scope.$digest();
-            expect(AccountSvc.getAddresses).wasCalled();
+            expect(AccountSvc.getAddresses).toHaveBeenCalled();
         });
 
         it("should set addresss as default by executing setAddressAsDefault", function() {
             var addr = { city: 'New York' };
             $scope.setAddressAsDefault(addr);
             $scope.$digest();
-            expect(AccountSvc.saveAddress).wasCalled();
+            expect(AccountSvc.saveAddress).toHaveBeenCalled();
             expect(addr.isDefault).toEqual(true);
         });
 
         it("should update account by executing updateAccount", function() {
             $scope.updateAccount();
             $scope.$digest();
-            expect(AccountSvc.updateAccount).wasCalled();
+            expect(AccountSvc.updateAccount).toHaveBeenCalled();
         });
 
         it("should partially update account when calling updateAccount with parameters", function() {
             $scope.updateAccount('contactEmail', 'notAnEmailAddress');
             $scope.$digest();
-            expect(AccountSvc.updateAccount).wasNotCalled();
+            expect(AccountSvc.updateAccount).not.toHaveBeenCalled();
             expect(mockedTranslate).toHaveBeenCalledWith('PLEASE_ENTER_VALID_EMAIL');
             $scope.updateAccount('preferredLanguage', 'en_US');
             $scope.$digest();
             expect(AccountSvc.updateAccount).toHaveBeenCalled();
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
         });
 
         it("should show the currency as expected", function () {
@@ -247,7 +257,7 @@ describe('AccountCtrl Test', function () {
 
         it("should delegate call to AuthDialogManager's showUpdatePassword method", function() {
             $scope.updatePassword();
-            expect(mockedAuthDialogManager.showUpdatePassword).wasCalled();
+            expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
         });
 
     });

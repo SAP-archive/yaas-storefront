@@ -5,7 +5,8 @@
 				<small>{{'SUCCESS' | translate}}</small>
 				{{'THANK_YOU' | translate}}</br> {{'FOR_YOUR_ORDER' | translate}}
 			</h1>
-			<p>{{'Your order is' | translate}} <span class="highlight">{{'ORDER' | translate}} # {{ orderInfo.orderId }}</span></p>
+			<p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
+            <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
             <div>
                 <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>

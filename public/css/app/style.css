@@ -5894,7 +5894,7 @@ body {
   /* Prevent scroll on narrow devices */
 }
 html.disable-scroll {
-  overflow: hidden;
+  overflow-y: hidden;
 }
 /* MENU */
 .sidebar-offcanvas {
@@ -5905,6 +5905,7 @@ html.disable-scroll {
   transition: all 0.25s ease-out 0.1s;
   z-index: 500;
   overflow: visible;
+  top: 0;
 }
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
@@ -5924,6 +5925,11 @@ html.disable-scroll {
 }
 .mainContent {
   background: #f8f8f8;
+}
+@media (max-width: 992px) {
+  .mainContent {
+    margin-top: 75px;
+  }
 }
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
@@ -5949,10 +5955,16 @@ html.disable-scroll {
 .left .mainContent {
   right: -70%;
 }
+.left .top-navigation {
+  right: -70%;
+}
 .right .offcanvas-right {
   right: 0;
 }
 .right .mainContent {
+  right: 85%;
+}
+.right .top-navigation {
   right: 85%;
 }
 @media screen and (min-width: 991px) {
@@ -6101,12 +6113,14 @@ html.disable-scroll {
     display: block;
     color: #202122;
     font-size: 15px;
-    line-height: 46px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-transform: uppercase;
     text-align: center;
   }
   #sidebar .navi > li > a:hover {
     text-decoration: none;
+    color: #0079ff;
   }
   #sidebar .navi > li.active > a {
     color: #0079ff;
@@ -6171,7 +6185,7 @@ html.disable-scroll {
 }
 @media (max-width: 991px) {
   #sidebar {
-    overflow: hidden;
+    overflow: auto;
   }
   #sidebar .navi {
     margin: 0 0 0 0;
@@ -6360,6 +6374,10 @@ html.disable-scroll {
   background: #eeeeee;
   margin: 0;
   padding: 0;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 1030;
 }
 @media (min-width: 768px) {
   .top-navigation {
@@ -7530,32 +7548,6 @@ section .hero-unit {
 .product-details .price {
   font: italic bold 19px/30px Georgia, "Times New Roman", Times, serif, sans-serif;
 }
-.product-details .cartPanel .form-group {
-  border: 1px solid #d8d8d8;
-  height: 37px;
-}
-.product-details .cartPanel .form-group .form-control {
-  border: 0;
-  border-radius: 0;
-}
-.product-details .cartPanel .form-group.qty {
-  position: relative;
-}
-.product-details .cartPanel .form-group.qty label {
-  font: 14px/37px "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
-  color: #555;
-  text-transform: uppercase;
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  display: block;
-  width: 60px;
-  height: 37px;
-  padding: 0 5px 0 5px;
-}
-.product-details .cartPanel .form-group.qty input.form-control {
-  padding: 0 0 0 70px;
-}
 .product-details .checkout-form {
   margin: 30px 0;
 }
@@ -7619,6 +7611,9 @@ section .hero-unit {
   margin: 10px 0;
   font: italic 13px/25px Georgia, "Times New Roman", Times, serif, sans-serif;
   color: #454545;
+}
+.product-gallery {
+  max-width: 500px;
 }
 .product-gallery .image {
   margin: 0 0 30px 0;
@@ -7709,7 +7704,6 @@ section .hero-unit {
   margin: 0;
 }
 .checkout .error {
-  color: #e63c19;
   padding: 4px 0;
 }
 .checkout h1 {
@@ -7957,7 +7951,6 @@ address {
 .editable-controls .editable-error {
   color: #a94442 !important;
 }
-/* CUSTOM VARS */
 /* BTN */
 .btn {
   text-transform: uppercase;
@@ -8218,7 +8211,46 @@ address {
 /* _____ VARIABLES _____ */
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
+/* TOPLEVEL BAR */
+body {
+  background: red;
+}
+.error {
+  color: #f1291e;
+  padding: 15px;
+  background: #fbc9c6;
+  margin: 5px 0 10px;
+  font-weight: bold;
+}
+.content-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  left: 0;
+  opacity: 0.1;
+  position: fixed;
+  top: 0;
+  transform: translateZ(0px);
+  visibility: hidden;
+  width: 100%;
+  z-index: 4999;
+  transition: opacity 0.25s ease-out 0.3s;
+}
+.right .content-mask,
+.left .content-mask {
+  opacity: 1;
+  visibility: visible;
+}
 body {
   background: #eeeeee;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */

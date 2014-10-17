@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-class="{'disable-scroll': showCart}">
+<html ng-class="{'disable-scroll': showCart || showMobileNav }">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +19,11 @@
     <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
-        <div ui-view="main" class="main"></div>
+        <div  class="main">
+            <div ui-view="main"></div>
+            <div class="content-mask" ng-click="closeOffcanvas()"></div>
+        </div>
+        
     </div>
     <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 </div>
@@ -90,6 +94,7 @@
 <script src="js/app/auth/directives/confirm-input.js"></script>
 <script src="js/app/auth/services/auth-rest.js"></script>
 <script src="js/app/auth/services/token-service.js"></script>
+<script src="js/app/auth/services/session-service.js"></script>
 <script src="js/app/auth/services/auth-service.js"></script>
 <script src="js/app/auth/services/anon-auth-service.js"></script>
 <script src="js/app/auth/services/auth-dialog-manager.js"></script>

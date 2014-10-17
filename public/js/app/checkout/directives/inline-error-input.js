@@ -57,7 +57,7 @@ angular.module('ds.checkout')
                             switch(errorsJSON[errorKey]) {
                                 case 'required':
                                     if (ngModel.$error.required) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'Field is required!');
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'REQUIRED');
                                     }
                                     break;
                                 case 'minlength':
@@ -147,7 +147,7 @@ angular.module('ds.checkout')
                     }
                 });
 
-                scope.$watch(function() { return GlobalData.languageCode; }, function (currentLang, previousLang) {
+                scope.$watch(function() { return GlobalData.getLanguageCode(); }, function (currentLang, previousLang) {
                     if (currentLang && previousLang && currentLang !== previousLang) {
                         onInputChanged();
                     }

@@ -87,8 +87,8 @@ describe('AccountSvc Test', function () {
             mockBackend.flush();
 
             expect(promise.then).toBeDefined();
-            expect(successSpy).wasCalled();
-            expect(errorSpy).not.wasCalled();
+            expect(successSpy).toHaveBeenCalled();
+            expect(errorSpy).not.toHaveBeenCalled();
             expect(mockedGlobalData.customerAccount).toEqualData(account);
         });
     });
@@ -107,8 +107,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should retrieve account's addresses by calling getAddresses method", function() {
@@ -122,8 +122,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should retrieve account's address by calling getAddress method", function() {
@@ -137,8 +137,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should retrieve account's default address by calling getDefaultAddress method", function() {
@@ -155,8 +155,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should save account's address by calling saveAddress method", function() {
@@ -172,8 +172,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should remove account's address by calling removeAddress method", function() {
@@ -187,8 +187,8 @@ describe('AccountSvc Test', function () {
         mockBackend.flush();
         
         expect(promise.then).toBeDefined();
-        expect(successSpy).wasCalled();
-        expect(errorSpy).not.wasCalled(); 
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     describe('getCurrentAccount()', function(){

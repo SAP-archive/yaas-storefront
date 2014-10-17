@@ -13,36 +13,30 @@ angular.module('ds.i18n')
         ITEM: 'Item',
         ITEM_PRICE: 'Item Price',
         TOTAL_PRICE: 'Total Price',
+        CART_UNAVAILABLE: 'The cart is currently unavailable. Please try again.',
+        CART_EMPTY: 'Your cart is empty',
+        CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
 
         /*
             checkout
          */
         ADDRESS: 'Address',
-        ADDRESS_REQUIRED: 'Address Required',
         ADDRESS_LINE_1: 'Address Line 1',
         ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
-        CC_REQUIRED: 'Credit Card Required',
         CITY: 'City',
-        CITY_REQUIRED: 'City Required',
         CONTINUE: 'Continue',
         COUNTRY: 'Country',
         CREDIT_CARD_NUMBER: 'Credit Card Number',
         CVC_NUMBER: 'CVC Number',
-        CVC_REQUIRED: 'CVC Required',
         DELIVERY_METHOD: 'Delivery Method',
         EMAIL: 'Email',
-        EMAIL_REQUIRED: 'Email Required',
-        EXP_MONTH_REQUIRED: 'Expiration Month Required',
-        EXP_YEAR_REQUIRED: 'Expiration Year Required',
         FIRST_NAME: 'First Name',
-        FIRST_NAME_REQUIRED: 'First Name Required',
         FREE_STANDARD_SHIPPING: 'Free Standard Shipping',
         FLAT_RATE_SHPPING: 'Flat Rate',
         INVALID_EXPIRATION_DATE: 'Invalid Expiration Date',
         ITEMS: 'Items',
         LAST_NAME: 'Last Name',
-        LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
         MONTH: 'Month',
         NAME: 'Name',
@@ -56,6 +50,7 @@ angular.module('ds.i18n')
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
         PLEASE_ENTER_VALID_CODE: 'Please enter a valid code',
         PLEASE_ENTER_VALID_EMAIL: 'Please enter a valid email in the format name@example.com',
+        REQUIRED: 'Required',
         SAME_AS_BILLING_ADDRESS: 'Same As Billing Address',
         SECURE_CHECKOUT: 'Secure Checkout',
         SHIPPING: 'Shipping',
@@ -63,7 +58,6 @@ angular.module('ds.i18n')
         SIMPLE_3_STEP_CHECKOUT: 'Simple 3 Step Checkout',
         SIMPLE_4_STEP_CHECKOUT: 'Simple 4 Step Checkout',
         STATE: 'State',
-        STATE_REQUIRED: 'State Required',
         STEP_1_MY_DETAILS: 'Step 1. My Details',
         STEP_2_SHIPPING_INFORMATION: 'Step 2. Shipping Information',
         STEP_3_PAYMENT: 'Step 3. Payment',
@@ -73,7 +67,7 @@ angular.module('ds.i18n')
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
-        ZIP_REQUIRED: 'Zip Code Required',
+
 
         /*
             confirmation
@@ -87,8 +81,8 @@ angular.module('ds.i18n')
         RETURN_TO_SHOPPING: 'Return to shopping',
         SUCCESS: 'Success!',
         THANK_YOU: 'Thank you',
-        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
-        YOUR_ORDER_IS: 'Your order is',
+        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
+        YOUR_ORDER_IS: 'Your order # is ',
         SKU: 'SKU',
 
         /*
@@ -103,6 +97,7 @@ angular.module('ds.i18n')
         DESCRIPTION: 'Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
+        ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
 
         /*
             product list page

@@ -17,9 +17,9 @@
     "jquery": "latest",
     "angular": "latest",
     "angular-resource": "latest",
-    "angular-ui-router": "~0.2.8",
-    "angular-mocks": "~1.2.14",
-    "angular-translate": "~2.0.1",
+    "angular-ui-router": "~0.2.11",
+    "angular-mocks": "~1.3.1",
+    "angular-translate": "~2.4.0",
     "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
     "ngInfiniteScroll": "1.0.0",
     "bootstrap": "latest",
@@ -37,5 +37,8 @@
       "css": "public/css/vendor",
       "js": "public/js/vendor"
     }
+  },
+  "resolutions": {
+    "angular-translate": "~2.4.0"
   }
 }

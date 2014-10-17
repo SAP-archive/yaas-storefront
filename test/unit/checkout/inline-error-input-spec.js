@@ -1,6 +1,6 @@
 describe('Checkout InlineErrorInput directive Test', function () {
 
-    var $scope, $rootScope, $compile, element;
+    var $scope, element, mockedStoreSettings={ defaultLanguage: 'en' };
     var billTo = {'firstName': 'Bob'};
 
     //***********************************************************************
@@ -8,23 +8,19 @@ describe('Checkout InlineErrorInput directive Test', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(module('config'));
-    beforeEach(module('ds.checkout'));
+
+    beforeEach(module('ds.checkout', function($provide){
+        $provide.value('GlobalData', {getLanguageCode:function(){return 'en'}})
+    }));
 
 
-    beforeEach(inject(function(_$rootScope_, _$compile_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_) {
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
             }
         });
-        $rootScope =  _$rootScope_;
-        $scope = _$rootScope_.$new();
-        $compile = _$compile_;
 
-    }));
-
-    beforeEach(inject(function ($rootScope, $compile) {
         element = angular.element(
             '<ng-form name="billToForm">' +
             '   <div ng-class="{\'has-error\': billToForm.firstName.$invalid && billToForm.firstName.$dirty}">' +
@@ -32,8 +28,8 @@ describe('Checkout InlineErrorInput directive Test', function () {
             '   </div>' +
             '</ng-form>'
         );
-        $scope = $rootScope;
-        $compile(element)($scope);
+        $scope = _$rootScope_.$new();
+        _$compile_(element)($scope);
         $scope.$digest();
     }));
 
@@ -72,7 +68,7 @@ describe('Checkout InlineErrorInput directive Test', function () {
 
             expect(clonedInput.val()).toEqual('');
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
         });
 
         it("shouldn't set cloned element value if correct value was entered", function() {
@@ -87,14 +83,14 @@ describe('Checkout InlineErrorInput directive Test', function () {
             input.val('');
             controller.$setViewValue('');
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
 
             // Setting valid value - no errors
             var value = 'Test';
             input.val(value);
             controller.$setViewValue(value);
             $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
+            expect(clonedInput.val()).toEqual('REQUIRED');
         });        
 
     });

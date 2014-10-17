@@ -46,6 +46,8 @@
             element(by.css(pageElement)).click();
           } else if(type === 'linkText') {
             element(by.linkText(pageElement)).click();
+          } else if(type === 'binding') {
+            element(by.binding(pageElement)).click();
           }
           
         };

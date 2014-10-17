@@ -85,12 +85,15 @@
 					display: block;
 					color:#202122;
 					font-size: 15px;
-					line-height: 46px;
+					//line-height: 46px;
+					padding-top: 15px;
+					padding-bottom: 15px;
 					text-transform: uppercase;
 					text-align: center;
 
 					&:hover{
 						text-decoration: none;
+						color: @lightblue;
 					}
 
 					
@@ -189,7 +192,7 @@
 
 
 	@media (max-width: @screen-sm-max){
-		overflow: hidden;
+		overflow: auto;
 		.navi{
 
 			margin:  0 0 0 0;
@@ -400,15 +403,6 @@
 
 
 
-
-
-
-
-
-
-
-
-@topNavigationHeight:75px;
 .top-navigation{
 	.navbar; 
 	.navbar-default;
@@ -420,6 +414,10 @@
 	background: @lightergrey;
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	top: 0;
+	position: fixed;
+	z-index: 1030;
 
 	.navbar-btn{
 		margin-bottom: 0px;
@@ -507,10 +505,12 @@
 	
 	}
 
-	.right .navbar-btn.cart{
-		background: @defaultblue;
-		color: #fff;
-		right: @offcanvas-right-width-d;
+	.right {
+		.navbar-btn.cart{
+			background: @defaultblue;
+			color: #fff;
+			right: @offcanvas-right-width-d;
+		}
 	}
 
 
