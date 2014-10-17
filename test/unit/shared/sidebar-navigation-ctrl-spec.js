@@ -15,20 +15,11 @@ describe('SidebarNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
         getCategories: jasmine.createSpy().andReturn({then: function(){}})
     };
-    var mockedGlobalData = {
-        setLanguage: jasmine.createSpy(),
-        setCurrency: jasmine.createSpy(),
-        getLanguageCode: function(){
-            return 'en';
-        },
-        getCurrency: function(){
-            return 'USD';
-        }
-    };
+    var currency =  {id: 'USD', label: 'US Dollar'};
+    var currencies = [currency];
+    var langCode = 'en';
+
     var mockedAuthSvc = {};
-
-    var mockedTranslate = {};
-
 
     var mockedState = {};
     var navCtrl, cart;
@@ -39,7 +30,7 @@ describe('SidebarNavigationCtrl', function () {
             return username;
         }
     };
-
+    var mockedGlobalData;
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
     beforeEach(angular.mock.module('ds.shared'));
@@ -62,11 +53,7 @@ describe('SidebarNavigationCtrl', function () {
             close: jasmine.createSpy('close')
         };
 
-        mockedGlobalData.languageCode = 'pl';
-        mockedGlobalData.acceptLanguages = 'pl';
-        mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
-        mockedGlobalData.store = {};
-        mockedTranslate.use = jasmine.createSpy('use');
+
         mockedState.is = jasmine.createSpy('is').andReturn(true);
         mockedState.go = jasmine.createSpy('go');
         mockedState.transitionTo = jasmine.createSpy('transitionTo');
@@ -77,6 +64,24 @@ describe('SidebarNavigationCtrl', function () {
     }));
 
     beforeEach(function () {
+
+        mockedGlobalData =  {
+            setLanguage: jasmine.createSpy('setLanguage'),
+            setCurrency: jasmine.createSpy('setCurrency'),
+            getLanguageCode: function(){
+                return langCode;
+            },
+            getCurrency: function(){
+                return currency;
+            },
+            getCurrencySymbol: function(){
+                return '$';
+            },
+            getAvailableCurrencies: function(){
+                return currencies;
+            }
+        };
+        mockedGlobalData.store = {};
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
              AuthSvc: mockedAuthSvc,
             AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
@@ -87,15 +92,14 @@ describe('SidebarNavigationCtrl', function () {
            expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
         });
 
-        it("should have language related selectbox variables set correctly", function() {
+        it('should have language related select box variables set correctly', function() {
             expect($scope.language).toBeDefined();
             expect($scope.language.selected).toBeDefined();
-            expect($scope.languageCode).toBeDefined();
             expect($scope.language.selected.iso).toBeDefined();
-            expect($scope.language.selected.iso).toEqual($scope.languageCode);
+            expect($scope.language.selected.iso).toEqual(langCode);
             expect($scope.language.selected.value).toBeDefined();
-            expect($scope.language.selected.value).toEqual($scope.languageCode);
-            
+            expect($scope.language.selected.value).toEqual(langCode);
+
             expect($scope.languages).toBeDefined();
             expect($scope.languages.length).toEqual($scope.languageCodes.length);
             for (var i = 0; i < $scope.languageCodes.length; i++) {
@@ -104,13 +108,11 @@ describe('SidebarNavigationCtrl', function () {
             };
         });
 
-        it("should have currency selectobx variables set correctly", function() {
-            expect($scope.currencies).not.toBeDefined();
-            var currencies = [{id: 'USD', label: 'English'}, {id: 'EUR', label: 'German'}];
-            $scope.GlobalData.store.currencies = currencies;
-            $scope.$digest();
+        it('should have currency select box variables set correctly', function() {
+
             expect($scope.currencies).toBeDefined();
             expect($scope.currencies.length).toEqual(currencies.length);
+
             for (var i = 0; i < currencies.length; i++) {
                 expect($scope.currencies[i]).toEqual(currencies[i]);
             };
@@ -119,17 +121,10 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('switchLanguage()', function(){
 
-        it('should setLangauge in GlobalData', function(){
+        it('should setLanguage in GlobalData', function(){
             var newLang = 'de';
             $scope.switchLanguage(newLang);
             expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
-        });
-
-
-        it('should update scope language', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect($scope.languageCode).toEqualData(newLang);
         });
 
         it('should reload product state', function(){
@@ -138,6 +133,39 @@ describe('SidebarNavigationCtrl', function () {
             expect(mockedState.transitionTo).toHaveBeenCalled();
         });
     });
+
+    describe('watchLanguage', function(){
+       it('should setLanguage in GlobalData if selected language changes', function(){
+           var newLang =  'pl';
+           $scope.language = {selected: {iso: newLang, languageCode: newLang}};
+           $scope.$apply();
+           // ? expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
+       });
+    });
+
+    describe('watchCurrency', function(){
+       it('should setCurrency in GlobalData if selected currency changes', function(){
+           var newCurr =  'EUR';
+           $scope.currency.selected = {id: newCurr};
+           $scope.$apply();
+
+           //?? expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(newCurr);
+       });
+    });
+
+    describe('onLanguageChanged', function(){
+        it('should update the selected language if different', function(){
+            $rootScope.$emit('language:updated', {iso: 'pl'});
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalled;
+        });
+    });
+
+    describe('onCurrencyChanged', function(){
+        it('should update the selected currency if different', function(){
+            $rootScope.$emit('currency:updated', {id: 'EUR'});
+            expect(mockedGlobalData.setCurrency).toHaveBeenCalled;
+        });
+    })
 
 
     describe('logout()', function(){
