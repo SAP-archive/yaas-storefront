@@ -26,6 +26,7 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('contactName' + form, 'Mike Night');
             tu.sendKeysById('address1' + form, '123');
             tu.sendKeysById('address2' + form, '321');
+            tu.sendKeysById('contactPhone' + form, '720-555-1234');
             tu.sendKeysById('city' + form, 'Boulder');
             element(by.id('country' + form)).sendKeys('USA');
             element(by.id('state' + form)).sendKeys('colorado');
@@ -61,6 +62,8 @@ var tu = require('./protractor-utils.js');
             validateField('contactName', form, 'Mike Night', buttonType, button);
             validateField('address1', form, '123', buttonType, button);
             validateField('city', form, 'Boulder', buttonType, button);
+            validateField('contactPhone', form, '720-555-1234', buttonType, button);
+
           }
 
           function fillCreditCardForm(ccNumber, ccMonth, ccYear, cvcNumber) {
@@ -115,6 +118,7 @@ describe("checkout:", function () {
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');          
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
@@ -134,6 +138,7 @@ describe("checkout:", function () {
             tu.sendKeysById('email', 'mike@place.com'); 
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');          
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn'); 
             validateField('email', '', 'mike@night.com', 'id', 'place-order-btn');
@@ -144,7 +149,7 @@ describe("checkout:", function () {
             browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            expect(element(by.xpath('//div[5]/div/small')).getText()).toContain('Please enter a valid code');
+            expect(element(by.xpath('//div[2]/div[5]/div/small')).getText()).toContain('Please enter a valid code');
             browser.executeScript("document.getElementById('cvc').style.display='block';");
             validateField('cvc', '', '123', 'id', 'place-order-btn');
             validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
@@ -159,7 +164,8 @@ describe("checkout:", function () {
            });
 
            it('should populate with existing address for logged in user', function () {
-            tu.clickElement('xpath', tu.contineShopping);            
+            tu.clickElement('xpath', tu.contineShopping); 
+            browser.sleep(500);           
            	tu.clickElement('id', "login-btn");
             browser.sleep(1000);
             tu.sendKeysById('usernameInput', 'cool@cool.com');
@@ -177,6 +183,8 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
             verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 Fake Ave Place");
             tu.clickElement('id', "logout-btn");
 
            });
@@ -245,7 +253,7 @@ describe("mobile checkout:", function () {
        browser.sleep(8000);
      });
 
-     var continueButton1 = '//div[12]/button'
+     var continueButton1 = '//div[15]/button'
      var continueButton2 = '//div[6]/button'
      var paymentButton = "//button[@type='submit']"
    
@@ -257,6 +265,7 @@ describe("mobile checkout:", function () {
         tu.sendKeysById('email', 'mike@night.com');
         tu.sendKeysById('firstNameAccount', 'Mike');
         tu.sendKeysById('lastNameAccount', 'Night');
+        element(by.id('titleAccount')).sendKeys('Mr.');          
         fillCheckoutFormExceptEmail('Bill');
         tu.clickElement('xpath', continueButton1);
         browser.sleep(500)
@@ -278,6 +287,7 @@ describe("mobile checkout:", function () {
         tu.sendKeysById('email', 'mike@night.com');
         tu.sendKeysById('firstNameAccount', 'Mike');
         tu.sendKeysById('lastNameAccount', 'Night');
+        element(by.id('titleAccount')).sendKeys('Mr.');
         fillCheckoutFormExceptEmail('Bill');
         verifyValidationForEachField('Bill', 'xpath', continueButton1); 
         validateField('email', '', 'mike@night.com', 'xpath', continueButton1);

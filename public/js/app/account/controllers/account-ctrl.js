@@ -12,7 +12,8 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager', function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
+        function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -23,8 +24,8 @@ angular.module('ds.account')
 
         $scope.errors = [];
         if (!account.preferredLanguage) {
-          account.preferredCurrency = GlobalData.storeCurrency;
-          account.preferredLanguage = GlobalData.languageCode;
+          account.preferredCurrency = GlobalData.getCurrency();
+          account.preferredLanguage = GlobalData.getLanguageCode();
         }
         $scope.account = account;
         $scope.addresses = addresses;
@@ -47,6 +48,18 @@ angular.module('ds.account')
           { value: 'en_US', text: 'US - USA' },
           { value: 'de_DE', text: 'DE - German' }
         ];
+
+        $scope.titles = [];
+        var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];
+
+        /*
+         need to translate titles on page load
+         */
+        angular.forEach(titlesToTranslate, function (title) {
+            $translate(title).then(function (translatedValue) {
+                $scope.titles.push(translatedValue);
+            });
+        });
 
         $scope.showLanguageLocale = function() {
          var selected = $filter('filter')($scope.languageLocales, {value: $scope.account.preferredLanguage});
@@ -79,11 +92,9 @@ angular.module('ds.account')
           if (formValid) {
               AccountSvc.saveAddress(address).then(
                 function() {
-                  console.log('Save address Success: ', arguments);
                   modalInstance.close();
                 },
                 function(response) {
-                  console.log('Save address Errors: ', arguments);
                   $scope.errors = extractServerSideErrors(response);
                 }
               );
@@ -118,11 +129,9 @@ angular.module('ds.account')
           if (window.confirm('Are you sure you want to remove the address?')) {
             AccountSvc.removeAddress(address).then(
               function() {
-                console.log('Remove address Success: ', arguments);
                 $scope.refreshAddresses();
               },
               function(response) {
-                console.log('Remove address Errors: ', arguments);
                 $scope.errors = extractServerSideErrors(response);
               }
             );
@@ -141,11 +150,9 @@ angular.module('ds.account')
           address.account = customerNumber;
           AccountSvc.saveAddress(address).then(
               function() {
-                console.log('Save address as default Success: ', arguments);
                 $scope.refreshAddresses();
               },
               function(response) {
-                console.log('Save address as default Errors: ', arguments);
                 $scope.errors = extractServerSideErrors(response);
               }
             );
@@ -170,7 +177,8 @@ angular.module('ds.account')
           account[field] = data;
           return AccountSvc.updateAccount(account).then(function() {
             if (field === 'preferredLanguage' && data) {
-              $scope.$emit('language:switch', data.split('_')[0]);
+                GlobalData.setLanguage( data.split('_')[0]);
+
             }
           });
         };

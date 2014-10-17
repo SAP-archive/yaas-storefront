@@ -13,6 +13,9 @@ angular.module('ds.i18n')
         ITEM: 'Artikel',
         ITEM_PRICE: 'Artikel Preis',
         TOTAL_PRICE: 'Gesamtpreis',
+        CART_UNAVAILABLE: 'Warenkorb momentan nicht zugänglich.  Bitte noch einmal anfordern.',
+        CART_EMPTY: 'Keine Artikel im Korb',
+        CART_ITEM_UPDATE_ERROR: 'Aktualizierung nicht erfolgreich. Bitte noch einmal anfordern.',
 
         /*
          checkout
@@ -20,31 +23,23 @@ angular.module('ds.i18n')
         ADDRESS: 'Adresse',
         ADDRESS_LINE_1: 'Adresszeile 1',
         ADDRESS_LINE_2: 'Adresszeile 2',
-        ADDRESS_REQUIRED: 'Adresse erforderlich',
         BILLING_ADDRESS: 'Rechnungsadresse',
-        CC_REQUIRED: 'Kreditkarte erforderlich',
         CITY: 'Stadt',
-        CITY_REQUIRED: 'Stadt Pflicht',
         CONTINUE: 'Weiter',
         COUNTRY: 'Land',
         CREDIT_CARD_NUMBER: 'Kreditkartennummer',
         CVC_NUMBER: 'CVC Nummer',
-        CVC_REQUIRED: 'CVC Nummer erforderlich',
         DELIVERY_METHOD: 'Versandart',
         EMAIL: 'Email',
-        EMAIL_REQUIRED: 'Email erforderlich',
-        EXP_MONTH_REQUIRED: 'gültig bis Monat erforderlich',
-        EXP_YEAR_REQUIRED: 'gültig bis Jahr erforderlich',
         FIRST_NAME: 'Vorname',
-        FIRST_NAME_REQUIRED: 'Vorname erforderlich',
         FREE_STANDARD_SHIPPING: 'Kostenloser Standardversand',
         FLAT_RATE_SHPPING: 'Pauschale',
         INVALID_EXPIRATION_DATE: 'Ungültiges Ablaufdatum',
         ITEMS: 'Artikel',
         LAST_NAME: 'Nachname',
         LAST_NAME_REQUIRED: 'Nachname Pflicht',
-        MIDDLE_NAME: 'zweiter Vorname',
         METHOD: 'Verfahren',
+        MIDDLE_NAME: 'Zweiter Vorname',
         MONTH: 'Monat',
         NAME: 'Name',
         OPTIONAL: 'optional',
@@ -52,11 +47,13 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
+        PHONE_REQUIRED: 'Telefon Pflicht',
         PLACE_ORDER: 'Bestellung aufgeben',
         PLEASE_CORRECT_ERRORS: 'Bitte korrigieren sie alle Fehler.',
         PLEASE_ENTER_VALID_CC: 'Bitte geben Sie eine gültige Kreditkartennummer an.',
         PLEASE_ENTER_VALID_CODE: 'Bitte geben Sie einen gültigen Code an.',
         PLEASE_ENTER_VALID_EMAIL: 'Geben Sie eine gültige E-Mail an.',
+        REQUIRED: 'Erforderlich',
         SAME_AS_BILLING_ADDRESS: 'entspricht Rechnungsadresse',
         SECURE_CHECKOUT: 'Sicher bestellen',
         SHIPPING: 'Versand',
@@ -64,7 +61,6 @@ angular.module('ds.i18n')
         SIMPLE_3_STEP_CHECKOUT: 'Einfach bestellen in drei Schritten',
         SIMPLE_4_STEP_CHECKOUT: 'Einfach bestellen in vier Schritten',
         STATE: 'Bundesland',
-        STATE_REQUIRED: 'Bundesland erforderlich',
         STEP_1_MY_DETAILS: '1. Meine Daten',
         STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
         STEP_3_PAYMENT: '3. Zahlung',
@@ -74,7 +70,7 @@ angular.module('ds.i18n')
         TOTAL: 'gesamt',
         YEAR: 'Jahr',
         ZIP: 'PLZ',
-        ZIP_REQUIRED: 'PLZ erforderlich',
+
 
         /*
          confirmation
@@ -89,7 +85,7 @@ angular.module('ds.i18n')
         SUCCESS: 'Erfolg!',
         THANK_YOU: 'Vielen Dank',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
-        YOUR_ORDER_IS: 'Ihre Bestellung ist',
+        YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
         SKU: 'SKU',
 
         /*
@@ -104,6 +100,8 @@ angular.module('ds.i18n')
         DESCRIPTION: 'Beschreibung',
         OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
+        ERROR_ADDING_TO_CART: 'Artikel konnte nicht hinzugefügt werden. Bitte noch einmal probieren.',
+
 
         /*
          product list page
@@ -190,7 +188,23 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.',
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
-        ENTER_EMAIL: 'Emailadresse angeben'
+        ENTER_EMAIL: 'Emailadresse angeben',
 
+        /*
+         titles
+         */
+        DR: 'Dr.',
+        MR: 'Herr',
+        MRS: 'Frau',
+        MS: 'Fräulein',
+        TITLE: 'Anrede',
 
+        /*
+         order statuses
+         */
+        COMPLETED: 'Fertiggestellt',
+        CONFIRMED: 'Bestätigt',
+        CREATED: 'Erstellt',
+        DECLINED: 'Zurückgegangen',
+        SHIPPED: 'Ausgeliefert'
     });

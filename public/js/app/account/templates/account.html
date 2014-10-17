@@ -19,7 +19,7 @@
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
               {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
               <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
-          </h1>
+            </h1>
           </div>
           <address ng-if="defaultAddress">
             <span>{{defaultAddress.street}}</span>
@@ -38,7 +38,10 @@
           <span class="area-headline">{{'ACCOUNT_DETAILS' | translate}}</span>
           <div class="account-details">
             <div>
-              <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">{{'TITLE' | translate}}:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
+            </div>
+            <div>
+                <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">{{'MIDDLE_NAME' | translate}}:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>

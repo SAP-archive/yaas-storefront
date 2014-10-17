@@ -1,54 +1,82 @@
 'use strict';
 
 angular.module('ds.shared')
-    /** Acts as global data store for application settings. In constrast to the "settings" constant provider,
-     * these settings may change over the life of the application.
-     * */
-    .service('GlobalData', ['$rootScope', 'storeConfig', function ($rootScope, storeConfig) {
-      
-		this.languageCode = storeConfig.defaultLanguage;
-        this.acceptLanguages = storeConfig.defaultLanguage;
-        this.storeCurrency = storeConfig.defaultCurrency;
+/** Acts as global data store for application settings. In contrast to the "settings" constant provider,
+ * these settings may change over the life of the application.
+ *
+ * Also provides some logic around updating these settings.
+ * */
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc',
+        function (storeConfig, $translate, CookieSvc) {
 
-        this.orders = {
-            meta: {
-                total: 0
-            }
-        };
-        this.products = {
-            meta: {
-                total: 0
-            }
-        };
+            var languageCode = storeConfig.defaultLanguage || 'en';
+            var acceptLanguages = languageCode;
+            var storeCurrency = storeConfig.defaultCurrency || 'USD';
 
-        this.store = {
-            tenant: storeConfig.storeTenant,
-            name: '',
-            logo: null
-        };
+            return {
+                orders: {
+                    meta: {
+                        total: 0
+                    }
+                },
+                products: {
+                    meta: {
+                        total: 0
+                    }
+                },
 
-        this.stripePublicKey = null;
+                store: {
+                    tenant: storeConfig.storeTenant,
+                    name: '',
+                    logo: null
+                },
 
-        this.categoryMap = null;
-
-        this.user = {
-            isAuthenticated: false,
-            username: null
-        };
-
-        this.getCurrencySymbol = function () {
-            var symbol = '?';
-            if (this.storeCurrency === 'USD') {
-                symbol = '$';
-            }
-            else if (this.storeCurrency === 'EUR') {
-                symbol = '\u20AC';
-            }
-            return symbol;
-        };
-
-        this.customerAccount = null;
+                user: {
+                    isAuthenticated: false,
+                    username: null
+                },
 
 
+                getCurrencySymbol: function () {
+                    var symbol = '?';
+                    if (storeCurrency === 'USD') {
+                        symbol = '$';
+                    }
+                    else if (storeCurrency === 'EUR') {
+                        symbol = '\u20AC';
+                    }
+                    return symbol;
+                },
 
-    }]);
+                setLanguage: function (newLangCode) {
+                    if(newLangCode) {
+                        if (languageCode !== newLangCode) {
+                            languageCode = newLangCode;
+                            $translate.use(languageCode);
+                            acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                        }
+                        CookieSvc.setLanguageCookie(languageCode);
+                    }
+                },
+
+                getLanguageCode: function(){
+                    return languageCode;
+                },
+
+                getAcceptLanguages: function(){
+                  return acceptLanguages;
+                },
+
+                setCurrency: function (newCurr) {
+                    if(newCurr && !Array.isArray(newCurr)) {
+                        storeCurrency = newCurr;
+                        CookieSvc.setCurrencyCookie(newCurr);
+                    }
+                },
+
+                getCurrency: function(){
+                    return storeCurrency;
+                }
+            };
+
+        }]);

@@ -159,7 +159,7 @@ angular.module('ds.checkout')
                     }
                 });
 
-                scope.$watch(function() { return GlobalData.languageCode; }, function (currentLang, previousLang) {
+                scope.$watch(function() { return GlobalData.getLanguageCode(); }, function (currentLang, previousLang) {
                     if (currentLang && previousLang && currentLang !== previousLang) {
                         onInputChanged();
                     }
