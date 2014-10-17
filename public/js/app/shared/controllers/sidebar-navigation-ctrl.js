@@ -43,11 +43,15 @@ angular.module('ds.shared')
 
             $scope.switchCurrency = function (currency) {
                 GlobalData.setCurrency(currency);
-                $state.transitionTo($state.current, $stateParams, {
-                    reload: true,
-                    inherit: true,
-                    notify: true
-                });
+
+                if($state.is('base.category') || $state.is('base.product.detail')) {
+                    $state.transitionTo($state.current, $stateParams, {
+                         reload: true,
+                        inherit: true,
+                        notify: true
+                    });
+                }
+
             };
 
             $scope.switchLanguage = function(languageCode) {
