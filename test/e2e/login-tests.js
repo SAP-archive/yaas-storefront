@@ -8,6 +8,11 @@ var timestamp = Number(new Date());
         tu.sendKeysByXpath("//input[@type='text']", text);
         tu.clickElement('xpath', "//button[@type='submit']");
   }
+  function updateTitleField(fieldName, text) {
+        tu.clickElement('id', fieldName);
+        element(by.xpath('//select')).sendKeys(text);
+        tu.clickElement('xpath', "//button[@type='submit']");
+  }
 
   function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
          tu.sendKeysById('contactName', contact);
@@ -69,6 +74,7 @@ describe("login:", function () {
          browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
+         updateTitleField('title', 'Mr.');
          expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
          updateAccountField('first-name-edit', 'first');
          expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST C COOL");
@@ -76,6 +82,7 @@ describe("login:", function () {
          expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE COOL");
          updateAccountField('last-name-edit', 'last');
          expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE LAST");
+         updateTitleField('title', 'Dr.');
          updateAccountField('email-edit', 'cool@cool.com');
          updateAccountField('first-name-edit', 'Joe');
          updateAccountField('middle-name-edit', 'C');

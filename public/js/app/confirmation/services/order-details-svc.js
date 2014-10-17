@@ -37,18 +37,22 @@ angular.module('ds.confirmation')
                     var confirmationDetails = {};
 
                     if (orderDetails.shippingAddress.contactName) {
-                        confirmationDetails.shippingAddressLine1 = orderDetails.shippingAddress.contactName;
+                        confirmationDetails.shippingAddressName = orderDetails.shippingAddress.contactName;
                     }
 
                     else if (orderDetails.shippingAddress.companyName) {
-                        confirmationDetails.shippingAddressLine1 = orderDetails.shippingAddress.companyName;
+                        confirmationDetails.shippingAddressName = orderDetails.shippingAddress.companyName;
                     }
 
                     if (orderDetails.shippingAddress.street) {
-                        confirmationDetails.shippingAddressLine2 = orderDetails.shippingAddress.street;
+                        confirmationDetails.shippingAddressStreetLine1 = orderDetails.shippingAddress.street;
                     }
 
-                    confirmationDetails.shippingAddressLine3 = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
+                    if (orderDetails.shippingAddress.streetAppendix) {
+                        confirmationDetails.shippingAddressStreetLine2 = orderDetails.shippingAddress.streetAppendix;
+                    }
+
+                    confirmationDetails.shippingAddressCityStateZip = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
                         ' ' + orderDetails.shippingAddress.zipCode;
 
                     confirmationDetails.emailAddress = orderDetails.customer.email;

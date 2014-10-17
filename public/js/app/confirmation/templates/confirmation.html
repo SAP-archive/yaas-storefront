@@ -15,9 +15,10 @@
                 <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
 
                 <address>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressLine1}}<br></span>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressLine2}}<br></span>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressLine3}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
+                    <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
+                    <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>
                 </address>
             </div>
             <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>

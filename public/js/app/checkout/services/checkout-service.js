@@ -37,6 +37,24 @@ angular.module('ds.checkout')
             this.creditCard = new CreditCard();
         };
 
+        var getCustomerName = function (account) {
+            var name = '';
+
+            if (account.title) {
+                name = account.title + ' ';
+            }
+
+            name = name + account.firstName + ' ';
+
+            if (account.middleName) {
+                name = name + account.middleName + ' ';
+            }
+
+            name = name + account.lastName;
+
+            return name;
+        };
+
         /** Error types to distinguish between Stripe validation and order submission errors
          * during checkout. */
         var ERROR_TYPES = {
@@ -143,6 +161,7 @@ angular.module('ds.checkout')
                 billTo.zipCode = order.billTo.zip;
                 billTo.country = order.billTo.country;
                 billTo.account = order.account.email;
+                billTo.contactPhone = order.billTo.contactPhone;
                 billTo.type = 'BILLING';
                 newOrder.addresses.push(billTo);
 
@@ -156,12 +175,13 @@ angular.module('ds.checkout')
                 shipTo.zipCode = order.shipTo.zip;
                 shipTo.country = order.shipTo.country;
                 shipTo.account = order.account.email;
+                shipTo.contactPhone = order.shipTo.contactPhone;
                 shipTo.type = 'SHIPPING';
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
                 newOrder.customer.customerNumber = order.cart.customerId;
-                newOrder.customer.name = order.account.firstName + ' ' + order.account.lastName;
+                newOrder.customer.name = getCustomerName(order.account);
                 newOrder.customer.email = order.account.email;
 
                 // Will be submitted as "hybris-user" request header

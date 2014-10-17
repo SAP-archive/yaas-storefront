@@ -114,6 +114,7 @@ window.app = angular.module('ds.router', [
                 oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
                 oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
                 oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,

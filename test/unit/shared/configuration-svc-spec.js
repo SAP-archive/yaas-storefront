@@ -13,16 +13,15 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-
-    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
+    var configurationsUrl = 'http://configuration-v3.test.cf.hybris.com/configurations';
     var $scope, $rootScope, $httpBackend, $q, configSvc,
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy()
         };
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
-    var mockedStoreConfig = {"properties":[{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
-        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"}]};
+    var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
+        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"}];
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={};
 
     beforeEach(function() {

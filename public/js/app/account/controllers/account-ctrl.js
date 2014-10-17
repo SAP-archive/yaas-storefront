@@ -51,6 +51,18 @@ angular.module('ds.account')
           { value: 'de_DE', text: 'DE - German' }
         ];
 
+        $scope.titles = [];
+        var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];
+
+        /*
+         need to translate titles on page load
+         */
+        angular.forEach(titlesToTranslate, function (title) {
+            $translate(title).then(function (translatedValue) {
+                $scope.titles.push(translatedValue);
+            });
+        });
+
         $scope.showLanguageLocale = function() {
          var selected = $filter('filter')($scope.languageLocales, {value: $scope.account.preferredLanguage});
          return ($scope.account.preferredLanguage && selected.length) ? selected[0].text : 'Not set';
