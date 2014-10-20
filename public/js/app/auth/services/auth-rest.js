@@ -19,6 +19,14 @@ angular.module('ds.auth')
         return {
             /** Configures main authorization API endpoint.*/
             Customers: Restangular.withConfig(function(RestangularConfigurer) {
+                RestangularConfigurer.setResponseInterceptor(function (data, operation, what, url, response) {
+                    var headers, result = response.data;
+                    if (result && operation === 'getList' && what ==='addresses') {
+                      headers = response.headers();
+                      result.headers = headers;
+                    }
+                    return result;
+                });
                 RestangularConfigurer.setBaseUrl(settings.apis.customers.baseUrl);
             })
 

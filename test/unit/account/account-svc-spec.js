@@ -23,6 +23,11 @@ describe('AccountSvc Test', function () {
         },
         setAuthenticated: function(is){
             this.user.isAuthenticated = is;
+        },
+        addresses: {
+            meta: {
+                total: 6
+            }
         }
     };
         mockedSettings = {
@@ -34,7 +39,12 @@ describe('AccountSvc Test', function () {
                 apiKey: '123'
             },
             headers: {
-              hybrisAuthorization: 'Authorization'
+                hybrisAuthorization: 'Authorization',
+                addresses: {
+                    paging: {
+                        total: 'Hybris-Count'
+                    }
+                }
             }
         }
     };

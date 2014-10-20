@@ -18,6 +18,8 @@ angular.module('ds.account')
         var modalInstance;
         var customerNumber = account.customerNumber;
 
+        $scope.GlobalData = GlobalData;
+
         var getDefaultAddress = function() {
           return _.find($scope.addresses, function(addr) { return addr.isDefault; });
         };
@@ -165,6 +167,15 @@ angular.module('ds.account')
             OrderListSvc.query(parms).then(function (orders) {
                 $scope.showAllButton = false;
                 $scope.orders = orders;
+            });
+        };
+
+        $scope.showAllAddresses = function() {
+            var parms = {
+              pageSize: GlobalData.addresses.meta.total
+            };
+            AccountSvc.getAddresses(parms).then(function (addresses) {
+              $scope.addresses = addresses;
             });
         };
 
