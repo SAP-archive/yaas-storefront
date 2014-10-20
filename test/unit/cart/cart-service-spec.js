@@ -20,8 +20,14 @@ describe('CartSvc Test', function () {
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
     var productIdFromCart = '540751ee394edbc101ff20f5';
-    //var mockedProductSvc = {query: jasmine.createSpy('query').andReturn( {then:jasmine.createSpy('then')})};
     var mockedAccountSvc = {};
+
+    var mockedState = {
+        current: 'base.checkout',
+        go: jasmine.createSpy(),
+        transitionTo: jasmine.createSpy()
+    };
+
     var deferredAccount;
     var cartResponse = {
         "items" : [ {
@@ -54,14 +60,17 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
            // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
-            $provide.value('GlobalData', { getCurrency: function (){
+
+            $provide.value('GlobalData', {
+                getCurrencyId: function (){
                 return 'USD'
-            }, getLanguage: function(){
-                return 'en'
             }, getAcceptLanguages: function(){
                 return 'en'
             }});
+
             $provide.value('storeConfig', {});
+            $provide.value('$state', mockedState);
+            $provide.value('$stateParams', {});
         });
 
 
@@ -284,6 +293,52 @@ describe('CartSvc Test', function () {
             });
         });
 
+        describe('switchCurrency', function() {
+            it('should switch the cart currency', function () {
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', {"currency": "EUR"})
+                    .respond(200, {});
+                mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
+                    {
+                        "currency": "USD",
+                        "subTotalPrice": {
+                            "currency": "USD",
+                            "value": 10.00
+                        },
+                        "totalUnitsCount": 1.0,
+                        "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
+                        "items": [
+                            {
+                                "product": {
+                                    "sku": "sku1",
+                                    "inStock": true,
+                                    "description": "desc",
+                                    "id": prodId,
+                                    "name": "Electric Guitar"
+                                },
+                                "unitPrice": {
+                                    "currency": "USD",
+                                    "value": 5.00
+                                },
+                                "id": itemId,
+                                "quantity": 2.0
+                            }
+                        ],
+                        "totalPrice": {
+                            "currency": "USD",
+                            "value": 13.24
+                        },
+                        "id": cartId,
+                        "shippingCost": {
+                            "currency": "USD",
+                            "value": 3.24
+                        }
+                    });
+                mockBackend.expectGET(productUrl+'?q=id:('+prodId+')').respond(200, [{id: prodId, images: ['myurl']}]);
+                cartSvc.switchCurrency('EUR');
+                mockBackend.flush();
+            });
+        });
+
     });
 
     describe('getCart() for anonymous user', function() {
@@ -326,9 +381,9 @@ describe('CartSvc Test', function () {
                        "value": 3.24
                    }
                });
-            mockBackend.expectGET(productUrl+'?q=id:(123)').respond(200, [{id: prodId, images: ['myurl']}]);
-          var promise = cartSvc.getCart();
-          promise.then(successCallback, failureCallback);
+           mockBackend.expectGET(productUrl+'?q=id:(123)').respond(200, [{id: prodId, images: ['myurl']}]);
+           var promise = cartSvc.getCart();
+           promise.then(successCallback, failureCallback);
            mockBackend.flush();
 
            expect(successCallback).toHaveBeenCalled();

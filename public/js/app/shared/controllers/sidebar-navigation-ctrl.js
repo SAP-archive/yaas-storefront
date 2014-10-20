@@ -3,11 +3,13 @@
 angular.module('ds.shared')
      /** Handles interactions in the navigation side bar.   */
 
+
 	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
         'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc',
 
 		function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
                   AuthSvc, AuthDialogManager, CategorySvc) {
+
 
             $scope.languageCode = GlobalData.getLanguageCode();
             $scope.languageCodes = i18nConstants.getLanguageCodes();
@@ -22,12 +24,16 @@ angular.module('ds.shared')
             });
 
             $scope.switchCurrency = function (currency) {
+
                 GlobalData.setCurrency(currency);
-                $state.transitionTo($state.current, $stateParams, {
-                    reload: true,
-                    inherit: true,
-                    notify: true
-                });
+                if($state.is('base.category') || $state.is('base.product.detail')) {
+                    $state.transitionTo($state.current, $stateParams, {
+                        reload: true,
+                        inherit: true,
+                        notify: true
+                    });
+                }
+
             };
 
             $scope.switchLanguage = function(languageCode) {
@@ -53,14 +59,13 @@ angular.module('ds.shared')
                 AuthDialogManager.open(dOpts, opts);
             };
 
+            $scope.hideMobileNav = function(){
+                $rootScope.showMobileNav = false;
+            };
+
             $scope.myAccount = function() {
                 $state.go('base.account');
                 $scope.hideMobileNav();
-            };
-
-            $scope.hideMobileNav = function(){
-                $rootScope.showMobileNav = false;
-
             };
 
 	}]);

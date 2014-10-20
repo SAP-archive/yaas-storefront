@@ -1,7 +1,7 @@
          
-        exports.whiteCoffeeMug = "//a[contains(@href, '#!/products/5436f99f5acee4d3c910c082/')]";
-        exports.blackCoffeeMug = "//a[contains(@href, '#!/products/5436f9a25acee4d3c910c085/')]";
-        exports.whiteThermos = "//a[contains(@href, '#!/products/5436f9a43cceb8a938129170/')]";
+        exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
+        exports.blackCoffeeMug = "//a[contains(@href, '/products/5436f9a25acee4d3c910c085/')]";
+        exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
         exports.contineShopping = "//div[@id='cart']/div/div/button";
@@ -9,7 +9,7 @@
         exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[5]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
-        exports.outOfStockButton = "//div[2]/div[2]/button"
+        exports.outOfStockButton = "//div[3]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
         exports.tenant = 'ytvlw4f7ebox'
 
