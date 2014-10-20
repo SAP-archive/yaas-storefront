@@ -29,7 +29,7 @@ angular.module('ds.shared')
             },
 
             configuration: {
-               baseUrl: 'http://configuration-v2.test.cf.hybris.com'
+               baseUrl: 'http://configuration-v3.test.cf.hybris.com'
             } ,
 
             products: {
@@ -78,7 +78,8 @@ angular.module('ds.shared')
                 hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
-                }
+                },
+                hybrisCurrency: 'hybris-currency'
             }
         },
         // relevant keys from configuration service:

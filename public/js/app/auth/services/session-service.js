@@ -8,6 +8,7 @@ angular.module('ds.auth')
         function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings) {
         return {
 
+
             /** Performs application logic for the scenario of a successful login.
              * @param context - optional configuration instance with the following optional properties:
              * - fromSignUp - set to true if this login followed the creation of a new account
@@ -20,13 +21,12 @@ angular.module('ds.auth')
                 // there must be an account
                 accountPromise.then(function (account) {
                     if (context && context.fromSignUp) {
-                        account.preferredCurrency = GlobalData.getCurrency();
+                        account.preferredCurrency = GlobalData.getCurrencyId();
                         account.preferredLanguage = GlobalData.getLanguageCode();
                         AccountSvc.updateAccount(account);
                     }
                     else {
                         if(account.preferredLanguage) {
-
                             GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
                         }
                         if(account.preferredCurrency ) {
@@ -56,5 +56,7 @@ angular.module('ds.auth')
                     $state.go(settings.homeState);
                 }
             }
+
+
         };
     }]);

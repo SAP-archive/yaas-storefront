@@ -14,7 +14,8 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', function($rootScope, CartREST, ProductSvc, AccountSvc, $q){
+    .factory('CartSvc', ['$rootScope', '$state', '$stateParams', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData',
+        function($rootScope, $state, $stateParams, CartREST, ProductSvc, AccountSvc, $q, GlobalData){
 
         // Prototype for outbound "update cart item" call
         var Item = function(product, price, qty) {
@@ -34,6 +35,11 @@ angular.module('ds.cart')
            this.totalPrice = {};
            this.totalPrice.value = 0;
            this.id = null;
+        };
+
+        // Prototype for outbound currency switch call
+        var Currency = function(code) {
+            this.currency = code;
         };
 
         // application scope cart instance
@@ -58,7 +64,7 @@ angular.module('ds.cart')
                     newCart.customerId = successAccount.id;
                 });
                 accPromise.finally(function () {
-                    newCart.currency = 'USD';
+                    newCart.currency = GlobalData.getCurrencyId();
                     CartREST.Cart.all('carts').post(newCart).then(function (response) {
                         cart.id = response.cartId;
                         deferredCart.resolve({ cartId: cart.id});
@@ -220,6 +226,26 @@ angular.module('ds.cart')
             resetCart: function () {
                cart = new Cart();
                $rootScope.$emit('cart:updated', cart);
+            },
+
+            /*
+             *  This function switches the cart's currency and refreshes the cart
+             *  @param currency code to switch to
+             */
+            switchCurrency: function (code) {
+                if (cart.id) {
+                    var newCurrency = new Currency(code);
+                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
+                        .then(function () {
+                            refreshCart(cart.id);
+                    }, function(){
+                            // TODO - need better error notification
+                            window.alert('Update of cart currency failed.');
+                        });
+
+
+                }
+
             }
 
         };
