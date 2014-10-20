@@ -157,6 +157,23 @@ angular.module('ds.cart')
                 return refreshCart(cart.id? cart.id : null);
             },
 
+            mergeCartAfterLogin: function(){
+                // current cart is empty - simply return cart for authenticated user
+                if(!cart || !cart.items) {
+                    refreshCart();
+                }   else {
+                    // retrieve any cart associated with the authenticated user and merge in the current cart
+                    CartREST.Cart.one('carts', null).get().then(function(authUserCart) {
+                        CartREST.Cart.one('carts', authUserCart.id).one('merge').customPOST(cart).then(function(){
+                            refreshCart(authUserCart.id);
+                        });
+                    }, function(){
+                        // no cart for authenticated user
+                        window.alert('No cart!');
+                    });
+                }
+            },
+
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
              * from the API for consistency and in order to display the updated calculations (line item totals, etc).
              * @return promise to signal success/failure*/

@@ -36,6 +36,7 @@ angular.module('ds.auth')
                     return account;
 
                 }).finally(function(){
+                    CartSvc.mergeCartAfterLogin();
                     if(context && context.targetState){
                         $state.go(context.targetState, context.targetStateParams || {});
                     } else {
@@ -52,6 +53,7 @@ angular.module('ds.auth')
 
             afterLogOut: function(){
                 GlobalData.customerAccount = null;
+                CartSvc.resetCart();
                 if ( $state.is('base.checkout') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
                     $state.go(settings.homeState);
                 }
