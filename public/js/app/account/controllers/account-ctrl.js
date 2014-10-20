@@ -12,8 +12,10 @@
 'use strict';
 
 angular.module('ds.account')
+
     .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
         function($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+
         
         var modalInstance;
         var customerNumber = account.customerNumber;
@@ -26,7 +28,7 @@ angular.module('ds.account')
 
         $scope.errors = [];
         if (!account.preferredLanguage) {
-          account.preferredCurrency = GlobalData.getCurrency();
+          account.preferredCurrency = GlobalData.getCurrencyId();
           account.preferredLanguage = GlobalData.getLanguageCode();
         }
         $scope.account = account;
@@ -177,6 +179,7 @@ angular.module('ds.account')
             });
         };
 
+
         $scope.showAllAddresses = function() {
             var parms = {
               pageSize: GlobalData.addresses.meta.total
@@ -197,9 +200,10 @@ angular.module('ds.account')
             if (field === 'preferredLanguage' && data) {
                 GlobalData.setLanguage( data.split('_')[0]);
 
-            }
-          });
-        };
+
+                    }
+                });
+            };
 
         $scope.updatePassword = function() {
           AuthDialogManager.showUpdatePassword();

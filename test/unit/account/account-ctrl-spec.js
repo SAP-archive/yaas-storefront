@@ -17,12 +17,14 @@ describe('AccountCtrl Test', function () {
         store: {tenant: storeTenant},
         setLanguage: jasmine.createSpy(),
         getLanguageCode: function(){ return null},
+        getCurrencyId: function() { return null},
         getCurrency: function() { return null},
         addresses:  {
             meta: {
                 total: 0
             }
         }
+
 
     };
 
@@ -268,6 +270,31 @@ describe('AccountCtrl Test', function () {
             expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
         });
 
+        describe('saveOnEnter', function(){
+
+            var formValid = true;
+
+            it('should save if user selects ENTER', function(){
+                var event = {keyCode:13, preventDefault: jasmine.createSpy()};
+                var addr = {};
+                var form = {};
+                $scope.saveOnEnter(event, addr, formValid, form);
+                expect(event.preventDefault).toHaveBeenCalled();
+                expect(AccountSvc.saveAddress).toHaveBeenCalled();
+            });
+
+            it('should not save on other keys', function(){
+                var event = {keyCode:11, preventDefault: jasmine.createSpy()};
+                var addr = {};
+                var form = {};
+                $scope.saveOnEnter(event, addr, formValid, form);
+                expect(event.preventDefault).not.toHaveBeenCalled();
+                expect(AccountSvc.saveAddress).not.toHaveBeenCalled();
+            });
+        });
+
     });
+
+
 
 });

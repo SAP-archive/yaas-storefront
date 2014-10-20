@@ -34,8 +34,8 @@ describe('AccountOrderDetailCtrl Test', function () {
         beforeEach(function () {
 
             mockedGlobalData = {
-                getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
-                getCurrency: function() {return 'USD'}
+                getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$'),
+                getCurrencyId: function() {return 'USD'}
             };
 
             // creating the mocked service

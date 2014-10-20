@@ -82,11 +82,15 @@ angular.module('ds.shared')
                 paging: {
                     total: 'X-Count'
                 },
+
                 addresses: {
                     paging: {
                         total: 'Hybris-Count'
                     }
-                }
+                },
+
+                hybrisCurrency: 'hybris-currency'
+
             }
         },
         // relevant keys from configuration service:
