@@ -39,7 +39,6 @@ angular.module('ds.auth')
                 signInPromise.then(function () {
                     $scope.errors.signin = [];
                     SessionSvc.afterLogIn(loginOpts);
-
                 }, function (response) {
                     $scope.errors.signin = extractServerSideErrors(response);
                 });

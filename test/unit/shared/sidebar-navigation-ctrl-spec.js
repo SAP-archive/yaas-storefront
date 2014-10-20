@@ -15,6 +15,7 @@ describe('SidebarNavigationCtrl', function () {
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
         getCategories: jasmine.createSpy().andReturn({then: function(){}})
     };
+
     var mockedGlobalData = {
         setLanguage: jasmine.createSpy(),
         setCurrency: jasmine.createSpy(),
@@ -24,6 +25,7 @@ describe('SidebarNavigationCtrl', function () {
         getCurrency: function(){
             return 'USD';
         }
+
     };
     var mockedAuthSvc = {};
 

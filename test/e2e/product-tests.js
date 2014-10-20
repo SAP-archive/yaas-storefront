@@ -9,7 +9,7 @@ describe("product page", function () {
       browser.manage().deleteAllCookies();    	
       browser.get(tu.tenant + '/#!/products');
       browser.driver.manage().window().maximize();
-      browser.sleep(10000);
+      browser.sleep(8000);
     });
 
       
@@ -37,13 +37,16 @@ describe("product page", function () {
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
+        expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('$10.67');
         tu.clickElement('linkText', 'DE');
+        tu.clickElement('linkText', 'EURO');
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+        expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
 
     });
 
-      it("should get order of products correctly in english", function () {
+      it("should get order of products correctly in english and USD", function () {
         //default load
         tu.clickElement('linkText', 'EN');
         tu.getTextByRepeaterRow(0);
@@ -59,21 +62,22 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
     });
 
-      it("should get order of products correctly in german", function () {
+      it("should get order of products correctly in german and Euros", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
         tu.clickElement('linkText', 'DE');
+        tu.clickElement('linkText', 'EURO');
         browser.sleep(3000);       
         // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
         // browser.sleep(750);
         // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
         // browser.sleep(750);
-        tu.sortAndVerifyPagination('name', 'BIERKRUG', '$6.99');
+        tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '$24.99');
+        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '€19.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '$7.99');
+        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '€6.39');
     });
 
 

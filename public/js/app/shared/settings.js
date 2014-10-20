@@ -78,7 +78,8 @@ angular.module('ds.shared')
                 hybrisAuthorization: 'Authorization',
                 paging: {
                     total: 'X-Count'
-                }
+                },
+                hybrisCurrency: 'hybris-currency'
             }
         },
         // relevant keys from configuration service:
