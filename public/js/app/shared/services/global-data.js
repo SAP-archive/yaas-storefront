@@ -24,6 +24,11 @@ angular.module('ds.shared')
                         total: 0
                     }
                 },
+                addresses:  {
+                    meta: {
+                        total: 0
+                    }
+                },
 
                 store: {
                     tenant: storeConfig.storeTenant,

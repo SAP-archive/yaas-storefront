@@ -17,7 +17,12 @@ describe('AccountCtrl Test', function () {
         store: {tenant: storeTenant},
         setLanguage: jasmine.createSpy(),
         getLanguageCode: function(){ return null},
-        getCurrency: function() { return null}
+        getCurrency: function() { return null},
+        addresses:  {
+            meta: {
+                total: 0
+            }
+        }
 
     };
 
