@@ -1,19 +1,17 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
-
-      function writeHtml(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'utf8'));
-           stream.end();
-      }
-
-      function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
+       function loadProductIntoCart(cartAmount, cartTotal) {
+         tu.clickElement('id', tu.cartButtonId);
+         browser.sleep(250);
+         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+         tu.clickElement('xpath', tu.contineShopping);
+         tu.clickElement('xpath', tu.whiteCoffeeMug);
+         browser.sleep(1000);
+         tu.clickElement('id', tu.buyButton);
+         browser.sleep(250);
+         tu.verifyCartAmount(cartAmount);
+         tu.verifyCartTotal(cartTotal);
        }
 
 describe("cart:", function () {
@@ -27,25 +25,33 @@ describe("cart:", function () {
        browser.driver.manage().window().maximize();
        browser.manage().deleteAllCookies();
        browser.get(tu.tenant + '/#!/products');
-       browser.sleep(8000);
+       browser.sleep(10000);
      });
 
 
        it('should load one product into cart', function () {
-         tu.clickElement('id', tu.cartButtonId);
-         browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-         tu.clickElement('xpath', tu.contineShopping);
-         tu.clickElement('xpath', tu.whiteCoffeeMug);
-         browser.sleep(1000);
-         tu.clickElement('id', tu.buyButton);
-         browser.sleep(250);
-         tu.verifyCartAmount("1");
-         tu.verifyCartTotal("$10.67");
-         tu.clickElement('xpath', tu.removeFromCart);
+        loadProductIntoCart('1', '$10.67');
+        tu.clickElement('xpath', tu.removeFromCart);
         browser.sleep(1000);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+        expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+       });
 
+       it('should load one product into cart in Euros', function () {
+        tu.clickElement('linkText', 'EURO');
+        loadProductIntoCart('1', '€7.99');
+        tu.clickElement('xpath', tu.removeFromCart);
+        browser.sleep(1000);
+        expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+       });
+
+       it('should load one product into cart in USD and change to Euros', function () {
+        loadProductIntoCart('1', '$10.67');
+        tu.clickElement('xpath', tu.contineShopping);
+        tu.clickElement('linkText', 'EURO');
+        tu.clickElement('id', tu.cartButtonId);
+        browser.sleep(1000);
+        tu.clickElement('id', tu.cartButtonId);
+        tu.verifyCartTotal('€7.99');
        });
 
          it('should load multiple products into cart', function () {
@@ -99,7 +105,7 @@ describe("cart:", function () {
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
          });

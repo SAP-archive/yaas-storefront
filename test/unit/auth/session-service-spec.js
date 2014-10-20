@@ -18,7 +18,7 @@ describe('SessionSvc', function () {
         },
         mockedCartSvc = {},
         mockedGlobalData = {
-            getCurrency: function(){
+            getCurrencyId: function(){
                 return 'USD'
             },
             setCurrency: jasmine.createSpy(),

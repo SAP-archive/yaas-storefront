@@ -12,11 +12,19 @@
 'use strict';
 
 angular.module('ds.checkout')
-    /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('OrderDetailCtrl', ['$scope', 'cart', 'shippingCost', 'GlobalData', function($scope, cart, shippingCost, GlobalData) {
+/** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
+    .controller('OrderDetailCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData',
+        function ($scope, $rootScope, cart, shippingCost, GlobalData) {
 
-        $scope.cart = cart;
-        $scope.shippingCost = shippingCost;
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
+            $scope.cart = cart;
+            $scope.shippingCost = shippingCost;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
 
-    }]);
+            var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
+                $scope.cart = eveObj;
+                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            });
+
+            $scope.$on('$destroy', unbind);
+
+        }]);
