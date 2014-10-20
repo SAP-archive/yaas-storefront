@@ -1,5 +1,5 @@
 <!-- Modal -->
-<form name="addressForm" ng-submit="save(address, addressForm.$valid, addressForm.$name)" novalidate>
+<form name="addressForm" novalidate>
   <div class="modal-header">
     <button class="close" ng-click="closeAddressModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <h4 class="modal-title" id="myModalLabel">{{'ADD_ADDRESS' | translate}}</h4>
@@ -15,23 +15,23 @@
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="contactName">{{'CONTACT_NAME' | translate}}</label></span>
-        <input inline-error-input inline-error-input-required-message="{{'CONTACT_NAME' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on">
+        <input inline-error-input inline-error-input-required-message="{{'CONTACT_NAME' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message required class="form-control" id="street" name="street"
-        ng-model="address.street">
+        ng-model="address.street" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
       <div class="form-group input-group" ng-class="{'has-error': addressForm.streetAppendix.$invalid && (addressForm.streetAppendix.$dirty  || showPristineErrors)}">
         <span class="input-group-addon"><label class="control-label" for="streetAppendix">{{'ADDRESS_LINE_2' | translate}}</label></span>
         <input type="text" inline-error-input class="form-control" id="streetAppendix" name="streetAppendix"
-        ng-model="address.streetAppendix">
+        ng-model="address.streetAppendix" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
 
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.country.$invalid && ( addressForm.country.$dirty || showPristineErrors) }">
         <span class="input-group-addon"><label class="control-label" for="country">{{'COUNTRY' | translate}}</label></span>
-        <select class="form-control" ng-model="address.country" id="country" name="country" inline-error-input inline-error-input-required-message required>
+        <select class="form-control" ng-model="address.country" id="country" name="country" inline-error-input inline-error-input-required-message required ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
           <option value=""></option>
           <option value="USA">USA</option>
         </select>
@@ -42,13 +42,13 @@
         <span class="input-group-addon"><label class="control-label" for="city">{{'CITY' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message="{{'CITY_REQUIRED' | translate}}"
         class="form-control" id="city" name="city" required autocomplete="on"
-        ng-model="address.city">
+        ng-model="address.city" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
       
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.state.$invalid && (addressForm.state.$dirty || showPristineErrors) }">
         <span class="input-group-addon"><label class="control-label" for="state">{{'STATE' | translate}}</label></span>
-        <select class="form-control" inline-error-input inline-error-input-required-message="{{'STATE_REQUIRED' | translate}}" required ng-model="address.state" id="state" name="state">
+        <select class="form-control" inline-error-input inline-error-input-required-message="{{'STATE_REQUIRED' | translate}}" required ng-model="address.state" id="state" name="state" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
           <option value=""></option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -109,15 +109,15 @@
         <span class="input-group-addon"><label class="control-label" for="zipCode">{{'ZIP' | translate}}</label></span>
         <input type="text" inline-error-input inline-error-input-required-message="{{'ZIP_REQUIRED' | translate}}"
         class="form-control" id="zipCode" name="zipCode" required autocomplete="on"
-        ng-model="address.zipCode">
+        ng-model="address.zipCode" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.contactPhone.$invalid && (addressForm.contactPhone.$dirty || showPristineErrors) }">
         <span class="input-group-addon"><label class="control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label></span>
-        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on">
+        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" id="save-address-btn" class="btn btn-primary btn-lg btn-block" >Save</button>
+    <a id="save-address-btn" class="btn btn-primary btn-lg btn-block" ng-click="save(address, addressForm.$valid, addressForm.$name)">Save</a>
   </div>
 </form>

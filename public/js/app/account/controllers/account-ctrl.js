@@ -103,6 +103,13 @@ angular.module('ds.account')
           }
         };
 
+        $scope.saveOnEnter = function($event, address, formValid, form) {
+          if ($event.keyCode === 13) {
+              $event.preventDefault();
+              $scope.save(address, formValid, form);
+          }
+        };
+
         $scope.openAddressModal = function(address) {
           $scope.address = angular.copy(address || {
             account: customerNumber
