@@ -21,7 +21,10 @@ angular.module('ds.shared')
         // defines thea API endpoints and routes
         apis: {
             account: {
-              baseUrl: 'https://yaas-test.apigee.net/test/account/v1'
+                baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
+                addresses: {
+                    initialPageSize: 6
+                }
             },
 
             categories: {
@@ -79,7 +82,15 @@ angular.module('ds.shared')
                 paging: {
                     total: 'X-Count'
                 },
+
+                addresses: {
+                    paging: {
+                        total: 'Hybris-Count'
+                    }
+                },
+
                 hybrisCurrency: 'hybris-currency'
+
             }
         },
         // relevant keys from configuration service:

@@ -312,8 +312,12 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc) {
-                            return AccountSvc.getAddresses();
+                        addresses: function(AccountSvc, settings) {
+                            var query = {
+                                pageNumber: 1,
+                                pageSize: settings.apis.account.addresses.initialPageSize
+                            };
+                            return AccountSvc.getAddresses(query);
                         },
                         orders: function(OrderListSvc) {
                             var parms = {

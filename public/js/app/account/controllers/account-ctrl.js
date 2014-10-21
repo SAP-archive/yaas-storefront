@@ -20,6 +20,8 @@ angular.module('ds.account')
         var modalInstance;
         var customerNumber = account.customerNumber;
 
+        $scope.GlobalData = GlobalData;
+
         var getDefaultAddress = function() {
           return _.find($scope.addresses, function(addr) { return addr.isDefault; });
         };
@@ -105,6 +107,13 @@ angular.module('ds.account')
           }
         };
 
+        $scope.saveOnEnter = function($event, address, formValid, form) {
+          if ($event.keyCode === 13) {
+              $event.preventDefault();
+              $scope.save(address, formValid, form);
+          }
+        };
+
         $scope.openAddressModal = function(address) {
           $scope.address = angular.copy(address || {
             account: customerNumber
@@ -170,16 +179,27 @@ angular.module('ds.account')
             });
         };
 
-            $scope.updateAccount = function(field, data) {
-                var account = angular.copy($scope.account);
-                var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-                if (field === 'contactEmail' && !emailRegexp.test(data)) {
-                    return $translate('PLEASE_ENTER_VALID_EMAIL');
-                }
-                account[field] = data;
-                return AccountSvc.updateAccount(account).then(function() {
-                    if (field === 'preferredLanguage' && data) {
-                        GlobalData.setLanguage( data.split('_')[0]);
+
+        $scope.showAllAddresses = function() {
+            var parms = {
+              pageSize: GlobalData.addresses.meta.total
+            };
+            AccountSvc.getAddresses(parms).then(function (addresses) {
+              $scope.addresses = addresses;
+            });
+        };
+
+        $scope.updateAccount = function(field, data) {
+          var account = angular.copy($scope.account);
+          var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+          if (field === 'contactEmail' && !emailRegexp.test(data)) {
+            return $translate('PLEASE_ENTER_VALID_EMAIL');
+          }
+          account[field] = data;
+          return AccountSvc.updateAccount(account).then(function() {
+            if (field === 'preferredLanguage' && data) {
+                GlobalData.setLanguage( data.split('_')[0]);
+
 
                     }
                 });
