@@ -112,7 +112,6 @@ angular.module('ds.shared')
                  * any existing cookie settings. */
                 loadInitialLanguage: function(){
                     var languageCookie = CookieSvc.getLanguageCookie();
-                    console.log(languageCookie);
                     if(languageCookie && languageCookie.languageCode){
                         setLanguageWithOptionalCookie(languageCookie.languageCode, false);
                     } else {

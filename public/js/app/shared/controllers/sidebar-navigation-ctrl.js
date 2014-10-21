@@ -13,6 +13,7 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
             $scope.categories = [];
+            $scope.currencies = GlobalData.getAvailableCurrencies();
 
             function loadCategories(){
                 CategorySvc.getCategories().then(function(categories){

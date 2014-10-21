@@ -24,6 +24,9 @@ describe('SidebarNavigationCtrl', function () {
         },
         getCurrency: function(){
             return 'USD';
+        },
+        getAvailableCurrencies: function(){
+            return [{id: 'USD', label: 'US Dollar'}];
         }
 
     };
