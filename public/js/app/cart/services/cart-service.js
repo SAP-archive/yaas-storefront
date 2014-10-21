@@ -146,6 +146,24 @@ angular.module('ds.cart')
 
         return {
 
+            createNewCartForCustomer: function(customerId) {
+                var newCart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
+                return CartREST.Cart.all('carts').post(newCart).then(function(result){
+                    cart = newCart;
+                    cart.id = result.cartId;
+                });
+            },
+
+            /**
+             * Creates a new Cart instance that does not have an ID.
+             * This will prompt the creation of a new cart once items are added to the cart.
+             * Should be invoked once an existing cart has been successfully submitted to checkout.
+             */
+            resetCart: function () {
+                cart = new Cart();
+                $rootScope.$emit('cart:updated', cart);
+            },
+
             /** Returns the cart as stored in the local scope.*/
             getLocalCart: function(){
                 return cart;
@@ -157,19 +175,20 @@ angular.module('ds.cart')
                 return refreshCart(cart.id? cart.id : null);
             },
 
-            mergeCartAfterLogin: function(){
+            getCartAfterLogin: function(customerId){
                 // current cart is empty - simply return cart for authenticated user
                 if(!cart || !cart.items) {
                     refreshCart();
                 }   else {
                     // retrieve any cart associated with the authenticated user and merge in the current cart
-                    CartREST.Cart.one('carts', null).get().then(function(authUserCart) {
+                    var qryParam = {q: 'customerId:(' + customerId + ')'};
+                    CartREST.Cart.one('carts', null).get(qryParam).then(function(authUserCart) {
                         CartREST.Cart.one('carts', authUserCart.id).one('merge').customPOST(cart).then(function(){
                             refreshCart(authUserCart.id);
                         });
                     }, function(){
                         // no cart for authenticated user
-                        window.alert('No cart!');
+                        this.resetCart();
                     });
                 }
             },
@@ -235,15 +254,7 @@ angular.module('ds.cart')
                 }
             },
 
-            /**
-             * Creates a new Cart instance that does not have an ID.
-             * This will prompt the creation of a new cart once items are added to the cart.
-             * Should be invoked once an existing cart has been successfully submitted to checkout.
-             */
-            resetCart: function () {
-               cart = new Cart();
-               $rootScope.$emit('cart:updated', cart);
-            },
+
 
             /*
              *  This function switches the cart's currency and refreshes the cart

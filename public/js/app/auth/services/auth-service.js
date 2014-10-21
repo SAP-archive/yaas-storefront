@@ -23,10 +23,6 @@ angular.module('ds.auth')
 
         var AuthenticationService = {
 
-            signup: function (user) {
-                return AuthREST.Customers.all('signup').customPOST(user);
-            },
-
             customerSignin: function (user) {
                 return AuthREST.Customers.all('login').customPOST(user);
             },
@@ -51,6 +47,17 @@ angular.module('ds.auth')
                 });
 
                 return signInDone.promise;
+            },
+
+            signup: function (user, context) {
+                var self = this;
+                return AuthREST.Customers.all('signup').customPOST(user).then(function(){
+                    self.signin(user).then(function(){
+                        SessionSvc.afterLoginFromSignUp(context);
+                    }, function(){
+                        $q.reject('SignIn failed');
+                    });
+                });
             },
 
             /** Logs the customer out and removes the token cookie. */

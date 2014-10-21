@@ -69,21 +69,13 @@ angular.module('ds.auth')
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
                 var deferred = $q.defer();
-
                 if (signUpForm.$valid) {
-                    AuthSvc.signup(authModel).then(
-                        function () {
+                    AuthSvc.signup(authModel, loginOpts).then(
+                        function (response) {
                             $scope.errors.signup = [];
-                            performSignin(authModel, {fromSignUp: true}).then(
-                                function (response) {
-                                    settings.hybrisUser = $scope.user.signup.email;
-                                    $modalInstance.close(response);
-                                    deferred.resolve(response);
-                                },
-                                function (response) {
-                                    deferred.reject(response);
-                                }
-                            );
+                            settings.hybrisUser = $scope.user.signup.email;
+                            $modalInstance.close(response);
+                            deferred.resolve(response);
                         }, function (response) {
                             $scope.errors.signup = extractServerSideErrors(response);
                             deferred.reject({ message: 'Signup form is invalid!', errors: $scope.errors.signup });
@@ -92,7 +84,6 @@ angular.module('ds.auth')
                 } else {
                     deferred.reject({ message: 'Signup form is invalid!'});
                 }
-
                 return deferred.promise;
             };
 
