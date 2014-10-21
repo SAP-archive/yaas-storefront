@@ -35,19 +35,19 @@
         </div>
         <div class="col-sm-12 col-sm-5">
           <div class="clearfix visible-xs"></div>
-          <span class="area-headline">Account Details</span>
+          <span class="area-headline">{{'ACCOUNT_DETAILS' | translate}}</span>
           <div class="account-details">
             <div>
-              <span class="inline-label">Title:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
+              <span class="inline-label">{{'TITLE' | translate}}:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
             </div>
             <div>
-              <span class="inline-label">First Name:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
+                <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Middle Name:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">{{'MIDDLE_NAME' | translate}}:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Last Name:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">{{'LAST_NAME' | translate}}:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
@@ -56,10 +56,10 @@
               <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Preferred Locale:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
+              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
             </div>
             <div>
-              <span class="inline-label">Currency:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.value as currency.text for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
+              <span class="inline-label">{{'CURRENCY' | translate}}:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.value as currency.text for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
             </div>
           </div>
         </div>
@@ -70,14 +70,14 @@
     <div class="section-headline clearfix">
       <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
       <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
-      Add
+      {{'ADD' | translate}}
       </button>
     </div>
     <div class="row">
       <div ng-include="'./js/app/account/templates/addresses.html'"></div>
     </div>
     <div class="text-center">
-      <button class="btn btn-link">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
   <section class="mediumgray">
@@ -88,10 +88,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Order Number</th>
-            <th>Order total</th>
-            <th>Order status</th>
+            <th>{{'DATE' | translate}}</th>
+            <th>{{'ORDER_NUMBER' | translate}}</th>
+            <th>{{'ORDER_TOTAL' | translate}}</th>
+            <th>{{'ORDER_STATUS' | translate}}</th>
           </tr>
         </thead>
         <tbody>
@@ -105,7 +105,7 @@
       </table>
     </div>
     <div class="text-center">
-      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">Show All <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
 </div>

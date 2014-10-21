@@ -179,7 +179,7 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.contactPhone.$invalid && (billToForm.contactPhone.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'PHONE_REQUIRED' | translate}}" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
                        required autocomplete="on">
             </div>
         </div>
@@ -455,7 +455,7 @@
 </a>
 <div class="error" ng-if="message" style="color:red">
     <small class="help-inline has-error">
-    {{message}}
+    {{message | translate}}
     </small>
 </div>
 <div class="row step-detail" ng-class="{'has-error': message }">
