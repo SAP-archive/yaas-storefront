@@ -14,19 +14,24 @@
     <section class="white">
         <div class="page-headline">
             <h1>
+<<<<<<< HEAD
+                <small><a href="/account/">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}</small></br>
+                {{'ORDER' | translate}} {{order.id}}
+=======
                 <small><a data-ui-sref="base.account">My Account</a> / Order Details</small></br>
                 Order {{order.id}}
+>>>>>>> develop
             </h1>
         </div>
         <div class="section-headline">
-            <h2>Order Details</h2>
+            <h2>{{'ORDER_DETAILS' | translate}}</h2>
         </div>
         <div class="row">
             <!-- AREA -->
             <div class="col-md-4">
                 <div class="area">
   		<span class="area-headline">
-  			Shipping Address
+  			{{'SHIPPING_ADDRESS' | translate}}
   		</span>
                     <address>
                         {{order.shippingAddress.contactName}}<br>
@@ -41,7 +46,7 @@
             <div class="col-md-4">
                 <div class="area">
   		<span class="area-headline">
-  			Billing Address
+  			{{'BILLING_ADDRESS' | translate}}
   		</span>
                     <address>
                         {{order.billingAddress.contactName}}<br>
@@ -56,7 +61,7 @@
             <div class="col-md-4">
                 <div class="area">
   		<span class="area-headline">
-  			Payment
+  			{{'PAYMENT' | translate}}
   		</span>
                     <p>{{payment.method | translate}}, {{payment.paidAmount}} {{payment.currency}}, {{payment.status | translate}}</p>
                 </div>
@@ -66,21 +71,21 @@
     </section>
     <section>
         <div class="section-headline">
-            <h2>Order Status <span class="order-status">- {{order.status | translate}}</span></h2>
+            <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
     </section>
     <section class="mediumgray clearfix">
         <div class="section-headline">
-            <h2>Items in Order</h2>
+            <h2>{{'ITEMS_IN_YOUR_ORDER' | translate}}</h2>
         </div>
         <div class="table-responsive order-tabel">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Item</th>
-                    <th>Item Price</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
+                    <th>{{'ITEM' | translate}}</th>
+                    <th>{{'ITEM_PRICE' | translate}}</th>
+                    <th>{{'QUANTITY' | translate}}</th>
+                    <th>{{'TOTAL_PRICE' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -116,17 +121,17 @@
             <table class="table ">
                 <tbody>
                 <tr>
-                    <td >Subtotal</td>
+                    <td >{{'SUBTOTAL' | translate}}</td>
                     <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
                 </tr>
                 <tr>
-                    <td>Shipping</td>
+                    <td>{{'SHIPPING' | translate}}</td>
                     <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td>Order Total</td>
+                    <td>{{'ORDER_TOTAL' | translate}}</td>
                     <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
                 </tr>
                 </tfoot>

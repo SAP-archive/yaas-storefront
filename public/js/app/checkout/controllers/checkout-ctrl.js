@@ -41,8 +41,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$translate', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $translate, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $rootScope.showCart = false;
 
@@ -160,22 +160,6 @@ angular.module('ds.checkout')
                         this.instance.dismiss('cancel');
                     }
                 };
-
-
-
-            // Error messages, define & translate - default error and 'invalid credit card expiration date'
-            var defaultErrorMsg = '';
-            var invalidCCExpDateMsg = '';
-
-            $translate('PLEASE_CORRECT_ERRORS')
-                .then(function (translatedValue) {
-                    defaultErrorMsg = translatedValue;
-                });
-
-            $translate('INVALID_EXPIRATION_DATE')
-                .then(function (translatedValue) {
-                    invalidCCExpDateMsg = translatedValue;
-                });
 
 
 
@@ -300,7 +284,7 @@ angular.module('ds.checkout')
                 } else if (error.code.indexOf('month') !== -1 || error.code.indexOf('year') !== -1) {
                     $scope.checkoutForm.paymentForm.expMonth.$setValidity('validation', false);
                     $scope.checkoutForm.paymentForm.expYear.$setValidity('validation', false);
-                    $scope.checkoutForm.paymentForm.expDateMsg = invalidCCExpDateMsg;
+                    $scope.checkoutForm.paymentForm.expDateMsg = 'INVALID_EXPIRATION_DATE';
 
                 } else if (error.code.indexOf('cvc') !== -1) {
                     $scope.checkoutForm.paymentForm.cvc.$setValidity('validation', false);
@@ -317,7 +301,7 @@ angular.module('ds.checkout')
                 if (error.type === 'card_error') {
                     $scope.editPayment();
                     if (error.code && isFieldAttributableStripeError(error)) {
-                        msg = defaultErrorMsg;
+                        msg = 'PLEASE_CORRECT_ERRORS';
                         attributeStripeFieldError(error);
                     }
                 }
@@ -386,7 +370,7 @@ angular.module('ds.checkout')
 
                 } else {
                     $scope.showPristineErrors = true;
-                    $scope.message = defaultErrorMsg;
+                    $scope.message = 'PLEASE_CORRECT_ERRORS';
                 }
             };
 

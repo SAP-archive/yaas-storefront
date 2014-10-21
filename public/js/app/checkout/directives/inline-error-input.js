@@ -20,11 +20,23 @@ angular.module('ds.checkout')
  * which contains the error the original input is shown.
  * @return {Object}
  */
-    .directive('inlineErrorInput',['GlobalData', function(GlobalData){
+    .directive('inlineErrorInput',['GlobalData', '$translate', function(GlobalData, $translate){
         return {
             restrict: 'A',
             require: 'ngModel',
             link: function(scope, element, attrs, ngModel) {
+                var fieldRequired = '';
+                var fieldTooShort = '';
+                var fieldsNotMatching = '';
+                $translate('FIELD_REQUIRED').then(function (translatedValue) {
+                    fieldRequired = translatedValue;
+                });
+                $translate('FIELD_TOO_SHORT').then(function (translatedValue) {
+                    fieldTooShort = translatedValue;
+                });
+                $translate('FIELDS_NOT_MATCHING').then(function (translatedValue) {
+                    fieldsNotMatching = translatedValue;
+                });
                 // element's (input's) clone -> error input
                 // set type to text to allow displaying 'required' msg in numeric input fields
                 var elementClone = element.clone().attr('type', 'text'),
@@ -57,17 +69,17 @@ angular.module('ds.checkout')
                             switch(errorsJSON[errorKey]) {
                                 case 'required':
                                     if (ngModel.$error.required) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || 'REQUIRED');
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || fieldRequired);
                                     }
                                     break;
                                 case 'minlength':
                                     if (ngModel.$error.minlength) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputMinLengthMessage || 'Field is too short!');
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputMinLengthMessage || fieldTooShort);
                                     }
                                     break;
                                 case 'equal':
                                     if (ngModel.$error.equal) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputEqualMessage || 'Fields not matching!');
+                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputEqualMessage || fieldsNotMatching);
                                     }
                                     break;
                             }

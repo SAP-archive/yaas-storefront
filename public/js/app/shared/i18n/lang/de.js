@@ -37,8 +37,9 @@ angular.module('ds.i18n')
         INVALID_EXPIRATION_DATE: 'Ungültiges Ablaufdatum',
         ITEMS: 'Artikel',
         LAST_NAME: 'Nachname',
+        LAST_NAME_REQUIRED: 'Nachname Pflicht',
         METHOD: 'Verfahren',
-        MIDDLE_NAME: 'zweiter Vorname',
+        MIDDLE_NAME: 'Zweiter Vorname',
         MONTH: 'Monat',
         NAME: 'Name',
         OPTIONAL: 'optional',
@@ -77,7 +78,7 @@ angular.module('ds.i18n')
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'Eine Bestellbestätigung wurde Ihnen zugesendet',
         ENJOY_YOUR_ITEMS: 'Viel Spass mit ihrer Bestellung!',
         FOR_YOUR_ORDER: 'für Ihre Bestellung!',
-        ITEMS_IN_YOUR_ORDER: 'Alle Artikel ihrer Bestellung',
+        ITEMS_IN_YOUR_ORDER: 'Artikel in Ihrer Bestellung',
         QUESTIONS: 'Wenn Sie irgendwelche Fragen haben, kontaktieren Sie uns unter',
         ORDER: 'Bestellung',
         RETURN_TO_SHOPPING: 'Weiter einkaufen',
@@ -126,16 +127,25 @@ angular.module('ds.i18n')
         /*
             account page
          */
+        ACCOUNT_DETAILS: 'Kontodaten',
+        ADD: 'Hinzufügen',
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
+        CLOSE: 'Schließen',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
+        CURRENCY: 'Währung',
+        DATE: 'Datum',
+        LOCALE: 'Ort',
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         SAVE: 'Speichern',
-        WELLCOME: 'Willkommen',
+        WELCOME: 'Willkommen',
+        ITEMS_IN_ORDER: 'Postenzähler',
         ORDER_HISTORY: 'Bestellverlauf',
+        ORDER_NUMBER: 'Bestellnummer',
+        ORDER_STATUS: 'Auftragsstatus',
         STREET_NUMBER: 'Nummer',
         UPDATE_PASSWORD: 'Passwort aktualisieren',
         CURRENT_PASSWORD: 'Aktuelles Passwort',
@@ -144,6 +154,7 @@ angular.module('ds.i18n')
         PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
         WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
+        SHOW_ALL: 'Alle anzeigen',
 
         /*
          login, password, signup
@@ -168,6 +179,8 @@ angular.module('ds.i18n')
         PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
         RESET_PW_REPEAT: 'Link nochmal anfordern.',
         FIELD_REQUIRED: 'Angabe erforderlich',
+        FIELD_TOO_SHORT: 'Feld zu kurz!',
+        FIELDS_NOT_MATCHING: 'Angaben stimmen nicht überein!',
 
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
