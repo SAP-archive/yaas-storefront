@@ -50,7 +50,7 @@
               <span class="inline-label">{{'LAST_NAME' | translate}}:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">{{'EMAIL' | translate}}:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
