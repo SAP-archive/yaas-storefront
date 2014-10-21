@@ -13,11 +13,16 @@
 describe('AccountCtrl Test', function () {
     var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, translations, modalPromise;
     var storeTenant = '121212';
+    var eng = 'English';
+    var usd = 'US Dollar';
     var mockedGlobalData = {
         store: {tenant: storeTenant},
         setLanguage: jasmine.createSpy(),
+        setCurrency: jasmine.createSpy(),
         getLanguageCode: function(){ return null},
-        getCurrencyId: function() { return null}
+        getCurrencyId: function() { return null},
+        getAvailableLanguages: function() { return [{id:'en', label:eng}]},
+        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]}
 
     };
 
@@ -211,37 +216,21 @@ describe('AccountCtrl Test', function () {
             expect(addr.isDefault).toEqual(true);
         });
 
-        it("should update account by executing updateAccount", function() {
-            $scope.updateAccount();
-            $scope.$digest();
-            expect(AccountSvc.updateAccount).toHaveBeenCalled();
-        });
-
-        it("should partially update account when calling updateAccount with parameters", function() {
-            $scope.updateAccount('contactEmail', 'notAnEmailAddress');
-            $scope.$digest();
-            expect(AccountSvc.updateAccount).wasNotCalled();
-            expect(translateReturn.then).toHaveBeenCalled();
-            $scope.updateAccount('preferredLanguage', 'en_US');
-            $scope.$digest();
-            expect(AccountSvc.updateAccount).toHaveBeenCalled();
-            expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
-        });
 
         it("should show the currency as expected", function () {
             var retVal = $scope.showCurrency();
             expect(retVal).toEqualData('Not set');
             $scope.account.preferredCurrency = 'USD';
             retVal = $scope.showCurrency();
-            expect(retVal).toEqualData('US - Dollar');
+            expect(retVal).toEqualData(usd);
         });
 
         it("should show the language locale as expected", function () {
             var retVal = $scope.showLanguageLocale();
             expect(retVal).toEqualData('Not set');
-            $scope.account.preferredLanguage = 'en_US';
+            $scope.account.preferredLanguage = 'en';
             retVal = $scope.showLanguageLocale();
-            expect(retVal).toEqualData('US - USA');
+            expect(retVal).toEqualData(eng);
         });
 
         it("should show all of the orders", function () {
@@ -261,6 +250,37 @@ describe('AccountCtrl Test', function () {
         it("should delegate call to AuthDialogManager's showUpdatePassword method", function() {
             $scope.updatePassword();
             expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
+        });
+
+        describe('updateAccount()', function(){
+
+            it('should update account by executing updateAccount', function() {
+                $scope.updateAccount();
+                $scope.$digest();
+                expect(AccountSvc.updateAccount).toHaveBeenCalled();
+            });
+
+            it('update of preferred language should set language in GlobalData', function(){
+                $scope.updateAccount('preferredLanguage', 'en');
+                $scope.$digest();
+                expect(AccountSvc.updateAccount).toHaveBeenCalled();
+                expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
+            });
+
+            it('update of preferred currency should set currency in GlobalData', function(){
+                $scope.updateAccount('preferredCurrency', 'EUR');
+                $scope.$digest();
+                expect(AccountSvc.updateAccount).toHaveBeenCalled();
+                expect(mockedGlobalData.setCurrency).toHaveBeenCalled();
+            });
+
+            it('should partially update account when calling updateAccount with parameters', function() {
+                $scope.updateAccount('contactEmail', 'notAnEmailAddress');
+                $scope.$digest();
+                expect(AccountSvc.updateAccount).wasNotCalled();
+                expect(translateReturn.then).toHaveBeenCalled();
+
+            });
         });
 
     });

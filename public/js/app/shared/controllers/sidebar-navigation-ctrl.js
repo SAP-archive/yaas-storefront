@@ -1,30 +1,28 @@
 'use strict';
 
 angular.module('ds.shared')
-     /** Handles interactions in the navigation side bar.   */
+/** Handles interactions in the navigation side bar.   */
 
 
-	.controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
+    .controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
         'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc',
 
-		function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
+        function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
                   AuthSvc, AuthDialogManager, CategorySvc) {
 
-
-            $scope.languageCode = GlobalData.getLanguageCode();
-            $scope.languageCodes = i18nConstants.getLanguageCodes();
-            $scope.GlobalData = GlobalData;
-            $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
             $scope.categories = [];
 
-            CategorySvc.getCategories().then(function(categories){
-                $scope.categories = categories;
-            });
+            function loadCategories(){
+                CategorySvc.getCategories().then(function(categories){
+                    $scope.categories = categories;
+                });
+            }
+
+            loadCategories();
 
             $scope.switchCurrency = function (currency) {
-
                 GlobalData.setCurrency(currency);
                 if($state.is('base.category') || $state.is('base.product.detail')) {
                     $state.transitionTo($state.current, $stateParams, {
@@ -33,28 +31,40 @@ angular.module('ds.shared')
                         notify: true
                     });
                 }
-
             };
 
             $scope.switchLanguage = function(languageCode) {
-
-                $scope.languageCode =  languageCode;
                 GlobalData.setLanguage(languageCode);
-
-                if($state.is('base.category') || $state.is('base.product.detail') || $state.is('base.account')) {
+                if($state.is('base.category') || $state.is('base.product.detail')) {
 
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: true,
                         notify: true
                     });
+                } else {
+                    loadCategories();
                 }
             };
+
+
+            // handling language updates initiated from outside this controller
+            var unbindLang = $rootScope.$on('language:updated', function (eve, eveObj) {
+                $scope.switchLanguage(eveObj);
+            });
+
+
+            // handling currency updates initiated from outside this controller
+            var unbindCurr = $rootScope.$on('currency:updated', function (eve, eveObj) {
+                $scope.switchLanguage(eveObj);
+            });
+
+            $scope.$on('$destroy', unbindCurr, unbindLang);
 
             $scope.logout = function () {
                 AuthSvc.signOut();
             };
-            
+
             $scope.login = function(dOpts, opts) {
                 AuthDialogManager.open(dOpts, opts);
             };
@@ -68,4 +78,4 @@ angular.module('ds.shared')
                 $scope.hideMobileNav();
             };
 
-	}]);
+        }]);
