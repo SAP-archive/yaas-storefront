@@ -37,6 +37,7 @@ angular.module('ds.i18n')
         INVALID_EXPIRATION_DATE: 'Invalid Expiration Date',
         ITEMS: 'Items',
         LAST_NAME: 'Last Name',
+        LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
         MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
@@ -126,16 +127,25 @@ angular.module('ds.i18n')
         /*
             account page
          */
+        ACCOUNT_DETAILS: 'Account details',
+        ADD: 'Add',
         ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
+        CLOSE: 'Close',
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
+        CURRENCY: 'Currency',
+        DATE: 'Date',
+        LOCALE: 'Locale',
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
         STREET_NUMBER: 'Street Number',
-        WELLCOME: 'Wellcome',
+        WELCOME: 'Welcome',
+        ITEMS_IN_ORDER: 'Items In Order',
         ORDER_HISTORY: 'Order History',
+        ORDER_NUMBER: 'Order Number',
+        ORDER_STATUS: 'Order Status',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
@@ -144,6 +154,7 @@ angular.module('ds.i18n')
         PASSWORDS_NO_MATCH: 'Passwords do not match',
         WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
         PASSWORD_TOO_SHORT: 'Password too short',
+        SHOW_ALL: 'Show all',
 
         /*
            login, password, signup
@@ -167,7 +178,9 @@ angular.module('ds.i18n')
         INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
         PW_CHANGE_FAILED: 'Update of password failed.',
         RESET_PW_REPEAT: 'Request another reset-password link.',
-        FIELD_REQUIRED: 'Input required',
+        FIELD_REQUIRED: 'Field is required!',
+        FIELD_TOO_SHORT: 'Field too short!',
+        FIELDS_NOT_MATCHING: 'Fields not matching!',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',

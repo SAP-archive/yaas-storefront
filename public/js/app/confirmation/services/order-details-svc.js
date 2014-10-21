@@ -55,6 +55,8 @@ angular.module('ds.confirmation')
                     confirmationDetails.shippingAddressCityStateZip = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
                         ' ' + orderDetails.shippingAddress.zipCode;
 
+                    confirmationDetails.shippingAddressCountry = orderDetails.shippingAddress.country;
+
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
                     confirmationDetails.entries = orderDetails.entries;

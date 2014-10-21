@@ -92,7 +92,7 @@ describe('OrderDetailSvc Test', function () {
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressName: 'Acme, Inc.', shippingAddressStreetLine1: '1 Marienplatz a',
             shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            emailAddress: 'your.name@email.com', entries: [ ]});
+            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
 
         /*
          test with name instead of company
@@ -110,6 +110,6 @@ describe('OrderDetailSvc Test', function () {
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressName: 'Michael Jordan', shippingAddressStreetLine1: '1 Marienplatz a',
             shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            emailAddress: 'your.name@email.com', entries: [ ]});
+            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
     });
 });
