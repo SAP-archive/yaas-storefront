@@ -111,10 +111,9 @@
                class="form-control" id="zipCode" name="zipCode" required autocomplete="on"
         ng-model="address.zipCode">
       </div>
-      <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.contactPhone.$invalid && (addressForm.contactPhone.$dirty || showPristineErrors) }">
+      <div class="form-group input-group">
         <span class="input-group-addon"><label class="control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label></span>
-        <input type="text" class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on">
+        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on">
       </div>
   </div>
   <div class="modal-footer">
