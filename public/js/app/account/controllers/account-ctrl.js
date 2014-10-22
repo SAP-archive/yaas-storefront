@@ -14,12 +14,12 @@
 angular.module('ds.account')
 
     .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
-        function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
 
+        function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
 
             var modalInstance;
             var customerNumber = account.customerNumber;
-
+            var notSet = 'Not set';
             var getDefaultAddress = function () {
                 return _.find($scope.addresses, function (addr) {
                     return addr.isDefault;
@@ -27,12 +27,6 @@ angular.module('ds.account')
             };
 
             $scope.errors = [];
-            if (!account.preferredLanguage) {
-                account.preferredLanguage = GlobalData.getLanguageCode();
-            }
-            if (!account.preferredCurrency) {
-                account.preferredCurrency = GlobalData.getCurrencyId();
-            }
             $scope.account = account;
             $scope.addresses = addresses;
             $scope.orders = orders;
@@ -42,17 +36,16 @@ angular.module('ds.account')
             $scope.currencies = GlobalData.getAvailableCurrencies();
 
             $scope.showCurrency = function () {
-                var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency});
-                return (selected && selected.length) ? selected[0].label : 'Not set';
+                var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency ? $scope.account.preferredCurrency : '?'});
+                return (selected && selected.length) ? selected[0].label : notSet;
             };
 
             $scope.languageLocales = GlobalData.getAvailableLanguages();
 
             $scope.showLanguageLocale = function () {
-                var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage});
-                return (selected && selected.length) ? selected[0].label : 'Not set';
+                var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage ? $scope.account.preferredLanguage : '?'});
+                return (selected && selected.length) ? selected[0].label : notSet;
             };
-
 
 
             $scope.titles = [];
@@ -105,6 +98,13 @@ angular.module('ds.account')
                 }
             };
 
+            $scope.saveOnEnter = function ($event, address, formValid, form) {
+                if ($event.keyCode === 13) {
+                    $event.preventDefault();
+                    $scope.save(address, formValid, form);
+                }
+            };
+
             $scope.openAddressModal = function (address) {
                 $scope.address = angular.copy(address || {
                     account: customerNumber
@@ -128,16 +128,20 @@ angular.module('ds.account')
 
             $scope.removeAddress = function (address) {
                 address.account = customerNumber;
-                if (window.confirm('Are you sure you want to remove the address?')) {
-                    AccountSvc.removeAddress(address).then(
-                        function () {
-                            $scope.refreshAddresses();
-                        },
-                        function (response) {
-                            $scope.errors = extractServerSideErrors(response);
-                        }
-                    );
-                }
+
+                $translate('CONFIRM_ADDRESS_REMOVAL').then(function( msg){
+                    if (window.confirm(msg)) {
+                        AccountSvc.removeAddress(address).then(
+                            function () {
+                                $scope.refreshAddresses();
+                            },
+                            function (response) {
+                                $scope.errors = extractServerSideErrors(response);
+                            }
+                        );
+                    }
+                });
+
             };
 
             $scope.refreshAddresses = function () {
@@ -167,6 +171,15 @@ angular.module('ds.account')
                 OrderListSvc.query(parms).then(function (orders) {
                     $scope.showAllButton = false;
                     $scope.orders = orders;
+                });
+            };
+
+            $scope.showAllAddresses = function () {
+                var parms = {
+                    pageSize: GlobalData.addresses.meta.total
+                };
+                AccountSvc.getAddresses(parms).then(function (addresses) {
+                    $scope.addresses = addresses;
                 });
             };
 

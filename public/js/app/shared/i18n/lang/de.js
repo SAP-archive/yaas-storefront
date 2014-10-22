@@ -133,6 +133,7 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',
         CLOSE: 'Schließen',
+        CONFIRM_ADDRESS_REMOVAL: 'Adresse löschen?',
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
         CURRENCY: 'Währung',

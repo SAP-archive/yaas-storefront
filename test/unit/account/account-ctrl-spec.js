@@ -11,7 +11,8 @@
  */
 
 describe('AccountCtrl Test', function () {
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc, addresses, account, orders, translations, modalPromise;
+    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc,
+        addresses, account, orders, modalPromise;
     var storeTenant = '121212';
     var eng = 'English';
     var usd = 'US Dollar';
@@ -22,8 +23,13 @@ describe('AccountCtrl Test', function () {
         getLanguageCode: function(){ return null},
         getCurrencyId: function() { return null},
         getAvailableLanguages: function() { return [{id:'en', label:eng}]},
-        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]}
-
+        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]},
+        getCurrency: function() { return null},
+        addresses:  {
+            meta: {
+                total: 0
+            }
+        }
     };
 
     var mockedSettings = {
@@ -61,7 +67,7 @@ describe('AccountCtrl Test', function () {
         then: jasmine.createSpy()
     };
     function mockedTranslate(title) {
-        return translateReturn;
+        return { then: function(callback){callback(title)}};
     }
     var updatePasswordDfd;
     var mockedAuthDialogManager = {
@@ -104,7 +110,7 @@ describe('AccountCtrl Test', function () {
         updatePasswordDfd = $q.defer();
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, $q, _AccountSvc_, _$modal_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, $q, _AccountSvc_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -147,10 +153,12 @@ describe('AccountCtrl Test', function () {
     describe("Controller tests", function() {
 
         beforeEach(function () {
-            AccountCtrl = $controller('AccountCtrl', {$scope: $scope, 'AccountSvc': AccountSvc, addresses: addresses, account: account, orders: orders, OrderListSvc: mockedOrderListSvc, AuthDialogManager: mockedAuthDialogManager});
+            AccountCtrl = $controller('AccountCtrl',
+                {$scope: $scope, 'AccountSvc': AccountSvc, addresses: addresses, account: account, orders: orders,
+                    OrderListSvc: mockedOrderListSvc, AuthDialogManager: mockedAuthDialogManager, $translate: mockedTranslate});
         });
 
-        it("should expose correct scope inteface", function() {
+        it("should expose correct scope interface", function() {
             expect($scope.errors).toBeDefined();
             expect($scope.account).toBeDefined();
             expect($scope.addresses).toBeDefined();
@@ -252,37 +260,62 @@ describe('AccountCtrl Test', function () {
             expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
         });
 
-        describe('updateAccount()', function(){
 
-            it('should update account by executing updateAccount', function() {
+        describe('updateAccount()', function() {
+
+            it('should update account by executing updateAccount', function () {
                 $scope.updateAccount();
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
             });
 
-            it('update of preferred language should set language in GlobalData', function(){
+            it('update of preferred language should set language in GlobalData', function () {
                 $scope.updateAccount('preferredLanguage', 'en');
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
                 expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
             });
 
-            it('update of preferred currency should set currency in GlobalData', function(){
+            it('update of preferred currency should set currency in GlobalData', function () {
                 $scope.updateAccount('preferredCurrency', 'EUR');
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
                 expect(mockedGlobalData.setCurrency).toHaveBeenCalled();
             });
 
-            it('should partially update account when calling updateAccount with parameters', function() {
-                $scope.updateAccount('contactEmail', 'notAnEmailAddress');
+            it('should partially update account when calling updateAccount with parameters', function () {
+                var msg = $scope.updateAccount('contactEmail', 'notAnEmailAddress');
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).wasNotCalled();
-                expect(translateReturn.then).toHaveBeenCalled();
+                expect(msg).toBeTruthy();
+            });
+        });
 
+        describe('saveOnEnter', function(){
+
+            var formValid = true;
+
+            it('should save if user selects ENTER', function(){
+                var event = {keyCode:13, preventDefault: jasmine.createSpy()};
+                var addr = {};
+                var form = {};
+                $scope.saveOnEnter(event, addr, formValid, form);
+                expect(event.preventDefault).toHaveBeenCalled();
+                expect(AccountSvc.saveAddress).toHaveBeenCalled();
+            });
+
+            it('should not save on other keys', function(){
+                var event = {keyCode:11, preventDefault: jasmine.createSpy()};
+                var addr = {};
+                var form = {};
+                $scope.saveOnEnter(event, addr, formValid, form);
+                expect(event.preventDefault).not.toHaveBeenCalled();
+                expect(AccountSvc.saveAddress).not.toHaveBeenCalled();
             });
         });
 
     });
+
+
 
 });
