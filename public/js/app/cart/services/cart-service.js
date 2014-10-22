@@ -149,8 +149,15 @@ angular.module('ds.cart')
             createNewCartForCustomer: function(customerId) {
                 var newCart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
                 return CartREST.Cart.all('carts').post(newCart).then(function(result){
-                    cart = newCart;
-                    cart.id = result.cartId;
+                    newCart.id = result.cartId;
+                    if(cart && cart.items) {
+                        CartREST.Cart.one('carts', newCart.id).one('merge').customPOST(cart).then(function(){
+                            refreshCart(result.id);
+                        });
+                    } else {
+                        cart = newCart;
+                        $rootScope.$emit('cart:updated', cart);
+                    }
                 });
             },
 
