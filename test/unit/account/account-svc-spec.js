@@ -40,10 +40,8 @@ describe('AccountSvc Test', function () {
             },
             headers: {
                 hybrisAuthorization: 'Authorization',
-                addresses: {
-                    paging: {
-                        total: 'Hybris-Count'
-                    }
+                paging: {
+                    total: 'Hybris-Count'
                 }
             }
         }
