@@ -80,13 +80,7 @@ angular.module('ds.shared')
                 language:  'accept-language',
                 hybrisAuthorization: 'Authorization',
                 paging: {
-                    total: 'X-Count'
-                },
-
-                addresses: {
-                    paging: {
-                        total: 'Hybris-Count'
-                    }
+                    total: 'hybris-Count'
                 },
 
                 hybrisCurrency: 'hybris-currency'
