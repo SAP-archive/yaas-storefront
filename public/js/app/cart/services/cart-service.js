@@ -45,7 +45,6 @@ angular.module('ds.cart')
         // application scope cart instance
         var cart = {};
 
-
         /**  Ensure there is a cart associated with the current session.
          * Returns a promise for the existing or newly created cart.  Cart will only contain the id.
          * (Will create a new cart if the current cart hasn't been persisted yet).
@@ -142,24 +141,18 @@ angular.module('ds.cart')
             return defCart.promise;
         }
 
-
+        function handleCartMerge(anonCart){
+            if(anonCart && anonCart.items){
+                // merge anon cart into user cart
+                CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function(){
+                    refreshCart(cart.id);
+                });
+            } else { // just use user cart "as is"
+                $rootScope.$emit('cart:updated', cart);
+            }
+        }
 
         return {
-
-            createNewCartForCustomer: function(customerId) {
-                var newCart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
-                return CartREST.Cart.all('carts').post(newCart).then(function(result){
-                    newCart.id = result.cartId;
-                    if(cart && cart.items) {
-                        CartREST.Cart.one('carts', newCart.id).one('merge').customPOST(cart).then(function(){
-                            refreshCart(result.id);
-                        });
-                    } else {
-                        cart = newCart;
-                        $rootScope.$emit('cart:updated', cart);
-                    }
-                });
-            },
 
             /**
              * Creates a new Cart instance that does not have an ID.
@@ -171,33 +164,36 @@ angular.module('ds.cart')
                 $rootScope.$emit('cart:updated', cart);
             },
 
-            /** Returns the cart as stored in the local scope.*/
+            /** Returns the cart as stored in the local scope - no GET is issued.*/
             getLocalCart: function(){
                 return cart;
             },
 
-            /** Returns a promise over the cart associated with the current user
-             * (unauthenticated only at this time).*/
+            /**
+             * Retrieves the current cart's state from service and returns a promise over that cart.
+             */
             getCart: function(){
                 return refreshCart(cart.id? cart.id : null);
             },
 
-            getCartAfterLogin: function(customerId){
-                // current cart is empty - simply return cart for authenticated user
-                if(!cart || !cart.items) {
-                    refreshCart();
-                }   else {
-                    // retrieve any cart associated with the authenticated user and merge in the current cart
-                    var qryParam = {q: 'customerId:(' + customerId + ')'};
-                    CartREST.Cart.one('carts', null).get(qryParam).then(function(authUserCart) {
-                        CartREST.Cart.one('carts', authUserCart.id).one('merge').customPOST(cart).then(function(){
-                            refreshCart(authUserCart.id);
-                        });
-                    }, function(){
-                        // no cart for authenticated user
-                        this.resetCart();
+            /**
+             * Retrieve any existing cart that there might be for an authenticated user, and merges it with
+             * any content in the current cart.
+             */
+            refreshCartAfterLogin: function (customerId) {
+                // store existing anonymous cart
+                var anonCart = cart;
+                // retrieve any cart associated with the authenticated user
+                CartREST.Cart.one('carts', null).get({q: 'customerId:(' + customerId + ')'}).then(function (authUserCart) {
+                    cart = authUserCart;
+                    handleCartMerge(anonCart);
+                }, function () { // no existing cart - create a new one for this customer
+                    cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
+                    CartREST.Cart.all('carts').post(cart).then(function(newCartResponse){
+                        cart.id = newCartResponse.cartId;
+                        handleCartMerge(anonCart);
                     });
-                }
+                });
             },
 
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
@@ -262,7 +258,6 @@ angular.module('ds.cart')
             },
 
 
-
             /*
              *  This function switches the cart's currency and refreshes the cart
              *  @param currency code to switch to
@@ -273,12 +268,11 @@ angular.module('ds.cart')
                     CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
                         .then(function () {
                             refreshCart(cart.id);
-                    }, function(){
-                            // TODO - need better error notification
-                            window.alert('Update of cart currency failed.');
+                        }, function () {
+                            cart.error = true;
+                            $rootScope.$emit('cart:updated', cart);
+                            console.error('Update of cart currency failed.');
                         });
-
-
                 }
 
             }

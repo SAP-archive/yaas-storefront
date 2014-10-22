@@ -120,7 +120,6 @@ cf push -f static-manifest.yml
 
 ## Limitations in the current service layer
 
-- Checkout not done over SSL
 - No tax support
 
 

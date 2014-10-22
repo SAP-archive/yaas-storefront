@@ -22,6 +22,12 @@ angular.module('ds.auth')
                 }*/
             }
 
+            function commonPostLogin(context){
+                CartSvc.refreshCartAfterLogin(GlobalData.customerAccount.id);
+                navigateAfterLogin(context);
+            }
+
+
         return {
 
             afterLoginFromSignUp: function (context) {
@@ -30,8 +36,7 @@ angular.module('ds.auth')
                     account.preferredLanguage = GlobalData.getLanguageCode();
                     AccountSvc.updateAccount(account);
                 }).then(function(){
-                    CartSvc.createNewCartForCustomer(GlobalData.customerAccount.id);
-                    navigateAfterLogin(context);
+                   commonPostLogin(context);
                 });
             },
 
@@ -53,8 +58,7 @@ angular.module('ds.auth')
                     }
                     return account;
                 }).finally(function () {
-                    CartSvc.getCartAfterLogin(GlobalData.customerAccount.id);
-                    navigateAfterLogin(context);
+                   commonPostLogin(context);
                 });
             },
 
@@ -65,7 +69,5 @@ angular.module('ds.auth')
                     $state.go(settings.homeState);
                 }
             }
-
-
         };
     }]);
