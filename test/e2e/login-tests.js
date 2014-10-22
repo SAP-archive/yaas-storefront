@@ -118,9 +118,9 @@ describe("login:", function () {
          tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
          tu.sendKeysById('newPasswordInput', 'password');
          tu.clickElement('id', 'create-acct-btn');
-         browser.sleep(1500);
+         browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
-         browser.sleep(1000);         
+         browser.sleep(3000);         
          tu.clickElement('id', "add-address-btn");
          populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
          tu.clickElement('id', 'save-address-btn');
@@ -131,6 +131,7 @@ describe("login:", function () {
          expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
          expect(element(by.binding("defaultAddress.country")).getText()).toEqual("USA");
          expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
+        browser.sleep(1000);
          tu.clickElement('id', "add-address-btn");
          populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
          tu.clickElement('id', 'save-address-btn');
