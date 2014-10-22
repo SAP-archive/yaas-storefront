@@ -19,7 +19,11 @@ angular.module('ds.auth')
     .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc',
         function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc) {
 
-
+        function loginAndSetToken(user){
+            return AuthREST.Customers.all('login').customPOST(user).then(function(response){
+                TokenSvc.setToken(response.accessToken, user ? user.email : null);
+            });
+        }
 
         var AuthenticationService = {
 
@@ -30,17 +34,14 @@ angular.module('ds.auth')
              * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
-                return AuthREST.Customers.all('login').customPOST(user).then(function(response){
-                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                }).then(function(){
+                loginAndSetToken(user).then(function(){
                     SessionSvc.afterLogIn();
                 });
             },
 
             signup: function (user, context) {
-                var self = this;
                 return AuthREST.Customers.all('signup').customPOST(user).then(function(){
-                    self.signin(user).then(function(){
+                    loginAndSetToken(user).then(function(){
                         SessionSvc.afterLoginFromSignUp(context);
                     }, function(){
                         $q.reject('SignIn failed');
