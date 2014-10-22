@@ -118,9 +118,9 @@ describe("login:", function () {
          tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
          tu.sendKeysById('newPasswordInput', 'password');
          tu.clickElement('id', 'create-acct-btn');
-         browser.sleep(1000);
+         browser.sleep(1500);
          tu.clickElement('css', 'img.user-avatar');
-         browser.sleep(500);         
+         browser.sleep(1000);         
          tu.clickElement('id', "add-address-btn");
          populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
          tu.clickElement('id', 'save-address-btn');
