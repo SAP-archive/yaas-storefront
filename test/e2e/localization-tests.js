@@ -109,7 +109,7 @@
           assertTextByElement('css', 'h2.ng-binding', '1. Meine Daten');
           assertTextByElement('binding', 'TITLE', 'Anrede');
           assertTextByElement('binding', 'FIRST_NAME', 'Vorname');
-          assertTextByElement('binding', 'MIDDLE_NAME', 'zweiter Vorname');
+          assertTextByElement('binding', 'MIDDLE_NAME', 'Zweiter Vorname');
           assertTextByElement('binding', 'LAST_NAME', 'Nachname');
           assertTextByElement('binding', 'BILLING_ADDRESS', 'RECHNUNGSADRESSE');
           assertTextByElement('binding', 'NAME', 'Vorname');
