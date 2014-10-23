@@ -24,6 +24,9 @@ describe('SidebarNavigationCtrl', function () {
         },
         getCurrency: function(){
             return 'USD';
+        },
+        getAvailableCurrencies: function(){
+            return [{id: 'USD', label: 'US Dollar'}];
         }
 
     };
@@ -91,22 +94,24 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('switchLanguage()', function(){
 
-        it('should setLangauge in GlobalData', function(){
+        it('should setLanguage in GlobalData', function(){
             var newLang = 'de';
             $scope.switchLanguage(newLang);
             expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
-        });
-
-        it('should update scope language', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect($scope.languageCode).toEqualData(newLang);
         });
 
         it('should reload product state', function(){
             var newLang =  'pl';
             $scope.switchLanguage(newLang);
             expect(mockedState.transitionTo).toHaveBeenCalled();
+        });
+
+        it('should reload categories for non-product states', function(){
+            $controller('SidebarNavigationCtrl', {$scope: $scope, $state: {is: function(){return false}}, cart: cart, GlobalData: mockedGlobalData,
+                AuthSvc: mockedAuthSvc,
+                AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
+            $scope.switchLanguage('pl');
+            expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
         });
     });
 
@@ -154,6 +159,20 @@ describe('SidebarNavigationCtrl', function () {
            expect(AuthDialogManager.open).wasCalled();
        });
     });
+
+    describe('onLanguageChanged', function(){
+        it('should update the selected language if different', function(){
+            $rootScope.$emit('language:updated', {iso: 'pl'});
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalled;
+        });
+    });
+
+    describe('onCurrencyChanged', function(){
+        it('should update the selected currency if different', function(){
+            $rootScope.$emit('currency:updated', {id: 'EUR'});
+            expect(mockedGlobalData.setCurrency).toHaveBeenCalled;
+        });
+    })
 
 });
 
