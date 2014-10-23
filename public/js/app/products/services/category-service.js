@@ -96,6 +96,10 @@ angular.module('ds.products')
 
             clearCategoryCache: function(){
                 GlobalData.categoryMap = null;
+            },
+
+            getSlug: function (name) {
+                return sluggify(name)
             }
         };
 }]);
