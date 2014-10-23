@@ -26,7 +26,6 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('contactName' + form, 'Mike Night');
             tu.sendKeysById('address1' + form, '123');
             tu.sendKeysById('address2' + form, '321');
-            tu.sendKeysById('contactPhone' + form, '720-555-1234');
             tu.sendKeysById('city' + form, 'Boulder');
             element(by.id('country' + form)).sendKeys('USA');
             element(by.id('state' + form)).sendKeys('colorado');
@@ -62,7 +61,6 @@ var tu = require('./protractor-utils.js');
             validateField('contactName', form, 'Mike Night', buttonType, button);
             validateField('address1', form, '123', buttonType, button);
             validateField('city', form, 'Boulder', buttonType, button);
-            validateField('contactPhone', form, '720-555-1234', buttonType, button);
 
           }
 

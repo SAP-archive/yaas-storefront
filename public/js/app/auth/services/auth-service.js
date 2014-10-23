@@ -34,7 +34,7 @@ angular.module('ds.auth')
              * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
-                loginAndSetToken(user).then(function(){
+                return loginAndSetToken(user).then(function(){
                     SessionSvc.afterLogIn();
                 });
             },

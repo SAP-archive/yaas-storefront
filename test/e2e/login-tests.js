@@ -110,12 +110,14 @@ describe("login:", function () {
        });
 
        it('should allow existing user to manage addresses', function () {
+        //dismisses pop-ups in phantomjs
         browser.executeScript('window.confirm = function(){return true;}');
          tu.clickElement('id', "login-btn");
          browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'address@test.com');
-         tu.sendKeysById('passwordInput', 'password');
-         tu.clickElement('id', 'sign-in-button');
+         tu.clickElement('linkText', 'Create Account');
+         tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
+         tu.sendKeysById('newPasswordInput', 'password');
+         tu.clickElement('id', 'create-acct-btn');
          browser.sleep(1000);
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(500);         
@@ -144,9 +146,7 @@ describe("login:", function () {
          browser.sleep(1000);
          expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
          tu.clickElement('id', 'delete-address-btn');  
-         tu.clickElement('id', 'delete-address-btn');
-         expect(element(by.css("p.ng-binding")).getText()).toEqual("You have no addresses stored!");
-         tu.clickElement('id', "logout-btn");
+         expect(element(by.id('delete-address-btn')).isPresent()).toBe(false);
 
        });
 

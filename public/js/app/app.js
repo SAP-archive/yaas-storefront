@@ -134,6 +134,15 @@ window.app = angular.module('ds.router', [
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
+            
+            //closeOffcanvas func for mask 
+
+            $rootScope.closeOffcanvas = function(){
+                $rootScope.showMobileNav = false;
+                $rootScope.showCart = false;
+            };
+
+
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
@@ -303,8 +312,12 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc) {
-                            return AccountSvc.getAddresses();
+                        addresses: function(AccountSvc, settings) {
+                            var query = {
+                                pageNumber: 1,
+                                pageSize: settings.apis.account.addresses.initialPageSize
+                            };
+                            return AccountSvc.getAddresses(query);
                         },
                         orders: function(OrderListSvc) {
                             var parms = {

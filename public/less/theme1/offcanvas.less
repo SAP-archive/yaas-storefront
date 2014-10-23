@@ -21,7 +21,7 @@ html.disable-scroll{
     height: 100%;
     left: -@offcanvas-left-width-m; 
     transition: @offcanvas-transition;
-    z-index: @zIndex-5--offcanvas-sidebar;
+    z-index: @zIndex-offcanvas-sidebar;
     overflow: visible;
     top: 0;
 
@@ -52,7 +52,7 @@ html.disable-scroll{
    transition: @offcanvas-transition;
    position: fixed;
    right: -@offcanvas-right-width-m;
-   z-index: 5000;
+   z-index: @zIndex-offcanvas-cart;
    overflow: auto;
 }
 
@@ -98,7 +98,7 @@ html.disable-scroll{
 
   .mainContent{
     margin-left: @offcanvas-left-width-d;
-    z-index: 400;
+    z-index: @zIndex-maincontent;
   }
 
   .offcanvas-right{

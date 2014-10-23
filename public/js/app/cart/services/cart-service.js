@@ -184,7 +184,8 @@ angular.module('ds.cart')
                 // store existing anonymous cart
                 var anonCart = cart;
                 // retrieve any cart associated with the authenticated user
-                CartREST.Cart.one('carts', null).get({q: 'customerId:(' + customerId + ')'}).then(function (authUserCart) {
+                //{q: 'customerId:(' + customerId + ')'}
+                CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
                     cart = authUserCart;
                     handleCartMerge(anonCart);
                 }, function () { // no existing cart - create a new one for this customer
