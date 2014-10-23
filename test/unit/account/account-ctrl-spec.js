@@ -227,7 +227,7 @@ describe('AccountCtrl Test', function () {
 
         it("should show the currency as expected", function () {
             var retVal = $scope.showCurrency();
-            expect(retVal).toEqualData('Not set');
+            expect(retVal).toEqualData('NOT_SET');
             $scope.account.preferredCurrency = 'USD';
             retVal = $scope.showCurrency();
             expect(retVal).toEqualData(usd);
@@ -235,7 +235,7 @@ describe('AccountCtrl Test', function () {
 
         it("should show the language locale as expected", function () {
             var retVal = $scope.showLanguageLocale();
-            expect(retVal).toEqualData('Not set');
+            expect(retVal).toEqualData('NOT_SET');
             $scope.account.preferredLanguage = 'en';
             retVal = $scope.showLanguageLocale();
             expect(retVal).toEqualData(eng);

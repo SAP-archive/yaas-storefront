@@ -19,7 +19,10 @@ angular.module('ds.account')
 
             var modalInstance;
             var customerNumber = account.customerNumber;
-            var notSet = 'Not set';
+            var notSet = '';
+            $translate('NOT_SET').then(function(value){
+                notSet = value;
+            });
             var getDefaultAddress = function () {
                 return _.find($scope.addresses, function (addr) {
                     return addr.isDefault;
@@ -46,7 +49,6 @@ angular.module('ds.account')
                 var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage ? $scope.account.preferredLanguage : '?'});
                 return (selected && selected.length) ? selected[0].label : notSet;
             };
-
 
             $scope.titles = [];
             var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];

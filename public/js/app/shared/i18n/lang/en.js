@@ -144,6 +144,7 @@ angular.module('ds.i18n')
         STREET_NUMBER: 'Street Number',
         WELCOME: 'Welcome',
         ITEMS_IN_ORDER: 'Items In Order',
+        NOT_SET: 'Not Set',
         ORDER_HISTORY: 'Order History',
         ORDER_NUMBER: 'Order Number',
         ORDER_STATUS: 'Order Status',

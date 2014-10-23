@@ -144,6 +144,7 @@ angular.module('ds.i18n')
         SAVE: 'Speichern',
         WELCOME: 'Willkommen',
         ITEMS_IN_ORDER: 'Postenzähler',
+        NOT_SET: 'Unbekannt',
         ORDER_HISTORY: 'Bestellverlauf',
         ORDER_NUMBER: 'Bestellnummer',
         ORDER_STATUS: 'Auftragsstatus',

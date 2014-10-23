@@ -34,10 +34,11 @@ angular.module('ds.auth')
                 signin: []
             };
 
-            var performSignin = function (authModel) {
+            var performSignin = function (authModel, fromSignUp) {
                 var signInPromise = AuthSvc.signin(authModel);
                 signInPromise.then(function () {
                     $scope.errors.signin = [];
+                    loginOpts.fromSignUp = fromSignUp;
                     SessionSvc.afterLogIn(loginOpts);
                 }, function (response) {
                     $scope.errors.signin = extractServerSideErrors(response);
