@@ -8238,6 +8238,12 @@ select {
 select::-ms-expand {
   display: none;
 }
+input[type='text'],
+input[type='number'] {
+  -webkit-border-radius: 0;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
 .error {
   color: #f1291e;
   padding: 15px;
