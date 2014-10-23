@@ -32,17 +32,20 @@ describe("product page", function () {
         expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-37 of 37'); //should be # of 31, but won't work in phantomjs
       });
 
-      it("should get product detail page", function () {
+      iit("should get product detail page", function () {
         // tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('$10.67');
+        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Mugs');
         tu.clickElement('linkText', 'DE');
         tu.clickElement('linkText', 'EURO');
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
+        
+        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Tassen');
 
     });
 
