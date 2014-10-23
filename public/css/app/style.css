@@ -6360,6 +6360,9 @@ html.disable-scroll {
 #sidebar .social-icons a span {
   line-height: 40px;
 }
+#sidebar .store-settings {
+  padding: 10px;
+}
 .top-navigation {
   position: relative;
   min-height: 50px;
