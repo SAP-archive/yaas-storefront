@@ -15,8 +15,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc) {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', '$window', '$rootScope',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, $window, $rootScope) {
             var initialized = false;
 
             /**
@@ -45,6 +45,7 @@ angular.module('ds.shared')
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
                         }
                     }
+                    settings.facebookAppId = '580437175395043';
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
@@ -65,6 +66,26 @@ angular.module('ds.shared')
                         def.resolve({});
                     } else {
                         loadConfiguration(GlobalData.store.tenant).finally(function () {
+                            // load FaceBook SDK
+
+                            $window.fbAsyncInit = function() {
+                                FB.init({
+                                    appId      : settings.facebookAppId,
+                                    xfbml      : true,
+                                    version    : 'v2.1'
+                                });
+                            };
+                            (function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)){
+                                    return;
+                                }
+                                js = d.createElement(s); js.id = id;
+                                js.src = '//connect.facebook.net/en_US/sdk.js';
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+
+                            //
                             var languageSet = false;
                             var currencySet = false;
                             if (AuthSvc.isAuthenticated()) { // if session still in tact, load use preferences
@@ -77,7 +98,6 @@ angular.module('ds.shared')
                                         GlobalData.setCurrency(account.preferredCurrency);
                                         currencySet = true;
                                     }
-
                                 });
                             }
                             if (!languageSet) {
@@ -94,6 +114,7 @@ angular.module('ds.shared')
                                     CartSvc.switchCurrency(GlobalData.getCurrencyId());
                                 }
                             });
+                            AuthSvc.watchFBLoginChange();
                         });
                     }
                     return def.promise;

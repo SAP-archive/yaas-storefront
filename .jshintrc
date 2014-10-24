@@ -23,7 +23,8 @@
     "Masonry": false,
     "_": false,
     "Spinner": false,
-    "$": false
+    "$": false,
+      "FB": false
   },
   "laxcomma": true
 }

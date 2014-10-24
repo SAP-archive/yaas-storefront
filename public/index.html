@@ -14,24 +14,7 @@
     <![endif]-->
 </head>
 <body>
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '580437175395043',
-            xfbml      : true,
-            version    : 'v2.1'
-        });
-    };
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=580437175395043&version=v2.0";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas" id="fb-root">
     <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
     <div class="mainContent">
         <div ui-view="topNavigation"></div>

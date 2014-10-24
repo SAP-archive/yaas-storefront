@@ -94,6 +94,27 @@ angular.module('ds.auth')
                     email: email
                 };
                 return AuthREST.Customers.all('password').all('change').customPOST(payload);
+            },
+
+
+
+            watchFBLoginChange: function() {
+                console.log('watch FB');
+                $rootScope.watch( function(){
+                    console.log('inside watch');
+                    FB.getLoginStatus(function(fbResponse) {
+                        console.log('fb watch');
+                        console.log(fbResponse);
+                        if (fbResponse.status === 'connected') {
+                            AuthREST.Customers.all('login').all('facebook').customPOST({accessToken: response.authResponse.accessToken}).then(function(response){
+                                TokenSvc.setToken(response.accessToken, null);
+                                SessionSvc.afterLogIn();
+                            });
+                        }
+                    });
+                });
+
+
             }
         };
         return AuthenticationService;
