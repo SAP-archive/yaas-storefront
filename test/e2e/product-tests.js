@@ -32,7 +32,7 @@ describe("product page", function () {
         expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-37 of 37'); //should be # of 31, but won't work in phantomjs
       });
 
-      iit("should get product detail page", function () {
+      it("should get product detail page", function () {
         // tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
