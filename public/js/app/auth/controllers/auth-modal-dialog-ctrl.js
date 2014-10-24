@@ -123,6 +123,11 @@ angular.module('ds.auth')
                 $modalInstance.close();
             };
 
+            /** Closes the dialog.*/
+            $scope.closeDialog = function(){
+                $modalInstance.close();
+            };
+
             /** Shows the "request password reset" dialog.*/
             $scope.showResetPassword = function () {
                 AuthDialogManager.showResetPassword();
