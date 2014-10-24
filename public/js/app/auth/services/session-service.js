@@ -11,15 +11,6 @@ angular.module('ds.auth')
                 if(context && context.targetState){
                     $state.go(context.targetState, context.targetStateParams || {});
                 }
-
-                /*else {
-                    // TODO - THIS MAY NO LONGER BE NEEDED WITH LANGUAGE/CURRENCY RELOAD
-                    $state.transitionTo($state.current, $stateParams, {
-                        reload: true,
-                        inherit: true,
-                        notify: true
-                    });
-                }*/
             }
 
             function commonPostLogin(context){
@@ -65,7 +56,7 @@ angular.module('ds.auth')
             afterLogOut: function(){
                 GlobalData.customerAccount = null;
                 CartSvc.resetCart();
-                if ( $state.is('base.checkout') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
+                if ( $state.is('base.checkout.details') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
                     $state.go(settings.homeState);
                 }
             }

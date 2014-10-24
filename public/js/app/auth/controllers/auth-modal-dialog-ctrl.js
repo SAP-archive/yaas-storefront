@@ -36,6 +36,7 @@ angular.module('ds.auth')
 
 
             var extractServerSideErrors = function (response) {
+                console.log(response);
                 var errors = [];
                 if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
                     errors.push({message: 'PASSWORD_INVALID'});

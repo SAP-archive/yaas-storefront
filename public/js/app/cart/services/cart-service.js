@@ -37,10 +37,6 @@ angular.module('ds.cart')
            this.id = null;
         };
 
-        // Prototype for outbound currency switch call
-        var Currency = function(code) {
-            this.currency = code;
-        };
 
         // application scope cart instance
         var cart = {};
@@ -75,6 +71,35 @@ angular.module('ds.cart')
             return deferredCart.promise;
         }
 
+        function getCartWithImages(cart){
+            var updatedCartDef = $q.defer();
+            if(cart.items && cart.items.length) {
+                // we need to retrieve images for the items in the cart:
+                var productIds = cart.items.map(function (item) {
+                    return item.product.id;
+                });
+                var productParms = {
+                    q: 'id:(' + productIds + ')'
+                };
+                ProductSvc.query(productParms).then(function (productResults) {
+                    angular.forEach(cart.items, function (item) {
+                        angular.forEach(productResults, function (product) {
+                            if (product.id === item.product.id) {
+                                item.images = product.images;
+                                item.product.name = product.name;
+                            }
+                        });
+                    });
+                    updatedCartDef.resolve(cart);
+                }, function(){
+                    // proceed without images
+                    updatedCartDef.resolve(cart);
+                });
+            }  else {
+                updatedCartDef.resolve(cart);
+            }
+            return updatedCartDef.promise;
+        }
         /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
          * cart is created first.
          */
@@ -98,36 +123,38 @@ angular.module('ds.cart')
             return createItemDef.promise;
         }
 
+        function ensureCorrectCurrency(cartId){
+            if(cart.currency!==GlobalData.getCurrencyId()) {
+                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function () {
+                    CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                        cart = response.plain();
+                        return getCartWithImages(cart);
+                    });
+                });
+            } else {
+                return $q.when(cart);
+            }
+        }
+
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
-        function refreshCart(cartId){
+        function refreshCart(cartId, validateCurrency){
             var defCart = $q.defer();
             CartREST.Cart.one('carts', cartId).get().then(function(response){
                 cart = response.plain();
-                if(response.items && response.items.length) {
-                    // we need to retrieve images for the items in the cart:
-                    var productIds = response.items.map(function (item) {
-                        return item.product.id;
-                    });
-                    var productParms = {
-                        q: 'id:(' + productIds + ')'
-                    };
-                    ProductSvc.query(productParms).then(function (productResults) {
-                        angular.forEach(cart.items, function (item) {
-                            angular.forEach(productResults, function (product) {
-                                if (product.id === item.product.id) {
-                                    item.images = product.images;
-                                }
-                            });
-                        });
-                        defCart.resolve(cart);
+                if(validateCurrency){
+                    ensureCorrectCurrency(cart.id).then(function(updatedCart){
+                        defCart.resolve(getCartWithImages(updatedCart));
                     }, function(){
+                        cart = {};
+                        if(!response || response.status!== 404) {
+                            cart.error = true;
+                        }
                         defCart.resolve(cart);
                     });
-                }  else {
-                    defCart.resolve(cart);
+                } else {
+                    defCart.resolve(getCartWithImages(cart));
                 }
-
             }, function(response){
                 cart = {};
                 if(!response || response.status!== 404) {
@@ -141,14 +168,21 @@ angular.module('ds.cart')
             return defCart.promise;
         }
 
-        function handleCartMerge(anonCart){
-            if(anonCart && anonCart.items){
+        function handleCartMerge(anonCart, forceRefresh){
+            if(anonCart && anonCart.id){
                 // merge anon cart into user cart
                 CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function(){
                     refreshCart(cart.id);
                 });
             } else { // just use user cart "as is"
-                $rootScope.$emit('cart:updated', cart);
+                if(forceRefresh){
+                    refreshCart(cart.id);
+                } else {
+                    getCartWithImages(cart).then(function(){
+                        $rootScope.$emit('cart:updated', cart);
+                    });
+                }
+
             }
         }
 
@@ -173,7 +207,7 @@ angular.module('ds.cart')
              * Retrieves the current cart's state from service and returns a promise over that cart.
              */
             getCart: function(){
-                return refreshCart(cart.id? cart.id : null);
+                return refreshCart(cart.id? cart.id : null, true);
             },
 
             /**
@@ -184,15 +218,21 @@ angular.module('ds.cart')
                 // store existing anonymous cart
                 var anonCart = cart;
                 // retrieve any cart associated with the authenticated user
-                //{q: 'customerId:(' + customerId + ')'}
                 CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
-                    cart = authUserCart;
-                    handleCartMerge(anonCart);
+                    cart = authUserCart.plain();
+                    if(cart.currency!==GlobalData.getCurrencyId()){
+                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function(){
+                            handleCartMerge(anonCart, true);
+                        });
+                    } else {
+                        handleCartMerge(anonCart, false);
+                    }
+
                 }, function () { // no existing cart - create a new one for this customer
                     cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
                     CartREST.Cart.all('carts').post(cart).then(function(newCartResponse){
                         cart.id = newCartResponse.cartId;
-                        handleCartMerge(anonCart);
+                        handleCartMerge(anonCart, false);
                     });
                 });
             },
@@ -265,8 +305,7 @@ angular.module('ds.cart')
              */
             switchCurrency: function (code) {
                 if (cart.id) {
-                    var newCurrency = new Currency(code);
-                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
+                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: code})
                         .then(function () {
                             refreshCart(cart.id);
                         }, function () {
