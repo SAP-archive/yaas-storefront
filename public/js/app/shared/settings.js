@@ -91,6 +91,7 @@ angular.module('ds.shared')
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
             storeCurrencies: 'project_curr',
+            storeLanguages: 'project_lang',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
         },

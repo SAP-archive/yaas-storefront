@@ -227,5 +227,5 @@
         <li><a ng-click="switchLanguage('de')">DE</a></li>
     </ul>
     <ul class="navi">
-        <li ng-repeat="currency in GlobalData.getAvailableCurrencies()"><a ng-click="switchCurrency(currency.id)">{{currency.label}}</a></li>
+        <li ng-repeat="currency in currencies"><a ng-click="switchCurrency(currency.id)">{{currency.label}}</a></li>
     </ul>

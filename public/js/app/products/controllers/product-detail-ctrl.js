@@ -5,13 +5,17 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData',
-        function($scope, $rootScope, CartSvc, product, settings, GlobalData) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'CategorySvc', 'product', 'settings', 'GlobalData',
+        function($scope, $rootScope, CartSvc, CategorySvc, product, settings, GlobalData) {
 
 
             $scope.product = product;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
+
+            if ($scope.product.categories[0]) {
+                $scope.catSlug = CategorySvc.getSlug($scope.product.categories[0].name);
+            }
 
             if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
                 $scope.product.images = [{url: settings.placeholderImage}];
