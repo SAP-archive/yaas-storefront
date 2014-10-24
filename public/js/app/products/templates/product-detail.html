@@ -1,10 +1,5 @@
 <section class="white">
     <div class="row">
-        <div class="page-headline">
-            <h1>
-                <small><a ui-sref="base.category( {catName: catSlug} )">{{product.categories[0].name}}</a></small></br>
-            </h1>
-        </div>
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
                 <div class="image">
@@ -22,6 +17,9 @@
         <div class="col-md-4 col-md-pull-8">
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
+                <div class="page-headline">
+                    <small><a ui-sref="base.category( {catName: catSlug} )">{{product.categories[0].name}}</a></small></br>
+                </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
 
