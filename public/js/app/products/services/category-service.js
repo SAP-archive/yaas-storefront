@@ -99,7 +99,7 @@ angular.module('ds.products')
             },
 
             getSlug: function (name) {
-                return sluggify(name)
+                return sluggify(name);
             }
         };
 }]);

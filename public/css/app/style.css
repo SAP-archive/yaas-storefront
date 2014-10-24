@@ -6086,28 +6086,17 @@ html.disable-scroll {
     list-style: none;
     position: static;
   }
-  #sidebar .navi:before {
+  #sidebar .navi:before,
+  #sidebar .navi:after {
+    background: none repeat scroll 0 0 #c4c4c4;
     content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
+    display: block;
     height: 1px;
-    background: #c4c4c4;
+    margin: 0 0 0 40%;
+    width: 20%;
   }
   #sidebar .navi .hyicon {
     display: none;
-  }
-  #sidebar .navi:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
-    height: 1px;
-    background: #c4c4c4;
   }
   #sidebar .navi > li > a {
     display: block;
@@ -6838,6 +6827,24 @@ html.disable-scroll {
   color: #929292;
   border: none;
   font-size: 14px;
+}
+.edit-cart {
+  position: fixed;
+  max-height: 100%;
+  top: 0;
+  right: 0;
+  width: 85%;
+  z-index: 300;
+  overflow-x: auto;
+  box-shadow: 0 0 5px #000;
+}
+.edit-cart#cart {
+  padding-top: 0px;
+}
+@media screen and (min-width: 991px) {
+  .edit-cart {
+    width: 500px;
+  }
 }
 section {
   padding: 30px;
@@ -8265,7 +8272,8 @@ input[type='number'] {
   transition: opacity 0.25s ease-out 0.3s;
 }
 .right .content-mask,
-.left .content-mask {
+.left .content-mask,
+.mask .content-mask {
   opacity: 1;
   visibility: visible;
 }
