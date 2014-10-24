@@ -6086,28 +6086,17 @@ html.disable-scroll {
     list-style: none;
     position: static;
   }
-  #sidebar .navi:before {
+  #sidebar .navi:before,
+  #sidebar .navi:after {
+    background: none repeat scroll 0 0 #c4c4c4;
     content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
+    display: block;
     height: 1px;
-    background: #c4c4c4;
+    margin: 0 0 0 40%;
+    width: 20%;
   }
   #sidebar .navi .hyicon {
     display: none;
-  }
-  #sidebar .navi:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
-    height: 1px;
-    background: #c4c4c4;
   }
   #sidebar .navi > li > a {
     display: block;
