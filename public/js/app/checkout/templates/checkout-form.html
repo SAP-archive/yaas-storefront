@@ -176,11 +176,10 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="form-group input-group"
-                 ng-class="{'has-error': billToForm.contactPhone.$invalid && (billToForm.contactPhone.$dirty || showPristineErrors) }">
+            <div class="form-group input-group">
                 <span class="input-group-addon"><label class="control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'PHONE_REQUIRED' | translate}}" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
-                       required autocomplete="on">
+                <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
+                       autocomplete="on">
             </div>
         </div>
         <div class="col-lg-12">
@@ -323,10 +322,9 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': shipToForm.contactPhone.$invalid && ( shipToForm.contactPhone.$dirty || showPristineErrors) }">
+                <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label></span>
-                    <input type="text" inline-error-input inline-error-input-required-message="{{'PHONE_REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">
+                    <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on">
                 </div>
             </div>
         </div>
@@ -455,7 +453,7 @@
 </a>
 <div class="error" ng-if="message" style="color:red">
     <small class="help-inline has-error">
-    {{message}}
+    {{message | translate}}
     </small>
 </div>
 <div class="row step-detail" ng-class="{'has-error': message }">

@@ -5,7 +5,7 @@
         <button id="set-default-btn" class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-star"></span></button>
         <button class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.selected }" ng-click="selectAddress(address)" ng-if="isDialog"><span class="glyphicon glyphicon-check"></span></button>
         <button class="btn btn-link btn-lg" ng-click="openAddressModal(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-pencil"></span></button>
-        <button id="delete-address-btn" class="btn btn-link btn-lg delete" ng-click="removeAddress(address)" ng-if="!isDialog"><span class="glyphicon glyphicon-remove"></span></button>
+        <button id="delete-address-btn" class="btn btn-link btn-lg delete" ng-click="removeAddress(address)" ng-if="!isDialog && !address.isDefault"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
       <div class="">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">

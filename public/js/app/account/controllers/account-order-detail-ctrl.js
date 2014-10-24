@@ -19,37 +19,6 @@ angular.module('ds.account')
         $scope.order.id = $stateParams.orderId;
         $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
-        /*
-         Retrieves pricing information for the list of products.
-         */
-        var getPrices = function() {
-            var productIds = '';
-            angular.forEach($scope.order.entries, function (entry, key) {
-                if (key === $scope.order.entries.length - 1) {
-                    productIds = productIds + (entry.product.id);
-                }
-                else {
-                    productIds = productIds + (entry.product.id + ',');
-                }
-            });
-            var queryPrices = {
-                q: 'productId:(' + productIds + ')' + ' currency:' + GlobalData.getCurrencyId()
-            };
-
-            PriceSvc.query(queryPrices).then(
-                function (pricesResponse) {
-                    if (pricesResponse) {
-                        var pricesMap = {};
-
-                        pricesResponse.forEach(function (price) {
-                            pricesMap[price.productId] = price;
-                        });
-
-                        $scope.prices = angular.extend($scope.prices, pricesMap);
-                    }
-                });
-        };
-
         var getPaymentInfo = function () {
             return $scope.order.payments[0];
         };

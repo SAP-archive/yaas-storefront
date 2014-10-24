@@ -116,6 +116,7 @@ window.app = angular.module('ds.router', [
                 oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
                 oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
                 oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,
@@ -134,6 +135,15 @@ window.app = angular.module('ds.router', [
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
+
+            
+            //closeOffcanvas func for mask 
+
+            $rootScope.closeOffcanvas = function(){
+                $rootScope.showMobileNav = false;
+                $rootScope.showCart = false;
+            };
+
 
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
@@ -304,8 +314,12 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc) {
-                            return AccountSvc.getAddresses();
+                        addresses: function(AccountSvc, settings) {
+                            var query = {
+                                pageNumber: 1,
+                                pageSize: settings.apis.account.addresses.initialPageSize
+                            };
+                            return AccountSvc.getAddresses(query);
                         },
                         orders: function(OrderListSvc) {
                             var parms = {

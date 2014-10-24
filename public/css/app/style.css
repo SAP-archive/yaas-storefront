@@ -5903,7 +5903,7 @@ html.disable-scroll {
   height: 100%;
   left: -70%;
   transition: all 0.25s ease-out 0.1s;
-  z-index: 500;
+  z-index: 300;
   overflow: visible;
   top: 0;
 }
@@ -5946,7 +5946,7 @@ html.disable-scroll {
   transition: all 0.25s ease-out 0.1s;
   position: fixed;
   right: -85%;
-  z-index: 5000;
+  z-index: 300;
   overflow: auto;
 }
 .left .sidebar-offcanvas {
@@ -5976,7 +5976,7 @@ html.disable-scroll {
   }
   .mainContent {
     margin-left: 210px;
-    z-index: 400;
+    z-index: 100;
   }
   .offcanvas-right {
     width: 500px;
@@ -6086,28 +6086,17 @@ html.disable-scroll {
     list-style: none;
     position: static;
   }
-  #sidebar .navi:before {
+  #sidebar .navi:before,
+  #sidebar .navi:after {
+    background: none repeat scroll 0 0 #c4c4c4;
     content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
+    display: block;
     height: 1px;
-    background: #c4c4c4;
+    margin: 0 0 0 40%;
+    width: 20%;
   }
   #sidebar .navi .hyicon {
     display: none;
-  }
-  #sidebar .navi:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin: 0 0 0 -16px;
-    width: 32px;
-    height: 1px;
-    background: #c4c4c4;
   }
   #sidebar .navi > li > a {
     display: block;
@@ -6380,7 +6369,7 @@ html.disable-scroll {
   width: 100%;
   top: 0;
   position: fixed;
-  z-index: 1030;
+  z-index: 298;
 }
 @media (min-width: 768px) {
   .top-navigation {
@@ -6841,6 +6830,24 @@ html.disable-scroll {
   color: #929292;
   border: none;
   font-size: 14px;
+}
+.edit-cart {
+  position: fixed;
+  max-height: 100%;
+  top: 0;
+  right: 0;
+  width: 85%;
+  z-index: 300;
+  overflow-x: auto;
+  box-shadow: 0 0 5px #000;
+}
+.edit-cart#cart {
+  padding-top: 0px;
+}
+@media screen and (min-width: 991px) {
+  .edit-cart {
+    width: 500px;
+  }
 }
 section {
   padding: 30px;
@@ -8227,7 +8234,36 @@ address {
   color: #202122;
 }
 body {
-  background: red;
+  background: #eeeeee;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0;
+  text-indent: 0.01px;
+  text-overflow: '';
+  background-image: url(data:image/gif;base64,R0lGODlhDgAEAIABAFVVVf///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhFQzZCRjFBNTE2MTExRTQ5NTZEQUQ3MjgwNEY0M0JBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhFQzZCRjFCNTE2MTExRTQ5NTZEQUQ3MjgwNEY0M0JBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OEVDNkJGMTg1MTYxMTFFNDk1NkRBRDcyODA0RjQzQkEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OEVDNkJGMTk1MTYxMTFFNDk1NkRBRDcyODA0RjQzQkEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAADgAEAAACCoQfqXm42540chUAOw==) !important;
+  background-repeat: no-repeat;
+  background-position: right 48%;
+}
+select::-ms-expand {
+  display: none;
+}
+input[type='text'],
+input[type='number'] {
+  -webkit-border-radius: 0;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 }
 .error {
   color: #f1291e;
@@ -8246,25 +8282,13 @@ body {
   transform: translateZ(0px);
   visibility: hidden;
   width: 100%;
-  z-index: 4999;
+  z-index: 299;
   transition: opacity 0.25s ease-out 0.3s;
 }
 .right .content-mask,
-.left .content-mask {
+.left .content-mask,
+.mask .content-mask {
   opacity: 1;
   visibility: visible;
-}
-body {
-  background: #eeeeee;
-}
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0;
-  /* <-- Apparently some margin are still there even though it's hidden */
 }
 /*# sourceMappingURL=http://localhost/css/style.css.map */

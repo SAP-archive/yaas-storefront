@@ -13,16 +13,17 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-
-    var configurationsUrl = 'http://configuration-v2.test.cf.hybris.com/configurations';
+    var configurationsUrl = 'http://configuration-v3.test.cf.hybris.com/configurations';
     var $scope, $rootScope, $httpBackend, $q, configSvc,
         mockedGlobalData={store:{},
-            setAvailableCurrencies: jasmine.createSpy()
+            setAvailableCurrencies: jasmine.createSpy(),
+            setAvailableLanguages: jasmine.createSpy()
         };
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
-    var mockedStoreConfig = {"properties":[{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
-        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"}]};
+    var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
+        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"},
+        {"key":"project_lang", "value":"[{\"id\":\"en\",\"label\":\"English\"}]"}];
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={};
 
     beforeEach(function() {
@@ -46,7 +47,7 @@ describe('ConfigurationSvc Test', function () {
 
         mockedGlobalData.setCurrency = jasmine.createSpy();
         mockedGlobalData.setLanguage = jasmine.createSpy();
-        mockedGlobalData.loadLanguageFromCookie = jasmine.createSpy();
+        mockedGlobalData.loadInitialLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
 
         mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
@@ -73,6 +74,7 @@ describe('ConfigurationSvc Test', function () {
             expect(mockedGlobalData.store.name).toEqualData(storeName);
             expect(mockedGlobalData.store.logo).toEqualData(logoUrl);
             expect(mockedGlobalData.setAvailableCurrencies).toHaveBeenCalled;
+            expect(mockedGlobalData.setAvailableLanguages).toHaveBeenCalled;
         });
 
         it('should load account for authenticated user and use preference settings if available', function(){
@@ -111,7 +113,7 @@ describe('ConfigurationSvc Test', function () {
             $httpBackend.flush();
             $rootScope.$apply();
 
-            expect(mockedGlobalData.loadLanguageFromCookie).toHaveBeenCalled;
+            expect(mockedGlobalData.loadInitialLanguage).toHaveBeenCalled;
             expect(mockedGlobalData.loadInitialCurrency).toHaveBeenCalled;
 
             expect(successCallback).toHaveBeenCalled();

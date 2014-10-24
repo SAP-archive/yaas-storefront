@@ -18,6 +18,8 @@ describe('SidebarNavigationCtrl', function () {
     var currency =  {id: 'USD', label: 'US Dollar'};
     var currencies = [currency];
     var langCode = 'en';
+    var language = {id: langCode}
+    var languages = [language];
 
     var mockedAuthSvc = {};
 
@@ -79,6 +81,9 @@ describe('SidebarNavigationCtrl', function () {
             },
             getAvailableCurrencies: function(){
                 return currencies;
+            },
+            getAvailableLanguages: function(){
+                return languages;
             }
         };
         mockedGlobalData.store = {};
@@ -101,11 +106,12 @@ describe('SidebarNavigationCtrl', function () {
             expect($scope.language.selected.value).toEqual(langCode);
 
             expect($scope.languages).toBeDefined();
+            /*
             expect($scope.languages.length).toEqual($scope.languageCodes.length);
             for (var i = 0; i < $scope.languageCodes.length; i++) {
                 expect($scope.languages[i].iso).toEqual($scope.languageCodes[i]);
                 expect($scope.languages[i].value).toEqual($scope.languageCodes[i]);
-            };
+            };*/
         });
 
         it('should have currency select box variables set correctly', function() {
@@ -131,6 +137,14 @@ describe('SidebarNavigationCtrl', function () {
             var newLang =  'pl';
             $scope.switchLanguage(newLang);
             expect(mockedState.transitionTo).toHaveBeenCalled();
+        });
+
+        it('should reload categories for non-product states', function(){
+            $controller('SidebarNavigationCtrl', {$scope: $scope, $state: {is: function(){return false}}, cart: cart, GlobalData: mockedGlobalData,
+                AuthSvc: mockedAuthSvc,
+                AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
+            $scope.switchLanguage('pl');
+            expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
         });
     });
 
@@ -211,6 +225,20 @@ describe('SidebarNavigationCtrl', function () {
            expect(AuthDialogManager.open).wasCalled();
        });
     });
+
+    describe('onLanguageChanged', function(){
+        it('should update the selected language if different', function(){
+            $rootScope.$emit('language:updated', {iso: 'pl'});
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalled;
+        });
+    });
+
+    describe('onCurrencyChanged', function(){
+        it('should update the selected currency if different', function(){
+            $rootScope.$emit('currency:updated', {id: 'EUR'});
+            expect(mockedGlobalData.setCurrency).toHaveBeenCalled;
+        });
+    })
 
 });
 

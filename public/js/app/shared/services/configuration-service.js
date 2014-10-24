@@ -28,10 +28,12 @@ angular.module('ds.shared')
                 var configPromise = ConfigurationREST.Config.one('configurations').get().then(function (result) {
                     var key = null;
                     var value = null;
-                    for (var i = 0, tot = result.properties.length; i < tot; i++) {
-                        key = result.properties[i].key;
-                        value = result.properties[i].value;
-                        if (key === settings.configKeys.stripeKey) {
+
+                    for (var i=0,  tot=result.length; i < tot; i++) {
+                        var entry = result[i];
+                        key =  entry.key;
+                        value = entry.value;
+                        if(key === settings.configKeys.stripeKey) {
                             /* jshint ignore:start */
                             Stripe.setPublishableKey(value);
                             /* jshint ignore:end */
@@ -41,6 +43,8 @@ angular.module('ds.shared')
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
+                        } else if (key === settings.configKeys.storeLanguages){
+                            GlobalData.setAvailableLanguages(JSON.parse(value));
                         }
                     }
                     return result;
@@ -79,7 +83,7 @@ angular.module('ds.shared')
                                 });
                             }
                             if (!languageSet) {
-                                GlobalData.loadLanguageFromCookie();
+                                GlobalData.loadInitialLanguage();
                             }
                             if (!currencySet) {
                                 GlobalData.loadInitialCurrency();

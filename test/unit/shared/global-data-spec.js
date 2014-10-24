@@ -37,6 +37,10 @@ describe('GlobalData', function () {
 
     describe('setLanguage()', function () {
 
+        beforeEach(function(){
+           GlobalData.setAvailableLanguages([{id:'en', label: 'English'}, {id: 'de', label: 'Deutsch'}]);
+        });
+
         it('should notify translate service', function(){
             var newLang = 'de';
             GlobalData.setLanguage(newLang);
@@ -102,6 +106,68 @@ describe('GlobalData', function () {
         });
 
 
+    });
+
+    describe('setAvailableLanguage()', function(){
+       it('should return the same language', function(){
+          var langs = [{id: 'kl', label: 'Klingon'}];
+           GlobalData.setAvailableLanguages(langs);
+           var out = GlobalData.getAvailableLanguages();
+           expect(out).toEqualData(langs);
+       });
+    });
+
+    describe('setAvailableCurrencies()', function(){
+        it('should return the same currencies', function(){
+            var currs = [{id: 'CAD', label: 'Canadian Dollar'}];
+            GlobalData.setAvailableCurrencies(currs);
+            var out = GlobalData.getAvailableCurrencies();
+            expect(out).toEqualData(currs);
+        });
+    });
+
+    describe('loadInitialLanguage()', function(){
+        var defaultLangCode = 'fr';
+
+        beforeEach(function(){
+            GlobalData.setAvailableLanguages([{id: defaultLangCode, label: 'French', default:true}, {id:'kl', label: 'Klingon'}]);
+        });
+
+        it('should use the cookie language if set', function(){
+            var cookieLang = 'kl';
+            mockedCookieSvc.getLanguageCookie = jasmine.createSpy().andReturn({languageCode: cookieLang});
+            GlobalData.loadInitialLanguage();
+            expect(GlobalData.getLanguageCode()).toEqualData(cookieLang);
+        });
+
+        it('should use default language if cookie not set', function(){
+            mockedCookieSvc.getLanguageCookie = jasmine.createSpy().andReturn(null);
+            GlobalData.loadInitialLanguage();
+            expect(GlobalData.getLanguageCode()).toEqualData(defaultLangCode);
+        });
+    });
+
+    describe('loadInitialCurrency()', function(){
+
+        var defaultCurrency = 'CAD';
+        var bitcoin = 'BTC';
+
+        beforeEach(function(){
+            GlobalData.setAvailableCurrencies([{id: defaultCurrency, label: 'Canadian Dollar', default:true}, {id:bitcoin, label: 'Bitcoin'}]);
+        });
+
+        it('should use the cookie currency if set', function(){
+            var cookieCurr = bitcoin;
+            mockedCookieSvc.getCurrencyCookie = jasmine.createSpy().andReturn({currency: bitcoin});
+            GlobalData.loadInitialCurrency();
+            expect(GlobalData.getCurrencyId()).toEqualData(cookieCurr);
+        });
+
+        it('should use default currency if cookie not set', function(){
+            mockedCookieSvc.getCurrencyCookie = jasmine.createSpy().andReturn(null);
+            GlobalData.loadInitialCurrency();
+            expect(GlobalData.getCurrencyId()).toEqualData(defaultCurrency);
+        });
     });
 
 

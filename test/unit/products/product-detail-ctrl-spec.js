@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedCategorySvc, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
     };
 
@@ -22,7 +22,18 @@ describe('ProductDetailCtrl', function () {
             currency: 'USD',
             value: 5000
         },
-        published: true
+        published: true,
+        categories: [
+            {
+                id: 12345,
+                name: 'fakeCat',
+                slug: 'fake-cat'
+            }
+        ]
+    };
+
+    mockedCategorySvc = {
+        getSlug: jasmine.createSpy().andReturn('fake-cat')
     };
 
     var dummyImg = 'dummy';
@@ -56,7 +67,7 @@ describe('ProductDetailCtrl', function () {
         };
 
         $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+            'CartSvc': mockedCartSvc, 'CategorySvc': mockedCategorySvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
 
     });
 
@@ -84,6 +95,7 @@ describe('ProductDetailCtrl', function () {
     describe('initialization', function () {
         it('product without image should get default image', function () {
             expect($scope.product.images[0].url).toEqualData(dummyImg);
+            expect($scope.catSlug).toEqualData('fake-cat');
         });
     });
 
