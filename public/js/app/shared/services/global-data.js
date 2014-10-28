@@ -13,12 +13,14 @@ angular.module('ds.shared')
             var acceptLanguages = languageCode;
             var storeDefaultCurrency;
             var activeCurrencyId = 'USD';
-            var availableCurrencies = [{id: activeCurrencyId, label: 'US Dollar'}];
-            var currencyIds=[];
 
+            var currencyMap = [];
+            var availableCurrencies = [];
+            var languageMap = [];
+            var availableLanguages = [];
 
             function setCurrencyWithOptionalCookie(currencyId, setCookie) {
-                if(currencyId && currencyIds && currencyIds.indexOf( currencyId)>-1) {
+                if(currencyId && currencyId in currencyMap ) {
                     if( currencyId!==activeCurrencyId){
                         activeCurrencyId =  currencyId;
                         $rootScope.$emit('currency:updated',  currencyId);
@@ -27,21 +29,25 @@ angular.module('ds.shared')
                         CookieSvc.setCurrencyCookie(currencyId);
                     }
                 } else {
-                    console.error('Currency not valid: '+currencyId);
+                    console.warn('Currency not valid: '+currencyId);
                 }
             }
 
             function setLanguageWithOptionalCookie(newLangCode, setCookie){
-                if(newLangCode) {
+                if(newLangCode && newLangCode in languageMap) {
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
                         $translate.use(languageCode);
                         acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                        $rootScope.$emit('language:updated',  languageCode);
                     }
+                    if(setCookie) {
+                        CookieSvc.setLanguageCookie(languageCode);
+                    }
+                } else {
+                    console.warn('Language not valid: '+newLangCode);
                 }
-                if(setCookie) {
-                    CookieSvc.setLanguageCookie(languageCode);
-                }
+
             }
 
             return {
@@ -51,6 +57,11 @@ angular.module('ds.shared')
                     }
                 },
                 products: {
+                    meta: {
+                        total: 0
+                    }
+                },
+                addresses:  {
                     meta: {
                         total: 0
                     }
@@ -85,16 +96,15 @@ angular.module('ds.shared')
                     setLanguageWithOptionalCookie(newLangCode, true);
                 },
 
-                loadLanguageFromCookie: function(){
-                    var languageCookie = CookieSvc.getLanguageCookie();
-                    if (languageCookie &&languageCookie.languageCode ) {
-                        setLanguageWithOptionalCookie(languageCookie.languageCode, false);
-                    }
-                },
 
                 /** Returns the language code that's currently active for the store.*/
                 getLanguageCode: function(){
                     return languageCode;
+                },
+
+                /** Returns the active language instance.*/
+                getLanguage: function(){
+                    return languageMap[languageCode];
                 },
 
                 /** Returns the 'accept-languages' header for the application.*/
@@ -102,6 +112,17 @@ angular.module('ds.shared')
                   return acceptLanguages;
                 },
 
+
+                /** Determines the initial active language for the store, based on store configuration and
+                 * any existing cookie settings. */
+                loadInitialLanguage: function(){
+                    var languageCookie = CookieSvc.getLanguageCookie();
+                    if(languageCookie && languageCookie.languageCode){
+                        setLanguageWithOptionalCookie(languageCookie.languageCode, false);
+                    } else {
+                        setLanguageWithOptionalCookie(storeDefaultCurrency, true);
+                    }
+                },
 
 
                 /** Sets the currency id that's supposed to be active for this store and stores it to a
@@ -129,13 +150,18 @@ angular.module('ds.shared')
                     return activeCurrencyId;
                 },
 
+                /** Returns the active currency instance.*/
+                getCurrency: function(){
+                    return currencyMap[activeCurrencyId];
+                },
+
+
                 /** Sets an array of currency instances from which a shopper should be able to choose.*/
                 setAvailableCurrencies: function(currencies){
                     if(currencies) {
                         availableCurrencies = currencies;
-
                         angular.forEach(currencies, function (currency) {
-                            currencyIds.push(currency.id);
+                            currencyMap[currency.id] = currency;
                             if (currency.default) {
                                 storeDefaultCurrency = currency.id;
                             }
@@ -146,7 +172,27 @@ angular.module('ds.shared')
                 /** Returns an array of currency instances supported by this project.*/
                 getAvailableCurrencies: function(){
                     return availableCurrencies;
+                },
+
+                /** Sets an array of language instances from which a shopper should be able to choose.*/
+                setAvailableLanguages: function(languages){
+                    if(languages) {
+                        availableLanguages = languages;
+                        angular.forEach(languages, function (language) {
+                            languageMap[language.id] = language;
+
+                            if (language.default) {
+                                languageCode = language.id;
+                            }
+                        });
+                    }
+                },
+
+                /** Returns an array of language instances supported by this project.*/
+                getAvailableLanguages: function(){
+                    return availableLanguages;
                 }
+
 
 
             };

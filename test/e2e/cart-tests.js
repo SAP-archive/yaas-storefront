@@ -113,14 +113,14 @@ describe("cart:", function () {
          it('should not add out of stock item', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-            expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-           tu.clickElement('xpath', tu.contineShopping);
-           tu.clickElement('xpath', tu.blackCoffeeMug);
+           expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
+           tu.clickElement('xpath', tu.blackCoffeeMug)
            tu.clickElement('xpath', tu.outOfStockButton);
            tu.clickElement('id',tu.cartButtonId);
-           browser.sleep(250);
-            expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-           tu.clickElement('xpath', tu.contineShopping);
+           tu.clickElement('id',tu.cartButtonId);
+           browser.sleep(1000);
+           expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
          });
 
          it('should not allow negative numbers', function () {

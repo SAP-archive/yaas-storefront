@@ -21,7 +21,10 @@ angular.module('ds.shared')
         // defines thea API endpoints and routes
         apis: {
             account: {
-              baseUrl: 'https://yaas-test.apigee.net/test/account/v1'
+                baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
+                addresses: {
+                    initialPageSize: 6
+                }
             },
 
             categories: {
@@ -77,15 +80,18 @@ angular.module('ds.shared')
                 language:  'accept-language',
                 hybrisAuthorization: 'Authorization',
                 paging: {
-                    total: 'X-Count'
+                    total: 'hybris-Count'
                 },
+
                 hybrisCurrency: 'hybris-currency'
+
             }
         },
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
             storeCurrencies: 'project_curr',
+            storeLanguages: 'project_lang',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url'
         },

@@ -41,6 +41,13 @@ select{
     }
 }
 
+// Get ridd of iOS 
+input[type='text'],
+input[type='number']{
+    -webkit-border-radius: 0;
+    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(hsla(0,0%,100%,0)), to(hsla(0,0%,100%,0)));
+    background-image:-webkit-linear-gradient(hsla(0,0%,100%,0), hsla(0,0%,100%,0));
+}
 
 .error{
 	color:@brightred;
@@ -67,7 +74,8 @@ select{
 
 
     .right &,
-    .left &{
+    .left &,
+    .mask &{
     	opacity: 1;
     	visibility: visible;
     }

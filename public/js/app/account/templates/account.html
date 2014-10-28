@@ -17,7 +17,7 @@
           <div class="page-headline">
             <h1>
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lasttName">,</span> <br/>
+              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lastName">,</span> <br/>
               <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
             </h1>
           </div>
@@ -50,16 +50,16 @@
               <span class="inline-label">{{'LAST_NAME' | translate}}:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">Email:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
+              <span class="inline-label">{{'EMAIL' | translate}}:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
-              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.value as ll.text for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
+              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
             </div>
             <div>
-              <span class="inline-label">{{'CURRENCY' | translate}}:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.value as currency.text for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
+              <span class="inline-label">{{'CURRENCY' | translate}}:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.id as currency.label for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
             </div>
           </div>
         </div>
@@ -76,8 +76,8 @@
     <div class="row">
       <div ng-include="'./js/app/account/templates/addresses.html'"></div>
     </div>
-    <div class="text-center">
-      <button class="btn btn-link">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+    <div class="text-center" ng-if="GlobalData.addresses.meta.total > addresses.length">
+      <button class="btn btn-link" ng-click="showAllAddresses()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
     </div>
   </section>
   <section class="mediumgray">

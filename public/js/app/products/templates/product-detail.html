@@ -17,6 +17,9 @@
         <div class="col-md-4 col-md-pull-8">
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
+                <div class="page-headline">
+                    <small><a ui-sref="base.category( {catName: catSlug} )">{{product.categories[0].name}}</a></small></br>
+                </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
 

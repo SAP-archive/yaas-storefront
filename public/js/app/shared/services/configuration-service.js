@@ -43,6 +43,8 @@ angular.module('ds.shared')
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
+                        } else if (key === settings.configKeys.storeLanguages){
+                            GlobalData.setAvailableLanguages(JSON.parse(value));
                         }
                     }
                     settings.facebookAppId = '580437175395043';
@@ -110,7 +112,7 @@ angular.module('ds.shared')
                                 });
                             }
                             if (!languageSet) {
-                                GlobalData.loadLanguageFromCookie();
+                                GlobalData.loadInitialLanguage();
                             }
                             if (!currencySet) {
                                 GlobalData.loadInitialCurrency();
