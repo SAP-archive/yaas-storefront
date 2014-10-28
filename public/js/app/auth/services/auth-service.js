@@ -94,14 +94,12 @@ angular.module('ds.auth')
             },
 
             /** Performs login logic following login through social media login.*/
-            socialLogin: function(providerId, token){
-                if(!this.isAuthenticated()){
-                    AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function(response){
-                        // passing static username to trigger 'is authenticated' validation of token
-                        TokenSvc.setToken(response.accessToken, 'social');
-                        SessionSvc.afterLogIn();
-                    });
-                }
+            socialLogin: function (providerId, token) {
+                AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
+                    // passing static username to trigger 'is authenticated' validation of token
+                    TokenSvc.setToken(response.accessToken, 'social');
+                    SessionSvc.afterLogIn();
+                });
             }
 
         };

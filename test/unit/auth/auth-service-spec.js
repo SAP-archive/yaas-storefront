@@ -211,4 +211,19 @@ describe('AuthSvc Test', function () {
         });
     });
 
+    describe('socialLogin()', function(){
+       it('should perform provider based login', function(){
+           var providerId = 'facebook';
+           var fbToken = 'abc';
+           var hybrisToken = 'hyb';
+           AuthSvc.socialLogin(providerId, fbToken);
+           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login/'+providerId).respond(201, {accessToken: hybrisToken});
+           mockBackend.flush();
+           expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(hybrisToken, 'social');
+           expect(mockedSessionSvc.afterLogIn).toHaveBeenCalled();
+       });
+
+
+    });
+
 });
