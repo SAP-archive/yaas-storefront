@@ -168,10 +168,14 @@ window.app = angular.module('ds.router', [
                 }
             });
 
-            $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
+            // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
+            //   which may be removed by browser/user
+            $rootScope.$watch(function () {
+                return AuthSvc.isAuthenticated();
+            }, function (isAuthenticated) {
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
                 GlobalData.user.isAuthenticated = isAuthenticated;
-                GlobalData.user.username = TokenSvc.getToken().getUsername();
+
             });
 
             $rootScope.$on('currency:updated', function (event, newCurr) {

@@ -28,6 +28,11 @@ in an optional step.
 ### Application Events
 
 'cart:updated' - fired when new cart information has been acquired from the service
+'language:updated' - fired when the store's active language has changed
+'currency:update' - fired when the store's active currency has changed
+'authtoken:obtained' - fired when an anonymous OAuth token has been generated
+'user:signedin' - signals that a user has been authenticated
+'user:signedout' - signals that a user has logged off
 
 ## Testing
 

@@ -15,8 +15,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', '$window',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, $window) {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', '$window', '$rootScope',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, $window, $rootScope) {
             var initialized = false;
 
             /**
@@ -76,14 +76,24 @@ angular.module('ds.shared')
                                     xfbml      : true,
                                     version    : 'v2.1'
                                 });
+                                /*
                                 FB.getLoginStatus(function(response) {
                                     console.log('login status is '+response);
                                 }, true);
                                 FB.Event.subscribe('auth.authResponseChange', function(response) {
                                     window.alert('authResponseChange '+ response.status);
-                                });
+                                });*/
                                 FB.Event.subscribe('auth.statusChange', function(response) {
-                                    window.alert('statusChange: '+response.status);
+                                    if(response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
+                                        AuthSvc.socialLogin('facebook', response.authResponse.accessToken);
+                                    } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
+                                        if(AuthSvc.isAuthenticated()){    //  'unknown'  The person is not logged into Facebook, so you don't know if they've logged into your app.
+                                           AuthSvc.signOut();
+                                        }
+                                    }
+                                });
+                                $rootScope.$on('user:signedout', function () {
+                                    FB.logout();
                                 });
                             };
                             (function(d, s, id) {
