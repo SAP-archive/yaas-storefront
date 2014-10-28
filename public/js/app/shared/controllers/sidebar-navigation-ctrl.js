@@ -10,10 +10,15 @@ angular.module('ds.shared')
         function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
                   AuthSvc, AuthDialogManager, CategorySvc) {
 
+            $scope.currencies = GlobalData.getAvailableCurrencies();
+            $scope.currency = { selected: GlobalData.getCurrency() };
+
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
             $scope.categories = [];
-            $scope.currencies = GlobalData.getAvailableCurrencies();
+
+            $scope.language = { selected: { iso: GlobalData.getLanguageCode(), value: GlobalData.getLanguageCode() }};
+            $scope.languages = GlobalData.getAvailableLanguages().map(function(lang) { return { iso:  lang.id, value: lang.id }; });
 
             function loadCategories(){
                 CategorySvc.getCategories().then(function(categories){
@@ -37,7 +42,6 @@ angular.module('ds.shared')
             $scope.switchLanguage = function(languageCode) {
                 GlobalData.setLanguage(languageCode);
                 if($state.is('base.category') || $state.is('base.product.detail')) {
-
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: true,
@@ -48,19 +52,36 @@ angular.module('ds.shared')
                 }
             };
 
+            $scope.$watch('language.selected', function(newValue, oldValue) {
+                if (!angular.equals(newValue, oldValue) && newValue.iso) {
+                    $scope.switchLanguage(newValue.iso);
+                }
+            });
 
-            // handling language updates initiated from outside this controller
-            var unbindLang = $rootScope.$on('language:updated', function (eve, eveObj) {
-                $scope.switchLanguage(eveObj);
+            $scope.$watch('currency.selected', function(newValue, oldValue) {
+                if (!angular.equals(newValue, oldValue) && newValue.id) {
+                    $scope.switchCurrency(newValue.id);
+                }
             });
 
 
             // handling currency updates initiated from outside this controller
-            var unbindCurr = $rootScope.$on('currency:updated', function (eve, eveObj) {
+            var unbindCurrency = $rootScope.$on('currency:updated', function (eve, eveObj) {
+                if(eveObj.id !== $scope.currency.id){
+                    $scope.currency.selected = eveObj;
+                }
+                $scope.switchCurrency(eveObj);
+            });
+
+            // handling language updates initiated from outside this controller
+            var unbindLang = $rootScope.$on('language:updated', function (eve, eveObj) {
+                if(eveObj !== $scope.language.iso){
+                    $scope.language.selected =  { iso: $scope.eveObj, value: $scope.eveObj };
+                }
                 $scope.switchLanguage(eveObj);
             });
 
-            $scope.$on('$destroy', unbindCurr, unbindLang);
+            $scope.$on('$destroy', unbindCurrency, unbindLang);
 
             $scope.logout = function () {
                 AuthSvc.signOut();

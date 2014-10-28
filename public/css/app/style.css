@@ -6349,6 +6349,9 @@ html.disable-scroll {
 #sidebar .social-icons a span {
   line-height: 40px;
 }
+#sidebar .store-settings {
+  padding: 10px;
+}
 .top-navigation {
   position: relative;
   min-height: 50px;
@@ -8219,6 +8222,17 @@ address {
 /* OFFCANVAS */
 /* MULTILEVEL MENU */
 /* TOPLEVEL BAR */
+.ui-select-bootstrap-transparent .ui-select-match {
+  border: none;
+  background: transparent;
+  text-align: center;
+  color: #7d7e7f;
+  box-shadow: none;
+}
+.ui-select-bootstrap-transparent .ui-select-match:hover {
+  background: #e2e2e2;
+  color: #202122;
+}
 body {
   background: #eeeeee;
 }

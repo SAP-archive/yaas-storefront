@@ -13,17 +13,15 @@ angular.module('ds.shared')
             var acceptLanguages = languageCode;
             var storeDefaultCurrency;
             var activeCurrencyId = 'USD';
-
             var currencyMap = [];
             var availableCurrencies = [];
             var languageMap = [];
             var availableLanguages = [];
-
             function setCurrencyWithOptionalCookie(currencyId, setCookie) {
                 if(currencyId && currencyId in currencyMap ) {
                     if( currencyId!==activeCurrencyId){
                         activeCurrencyId =  currencyId;
-                        $rootScope.$emit('currency:updated',  currencyId);
+                        $rootScope.$emit('currency:updated',  currencyMap[currencyId]);
                     }
                     if(setCookie){
                         CookieSvc.setCurrencyCookie(currencyId);

@@ -15,7 +15,9 @@ window.app = angular.module('ds.router', [
     'ds.orders',
     'ds.queue',
     'config',
-    'xeditable'
+    'xeditable',
+    'ngSanitize',
+    'ui.select'
 ])
     .constant('_', window._)
 

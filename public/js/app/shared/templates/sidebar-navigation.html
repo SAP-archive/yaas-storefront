@@ -220,12 +220,23 @@
 		<li><a href="">Level 1</a></li>
         -->
 	</ul>
+	<div class="store-settings">
+	    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+	        <ui-select-match id="language-select" placeholder="Select language" >
+	            <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
+	        </ui-select-match>
+	        <ui-select-choices repeat="lang in languages | filter: $select.search">
+	            <img src="./img/flags/{{lang.iso}}.jpg" width="20">
+	            <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
+	        </ui-select-choices>
+	    </ui-select>
 
-    <ul class="navi">
+	    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+	        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
+	        </ui-select-match>
+	        <ui-select-choices repeat="curr in currencies | filter: $select.search">
+	            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
+	        </ui-select-choices>
+	    </ui-select>
+	</div>
 
-        <li><a ng-click="switchLanguage('en')">EN</a></li>
-        <li><a ng-click="switchLanguage('de')">DE</a></li>
-    </ul>
-    <ul class="navi">
-        <li ng-repeat="currency in currencies"><a ng-click="switchCurrency(currency.id)">{{currency.label}}</a></li>
-    </ul>

@@ -92,6 +92,16 @@
           element(by.id(pageElement)).clear();
           element(by.id(pageElement)).sendKeys(keys);
         }
+
+        exports.selectLanguage = function(language) {
+          clickElement('id', 'language-select');
+          clickElement('linkText', language);
+        }
+
+        exports.selectCurrency = function(currency) {
+          clickElement('id', 'currency-select');
+          clickElement('linkText', currency);
+        }
            /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
 
