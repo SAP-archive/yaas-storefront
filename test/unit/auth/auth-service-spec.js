@@ -13,7 +13,9 @@
 describe('AuthSvc Test', function () {
 
     var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q, mockedSessionSvc={
-        afterLogOut: jasmine.createSpy()
+        afterLogOut: jasmine.createSpy(),
+        afterLogIn: jasmine.createSpy(),
+        afterLoginFromSignUp: jasmine.createSpy()
     };
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
@@ -80,7 +82,6 @@ describe('AuthSvc Test', function () {
         expect(AuthSvc.signin).toBeDefined();
         expect(AuthSvc.signOut).toBeDefined();
         expect(AuthSvc.isAuthenticated).toBeDefined();
-        expect(AuthSvc.customerSignin).toBeDefined();
         expect(AuthSvc.updatePassword).toBeDefined();
     });
 
@@ -91,25 +92,6 @@ describe('AuthSvc Test', function () {
         expect(getAccessTokenSpy).toHaveBeenCalled();
         expect(getUsernameSpy).toHaveBeenCalled();
         expect(isAuth).toEqual(true);
-    });
-
-    it("should perform signup", function() {
-        var payload = {
-                email: 'some@email.com',
-                password: '123456'
-            },
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-        
-        mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/signup', payload).respond({});
-        var promise = AuthSvc.signup(payload);
-        promise.then(successSpy, errorSpy);
-
-        mockBackend.flush();
-        
-        expect(promise.then).toBeDefined();
-        expect(successSpy).toHaveBeenCalled();
-        expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it("should perform signin", function() {
@@ -133,6 +115,31 @@ describe('AuthSvc Test', function () {
        expect(successSpy).toHaveBeenCalled();
        expect(errorSpy).not.toHaveBeenCalled();
        expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(response.accessToken, payload.email);
+        expect(mockedSessionSvc.afterLogIn).toHaveBeenCalled();
+    });
+
+    describe('signUp()', function(){
+       it('should call signup and login, set token and invoke <<afterLoginFromSignUp>>', function(){
+           var payload = {
+                   email: 'some@email.com',
+                   password: '123456'
+               },
+               successSpy = jasmine.createSpy('success'),
+               errorSpy = jasmine.createSpy('error');
+
+           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/signup', payload).respond({});
+           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, {});
+           var promise = AuthSvc.signup(payload);
+           promise.then(successSpy, errorSpy);
+
+           mockBackend.flush();
+
+           expect(promise.then).toBeDefined();
+           expect(successSpy).toHaveBeenCalled();
+           expect(errorSpy).not.toHaveBeenCalled();
+           expect(mockedTokenSvc.setToken).toHaveBeenCalled();
+           expect(mockedSessionSvc.afterLoginFromSignUp).toHaveBeenCalled();
+       });
     });
 
     describe('signOut()', function(){

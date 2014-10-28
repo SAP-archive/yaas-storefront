@@ -99,7 +99,8 @@ angular.module('ds.shared')
                             //
                             var languageSet = false;
                             var currencySet = false;
-                            if (AuthSvc.isAuthenticated()) { // if session still in tact, load use preferences
+                            if (AuthSvc.isAuthenticated()) {
+                                // if session still in tact, load user preferences
                                 AccountSvc.account().then(function (account) {
                                     if (account.preferredLanguage) {
                                         GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
@@ -109,22 +110,24 @@ angular.module('ds.shared')
                                         GlobalData.setCurrency(account.preferredCurrency);
                                         currencySet = true;
                                     }
+
+                                    if (!languageSet) {
+                                        GlobalData.loadInitialLanguage();
+                                    }
+                                    if (!currencySet) {
+                                        GlobalData.loadInitialCurrency();
+                                    }
+                                    return account;
+                                }).then(function(account){
+                                    CartSvc.refreshCartAfterLogin(account.id);
                                 });
-                            }
-                            if (!languageSet) {
+                            } else {
                                 GlobalData.loadInitialLanguage();
-                            }
-                            if (!currencySet) {
                                 GlobalData.loadInitialCurrency();
+                                CartSvc.getCart();
                             }
                             def.resolve({});
                             initialized = true;
-
-                            CartSvc.getCart().then(function (cart) {
-                                if (cart.currency !== GlobalData.getCurrencyId()) {
-                                    CartSvc.switchCurrency(GlobalData.getCurrencyId());
-                                }
-                            });
 
                         });
                     }

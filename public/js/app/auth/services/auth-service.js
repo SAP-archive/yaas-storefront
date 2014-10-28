@@ -19,13 +19,13 @@ angular.module('ds.auth')
     .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc',
         function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc) {
 
-
+        function loginAndSetToken(user){
+            return AuthREST.Customers.all('login').customPOST(user).then(function(response){
+                TokenSvc.setToken(response.accessToken, user ? user.email : null);
+            });
+        }
 
         var AuthenticationService = {
-
-            signup: function (user) {
-                return AuthREST.Customers.all('signup').customPOST(user);
-            },
 
             /**
              * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
@@ -34,19 +34,19 @@ angular.module('ds.auth')
              * @param user JSON object (with email, password properties), or null for anonymous user.
              */
             signin: function (user) {
-                var signInDone = $q.defer();
-
-                var signinPromise = AuthREST.Customers.all('login').customPOST(user);
-
-                signinPromise.then(function (response) {
-                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                    signInDone.resolve(response.accessToken);
-
-                }, function(error){
-                    signInDone.reject(error);
+                return loginAndSetToken(user).then(function(){
+                    SessionSvc.afterLogIn();
                 });
+            },
 
-                return signInDone.promise;
+            signup: function (user, context) {
+                return AuthREST.Customers.all('signup').customPOST(user).then(function(){
+                    loginAndSetToken(user).then(function(){
+                        SessionSvc.afterLoginFromSignUp(context);
+                    }, function(){
+                        $q.reject('SignIn failed');
+                    });
+                });
             },
 
             /** Logs the customer out and removes the token cookie. */

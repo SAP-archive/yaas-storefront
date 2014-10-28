@@ -178,6 +178,10 @@ window.app = angular.module('ds.router', [
                 CartSvc.switchCurrency(newCurr);
             });
 
+            $rootScope.$on('language:updated', function () {
+                CartSvc.getCart();
+            });
+
             // setting root scope variables that drive class attributes in the BODY tag
             $rootScope.showCart =false;
             $rootScope.showMobileNav=false;
