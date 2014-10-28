@@ -27,10 +27,6 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('signup').customPOST(user);
             },
 
-            customerSignin: function (user) {
-                return AuthREST.Customers.all('login').customPOST(user);
-            },
-
             /**
              * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
              * Returns a promise with "success" = access token for when that action has been performed.
@@ -40,7 +36,7 @@ angular.module('ds.auth')
             signin: function (user) {
                 var signInDone = $q.defer();
 
-                var signinPromise = this.customerSignin(user);
+                var signinPromise = AuthREST.Customers.all('login').customPOST(user);
 
                 signinPromise.then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
@@ -96,25 +92,9 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('password').all('change').customPOST(payload);
             },
 
-
-
-            watchFBLoginChange: function() {
-                console.log('watch FB');
-                $rootScope.watch( function(){
-                    console.log('inside watch');
-                    FB.getLoginStatus(function(fbResponse) {
-                        console.log('fb watch');
-                        console.log(fbResponse);
-                        if (fbResponse.status === 'connected') {
-                            AuthREST.Customers.all('login').all('facebook').customPOST({accessToken: response.authResponse.accessToken}).then(function(response){
-                                TokenSvc.setToken(response.accessToken, null);
-                                SessionSvc.afterLogIn();
-                            });
-                        }
-                    });
-                });
-
-
+            socialLogin: function(providerId, token){
+                //CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
+                AuthREST.Customers.one('login', providerId).post({accessToken: token});
             }
         };
         return AuthenticationService;
