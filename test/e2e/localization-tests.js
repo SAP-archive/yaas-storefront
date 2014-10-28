@@ -58,7 +58,7 @@
         });
 
         it('should load product-detail in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           assertTextByElement('css', 'label.ng-binding', 'Qty:');
           assertTextByElement('id', 'buy-button', 'BUY');
@@ -74,7 +74,7 @@
         });
 
         it('should load cart in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
           assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
