@@ -84,6 +84,7 @@ angular.module('ds.shared')
                                     window.alert('authResponseChange '+ response.status);
                                 });*/
                                 FB.Event.subscribe('auth.statusChange', function(response) {
+                                    console.log('FB status is '+response.status);
                                     if(response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
                                         AuthSvc.socialLogin('facebook', response.authResponse.accessToken);
                                     } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
@@ -92,8 +93,12 @@ angular.module('ds.shared')
                                         }
                                     }
                                 });
-                                $rootScope.$on('user:signedout', function () {
-                                    FB.logout();
+                                $rootScope.$on('user:signedout', function (eve, eveObj) {
+                                    if(eveObj.old){
+                                        console.log('log out of FB');
+                                        FB.logout();
+                                    }
+
                                 });
                             };
                             (function(d, s, id) {

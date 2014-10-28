@@ -172,8 +172,8 @@ window.app = angular.module('ds.router', [
             //   which may be removed by browser/user
             $rootScope.$watch(function () {
                 return AuthSvc.isAuthenticated();
-            }, function (isAuthenticated) {
-                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
+            }, function (isAuthenticated, wasAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
                 GlobalData.user.isAuthenticated = isAuthenticated;
 
             });
