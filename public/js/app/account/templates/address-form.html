@@ -114,7 +114,7 @@
       </div>
       <div class="form-group input-group">
         <span class="input-group-addon"><label class="control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label></span>
-        <input type="text" class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
+        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
 
       </div>
   </div>

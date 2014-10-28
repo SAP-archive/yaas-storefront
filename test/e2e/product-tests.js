@@ -51,7 +51,7 @@ describe("product page", function () {
 
       it("should get order of products correctly in english and USD", function () {
         //default load
-        tu.clickElement('linkText', 'EN');
+        tu.selectLanguage('English');
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
         // tu.sortAndVerifyPagination('price', 'FRENCH PRESS');
@@ -70,7 +70,7 @@ describe("product page", function () {
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
         tu.selectLanguage('German');
-        tu.clickElement('linkText', 'EURO');
+        tu.selectCurrency('Euro');
         browser.sleep(3000);       
         // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
         // browser.sleep(750);
