@@ -29,7 +29,7 @@
 
         
         it('should load product-list in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           assertTextByElement('linkText', 'ALL PRODUCTS', 'ALL PRODUCTS');
           assertTextByElement('binding', 'category.name', 'MUGS');
           assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
