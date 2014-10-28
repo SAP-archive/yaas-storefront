@@ -24,7 +24,7 @@
 <div ng-if="!cart.error && !cart.items.length" class="empty-cart-text text-center">
     {{'CART_EMPTY' | translate}}
 </div>
-<div ng-if="cart.error" class="empty-cart-text text-center">
+<div ng-if="cart.error" class="error text-center">
     {{'CART_UNAVAILABLE' | translate}}
 </div>
 	<div ng-if="cart.items.length">
