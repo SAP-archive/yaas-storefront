@@ -176,8 +176,8 @@ window.app = angular.module('ds.router', [
                 GlobalData.user.username = TokenSvc.getToken().getUsername();
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurr) {
-                CartSvc.switchCurrency(newCurr);
+            $rootScope.$on('currency:updated', function (event, newCurrId) {
+                CartSvc.switchCurrency(newCurrId);
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

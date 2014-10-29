@@ -28,19 +28,7 @@ angular.module('ds.shared')
 
             loadCategories();
 
-            $scope.switchCurrency = function (currency) {
-                GlobalData.setCurrency(currency);
-                if($state.is('base.category') || $state.is('base.product.detail')) {
-                    $state.transitionTo($state.current, $stateParams, {
-                        reload: true,
-                        inherit: true,
-                        notify: true
-                    });
-                }
-            };
-
-            $scope.switchLanguage = function(languageCode) {
-                GlobalData.setLanguage(languageCode);
+            function refreshDataOnLanguageChange(){
                 if($state.is('base.category') || $state.is('base.product.detail')) {
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
@@ -50,35 +38,45 @@ angular.module('ds.shared')
                 } else {
                     loadCategories();
                 }
-            };
+            }
+
+            function switchCurrency(currencyId) {
+                GlobalData.setCurrency(currencyId);
+                if($state.is('base.category') || $state.is('base.product.detail')) {
+                    $state.transitionTo($state.current, $stateParams, {
+                        reload: true,
+                        inherit: true,
+                        notify: true
+                    });
+                }
+            }
 
             $scope.$watch('language.selected', function(newValue, oldValue) {
                 if (!angular.equals(newValue, oldValue) && newValue.iso) {
-                    $scope.switchLanguage(newValue.iso);
+                    GlobalData.setLanguage(newValue.iso);
                 }
             });
 
             $scope.$watch('currency.selected', function(newValue, oldValue) {
                 if (!angular.equals(newValue, oldValue) && newValue.id) {
-                    $scope.switchCurrency(newValue.id);
+                    switchCurrency(newValue.id);
                 }
             });
 
 
             // handling currency updates initiated from outside this controller
-            var unbindCurrency = $rootScope.$on('currency:updated', function (eve, eveObj) {
-                if(eveObj.id !== $scope.currency.id){
-                    $scope.currency.selected = eveObj;
+            var unbindCurrency = $rootScope.$on('currency:updated', function (eve, currencyId) {
+                if(currencyId !== $scope.currency.id){
+                    $scope.currency.selected = GlobalData.getCurrencyById(currencyId);
                 }
-                $scope.switchCurrency(eveObj);
             });
 
             // handling language updates initiated from outside this controller
-            var unbindLang = $rootScope.$on('language:updated', function (eve, eveObj) {
-                if(eveObj !== $scope.language.iso){
-                    $scope.language.selected =  { iso: $scope.eveObj, value: $scope.eveObj };
+            var unbindLang = $rootScope.$on('language:updated', function (eve, newLangCode) {
+                if(newLangCode !== $scope.language.selected.iso){
+                    $scope.language.selected =  { iso: newLangCode, value: newLangCode };
                 }
-                $scope.switchLanguage(eveObj);
+                refreshDataOnLanguageChange();
             });
 
             $scope.$on('$destroy', unbindCurrency, unbindLang);
