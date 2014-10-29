@@ -5,7 +5,7 @@ var timestamp = Number(new Date());
 
   function updateAccountField(fieldName, text) {
         tu.clickElement('id', fieldName);
-        tu.sendKeysByXpath("//input[@type='text']", text);
+        tu.sendKeysByXpath("(//input[@type='text'])[5]", text);
         tu.clickElement('xpath', "//button[@type='submit']");
   }
   function updateTitleField(fieldName, text) {
@@ -87,7 +87,7 @@ describe("login:", function () {
          updateAccountField('first-name-edit', 'Joe');
          updateAccountField('middle-name-edit', 'C');
          updateAccountField('last-name-edit', 'Cool');
-         tu.clickElement('id', "logout-btn");
+         // tu.clickElement('id', "logout-btn");
 
        });
 

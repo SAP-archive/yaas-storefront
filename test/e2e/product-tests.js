@@ -20,7 +20,7 @@ describe("product page", function () {
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
-        tu.clickElement('xpath', tu.whiteCoffeeMug);
+        tu.clickElement('xpath', tu.blackCoffeeMug);
       });
 
       // should be # of 31, but overall product count doesn't work in phantomjs
@@ -88,7 +88,7 @@ describe("product page", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
-        tu.clickElement('linkText', 'EN');
+        tu.selectLanguage('English');
         browser.sleep(3000);       
         tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
         tu.assertProductByRepeaterRow(0, 'EARBUDS');
