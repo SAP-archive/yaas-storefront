@@ -35,8 +35,8 @@ var tu = require('./protractor-utils.js');
           function verifyOrderConfirmation(email, name, number, cityStateZip) {
             expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
             expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
-            expect(element(by.xpath('//span[2]')).getText()).toContain(number);
-            expect(element(by.xpath('//span[3]')).getText()).toContain(cityStateZip);
+            expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
+            expect(element(by.xpath('//address[2]/span[3]')).getText()).toContain(cityStateZip);
           }
 
 

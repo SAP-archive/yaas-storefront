@@ -28,6 +28,8 @@ in an optional step.
 ### Application Events
 
 'cart:updated' - fired when new cart information has been acquired from the service
+'language:updated' - fired when the store's language has changed
+'currency:updated' - fired when the store's currency has changed
 
 ## Testing
 

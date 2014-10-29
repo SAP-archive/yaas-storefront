@@ -13,12 +13,10 @@ angular.module('ds.shared')
             var acceptLanguages = languageCode;
             var storeDefaultCurrency;
             var activeCurrencyId = 'USD';
-
             var currencyMap = [];
             var availableCurrencies = [];
             var languageMap = [];
             var availableLanguages = [];
-
             function setCurrencyWithOptionalCookie(currencyId, setCookie) {
                 if(currencyId && currencyId in currencyMap ) {
                     if( currencyId!==activeCurrencyId){
@@ -150,11 +148,15 @@ angular.module('ds.shared')
                     return activeCurrencyId;
                 },
 
-                /** Returns the active currency instance.*/
-                getCurrency: function(){
-                    return currencyMap[activeCurrencyId];
+                /** Returns the currency instance for a given currency id.*/
+                getCurrencyById: function(currId){
+                    return currencyMap[currId];
                 },
 
+                /** Returns the active currency instance.*/
+                getCurrency: function(){
+                    return this.getCurrencyById(activeCurrencyId);
+                },
 
                 /** Sets an array of currency instances from which a shopper should be able to choose.*/
                 setAvailableCurrencies: function(currencies){

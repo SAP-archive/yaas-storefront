@@ -189,3 +189,24 @@
 	}
 }
 
+
+.edit-cart{
+	position: fixed;
+	max-height: 100%;
+	top: 0;
+	right: 0;
+	width: @offcanvas-right-width-m;
+	z-index: @zIndex-editcart;
+	overflow-x: auto;
+	
+	&#cart{
+		padding-top: 0px;
+	}
+
+	box-shadow: 0 0 5px #000;
+
+	@media screen and (min-width: @screen-sm-max) {
+			width: @offcanvas-right-width-d;
+	}
+}
+

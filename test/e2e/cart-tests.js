@@ -37,7 +37,7 @@ describe("cart:", function () {
        });
 
        it('should load one product into cart in Euros', function () {
-        tu.clickElement('linkText', 'EURO');
+        tu.selectCurrency('Euro');
         loadProductIntoCart('1', '€7.99');
         tu.clickElement('xpath', tu.removeFromCart);
         browser.sleep(1000);
@@ -47,7 +47,7 @@ describe("cart:", function () {
        it('should load one product into cart in USD and change to Euros', function () {
         loadProductIntoCart('1', '$10.67');
         tu.clickElement('xpath', tu.contineShopping);
-        tu.clickElement('linkText', 'EURO');
+        tu.selectCurrency('Euro');
         tu.clickElement('id', tu.cartButtonId);
         browser.sleep(1000);
         tu.clickElement('id', tu.cartButtonId);

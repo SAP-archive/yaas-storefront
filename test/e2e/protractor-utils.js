@@ -7,7 +7,7 @@
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[5]"
+        exports.backToTopButton = "(//button[@type='button'])[6]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[3]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
@@ -91,6 +91,16 @@
         exports.sendKeysById = function(pageElement, keys) {
           element(by.id(pageElement)).clear();
           element(by.id(pageElement)).sendKeys(keys);
+        }
+
+        exports.selectLanguage = function(language) {
+          clickElement('id', 'language-select');
+          clickElement('linkText', language);
+        }
+
+        exports.selectCurrency = function(currency) {
+          clickElement('id', 'currency-select');
+          clickElement('linkText', currency);
         }
            /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
