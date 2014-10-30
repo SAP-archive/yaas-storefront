@@ -48,9 +48,7 @@ describe("cart:", function () {
         loadProductIntoCart('1', '$10.67');
         tu.clickElement('xpath', tu.contineShopping);
         tu.selectCurrency('Euro');
-        tu.clickElement('id', tu.cartButtonId);
-        browser.sleep(1000);
-        tu.clickElement('id', tu.cartButtonId);
+        tu.clickElement('id', tu.cartButtonId);     
         tu.verifyCartTotal('€7.99');
        });
 
@@ -115,11 +113,10 @@ describe("cart:", function () {
            browser.sleep(250);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-           tu.clickElement('xpath', tu.blackCoffeeMug)
+           tu.clickElement('xpath', tu.blackCoffeeMug);
            tu.clickElement('xpath', tu.outOfStockButton);
+           browser.sleep(500);
            tu.clickElement('id',tu.cartButtonId);
-           tu.clickElement('id',tu.cartButtonId);
-           browser.sleep(1000);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
          });
 

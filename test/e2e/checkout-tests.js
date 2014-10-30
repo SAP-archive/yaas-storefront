@@ -166,8 +166,8 @@ describe("checkout:", function () {
             browser.sleep(500);           
            	tu.clickElement('id', "login-btn");
             browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'cool@cool.com');
-            tu.sendKeysById('passwordInput', 'coolio');
+            tu.sendKeysById('usernameInput', 'order@test.com');
+            tu.sendKeysById('passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
             tu.clickElement('id', tu.cartButtonId);
@@ -180,9 +180,9 @@ describe("checkout:", function () {
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
-            verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
+            verifyOrderConfirmation('ORDER@TEST.COM', 'MIKE', '123', 'BOULDER, CO 80301');
             tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 Fake Ave Place");
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
             tu.clickElement('id', "logout-btn");
 
            });
@@ -192,8 +192,8 @@ describe("checkout:", function () {
             tu.clickElement('xpath', tu.contineShopping);            
             tu.clickElement('id', "login-btn");
             browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'cool@cool.com');
-            tu.sendKeysById('passwordInput', 'coolio');
+            tu.sendKeysById('usernameInput', 'order@test.com');
+            tu.sendKeysById('passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');

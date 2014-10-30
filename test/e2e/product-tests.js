@@ -33,7 +33,6 @@ describe("product page", function () {
       });
 
       it("should get product detail page", function () {
-        // tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
