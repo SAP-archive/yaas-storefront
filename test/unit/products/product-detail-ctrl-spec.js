@@ -104,7 +104,7 @@ describe('ProductDetailCtrl', function () {
         beforeEach(function () {
             $scope.error = 'error';
             $scope.addToCartFromDetailPage();
-            $rootScope.$broadcast('cart:updated');
+            $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
         });
 
         it('should show cart', function () {

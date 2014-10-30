@@ -329,7 +329,7 @@ describe('CartSvc Test', function () {
                 mockBackend.expectGET(productUrl+'?q=id:('+prodId+')').respond(200, [{id: prodId, images: ['myurl'], name:'name'}]);
                 cartSvc.switchCurrency('EUR');
                 mockBackend.flush();
-                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { id : 'cartId456', items : [ { product : { id : '123', name : 'name' }, unitPrice : { currency : 'USD', value : 5 }, id : '0', images : [ 'myurl' ] } ] });
+                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', {cart: { id : 'cartId456', items : [ { product : { id : '123', name : 'name' }, unitPrice : { currency : 'USD', value : 5 }, id : '0', images : [ 'myurl' ] } ] }, source:'currency'});
             });
 
             it('should signal cart error on currency switch failure', function(){
@@ -340,7 +340,7 @@ describe('CartSvc Test', function () {
                 mockBackend.flush();
                 expect($rootScope.$emit).toHaveBeenCalled();
 
-                expect(eventSpy.mostRecentCall.args[1].error).toBeTruthy();
+                expect(eventSpy.mostRecentCall.args[1].cart.error).toBeTruthy();
             });
         });
 

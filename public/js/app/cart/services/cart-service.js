@@ -110,10 +110,10 @@ angular.module('ds.cart')
             var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-                    refreshCart(cartResult.cartId);
+                    refreshCart(cartResult.cartId, false, 'manual');
                     createItemDef.resolve();
                 }, function(){
-                    refreshCart(cart.id);
+                    refreshCart(cart.id, false, 'manual');
                     createItemDef.reject();
                 });
 
@@ -138,7 +138,7 @@ angular.module('ds.cart')
 
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
-        function refreshCart(cartId, validateCurrency){
+        function refreshCart(cartId, validateCurrency, updateSource){
             var defCart = $q.defer();
             CartREST.Cart.one('carts', cartId).get().then(function(response){
                 cart = response.plain();
@@ -163,7 +163,7 @@ angular.module('ds.cart')
                 defCart.resolve(cart);
             });
             defCart.promise.then(function(){
-                $rootScope.$emit('cart:updated', cart);
+                $rootScope.$emit('cart:updated', { cart: cart, source: updateSource});
             });
             return defCart.promise;
         }
@@ -172,14 +172,14 @@ angular.module('ds.cart')
             if(anonCart && anonCart.id){
                 // merge anon cart into user cart
                 CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function(){
-                    refreshCart(cart.id);
+                    refreshCart(cart.id, false, 'merge');
                 });
             } else { // just use user cart "as is"
                 if(forceRefresh){
                     refreshCart(cart.id);
                 } else {
                     getCartWithImages(cart).then(function(){
-                        $rootScope.$emit('cart:updated', cart);
+                        $rootScope.$emit('cart:updated', { cart: cart, source: 'merge'});
                     });
                 }
 
@@ -195,7 +195,7 @@ angular.module('ds.cart')
              */
             resetCart: function () {
                 cart = new Cart();
-                $rootScope.$emit('cart:updated', cart);
+                $rootScope.$emit('cart:updated', {cart: cart, source: 'reset'});
             },
 
             /** Returns the cart as stored in the local scope - no GET is issued.*/
@@ -245,7 +245,7 @@ angular.module('ds.cart')
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
-                        refreshCart(cart.id);
+                        refreshCart(cart.id, false, 'manual');
                         updateDef.resolve();
                     }, function(){
                         angular.forEach(cart.items, function(it){
@@ -265,7 +265,7 @@ angular.module('ds.cart')
              */
             removeProductFromCart: function (itemId) {
                 CartREST.Cart.one('carts', cart.id).one('items', itemId).customDELETE().then(function(){
-                    refreshCart(cart.id);
+                    refreshCart(cart.id, false, 'manual');
                 }, function(){
                     angular.forEach(cart.items, function(item) {
                         if(item.id === itemId) {
@@ -307,10 +307,10 @@ angular.module('ds.cart')
                 if (cart.id) {
                     CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: code})
                         .then(function () {
-                            refreshCart(cart.id);
+                            refreshCart(cart.id, false, 'currency');
                         }, function () {
                             cart.error = true;
-                            $rootScope.$emit('cart:updated', cart);
+                            $rootScope.$emit('cart:updated', {cart: cart, source: 'currency'});
                             console.error('Update of cart currency failed.');
                         });
                 }

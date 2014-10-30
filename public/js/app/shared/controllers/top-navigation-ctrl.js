@@ -14,7 +14,7 @@ angular.module('ds.shared')
 
             $scope.cart =  CartSvc.getLocalCart();
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
-                $scope.cart = eveObj;
+                $scope.cart = eveObj.cart;
             });
 
             $scope.$on('$destroy', unbind);
