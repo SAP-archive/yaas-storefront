@@ -14,6 +14,13 @@ var tu = require('./protractor-utils.js');
          tu.verifyCartTotal(cartTotal);
        }
 
+        function writeScreenShot(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'base64'));
+           stream.end();
+         }
+
 describe("cart:", function () {
 
 
@@ -49,6 +56,17 @@ describe("cart:", function () {
         tu.clickElement('xpath', tu.contineShopping);
         tu.selectCurrency('Euro');
         tu.clickElement('id', tu.cartButtonId);     
+        tu.verifyCartTotal('€7.99');
+       });
+
+       iit('should load one product into cart in USD and change to Euros while logged in', function () {
+        loadProductIntoCart('1', '$10.67');
+        tu.clickElement('xpath', tu.contineShopping);
+        tu.loginHelper('euros@test.com', 'password');
+        tu.clickElement('id', tu.cartButtonId);    
+        browser.takeScreenshot().then(function (png) {
+               writeScreenShot(png, '/Users/i840624/Documents/development/main-page.png');
+           }); 
         tu.verifyCartTotal('€7.99');
        });
 
