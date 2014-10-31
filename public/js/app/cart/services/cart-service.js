@@ -228,12 +228,18 @@ angular.module('ds.cart')
                         handleCartMerge(anonCart, false);
                     }
 
-                }, function () { // no existing cart - create a new one for this customer
-                    cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
-                    CartREST.Cart.all('carts').post(cart).then(function(newCartResponse){
-                        cart.id = newCartResponse.cartId;
-                        handleCartMerge(anonCart, false);
-                    });
+                }, function () { // no existing cart - create a new one for this customer, if cart needs to be merged
+                    if(anonCart && anonCart.id){
+                        cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
+                        CartREST.Cart.all('carts').post(cart).then(function(newCartResponse){
+                            cart.id = newCartResponse.cartId;
+                            handleCartMerge(anonCart, false);
+                        });
+                    } else {
+                        cart = {};
+                        $rootScope.$emit('cart:updated', {cart: cart});
+                    }
+
                 });
             },
 
