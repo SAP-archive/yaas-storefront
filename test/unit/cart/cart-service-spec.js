@@ -480,19 +480,6 @@ describe('CartSvc Test', function () {
 
         var custId = 'abc';
 
-        it('should create a new cart for customer', function(){
-            // no anonymous cart - initialize to blank cart
-            mockBackend.expectGET(cartUrl).respond(404, {});
-            cartSvc.getCart();
-            mockBackend.flush();
-
-            // no cart for user
-            mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(404, {});
-            mockBackend.expectPOST(cartUrl).respond(201, {});
-            cartSvc.refreshCartAfterLogin(custId);
-            mockBackend.flush();
-        });
-
         it('should merge the cart if there was an anonymous cart with items', function(){
             var custCartId = '567';
             // initialize to anonymous car with items
