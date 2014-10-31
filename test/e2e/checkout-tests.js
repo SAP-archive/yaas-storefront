@@ -161,15 +161,10 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
 
-           it('should populate with existing address for logged in user', function () {
+           iit('should populate with existing address for logged in user', function () {
             tu.clickElement('xpath', tu.contineShopping); 
             browser.sleep(500);           
-           	tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'order@test.com');
-            tu.sendKeysById('passwordInput', 'password');
-            tu.clickElement('id', 'sign-in-button');
-            browser.sleep(1000);
+            tu.loginHelper('order@test.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(1000);
             tu.clickElement('css', tu.checkoutButton);
@@ -206,32 +201,6 @@ describe("checkout:", function () {
             tu.clickElement('id', "logout-btn");
 
            });
-
-
-            //needs to be updated after   TP-1566 is fixed 
-           // it('should populate with existing address for logged in user', function () {
-           //  tu.clickElement('xpath', tu.contineShopping);            
-           //  tu.clickElement('id', "login-btn");
-           //  browser.sleep(1000);
-           //  tu.sendKeysById('usernameInput', 'cool@cool.com');
-           //  tu.sendKeysById('passwordInput', 'coolio');
-           //  tu.clickElement('id', 'sign-in-button');
-           //  browser.sleep(1000);
-           //  tu.clickElement('id', tu.cartButtonId);
-           //  browser.sleep(1000);
-           //  tu.clickElement('css', tu.checkoutButton);
-           //  browser.sleep(1000);
-           //  tu.sendKeysById('firstNameBill', 'Mike');
-           //  tu.sendKeysById('lastNameBill', 'night');
-           //  fillCreditCardForm('5555555555554444', '06', '2015', '000')
-           //  browser.sleep(500)
-           //  tu.clickElement('id', 'place-order-btn');
-           //  browser.sleep(20000);
-           //  // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-           //  verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
-           //  tu.clickElement('id', "logout-btn");
-
-           // });
 
 
    });

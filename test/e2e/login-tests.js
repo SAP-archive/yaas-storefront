@@ -25,13 +25,6 @@ var timestamp = Number(new Date());
          tu.sendKeysById('contactPhone', phone); 
   }
 
-       function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
-       }
-
 describe("login:", function () {
 
 
@@ -48,23 +41,12 @@ describe("login:", function () {
 
 
        it('should not allow user to login', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'bad@bad.com');
-         tu.sendKeysById('passwordInput', 'bad');
-         browser.sleep(500);
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('bad@bad.com', 'bad');
          expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
        });
 
        it('should allow existing user to login', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'cool@cool.com');
-         tu.sendKeysById('passwordInput', 'coolio');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('cool@cool.com', 'coolio');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
@@ -73,12 +55,7 @@ describe("login:", function () {
        });
 
        it('should allow user to update account info', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'cool@cool.com');
-         tu.sendKeysById('passwordInput', 'coolio');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('cool@cool.com', 'coolio');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          updateTitleField('title', 'Mr.');
@@ -158,12 +135,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password with incorrect password', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'password@test.com');
-         tu.sendKeysById('passwordInput', 'password');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -180,12 +152,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password if it less than 6 chars', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'password@test.com');
-         tu.sendKeysById('passwordInput', 'password');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -201,12 +168,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password if it does not match confirmation', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'password@test.com');
-         tu.sendKeysById('passwordInput', 'password');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -221,12 +183,7 @@ describe("login:", function () {
        });
 
        it('should allow user to update their password', function () {
-         tu.clickElement('id', "login-btn");
-         browser.sleep(1000);
-         tu.sendKeysById('usernameInput', 'password@test.com');
-         tu.sendKeysById('passwordInput', 'password');
-         tu.clickElement('id', 'sign-in-button');
-         browser.sleep(1000);
+         tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');

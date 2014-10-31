@@ -123,7 +123,7 @@ describe("cart:", function () {
          it('should not allow negative numbers', function () {
           tu.clickElement('id', tu.cartButtonId);
           browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.whiteCoffeeMug);
           browser.sleep(1000);
@@ -138,6 +138,14 @@ describe("cart:", function () {
           tu.verifyCartAmount('');
           tu.verifyCartTotal('$53.35');
          });
+
+         it('should retrieve previous cart', function () {
+          tu.loginHelper('cart@test.com', 'password');
+          tu.clickElement('id', tu.cartButtonId);
+          browser.sleep(250);
+          tu.verifyCartTotal('$7.99');
+         });
+
 
    });
 });
