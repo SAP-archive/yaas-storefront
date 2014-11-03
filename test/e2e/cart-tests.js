@@ -14,13 +14,6 @@ var tu = require('./protractor-utils.js');
          tu.verifyCartTotal(cartTotal);
        }
 
-        function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
-         }
-
 describe("cart:", function () {
 
 
@@ -59,16 +52,15 @@ describe("cart:", function () {
         tu.verifyCartTotal('€7.99');
        });
 
-       iit('should load one product into cart in USD and change to Euros while logged in', function () {
-        loadProductIntoCart('1', '$10.67');
-        tu.clickElement('xpath', tu.contineShopping);
-        tu.loginHelper('euros@test.com', 'password');
-        tu.clickElement('id', tu.cartButtonId);    
-        browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/i840624/Documents/development/main-page.png');
-           }); 
-        tu.verifyCartTotal('€7.99');
-       });
+       //blocked by TP-1766
+
+       // it('should load one product into cart in USD and change to Euros while logged in', function () {
+       //  loadProductIntoCart('1', '$10.67');
+       //  tu.clickElement('xpath', tu.contineShopping);
+       //  tu.loginHelper('euros@test.com', 'password');
+       //  tu.clickElement('id', tu.cartButtonId);    
+       //  tu.verifyCartTotal('€7.99');
+       // });
 
          it('should load multiple products into cart', function () {
            tu.clickElement('id', tu.cartButtonId);

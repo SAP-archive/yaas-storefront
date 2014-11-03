@@ -17,7 +17,7 @@ exports.config = {
     );
   },
 
-  baseUrl: 'http://localhost:9000',
+  baseUrl: 'http://demo-store.dev.cf.hybris.com',
 
   framework: 'jasmine',
 
