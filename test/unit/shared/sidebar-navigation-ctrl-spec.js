@@ -90,6 +90,7 @@ describe('SidebarNavigationCtrl', function () {
             }
         };
         mockedGlobalData.store = {};
+        spyOn(mockedGlobalData, 'getAvailableLanguages').andCallThrough();
         navCtrl = $controller('SidebarNavigationCtrl', {$scope: $scope, $state: mockedState, cart: cart, GlobalData: mockedGlobalData,
              AuthSvc: mockedAuthSvc,
             AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
@@ -98,6 +99,10 @@ describe('SidebarNavigationCtrl', function () {
     describe('onInitialization', function(){
         it('should retrieve categories', function(){
            expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
+        });
+
+        it("should get available languages from GlobalData", function() {
+            expect(mockedGlobalData.getAvailableLanguages).wasCalled();
         });
 
         it('should have language related select box variables set correctly', function() {
