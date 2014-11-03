@@ -189,7 +189,7 @@ describe("checkout:", function () {
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(3000);
             expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$13.94");          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$24.61");          
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
             element(by.repeater('order in orders').row(0).column('order.created')).click();
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
