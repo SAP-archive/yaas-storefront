@@ -5,10 +5,10 @@ angular.module('ds.shared')
 
 
     .controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
-        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc',
+        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc', '$translate', '$q',
 
         function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
-                  AuthSvc, AuthDialogManager, CategorySvc) {
+                  AuthSvc, AuthDialogManager, CategorySvc, $translate, $q) {
 
             $scope.currencies = GlobalData.getAvailableCurrencies();
             $scope.currency = { selected: GlobalData.getCurrency() };
@@ -18,7 +18,12 @@ angular.module('ds.shared')
             $scope.categories = [];
 
             $scope.language = { selected: { iso: GlobalData.getLanguageCode(), value: GlobalData.getLanguageCode() }};
-            $scope.languages = GlobalData.getAvailableLanguages().map(function(lang) { return { iso:  lang.id, value: lang.id }; });
+            $scope.languages = [];
+            var availableLanguages = GlobalData.getAvailableLanguages();
+            var langTransations = availableLanguages.map(function(lang) { return $translate(lang.id); });
+            $q.all(langTransations).then(function(response) {
+                $scope.languages = availableLanguages.map(function(lang, index) { return { iso:  lang.id, value: response[index] }; });
+            });
 
             function loadCategories(){
                 CategorySvc.getCategories().then(function(categories){
