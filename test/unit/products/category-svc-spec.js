@@ -12,9 +12,9 @@
 describe('CategorySvc', function () {
 
 
-    var categoryUrl = 'https://yaas-test.apigee.net/test/category/v1/categories';
+    // var categoryUrl = 'https://yaas-test.apigee.net/test/category/v1/categories';
 
-    var $scope, $rootScope, $httpBackend, categorySvc;
+    var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
     var acceptLang = "de";
     var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
 
@@ -55,11 +55,18 @@ describe('CategorySvc', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_) {
+        module('ds.cart', function($provide){
+            $provide.value('storeConfig', {});
+        });
+
+        inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             categorySvc = _CategorySvc_;
+            siteConfig = SiteConfigSvc;
+            categoryUrl = siteConfig.apis.categories.baseUrl + '/categories';
+            console.log(categoryUrl);
         });
     });
 
