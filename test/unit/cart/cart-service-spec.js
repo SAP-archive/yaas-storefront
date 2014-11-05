@@ -90,8 +90,8 @@ describe('CartSvc Test', function () {
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
         siteConfig = SiteConfigSvc;
-        cartUrl = siteConfig.apis.cart.baseUrl + '/carts';
-        productUrl = siteConfig.apis.products.baseUrl + '/products'
+        cartUrl = siteConfig.apis.cart.baseUrl + 'carts';
+        productUrl = siteConfig.apis.products.baseUrl + 'products'
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
         deferredAccount = _$q_.defer();
         mockedAccountSvc.getCurrentAccount =  jasmine.createSpy('getCurrentAccount').andReturn(deferredAccount.promise);

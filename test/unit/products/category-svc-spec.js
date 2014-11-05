@@ -62,7 +62,7 @@ describe('CategorySvc', function () {
             $httpBackend = _$httpBackend_;
             categorySvc = _CategorySvc_;
             siteConfig = SiteConfigSvc;
-            categoryUrl = siteConfig.apis.categories.baseUrl + '/categories';
+            categoryUrl = siteConfig.apis.categories.baseUrl + 'categories';
         });
     });
 
