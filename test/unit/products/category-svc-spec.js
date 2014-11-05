@@ -11,9 +11,6 @@
  */
 describe('CategorySvc', function () {
 
-
-    // var categoryUrl = 'https://yaas-test.apigee.net/test/category/v1/categories';
-
     var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
     var acceptLang = "de";
     var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
@@ -66,7 +63,6 @@ describe('CategorySvc', function () {
             categorySvc = _CategorySvc_;
             siteConfig = SiteConfigSvc;
             categoryUrl = siteConfig.apis.categories.baseUrl + '/categories';
-            console.log(categoryUrl);
         });
     });
 

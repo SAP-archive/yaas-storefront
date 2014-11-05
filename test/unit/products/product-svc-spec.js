@@ -13,7 +13,7 @@ describe('ProductSvc Test', function () {
 
     var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
 
-    var $scope, $rootScope, $httpBackend, productSvc;
+    var $scope, $rootScope, $httpBackend, productSvc;//, productsRestUrl;
     var acceptLang = "de";
     var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
 
@@ -36,11 +36,13 @@ describe('ProductSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
+        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             productSvc = _ProductSvc_;
+            siteConfig = SiteConfigSvc;
+            // productsRestUrl = siteConfig.apis.categories.baseUrl + '/categories';
         });
     });
 
