@@ -12,7 +12,7 @@
 
 describe('CartSvc Test', function () {
 
-    var mockBackend, $scope, $rootScope, cartSvc;
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig;
     var cartId = 'cartId456';
     var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
     var productUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
@@ -85,12 +85,13 @@ describe('CartSvc Test', function () {
         });
     });
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _$q_, CartSvc) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _$q_, CartSvc, SiteConfigSvc ) {
 
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
+        siteConfig = SiteConfigSvc;
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
         deferredAccount = _$q_.defer();
         mockedAccountSvc.getCurrentAccount =  jasmine.createSpy('getCurrentAccount').andReturn(deferredAccount.promise);
@@ -104,7 +105,6 @@ describe('CartSvc Test', function () {
     }));
 
     describe('getLocalCart', function () {
-
         it('should return cart', function () {
             var cart = cartSvc.getLocalCart();
             expect(cart).toBeTruthy();
@@ -113,7 +113,10 @@ describe('CartSvc Test', function () {
 
     describe('addProductToCart - new cart', function () {
         it('should create new cart, create cart item and GET new cart', function () {
-            mockBackend.expectPOST(cartUrl).respond({
+        console.log("HELLLLOOOOWWWUUURRRLLDD",siteConfig.apis.cart.baseUrl);
+        console.log("HELLLLOOOOWWWUUURRRLLDD",cartUrl);
+            // mockBackend.expectPOST(cartUrl).respond({
+            mockBackend.expectPOST('https://yaas-test.apigee.net/test/cart/v3').respond({
                 "cartId": cartId
             });
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
