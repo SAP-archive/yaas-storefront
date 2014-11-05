@@ -13,12 +13,12 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('CartREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
 
         return {
             /** Endpoint for Main Cart.*/
             Cart: Restangular.withConfig(function (RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.cart.baseUrl);
             })
         };
 

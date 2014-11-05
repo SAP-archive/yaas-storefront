@@ -27,22 +27,22 @@ angular.module('ds.shared')
                 }
             },
 
-            categories: {
-                baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
-            },
+            // categories: {
+            //     baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
+            // },
 
-            configuration: {
-               baseUrl: 'http://configuration-v3.test.cf.hybris.com'
-            } ,
+            // configuration: {
+            //    baseUrl: 'http://configuration-v3.test.cf.hybris.com'
+            // } ,
 
-            products: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product/v2',
-                pageSize: 10
-            },
+            // products: {
+            //     baseUrl:  'https://yaas-test.apigee.net/test/product/v3/8bwhetym79cq',//'yaas-test.apigee.net/test/product/v2/8bwhetym79cq', //https://yaas-test.apigee.net/test/product/v2
+            //     pageSize: 10
+            // },
 
-            productDetails: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product-details/v2'
-            },
+            // productDetails: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/product-details/v2'
+            // },
 
             checkout: {
                 baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
@@ -52,13 +52,13 @@ angular.module('ds.shared')
                 baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
             },
 
-            cart: {
-                baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'http://cart-v3.test.cf.hybris.com'
-            },
+            // cart: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'https://yaas-test.apigee.net/test/cart/v3/8bwhetym79cq' //'http://cart-v3.test.cf.hybris.com'
+            // },
 
-            prices: {
-                baseUrl: 'https://yaas-test.apigee.net/test/price/v2'
-            },
+            // prices: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/price/v2'
+            // },
 
             shippingCosts: {
                 baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v2'

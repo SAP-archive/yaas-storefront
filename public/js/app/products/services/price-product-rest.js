@@ -16,7 +16,7 @@
  *  Encapsulates configuration of the price, products, and productDetails APIs.
  */
 angular.module('ds.products')
-    .factory('PriceProductREST', ['settings', 'Restangular', 'GlobalData', function(settings, Restangular, GlobalData){
+    .factory('PriceProductREST', ['SiteConfigSvc','settings', 'Restangular', 'GlobalData', function(siteConfig, settings, Restangular, GlobalData){
         function applyLanguageHeader(RestangularConfigurer){
             RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
 
@@ -32,11 +32,12 @@ angular.module('ds.products')
             return {
                 /** Endpoint for Prices API.*/
                 Prices: Restangular.withConfig(function (RestangularConfigurer) {
-                    RestangularConfigurer.setBaseUrl(settings.apis.prices.baseUrl);
+                    RestangularConfigurer.setBaseUrl(siteConfig.apis.prices.baseUrl);
+                    // RestangularConfigurer.setBaseUrl(settings.apis.prices.baseUrl);
                 }),
                 /** Endpoint for Products API. */
                 Products: Restangular.withConfig(function(RestangularConfigurer) {
-                        RestangularConfigurer.setBaseUrl(settings.apis.products.baseUrl);
+                        RestangularConfigurer.setBaseUrl(siteConfig.apis.products.baseUrl);
                         RestangularConfigurer.setResponseInterceptor(function (data, operation, what, url, response) {
                             var headers = response.headers();
                             var result = response.data;
@@ -48,12 +49,12 @@ angular.module('ds.products')
                     }),
                 /** Endpoint for ProductDetails API. */
                 ProductDetails: Restangular.withConfig(function(RestangularConfigurer) {
-                    RestangularConfigurer.setBaseUrl(settings.apis.productDetails.baseUrl);
+                    RestangularConfigurer.setBaseUrl(siteConfig.apis.productDetails.baseUrl);
                     applyLanguageHeader(RestangularConfigurer);
                 }),
                 /** Endpoint for Category API.*/
                 Categories: Restangular.withConfig(function(RestangularConfigurer) {
-                    RestangularConfigurer.setBaseUrl(settings.apis.categories.baseUrl);
+                    RestangularConfigurer.setBaseUrl(siteConfig.apis.categories.baseUrl);
                     applyLanguageHeader(RestangularConfigurer);
                 })
             };
