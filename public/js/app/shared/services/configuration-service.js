@@ -15,8 +15,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', '$window', '$rootScope',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, $window, $rootScope) {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc) {
             var initialized = false;
 
             /**
@@ -68,50 +68,6 @@ angular.module('ds.shared')
                         def.resolve({});
                     } else {
                         loadConfiguration(GlobalData.store.tenant).finally(function () {
-                            // load FaceBook SDK
-
-                            $window.fbAsyncInit = function() {
-                                FB.init({
-                                    appId      : settings.facebookAppId,
-                                    xfbml      : true,
-                                    version    : 'v2.1'
-                                });
-                                /*
-                                FB.getLoginStatus(function(response) {
-                                    console.log('login status is '+response);
-                                }, true);
-                                FB.Event.subscribe('auth.authResponseChange', function(response) {
-                                    window.alert('authResponseChange '+ response.status);
-                                });*/
-                                FB.Event.subscribe('auth.statusChange', function(response) {
-                                    console.log('FB status is '+response.status);
-                                    if(response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
-                                        AuthSvc.socialLogin('facebook', response.authResponse.accessToken);
-                                    } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
-                                        if(AuthSvc.isAuthenticated()){    //  'unknown'  The person is not logged into Facebook, so you don't know if they've logged into your app.
-                                           AuthSvc.signOut();
-                                        }
-                                    }
-                                });
-                                $rootScope.$on('user:signedout', function (eve, eveObj) {
-                                    if(eveObj.old){
-                                        console.log('log out of FB');
-                                        FB.logout();
-                                    }
-
-                                });
-                            };
-                            (function(d, s, id) {
-                                var js, fjs = d.getElementsByTagName(s)[0];
-                                if (d.getElementById(id)){
-                                    return;
-                                }
-                                js = d.createElement(s); js.id = id;
-                                js.src = '//connect.facebook.net/en_US/sdk.js';
-                                fjs.parentNode.insertBefore(js, fjs);
-                            }(document, 'script', 'facebook-jssdk'));
-
-                            //
                             var languageSet = false;
                             var currencySet = false;
                             if (AuthSvc.isAuthenticated()) {

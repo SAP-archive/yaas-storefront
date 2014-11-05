@@ -16,6 +16,9 @@ describe('AuthDialogManager', function () {
     var mockedSettings = {};
     var mockedModal = {};
     var mockedDialog = {};
+    var mockedAuthSvc = {
+
+    };
 
     beforeEach(function(){
         module('ds.auth');
@@ -23,6 +26,7 @@ describe('AuthDialogManager', function () {
         module(function($provide){
             $provide.value('$modal', mockedModal);
             $provide.value('settings', mockedSettings);
+            $provide.value('AuthSvc', mockedAuthSvc);
         });
 
         inject(function(_$q_, _$location_, _AuthDialogManager_) {

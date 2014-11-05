@@ -14,21 +14,69 @@
 
 /** Authorization manager.  */
 angular.module('ds.auth')
-    .factory('AuthDialogManager', ['$modal', '$location', 'settings', '$q',
-        function($modal, $location, settings, $q){
+    .factory('AuthDialogManager', ['$modal', '$location', 'settings', '$q', '$window', 'AuthSvc',
+        function($modal, $location, settings, $q, $window, AuthSvc){
 
             var authDialog;
 
-            function openDialog(options) {
-                var deferResult = $q.defer();
-                // make sure only 1 instance exists in opened state
-                if (authDialog) {
+            function closeDialog(){
+                if (authDialog ) {
                     try {
                         authDialog.close();
-                    } catch(err){
+                    } catch (err){
 
                     }
                 }
+            }
+
+            function initFB(){
+                try {
+                    $window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: settings.facebookAppId,
+                            xfbml: true,
+                            version: 'v2.1'
+                        });
+
+                        FB.Event.subscribe('auth.statusChange', function (response) {
+                            console.log('FB status is ' + response.status);
+                            if (response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
+                                closeDialog();
+                                AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
+                                }, function (error) {
+                                    window.alert(error);
+                                });
+
+                            } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
+                                if (AuthSvc.isAuthenticated()) {    //  'unknown'  The person is not logged into Facebook, so you don't know if they've logged into your app.
+                                    AuthSvc.signOut();
+                                }
+                            }
+                        });
+
+                    };
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        var fbElement = d.getElementById(id);
+                        if (fbElement) {
+                            FB.XFBML.parse(document.getElementById('fb-root'));
+                            return;
+                        }
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = '//connect.facebook.net/en_US/sdk.js';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                } catch (e){
+                    console.error("Unable to initialize Facebook API");
+                }
+            }
+
+            function openDialog(options) {
+                initFB();
+                var deferResult = $q.defer();
+                // make sure only 1 instance exists in opened state
+                closeDialog();
                 authDialog = $modal.open(options);
 
                 authDialog.result.then(
@@ -75,13 +123,7 @@ angular.module('ds.auth')
                 },
 
                 close: function() {
-                    if (authDialog ) {
-                        try {
-                            authDialog.close();
-                        } catch (err){
-
-                        }
-                    }
+                    closeDialog();
                 },
 
 
