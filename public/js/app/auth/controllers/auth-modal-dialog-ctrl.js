@@ -20,29 +20,27 @@ angular.module('ds.auth')
         function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc,
                   settings, AuthDialogManager, GlobalData, loginOpts, $window) {
 
+            var fbToken;
+
             try {
                 $window.fbAsyncInit = function () {
                     FB.init({
                         appId: settings.facebookAppId,
                         xfbml: false,
-                        version: 'v2.1'
+                        version: 'v2.2'
                     });
 
                     FB.Event.subscribe('auth.statusChange', function (response) {
-
                         if (response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
                             $modalInstance.close();
                             AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
                             }, function (error) {
                                 window.alert(error);
                             });
-
-                        } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
-                            if (AuthSvc.isAuthenticated()) {    //  'unknown'  The person is not logged into Facebook, so you don't know if they've logged into your app.
-                                AuthSvc.signOut();
-                            }
                         }
                     });
+
+
                     FB.XFBML.parse();
                 };
                 (function (d, s, id) {
@@ -154,12 +152,25 @@ angular.module('ds.auth')
             };
 
             $scope.fbParse = function(){
-                if(FB){
+                if(typeof FB !== 'undefined'){
+                    FB.getLoginStatus(function(response) {
+                        if (response.status === 'connected') {
+                            $scope.fbLoggedIn = true;
+                            fbToken = response.authResponse.accessToken;
+                        } else {
+                            $scope.fbLoggedIn = false;
+                        }
+                    });
                     FB.XFBML.parse();
                 }
             };
 
-
-
+            $scope.fbLogin = function(){
+                $modalInstance.close();
+                AuthSvc.socialLogin('facebook', fbToken).then(function () {
+                }, function (error) {
+                    window.alert(error);
+                });
+            };
 
         }]);

@@ -1,11 +1,14 @@
-<section class="row">
+<section class="row" id="fb-root">
 <!--
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
 -->
-    <section ng-init="fbParse()">
-        <div class="">
-        <fb:login-button id="fb-login-button" scope="public_profile,email" >
+    <section ng-init="fbParse()"><!-- ng-if="!fbLoggedIn" -->
+        <div >
+        <fb:login-button id="fb-login-button" scope="public_profile,email" size="large">
         </fb:login-button>
+        </div>
+        <div ng-if="fbLoggedIn" ng-click="fbLogin()">
+          Log In Again
         </div>
         <!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
