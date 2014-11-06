@@ -67,14 +67,16 @@
 
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
     <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
-        <div class="item" ng-repeat="product in products">
+        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
                     <img ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
-                <div class="name">{{ product.name }}</div>
-                <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
+                <div class="productInfoContainer">
+                    <div class="name">{{ product.name }}</div>
+                    <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
+                </div>
             </a>
         </div>
     </div>
