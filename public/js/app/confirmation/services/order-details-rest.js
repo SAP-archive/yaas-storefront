@@ -13,11 +13,11 @@
 'use strict';
 
 angular.module('ds.confirmation')
-    .factory('OrderREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('OrderREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
 
         return {
             Orders: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.orders.baseUrl);
             })
         };
 

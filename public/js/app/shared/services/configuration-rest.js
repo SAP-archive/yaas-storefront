@@ -19,7 +19,6 @@ angular.module('ds.shared')
         return {
             /** Main configuration endpoint.*/
             Config: Restangular.withConfig(function(RestangularConfigurer) {
-                // RestangularConfigurer.setBaseUrl(settings.apis.configuration.baseUrl);
                 RestangularConfigurer.setBaseUrl(siteConfig.apis.configuration.baseUrl);
             })
         };

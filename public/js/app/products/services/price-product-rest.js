@@ -33,7 +33,6 @@ angular.module('ds.products')
                 /** Endpoint for Prices API.*/
                 Prices: Restangular.withConfig(function (RestangularConfigurer) {
                     RestangularConfigurer.setBaseUrl(siteConfig.apis.prices.baseUrl);
-                    // RestangularConfigurer.setBaseUrl(settings.apis.prices.baseUrl);
                 }),
                 /** Endpoint for Products API. */
                 Products: Restangular.withConfig(function(RestangularConfigurer) {

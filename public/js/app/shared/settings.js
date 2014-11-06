@@ -20,12 +20,12 @@ angular.module('ds.shared')
 
         // defines thea API endpoints and routes
         apis: {
-            account: {
-                baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
-                addresses: {
-                    initialPageSize: 6
-                }
-            },
+            // account: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
+            //     addresses: {
+            //         initialPageSize: 6
+            //     }
+            // },
 
             // categories: {
             //     baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
@@ -44,13 +44,13 @@ angular.module('ds.shared')
             //     baseUrl: 'https://yaas-test.apigee.net/test/product-details/v2'
             // },
 
-            checkout: {
-                baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
-            },
+            // checkout: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
+            // },
 
-            orders: {
-                baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
-            },
+            // orders: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
+            // },
 
             // cart: {
             //     baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'https://yaas-test.apigee.net/test/cart/v3/8bwhetym79cq' //'http://cart-v3.test.cf.hybris.com'
@@ -60,13 +60,13 @@ angular.module('ds.shared')
             //     baseUrl: 'https://yaas-test.apigee.net/test/price/v2'
             // },
 
-            shippingCosts: {
-                baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v2'
-            },
+            // shippingCosts: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v2'
+            // },
 
-            customers: {
-                baseUrl: 'https://yaas-test.apigee.net/test/customer/v4'
-            },
+            // customers: {
+            //     baseUrl: 'https://yaas-test.apigee.net/test/customer/v4'
+            // },
 
             // header keys
             headers: {

@@ -14,7 +14,7 @@
 
 /** REST configuration for services related to checkout. */
 angular.module('ds.orders')
-    .factory('OrdersREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('OrdersREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
 
         return {
             /** Configures main orders API endpoint.*/
@@ -25,7 +25,7 @@ angular.module('ds.orders')
                     result.headers = headers;
                     return result;
                 });
-                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.orders.baseUrl);
             })
         };
 

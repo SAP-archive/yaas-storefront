@@ -22,14 +22,14 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData',
-        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
+        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData, siteConfig) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     // skip html requests as well as anonymous login URL
-                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl) < 0) {
+                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(siteConfig.apis.account.baseUrl) < 0) {
 
                         var token = TokenSvc.getToken().getAccessToken();
                         if (token) {
@@ -191,8 +191,8 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
 
             TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
@@ -318,10 +318,10 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc, settings) {
+                        addresses: function(AccountSvc) {
                             var query = {
                                 pageNumber: 1,
-                                pageSize: settings.apis.account.addresses.initialPageSize
+                                pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
                             return AccountSvc.getAddresses(query);
                         },
