@@ -9,7 +9,7 @@ describe("product page", function () {
       browser.manage().deleteAllCookies();    	
       browser.get(tu.tenant + '/#!/products');
       browser.driver.manage().window().maximize();
-      browser.sleep(9000);
+      browser.sleep(8000);
     });
 
       
@@ -20,7 +20,7 @@ describe("product page", function () {
         tu.scrollToBottomOfProducts(10000);
         tu.getTextByRepeaterRow(30) //verify last product has loaded
         tu.clickElement('xpath', tu.backToTopButton);        
-        tu.clickElement('xpath', tu.whiteCoffeeMug);
+        tu.clickElement('xpath', tu.blackCoffeeMug);
       });
 
       // should be # of 31, but overall product count doesn't work in phantomjs
@@ -28,24 +28,29 @@ describe("product page", function () {
         tu.getTextByRepeaterRow(0)
         expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-8 of 37'); 
         tu.scrollToBottomOfProducts(10000);
-        tu.getTextByRepeaterRow(30) //verify last product has loaded
+        tu.getTextByRepeaterRow(30); //verify last product has loaded
         expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toEqual('1-37 of 37'); //should be # of 31, but won't work in phantomjs
       });
 
       it("should get product detail page", function () {
-        // tu.scrollToBottomOfProducts(3500);
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Description:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
-        tu.clickElement('linkText', 'DE');
+        expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('$10.67');
+        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Mugs');
+        tu.selectLanguage('German');
+        tu.selectCurrency('Euro');
         browser.sleep(3000);
         expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+        expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
+        
+        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Tassen');
 
     });
 
-      it("should get order of products correctly in english", function () {
+      it("should get order of products correctly in english and USD", function () {
         //default load
-        tu.clickElement('linkText', 'EN');
+        tu.selectLanguage('English');
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
         // tu.sortAndVerifyPagination('price', 'FRENCH PRESS');
@@ -59,21 +64,22 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
     });
 
-      it("should get order of products correctly in german", function () {
+      it("should get order of products correctly in german and Euros", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
-        tu.clickElement('linkText', 'DE');
+        tu.selectLanguage('German');
+        tu.selectCurrency('Euro');
         browser.sleep(3000);       
         // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
         // browser.sleep(750);
         // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
         // browser.sleep(750);
-        tu.sortAndVerifyPagination('name', 'BIERKRUG', '$6.99');
+        tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '$24.99');
+        tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '€19.99');
         browser.sleep(750);
-        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '$7.99');
+        tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '€6.39');
     });
 
 
@@ -81,7 +87,7 @@ describe("product page", function () {
         //default load
         tu.getTextByRepeaterRow(0);
         //price is not currently supported
-        tu.clickElement('linkText', 'EN');
+        tu.selectLanguage('English');
         browser.sleep(3000);       
         tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
         tu.assertProductByRepeaterRow(0, 'EARBUDS');

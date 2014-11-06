@@ -12,17 +12,28 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedCategorySvc, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
-    },
-        mockedPriceSvc={
-            query: jasmine.createSpy('query').andReturn({then: function(){}})
-        };
+    };
 
     var mockProduct = {
         name: 'product1',
-        price: '5000',
-        published: true
+        defaultPrice: {
+            currency: 'USD',
+            value: 5000
+        },
+        published: true,
+        categories: [
+            {
+                id: 12345,
+                name: 'fakeCat',
+                slug: 'fake-cat'
+            }
+        ]
+    };
+
+    mockedCategorySvc = {
+        getSlug: jasmine.createSpy().andReturn('fake-cat')
     };
 
     var dummyImg = 'dummy';
@@ -48,18 +59,16 @@ describe('ProductDetailCtrl', function () {
 
     beforeEach(function () {
         // creating the mocked service
+        cartDef = $q.defer();
         mockedCartSvc = {
-            addProductToCart: jasmine.createSpy()
+            addProductToCart: jasmine.createSpy().andCallFake(function(){
+                return cartDef.promise;
+            })
         };
 
         $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData,
-            'PriceSvc': mockedPriceSvc});
+            'CartSvc': mockedCartSvc, 'CategorySvc': mockedCategorySvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
 
-    });
-
-    it('should retrieve product price on init', function(){
-       expect(mockedPriceSvc.query).toHaveBeenCalled();
     });
 
     describe('buy published product', function () {
@@ -74,19 +83,30 @@ describe('ProductDetailCtrl', function () {
             expect($scope.buyButtonEnabled).toBeFalsy();
         });
 
+        it('should set error msg on error', function(){
+            $scope.addToCartFromDetailPage();
+            cartDef.reject();
+            $scope.$apply();
+            expect($scope.error).toBeTruthy();
+        });
+
     });
 
     describe('initialization', function () {
         it('product without image should get default image', function () {
             expect($scope.product.images[0].url).toEqualData(dummyImg);
+            expect($scope.catSlug).toEqualData('fake-cat');
         });
     });
 
     describe('onCartUpdated', function () {
+
         beforeEach(function () {
+            $scope.error = 'error';
             $scope.addToCartFromDetailPage();
-            $rootScope.$broadcast('cart:updated');
+            $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
         });
+
         it('should show cart', function () {
             expect($rootScope.showCart).toBeTruthy();
         });
@@ -94,6 +114,10 @@ describe('ProductDetailCtrl', function () {
         it('should enable buy button', function () {
             expect($scope.buyButtonEnabled).toBeTruthy();
         });
+
+        it('should remove any error', function(){
+            expect($scope.error).toBeFalsy();
+        })
     });
 
 

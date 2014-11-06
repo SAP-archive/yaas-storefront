@@ -49,34 +49,19 @@
 			.list-unstyled;
 			position: static;
 
-			&:before{
-				content:"";
-				position: absolute;
-				top: 0;
-				left: 50%;
-				margin: 0 0 0 -16px;
-				width: 32px;
+			&:before,
+			&:after,{
+				background: none repeat scroll 0 0 #c4c4c4;
+				content: "";
+				display: block;
 				height: 1px;
-				background: #c4c4c4;
-
+				margin: 0 0 0 40%;
+				width: 20%;
 			}
 
 
 			.hyicon{
 				display: none
-			}
-
-
-			&:after{
-				content:"";
-				position: absolute;
-				bottom: 0;
-				left: 50%;
-				margin: 0 0 0 -16px;
-				width: 32px;
-				height: 1px;
-				background: #c4c4c4;
-
 			}
 
 
@@ -395,7 +380,9 @@
 		}
 	}
 
-
+	.store-settings{
+		padding: 10px;
+	}
 
 
 
@@ -417,7 +404,7 @@
 	width: 100%;
 	top: 0;
 	position: fixed;
-	z-index: 1030;
+	z-index: @zIndex-topnavigation;
 
 	.navbar-btn{
 		margin-bottom: 0px;
@@ -507,7 +494,7 @@
 
 	.right {
 		.navbar-btn.cart{
-			background: @defaultblue;
+//			background: @defaultblue;
 			color: #fff;
 			right: @offcanvas-right-width-d;
 		}

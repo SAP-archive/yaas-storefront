@@ -13,30 +13,25 @@ angular.module('ds.i18n')
         ITEM: 'Item',
         ITEM_PRICE: 'Item Price',
         TOTAL_PRICE: 'Total Price',
+        CART_UNAVAILABLE: 'The cart is currently unavailable. Please try again.',
+        CART_EMPTY: 'Your cart is empty',
+        CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
 
         /*
             checkout
          */
         ADDRESS: 'Address',
-        ADDRESS_REQUIRED: 'Address Required',
         ADDRESS_LINE_1: 'Address Line 1',
         ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
-        CC_REQUIRED: 'Credit Card Required',
         CITY: 'City',
-        CITY_REQUIRED: 'City Required',
         CONTINUE: 'Continue',
         COUNTRY: 'Country',
         CREDIT_CARD_NUMBER: 'Credit Card Number',
         CVC_NUMBER: 'CVC Number',
-        CVC_REQUIRED: 'CVC Required',
         DELIVERY_METHOD: 'Delivery Method',
         EMAIL: 'Email',
-        EMAIL_REQUIRED: 'Email Required',
-        EXP_MONTH_REQUIRED: 'Expiration Month Required',
-        EXP_YEAR_REQUIRED: 'Expiration Year Required',
         FIRST_NAME: 'First Name',
-        FIRST_NAME_REQUIRED: 'First Name Required',
         FREE_STANDARD_SHIPPING: 'Free Standard Shipping',
         FLAT_RATE_SHPPING: 'Flat Rate',
         INVALID_EXPIRATION_DATE: 'Invalid Expiration Date',
@@ -44,6 +39,7 @@ angular.module('ds.i18n')
         LAST_NAME: 'Last Name',
         LAST_NAME_REQUIRED: 'Last Name Required',
         METHOD: 'Method',
+        MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
         OPTIONAL: 'Optional',
@@ -51,11 +47,13 @@ angular.module('ds.i18n')
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
+        PHONE_REQUIRED: 'Phone Required',
         PLACE_ORDER: 'Place Order',
         PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
         PLEASE_ENTER_VALID_CODE: 'Please enter a valid code',
         PLEASE_ENTER_VALID_EMAIL: 'Please enter a valid email in the format name@example.com',
+        REQUIRED: 'Required',
         SAME_AS_BILLING_ADDRESS: 'Same As Billing Address',
         SECURE_CHECKOUT: 'Secure Checkout',
         SHIPPING: 'Shipping',
@@ -63,7 +61,6 @@ angular.module('ds.i18n')
         SIMPLE_3_STEP_CHECKOUT: 'Simple 3 Step Checkout',
         SIMPLE_4_STEP_CHECKOUT: 'Simple 4 Step Checkout',
         STATE: 'State',
-        STATE_REQUIRED: 'State Required',
         STEP_1_MY_DETAILS: 'Step 1. My Details',
         STEP_2_SHIPPING_INFORMATION: 'Step 2. Shipping Information',
         STEP_3_PAYMENT: 'Step 3. Payment',
@@ -73,7 +70,7 @@ angular.module('ds.i18n')
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
-        ZIP_REQUIRED: 'Zip Code Required',
+
 
         /*
             confirmation
@@ -87,8 +84,8 @@ angular.module('ds.i18n')
         RETURN_TO_SHOPPING: 'Return to shopping',
         SUCCESS: 'Success!',
         THANK_YOU: 'Thank you',
-        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The shipment is scheduled to arrive at the following location',
-        YOUR_ORDER_IS: 'Your order is',
+        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
+        YOUR_ORDER_IS: 'Your order # is ',
         SKU: 'SKU',
 
         /*
@@ -103,6 +100,7 @@ angular.module('ds.i18n')
         DESCRIPTION: 'Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
+        ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
 
         /*
             product list page
@@ -129,16 +127,27 @@ angular.module('ds.i18n')
         /*
             account page
          */
+        ACCOUNT_DETAILS: 'Account details',
+        ADD: 'Add',
         ADDRESSBOOK: 'Addressbook',
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
+        CLOSE: 'Close',
+        CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
+        CURRENCY: 'Currency',
+        DATE: 'Date',
+        LOCALE: 'Locale',
         NAME_REQUIRED: 'Name Required',
         STREET: 'Street',
         STREET_NUMBER: 'Street Number',
-        WELLCOME: 'Wellcome',
+        WELCOME: 'Welcome',
+        ITEMS_IN_ORDER: 'Items In Order',
+        NOT_SET: 'Not Set',
         ORDER_HISTORY: 'Order History',
+        ORDER_NUMBER: 'Order Number',
+        ORDER_STATUS: 'Order Status',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
@@ -147,6 +156,7 @@ angular.module('ds.i18n')
         PASSWORDS_NO_MATCH: 'Passwords do not match',
         WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
         PASSWORD_TOO_SHORT: 'Password too short',
+        SHOW_ALL: 'Show all',
 
         /*
            login, password, signup
@@ -170,7 +180,9 @@ angular.module('ds.i18n')
         INVALID_TOKEN: 'This reset-password link is no longer valid.  Please request a new one.',
         PW_CHANGE_FAILED: 'Update of password failed.',
         RESET_PW_REPEAT: 'Request another reset-password link.',
-        FIELD_REQUIRED: 'Input required',
+        FIELD_REQUIRED: 'Field is required!',
+        FIELD_TOO_SHORT: 'Field too short!',
+        FIELDS_NOT_MATCHING: 'Fields not matching!',
 
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
@@ -178,6 +190,24 @@ angular.module('ds.i18n')
         ACCOUNT_ALREADY_EXISTS: 'Email address already in use for existing account.',
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
-        ENTER_EMAIL: 'Enter Email'
+        ENTER_EMAIL: 'Enter Email',
 
+
+        /*
+            titles
+         */
+        DR: 'Dr.',
+        MR: 'Mr.',
+        MRS: 'Mrs.',
+        MS: 'Ms.',
+        TITLE: 'Title',
+
+        /*
+         order statuses
+         */
+        COMPLETED: 'Completed',
+        CONFIRMED: 'Confirmed',
+        CREATED: 'Created',
+        DECLINED: 'Declined',
+        SHIPPED: 'Shipped'
 	});

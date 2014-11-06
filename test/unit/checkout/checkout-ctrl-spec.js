@@ -258,7 +258,7 @@ describe('CheckoutCtrl', function () {
 
         it('should show default error msg if form invalid', function(){
             $scope.placeOrder(false, formName);
-            expect($scope.message).toEqualData('');
+            expect($scope.message).toEqualData('PLEASE_CORRECT_ERRORS');
         });
 
         it('should ensure ship to copy', function(){
@@ -271,7 +271,8 @@ describe('CheckoutCtrl', function () {
 
     describe('Stripe Error Handling', function(){
         var stripeError, errorMsg, setValidityMock;
-        var fieldErrorMsg = '';
+        var fieldErrorMsg = 'PLEASE_CORRECT_ERRORS';
+        var dateErrorMsg = 'INVALID_EXPIRATION_DATE';
 
         beforeEach(inject(function($q) {
             $scope.checkoutForm = {};
@@ -343,7 +344,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData(dateErrorMsg);
         });
 
         it('should update validity on year error', function(){
@@ -353,7 +354,7 @@ describe('CheckoutCtrl', function () {
             $scope.$digest();
             expect(setValidityMock).toHaveBeenCalled();
             expect($scope.message).toEqualData(fieldErrorMsg);
-            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData('');
+            expect($scope.checkoutForm.paymentForm.expDateMsg).toEqualData(dateErrorMsg);
         });
     });
 
@@ -407,6 +408,14 @@ describe('CheckoutCtrl', function () {
 
         it('should reset validity of the field', function(){
             expect(setValidityMock).toHaveBeenCalledWith('validation',true);
+        });
+    });
+
+    describe('cart updated event', function(){
+        it(' should update cart in scope', function(){
+            var newCart =  {id: 'newCartId'};
+            $rootScope.$broadcast('cart:updated', {cart: newCart});
+            expect($scope.cart).toEqualData(newCart);
         });
     });
 

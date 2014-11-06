@@ -15,13 +15,15 @@ window.app = angular.module('ds.router', [
     'ds.orders',
     'ds.queue',
     'config',
-    'xeditable'
+    'xeditable',
+    'ngSanitize',
+    'ui.select'
 ])
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue',
-        function ($q, $injector, settings,  TokenSvc, httpQueue) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData',
+        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData) {
 
             return {
                 request: function (config) {
@@ -38,6 +40,9 @@ window.app = angular.module('ds.router', [
                             var deferred = $q.defer();
                             httpQueue.appendBlocked(config, deferred);
                             return deferred.promise;
+                        }
+                        if (config.url.indexOf('product-details') > -1) {
+                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
                     return config || $q.when(config);
@@ -111,6 +116,7 @@ window.app = angular.module('ds.router', [
                 oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
                 oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
                 oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,
@@ -120,38 +126,28 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc', 'CookieSvc',
-        '$translate', 'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc, CookieSvc,
-                  $translate, AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
+    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
+        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
-            editableOptions.theme = 'bs3';
-            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
-            /*
-             get the language cookie if it exists
-             */
-            var languageCookie = CookieSvc.getLanguageCookie();
+            
+            //closeOffcanvas func for mask 
 
-            if (languageCookie) {
-                GlobalData.setLanguage( languageCookie.languageCode);
-            }
+            $rootScope.closeOffcanvas = function(){
+                $rootScope.showMobileNav = false;
+                $rootScope.showCart = false;
+            };
 
-            /*
-             get the currency cookie if it exists
-             */
-            var currencyCookie = CookieSvc.getCurrencyCookie();
 
-            if (currencyCookie) {
-                GlobalData.setCurrency(currencyCookie.currency);
-            }
+            editableOptions.theme = 'bs3';
+            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
 
-            ConfigSvc.loadConfiguration(storeConfig.storeTenant);
-            CartSvc.getCart();
 
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
@@ -178,6 +174,14 @@ window.app = angular.module('ds.router', [
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
                 GlobalData.user.isAuthenticated = isAuthenticated;
                 GlobalData.user.username = TokenSvc.getToken().getUsername();
+            });
+
+            $rootScope.$on('currency:updated', function (event, newCurrId) {
+                CartSvc.switchCurrency(newCurrId);
+            });
+
+            $rootScope.$on('language:updated', function () {
+                CartSvc.getCart();
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -210,6 +214,13 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
                         }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
                     }
                 })
                 .state('base.product', {
@@ -225,6 +236,7 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
+
                         category: function ($stateParams, CategorySvc) {
                             return CategorySvc.getCategoryWithProducts($stateParams.catName);
                         }
@@ -244,7 +256,6 @@ window.app = angular.module('ds.router', [
                                 .then(function (result) {
                                     return result;
                                 });
-
                         }
                     }
                 })
@@ -258,7 +269,6 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         cart: function (CartSvc) {
                             return CartSvc.getCart();
-
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
@@ -289,6 +299,11 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',
                             controller: 'ConfirmationCtrl'
                         }
+                    },
+                    resolve: {
+                        isAuthenticated: function(AuthSvc){
+                            return AuthSvc.isAuthenticated();
+                        }
                     }
                 })
                 .state('base.account', {
@@ -303,8 +318,12 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc) {
-                            return AccountSvc.getAddresses();
+                        addresses: function(AccountSvc, settings) {
+                            var query = {
+                                pageNumber: 1,
+                                pageSize: settings.apis.account.addresses.initialPageSize
+                            };
+                            return AccountSvc.getAddresses(query);
                         },
                         orders: function(OrderListSvc) {
                             var parms = {

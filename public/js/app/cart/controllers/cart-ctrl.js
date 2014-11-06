@@ -13,16 +13,16 @@
 'use strict';
 
 angular.module('ds.cart')
-    /** This controller manages the interactions for the cart icon in the navigation bar, as well as the
-     * cart maintenance function of the cart view. The controller is also listening to the 'cart:udpated' event
+    /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
-
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         $scope.cart = CartSvc.getLocalCart();
+        $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
-            $scope.cart = eveObj;
+            $scope.cart = eveObj.cart;
+            $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
         $scope.$on('$destroy', unbind);
@@ -41,11 +41,16 @@ angular.module('ds.cart')
         };
 
         /**
-         *  Issues an "update cart" call to the service.
+         *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */
          
-        $scope.updateCartItem = function (itemId, itemQty) {
-            CartSvc.updateCartItem(itemId, itemQty);
+        $scope.updateCartItem = function (item, itemQty) {
+            if (itemQty > 0) {
+                CartSvc.updateCartItem(item, itemQty);
+            }
+            else if (!itemQty || itemQty === 0) {
+                CartSvc.removeProductFromCart(item.id);
+            }
         };
 
     }]);
