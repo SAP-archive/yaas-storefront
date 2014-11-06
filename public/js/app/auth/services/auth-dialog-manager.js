@@ -34,7 +34,7 @@ angular.module('ds.auth')
                     $window.fbAsyncInit = function () {
                         FB.init({
                             appId: settings.facebookAppId,
-                            xfbml: true,
+                            xfbml: false,
                             version: 'v2.1'
                         });
 
@@ -59,7 +59,7 @@ angular.module('ds.auth')
                         var js, fjs = d.getElementsByTagName(s)[0];
                         var fbElement = d.getElementById(id);
                         if (fbElement) {
-                            FB.XFBML.parse(document.getElementById('fb-root'));
+
                             return;
                         }
                         js = d.createElement(s);
@@ -68,16 +68,18 @@ angular.module('ds.auth')
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
                 } catch (e){
-                    console.error("Unable to initialize Facebook API");
+                    console.error('Unable to initialize Facebook API');
                 }
             }
 
             function openDialog(options) {
                 initFB();
+
                 var deferResult = $q.defer();
                 // make sure only 1 instance exists in opened state
                 closeDialog();
                 authDialog = $modal.open(options);
+
 
                 authDialog.result.then(
                     // dialog closed

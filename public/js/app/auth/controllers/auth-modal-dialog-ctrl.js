@@ -112,5 +112,54 @@ angular.module('ds.auth')
                 $scope.errors.signup = [];
             };
 
+            $scope.fbParse = function(){
+                /*
+                try {
+                    $window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: settings.facebookAppId,
+                            xfbml: false,
+                            version: 'v2.1'
+                        });
+
+                        FB.Event.subscribe('auth.statusChange', function (response) {
+                            console.log('FB status is ' + response.status);
+                            if (response.status === 'connected') { // The person is logged into Facebook, and has logged into the store/"app"
+                                closeDialog();
+                                AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
+                                }, function (error) {
+                                    window.alert(error);
+                                });
+
+                            } else if (response.status === 'not_authorized' || response.status === 'unknown') { // 'not_authorized' The person is logged into Facebook, but not into the app
+                                if (AuthSvc.isAuthenticated()) {    //  'unknown'  The person is not logged into Facebook, so you don't know if they've logged into your app.
+                                    AuthSvc.signOut();
+                                }
+                            }
+                        });
+
+                    };
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        var fbElement = d.getElementById(id);
+                        if (fbElement) {
+
+                            return;
+                        }
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = '//connect.facebook.net/en_US/sdk.js';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                } catch (e){
+                    console.error('Unable to initialize Facebook API');
+                }*/
+                    FB.XFBML.parse();
+
+
+            };
+
+
+
 
         }]);
