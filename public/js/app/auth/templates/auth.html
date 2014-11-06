@@ -2,11 +2,11 @@
 <!--
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
 -->
-    <div ng-click="fbParse()">fb</div>
-    <fb:login-button id="fb-login-button" scope="public_profile,email" >
-    </fb:login-button>
-    <section>
-
+    <section ng-init="fbParse()">
+        <div class="">
+        <fb:login-button id="fb-login-button" scope="public_profile,email" >
+        </fb:login-button>
+        </div>
         <!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
