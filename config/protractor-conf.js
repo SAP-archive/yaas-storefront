@@ -6,7 +6,7 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'phantomjs',
+    'browserName': 'chrome',
     'phantomjs.cli.args':['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
   },
 
