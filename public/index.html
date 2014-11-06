@@ -25,7 +25,7 @@
         </div>
         
     </div>
-    <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+    <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"  ng-mouseenter="cartHovered()" ng-mouseleave="cartUnHovered()"></div>
 </div>
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
 <script src="js/vendor-static/jquery.min.js"></script>
@@ -91,7 +91,7 @@
 <script src="js/app/auth/controllers/password-reset-ctrl.js"></script>
 <script src="js/app/auth/controllers/password-update-ctrl.js"></script>
 <script src="js/app/auth/controllers/password-reset-update-ctrl.js"></script>
-<script src="js/app/auth/directives/confirm-input.js"></script>
+<script src="js/app/auth/directives/confirm-input.js"></script>\
 <script src="js/app/auth/services/auth-rest.js"></script>
 <script src="js/app/auth/services/token-service.js"></script>
 <script src="js/app/auth/services/session-service.js"></script>

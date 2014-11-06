@@ -17,12 +17,34 @@ angular.module('ds.cart')
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
 
+        $scope.cartAutoTimeoutLength = 3000;
+        $scope.cartShouldCloseAfterTimeout = false;
+        $scope.cartTimeOut = void 0;
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+        });
+
+        $scope.createCartTimeout = function()
+        {
+            //create a timeout object in order to close the cart if it's not hovered
+            $scope.cartTimeOut = _.delay(
+                function()
+                {
+                    //update angulars data binding to showCart
+                    $scope.$apply($rootScope.showCart = false);
+                    $scope.cartShouldCloseAfterTimeout = false;
+                },
+                $scope.cartAutoTimeoutLength);
+        };
+
+        $rootScope.$on('cart:closeAfterTimeout', function(){
+            $scope.cartShouldCloseAfterTimeout = true;
+            //create a timeout object in order to close the cart if it's not hovered
+            $scope.createCartTimeout();
         });
 
         $scope.$on('$destroy', unbind);
@@ -51,6 +73,16 @@ angular.module('ds.cart')
             else if (!itemQty || itemQty === 0) {
                 CartSvc.removeProductFromCart(item.id);
             }
+        };
+
+        $scope.cartHovered = function()
+        {
+            clearTimeout($scope.cartTimeOut);
+        };
+
+        $scope.cartUnHovered = function()
+        {
+            $scope.createCartTimeout();
         };
 
     }]);
