@@ -14,7 +14,7 @@
 
 /** REST configuration for services related to authorization. */
 angular.module('ds.auth')
-    .factory('AuthREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
+    .factory('AuthREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Configures main authorization API endpoint.*/

@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
+    .factory('CartREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Endpoint for Main Cart.*/

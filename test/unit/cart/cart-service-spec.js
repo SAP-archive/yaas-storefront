@@ -114,7 +114,6 @@ describe('CartSvc Test', function () {
     describe('addProductToCart - new cart', function () {
         it('should create new cart, create cart item and GET new cart', function () {
             mockBackend.expectPOST(cartUrl).respond({
-            // mockBackend.expectPOST('https://yaas-test.apigee.net/test/cart/v3').respond({
                 "cartId": cartId
             });
             

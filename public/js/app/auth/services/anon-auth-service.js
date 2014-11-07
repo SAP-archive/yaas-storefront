@@ -16,7 +16,7 @@
  *  Encapsulates access to the account service for anonymous login/OAuth token retrieval.
  */
 angular.module('ds.auth')
-    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', 'GlobalData', 'settings', 'SiteConfigSvc', function (TokenSvc, $http, $rootScope, GlobalData, settings, siteConfig) {
+    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', 'GlobalData', 'SiteConfigSvc', function (TokenSvc, $http, $rootScope, GlobalData, siteConfig) {
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');

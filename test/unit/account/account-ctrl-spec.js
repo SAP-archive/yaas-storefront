@@ -11,7 +11,6 @@
  */
 
 describe('AccountCtrl Test', function () {
-
     var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc,
         addresses, account, orders, modalPromise;
     var storeTenant = '121212';
@@ -46,7 +45,6 @@ describe('AccountCtrl Test', function () {
             }
         }
     };
-
     var mockedOrderList = [
         {
             'id': 'order123',
@@ -85,25 +83,22 @@ describe('AccountCtrl Test', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.account'));
     beforeEach(angular.mock.module('restangular'));
     beforeEach(angular.mock.module('ui.router'));
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('GlobalData', mockedGlobalData);
         $provide.value('settings', mockedSettings);
+        $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$modal', mockedModal);
         $provide.value('$translate', mockedTranslate);
     }));
-
 
     beforeEach(function() {
         module('ds.shared', function ($provide) {
             $provide.constant('storeConfig', {} );
         });
     });
-
 
     beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_) {
         AccountSvc = _AccountSvc_;
@@ -112,7 +107,6 @@ describe('AccountCtrl Test', function () {
         addresses = $q.defer();
         account = $q.defer();
         orders = $q.defer();
-
         modalPromise = $q.defer();
         mockedModal.close = jasmine.createSpy('close');
         mockedModal.result = modalPromise.promise;
@@ -242,6 +236,7 @@ describe('AccountCtrl Test', function () {
             $scope.account.preferredCurrency = 'USD';
             retVal = $scope.showCurrency();
             expect(retVal).toEqualData('NOT_SET');
+            //? expect(retVal).toEqualData(usd);
         });
 
         it("should show the language locale as expected", function () {
@@ -250,6 +245,7 @@ describe('AccountCtrl Test', function () {
             $scope.account.preferredLanguage = 'en';
             retVal = $scope.showLanguageLocale();
             expect(retVal).toEqualData('NOT_SET');
+            //? expect(retVal).toEqualData(eng);
         });
 
         it("should show all of the orders", function () {
@@ -284,14 +280,14 @@ describe('AccountCtrl Test', function () {
                 $scope.updateAccount('preferredLanguage', 'en');
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
-                // expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
+                //? expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
             });
 
             it('update of preferred currency should set currency in GlobalData', function () {
                 $scope.updateAccount('preferredCurrency', 'EUR');
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
-                // expect(mockedGlobalData.setCurrency).toHaveBeenCalled();
+                //? expect(mockedGlobalData.setCurrency).toHaveBeenCalled();
             });
 
             it('should partially update account when calling updateAccount with parameters', function () {

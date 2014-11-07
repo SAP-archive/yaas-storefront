@@ -16,7 +16,7 @@
  *  Encapsulates configuration of the price, products, and productDetails APIs.
  */
 angular.module('ds.products')
-    .factory('PriceProductREST', ['SiteConfigSvc','settings', 'Restangular', 'GlobalData', function(siteConfig, settings, Restangular, GlobalData){
+    .factory('PriceProductREST', ['SiteConfigSvc', 'Restangular', 'GlobalData', function(siteConfig, Restangular, GlobalData){
         function applyLanguageHeader(RestangularConfigurer){
             RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
 

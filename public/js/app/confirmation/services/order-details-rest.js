@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.confirmation')
-    .factory('OrderREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
+    .factory('OrderREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             Orders: Restangular.withConfig(function(RestangularConfigurer) {

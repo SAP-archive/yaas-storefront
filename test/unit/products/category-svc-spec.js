@@ -52,7 +52,7 @@ describe('CategorySvc', function () {
             }
         });
 
-        module('ds.cart', function($provide){
+        module('ds.shared', function($provide){
             $provide.value('storeConfig', {});
         });
 

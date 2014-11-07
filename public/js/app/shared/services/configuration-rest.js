@@ -14,7 +14,7 @@
 
 /** REST service configuration for the "configuration" API. */
 angular.module('ds.shared')
-    .factory('ConfigurationREST', ['settings', 'Restangular', 'SiteConfigSvc', function(settings, Restangular, siteConfig){
+    .factory('ConfigurationREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Main configuration endpoint.*/

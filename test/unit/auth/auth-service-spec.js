@@ -192,8 +192,6 @@ describe('AuthSvc Test', function () {
     });
 
     describe('updatePassword()', function(){
-
-
         it('should issue POST on password/change route', function(){
             var payload = {
                     currentPassword: 'currentPassword',
