@@ -1,14 +1,16 @@
 <h2>{{ORDER_DETAILS | translate}}</h2>
 <section class="excerpt‎">
-    <div class="pull-left">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
+    <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
+    <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
     <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value+ shippingCost.price.price | currency: currencySymbol}}</div>
 </section>
 <section>
     <div ng-repeat="item in cart.items track by $index">
         <div class="cart-item row">
             <div class="col-xs-4 col-md-4 text-center img-col">
-                <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
-
+                <a ui-sref="base.product.detail( {productId: item.product.id} )">
+                    <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
+                </a>
             </div>
             <div class="col-xs-8 col-md-8  detail-col">
 
