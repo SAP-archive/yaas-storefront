@@ -7,6 +7,8 @@ angular.module('ds.products')
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
+        $scope.setSortedPageSize = void 0;
+        $scope.setSortedPageNumber = 1;
         $scope.sort = '';
         $scope.products = [];
         $scope.total = GlobalData.products.meta.total;
@@ -76,7 +78,7 @@ angular.module('ds.products')
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                 if (!$scope.requestInProgress) {
 
-                    if ($scope.sort === '') {
+//                    if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
                         var qSpec = 'published:true';
                         if($scope.category.elements && $scope.category.elements.length > 0 ) {
@@ -107,7 +109,7 @@ angular.module('ds.products')
                             }, function() {
                                 $scope.requestInProgress = false;
                             });
-                    }
+//                    }
                 }
             }
         };
@@ -128,17 +130,27 @@ angular.module('ds.products')
             }
         };
 
-        $scope.setSortedPage = function (pageNo) {
+        $scope.setSortedPage = function () {
 
+            $scope.setSortedPageSize = void 0;
+            $scope.setSortedPageNumber = 1;
             if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
-                $scope.pageSize = $scope.total;
+                $scope.setSortedPageSize = $scope.total;
             }
 
-            $scope.getViewingNumbers(pageNo);
-            $scope.pageNumber = pageNo;
+            //check to see if the current page number times the page size is going to be greater than the total product count
+            //if it is then we need to set caps on the pageSize and page number
+            $scope.setSortedPageSize = ($scope.pageNumber * $scope.pageSize > $scope.total)? $scope.total : $scope.pageNumber * $scope.pageSize;
+
+            $scope.getViewingNumbers($scope.setSortedPageNumber);
+
+            /*
+            it is important to note that the $scope.pageNumber and $scope.pageSize are not being modified as they  need
+            to be unmidified for the addMore() method to work for the inifinte scroll functionality
+             */
             var query = {
-                pageNumber: $scope.pageNumber,
-                pageSize: $scope.pageSize,
+                pageNumber: $scope.setSortedPageNumber,
+                pageSize: $scope.setSortedPageSize,
                 sort: $scope.sort
             };
 
@@ -160,7 +172,10 @@ angular.module('ds.products')
                 else {
                     $scope.requestInProgress = false;
                 }
+
             });
+
+
         };
 
         $scope.showRefineContainer = function () {

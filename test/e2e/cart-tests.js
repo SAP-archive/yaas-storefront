@@ -95,9 +95,9 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.whiteCoffeeMug);
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.clickElement('id', tu.buyButton);
-           browser.sleep(250);
+           browser.sleep(2000);
            tu.verifyCartAmount("1");
            browser.sleep(1000);
            tu.verifyCartTotal("$10.67");
@@ -109,10 +109,12 @@ describe("cart:", function () {
            browser.sleep(1000);
            tu.verifyCartTotal('$21.34');
            tu.sendKeysByXpath(tu.cartQuantity, '5');
+           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
            browser.sleep(1000);
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
+           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
            browser.sleep(2000);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
