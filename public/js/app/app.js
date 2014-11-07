@@ -33,7 +33,7 @@ window.app = angular.module('ds.router', [
 
                         var token = TokenSvc.getToken().getAccessToken();
                         if (token) {
-                            config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
+                            config.headers[settings.headers.hybrisAuthorization] = 'Bearer ' + token;
                         } else {
                             // no local token - issue request to get token (async) and "save" http request for re-try
                             $injector.get('AnonAuthSvc').getToken();
@@ -42,7 +42,7 @@ window.app = angular.module('ds.router', [
                             return deferred.promise;
                         }
                         if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.getCurrencyId();
+                            config.headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
                     return config || $q.when(config);
@@ -111,12 +111,12 @@ window.app = angular.module('ds.router', [
 
             var oldHeaders = {};
             if(url.indexOf('yaas')<0) {
-                delete $httpProvider.defaults.headers.common[settings.apis.headers.hybrisAuthorization];
+                delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-                oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
-                oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
-                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                oldHeaders [settings.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.headers.hybrisRoles] = settings.roleSeller;
+                oldHeaders [settings.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,

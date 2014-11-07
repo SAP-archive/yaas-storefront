@@ -98,7 +98,7 @@ angular.module('ds.products')
                             function(products) {
                                 $scope.requestInProgress = false;
                                 if (products) {
-                                    GlobalData.products.meta.total = parseInt(products.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
+                                    GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                                     $scope.products = $scope.products.concat(products);
                                     $scope.productsTo = $scope.products.length;
                                     $scope.total = GlobalData.products.meta.total;
@@ -151,7 +151,7 @@ angular.module('ds.products')
 
             ProductSvc.query(query).then(function(products) {
                 if (products) {
-                    GlobalData.products.meta.total = parseInt(products.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
+                    GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                     $scope.products = products;
                     $scope.productsTo = $scope.products.length;
                     $scope.total = GlobalData.products.meta.total;
