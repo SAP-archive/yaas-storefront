@@ -14,12 +14,12 @@
 
 /** REST service configuration for the "configuration" API. */
 angular.module('ds.shared')
-    .factory('ConfigurationREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('ConfigurationREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Main configuration endpoint.*/
             Config: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.configuration.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.configuration.baseUrl);
             })
         };
 

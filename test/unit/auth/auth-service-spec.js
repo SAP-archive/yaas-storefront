@@ -12,7 +12,7 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockedSettings, mockBackend, mockedState, $q, mockedSessionSvc={
+    var AuthSvc, mockedTokenSvc, mockBackend, mockedState, $q, customersUrl, mockedSessionSvc={
         afterLogOut: jasmine.createSpy(),
         afterLogIn: jasmine.createSpy(),
         afterLoginFromSignUp: jasmine.createSpy()
@@ -43,39 +43,32 @@ describe('AuthSvc Test', function () {
         go: jasmine.createSpy('go')
     };
 
-    mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        apis: {
-            customers: {
-                baseUrl: 'http://dummy-test-server.hybris.com',
-                apiKey: '123'
-            },
-            headers: {
-              hybrisAuthorization: 'Authorization'
-            }
-        }
-    };
-
     beforeEach(function() {
         module('restangular');
+    });
+
+    beforeEach(function() {
+        module('ds.shared');
     });
 
 
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('TokenSvc', mockedTokenSvc);
-        $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
         $provide.value('storeConfig', storeConfig);
         $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
-    beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_) {
+
+    beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_,SiteConfigSvc) {
         AuthSvc = _AuthSvc_;
         mockBackend = _$httpBackend_;
+        siteConfig = SiteConfigSvc;
+        customersUrl = siteConfig.apis.customers.baseUrl;
         $q = _$q_;
     }));
+
 
     it('should expose correct interface', function () {
         expect(AuthSvc.signup).toBeDefined();
@@ -105,7 +98,7 @@ describe('AuthSvc Test', function () {
            successSpy = jasmine.createSpy('success'),
            errorSpy = jasmine.createSpy('error');
        
-       mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, response);
+       mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, response);
        var promise = AuthSvc.signin(payload);
        promise.then(successSpy, errorSpy);
 
@@ -127,8 +120,8 @@ describe('AuthSvc Test', function () {
                successSpy = jasmine.createSpy('success'),
                errorSpy = jasmine.createSpy('error');
 
-           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/signup', payload).respond({});
-           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl+'/login', payload).respond(200, {});
+           mockBackend.expectPOST(customersUrl + '/signup', payload).respond({});
+           mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, {});
            var promise = AuthSvc.signup(payload);
            promise.then(successSpy, errorSpy);
 
@@ -151,7 +144,7 @@ describe('AuthSvc Test', function () {
 
 
         it('should call logout', function(){
-            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+            mockBackend.expectGET(customersUrl + '/logout?accessToken=' + accessToken).respond(200, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
             mockBackend.verifyNoOutstandingExpectation();
@@ -159,17 +152,17 @@ describe('AuthSvc Test', function () {
         });
 
         it('should unset token on logout success', function(){
-            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+            mockBackend.expectGET(customersUrl + '/logout?accessToken=' + accessToken).respond(200, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith('auth.user')
         });
 
         it('should unset token on logout failure', function(){
-            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/logout?accessToken=' + accessToken).respond(500, response);
+            mockBackend.expectGET(customersUrl + '/logout?accessToken=' + accessToken).respond(500, response);
             AuthSvc.signOut(payload);
             mockBackend.flush();
-            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith(mockedSettings.accessCookie)
+            expect(mockedTokenSvc.unsetToken).toHaveBeenCalledWith('auth.user')
         });
 
         it('should invoke session service after logout', function(){
@@ -182,7 +175,7 @@ describe('AuthSvc Test', function () {
     describe('requestPasswordReset()', function(){
         it('should issue POST on reset route', function(){
             var email = "foo@bar.com";
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset', {'email': email}).respond(200, {});
+            mockBackend.expectPOST(customersUrl + '/password/reset', {'email': email}).respond(200, {});
             AuthSvc.requestPasswordReset(email);
             mockBackend.flush();
         });
@@ -192,7 +185,7 @@ describe('AuthSvc Test', function () {
         it('should issue POST on update route', function(){
             var token = "abc123";
             var newPw = "wordpass";
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/reset/update', {'token': token, 'password': newPw}).respond(200, {});
+            mockBackend.expectPOST(customersUrl + '/password/reset/update', {'token': token, 'password': newPw}).respond(200, {});
             AuthSvc.changePassword(token, newPw);
             mockBackend.flush();
         });
@@ -205,7 +198,7 @@ describe('AuthSvc Test', function () {
                     newPassword: 'newPassword',
                     email: 'test@test.com'
                 };
-            mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/password/change').respond(200, {});
+            mockBackend.expectPOST(customersUrl + '/password/change').respond(200, {});
             AuthSvc.updatePassword(payload.oldPassword, payload.newPassword, payload.email);
             mockBackend.flush();
         });
