@@ -45,9 +45,11 @@ angular.module('ds.shared')
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
+                        } else if (key === settings.configKeys.fbAppIdKey) {
+                            settings.facebookAppId = JSON.parse(value);
                         }
                     }
-                    settings.facebookAppId = '580437175395043';
+
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
