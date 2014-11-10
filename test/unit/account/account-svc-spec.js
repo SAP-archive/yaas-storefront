@@ -12,7 +12,7 @@
 
 describe('AccountSvc Test', function () {
 
-    var AccountSvc, mockedSettings, mockBackend, $q, $scope;
+    var AccountSvc, mockBackend, $q, $scope, customersUrl;
     var account = {"contactEmail":"test@test.com","customerNumber":"C2191375191","firstName":"TestFn","id":"C2191375191","lastName":"TestLn","middleName":"TestMn","preferredCurrency":"EUR","preferredLanguage":"de_DE"};
     var addresses = [{"id":"541abacd07ce5813586182a5","contactName":"hybris UK Ltd.","street":"5th Floor, 2 Copthall Avenue","zipCode":"121212","city":"London","country":"USA","state":"TX","contactPhone":"+44 20 36088011","isDefault":true},{"id":"54083abe9d6eebfd91e20a6f","contactName":"Munich Offices","street":"Mailinger Str","streetNumber":"23","zipCode":"233212","city":"Munich","country":"USA","state":"IL","contactPhone":"+49 12 333 222","isDefault":false,"tags":[]},{"id":"54083adbdbee363ff47c3200","contactName":"Boulder Offices 1","street":"No name blvd","streetNumber":"12","zipCode":"2332232","city":"Boulder","country":"USA","state":"CO","contactPhone":"+1212 1221 1221","isDefault":false,"tags":[]}];
     var mockedGlobalData={
@@ -30,22 +30,6 @@ describe('AccountSvc Test', function () {
             }
         }
     };
-        mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        apis: {
-            customers: {
-                baseUrl: 'http://dummy-test-server.hybris.com',
-                apiKey: '123'
-            },
-            headers: {
-                hybrisAuthorization: 'Authorization',
-                paging: {
-                    total: 'Hybris-Count'
-                }
-            }
-        }
-    };
 
     beforeEach(function() {
         module('restangular');
@@ -56,15 +40,20 @@ describe('AccountSvc Test', function () {
         });
     });
 
+    beforeEach(function() {
+        module('ds.shared', function ($provide) {
+            $provide.constant('storeConfig', {} );
+        });
+    });
 
     beforeEach(module('ds.account', function($provide) {
-        $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
     }));
 
-    beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_, _$rootScope_) {
+    beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_, _$rootScope_, SiteConfigSvc) {
         AccountSvc = _AccountSvc_;
-
+        siteConfig = SiteConfigSvc;
+        customersUrl = siteConfig.apis.customers.baseUrl;
         mockBackend = _$httpBackend_;
         $scope = _$rootScope_.$new();
         $q = _$q_;
@@ -88,7 +77,7 @@ describe('AccountSvc Test', function () {
             var successSpy = jasmine.createSpy('success'),
                 errorSpy = jasmine.createSpy('error');
 
-            mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me').respond(account);
+            mockBackend.expectGET(customersUrl + 'me').respond(account);
             var promise = AccountSvc.account();
             promise.then(successSpy, errorSpy);
 
@@ -108,7 +97,7 @@ describe('AccountSvc Test', function () {
             errorSpy = jasmine.createSpy('error');
         
         payload.contactEmail = 'test-modified@test.com';
-        mockBackend.expectPUT(mockedSettings.apis.customers.baseUrl + '/me', payload).respond();
+        mockBackend.expectPUT(customersUrl + 'me', payload).respond();
         var promise = AccountSvc.updateAccount(payload);
         promise.then(successSpy, errorSpy);
 
@@ -123,7 +112,7 @@ describe('AccountSvc Test', function () {
         var successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
         
-        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me/addresses').respond(addresses);
+        mockBackend.expectGET(customersUrl + 'me/addresses').respond(addresses);
         var promise = AccountSvc.getAddresses();
         promise.then(successSpy, errorSpy);
 
@@ -138,7 +127,7 @@ describe('AccountSvc Test', function () {
         var successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
         
-        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me/addresses/' + addresses[0].id).respond(addresses[0]);
+        mockBackend.expectGET(customersUrl + 'me/addresses/' + addresses[0].id).respond(addresses[0]);
         var promise = AccountSvc.getAddress(addresses[0].id);
         promise.then(successSpy, errorSpy);
 
@@ -153,7 +142,7 @@ describe('AccountSvc Test', function () {
         var successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
         
-        mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me/addresses').respond(addresses);
+        mockBackend.expectGET(customersUrl + 'me/addresses').respond(addresses);
         var promise = AccountSvc.getDefaultAddress();
         promise.then(successSpy, errorSpy);
         promise.then(function(addr) {
@@ -173,7 +162,7 @@ describe('AccountSvc Test', function () {
             errorSpy = jasmine.createSpy('error');
         
         payload.contactName = 'Test addresss';
-        mockBackend.expectPUT(mockedSettings.apis.customers.baseUrl + '/me/addresses/' + payload.id, payload).respond();
+        mockBackend.expectPUT(customersUrl + 'me/addresses/' + payload.id, payload).respond();
         var promise = AccountSvc.saveAddress(payload);
         promise.then(successSpy, errorSpy);
 
@@ -188,7 +177,7 @@ describe('AccountSvc Test', function () {
        var successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
         
-        mockBackend.expectDELETE(mockedSettings.apis.customers.baseUrl + '/me/addresses/' + addresses[0].id).respond();
+        mockBackend.expectDELETE(customersUrl + 'me/addresses/' + addresses[0].id).respond();
         var promise = AccountSvc.removeAddress(addresses[0]);
         promise.then(successSpy, errorSpy);
 
@@ -203,7 +192,7 @@ describe('AccountSvc Test', function () {
         describe(' - not yet loaded - ', function(){
 
             it('should retrieve account data for authenticated user', function(){
-                mockBackend.expectGET(mockedSettings.apis.customers.baseUrl + '/me').respond(account);
+                mockBackend.expectGET(customersUrl + 'me').respond(account);
                 mockedGlobalData.setAuthenticated(true);
                 var currentAccount;
                 AccountSvc.getCurrentAccount().then(function(acc){
@@ -213,7 +202,7 @@ describe('AccountSvc Test', function () {
                 expect(currentAccount).toEqualData(account);
             });
 
-           
+
         });
 
         describe(' - already exists - ', function(){

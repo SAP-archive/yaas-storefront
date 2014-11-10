@@ -16,7 +16,7 @@
  *  Encapsulates access to the account service for anonymous login/OAuth token retrieval.
  */
 angular.module('ds.auth')
-    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', 'GlobalData', 'settings', function (TokenSvc, $http, $rootScope, GlobalData, settings) {
+    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', 'GlobalData', 'SiteConfigSvc', function (TokenSvc, $http, $rootScope, GlobalData, siteConfig) {
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -37,7 +37,7 @@ angular.module('ds.auth')
 
                 if(!inProgress) {
                     inProgress = true;
-                    $http.post(settings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
+                    $http.post(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
                         var token = getParameterByName('access_token', data.headers('Location'));
                         var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                         TokenSvc.setAnonymousToken(token, expiresIn);

@@ -29,9 +29,12 @@ angular.module('ds.products')
             // scroll to top on load
             window.scrollTo(0, 0);
 
-            var unbind = $rootScope.$on('cart:updated', function () {
-                $rootScope.showCart = true;
-                $scope.buyButtonEnabled = true;
+            var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
+                if(eveObj.source === 'manual'){
+                    $rootScope.showCart = true;
+                    $scope.buyButtonEnabled = true;
+                }
+
             });
 
             $scope.$on('$destroy', unbind);

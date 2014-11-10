@@ -194,12 +194,13 @@ angular.module('ds.i18n')
 
         /*
          titles
-         */
+    */
         DR: 'Dr.',
         MR: 'Herr',
         MRS: 'Frau',
         MS: 'Fräulein',
         TITLE: 'Anrede',
+
 
         /*
          order statuses

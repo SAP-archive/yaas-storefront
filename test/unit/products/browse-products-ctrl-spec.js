@@ -113,11 +113,41 @@ describe('BrowseProductsCtrl', function () {
         describe('setSortedPage', function () {
             it('setSortedPage should update current page and query products', function () {
 
-                var page = 4;
-                $scope.setSortedPage(page);
+                $scope.setSortedPage();
                 expect(mockedProductSvc.query).toHaveBeenCalled();
-                expect($scope.pageNumber).toEqual(page);
-            })
+                expect($scope.setSortedPageNumber).toBe(1)
+            });
+        });
+
+        describe('setSortedPage product Loading scenarios ', function(){
+            beforeEach(function(){
+                $scope.total = 36;
+                $scope.pageSize = 8;
+            });
+            it('the current product page is 1 setSorted should load the first 8 products', function(){
+
+                $scope.pageNumber = 1;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe(8)
+
+            });
+
+            it('the current product page is 3 so setSorted should load the first 24 products', function(){
+
+                $scope.pageNumber = 3;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe(24)
+
+            });
+
+            it('the current product page is 5 so setSorted should return all of the products from the query', function(){
+                $scope.pageNumber = 5;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe($scope.total)
+            });
+
+
+
         });
 
         describe('backToTop', function () {
