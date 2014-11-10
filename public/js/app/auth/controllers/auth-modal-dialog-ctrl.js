@@ -37,6 +37,8 @@ angular.module('ds.auth')
                             }, function (error) {
                                 window.alert(error);
                             });
+                        } else {
+                            fbToken = null;
                         }
                     });
 
@@ -54,6 +56,7 @@ angular.module('ds.auth')
                     js.id = id;
                     js.src = '//connect.facebook.net/en_US/sdk.js';
                     fjs.parentNode.insertBefore(js, fjs);
+
                 }(document, 'script', 'facebook-jssdk'));
 
             } catch (e){
@@ -72,6 +75,7 @@ angular.module('ds.auth')
                 signup: [],
                 signin: []
             };
+
 
 
             var extractServerSideErrors = function (response) {
@@ -162,15 +166,52 @@ angular.module('ds.auth')
                         }
                     });
                     FB.XFBML.parse();
+                    /*
+                    var intercept = window.document.getElementById('intercept');
+                    intercept.addEventListener('click', function(e){
+                        console.log('click');
+                        e.stopPropagation();
+                    }, true);
+                    var intercept2 = window.document.getElementById('intercept2');
+                    intercept2.addEventListener('click', function(e){
+                        console.log('click');
+                        e.stopPropagation();
+                    }, true);*/
+
+
+                    /*
+                    var iframes = window.document.getElementsByTagName('iframe'); //
+                    angular.forEach(iframes,function(iframe){
+                       if(iframe.title.indexOf('login')>1){
+                           console.log(iframe);
+                           iframe.addEventListener('click', function(e){
+                               e.stopPropagation();
+                               console.log('click');
+                           }, true);
+
+                       }
+                    });*/
+
                 }
             };
 
             $scope.fbLogin = function(){
+
                 $modalInstance.close();
-                AuthSvc.socialLogin('facebook', fbToken).then(function () {
-                }, function (error) {
-                    window.alert(error);
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        $scope.fbLoggedIn = true;
+                        fbToken = response.authResponse.accessToken;
+                        AuthSvc.socialLogin('facebook', fbToken).then(function () {
+                        }, function (error) {
+                            window.alert(error);
+                        });
+                    } else {
+                        $scope.fbLoggedIn = false;
+                        FB.login();
+                    }
                 });
+
             };
 
         }]);

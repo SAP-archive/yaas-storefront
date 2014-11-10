@@ -1,15 +1,23 @@
 <section class="row" id="fb-root">
-<!--
-    <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
--->
-    <section ng-init="fbParse()"><!-- ng-if="!fbLoggedIn" -->
-        <div >
-        <fb:login-button id="fb-login-button" scope="public_profile,email" size="large">
-        </fb:login-button>
-        </div>
-        <div ng-if="fbLoggedIn" ng-click="fbLogin()">
-          Log In Again
-        </div>
+
+    <section ng-init="fbParse()">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <div id="intercept" style="opacity: 1; position:relative; z-index: 999" ng-click="fbLogin()">
+                <fb:login-button id="fb-login-button" scope="public_profile,email" size="large" style="position:relative; z-index: -1">
+                </fb:login-button>
+
+                </div>
+
+            </li>
+
+        </ul>
+       
+        <br>
+
+        <div>
+
         <!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
