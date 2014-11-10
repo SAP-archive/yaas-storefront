@@ -143,6 +143,7 @@ angular.module('ds.i18n')
         STREET: 'Straße',
         SAVE: 'Speichern',
         WELCOME: 'Willkommen',
+        ITEM_IN_ORDER: 'translation needed',
         ITEMS_IN_ORDER: 'Postenzähler',
         NOT_SET: 'Unbekannt',
         ORDER_HISTORY: 'Bestellverlauf',

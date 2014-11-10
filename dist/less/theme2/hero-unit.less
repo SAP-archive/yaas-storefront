@@ -1,0 +1,47 @@
+// hero unit width quote and user image at the bottom
+section{
+	.hero-unit{
+		margin: -30px;
+	}
+}
+.hero-unit{
+	.visible-md;
+	.visible-lg;
+	position: relative;
+	text-align: center;
+
+
+
+	blockquote{
+		background: #000 no-repeat center center;
+		background-size:cover;
+		
+
+		
+		border:0;
+		padding: 10%;
+		margin: 0;
+		font:31px @font-family-serif, sans-serif;
+		text-align: center;
+		color: #fff;
+
+		footer{
+			color: #fff;
+			font:15px @font-family-serif, sans-serif;
+			text-transform: uppercase;
+
+			&:before,
+			&:after {
+			    content: " — "; // kitty :)
+			}
+		}
+	}
+
+
+	img.img-circle{
+		
+		border:5px solid #fff;
+
+		.translate(0; -50%)
+	}
+}
