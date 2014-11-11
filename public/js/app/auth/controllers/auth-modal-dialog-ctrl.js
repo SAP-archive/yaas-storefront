@@ -15,11 +15,41 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc',
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
        'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts', '$window',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc,
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc,
                   settings, AuthDialogManager, GlobalData, loginOpts, $window) {
 
+            $scope.user = {
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            };
+
+            $scope.errors = {
+                signup: [],
+                signin: []
+            };
+
+            $scope.clearErrors = function(){
+                $scope.errors.signin = [];
+                $scope.errors.signup = [];
+            };
+            
+            function onFbLogin(fbToken){
+                AuthSvc.socialLogin('facebook', fbToken).then(function () {
+                    $modalInstance.close();
+                    /* jshint ignore:start */
+                    FB.api('/me', function(response) {
+                       SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
+                    });
+                    /* jshint ignore:end */
+                }, function () {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                });
+            }
 
             try {
                 if(settings.facebookAppId){
@@ -34,11 +64,7 @@ angular.module('ds.auth')
                         // Catch "login" events as the user logs in through the FB login dialog which is shown by the FB SDK
                         FB.Event.subscribe('auth.statusChange', function (response) {
                             if (response.status === 'connected') {
-                                $modalInstance.close();
-                                AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
-                                }, function (error) {
-                                    window.alert(error);
-                                });
+                                onFbLogin(response.authResponse.accessToken);
                             }
                         });
                         FB.XFBML.parse();
@@ -62,18 +88,6 @@ angular.module('ds.auth')
                 console.error(e);
             }
 
-            $scope.user = {
-                signup: {},
-                signin: {
-                    email: '',
-                    password: ''
-                }
-            };
-
-            $scope.errors = {
-                signup: [],
-                signin: []
-            };
 
             var extractServerSideErrors = function (response) {
                 console.log(response);
@@ -147,10 +161,7 @@ angular.module('ds.auth')
                 AuthDialogManager.showResetPassword();
             };
 
-            $scope.clearErrors = function(){
-                $scope.errors.signin = [];
-                $scope.errors.signup = [];
-            };
+
 
             /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
              * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
@@ -170,23 +181,20 @@ angular.module('ds.auth')
                 }
             };
 
-            /** Calls the Facebook API to determine if the user is logged into FB - if yes,
-             * the existing FB token will be used to log the user into the store; otherwise,
-             * the FB "login" functionality will be invoked, which will present the FB login dialog
-             * (all handled by the FB SDK).
+            /** Calls the Facebook API to validate that the user is logged into FB - if yes,
+             * the existing FB token will be used to log the user into the store.  Note that this
+             * function should only be called if the user is already logged into Facebook - if we
+             * invoke the FB.login API through code rather than the integrated FB button,
+             * the login dialog will be a pop-up rather than an iframe.
              */
             $scope.fbLogin = function(){
 
-                $modalInstance.close();
                 FB.getLoginStatus(function(response) {
                     if (response.status === 'connected') {
                         $scope.fbLoggedIn = true;
-                        var fbToken = response.authResponse.accessToken;
-                        AuthSvc.socialLogin('facebook', fbToken).then(function () {
-                        }, function (error) {
-                            window.alert(error);
-                        });
+                        onFbLogin(response.authResponse.accessToken);
                     } else {
+                        // fallback logic only
                         $scope.fbLoggedIn = false;
                         FB.login();
                     }

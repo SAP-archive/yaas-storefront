@@ -12,7 +12,7 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, mockBackend, mockedState, $q, customersUrl, mockedSessionSvc={
+    var AuthSvc, mockedTokenSvc, siteConfig, mockBackend, mockedState, $q, customersUrl, mockedSessionSvc={
         afterLogOut: jasmine.createSpy(),
         afterLogIn: jasmine.createSpy(),
         afterLoginFromSignUp: jasmine.createSpy()
@@ -36,6 +36,13 @@ describe('AuthSvc Test', function () {
             }
         }),
         unsetToken: jasmine.createSpy('unsetToken')
+    };
+
+    mockedSessionSvc = {
+      afterSocialLogin: jasmine.createSpy(),
+        afterLogIn: jasmine.createSpy(),
+        afterLogOut: jasmine.createSpy(),
+        afterLoginFromSignUp: jasmine.createSpy()
     };
 
     mockedState = {
@@ -210,7 +217,7 @@ describe('AuthSvc Test', function () {
            var fbToken = 'abc';
            var hybrisToken = 'hyb';
            AuthSvc.socialLogin(providerId, fbToken);
-           mockBackend.expectPOST(mockedSettings.apis.customers.baseUrl + '/login/'+providerId).respond(201, {accessToken: hybrisToken});
+           mockBackend.expectPOST(customersUrl + '/login/'+providerId).respond(201, {accessToken: hybrisToken});
            mockBackend.flush();
            expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(hybrisToken, 'social');
            expect(mockedSessionSvc.afterLogIn).toHaveBeenCalled();
