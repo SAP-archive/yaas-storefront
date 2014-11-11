@@ -28,7 +28,8 @@
     "spin.js": "~2.0.1",
     "angular-cookie": "~4.0.2",
     "angular-bootstrap": "~0.11.0",
-    "angular-xeditable": "~0.1.8"
+    "angular-xeditable": "~0.1.8",
+    "angular-directive.g-signin": "*"
   },
   "install": {
     "path": {

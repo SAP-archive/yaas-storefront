@@ -46,7 +46,9 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
                         } else if (key === settings.configKeys.fbAppIdKey) {
-                            settings.facebookAppId = JSON.parse(value);
+                            settings.facebookAppId = value;
+                        } else if (key === settings.configKeys.googleClientId){
+                            settings.googleClientId = value;
                         }
                     }
 

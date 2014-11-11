@@ -30,18 +30,6 @@ angular.module('ds.auth')
                             xfbml: false,
                             version: 'v2.2'
                         });
-
-                        // Catch "login" events as the user logs in through the FB login dialog which is shown by the FB SDK
-                        FB.Event.subscribe('auth.statusChange', function (response) {
-                            if (response.status === 'connected') {
-                                $modalInstance.close();
-                                AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
-                                }, function (error) {
-                                    window.alert(error);
-                                });
-                            }
-                        });
-                        FB.XFBML.parse();
                     };
                     (function (d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
@@ -74,6 +62,18 @@ angular.module('ds.auth')
                 signup: [],
                 signin: []
             };
+
+            $scope.googleClientId = settings.googleClientId;
+
+            $scope.$on('event:google-plus-signin-success', function (event,authResult) {
+                AuthSvc.socialLogin('google', authResult[settings.configKeys.googleResponseToken]).then(function () {
+                    $modalInstance.close();
+                }, function (error) {
+                    console.error(error);
+                    window.alert('Unable to login with Google+ credentials');
+                });
+            });
+
 
             var extractServerSideErrors = function (response) {
                 console.log(response);
@@ -158,15 +158,7 @@ angular.module('ds.auth')
              */
             $scope.fbParse = function(){
                 if(typeof FB !== 'undefined'){
-                    FB.getLoginStatus(function(response) {
-                        if (response.status === 'connected') {
-                            $scope.fbLoggedIn = true;
-                        } else {
-                            $scope.fbLoggedIn = false;
-                        }
-                    });
                     FB.XFBML.parse();
-
                 }
             };
 
@@ -180,14 +172,12 @@ angular.module('ds.auth')
                 $modalInstance.close();
                 FB.getLoginStatus(function(response) {
                     if (response.status === 'connected') {
-                        $scope.fbLoggedIn = true;
-                        var fbToken = response.authResponse.accessToken;
-                        AuthSvc.socialLogin('facebook', fbToken).then(function () {
+                        AuthSvc.socialLogin('facebook', response.authResponse.accessToken).then(function () {
+                            $modalInstance.close();
                         }, function (error) {
                             window.alert(error);
                         });
                     } else {
-                        $scope.fbLoggedIn = false;
                         FB.login();
                     }
                 });

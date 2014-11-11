@@ -82,11 +82,10 @@ angular.module('ds.shared')
                 paging: {
                     total: 'hybris-Count'
                 },
-
                 hybrisCurrency: 'hybris-currency'
-
             }
         },
+
         // relevant keys from configuration service:
         configKeys: {
             stripeKey: 'payment.stripe.key.public',
@@ -94,7 +93,9 @@ angular.module('ds.shared')
             storeLanguages: 'project_lang',
             storeName: 'store.settings.name',
             storeLogo: 'store.settings.image.logo.url',
-            fbAppIdKey: 'facebook.app.id'
+            fbAppIdKey: 'facebook.app.id',
+            googleClientId: 'google.client.id',
+            googleResponseToken: 'access_token'
         },
 
         placeholderImage: 'img/no-image.png',
