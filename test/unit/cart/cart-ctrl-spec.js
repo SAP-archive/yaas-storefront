@@ -75,7 +75,7 @@ describe('CartCtrl Test', function () {
     describe('update line item', function () {
 
         it(' should call service update', function () {
-            $scope.updateCartItem();
+            $scope.updateCartItem({}, 1);
             expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
         });
 

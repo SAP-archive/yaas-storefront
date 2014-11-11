@@ -35,8 +35,8 @@ var tu = require('./protractor-utils.js');
           function verifyOrderConfirmation(email, name, number, cityStateZip) {
             expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
             expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
-            expect(element(by.xpath('//span[2]')).getText()).toContain(number);
-            expect(element(by.xpath('//span[3]')).getText()).toContain(cityStateZip);
+            expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
+            expect(element(by.xpath('//address[2]/span[3]')).getText()).toContain(cityStateZip);
           }
 
 
@@ -164,12 +164,7 @@ describe("checkout:", function () {
            it('should populate with existing address for logged in user', function () {
             tu.clickElement('xpath', tu.contineShopping); 
             browser.sleep(500);           
-           	tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'cool@cool.com');
-            tu.sendKeysById('passwordInput', 'coolio');
-            tu.clickElement('id', 'sign-in-button');
-            browser.sleep(1000);
+            tu.loginHelper('order@test.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(1000);
             tu.clickElement('css', tu.checkoutButton);
@@ -180,9 +175,9 @@ describe("checkout:", function () {
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');
             browser.sleep(20000);
-            verifyOrderConfirmation('COOL@COOL.COM', 'FAMILY', '123', 'DENVER, CO 80808');
+            verifyOrderConfirmation('ORDER@TEST.COM', 'MIKE', '123', 'BOULDER, CO 80301');
             tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 Fake Ave Place");
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
             tu.clickElement('id', "logout-btn");
 
            });
@@ -190,16 +185,11 @@ describe("checkout:", function () {
 
            it('should create order on account page', function () {
             tu.clickElement('xpath', tu.contineShopping);            
-            tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'cool@cool.com');
-            tu.sendKeysById('passwordInput', 'coolio');
-            tu.clickElement('id', 'sign-in-button');
-            browser.sleep(1000);
+            tu.loginHelper('order@test.com', 'password');
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(3000);
             expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$13.94");          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$24.61");          
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
             element(by.repeater('order in orders').row(0).column('order.created')).click();
             expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
@@ -207,31 +197,25 @@ describe("checkout:", function () {
 
            });
 
+           it('should merge carts and checkout for logged in user', function () {
+            tu.clickElement('xpath', tu.contineShopping);
+            tu.loginHelper('checkout@test.com', 'password');
+            tu.clickElement('css', 'img');
+            tu.clickElement('xpath', tu.whiteThermos);
+            tu.clickElement('id', tu.buyButton);
+            browser.sleep(100);
+            tu.clickElement('css', tu.checkoutButton);
+            verifyCartContents('Item Price: $10.67', '$23.92', '1');
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
+            browser.sleep(500)
+            tu.clickElement('id', 'place-order-btn');
+            browser.sleep(20000);
+            verifyOrderConfirmation('CHECKOUT@TEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake place");
+            tu.clickElement('id', "logout-btn");
 
-            //needs to be updated after   TP-1566 is fixed 
-           // it('should populate with existing address for logged in user', function () {
-           //  tu.clickElement('xpath', tu.contineShopping);            
-           //  tu.clickElement('id', "login-btn");
-           //  browser.sleep(1000);
-           //  tu.sendKeysById('usernameInput', 'cool@cool.com');
-           //  tu.sendKeysById('passwordInput', 'coolio');
-           //  tu.clickElement('id', 'sign-in-button');
-           //  browser.sleep(1000);
-           //  tu.clickElement('id', tu.cartButtonId);
-           //  browser.sleep(1000);
-           //  tu.clickElement('css', tu.checkoutButton);
-           //  browser.sleep(1000);
-           //  tu.sendKeysById('firstNameBill', 'Mike');
-           //  tu.sendKeysById('lastNameBill', 'night');
-           //  fillCreditCardForm('5555555555554444', '06', '2015', '000')
-           //  browser.sleep(500)
-           //  tu.clickElement('id', 'place-order-btn');
-           //  browser.sleep(20000);
-           //  // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
-           //  verifyOrderConfirmation('COOL@COOL.COM', 'MIKE NIGHT', '123', 'DENVER, CO 80808');
-           //  tu.clickElement('id', "logout-btn");
-
-           // });
+           });
 
 
    });

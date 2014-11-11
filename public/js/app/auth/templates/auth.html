@@ -1,38 +1,27 @@
-<!--<script src="https://apis.google.com/js/client:platform.js" async defer></script>-->
-<section class="row" id="fb-root">
+<section class="row">
 
-    <section ng-init="fbParse()">
+    <section>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li class="active">
-                <div id="intercept" style="opacity: 1; position:relative; z-index: 999" ng-click="fbLogin()">
-                <fb:login-button id="fb-login-button" scope="public_profile,email" size="xlarge" style="position:relative; z-index: -1">
+
+                <div ng-if="fbLoggedIn" id="intercept" style="opacity: 1; position:relative; z-index: 999" ng-click="fbLogin()">
+                <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large" style="position:relative; z-index: -1; height:50px; width: 150px">
                 </fb:login-button>
-
                 </div>
-
+                <div ng-if="!fbLoggedIn" id="intercept">
+                    <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large">
+                    </fb:login-button>
+                </div>
             </li>
             <li>
                 <div ng-app="directive.g+signin">
                     <google-plus-signin clientid="{{googleClientId}}"></google-plus-signin>
                 </div>
-            <!--
-            <span id="signinButton">
-  <span
-          class="g-signin"
-          data-callback="signinCallback"
-          data-clientid="566749370288-git5emebgh3to7p1gscq2j9etsvmds4i.apps.googleusercontent.com"
-          data-cookiepolicy="single_host_origin"
-          data-requestvisibleactions="http://schema.org/AddAction"
-          data-scope="https://www.googleapis.com/auth/plus.login">
-  </span>
-</span>-->
             </li>
         </ul>
        
         <br>
-
-        <div>
 
         <!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">

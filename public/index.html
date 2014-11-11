@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>hybris Store Template</title>
+    <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
     <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
     <link href="js/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -14,7 +15,7 @@
     <![endif]-->
 </head>
 <body>
-<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas" id="fb-root">
     <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
@@ -39,10 +40,13 @@
 <script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
 <script src="js/vendor/angular-xeditable/dist/js/xeditable.js"></script>
 <script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
+<script src="js/vendor/angular-sanitize/angular-sanitize.js"></script>
+<script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/vendor/spin.js/spin.js"></script>
 <script src="js/app/shared/shared-index.js"></script>
 <script src="js/app/shared/settings.js"></script>
+<script src="js/app/shared/site-config.js"></script>
 <script src="js/app/shared/services/cookie-svc.js"></script>
 <script src="js/app/shared/services/global-data.js"></script>
 <script src="js/app/shared/services/configuration-service.js"></script>

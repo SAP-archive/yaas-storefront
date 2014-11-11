@@ -12,9 +12,7 @@
 
 describe('PricesService Test', function(){
 
-    var priceUrlRest = 'https://yaas-test.apigee.net/test/price/v2/prices';
-
-    var $scope, $rootScope, $httpBackend, priceSvc;
+    var $scope, $rootScope, $httpBackend, priceSvc, priceUrl;
 
     var priceResponse = {
         "prices" : [{
@@ -45,17 +43,18 @@ describe('PricesService Test', function(){
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _PriceSvc_){
+        inject(function (_$httpBackend_, _$rootScope_, _PriceSvc_, SiteConfigSvc){
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-
+            siteConfig = SiteConfigSvc;
+            priceUrl = siteConfig.apis.prices.baseUrl + 'prices';
             $httpBackend = _$httpBackend_;
             priceSvc = _PriceSvc_;
         });
     });
 
     it('query return prices object with success handler invoking callback on resolved promise',function (){
-        $httpBackend.expectGET(priceUrlRest).respond(priceResponse);
+        $httpBackend.expectGET(priceUrl).respond(priceResponse);
         var prices = priceSvc.query({});
         $httpBackend.flush();
         expect(prices.$object.prices).toEqualData(priceResponse.prices);

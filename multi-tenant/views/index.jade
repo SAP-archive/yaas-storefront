@@ -5,6 +5,7 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
 
     title=store.name
+    link(rel='stylesheet', href='js/vendor/angular-ui-select/dist/select.min.css')
     link(rel='stylesheet', href=store.style, type='text/css', media='screen, projection')
 
     //- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -15,7 +16,7 @@ html
         <![endif]
   body
 
-    div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
+    div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}", id="fb-root")
       div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation")
       div(class="mainContent")
           div(ui-view="topNavigation")
@@ -39,6 +40,8 @@ html
     script(src='js/vendor/spin.js/spin.js')
     script(src='js/vendor/angular-xeditable/dist/js/xeditable.min.js')
     script(src='js/vendor/angular-directive.g-signin/google-plus-signin.js')
+    script(src='js/vendor/angular-sanitize/angular-sanitize.js')
+    script(src='js/vendor/angular-ui-select/dist/select.min.js')
 
     script(src='js/bootstrap-multi-tenant.js')
 
@@ -62,6 +65,7 @@ html
 
     script(src='js/app/shared/shared-index.js')
     script(src='js/app/shared/settings.js')
+    script(src='js/app/shared/site-config.js')
     script(src='js/app/shared/services/cookie-svc.js')
     script(src='js/app/shared/services/global-data.js')
     script(src='js/app/shared/services/configuration-service.js')

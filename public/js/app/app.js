@@ -15,23 +15,25 @@ window.app = angular.module('ds.router', [
     'ds.orders',
     'ds.queue',
     'config',
-    'xeditable'
+    'xeditable',
+    'ngSanitize',
+    'ui.select'
 ])
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData',
-        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
+        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData, siteConfig) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     // skip html requests as well as anonymous login URL
-                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl) < 0) {
+                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(siteConfig.apis.account.baseUrl) < 0) {
 
                         var token = TokenSvc.getToken().getAccessToken();
                         if (token) {
-                            config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
+                            config.headers[settings.headers.hybrisAuthorization] = 'Bearer ' + token;
                         } else {
                             // no local token - issue request to get token (async) and "save" http request for re-try
                             $injector.get('AnonAuthSvc').getToken();
@@ -40,7 +42,7 @@ window.app = angular.module('ds.router', [
                             return deferred.promise;
                         }
                         if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.getCurrencyId();
+                            config.headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
                     return config || $q.when(config);
@@ -109,12 +111,12 @@ window.app = angular.module('ds.router', [
 
             var oldHeaders = {};
             if(url.indexOf('yaas')<0) {
-                delete $httpProvider.defaults.headers.common[settings.apis.headers.hybrisAuthorization];
+                delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-                oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
-                oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
-                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                oldHeaders [settings.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.headers.hybrisRoles] = settings.roleSeller;
+                oldHeaders [settings.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,
@@ -178,8 +180,8 @@ window.app = angular.module('ds.router', [
 
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurr) {
-                CartSvc.switchCurrency(newCurr);
+            $rootScope.$on('currency:updated', function (event, newCurrId) {
+                CartSvc.switchCurrency(newCurrId);
             });
 
             $rootScope.$on('language:updated', function () {
@@ -193,8 +195,8 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
 
             TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
@@ -320,10 +322,10 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc, settings) {
+                        addresses: function(AccountSvc) {
                             var query = {
                                 pageNumber: 1,
-                                pageSize: settings.apis.account.addresses.initialPageSize
+                                pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
                             return AccountSvc.getAddresses(query);
                         },

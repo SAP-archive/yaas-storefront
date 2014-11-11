@@ -21,7 +21,7 @@ angular.module('ds.cart')
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
-            $scope.cart = eveObj;
+            $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
@@ -41,11 +41,16 @@ angular.module('ds.cart')
         };
 
         /**
-         *  Issues an "update cart" call to the service.
+         *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */
          
-        $scope.updateCartItem = function (itemId, itemQty) {
-            CartSvc.updateCartItem(itemId, itemQty);
+        $scope.updateCartItem = function (item, itemQty) {
+            if (itemQty > 0) {
+                CartSvc.updateCartItem(item, itemQty);
+            }
+            else if (!itemQty || itemQty === 0) {
+                CartSvc.removeProductFromCart(item.id);
+            }
         };
 
     }]);

@@ -7,7 +7,7 @@
         exports.contineShopping = "//div[@id='cart']/div/div/button";
         exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[5]"
+        exports.backToTopButton = "(//button[@type='button'])[6]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[3]/button"
         exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
@@ -92,6 +92,46 @@
           element(by.id(pageElement)).clear();
           element(by.id(pageElement)).sendKeys(keys);
         }
+
+        exports.selectLanguage = function(language) {
+          clickElement('id', 'language-select');
+          clickElement('linkText', language);
+        }
+
+        exports.selectCurrency = function(currency) {
+          clickElement('id', 'currency-select');
+          clickElement('linkText', currency);
+        }
+
+       var sendKeys = exports.sendKeys = function(type, pageElement, keys) {
+          if (type === 'id'){
+              element(by.id(pageElement)).clear();
+              element(by.id(pageElement)).sendKeys(keys);
+          } else if(type === 'xpath'){
+              element(by.xpath(pageElement)).clear();
+              element(by.xpath(pageElement)).sendKeys(keys);
+          } else if(type === 'css'){
+              element(by.css(pageElement)).clear();
+              element(by.css(pageElement)).sendKeys(keys);
+          } else if(type === 'linkText') {
+              element(by.linkText(pageElement)).clear();
+              element(by.linkText(pageElement)).sendKeys(keys);
+          } else if(type === 'binding') {
+              element(by.binding(pageElement)).clear();
+              element(by.binding(pageElement)).sendKeys(keys);
+          }
+          
+        };
+
+        exports.loginHelper = function(userName, password) {
+          clickElement('id', "login-btn");
+          browser.sleep(1000);
+          sendKeys('id', 'usernameInput', userName);
+          sendKeys('id', 'passwordInput', password);
+          clickElement('id', 'sign-in-button');
+          browser.sleep(1000);
+        }
+
            /* HOW TO DUMP THE HTML AND GET A SCREEN SHOT:
            var item = $('html');
 
