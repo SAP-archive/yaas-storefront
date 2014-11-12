@@ -15,6 +15,31 @@ html.disable-scroll{
 
 /* MENU */
 .sidebar-offcanvas{
+
+  .popover{
+    background-color:#ebebeb;
+    border: none;
+    background-clip: initial;
+    margin: 8px 0 0 40px;
+    .box-shadow(7px 7px 9px rgba(0,0,0,.2));
+  }
+  .popover.right{
+    .arrow{
+      border: none;
+      left: -38px;
+      margin-top: 0px;
+    }
+
+    .arrow:after{
+      border-right-color: #ebebeb;
+      border-width: 19px;
+    }
+
+  }
+
+  .popover-title{display: none;}
+  .popover-inner{ padding: 64px;}
+
   .clearfix;
     position: fixed;
     width: @offcanvas-left-width-m;
@@ -25,7 +50,10 @@ html.disable-scroll{
     overflow: visible;
     top: 0;
 
-    
+  .loginPopover{
+    max-width: 500px;
+  }
+
 }
 
 .mainContent{

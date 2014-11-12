@@ -5907,6 +5907,29 @@ html.disable-scroll {
   overflow: visible;
   top: 0;
 }
+.sidebar-offcanvas .popover {
+  background-color: #ebebeb;
+  border: none;
+  background-clip: initial;
+  margin: 8px 0 0 40px;
+  -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.sidebar-offcanvas .popover.right .arrow {
+  border: none;
+  left: -38px;
+  margin-top: 0px;
+}
+.sidebar-offcanvas .popover.right .arrow:after {
+  border-right-color: #ebebeb;
+  border-width: 19px;
+}
+.sidebar-offcanvas .popover-title {
+  display: none;
+}
+.sidebar-offcanvas .popover-inner {
+  padding: 64px;
+}
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
   content: " ";
@@ -5922,6 +5945,9 @@ html.disable-scroll {
 }
 .sidebar-offcanvas:after {
   clear: both;
+}
+.sidebar-offcanvas .loginPopover {
+  max-width: 500px;
 }
 .mainContent {
   background: #f8f8f8;
@@ -6027,7 +6053,7 @@ html.disable-scroll {
   top: 0;
 }
 #sidebar {
-  background: #eeeeee;
+  background: #f5f5f5;
 }
 #sidebar a.logo {
   display: block;
