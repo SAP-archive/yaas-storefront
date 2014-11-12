@@ -44,7 +44,8 @@ angular.module('ds.shared')
             storeCurrencies: 'project_curr',
             storeLanguages: 'project_lang',
             storeName: 'store.settings.name',
-            storeLogo: 'store.settings.image.logo.url'
+            storeLogo: 'store.settings.image.logo.url',
+            fbAppIdKey: 'facebook.app.id'
         },
 
         placeholderImage: 'img/no-image.png',
