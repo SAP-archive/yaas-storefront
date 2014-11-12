@@ -10,28 +10,33 @@
  * license agreement you entered into with hybris.
  */
 
-describe('AuthModalDialogCtrl Test', function () {
+ddescribe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
+    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
        mockedSessionSvc={
            afterLogIn: jasmine.createSpy()
        }, mockBackend,
         deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
+    // global variable to mimic FB API
+    FB = {
+        getLoginStatus: function(callback){
+            callback({status: 'connected', authResponse: {accessToken: 'token'}});
+        },
+        XFBML: {
+            parse: jasmine.createSpy()
+        },
+        init: jasmine.createSpy()
+
+    };
     var googleClientId = 'gClientId';
     var mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        apis: {
-            customers: {
-                baseUrl: 'http://dummy-test-server.hybris.com'
-            }
+        googleClientId: googleClientId,
+        configKeys: {
+            googleResponseToken: 'access_token'
         },
-        headers: {
-            hybrisAuthorization: 'Authorization'
-        },
-        googleClientId: googleClientId
+        facebookAppId: 'appId'
     };
 
     var mockedAuthDialogManager = {
@@ -46,8 +51,6 @@ describe('AuthModalDialogCtrl Test', function () {
     $modalInstanceMock = {
         close: jasmine.createSpy('close')
     };
-
-
 
     //***********************************************************************
     // Common Setup
@@ -64,7 +67,9 @@ describe('AuthModalDialogCtrl Test', function () {
         $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_) {
+
+
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_, _$window_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -76,7 +81,7 @@ describe('AuthModalDialogCtrl Test', function () {
         $controller = _$controller_;
         $q = _$q_;
         mockBackend = _$httpBackend_;
-
+        $window = _$window_;
     }));
 
     beforeEach(function () {
@@ -98,7 +103,8 @@ describe('AuthModalDialogCtrl Test', function () {
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
             $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
-           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts });
+           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
+       );
     });
 
     it("should expose correct data to the scope", function() {
@@ -114,6 +120,7 @@ describe('AuthModalDialogCtrl Test', function () {
         expect($scope.showResetPassword).toBeDefined();
         expect($scope.clearErrors).toBeDefined();
         expect($scope.googleClientId).toEqualData(googleClientId);
+        expect($window.fbAsyncInit).toBeTruthy();
     });
 
     describe('signin()', function(){
@@ -207,18 +214,25 @@ describe('AuthModalDialogCtrl Test', function () {
         });
     });
 
-    describe('fbParse()', function(){
-
-    });
-
     describe('fbLogin()', function(){
-
+        it('should invoke social login', function(){
+            var token = 'token';
+            $scope.fbLogin();
+            expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+        });
     });
 
-    ddescribe('onGoogleLogin', function(){
+    describe('fbParse()', function(){
+        it('should invoke FB parse', function(){
+           $scope.fbParse();
+            expect(FB.XFBML.parse).toHaveBeenCalled();
+        });
+    })
+
+    describe('onGoogleLogin', function(){
        it('should invoke social login', function(){
            var token = 'token';
-           $rootScope.$emit('event:google-plus-signin-success', {access_token: token});
+           $rootScope.$broadcast('event:google-plus-signin-success', {access_token: token});
            deferredSocialLogin.resolve({});
            $scope.$apply();
            expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();

@@ -46,7 +46,7 @@ angular.module('ds.auth')
                             SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
                         });
                     } catch (error){
-
+                        console.error('Unable to load FB user profile');
                     }
                     /* jshint ignore:end */
                 }, function () {
@@ -58,18 +58,21 @@ angular.module('ds.auth')
                 AuthSvc.socialLogin('google', gToken).then(function () {
                     $modalInstance.close();
                     /* jshint ignore:start */
-                    gapi.client.load('plus', 'v1').then(function() {
-                        var request = gapi.client.plus.people.get({
-                            'userId': 'me'
-                        });
-                        request.then(function(response) {
-                            if(response.result) {
-                                SessionSvc.afterSocialLogin({email: response.result.emails[0].value, firstName: response.result.name.givenName,
-                                    lastName: response.result.name.familyName});
-                            }
+                    try {
+                        gapi.client.load('plus', 'v1').then(function () {
+                            gapi.client.plus.people.get({
+                                'userId': 'me'
+                            }).then(function (response) {
+                                if (response.result) {
+                                    SessionSvc.afterSocialLogin({email: response.result.emails[0].value, firstName: response.result.name.givenName,
+                                        lastName: response.result.name.familyName});
+                                }
 
+                            });
                         });
-                    });
+                    } catch (error){
+                        console.error('Unable to load Google+ user profile');
+                    }
                     /* jshint ignore:end */
                 }, function () {
                     $scope.errors.signin.push('LOGIN_FAILED');
@@ -78,6 +81,7 @@ angular.module('ds.auth')
 
             try {
                 if (settings.facebookAppId) {
+
                     // load Facebook SDK
                     $window.fbAsyncInit = function () {
                         FB.init({
