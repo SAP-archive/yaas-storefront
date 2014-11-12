@@ -17,8 +17,9 @@ describe('AuthModalDialogCtrl Test', function () {
        mockedSessionSvc={
            afterLogIn: jasmine.createSpy()
        }, mockBackend,
-        deferredSignIn, deferredSignUp;
+        deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
+    var googleClientId = 'gClientId';
     var mockedSettings = {
         accessCookie: 'accessCookie',
         userIdKey: 'userIdKey',
@@ -29,7 +30,8 @@ describe('AuthModalDialogCtrl Test', function () {
         },
         headers: {
             hybrisAuthorization: 'Authorization'
-        }
+        },
+        googleClientId: googleClientId
     };
 
     var mockedAuthDialogManager = {
@@ -80,6 +82,7 @@ describe('AuthModalDialogCtrl Test', function () {
     beforeEach(function () {
         deferredSignIn = $q.defer();
         deferredSignUp = $q.defer();
+        deferredSocialLogin = $q.defer();
 
         MockedAuthSvc = {
             signin: jasmine.createSpy('signin').andCallFake(function(){
@@ -87,6 +90,9 @@ describe('AuthModalDialogCtrl Test', function () {
             }),
             signup: jasmine.createSpy('signup').andCallFake(function() {
                 return deferredSignUp.promise;
+            }),
+            socialLogin: jasmine.createSpy('socialLogin').andCallFake(function(){
+                return deferredSocialLogin.promise;
             })
         };
 
@@ -107,6 +113,7 @@ describe('AuthModalDialogCtrl Test', function () {
         expect($scope.continueAsGuest).toBeDefined();
         expect($scope.showResetPassword).toBeDefined();
         expect($scope.clearErrors).toBeDefined();
+        expect($scope.googleClientId).toEqualData(googleClientId);
     });
 
     describe('signin()', function(){
@@ -198,6 +205,24 @@ describe('AuthModalDialogCtrl Test', function () {
             expect($scope.errors.signin).toEqualData([]);
             expect($scope.errors.signup).toEqualData([]);
         });
+    });
+
+    describe('fbParse()', function(){
+
+    });
+
+    describe('fbLogin()', function(){
+
+    });
+
+    ddescribe('onGoogleLogin', function(){
+       it('should invoke social login', function(){
+           var token = 'token';
+           $rootScope.$emit('event:google-plus-signin-success', {access_token: token});
+           deferredSocialLogin.resolve({});
+           $scope.$apply();
+           expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+       });
     });
 
 });
