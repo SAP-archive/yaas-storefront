@@ -5,7 +5,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li class="active">
 
-                <div ng-if="fbLoggedIn" id="intercept" style="opacity: 1; position:relative; z-index: 999" ng-click="fbLogin()">
+                <div ng-if="fbLoggedIn" id="intercept" style="opacity: 1; position:relative; z-index: 9" ng-click="fbLogin()">
                 <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large" style="position:relative; z-index: -1; height:50px; width: 150px">
                 </fb:login-button>
                 </div>
@@ -16,7 +16,7 @@
             </li>
             <li>
                 <div ng-app="directive.g+signin">
-                    <google-plus-signin clientid="{{googleClientId}}"></google-plus-signin>
+                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
                 </div>
             </li>
         </ul>

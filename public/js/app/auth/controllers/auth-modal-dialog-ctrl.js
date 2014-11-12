@@ -41,8 +41,34 @@ angular.module('ds.auth')
                 AuthSvc.socialLogin('facebook', fbToken).then(function () {
                     $modalInstance.close();
                     /* jshint ignore:start */
-                    FB.api('/me', function (response) {
-                        SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
+                    try {
+                        FB.api('/me', function (response) {
+                            SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
+                        });
+                    } catch (error){
+
+                    }
+                    /* jshint ignore:end */
+                }, function () {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                });
+            }
+
+            function onGoogleLogIn(gToken){
+                AuthSvc.socialLogin('google', gToken).then(function () {
+                    $modalInstance.close();
+                    /* jshint ignore:start */
+                    gapi.client.load('plus', 'v1').then(function() {
+                        var request = gapi.client.plus.people.get({
+                            'userId': 'me'
+                        });
+                        request.then(function(response) {
+                            if(response.result) {
+                                SessionSvc.afterSocialLogin({email: response.result.emails[0].value, firstName: response.result.name.givenName,
+                                    lastName: response.result.name.familyName});
+                            }
+
+                        });
                     });
                     /* jshint ignore:end */
                 }, function () {
@@ -87,16 +113,12 @@ angular.module('ds.auth')
                 console.error(e);
             }
 
-
+            // scope variable used by google+ signing directive
             $scope.googleClientId = settings.googleClientId;
 
+            // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                AuthSvc.socialLogin('google', authResult[settings.configKeys.googleResponseToken]).then(function () {
-                    $modalInstance.close();
-                }, function (error) {
-                    console.error(error);
-                    window.alert('Unable to login with Google+ credentials');
-                });
+                onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
             });
 
 
