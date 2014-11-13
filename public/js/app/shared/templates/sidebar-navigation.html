@@ -13,7 +13,7 @@
 			<li><a ng-click="logout()" ng-if="user.isAuthenticated" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
 		</ul>
 		
-		<a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link" pop-over data-placement="right" popover-Class="loginPopover" template-Url="./js/app/auth/templates/auth.html">
+		<a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link" pop-over data-placement="right" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
 			<img src="./img/user-icon_small.png" class="user-avatar">
 			{{'SIGN_IN' | translate}}
 		</a>

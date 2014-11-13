@@ -5915,6 +5915,10 @@ html.disable-scroll {
   -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
   box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
 }
+.sidebar-offcanvas .popover.loginPopover {
+  max-width: 500px;
+  min-width: 500px;
+}
 .sidebar-offcanvas .popover.right .arrow {
   border: none;
   left: -38px;
@@ -5945,9 +5949,6 @@ html.disable-scroll {
 }
 .sidebar-offcanvas:after {
   clear: both;
-}
-.sidebar-offcanvas .loginPopover {
-  max-width: 500px;
 }
 .mainContent {
   background: #f8f8f8;

@@ -4,7 +4,21 @@
 'use strict';
 
 angular.module('ds.shared')
-.directive('popOver', ['$compile', function ($compile) {
+.directive('popOver', ['$compile', '$controller', 'AuthDialogManager',  function ( $compile, $controller, AuthDialogManager) {
+
+    var getController = function getController(controllerInstance, scope)
+    {
+        var controller = undefined;
+        var controlsLocals = {
+            loginOpts: {}
+        };
+
+        controlsLocals.$scope = scope;
+
+        controller = new $controller(controllerInstance, controlsLocals);
+        return controller;
+    }
+
     return {
         restrict: 'A',
         scope:{
@@ -13,9 +27,7 @@ angular.module('ds.shared')
             popoverController:'@'
         },
 
-        link: function (scope, element) {
-
-//            debugger;
+        link: function (scope, element, attrs, ctrl) {
             $.ajax({url:scope.templateUrl}).done(
                 function(data){
 
@@ -27,14 +39,18 @@ angular.module('ds.shared')
 
                     $(element).popover(options).addClass(scope.popoverClass)
 
-                    $(element).on('click', function (e) {
-                        console.log('the popover link has been clicked!');
-//                        $(element).popover('show');
-
-                    });
 
                     $(element).on('shown.bs.popover', function(){
-//                        $compile(element.contents())(scope);
+
+                        getController(scope.popoverController, scope);
+                        AuthDialogManager.showPopover();
+//
+                    });
+
+                    $('html').on('click', function(e) {
+                        if (typeof $(e.target).data('original-title') == 'undefined' && !$(e.target).parents().is('.popover.in')) {
+                            $('[data-original-title]').popover('hide');
+                        }
                     });
 
 
