@@ -82,7 +82,12 @@ angular.module('ds.cart')
 
         $scope.cartUnHovered = function()
         {
-            $scope.createCartTimeout();
+            //if none of the inputs are focused then create the 3 second timer after mouseout
+            if( !$('#cart input').is(':focus') )
+            {
+                $scope.createCartTimeout();
+            }
+
         };
 
     }]);
