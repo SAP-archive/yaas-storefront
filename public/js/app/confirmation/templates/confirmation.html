@@ -34,20 +34,16 @@
 
 		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="">
-				<div class="subheadline">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
-                    <!-- <div ng-repeat="product in confirmationDetails.products">
-                        <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive"
-                            src="{{ product.images && product.images[0].url || product.externalImages[0]}}"><br/>
-                            <strong>{{product.name}}</strong><br>
-                            {{'ITEM_PRICE' | translate}}: {{product.price | currency: currencySymbol}} <br>
-                            {{'QTY' | translate}}: {{product.amount}} <br>
-                            {{'TOTAL_PRICE' | translate}}: {{product.price * product.amount | currency: currencySymbol}} <br>
-                        </div>
-                    </div> -->
+				<div class="subheadline">
+                    <div ng-if="confirmationDetails.itemCount > 1">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
+                    <div ng-if="confirmationDetails.itemCount <= 1">{{confirmationDetails.itemCount}} {{'ITEM_IN_YOUR_ORDER' | translate}}</div>
+                </div>
                     <div ng-repeat="product in confirmationDetails.products">
                             <div class="cart-item row">
                                 <div class="col-xs-4 col-md-4 text-center img-col">
-                                    <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class="img-responsive"/>
+                                    <a ui-sref="base.product.detail( {productId: product.id} )">
+                                        <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class="img-responsive"/>
+                                    </a>
 
                                 </div>
                                 <div class="col-xs-8 col-md-8  detail-col">
