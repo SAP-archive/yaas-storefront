@@ -36,20 +36,25 @@ angular.module('ds.shared')
                         template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'),
                         content:  $compile(data)(scope)
                     };
+                    $(function(){
+                        console.log($(element));
+                        $(element).popover(options).addClass(scope.popoverClass)
 
-                    $(element).popover(options).addClass(scope.popoverClass)
 
+                        $(element).on('shown.bs.popover', function(){
 
-                    $(element).on('shown.bs.popover', function(){
-
-                        getController(scope.popoverController, scope);
-                        AuthDialogManager.showPopover();
+                            getController(scope.popoverController, scope);
+                            AuthDialogManager.showPopover();
 //
+                        });
+
                     });
 
-                    $('html').on('click', function(e) {
-                        if (typeof $(e.target).data('original-title') == 'undefined' && !$(e.target).parents().is('.popover.in')) {
-                            $('[data-original-title]').popover('hide');
+                    $('html').on('click', function (e) {
+                        //the 'is' for buttons that trigger popups
+                        //the 'has' for icons within a button that triggers a popup
+                        if (!$(element).is(e.target) && $(element).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                            $(element).popover('hide');
                         }
                     });
 
