@@ -90,7 +90,6 @@ angular.module('ds.auth')
 
 
             var extractServerSideErrors = function (response) {
-                console.log(response);
                 var errors = [];
                 if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
                     errors.push({message: 'PASSWORD_INVALID'});
@@ -114,6 +113,7 @@ angular.module('ds.auth')
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
                 var deferred = $q.defer();
+
                 if (signUpForm.$valid) {
                     AuthSvc.signup(authModel, loginOpts).then(
                         function (response) {
@@ -154,6 +154,11 @@ angular.module('ds.auth')
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
                 $modalInstance.close();
+            };
+
+            /** Closes the dialog.*/
+            $scope.closeDialog = function(){
+//                $modalInstance.close();
             };
 
             /** Shows the "request password reset" dialog.*/
