@@ -37,7 +37,7 @@ describe("cart:", function () {
        });
 
        it('should load one product into cart in Euros', function () {
-        tu.clickElement('linkText', 'EURO');
+        tu.selectCurrency('Euro');
         loadProductIntoCart('1', '€7.99');
         tu.clickElement('xpath', tu.removeFromCart);
         browser.sleep(1000);
@@ -47,12 +47,20 @@ describe("cart:", function () {
        it('should load one product into cart in USD and change to Euros', function () {
         loadProductIntoCart('1', '$10.67');
         tu.clickElement('xpath', tu.contineShopping);
-        tu.clickElement('linkText', 'EURO');
-        tu.clickElement('id', tu.cartButtonId);
-        browser.sleep(1000);
-        tu.clickElement('id', tu.cartButtonId);
+        tu.selectCurrency('Euro');
+        tu.clickElement('id', tu.cartButtonId);     
         tu.verifyCartTotal('€7.99');
        });
+
+       //blocked by TP-1766
+
+       // it('should load one product into cart in USD and change to Euros while logged in', function () {
+       //  loadProductIntoCart('1', '$10.67');
+       //  tu.clickElement('xpath', tu.contineShopping);
+       //  tu.loginHelper('euros@test.com', 'password');
+       //  tu.clickElement('id', tu.cartButtonId);    
+       //  tu.verifyCartTotal('€7.99');
+       // });
 
          it('should load multiple products into cart', function () {
            tu.clickElement('id', tu.cartButtonId);
@@ -87,9 +95,9 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.contineShopping);
            browser.sleep(250);
            tu.clickElement('xpath', tu.whiteCoffeeMug);
-           browser.sleep(1000);
+           browser.sleep(2000);
            tu.clickElement('id', tu.buyButton);
-           browser.sleep(250);
+           browser.sleep(2000);
            tu.verifyCartAmount("1");
            browser.sleep(1000);
            tu.verifyCartTotal("$10.67");
@@ -101,10 +109,12 @@ describe("cart:", function () {
            browser.sleep(1000);
            tu.verifyCartTotal('$21.34');
            tu.sendKeysByXpath(tu.cartQuantity, '5');
+           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
            browser.sleep(1000);
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
+           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
            browser.sleep(2000);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
@@ -115,18 +125,17 @@ describe("cart:", function () {
            browser.sleep(250);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-           tu.clickElement('xpath', tu.blackCoffeeMug)
+           tu.clickElement('xpath', tu.blackCoffeeMug);
            tu.clickElement('xpath', tu.outOfStockButton);
+           browser.sleep(500);
            tu.clickElement('id',tu.cartButtonId);
-           tu.clickElement('id',tu.cartButtonId);
-           browser.sleep(1000);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
          });
 
          it('should not allow negative numbers', function () {
           tu.clickElement('id', tu.cartButtonId);
           browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
           tu.clickElement('xpath', tu.contineShopping);
           tu.clickElement('xpath', tu.whiteCoffeeMug);
           browser.sleep(1000);
@@ -141,6 +150,14 @@ describe("cart:", function () {
           tu.verifyCartAmount('');
           tu.verifyCartTotal('$53.35');
          });
+
+         it('should retrieve previous cart', function () {
+          tu.loginHelper('cart@test.com', 'password');
+          tu.clickElement('id', tu.cartButtonId);
+          browser.sleep(250);
+          tu.verifyCartTotal('$7.99');
+         });
+
 
    });
 });

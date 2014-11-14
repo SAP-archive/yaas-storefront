@@ -411,4 +411,12 @@ describe('CheckoutCtrl', function () {
         });
     });
 
+    describe('cart updated event', function(){
+        it(' should update cart in scope', function(){
+            var newCart =  {id: 'newCartId'};
+            $rootScope.$broadcast('cart:updated', {cart: newCart});
+            expect($scope.cart).toEqualData(newCart);
+        });
+    });
+
 });

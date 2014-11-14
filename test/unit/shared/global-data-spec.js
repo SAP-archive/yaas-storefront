@@ -24,7 +24,7 @@ describe('GlobalData', function () {
 
         module(function ($provide) {
             $provide.value('CookieSvc', mockedCookieSvc);
-            //$provide.value('$translate', mockedTranslate);
+
             $provide.constant('storeConfig', {defaultLanguage: defaultLang});
         });
 

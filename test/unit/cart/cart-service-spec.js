@@ -77,6 +77,10 @@ describe('CartSvc Test', function () {
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
+            },
+
+            toBeInError: function(expected) {
+                return expected.error;
             }
         });
     });
@@ -294,52 +298,225 @@ describe('CartSvc Test', function () {
         });
 
         describe('switchCurrency', function() {
+            var eventSpy;
+
+            beforeEach(function(){
+                eventSpy = spyOn($rootScope, '$emit');
+
+            });
+
             it('should switch the cart currency', function () {
                 mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', {"currency": "EUR"})
                     .respond(200, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
                     {
-                        "currency": "USD",
-                        "subTotalPrice": {
-                            "currency": "USD",
-                            "value": 10.00
-                        },
-                        "totalUnitsCount": 1.0,
-                        "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
+
+                        "id": cartId,
                         "items": [
                             {
                                 "product": {
-                                    "sku": "sku1",
-                                    "inStock": true,
-                                    "description": "desc",
-                                    "id": prodId,
-                                    "name": "Electric Guitar"
+
+                                    "id": prodId
                                 },
                                 "unitPrice": {
                                     "currency": "USD",
                                     "value": 5.00
                                 },
-                                "id": itemId,
-                                "quantity": 2.0
+                                "id": itemId
                             }
-                        ],
-                        "totalPrice": {
-                            "currency": "USD",
-                            "value": 13.24
-                        },
-                        "id": cartId,
-                        "shippingCost": {
-                            "currency": "USD",
-                            "value": 3.24
-                        }
+                        ]
                     });
-                mockBackend.expectGET(productUrl+'?q=id:('+prodId+')').respond(200, [{id: prodId, images: ['myurl']}]);
+                mockBackend.expectGET(productUrl+'?q=id:('+prodId+')').respond(200, [{id: prodId, images: ['myurl'], name:'name'}]);
                 cartSvc.switchCurrency('EUR');
                 mockBackend.flush();
+                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', {cart: { id : 'cartId456', items : [ { product : { id : '123', name : 'name' }, unitPrice : { currency : 'USD', value : 5 }, id : '0', images : [ 'myurl' ] } ] }, source:'currency'});
+            });
+
+            it('should signal cart error on currency switch failure', function(){
+
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', {"currency": "EUR"})
+                    .respond(500, {});
+                cartSvc.switchCurrency('EUR');
+                mockBackend.flush();
+                expect($rootScope.$emit).toHaveBeenCalled();
+
+                expect(eventSpy.mostRecentCall.args[1].cart.error).toBeTruthy();
             });
         });
 
+
+
     });
+
+    describe('refreshCartAfterLogin() - customer has cart', function(){
+
+        var custId = 'abc';
+
+        beforeEach(function(){
+
+        });
+
+        it('should get the cart for the customer', function(){
+            // no anonymous cart - initialize to blank cart
+            mockBackend.expectGET(cartUrl).respond(404, {});
+            cartSvc.getCart();
+            mockBackend.flush();
+
+            // should get cart for customer
+            mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(200, {
+                "currency": "USD",
+                    "items": [
+                    {
+                        "product": {
+                            "id": prodId
+                        },
+                        "unitPrice": {
+                            "currency": "USD",
+                            "value": 5.00
+                        },
+                        "id": itemId,
+                        "quantity": 2.0
+                    }
+                ],
+                "id": cartId
+            });
+            // should query product info for cart
+            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:(123)').respond(500, {});
+        });
+
+        it('should merge the cart if there was an anonymous cart with items', function(){
+            var anonCartId = 'anon123';
+            var prodId2 = 'prod2';
+            // should query anonymous cart - with items:
+            mockBackend.expectGET(cartUrl).respond(200, {
+                "currency": "USD",
+                "items": [
+                    {
+                        "product": {
+                            "id": prodId2
+                        },
+                        "unitPrice": {
+                            "currency": "USD",
+                            "value": 5.00
+                        },
+                        "id": 'zsd458',
+                        "quantity": 2.0
+                    }
+                ],
+                "id": anonCartId
+            });
+            // should query product info for anonymous cart
+            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:('+prodId2+')').respond(500, {});
+            cartSvc.getCart();
+            mockBackend.flush();
+
+            // should get cart for customer
+            mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(200, {
+                "currency": "USD",
+                "items": [
+                    {
+                        "product": {
+                            "id": prodId
+                        },
+                        "unitPrice": {
+                            "currency": "USD",
+                            "value": 5.00
+                        },
+                        "id": itemId,
+                        "quantity": 2.0
+                    }
+                ],
+                "id": cartId
+            });
+
+            // should issue merge request https://yaas-test.apigee.net/test/cart/v3/carts/cartId456/merge
+            mockBackend.expectPOST(cartUrl+'/'+cartId+'/merge', {"carts":[anonCartId]}).respond(200, {});
+            // should refresh current cart
+            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, {});
+
+            cartSvc.refreshCartAfterLogin(custId);
+            mockBackend.flush();
+        });
+
+        it('should switch cart currency if customer cart currency different than current store currency', function(){
+            // should query for anonymous cart - assume not found:
+            mockBackend.expectGET(cartUrl).respond(404, {});
+            cartSvc.getCart();
+            mockBackend.flush();
+
+            // should get cart for customer - note different currency
+            mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(200, {
+                "currency": "EUR",
+                "items": [
+                    {
+                        "product": {
+                            "id": prodId
+                        },
+                        "unitPrice": {
+                            "currency": "USD",
+                            "value": 5.00
+                        },
+                        "id": itemId,
+                        "quantity": 2.0
+                    }
+                ],
+                "id": cartId
+            });
+
+            mockBackend.whenGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:('+prodId+')').respond(500, {});
+
+            // should issue changeCurrency request
+            mockBackend.expectPOST(cartUrl+'/'+cartId+'/changeCurrency').respond(204, {});
+
+            // should refresh current cart
+            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, {});
+
+            cartSvc.refreshCartAfterLogin(custId);
+            mockBackend.flush();
+        });
+    });
+
+    describe('refreshCartAfterLogin() - customer doesn\'t have cart', function(){
+
+        var custId = 'abc';
+
+        it('should merge the cart if there was an anonymous cart with items', function(){
+            var custCartId = '567';
+            // initialize to anonymous car with items
+            mockBackend.expectGET(cartUrl).respond(200, {
+                "currency": "USD",
+                "items": [
+                    {
+                        "product": {
+                            "id": prodId
+                        },
+                        "unitPrice": {
+                            "currency": "USD",
+                            "value": 5.00
+                        },
+                        "id": itemId,
+                        "quantity": 2.0
+                    }
+                ],
+                "id": cartId
+            });
+            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:(123)').respond(500, {});
+            cartSvc.getCart();
+            mockBackend.flush();
+
+            // no cart for user
+            mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(404, {});
+            // create cart for user
+            mockBackend.expectPOST(cartUrl).respond(201, {cartId:custCartId});
+            // merge anonymous cart into current cart
+            mockBackend.expectPOST(cartUrl+'/'+custCartId+'/merge', {"carts":[cartId]}).respond(200, {});
+            // refresh cart after merge:
+            mockBackend.expectGET(cartUrl+'/'+custCartId).respond(200, {});
+            cartSvc.refreshCartAfterLogin(custId);
+            mockBackend.flush();
+        });
+    });
+
 
     describe('getCart() for anonymous user', function() {
        it('should GET cart and retrieve product info', function(){

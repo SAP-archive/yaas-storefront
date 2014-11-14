@@ -27,7 +27,12 @@ in an optional step.
 
 ### Application Events
 
-'cart:updated' - fired when new cart information has been acquired from the service
+'cart:updated' - fired when new cart information has been acquired from the service; 
+    event object:
+        - cart - current cart instance
+        - source - source event of the update (manual | currency | language | merge | reset)
+'language:updated' - fired when the store's language has changed
+'currency:updated' - fired when the store's currency has changed
 
 ## Testing
 
@@ -120,7 +125,6 @@ cf push -f static-manifest.yml
 
 ## Limitations in the current service layer
 
-- Checkout not done over SSL
 - No tax support
 
 

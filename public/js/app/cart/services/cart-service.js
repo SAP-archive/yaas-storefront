@@ -37,14 +37,9 @@ angular.module('ds.cart')
            this.id = null;
         };
 
-        // Prototype for outbound currency switch call
-        var Currency = function(code) {
-            this.currency = code;
-        };
 
         // application scope cart instance
         var cart = {};
-
 
         /**  Ensure there is a cart associated with the current session.
          * Returns a promise for the existing or newly created cart.  Cart will only contain the id.
@@ -76,6 +71,35 @@ angular.module('ds.cart')
             return deferredCart.promise;
         }
 
+        function getCartWithImages(cart){
+            var updatedCartDef = $q.defer();
+            if(cart.items && cart.items.length) {
+                // we need to retrieve images for the items in the cart:
+                var productIds = cart.items.map(function (item) {
+                    return item.product.id;
+                });
+                var productParms = {
+                    q: 'id:(' + productIds + ')'
+                };
+                ProductSvc.query(productParms).then(function (productResults) {
+                    angular.forEach(cart.items, function (item) {
+                        angular.forEach(productResults, function (product) {
+                            if (product.id === item.product.id) {
+                                item.images = product.images;
+                                item.product.name = product.name;
+                            }
+                        });
+                    });
+                    updatedCartDef.resolve(cart);
+                }, function(){
+                    // proceed without images
+                    updatedCartDef.resolve(cart);
+                });
+            }  else {
+                updatedCartDef.resolve(cart);
+            }
+            return updatedCartDef.promise;
+        }
         /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
          * cart is created first.
          */
@@ -86,10 +110,10 @@ angular.module('ds.cart')
             var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-                    refreshCart(cartResult.cartId);
+                    refreshCart(cartResult.cartId, false, 'manual');
                     createItemDef.resolve();
                 }, function(){
-                    refreshCart(cart.id);
+                    refreshCart(cart.id, false, 'manual');
                     createItemDef.reject();
                 });
 
@@ -99,36 +123,38 @@ angular.module('ds.cart')
             return createItemDef.promise;
         }
 
+        function ensureCorrectCurrency(cartId){
+            if(cart.currency!==GlobalData.getCurrencyId()) {
+                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function () {
+                    CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                        cart = response.plain();
+                        return getCartWithImages(cart);
+                    });
+                });
+            } else {
+                return $q.when(cart);
+            }
+        }
+
         /** Retrieves the current cart state from the service, updates the local instance
          * and fires the 'cart:updated' event.*/
-        function refreshCart(cartId){
+        function refreshCart(cartId, validateCurrency, updateSource){
             var defCart = $q.defer();
             CartREST.Cart.one('carts', cartId).get().then(function(response){
                 cart = response.plain();
-                if(response.items && response.items.length) {
-                    // we need to retrieve images for the items in the cart:
-                    var productIds = response.items.map(function (item) {
-                        return item.product.id;
-                    });
-                    var productParms = {
-                        q: 'id:(' + productIds + ')'
-                    };
-                    ProductSvc.query(productParms).then(function (productResults) {
-                        angular.forEach(cart.items, function (item) {
-                            angular.forEach(productResults, function (product) {
-                                if (product.id === item.product.id) {
-                                    item.images = product.images;
-                                }
-                            });
-                        });
-                        defCart.resolve(cart);
+                if(validateCurrency){
+                    ensureCorrectCurrency(cart.id).then(function(updatedCart){
+                        defCart.resolve(getCartWithImages(updatedCart));
                     }, function(){
+                        cart = {};
+                        if(!response || response.status!== 404) {
+                            cart.error = true;
+                        }
                         defCart.resolve(cart);
                     });
-                }  else {
-                    defCart.resolve(cart);
+                } else {
+                    defCart.resolve(getCartWithImages(cart));
                 }
-
             }, function(response){
                 cart = {};
                 if(!response || response.status!== 404) {
@@ -137,24 +163,84 @@ angular.module('ds.cart')
                 defCart.resolve(cart);
             });
             defCart.promise.then(function(){
-                $rootScope.$emit('cart:updated', cart);
+                $rootScope.$emit('cart:updated', { cart: cart, source: updateSource});
             });
             return defCart.promise;
         }
 
+        function handleCartMerge(anonCart, forceRefresh){
+            if(anonCart && anonCart.id){
+                // merge anon cart into user cart
+                CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function(){
+                    refreshCart(cart.id, false, 'merge');
+                });
+            } else { // just use user cart "as is"
+                if(forceRefresh){
+                    refreshCart(cart.id);
+                } else {
+                    getCartWithImages(cart).then(function(){
+                        $rootScope.$emit('cart:updated', { cart: cart, source: 'merge'});
+                    });
+                }
 
+            }
+        }
 
         return {
 
-            /** Returns the cart as stored in the local scope.*/
+            /**
+             * Creates a new Cart instance that does not have an ID.
+             * This will prompt the creation of a new cart once items are added to the cart.
+             * Should be invoked once an existing cart has been successfully submitted to checkout.
+             */
+            resetCart: function () {
+                cart = new Cart();
+                $rootScope.$emit('cart:updated', {cart: cart, source: 'reset'});
+            },
+
+            /** Returns the cart as stored in the local scope - no GET is issued.*/
             getLocalCart: function(){
                 return cart;
             },
 
-            /** Returns a promise over the cart associated with the current user
-             * (unauthenticated only at this time).*/
+            /**
+             * Retrieves the current cart's state from service and returns a promise over that cart.
+             */
             getCart: function(){
-                return refreshCart(cart.id? cart.id : null);
+                return refreshCart(cart.id? cart.id : null, true);
+            },
+
+            /**
+             * Retrieve any existing cart that there might be for an authenticated user, and merges it with
+             * any content in the current cart.
+             */
+            refreshCartAfterLogin: function (customerId) {
+                // store existing anonymous cart
+                var anonCart = cart;
+                // retrieve any cart associated with the authenticated user
+                CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
+                    cart = authUserCart.plain();
+                    if(cart.currency!==GlobalData.getCurrencyId()){
+                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function(){
+                            handleCartMerge(anonCart, true);
+                        });
+                    } else {
+                        handleCartMerge(anonCart, false);
+                    }
+
+                }, function () { // no existing cart - create a new one for this customer, if cart needs to be merged
+                    if(anonCart && anonCart.id){
+                        cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
+                        CartREST.Cart.all('carts').post(cart).then(function(newCartResponse){
+                            cart.id = newCartResponse.cartId;
+                            handleCartMerge(anonCart, false);
+                        });
+                    } else {
+                        cart = {};
+                        $rootScope.$emit('cart:updated', {cart: cart});
+                    }
+
+                });
             },
 
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
@@ -165,7 +251,7 @@ angular.module('ds.cart')
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
-                        refreshCart(cart.id);
+                        refreshCart(cart.id, false, 'manual');
                         updateDef.resolve();
                     }, function(){
                         angular.forEach(cart.items, function(it){
@@ -185,7 +271,7 @@ angular.module('ds.cart')
              */
             removeProductFromCart: function (itemId) {
                 CartREST.Cart.one('carts', cart.id).one('items', itemId).customDELETE().then(function(){
-                    refreshCart(cart.id);
+                    refreshCart(cart.id, false, 'manual');
                 }, function(){
                     angular.forEach(cart.items, function(item) {
                         if(item.id === itemId) {
@@ -218,15 +304,6 @@ angular.module('ds.cart')
                 }
             },
 
-            /**
-             * Creates a new Cart instance that does not have an ID.
-             * This will prompt the creation of a new cart once items are added to the cart.
-             * Should be invoked once an existing cart has been successfully submitted to checkout.
-             */
-            resetCart: function () {
-               cart = new Cart();
-               $rootScope.$emit('cart:updated', cart);
-            },
 
             /*
              *  This function switches the cart's currency and refreshes the cart
@@ -234,16 +311,14 @@ angular.module('ds.cart')
              */
             switchCurrency: function (code) {
                 if (cart.id) {
-                    var newCurrency = new Currency(code);
-                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(newCurrency)
+                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: code})
                         .then(function () {
-                            refreshCart(cart.id);
-                    }, function(){
-                            // TODO - need better error notification
-                            window.alert('Update of cart currency failed.');
+                            refreshCart(cart.id, false, 'currency');
+                        }, function () {
+                            cart.error = true;
+                            $rootScope.$emit('cart:updated', {cart: cart, source: 'currency'});
+                            console.error('Update of cart currency failed.');
                         });
-
-
                 }
 
             }

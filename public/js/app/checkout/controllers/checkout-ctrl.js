@@ -58,6 +58,12 @@ angular.module('ds.checkout')
             $scope.order.account = {};
             window.scrollTo(0, 0);
 
+            var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
+                $scope.cart = eveObj.cart;
+            });
+
+            $scope.$on('$destroy', unbind);
+
             var decorateSelectedAddress = function(addresses) {
                 if (selectedAddress) {
                     angular.forEach(addresses, function(addr) {

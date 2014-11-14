@@ -16,7 +16,10 @@ describe('SessionSvc', function () {
     mockedAccountSvc = {
             updateAccount: jasmine.createSpy()
         },
-        mockedCartSvc = {},
+        mockedCartSvc = {
+            refreshCartAfterLogin: jasmine.createSpy(),
+            resetCart: jasmine.createSpy()
+        },
         mockedGlobalData = {
             getCurrencyId: function(){
                 return 'USD'
@@ -59,6 +62,30 @@ describe('SessionSvc', function () {
         $scope = _$rootScope_.$new();
     }));
 
+    describe('afterLoginFromSignUp()', function(){
+
+        var updatedAccount;
+        beforeEach(function(){
+            accountDef = $q.defer();
+            mockedAccountSvc.account = jasmine.createSpy('account').andCallFake(function(){
+                return accountDef.promise;
+            });
+            var account = {id: 'abc'};
+            SessionSvc.afterLoginFromSignUp();
+            updatedAccount = {id: 'abc', preferredCurrency: 'USD', preferredLanguage: 'en' };
+            accountDef.resolve(account);
+            $scope.$apply();
+        });
+
+        it('should update account with current language and currency', function(){
+            expect(mockedAccountSvc.updateAccount).wasCalledWith(updatedAccount);
+        });
+
+        it('should request cart for logged in user', function(){
+            expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalled();
+        });
+    });
+
     describe('afterLogIn()', function(){
 
         beforeEach(function(){
@@ -74,16 +101,6 @@ describe('SessionSvc', function () {
             expect(mockedAccountSvc.account).wasCalled();
         });
 
-        it('should update account with current language and currency if from signUp', function(){
-
-            var account = {id: 'abc'};
-            SessionSvc.afterLogIn({fromSignUp: true});
-
-            var updatedAccount = {id: 'abc', preferredCurrency: 'USD', preferredLanguage: 'en' };
-            accountDef.resolve(account);
-            $scope.$apply();
-            expect(mockedAccountSvc.updateAccount).wasCalledWith(updatedAccount);
-        });
 
         it('should set language and currency preference if set', function(){
             var lang = 'de';
@@ -116,17 +133,12 @@ describe('SessionSvc', function () {
             expect(mockedState.go).wasCalledWith(toState, {});
         });
 
-        it('should reload current page if no target state', function(){
+        it('should retrieve any open cart for the current user', function(){
             var account = {id: 'abc'};
-
             SessionSvc.afterLogIn();
             accountDef.resolve(account);
             $scope.$apply();
-            expect(mockedState.transitionTo).wasCalled();
-        });
-
-        it('should retrieve any open cart for the current user', function(){
-            // FUTURE functionality
+            expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalled();
         });
 
     });
@@ -144,7 +156,8 @@ describe('SessionSvc', function () {
         });
 
         it('should reset the cart', function(){
-            // FUTURE functionality
+            SessionSvc.afterLogOut();
+            expect(mockedCartSvc.resetCart).toHaveBeenCalled();
         });
     });
 

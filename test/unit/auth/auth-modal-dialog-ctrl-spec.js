@@ -45,6 +45,8 @@ describe('AuthModalDialogCtrl Test', function () {
         close: jasmine.createSpy('close')
     };
 
+
+
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
@@ -87,8 +89,6 @@ describe('AuthModalDialogCtrl Test', function () {
                 return deferredSignUp.promise;
             })
         };
-        mockedSettings.hybrisUser = null;
-
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
             $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
@@ -123,19 +123,25 @@ describe('AuthModalDialogCtrl Test', function () {
             expect(MockedAuthSvc.signin).not.toHaveBeenCalled();
         });
 
-        xit('on success should set hybris user and close dialog', function(){
-            mockedForm.$valid = false;
+        it('on success should set hybris user and close dialog', function(){
+            mockedForm.$valid = true;
+
+            $scope.errors.signin = ['bad stuff'];
             $scope.signin(authModel, mockedForm);
             deferredSignIn.resolve({});
-            $scope.$apply();
-            var scopeEmail = 'scope.email';
-            $scope.user = {
-                signin: {
-                    email: scopeEmail
-                }
-            };
+            $rootScope.$apply();
+
             expect($modalInstanceMock.close).toHaveBeenCalled();
-            //expect(mockedSettings.hybrisUser).toEqualData(scopeEmail);
+            expect($scope.errors.signin).toEqualData([]);
+        });
+
+        it('should set errors on failure', function(){
+            mockedForm.$valid = true;
+            $scope.errors.signin = [];
+            $scope.signin(authModel, mockedForm);
+            deferredSignIn.reject({status: 400, data:{ details:[{field: 'password'}]}});
+            $rootScope.$apply();
+            expect($scope.errors.signin).toEqualData([{message: 'PASSWORD_INVALID'}]);
         });
     });
 
@@ -143,8 +149,14 @@ describe('AuthModalDialogCtrl Test', function () {
 
         it("should call AuthSvc signup if form valid", function() {
             mockedForm.$valid = true;
+            $scope.errors.signup = ['bad stuff'];
             $scope.signup(authModel, mockedForm);
-            expect(MockedAuthSvc.signup).toHaveBeenCalledWith(authModel);
+
+            deferredSignUp.resolve({});
+            $rootScope.$apply();
+            expect(MockedAuthSvc.signup).toHaveBeenCalledWith(authModel, {});
+            expect($modalInstanceMock.close).toHaveBeenCalled();
+            expect($scope.errors.signup).toEqualData([]);
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -153,29 +165,15 @@ describe('AuthModalDialogCtrl Test', function () {
             expect(MockedAuthSvc.signup).not.toHaveBeenCalled();
         });
 
-        it('should call signin after successful signup', function(){
+        it('should set errors on failure', function(){
             mockedForm.$valid = true;
+            $scope.errors.signup = [];
             $scope.signup(authModel, mockedForm);
-            deferredSignUp.resolve({});
-            $scope.$apply();
-            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
+            deferredSignUp.reject({status: 409});
+            $rootScope.$apply();
+            expect($scope.errors.signup).toEqualData([{ message: 'ACCOUNT_ALREADY_EXISTS' }]);
         });
 
-        it('should not call signin after failed signup', function(){
-            mockedForm.$valid = true;
-            $scope.signup(authModel, mockedForm);
-            deferredSignUp.reject({});
-            $scope.$apply();
-            expect(MockedAuthSvc.signin).not.toHaveBeenCalledWith();
-        });
-
-        it('should update account from signup', function () {
-            mockedForm.$valid = true;
-            $scope.signup(authModel, mockedForm);
-            deferredSignUp.resolve({});
-            $scope.$apply();
-            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
-        });
     });
 
     describe('showResetPassword()', function(){

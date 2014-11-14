@@ -24,7 +24,7 @@
 <div ng-if="!cart.error && !cart.items.length" class="empty-cart-text text-center">
     {{'CART_EMPTY' | translate}}
 </div>
-<div ng-if="cart.error" class="empty-cart-text text-center">
+<div ng-if="cart.error" class="error text-center">
     {{'CART_UNAVAILABLE' | translate}}
 </div>
 	<div ng-if="cart.items.length">
@@ -63,7 +63,7 @@
 								<div class="input-group pull-left" ng-class="{error: item.error}">
 									<span class="input-group-addon">{{'QTY' | translate}}:</span>
 									<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
-										ng-change="item.quantity > 0 && updateCartItem(item, item.quantity)" ng-blur="(!item.quantity || item.quantity === 0) && removeProductFromCart(item.id)"
+                                        ng-blur="updateCartItem(item, item.quantity)"
 		                                onkeydown="return ( event.ctrlKey || event.altKey
 		                    					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
 		                    					|| (95<event.keyCode && event.keyCode<106)
@@ -72,7 +72,7 @@
 		                    					|| (event.keyCode==46) )" />
 								</div>
 							</div>
-							<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) || 0 | currency: currencySymbol}}</span></div>
+							<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.totalItemPrice.value || 0 | currency: currencySymbol}}</span></div>
 						</div>
 					</div>
 				</div>

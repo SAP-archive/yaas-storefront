@@ -15,10 +15,10 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope',  '$controller', '$q', 'AuthSvc',
-       'settings', 'AuthDialogManager', 'GlobalData', 'SessionSvc', 'loginOpts',
-        function ($rootScope, $scope,  $controller, $q, AuthSvc,
-                  settings, AuthDialogManager, GlobalData, SessionSvc, loginOpts) {
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc',
+       'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc,
+                  settings, AuthDialogManager, GlobalData, loginOpts) {
 
 
             $scope.user = {
@@ -34,17 +34,6 @@ angular.module('ds.auth')
                 signin: []
             };
 
-            var performSignin = function (authModel, fromSignUp) {
-                var signInPromise = AuthSvc.signin(authModel);
-                signInPromise.then(function () {
-                    $scope.errors.signin = [];
-                    loginOpts.fromSignUp = fromSignUp;
-                    SessionSvc.afterLogIn(loginOpts);
-                }, function (response) {
-                    $scope.errors.signin = extractServerSideErrors(response);
-                });
-                return signInPromise;
-            };
 
             var extractServerSideErrors = function (response) {
                 var errors = [];
@@ -72,19 +61,12 @@ angular.module('ds.auth')
                 var deferred = $q.defer();
 
                 if (signUpForm.$valid) {
-                    AuthSvc.signup(authModel).then(
-                        function () {
+                    AuthSvc.signup(authModel, loginOpts).then(
+                        function (response) {
                             $scope.errors.signup = [];
-                            performSignin(authModel, {fromSignUp: true}).then(
-                                function (response) {
-                                    settings.hybrisUser = $scope.user.signup.email;
-//                                    $modalInstance.close(response);
-                                    deferred.resolve(response);
-                                },
-                                function (response) {
-                                    deferred.reject(response);
-                                }
-                            );
+                            settings.hybrisUser = $scope.user.signup.email;
+                            $modalInstance.close(response);
+                            deferred.resolve(response);
                         }, function (response) {
                             $scope.errors.signup = extractServerSideErrors(response);
                             deferred.reject({ message: 'Signup form is invalid!', errors: $scope.errors.signup });
@@ -93,25 +75,22 @@ angular.module('ds.auth')
                 } else {
                     deferred.reject({ message: 'Signup form is invalid!'});
                 }
-
                 return deferred.promise;
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
                 var deferred = $q.defer();
-
                 if (signinForm.$valid) {
-                    performSignin(authModel).then(
-                        function (response) {
-                            settings.hybrisUser = $scope.user.signin.email;
-//                            $modalInstance.close(response);
-                            deferred.resolve(response);
-                        },
-                        function (response) {
-                            deferred.reject(response);
-                        }
-                    );
+                    AuthSvc.signin(authModel).then(function () {
+                        $scope.errors.signin = [];
+                        settings.hybrisUser = $scope.user.signin.email;
+                        $modalInstance.close({});
+                        deferred.resolve({});
+                    }, function (response) {
+                        $scope.errors.signin = extractServerSideErrors(response);
+                        deferred.reject(response);
+                    });
                 } else {
                     deferred.reject({ message: 'Signin form is invalid!'});
                 }
@@ -120,7 +99,7 @@ angular.module('ds.auth')
 
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
-//                $modalInstance.close();
+                $modalInstance.close();
             };
 
             /** Closes the dialog.*/

@@ -15,7 +15,9 @@ window.app = angular.module('ds.router', [
     'ds.orders',
     'ds.queue',
     'config',
-    'xeditable'
+    'xeditable',
+    'ngSanitize',
+    'ui.select'
 ])
     .constant('_', window._)
 
@@ -174,8 +176,12 @@ window.app = angular.module('ds.router', [
                 GlobalData.user.username = TokenSvc.getToken().getUsername();
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurr) {
-                CartSvc.switchCurrency(newCurr);
+            $rootScope.$on('currency:updated', function (event, newCurrId) {
+                CartSvc.switchCurrency(newCurrId);
+            });
+
+            $rootScope.$on('language:updated', function () {
+                CartSvc.getCart();
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

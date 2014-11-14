@@ -76,9 +76,7 @@ angular.module('ds.auth')
                         modalOpts.keyboard = false;
                         modalOpts.backdrop = 'static';
                     }
-
                     return openDialog(modalOpts);
-
                 },
 
                 close: function() {

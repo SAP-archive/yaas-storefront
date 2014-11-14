@@ -29,7 +29,7 @@
 
         
         it('should load product-list in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           assertTextByElement('linkText', 'ALL PRODUCTS', 'ALL PRODUCTS');
           assertTextByElement('binding', 'category.name', 'MUGS');
           assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
@@ -44,7 +44,7 @@
 
 
         it('should load product-list in german', function () {
-          tu.clickElement('linkText', 'DE');
+          tu.selectLanguage('German');
           assertTextByElement('linkText', 'ALLE PRODUKTE', 'ALLE PRODUKTE');
           assertTextByElement('binding', 'category.name', 'TASSEN');
           assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
@@ -58,7 +58,7 @@
         });
 
         it('should load product-detail in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           assertTextByElement('css', 'label.ng-binding', 'Qty:');
           assertTextByElement('id', 'buy-button', 'BUY');
@@ -67,14 +67,14 @@
 
         it('should load product-detail in german', function () {
           tu.clickElement('css', 'div.thumb');
-          tu.clickElement('linkText', 'DE');
+          tu.selectLanguage('German');
           assertTextByElement('css', 'label.ng-binding', 'Menge:');
           assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
           assertTextByElement('css', 'div.headline.ng-binding', 'Beschreibung:');
         });
 
         it('should load cart in english', function () {
-          tu.clickElement('linkText', 'EN');
+          tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
           assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
@@ -88,7 +88,7 @@
 
         it('should load cart in german', function () {
           tu.clickElement('css', 'div.thumb');
-          tu.clickElement('linkText', 'DE');
+          tu.selectLanguage('German');
           tu.clickElement('id', 'buy-button');
           assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'WEITER EINKAUFEN');
           assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/button", 'KASSE');
@@ -101,7 +101,7 @@
 
         it('should load checkout in german', function () {
           tu.clickElement('css', 'div.thumb');
-          tu.clickElement('linkText', 'DE');
+          tu.selectLanguage('German');
           tu.clickElement('id', 'buy-button');
           browser.sleep(3000);
           tu.clickElement('css', tu.checkoutButton);
