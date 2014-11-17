@@ -197,46 +197,49 @@ $(document).ready(function () {
 	      // "left", "above", or "below". Defaults to "right".
 	      submenuDirection: "right"
 	  });
-*/
+
+ $(document).on("click","#sidebar .navi > li.has-sub > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi > li > a").removeClass("mactive");
+ $(this).addClass("mactive");
+
+
+ $("#sidebar .navi").addClass("sub-1");
+
+ })
+
+ $(document).on("click","#sidebar .navi .sub-navi-list > li.has-sub > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
+ $(this).addClass("mactive");
+ $("#sidebar .navi").addClass("sub-2");
+ })
 
 
 
-/*
-	$(document).on("click","#sidebar .navi > li.has-sub > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi > li > a").removeClass("mactive");
-		$(this).addClass("mactive");
+ $(document).on("click","#sidebar .navi ul.sub-navi-list > li.back > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi > li > a").removeClass("mactive");
+ $("#sidebar .navi").removeClass("sub-1");
+ $("#sidebar .navi").removeClass("sub-2");
+
+ })
+
+ $(document).on("click","#sidebar .navi ul.sub-navi-list  ul >  li.back > a ",function(e){
+ e.preventDefault();
+ $("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
+ $("#sidebar .navi").removeClass("sub-2");
+
+ })
 
 
-		$("#sidebar .navi").addClass("sub-1");
-
-	})
 
 
-	$(document).on("click","#sidebar .navi .sub-navi-list > li.has-sub > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
-		$(this).addClass("mactive");
-		$("#sidebar .navi").addClass("sub-2");
-	})
-
-*/
 
 
-	$(document).on("click","#sidebar .navi ul.sub-navi-list > li.back > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi > li > a").removeClass("mactive");
-		$("#sidebar .navi").removeClass("sub-1");
-		$("#sidebar .navi").removeClass("sub-2");
 
-	})
+ */
 
-	$(document).on("click","#sidebar .navi ul.sub-navi-list  ul >  li.back > a ",function(e){
-		e.preventDefault();
-		$("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
-		$("#sidebar .navi").removeClass("sub-2");
-
-	})
 
 
 

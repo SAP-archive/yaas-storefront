@@ -6,10 +6,12 @@
 angular.module('ds.products')
     .factory('CategorySvc', ['PriceProductREST', 'GlobalData', '$q', function(PriceProductREST, GlobalData, $q){
 
-        function sluggify(name){
+        function sluggify(){
+
             // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
-           return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+           return window.encodeURIComponent(this.name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
         }
+
 
         return {
 
@@ -23,7 +25,7 @@ angular.module('ds.products')
                     var cats = [];
                     angular.forEach(result.plain(), function (category) {
                         var slug = sluggify(category.name);
-                        category.slug = slug;
+                        category.sluggify = sluggify;
                         catNameMap[slug] = category;
                         cats.push(category);
                     }, catNameMap);
@@ -37,25 +39,7 @@ angular.module('ds.products')
                 return catDef.promise;
             },
 
-            /*
-            getCategory: function(categoryId) {
-                var cdef = $q.defer();
-                if(categoryId === '0'){
-                    cdef.resolve(null);
-                } else if(GlobalData.categoryMap){
-                    var category = GlobalData.categoryMap[categoryId];
-                    cdef.resolve(category);
-                } else {
-                    this.getCategories().then(function () {
-                        var category = GlobalData.categoryMap[categoryId];
-                        if(!category) {
-                            category = {};
-                        }
-                        cdef.resolve(category);
-                    });
-                }
-                return cdef.promise;
-            },*/
+
 
             getProducts: function(categoryId){
                 return PriceProductREST.Categories.all('categories').one(categoryId).all('elements').getList();

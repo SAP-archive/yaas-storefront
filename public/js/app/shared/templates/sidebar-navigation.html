@@ -18,22 +18,22 @@
         {{'SIGN_IN' | translate}}
     </a>
 </div>
-<ul class="navi" menu-aim>
-    <li ng-repeat="category in categories" ng-class="{'has-sub': category.subcategories}">
-        <a ui-sref="base.category( {catName: category.slug} )" menu-aim-level1 ng-click="hideMobileNav()">{{
-            category.name }} <span
-                    class="hyicon hyicon-chevron-bold-right"></span></a>
+<ul ds-menu-aim class="navi" >
+    <li data-ng-repeat="category in categories" data-ng-class="{'has-sub': category.subcategories}">
+
+        <a ui-sref="base.category( {catName: category.slug} )" ng-click="hideMobileNav()">{{category.name }}
+            <span class="hyicon hyicon-chevron-bold-right"></span></a>
 
         <div class="sub-navi">
             <ul class="sub-navi-list">
-                <li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to
+                <li class="back"><a href="base.category( {catName: category.slug}"><span class="hyicon hyicon-chevron-bold-left"></span>Back to
                     {{category.name}}</a></li>
-                <li ng-repeat="sub2 in category.subcategories" class="{'has-sub': sub2.subcategories}"><a href="">{{
+                <li ng-repeat="sub2 in category.subcategories" class="{'has-sub': sub2.subcategories}"><a data-ui-sref="base.category( {catName: sub2.slug} )">{{
                     sub2.name }}<span class="hyicon hyicon-chevron-bold-right"></span></a>
                     <ul>
-                        <li class="back"><a href="" ><span class="hyicon hyicon-chevron-bold-left"></span> Back to {{
+                        <li class="back"><a href="base.category({catName: sub2.slug}"><span class="hyicon hyicon-chevron-bold-left"></span> Back to {{
                             sub2.name }}</a></li>
-                        <li ng-repeat="sub3 in sub2.subcategories"><a href="" menu-aim-level2>{{ sub3.name }}</a></li>
+                        <li ng-repeat="sub3 in sub2.subcategories"><a href="base.category( {catName: sub3.slug}" >{{ sub3.name }}</a></li>
                     </ul>
                 </li>
             </ul>
