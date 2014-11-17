@@ -37,7 +37,6 @@ angular.module('ds.shared')
                         content:  $compile(data)(scope)
                     };
                     $(function(){
-                        console.log($(element));
                         $(element).popover(options).addClass(scope.popoverClass)
 
 

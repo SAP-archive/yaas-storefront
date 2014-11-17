@@ -15,9 +15,9 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc',
+    .controller('AuthPopoverDialogCtrl', ['$rootScope', '$scope', '$controller', '$q', 'AuthSvc',
        'settings', 'AuthDialogManager', 'GlobalData', 'SessionSvc', 'loginOpts',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc,
+        function ($rootScope, $scope,  $controller, $q, AuthSvc,
                   settings, AuthDialogManager, GlobalData, SessionSvc, loginOpts) {
 
 
@@ -78,7 +78,7 @@ angular.module('ds.auth')
                             performSignin(authModel, {fromSignUp: true}).then(
                                 function (response) {
                                     settings.hybrisUser = $scope.user.signup.email;
-                                    $modalInstance.close(response);
+
                                     deferred.resolve(response);
                                 },
                                 function (response) {
@@ -105,7 +105,7 @@ angular.module('ds.auth')
                     performSignin(authModel).then(
                         function (response) {
                             settings.hybrisUser = $scope.user.signin.email;
-                            $modalInstance.close(response);
+
                             deferred.resolve(response);
                         },
                         function (response) {
@@ -120,12 +120,12 @@ angular.module('ds.auth')
 
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
-                $modalInstance.close();
+
             };
 
             /** Closes the dialog.*/
             $scope.closeDialog = function(){
-                $modalInstance.close();
+//                $modalInstance.close();
             };
 
             /** Shows the "request password reset" dialog.*/
