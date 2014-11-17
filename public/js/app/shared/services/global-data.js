@@ -118,7 +118,7 @@ angular.module('ds.shared')
                     if(languageCookie && languageCookie.languageCode){
                         setLanguageWithOptionalCookie(languageCookie.languageCode, false);
                     } else {
-                        setLanguageWithOptionalCookie(storeDefaultCurrency, true);
+                        setLanguageWithOptionalCookie(languageCode, true);
                     }
                 },
 

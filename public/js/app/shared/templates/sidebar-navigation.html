@@ -1,240 +1,63 @@
-<a ui-sref="base.category" class="logo">
+<a ui-sref="base.category({catName: null})" class="logo">
     <img ng-src="{{store.logo || 'img/logo.png'}}" alt="" style="max-width:65px;"></a>
 
-	<div class="authentication-cnt text-center">
-		<ul class="navi authenticated">
-			<li>
-				<a href="" class="my-profile" ng-click="myAccount()" ng-if="user.isAuthenticated" title="{{'MY_ACCOUNT' | translate}}">
-					<img src="./img/user-icon_small_active.png" class="user-avatar">
-				</a>
-			</li>
-			<li><a ng-click="logout()" ng-if="user.isAuthenticated" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a></li>
-		</ul>
-		
-		<a ng-click="login()" ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link" >
-			<img src="./img/user-icon_small.png" class="user-avatar">
-			{{'SIGN_IN' | translate}}
-		</a>
-	</div>
-
-	<ul class="navi" >
-<!--
-            <li><a ng-click="showProducts()">category.name</a></li>
--->
-		<!-- 
-		 static example  for multi hierarchy - remove after sampledata is there
--->
+<div class="authentication-cnt text-center">
+    <ul class="navi authenticated">
         <li>
-            <a ui-sref="base.category({catName: null})" ng-click="hideMobileNav()">{{ 'ALL_PRODUCTS' | translate  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+            <a href="" class="my-profile" ng-click="myAccount()" ng-if="user.isAuthenticated"
+               title="{{'MY_ACCOUNT' | translate}}">
+                <img src="./img/user-icon_small_active.png" class="user-avatar">
+            </a>
         </li>
+        <li><a ng-click="logout()" ng-if="user.isAuthenticated" id="logout-btn" class="signout btn">{{'SIGN_OUT' |
+            translate}}</a></li>
+    </ul>
 
-		<li ng-repeat="category in categories"> <!-- class="has-sub" -->
-			<a ui-sref="base.category( {catName: category.slug} )" ng-click="hideMobileNav()">{{ category.name  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
-         <!--
-			<div class="sub-navi">
-				<ul class="sub-navi-list">
-					<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 1</a></li>
-					<li class="has-sub"><a href="">Level Two 1<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 2<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 3<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 4<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 5<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 6<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 7<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two 8<span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
+    <a ng-click="login()" ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link">
+        <img src="./img/user-icon_small.png" class="user-avatar">
+        {{'SIGN_IN' | translate}}
+    </a>
+</div>
+<ul class="navi" menu-aim>
+    <li ng-repeat="category in categories" ng-class="{'has-sub': category.subcategories}">
+        <a ui-sref="base.category( {catName: category.slug} )" menu-aim-level1 ng-click="hideMobileNav()">{{
+            category.name }} <span
+                    class="hyicon hyicon-chevron-bold-right"></span></a>
 
-				</ul>
-				
-			</div>
-		-->
-        </li>
-        <!--
-		<li class="has-sub"><a href="">Level 1 <span class="hyicon hyicon-chevron-bold-right"></span></a>
-		<div class="sub-navi">
-				<ul class="sub-navi-list">
-					<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 1</a></li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub"><a href="">Level Two <span class="hyicon hyicon-chevron-bold-right"></span></a>
-						<ul>
-							<li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to Level 2</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-							<li><a href="">Level 3</a></li>
-						</ul>
-					</li>
-		
-				</ul>
-				
-			</div>
-		</li>
-		<li><a href="">Level 1</a></li>
-		<li><a href="">Level 1</a></li>
-		<li><a href="">Level One</a></li>
-		<li><a href="">Level 1</a></li>
-		<li><a href="">Level One</a></li>
-		<li><a href="">Level 1</a></li>
-        -->
-	</ul>
-	<div class="store-settings">
-	    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
-	        <ui-select-match id="language-select" placeholder="Select language" >
-	            <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
-	        </ui-select-match>
-	        <ui-select-choices repeat="lang in languages | filter: $select.search">
-	            <img src="./img/flags/{{lang.iso}}.jpg" width="20">
-	            <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
-	        </ui-select-choices>
-	    </ui-select>
+        <div class="sub-navi">
+            <ul class="sub-navi-list">
+                <li class="back"><a href=""><span class="hyicon hyicon-chevron-bold-left"></span> Back to
+                    {{category.name}}</a></li>
+                <li ng-repeat="sub2 in category.subcategories" class="{'has-sub': sub2.subcategories}"><a href="">{{
+                    sub2.name }}<span class="hyicon hyicon-chevron-bold-right"></span></a>
+                    <ul>
+                        <li class="back"><a href="" ><span class="hyicon hyicon-chevron-bold-left"></span> Back to {{
+                            sub2.name }}</a></li>
+                        <li ng-repeat="sub3 in sub2.subcategories"><a href="" menu-aim-level2>{{ sub3.name }}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+<div class="store-settings">
+    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+        <ui-select-match id="language-select" placeholder="Select language">
+            <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
+        </ui-select-match>
+        <ui-select-choices repeat="lang in languages | filter: $select.search">
+            <img src="./img/flags/{{lang.iso}}.jpg" width="20">
+            <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
 
-	    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
-	        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
-	        </ui-select-match>
-	        <ui-select-choices repeat="curr in currencies | filter: $select.search">
-	            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
-	        </ui-select-choices>
-	    </ui-select>
-	</div>
+    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}}
+            {{$select.selected.label}}
+        </ui-select-match>
+        <ui-select-choices repeat="curr in currencies | filter: $select.search">
+            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
+</div>
 

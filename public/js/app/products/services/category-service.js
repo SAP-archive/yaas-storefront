@@ -7,7 +7,8 @@ angular.module('ds.products')
     .factory('CategorySvc', ['PriceProductREST', 'GlobalData', '$q', function(PriceProductREST, GlobalData, $q){
 
         function sluggify(name){
-           return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue'));
+            // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
+           return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
         }
 
         return {
@@ -16,7 +17,7 @@ angular.module('ds.products')
             getCategories: function () {
                 var catDef = $q.defer();
 
-                PriceProductREST.Categories.all('categories').getList().then(function (result) {
+                PriceProductREST.Categories.all('categories').getList({ expand: 'subcategories', toplevel: true }).then(function (result) {
                    // var catMap = [];
                     var catNameMap = [];
                     var cats = [];
