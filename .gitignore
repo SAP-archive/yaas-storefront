@@ -10,3 +10,4 @@ public/css/vendor
 coverage/
 config/config.js
 dist
+*.DS_Store
