@@ -3,7 +3,7 @@ var tu = require('./protractor-utils.js');
 
        function loadProductIntoCart(cartAmount, cartTotal) {
          tu.clickElement('id', tu.cartButtonId);
-         browser.sleep(250);
+         browser.sleep(1000);
          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
          tu.clickElement('xpath', tu.contineShopping);
          tu.clickElement('xpath', tu.whiteCoffeeMug);
@@ -143,6 +143,7 @@ describe("cart:", function () {
           browser.sleep(250);
           tu.verifyCartTotal("$10.67");
           tu.sendKeysByXpath(tu.cartQuantity, '-5');
+          tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
           tu.verifyCartAmount('5');
           browser.sleep(250);
           tu.verifyCartTotal('$53.35');

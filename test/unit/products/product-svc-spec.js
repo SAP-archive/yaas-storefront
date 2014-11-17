@@ -11,12 +11,9 @@
  */
 describe('ProductSvc Test', function () {
 
-    var productsRestUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
-
-    var $scope, $rootScope, $httpBackend, productSvc;
+    var $scope, $rootScope, $httpBackend, productSvc, productsUrl;
     var acceptLang = "de";
     var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
-
 
     var prodList = [
         {name: 'Shirt'},
@@ -36,18 +33,24 @@ describe('ProductSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_) {
+        module('ds.cart', function($provide){
+            $provide.value('storeConfig', {});
+        });
+
+        inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             productSvc = _ProductSvc_;
+            siteConfig = SiteConfigSvc;
+            productsUrl = siteConfig.apis.products.baseUrl + 'products';
         });
     });
 
     describe('query', function(){
 
         it('issues GET that returns product array', function () {
-            $httpBackend.expectGET(productsRestUrl).respond(prodList);
+            $httpBackend.expectGET(productsUrl).respond(prodList);
 
             var products = productSvc.query();
 
@@ -62,7 +65,7 @@ describe('ProductSvc Test', function () {
 
         it('sets accept-language header', function(){
 
-            $httpBackend.expectGET(productsRestUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
+            $httpBackend.expectGET(productsUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
 
             productSvc.query();
             $httpBackend.flush();

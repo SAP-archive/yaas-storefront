@@ -12,10 +12,8 @@
 
 describe('CartSvc Test', function () {
 
-    var mockBackend, $scope, $rootScope, cartSvc;
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl;
     var cartId = 'cartId456';
-    var cartUrl = 'https://yaas-test.apigee.net/test/cart/v3/carts';
-    var productUrl = 'https://yaas-test.apigee.net/test/product/v2/products';
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
     var itemId = '0';
@@ -85,12 +83,15 @@ describe('CartSvc Test', function () {
         });
     });
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _$q_, CartSvc) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _$q_, CartSvc, SiteConfigSvc ) {
 
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         mockBackend = _$httpBackend_;
         cartSvc = CartSvc;
+        siteConfig = SiteConfigSvc;
+        cartUrl = siteConfig.apis.cart.baseUrl + 'carts';
+        productUrl = siteConfig.apis.products.baseUrl + 'products'
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
         deferredAccount = _$q_.defer();
         mockedAccountSvc.getCurrentAccount =  jasmine.createSpy('getCurrentAccount').andReturn(deferredAccount.promise);
@@ -104,7 +105,6 @@ describe('CartSvc Test', function () {
     }));
 
     describe('getLocalCart', function () {
-
         it('should return cart', function () {
             var cart = cartSvc.getLocalCart();
             expect(cart).toBeTruthy();
@@ -116,6 +116,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
+            
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
 
@@ -381,7 +382,7 @@ describe('CartSvc Test', function () {
                 "id": cartId
             });
             // should query product info for cart
-            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:(123)').respond(500, {});
+            mockBackend.expectGET(productUrl+'?q=id:(123)').respond(500, {});
         });
 
         it('should merge the cart if there was an anonymous cart with items', function(){
@@ -406,7 +407,7 @@ describe('CartSvc Test', function () {
                 "id": anonCartId
             });
             // should query product info for anonymous cart
-            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:('+prodId2+')').respond(500, {});
+            mockBackend.expectGET(productUrl+'?q=id:('+prodId2+')').respond(500, {});
             cartSvc.getCart();
             mockBackend.flush();
 
@@ -500,7 +501,7 @@ describe('CartSvc Test', function () {
                 ],
                 "id": cartId
             });
-            mockBackend.expectGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:(123)').respond(500, {});
+            mockBackend.expectGET(productUrl+'?q=id:(123)').respond(500, {});
             cartSvc.getCart();
             mockBackend.flush();
 

@@ -46,6 +46,7 @@ angular.module('ds.products')
                 CartSvc.addProductToCart(product, $scope.productDetailQty).then(function(){},
                 function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
+                    $scope.buyButtonEnabled = true;
                 });
             };
 

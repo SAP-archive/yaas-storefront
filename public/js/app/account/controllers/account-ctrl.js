@@ -29,6 +29,8 @@ angular.module('ds.account')
                 });
             };
 
+            debugger;
+
             $scope.errors = [];
             $scope.account = account;
             $scope.addresses = addresses;
@@ -171,6 +173,7 @@ angular.module('ds.account')
                     pageSize: 100
                 };
                 OrderListSvc.query(parms).then(function (orders) {
+                    debugger;
                     $scope.showAllButton = false;
                     $scope.orders = orders;
                 });

@@ -105,7 +105,9 @@
       </table>
     </div>
     <div class="text-center">
-      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <!--button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button-->
+      <button class="btn btn-link" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <div>{{$scope.addresses.length}}</div>
     </div>
   </section>
 </div>

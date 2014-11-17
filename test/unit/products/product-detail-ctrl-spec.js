@@ -90,6 +90,13 @@ describe('ProductDetailCtrl', function () {
             expect($scope.error).toBeTruthy();
         });
 
+        it('should re-enable buy button on error', function(){
+            $scope.addToCartFromDetailPage();
+            cartDef.reject();
+            $scope.$apply();
+            expect($scope.buyButtonEnabled).toBeTruthy();
+        });
+
     });
 
     describe('initialization', function () {

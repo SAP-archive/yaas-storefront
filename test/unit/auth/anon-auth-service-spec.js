@@ -12,7 +12,7 @@
 
 describe('AnonAuthSvc', function () {
 
-    var AnonAuthSvc, mockedTokenSvc, mockedSettings, mockBackend, $rootScope;
+    var AnonAuthSvc, mockedTokenSvc, mockBackend, $rootScope, accountUrl;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 'abc123';
@@ -22,33 +22,26 @@ describe('AnonAuthSvc', function () {
     mockedTokenSvc = {
         setAnonymousToken: jasmine.createSpy('setAnonymousToken')
     };
-    mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        apis: {
-            account: {
-                baseUrl: 'http://dummy-test-server.hybris.com',
-                apiKey: '123'
-            },
-            headers: {
-              hybrisAuthorization: 'Authorization'
-            }
-        }
-    };
 
     beforeEach(function() {
         module('restangular');
     });
 
-
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('TokenSvc', mockedTokenSvc);
-        $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
     }));
 
-    beforeEach(inject(function(_AnonAuthSvc_, _$httpBackend_, _$rootScope_) {
+    beforeEach(function() {
+        module('ds.shared', function ($provide) {
+            $provide.constant('storeConfig', { storeTenant : '121212'} );
+        });
+    });
+
+    beforeEach(inject(function(_AnonAuthSvc_, _$httpBackend_, _$rootScope_, SiteConfigSvc) {
         AnonAuthSvc = _AnonAuthSvc_;
+        siteConfig = SiteConfigSvc;
+        accountUrl = siteConfig.apis.account.baseUrl;
         mockBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
     }));
@@ -61,7 +54,7 @@ describe('AnonAuthSvc', function () {
 
         describe('happy path', function(){
             beforeEach(function(){
-                mockBackend.expectPOST(mockedSettings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant)
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant)
                     .respond(200, {}, {'Location': location});
             });
 
@@ -90,7 +83,7 @@ describe('AnonAuthSvc', function () {
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectPOST(mockedSettings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(200, {}, {'Location': location});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
@@ -105,14 +98,14 @@ describe('AnonAuthSvc', function () {
 
         describe('failure path', function(){
             beforeEach(function(){
-                mockBackend.expectPOST(mockedSettings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(500, {});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(500, {});
             });
 
             it('should re-enable new login attempt on failure', function(){
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectPOST(mockedSettings.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(200, {}, {'Location': location});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
