@@ -51,11 +51,6 @@ angular.module('ds.auth')
 
             return {
 
-                showPopover: function showPopover()
-                {
-                    console.log('show popover');
-                },
-
                 /**
                  * Creates and opens the authorization dialog for sign in/create account.
                  * Returns the promise returned by $modal.result (see angular bootstrap) - the success handler will

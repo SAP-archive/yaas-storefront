@@ -200,11 +200,4 @@ describe('AuthModalDialogCtrl Test', function () {
         });
     });
 
-    describe('closeDialog()', function(){
-        it('should close the dialog', function(){
-            $scope.closeDialog();
-            expect($modalInstanceMock.close).toHaveBeenCalled();
-        });
-    })
-
 });

@@ -66,7 +66,7 @@ window.app = angular.module('ds.router', [
                             var $state = $injector.get('$state');
                             // if current state requires authentication, prompt user to sign in and reload state
                             if ($state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated') {
-                                    $injector.get('AuthDialogManager').open({}, {}, {});
+                                $injector.get('AuthDialogManager').open({}, {}, {});
                             } else {
                                 // else, retry http request - new anonymous token will be triggered automatically
                                 // issue request to get token (async) and "save" http request

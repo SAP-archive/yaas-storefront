@@ -15,9 +15,9 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$controller', '$q', 'AuthSvc', 'SessionSvc',
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
        'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts', '$window',
-        function ($rootScope, $scope, $controller, $q, AuthSvc, SessionSvc,
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc,
                   settings, AuthDialogManager, GlobalData, loginOpts, $window) {
 
             $scope.user = {
@@ -40,6 +40,7 @@ angular.module('ds.auth')
             
             function onFbLogin(fbToken){
                 AuthSvc.socialLogin('facebook', fbToken).then(function () {
+                    $modalInstance.close();
                     /* jshint ignore:start */
                     FB.api('/me', function(response) {
                        SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
@@ -89,6 +90,7 @@ angular.module('ds.auth')
 
 
             var extractServerSideErrors = function (response) {
+                console.log(response);
                 var errors = [];
                 if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
                     errors.push({message: 'PASSWORD_INVALID'});
@@ -112,12 +114,12 @@ angular.module('ds.auth')
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
                 var deferred = $q.defer();
-
                 if (signUpForm.$valid) {
                     AuthSvc.signup(authModel, loginOpts).then(
                         function (response) {
                             $scope.errors.signup = [];
                             settings.hybrisUser = $scope.user.signup.email;
+                            $modalInstance.close(response);
                             deferred.resolve(response);
                         }, function (response) {
                             $scope.errors.signup = extractServerSideErrors(response);
@@ -137,6 +139,7 @@ angular.module('ds.auth')
                     AuthSvc.signin(authModel).then(function () {
                         $scope.errors.signin = [];
                         settings.hybrisUser = $scope.user.signin.email;
+                        $modalInstance.close({});
                         deferred.resolve({});
                     }, function (response) {
                         $scope.errors.signin = extractServerSideErrors(response);
@@ -150,12 +153,7 @@ angular.module('ds.auth')
 
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
-
-            };
-
-            /** Closes the dialog.*/
-            $scope.closeDialog = function(){
-
+                $modalInstance.close();
             };
 
             /** Shows the "request password reset" dialog.*/
