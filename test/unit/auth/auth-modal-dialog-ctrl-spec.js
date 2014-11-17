@@ -131,7 +131,7 @@ describe('AuthModalDialogCtrl Test', function () {
             deferredSignIn.resolve({});
             $rootScope.$apply();
 
-
+            expect($modalInstanceMock.close).toHaveBeenCalled();
             expect($scope.errors.signin).toEqualData([]);
         });
 
@@ -155,7 +155,7 @@ describe('AuthModalDialogCtrl Test', function () {
             deferredSignUp.resolve({});
             $rootScope.$apply();
             expect(MockedAuthSvc.signup).toHaveBeenCalledWith(authModel, {});
-
+            expect($modalInstanceMock.close).toHaveBeenCalled();
             expect($scope.errors.signup).toEqualData([]);
         });
 
@@ -186,6 +186,7 @@ describe('AuthModalDialogCtrl Test', function () {
     describe('continueAsGuest()', function(){
        it('should close dialog', function(){
            $scope.continueAsGuest();
+           expect($modalInstanceMock.close).toHaveBeenCalled();
        });
     });
 
@@ -202,6 +203,7 @@ describe('AuthModalDialogCtrl Test', function () {
     describe('closeDialog()', function(){
         it('should close the dialog', function(){
             $scope.closeDialog();
+            expect($modalInstanceMock.close).toHaveBeenCalled();
         });
     })
 
