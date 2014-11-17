@@ -9,3 +9,4 @@ public/css/vendor
 .idea
 coverage/
 config/config.js
+dist
