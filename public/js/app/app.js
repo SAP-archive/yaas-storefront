@@ -41,7 +41,7 @@ window.app = angular.module('ds.router', [
                             httpQueue.appendBlocked(config, deferred);
                             return deferred.promise;
                         }
-                        if (config.url.indexOf('product-details') > -1) {
+                        if (config.url.indexOf('product-details') > -1 || config.url.indexOf('shippingcost') > -1) {
                             config.headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
