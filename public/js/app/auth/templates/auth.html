@@ -3,9 +3,9 @@
     <section>
         <!-- Nav tabs -->
         <div class="socialMediaSigninContainer">
-            <div class="fbLogin">
-                <div ng-if="fbLoggedIn" id="intercept" style="opacity: 1; position:relative; z-index: 9" ng-click="fbLogin()">
-                    <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large" style="position:relative; z-index: -1; height:50px; width: 150px">
+            <div class="fbLogin col-sm-6">
+                <div ng-if="fbLoggedIn" id="intercept" ng-click="fbLogin()">
+                    <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large">
                     </fb:login-button>
                 </div>
                 <div ng-if="!fbLoggedIn" id="intercept">
@@ -13,7 +13,7 @@
                     </fb:login-button>
                 </div>
             </div>
-            <div class="googlePlusLogin" ng-app="directive.g+signin" ng-if="googleClientId">
+            <div class="googlePlusLogin col-sm-6" ng-app="directive.g+signin" ng-if="googleClientId">
                 <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
             </div>
         </div>
