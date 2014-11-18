@@ -15,6 +15,15 @@ describe('CheckoutSvc', function () {
 
     var order = {};
 
+    var GlobalData = {
+        user: {
+            isAuthenticated: '',
+            user: null
+        },
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+    };
+
     order.account = {
         title: 'Mr.',
         firstName: 'Michael',
@@ -97,6 +106,7 @@ describe('CheckoutSvc', function () {
             };
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', GlobalData);
         }));
 
         beforeEach(function () {
@@ -207,6 +217,7 @@ describe('CheckoutSvc', function () {
 
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', GlobalData);
         }));
 
         beforeEach(function () {
@@ -246,7 +257,7 @@ describe('CheckoutSvc', function () {
         var defaultCost = {
 
             "price": {
-                "price": 0
+                "USD": 0
             }
         };
 
@@ -255,6 +266,7 @@ describe('CheckoutSvc', function () {
             module('restangular');
             module('ds.checkout', function($provide){
                 $provide.value('CartSvc', mockedCartSvc);
+                $provide.value('GlobalData', GlobalData);
             });
         });
 
@@ -274,8 +286,7 @@ describe('CheckoutSvc', function () {
             var singleCost = {
                 "id": "default",
                 "price": {
-                    "price": 2.99,
-                    "currencyId": "USD"
+                    "USD": 2.99
                 }
             };
             var costResponse = [singleCost ];

@@ -70,7 +70,7 @@ angular.module('ds.shared')
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v4/' + stId
                 }
             };
 
