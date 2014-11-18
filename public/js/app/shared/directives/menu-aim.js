@@ -7,7 +7,7 @@ angular.module('ds.shared')
     .directive('dsMenuAim', [function () {
 
         function activateSubmenu(row) {
-            //console.log('activate 1');
+            console.log('activate');
             angular.element(row).addClass('active');
         }
 
@@ -17,8 +17,7 @@ angular.module('ds.shared')
         }
 
         function exitMenu() {
-            //console.log('exit 1');
-            angular.element(document.querySelector('#sidebar .navi > li')).removeClass('active');
+            $('#sidebar .navi li').removeClass('active');
         }
 
         return {
@@ -29,7 +28,8 @@ angular.module('ds.shared')
                         $element.menuAim({
                             activate: activateSubmenu,
                             deactivate: deactivateSubmenu,
-                            exitMenu: exitMenu
+                            exitMenu: exitMenu,
+                            rowSelector: 'li'
                         });
 
                         $(document).on('click','#sidebar .navi > li.has-sub > a',function(e){
