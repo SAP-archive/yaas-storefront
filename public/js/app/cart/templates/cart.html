@@ -9,7 +9,7 @@
   ~ Information and shall use it only in accordance with the terms of the
   ~ license agreement you entered into with hybris.
   -->
-
+<div class="cartContainer" ng-mouseenter="cartHovered()" ng-mouseleave="cartUnHovered()">
     <div class="btn-group btn-group-justified">
         <div class="btn-group continue">
             <button ng-click="toggleCart()" class="btn  btn-default continue"><span class="hyicon hyicon-chevron-thin-left"></span> {{'CONTINUE_SHOPPING' | translate}}</button>
@@ -79,3 +79,4 @@
 				<!-- /Cart Item -->
 			</section>
 	</div>
+</div>
