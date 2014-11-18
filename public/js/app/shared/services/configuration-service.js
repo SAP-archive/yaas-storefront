@@ -45,8 +45,11 @@ angular.module('ds.shared')
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
+                        } else if (key === settings.configKeys.fbAppIdKey) {
+                            settings.facebookAppId = JSON.parse(value);
                         }
                     }
+
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
@@ -80,6 +83,7 @@ angular.module('ds.shared')
                                         GlobalData.setCurrency(account.preferredCurrency);
                                         currencySet = true;
                                     }
+
                                     if (!languageSet) {
                                         GlobalData.loadInitialLanguage();
                                     }
@@ -97,6 +101,7 @@ angular.module('ds.shared')
                             }
                             def.resolve({});
                             initialized = true;
+
                         });
                     }
                     return def.promise;
