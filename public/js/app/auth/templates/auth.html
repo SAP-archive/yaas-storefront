@@ -13,7 +13,7 @@
                     </fb:login-button>
                 </div>
             </div>
-            <div class="googlePlusLogin" ng-app="directive.g+signin">
+            <div class="googlePlusLogin" ng-app="directive.g+signin" ng-if="googleClientId">
                 <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
             </div>
         </div>
