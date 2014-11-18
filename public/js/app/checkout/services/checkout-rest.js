@@ -25,7 +25,7 @@ angular.module('ds.checkout')
             ShippingCosts: Restangular.withConfig(function(RestangularConfigurer) {
 							RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingCosts.baseUrl);
                             RestangularConfigurer.addRequestInterceptor(function(element, operation, route, url, headers) {
-                                headers[settings.apis.hybrisCurrency] = GlobalData.getCurrencyId();
+                                headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                             });
             })
         };
