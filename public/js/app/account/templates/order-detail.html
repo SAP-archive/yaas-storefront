@@ -11,19 +11,19 @@
   -->
 
 <div class="account">
-    <section class="white">
+    <section class="white orderHeaderContainer">
         <div class="page-headline">
-            <h1>
-                <small><a href="/account/">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}</small></br>
-                {{'ORDER' | translate}} {{order.id}}
-            </h1>
+            <div class="breadCrumb">
+                <a href="/account/">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}
+            </div>
+            <h1>{{'ORDER' | translate}} {{order.id}}</h1>
         </div>
         <div class="section-headline">
             <h2>{{'ORDER_DETAILS' | translate}}</h2>
         </div>
         <div class="row">
             <!-- AREA -->
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
   		<span class="area-headline">
   			{{'SHIPPING_ADDRESS' | translate}}
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <!-- AREA -->
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
   		<span class="area-headline">
   			{{'BILLING_ADDRESS' | translate}}
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <!-- AREA -->
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
   		<span class="area-headline">
   			{{'PAYMENT' | translate}}
@@ -64,73 +64,93 @@
 
         </div>
     </section>
-    <section>
+    <section class="mediumgray orderStatusContainer">
         <div class="section-headline">
             <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
     </section>
-    <section class="mediumgray clearfix">
+    <section class="white clearfix orderItemsContainer">
         <div class="section-headline">
             <h2>{{'ITEMS_IN_YOUR_ORDER' | translate}}</h2>
         </div>
-        <div class="table-responsive order-tabel">
+        <div class="table-responsive order-tabel hidden-xs hidden-sm hidden-md">
             <table class="table">
                 <thead>
                 <tr>
                     <th>{{'ITEM' | translate}}</th>
                     <th>{{'ITEM_PRICE' | translate}}</th>
                     <th>{{'QUANTITY' | translate}}</th>
-                    <th>{{'TOTAL_PRICE' | translate}}</th>
+                    <th class="priceColumn">{{'TOTAL_PRICE' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="entry in order.entries">
 
-                    <td >
-                        <div class="cart-item">
-
-                            <div class="col-xs-2 col-md-4 text-center img-col">
+                    <td class="col-lg-7 col-md-7 col-sm-5 col-xs-5">
+                        <div class="cart-item row">
+                            <div class="img-col col-xs-4 col-sm-4 col-lg-4">
                                 <a ui-sref="base.product.detail( {productId: entry.product.id} )">
                                     <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
                                 </a>
                             </div>
-                            <div class="col-xs-4 col-md-4  detail-col">
-
+                            <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
                                 <div class="name "><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
                                 <div class="price item-attr ">SKU: <span> {{entry.product.sku}}</span></div>
-                                <!--div class="variants row item-attr">
-                                    <div class="variant col-lg-6 ">Color: <span>Stone</span></div>
-                                    <div class="variant col-lg-6 ">Size: <span>30 ml</span></div>
-                                </div-->
                             </div>
                         </div>
                     </td>
-                    <td>{{entry.unitPrice | currency: currencySymbol}}</td>
-                    <td>{{entry.amount}}</td>
-                    <td>{{entry.totalPrice | currency: currencySymbol}}</td>
+                    <td class="col-lg-2 col-md-2 col-sm-3 col-xs-3">{{entry.unitPrice | currency: currencySymbol}}</td>
+                    <td class="col-lg-1 col-md-1 col-sm-2 col-xs-3">{{entry.amount}}</td>
+                    <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 priceColumn">{{entry.totalPrice | currency: currencySymbol}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="summary">
-            <table class="table ">
-                <tbody>
-                <tr>
-                    <td >{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
-                </tr>
-                <tr>
-                    <td>{{'SHIPPING' | translate}}</td>
-                    <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
-                </tr>
-                </tfoot>
-            </table>
+        <div class="hidden-lg">
+            <div class="summary" ng-repeat="entry in order.entries">
+
+                <div class="cart-item row">
+                    <div class="col-xs-4 col-md-4 text-center img-col">
+                        <a ui-sref="base.product.detail( {productId: entry.product.id} )">
+                            <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
+                        </a>
+
+                    </div>
+                    <div class="col-xs-8 col-md-8  detail-col">
+
+                        <div class="name"><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
+                        <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
+                        <div class="variants row item-attr">
+                            <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
+                        </div>
+                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice | currency: currencySymbol}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="summary row">
+            <div class="col-md-offset-7 col-lg-offset-7 col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td >{{'SUBTOTAL' | translate}}</td>
+                        <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'SHIPPING' | translate}}</td>
+                        <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>{{'ORDER_TOTAL' | translate}}</td>
+                        <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </section>
 </div>
