@@ -34,7 +34,8 @@
 
 		<div class="col-md-5 col-sm-5 order-detail">
 			<section class="">
-				<div class="subheadline">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
+                <div class="subheadline" ng-if="confirmationDetails.itemCount <= 1">{{confirmationDetails.itemCount}} {{'ITEM_IN_YOUR_ORDER' | translate}}</div>
+				<div class="subheadline" ng-if="confirmationDetails.itemCount > 1">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
                     <!-- <div ng-repeat="product in confirmationDetails.products">
                         <div class="col-sm-12 col-md-6 col-lg-4"><img class="img-responsive"
                             src="{{ product.images && product.images[0].url || product.externalImages[0]}}"><br/>
