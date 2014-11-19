@@ -31,7 +31,6 @@ angular.module('ds.products')
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 if(eveObj.source === 'manual'){
-                    debugger
                     $rootScope.showCart = true;
                     //check to see if the cart should close after timeout
                     if(eveObj.closeAfterTimeout)
