@@ -13,9 +13,14 @@ angular.module('ds.shared')
             $scope.currencies = GlobalData.getAvailableCurrencies();
             $scope.currency = { selected: GlobalData.getCurrency() };
 
+            // determines "sign-in" link in sidebar
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
+
             $scope.user = GlobalData.user;
             $scope.categories = [];
+
+            // binds logo in sidebar
+            $scope.store = GlobalData.store;
 
             $scope.language = { selected: { iso: GlobalData.getLanguageCode(), value: GlobalData.getLanguageCode() }};
             $scope.languages = [];

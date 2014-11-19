@@ -191,6 +191,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben',
+        LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
          titles
