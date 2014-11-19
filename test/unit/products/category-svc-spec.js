@@ -16,7 +16,10 @@ describe('CategorySvc', function () {
     var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
 
     var cosmeticsId = "117771264";
-    var cosmeticsSlug = 'cosmetics';
+    var cosmeticsSlug = 'cosmetics~'+cosmeticsId;
+    var mockedCatId = 'catId';
+    var mockedCatName = 'catName';
+    var mockedSlug = 'catname~'+mockedCatId;
 
     var categoryResponse = [ {
         "id" : "117767936",
@@ -32,9 +35,8 @@ describe('CategorySvc', function () {
         "name" : "Cosmetics"
     }];
 
-    var mockedCatId = 'catId';
-    var mockedCatName = 'catName';
-    var mockedSlug = 'catname';
+
+    var catQueryPath = '?expand=subcategories&toplevel=true';
 
     beforeEach(module('restangular'));
     beforeEach(angular.mock.module('ds.products', function ($provide) {
@@ -68,53 +70,40 @@ describe('CategorySvc', function () {
 
     describe('getCategories', function(){
 
-        it('issues GET and stores categories map in GlobalData', function () {
-            $httpBackend.expectGET(categoryUrl).respond(categoryResponse);
+        it('issues GET for first request only', function () {
+            $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
 
             var cats = categorySvc.getCategories();
 
             $httpBackend.flush();
             expect(cats).toBeDefined();
 
-            var cat = mockedGlobalData.categoryMap[cosmeticsSlug];
-            expect(cat.name).toEqualData('Cosmetics');
+            categorySvc.getCategories();
+            $httpBackend.verifyNoOutstandingRequest();
         });
 
         it('sets accept-language header', function(){
-            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
+            $httpBackend.expectGET(categoryUrl+catQueryPath, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
             categorySvc.getCategories();
             $httpBackend.flush();
         });
     });
 
     describe('getCategoryWithProducts()', function () {
-        it('should return category from GlobalData if loaded', function () {
-            $httpBackend.expectGET(categoryUrl+'/'+mockedCatId+'/elements').respond([]);
+        it('should return category with products', function () {
+            categorySvc.resetCategoryCache();
+            $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements').respond([]);
             var cat = null;
-            categorySvc.getCategoryWithProducts(mockedSlug).then(function (category) {
+            categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function (category) {
                 cat = category;
             });
             $scope.$apply();
             $httpBackend.flush();
             expect(cat).toBeTruthy();
-            expect(cat.name).toEqualData(mockedCatName);
+            expect(cat.name).toEqualData('Cosmetics');
             $httpBackend.verifyNoOutstandingRequest();
         });
-
-
-        it('should load categories from service if GlobalData not set', function () {
-            categorySvc.clearCategoryCache();
-
-            $httpBackend.expectGET(categoryUrl).respond(categoryResponse);
-            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements').respond([]);
-            var cat = null;
-            categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function(category){
-                cat = category;
-            });
-            $httpBackend.flush();
-            expect(cat.name).toEqualData('Cosmetics');
-        });
-
 
     });
 

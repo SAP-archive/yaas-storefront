@@ -69,6 +69,14 @@ angular.module('ds.products')
           This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
          */
         $scope.addMore = function () {
+            // category selected, but no products associated with category - leave blank for time being
+            if($scope.category.elements && $scope.category.elements.length === 0){
+                $scope.products = [];
+                $scope.productsFrom = 0;
+                $scope.productsTo = 0;
+                $scope.total = 0;
+                return;
+            }
             /*
                 this function is only for infinite scrolling, which is disabled when a sort is applied.
              */
@@ -77,13 +85,11 @@ angular.module('ds.products')
             // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                 if (!$scope.requestInProgress) {
-
-//                    if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
                         var qSpec = 'published:true';
-                        if($scope.category.elements && $scope.category.elements.length > 0 ) {
+                        if($scope.category.elements && $scope.category.elements.length > 0){
                             qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
-                        }
+                        } // If no category elements (rather than length = 0), we're showing "all" products
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,

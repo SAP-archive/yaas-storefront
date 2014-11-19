@@ -99,7 +99,10 @@ angular.module('ds.products')
                 return compositeDef.promise;
             },
 
-
+            /** Remove local category storage to force retrieval from server on next request.*/
+            resetCategoryCache: function(){
+              categoryMap = null;
+            },
 
             getSlug: function (name) {
                 return sluggify(name);
