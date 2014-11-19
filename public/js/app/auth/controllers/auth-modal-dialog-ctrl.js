@@ -79,8 +79,10 @@ angular.module('ds.auth')
                 });
             }
 
+            $scope.fbAppId = settings.facebookAppId;
+
             try {
-                if (settings.facebookAppId) {
+                if ($scope.fbAppId) {
 
                     // load Facebook SDK
                     $window.fbAsyncInit = function () {

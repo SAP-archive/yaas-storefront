@@ -2,7 +2,7 @@
 
     <section>
         <!-- Nav tabs -->
-        <div class="socialMediaSigninContainer">
+        <div ng-if="googleClientId || fbAppId" class="socialMediaSigninContainer">
             <div class="fbLogin col-sm-6">
                 <div ng-if="fbLoggedIn" id="intercept" ng-click="fbLogin()">
                     <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large">
