@@ -66,9 +66,9 @@ angular.module('ds.cart')
          *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */
          
-        $scope.updateCartItem = function (item, itemQty) {
+        $scope.updateCartItem = function (item, itemQty, config) {
             if (itemQty > 0) {
-                CartSvc.updateCartItem(item, itemQty);
+                CartSvc.updateCartItem(item, itemQty, config);
             }
             else if (!itemQty || itemQty === 0) {
                 CartSvc.removeProductFromCart(item.id);

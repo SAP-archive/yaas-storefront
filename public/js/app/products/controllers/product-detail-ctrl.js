@@ -31,6 +31,7 @@ angular.module('ds.products')
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 if(eveObj.source === 'manual'){
+                    debugger
                     $rootScope.showCart = true;
                     //check to see if the cart should close after timeout
                     if(eveObj.closeAfterTimeout)
@@ -49,7 +50,7 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product, $scope.productDetailQty, true).then(function(){},
+                CartSvc.addProductToCart(product, $scope.productDetailQty, {closeCartAfterTimeout: true, opencartAfterEdit: true}).then(function(){},
                 function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
                 });

@@ -63,7 +63,7 @@
 								<div class="input-group pull-left" ng-class="{error: item.error}">
 									<span class="input-group-addon">{{'QTY' | translate}}:</span>
 									<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
-                                        ng-blur="updateCartItem(item, item.quantity)"
+                                        ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"
 		                                onkeydown="return ( event.ctrlKey || event.altKey
 		                    					|| (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
 		                    					|| (95<event.keyCode && event.keyCode<106)

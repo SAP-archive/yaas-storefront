@@ -103,17 +103,20 @@ angular.module('ds.cart')
         /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
          * cart is created first.
          */
-        function createCartItem(product, qty, closeCartAfterTimeout) {
+        function createCartItem(product, qty, config) {
+
+            var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout))? config.closeCartAfterTimeout: undefined;
+            var cartUpdateMode = (!config.opencartAfterEdit)? 'auto': 'manual';
 
             var createItemDef = $q.defer();
             getOrCreateCart().then(function(cartResult){
             var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
                 var item = new Item(product, price, qty);
                 CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function(){
-                    refreshCart(cartResult.cartId, false, 'manual', closeCartAfterTimeout);
+                    refreshCart(cartResult.cartId, false, cartUpdateMode, closeCartAfterTimeout);
                     createItemDef.resolve();
                 }, function(){
-                    refreshCart(cart.id, false, 'manual', closeCartAfterTimeout);
+                    refreshCart(cart.id, false, cartUpdateMode, closeCartAfterTimeout);
                     createItemDef.reject();
                 });
 
@@ -246,12 +249,14 @@ angular.module('ds.cart')
             /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
              * from the API for consistency and in order to display the updated calculations (line item totals, etc).
              * @return promise to signal success/failure*/
-            updateCartItem: function (item, qty, closeCartAfterTimeout) {
+            updateCartItem: function (item, qty, config) {
+                var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout))? config.closeCartAfterTimeout: undefined;
+                var cartUpdateMode = (!config.opencartAfterEdit)? 'auto': 'manual';
                 var updateDef = $q.defer();
                 if(qty > 0) {
                     var cartItem =  new Item(item.product, item.unitPrice, qty);
                     CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function(){
-                        refreshCart(cart.id, false, 'manual', closeCartAfterTimeout);
+                        refreshCart(cart.id, false, cartUpdateMode, closeCartAfterTimeout);
                         updateDef.resolve();
                     }, function(){
                         angular.forEach(cart.items, function(it){
@@ -289,17 +294,17 @@ angular.module('ds.cart')
              *   @param closeCartAfterTimeout if the
              *   @return promise over success/failure
              */
-            addProductToCart: function (product, productDetailQty, closeCartAfterTimeout) {
+            addProductToCart: function (product, productDetailQty, config) {
                 if (productDetailQty > 0) {
                     var item = null;
                     for (var i = 0; cart.items && i < cart.items.length; i++) {
                         item = cart.items[i];
                         if (product.id === item.product.id) {
                             var qty = item.quantity + productDetailQty;
-                            return this.updateCartItem(item, qty, closeCartAfterTimeout);
+                            return this.updateCartItem(item, qty, config);
                         }
                     }
-                    return createCartItem(product, productDetailQty, closeCartAfterTimeout);
+                    return createCartItem(product, productDetailQty, config);
                 } else {
                     return $q.when({});
                 }
