@@ -127,16 +127,15 @@ window.app = angular.module('ds.router', [
         });
     }])
     .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'CategorySvc',
         function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
-                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, CategorySvc) {
 
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
-            
             //closeOffcanvas func for mask 
 
             $rootScope.closeOffcanvas = function(){
@@ -186,6 +185,7 @@ window.app = angular.module('ds.router', [
 
             $rootScope.$on('language:updated', function () {
                 CartSvc.getCart();
+                CategorySvc.getCategories('language:updated');
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -241,8 +241,11 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
 
-                        category: function ($stateParams, CategorySvc) {
-                            return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                        category: function ($stateParams, CategorySvc, initialized) {
+                            if(initialized){
+                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                            }
+
                         }
                     }
                 })
@@ -262,7 +265,7 @@ window.app = angular.module('ds.router', [
                                         return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
                                             prod.richCategory = category;
                                             return prod;
-                                        })
+                                        });
 
                                     } else {
                                         return prod;

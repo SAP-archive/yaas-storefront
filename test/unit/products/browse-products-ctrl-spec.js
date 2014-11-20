@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={};
+    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory={};
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -10,16 +10,21 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products.meta.total = 10;
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
 
+    var mockedState = { transitionTo: jasmine.createSpy()};
+
+    var mockedCategorySvc = {};
+    var mockedSettings = {placeholderImage: 'image', headers: { paging: {total: 'x'}}};
+
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(angular.mock.module('ds.shared'));
+    //beforeEach(angular.mock.module('ds.shared'));
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_,_settings_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -29,7 +34,7 @@ describe('BrowseProductsCtrl', function () {
         $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-        settings = _settings_;
+
     }));
 
 
@@ -49,6 +54,7 @@ describe('BrowseProductsCtrl', function () {
         priceResult = [];
         deferredPrices = $q.defer();
         deferredPrices.resolve(priceResult);
+
         mockedPriceSvc = {};
         mockedPriceSvc.query =  jasmine.createSpy('query').andReturn(deferredPrices.promise);
     }));
@@ -57,11 +63,9 @@ describe('BrowseProductsCtrl', function () {
 
 
         beforeEach(function () {
-
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
-                    'settings': settings, 'category': mockedCategory});
-
+                {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
         });
 
         it('should set image placeholder', function(){
@@ -85,8 +89,8 @@ describe('BrowseProductsCtrl', function () {
     describe('Initialize with category without elements', function(){
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
-                    'settings': settings, 'category': {elements:[]}});
+                {'$scope': $scope, '$rootScope': $rootScope,  'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': mockedSettings, 'category': {elements:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
 
         });
 
@@ -103,8 +107,8 @@ describe('BrowseProductsCtrl', function () {
     describe('function', function() {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
-                    'settings': settings, 'category': mockedCategory});
+                {$scope: $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
 
         });
 
