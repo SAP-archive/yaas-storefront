@@ -41,9 +41,6 @@ window.app = angular.module('ds.router', [
                             httpQueue.appendBlocked(config, deferred);
                             return deferred.promise;
                         }
-                        if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
-                        }
                     }
                     return config || $q.when(config);
                 },
@@ -255,11 +252,13 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST) {
-                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                .then(function (result) {
-                                    return result;
-                                });
+                        product: function ($stateParams, PriceProductREST, initialized) {
+                            if (initialized) {
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                    .then(function (result) {
+                                        return result;
+                                    });
+                            }
                         }
                     }
                 })
@@ -277,8 +276,10 @@ window.app = angular.module('ds.router', [
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function (CheckoutSvc) {
-                            return CheckoutSvc.getShippingCost();
+                        shippingCost: function (CheckoutSvc, initialized) {
+                            if (initialized) {
+                                return CheckoutSvc.getShippingCost();
+                            }
                         }
                     }
                 })
