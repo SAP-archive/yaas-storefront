@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory={};
+    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory={ id:123};
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -44,7 +44,6 @@ describe('BrowseProductsCtrl', function () {
         mockedProductSvc = {};
         productResult = [
             {'name': 'prod1'}
-
         ];
         productResult.headers =  [];
         deferredProducts = $q.defer();
@@ -61,8 +60,15 @@ describe('BrowseProductsCtrl', function () {
 
     describe('Initialization', function () {
 
+        var selectedCat;
+
+
 
         beforeEach(function () {
+            $rootScope.$on('category:selected', function(eve, obj){
+                selectedCat = obj.category;
+            });
+
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
                     'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
@@ -72,6 +78,9 @@ describe('BrowseProductsCtrl', function () {
             expect($scope.PLACEHOLDER_IMAGE).toBeTruthy();
         });
 
+        it('should fire category:selected event', function(){
+            expect(selectedCat).toEqualData(mockedCategory);
+        });
 
         it('should query products', function () {
             $scope.products = [];
@@ -82,7 +91,6 @@ describe('BrowseProductsCtrl', function () {
             // indirect testing via resolved promise
             expect($scope.products).toEqualData(productResult);
         });
-
 
     });
 
@@ -95,7 +103,6 @@ describe('BrowseProductsCtrl', function () {
         });
 
         it('should set count properties to zero', function(){
-
             expect($scope.products).toEqualData([]);
             expect($scope.productsFrom).toEqualData(0);
             expect($scope.productsTo).toEqualData(0);
@@ -109,7 +116,6 @@ describe('BrowseProductsCtrl', function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {$scope: $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
                     'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
-
         });
 
 
@@ -168,8 +174,6 @@ describe('BrowseProductsCtrl', function () {
                 expect($scope.setSortedPageSize).toBe($scope.total)
             });
 
-
-
         });
 
         describe('backToTop', function () {
@@ -178,7 +182,6 @@ describe('BrowseProductsCtrl', function () {
                 $scope.backToTop();
                 expect(window.pageYOffset).toEqualData(0);
             });
-
         });
 
         describe('showRefineContainer', function(){
