@@ -31,7 +31,7 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v4/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v5/' + stId
                 },
 
                 categories: {
