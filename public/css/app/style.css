@@ -6094,6 +6094,12 @@ html.disable-scroll {
 #sidebar .sidebar-search input:focus:-moz-placeholder {
   text-align: right;
 }
+#sidebar .flyoutSubCategory {
+  margin: 0 0 40px 0;
+}
+#sidebar .mainCategory {
+  padding: 0 15px;
+}
 @media (min-width: 992px) {
   #sidebar .navi {
     margin: 5px 0 5px 0;
@@ -6135,10 +6141,10 @@ html.disable-scroll {
     top: 0;
     bottom: 0;
     left: 100%;
-    padding: 66px 28px 86px;
-    min-width: 250px;
+    padding: 50px 28px 86px;
+    min-width: 246px;
     white-space: nowrap;
-    background: #c8cac3;
+    background: #e2e2e2;
   }
   #sidebar .sub-navi .sub-navi-list {
     padding-left: 0;
@@ -6149,13 +6155,16 @@ html.disable-scroll {
     display: none;
     padding-left: 0;
     list-style: none;
-    margin: 0 0 30px 0 ;
   }
   #sidebar .sub-navi .sub-navi-list ul > li > a {
     line-height: 21px;
+    text-decoration: none;
+    padding-bottom: 10px;
     display: block;
     font-weight: bold;
+    font-size: 17px;
     color: #141b25;
+    margin: 0 0 40px 0 !important;
   }
   #sidebar .sub-navi .sub-navi-list ul > li > a:hover {
     text-decoration: none;
@@ -6169,9 +6178,11 @@ html.disable-scroll {
     position: relative;
     line-height: 30px;
     color: #6a6b6b;
+    text-decoration: none;
+    padding-bottom: 10px;
     font-family: Georgia, "Times New Roman", Times, serif;
     font-style: italic;
-    font-size: 14px;
+    font-size: 17px;
   }
   #sidebar .sub-navi .sub-navi-list > li > a:after {
     content: "";
@@ -6211,6 +6222,8 @@ html.disable-scroll {
   }
   #sidebar .navi > li > a {
     display: block;
+    text-decoration: none;
+    padding-bottom: 10px;
     line-height: 51px;
     color: #202122;
     border-bottom: 1px solid #dedede;
@@ -6274,6 +6287,8 @@ html.disable-scroll {
     border-bottom: 1px solid #d9d9d9;
     display: block;
     color: #6a6b6b;
+    padding-bottom: 10px;
+    text-decoration: none;
     font-family: Georgia, "Times New Roman", Times, serif;
     font-style: italic;
   }

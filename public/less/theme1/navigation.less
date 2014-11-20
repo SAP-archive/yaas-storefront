@@ -49,15 +49,20 @@
 			
 		}
 	}
-	
+
+    .flyoutSubCategory{
+      margin: 0 0 40px 0;
+    }
+
+    .mainCategory{
+      padding: 0 15px;
+    }
 
 	@media (min-width: @screen-md-min){
 		.navi{
 			margin: 5px 0 5px 0;
 			.list-unstyled;
-//			position: static;
             overflow-y: scroll;
-//            height: 40px;
 			.hyicon{
 				display: none
 			}
@@ -76,6 +81,7 @@
 					color:#202122;
 					font-size: 15px;
 					//line-height: 46px;
+
 					padding-top: 15px;
 					padding-bottom: 15px;
 					text-transform: uppercase;
@@ -104,8 +110,8 @@
 
 
 
-		
-	 
+
+
 
 
 		.sub-navi{
@@ -114,11 +120,11 @@
 			top: 0;
 			bottom: 0;
 			left: 100%;
-			padding: 66px 28px 86px;
-			min-width: 250px;
+			padding: 50px 28px 86px;
+			min-width: 246px;
 
 			white-space:nowrap;
-			background: #c8cac3;
+			background: #e2e2e2;
 
 			.sub-navi-list{
 				.list-unstyled;
@@ -127,14 +133,17 @@
 				ul{
 					display: none;
 					.list-unstyled;
-					margin: 0 0 30px 0 ;
 					& > li{
+
 						& > a{
 						line-height: 21px;
+                        text-decoration: none;
+                        padding-bottom: 10px;
 						display: block;
 						font-weight: bold;
+                        font-size: 17px;
 						color: #141b25;
-
+                        margin: 0 0 40px 0 !important;
 						&:hover{
 							text-decoration: none;
 							color: @lightblue;
@@ -150,14 +159,14 @@
 
 				&> li > a{
 					padding: 0;
-
 						position: relative;
 						line-height: 30px;
 						color: #6a6b6b;
-
+                        text-decoration: none;
+                        padding-bottom: 10px;
 						font-family: @font-family-serif;
 						font-style: italic;
-						font-size: 14px;
+						font-size: 17px;
 
 						&:after{
 							content:"";
@@ -205,6 +214,7 @@
 
 			& > li:first-child > a{
 				border-top:1px solid #dedede;
+
 			}
 
 			& > li{
@@ -213,6 +223,8 @@
 				
 				& > a{
 					display: block;
+                    text-decoration: none;
+                    padding-bottom: 10px;
 					line-height: 51px;
 					color:#202122;
 					border-bottom:1px solid #dedede;
@@ -256,7 +268,7 @@
 
 				& > li{
 					padding: 0;
-					
+
 					display: block;
 					line-height: 51px;
 					color:#202122;
@@ -293,6 +305,8 @@
 						border-bottom:1px solid #d9d9d9;	
 						display: block;
 						color:#6a6b6b;
+                        padding-bottom: 10px;
+                        text-decoration: none;
 						font-family: @font-family-serif;
 						font-style: italic;
 
