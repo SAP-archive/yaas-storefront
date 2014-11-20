@@ -45,6 +45,10 @@ describe("product page", function () {
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
         
         expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Tassen');
+        // verify refreshing grabs correct config (STOR-1183)
+        browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+        expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+        expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
 
     });
 
