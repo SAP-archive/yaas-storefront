@@ -2,8 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category',
-        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category) {
+    .controller('BrowseProductsCtrl', [ '$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -64,10 +64,33 @@ angular.module('ds.products')
             );
         }
 
-        /*
-          Retrieves more products from the product service and adds them to the product list.
-          This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
-         */
+            // Primary Reason for categories to be updated is that the language change.
+            //  We'll have to retrieve the current slug for the category (and thus this page)
+            //  and reload to ensure the breadcrumbs and slug reflect the latest setting.
+            var unbindCat = $rootScope.$on('categories:updated', function (eve, obj) {
+                if(obj.source==='language:updated') {
+                    CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
+                        var parms = {};
+                        if (cat.slug){
+                            parms.catName = cat.slug;
+                        }
+                        $state.transitionTo('base.category', parms, {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
+
+                    });
+                }
+
+            });
+
+            $scope.$on('$destroy', unbindCat);
+
+            /*
+              Retrieves more products from the product service and adds them to the product list.
+              This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
+             */
         $scope.addMore = function () {
             // category selected, but no products associated with category - leave blank for time being
             if($scope.category.elements && $scope.category.elements.length === 0){
@@ -115,7 +138,6 @@ angular.module('ds.products')
                             }, function() {
                                 $scope.requestInProgress = false;
                             });
-//                    }
                 }
             }
         };

@@ -4,9 +4,10 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('CategorySvc', ['PriceProductREST', '$q', function(PriceProductREST, $q){
+    .factory('CategorySvc', ['PriceProductREST', '$q', '$rootScope', function(PriceProductREST, $q, $rootScope){
 
         var categoryMap;
+        var catList;
 
         function sluggify(name){
             // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
@@ -40,26 +41,51 @@ angular.module('ds.products')
 
         return {
 
-            /** Returns a promise over the category list.*/
-            getCategories: function () {
+            /** Returns a promise over the category list as loaded from the service. Fires event "categories:updated".
+             * @param source - indicates source/reason for update, eg. 'language:updated'.
+             * */
+            getCategories: function (source) {
                 var catDef = $q.defer();
 
                 PriceProductREST.Categories.all('categories').getList({ expand: 'subcategories', toplevel: true }).then(function (result) {
                     categoryMap = {};
-                    var cats = [];
+                    catList = [];
                     angular.forEach(result.plain(), function (category) {
-                        cats.push(category);
+                        catList.push(category);
                         loadCategory(category);
                     });
-                    catDef.resolve(cats);
+                    $rootScope.$emit('categories:updated', {categories: catList, source: source});
+                    catDef.resolve(catList);
                 }, function (error) {
                     catDef.reject(error);
                 });
-
                 return catDef.promise;
             },
 
+            /** Returns categories from cache.*/
+            getCategoriesFromCache: function(){
+                return catList;
+            },
 
+
+
+            getCategoryById: function(categoryId){
+                var catDef = $q.defer();
+                if(categoryMap){
+                    catDef.resolve(categoryMap[categoryId]);
+                } else {
+                    this.getCategories().then(function(){
+                        catDef.resolve(categoryMap[categoryId]);
+                    });
+                }
+                return catDef.promise;
+            },
+
+            /** Returns the category along with "element list".
+             * If category will be retrieved from cache if existing.
+             * @param categorySlug ("sluggified" name per logic in this service - name, ~,  categoryId, e.g. 'green-bottles~3456')
+             * @returns {*}
+             */
             getCategoryWithProducts: function (categorySlug) {
                 var compositeDef = $q.defer();
 
@@ -102,10 +128,6 @@ angular.module('ds.products')
             /** Remove local category storage to force retrieval from server on next request.*/
             resetCategoryCache: function(){
               categoryMap = null;
-            },
-
-            getSlug: function (name) {
-                return sluggify(name);
             }
         };
 }]);
