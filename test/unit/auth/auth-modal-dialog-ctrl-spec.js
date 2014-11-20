@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-ddescribe('AuthModalDialogCtrl Test', function () {
+describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
