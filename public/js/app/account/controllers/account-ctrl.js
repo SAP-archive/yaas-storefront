@@ -29,14 +29,18 @@ angular.module('ds.account')
                 });
             };
 
-            debugger;
-
             $scope.errors = [];
             $scope.account = account;
             $scope.addresses = addresses;
             $scope.orders = orders;
             $scope.defaultAddress = getDefaultAddress();
-            $scope.showAllButton = true;
+
+            $scope.showAllOrdersButton = true;
+
+            $scope.showAddressButtons = true;
+            $scope.showAllAddressButton = true;
+            $scope.showAddressDefault = 6;
+            $scope.showAddressFilter = $scope.showAddressDefault;
 
             $scope.currencies = GlobalData.getAvailableCurrencies();
 
@@ -168,23 +172,30 @@ angular.module('ds.account')
                 );
             };
 
+
             $scope.showAllOrders = function () {
                 var parms = {
                     pageSize: 100
                 };
                 OrderListSvc.query(parms).then(function (orders) {
-                    debugger;
-                    $scope.showAllButton = false;
+                    $scope.showAllOrdersButton = false;
                     $scope.orders = orders;
                 });
             };
 
             $scope.showAllAddresses = function () {
+                $scope.showAllAddressButton = !$scope.showAllAddressButton;
+
                 var parms = {
                     pageSize: GlobalData.addresses.meta.total
                 };
                 AccountSvc.getAddresses(parms).then(function (addresses) {
                     $scope.addresses = addresses;
+
+                    // show filtered list or show all addresses. Hide if all data is shown within filter.
+                    $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
+                    $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
+
                 });
             };
 
