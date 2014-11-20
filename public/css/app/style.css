@@ -5168,7 +5168,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 500px;
     margin: 30px auto;
   }
   .modal-content {
@@ -5181,7 +5181,7 @@ button.close {
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
+    width: 500px;
   }
 }
 .tooltip {
@@ -6612,6 +6612,28 @@ html.disable-scroll {
 .right .navbar-btn.cart {
   color: #fff;
   right: 500px;
+}
+.socialMediaSigninContainer {
+  margin: 0 0 55px 0;
+}
+.forgot-password-btn {
+  font-size: 13px;
+}
+.signInTabs.nav-tabs > li.active > a,
+.signInTabs.nav-tabs > li.active > a:hover,
+.signInTabs.nav-tabs > li.active > a:focus {
+  background-color: transparent ;
+  border: none;
+  font-weight: bold;
+  color: #000;
+}
+.signInTabs.nav-tabs > li > a,
+.signInTabs.nav-tabs > li > a:hover,
+.signInTabs.nav-tabs > li > a:focus {
+  padding: 0 15px;
+}
+.signInTabs .signInButton {
+  border-right: 1px solid #838485;
 }
 /* TO THE TOP BTN */
 .back-to-top-button {
