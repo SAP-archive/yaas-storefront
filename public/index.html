@@ -16,7 +16,7 @@
 </head>
 <body>
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
+    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation" sticky-navigation></div>
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
         <div  class="main">
@@ -47,6 +47,7 @@
 <script src="js/app/shared/settings.js"></script>
 <script src="js/app/shared/site-config.js"></script>
 <script src="js/app/shared/directives/menu-aim.js"></script>
+<script src="js/app/shared/directives/sticky-navigation.js"></script>
 <script src="js/app/shared/services/cookie-svc.js"></script>
 <script src="js/app/shared/services/global-data.js"></script>
 <script src="js/app/shared/services/configuration-service.js"></script>

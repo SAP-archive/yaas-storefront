@@ -5923,6 +5923,12 @@ html.disable-scroll {
 .sidebar-offcanvas:after {
   clear: both;
 }
+@media (min-width: 992px) {
+  #sidebar {
+    position: fixed;
+    bottom: 0;
+  }
+}
 .mainContent {
   background: #f8f8f8;
 }
@@ -6031,8 +6037,17 @@ html.disable-scroll {
 }
 #sidebar a.logo {
   display: block;
-  margin: 20px ;
+  margin: 30px 0 ;
   text-align: center;
+}
+#sidebar .seperator {
+  width: 36px;
+  height: 1px;
+  background-color: #c4c4c4;
+  margin: 0 auto;
+}
+#sidebar .user-avatar {
+  margin: 0 15px 0 0;
 }
 #sidebar .sidebar-search input {
   box-shadow: none;
@@ -6081,22 +6096,19 @@ html.disable-scroll {
 }
 @media (min-width: 992px) {
   #sidebar .navi {
-    margin: 30px 0;
+    margin: 5px 0 5px 0;
     padding-left: 0;
     list-style: none;
-    position: static;
-  }
-  #sidebar .navi:before,
-  #sidebar .navi:after {
-    background: none repeat scroll 0 0 #c4c4c4;
-    content: "";
-    display: block;
-    height: 1px;
-    margin: 0 0 0 40%;
-    width: 20%;
+    overflow-y: scroll;
   }
   #sidebar .navi .hyicon {
     display: none;
+  }
+  #sidebar .navi .seperator {
+    width: 36px;
+    height: 1px;
+    background-color: #838485;
+    margin: 0 auto;
   }
   #sidebar .navi > li > a {
     display: block;
@@ -6126,7 +6138,7 @@ html.disable-scroll {
     padding: 66px 28px 86px;
     min-width: 250px;
     white-space: nowrap;
-    background: #e2e2e2;
+    background: #c8cac3;
   }
   #sidebar .sub-navi .sub-navi-list {
     padding-left: 0;
@@ -6350,7 +6362,7 @@ html.disable-scroll {
   line-height: 40px;
 }
 #sidebar .store-settings {
-  padding: 10px;
+  margin: 20px 0 60px;
 }
 .top-navigation {
   position: relative;

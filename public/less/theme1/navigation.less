@@ -1,13 +1,21 @@
 #sidebar{
 	background: @lightergrey;
-	//padding: 30px 15px ;
 
 
 	a.logo{
 		display: block;
-		margin: 20px ;
+		margin: 30px 0 ;
 		text-align: center;
 	}
+
+    .seperator{
+      width: 36px;
+      height: 1px;
+      background-color: #c4c4c4;
+      margin: 0 auto;
+    }
+
+    .user-avatar{margin: 0 15px 0 0;}
 
 	.sidebar-search{
 
@@ -45,24 +53,21 @@
 
 	@media (min-width: @screen-md-min){
 		.navi{
-			margin: 30px 0;
+			margin: 5px 0 5px 0;
 			.list-unstyled;
-			position: static;
-
-			&:before,
-			&:after,{
-				background: none repeat scroll 0 0 #c4c4c4;
-				content: "";
-				display: block;
-				height: 1px;
-				margin: 0 0 0 40%;
-				width: 20%;
-			}
-
-
+//			position: static;
+            overflow-y: scroll;
+//            height: 40px;
 			.hyicon{
 				display: none
 			}
+
+            .seperator{
+              width: 36px;
+              height: 1px;
+              background-color: #838485;
+              margin: 0 auto;
+            }
 
 
 			& > li{
@@ -113,7 +118,7 @@
 			min-width: 250px;
 
 			white-space:nowrap;
-			background: #e2e2e2;
+			background: #c8cac3;
 
 			.sub-navi-list{
 				.list-unstyled;
@@ -381,7 +386,7 @@
 	}
 
 	.store-settings{
-		padding: 10px;
+		margin: 20px 0 60px;
 	}
 
 

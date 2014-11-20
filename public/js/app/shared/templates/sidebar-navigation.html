@@ -1,48 +1,57 @@
-<a ui-sref="base.category({catName: null})" class="logo">
-    <img ng-src="{{store.logo || 'img/logo.png'}}" alt="" style="max-width:65px;"></a>
+<a ui-sref="base.category({catName: null})" class="logo hy-stickyComponent">
+    <img ng-src="{{store.logo || 'img/logo.png'}}" alt="" style="max-width:65px;">
+</a>
 
-<div class="authentication-cnt text-center">
-    <ul class="navi authenticated">
-        <li>
-            <a href="" class="my-profile" ng-click="myAccount()" ng-if="user.isAuthenticated"
-               title="{{'MY_ACCOUNT' | translate}}">
+<div class="authentication-cnt text-center hy-stickyComponent">
+    <div ng-if="user.isAuthenticated" >
+        <p>
+            <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
                 <img src="./img/user-icon_small_active.png" class="user-avatar">
             </a>
-        </li>
-        <li><a ng-click="logout()" ng-if="user.isAuthenticated" id="logout-btn" class="signout btn">{{'SIGN_OUT' |
-            translate}}</a></li>
-    </ul>
+        </p>
+        <p>
+            <a ng-click="logout()" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a>
+        </p>
+    </div>
 
-    <a ng-click="login()" ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link">
-        <img src="./img/user-icon_small.png" class="user-avatar">
-        {{'SIGN_IN' | translate}}
-    </a>
+    <div ng-if="!user.isAuthenticated">
+        <p>
+            <a ng-click="login()" id="login-btn" class="signin btn btn-link" >
+                <img src="./img/user-icon_small.png" class="user-avatar">
+                {{'SIGN_IN' | translate}}
+            </a>
+        </p>
+    </div>
 </div>
-<ul ds-menu-aim class="navi" >
-    <li data-ng-repeat="category in categories" data-ng-class="{'has-sub': category.subcategories}">
 
-        <a ui-sref="base.category( {catName: category.slug} )" ng-click="hideMobileNav()">{{category.name }}
-            <span class="hyicon hyicon-chevron-bold-right"></span></a>
+<div class="hy-flexibleHeightNav">
+    <div class="seperator"></div>
+    <ul ds-menu-aim class="navi hy-scrollingNav">
+        <li ng-repeat="category in categories"> <!-- class="has-sub" -->
+            <a ui-sref="base.category( {catName: category.slug} )" ng-click="hideMobileNav()">{{ category.name  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+            <div class="sub-navi">
+                <ul class="sub-navi-list">
+                    <li class="back"><a href="base.category( {catName: category.slug}"><span class="hyicon hyicon-chevron-bold-left"></span>Back to
+                        {{category.name}}</a></li>
+                    <li ng-repeat="sub2 in category.subcategories" class="{'has-sub': sub2.subcategories}"><a data-ui-sref="base.category( {catName: sub2.slug} )">{{
+                        sub2.name }}<span class="hyicon hyicon-chevron-bold-right"></span></a>
+                        <ul>
+                            <li class="back"><a href="base.category({catName: sub2.slug}"><span class="hyicon hyicon-chevron-bold-left"></span> Back to {{
+                                sub2.name }}</a></li>
+                            <li ng-repeat="sub3 in sub2.subcategories"><a href="base.category( {catName: sub3.slug}" >{{ sub3.name }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-        <div class="sub-navi">
-            <ul class="sub-navi-list">
-                <li class="back"><a href="base.category( {catName: category.slug}"><span class="hyicon hyicon-chevron-bold-left"></span>Back to
-                    {{category.name}}</a></li>
-                <li ng-repeat="sub2 in category.subcategories" class="{'has-sub': sub2.subcategories}"><a data-ui-sref="base.category( {catName: sub2.slug} )">{{
-                    sub2.name }}<span class="hyicon hyicon-chevron-bold-right"></span></a>
-                    <ul>
-                        <li class="back"><a href="base.category({catName: sub2.slug}"><span class="hyicon hyicon-chevron-bold-left"></span> Back to {{
-                            sub2.name }}</a></li>
-                        <li ng-repeat="sub3 in sub2.subcategories"><a href="base.category( {catName: sub3.slug}" >{{ sub3.name }}</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </li>
-</ul>
-<div class="store-settings">
+        </li>
+
+    </ul>
+    <div class="seperator"></div>
+</div>
+<div class="store-settings hy-stickyComponent">
     <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
-        <ui-select-match id="language-select" placeholder="Select language">
+        <ui-select-match id="language-select" placeholder="Select language" >
             <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
         </ui-select-match>
         <ui-select-choices repeat="lang in languages | filter: $select.search">
@@ -52,8 +61,7 @@
     </ui-select>
 
     <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
-        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}}
-            {{$select.selected.label}}
+        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
         </ui-select-match>
         <ui-select-choices repeat="curr in currencies | filter: $select.search">
             <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
