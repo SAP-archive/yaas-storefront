@@ -11,11 +11,11 @@
  */
 describe('CheckoutSvc', function () {
 
-    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc, checkoutOrderUrl, shippingCostUrl;
+    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, mockedGlobalData, checkoutSvc, checkoutOrderUrl, shippingCostUrl;
 
     var order = {};
 
-    var GlobalData = {
+    mockedGlobalData = {
         user: {
             isAuthenticated: '',
             user: null
@@ -106,7 +106,7 @@ describe('CheckoutSvc', function () {
             };
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
-            $provide.value('GlobalData', GlobalData);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
@@ -217,7 +217,7 @@ describe('CheckoutSvc', function () {
 
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
-            $provide.value('GlobalData', GlobalData);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
@@ -265,8 +265,10 @@ describe('CheckoutSvc', function () {
         beforeEach(function() {
             module('restangular');
             module('ds.checkout', function($provide){
+
                 $provide.value('CartSvc', mockedCartSvc);
-                $provide.value('GlobalData', GlobalData);
+                $provide.value('StripeJS', mockedStripeJS);
+                $provide.value('GlobalData', mockedGlobalData);
             });
         });
 

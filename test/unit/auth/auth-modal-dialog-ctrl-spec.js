@@ -13,23 +13,30 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
+    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
        mockedSessionSvc={
            afterLogIn: jasmine.createSpy()
        }, mockBackend,
-        deferredSignIn, deferredSignUp;
+        deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
-    var mockedSettings = {
-        accessCookie: 'accessCookie',
-        userIdKey: 'userIdKey',
-        apis: {
-            customers: {
-                baseUrl: 'http://dummy-test-server.hybris.com'
-            }
+    // global variable to mimic FB API
+    FB = {
+        getLoginStatus: function(callback){
+            callback({status: 'connected', authResponse: {accessToken: 'token'}});
         },
-        headers: {
-            hybrisAuthorization: 'Authorization'
-        }
+        XFBML: {
+            parse: jasmine.createSpy()
+        },
+        init: jasmine.createSpy()
+
+    };
+    var googleClientId = 'gClientId';
+    var mockedSettings = {
+        googleClientId: googleClientId,
+        configKeys: {
+            googleResponseToken: 'access_token'
+        },
+        facebookAppId: 'appId'
     };
 
     var mockedAuthDialogManager = {
@@ -44,8 +51,6 @@ describe('AuthModalDialogCtrl Test', function () {
     $modalInstanceMock = {
         close: jasmine.createSpy('close')
     };
-
-
 
     //***********************************************************************
     // Common Setup
@@ -62,7 +67,9 @@ describe('AuthModalDialogCtrl Test', function () {
         $provide.value('SessionSvc', mockedSessionSvc);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_) {
+
+
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_, _$window_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -74,12 +81,13 @@ describe('AuthModalDialogCtrl Test', function () {
         $controller = _$controller_;
         $q = _$q_;
         mockBackend = _$httpBackend_;
-
+        $window = _$window_;
     }));
 
     beforeEach(function () {
         deferredSignIn = $q.defer();
         deferredSignUp = $q.defer();
+        deferredSocialLogin = $q.defer();
 
         MockedAuthSvc = {
             signin: jasmine.createSpy('signin').andCallFake(function(){
@@ -87,12 +95,16 @@ describe('AuthModalDialogCtrl Test', function () {
             }),
             signup: jasmine.createSpy('signup').andCallFake(function() {
                 return deferredSignUp.promise;
+            }),
+            socialLogin: jasmine.createSpy('socialLogin').andCallFake(function(){
+                return deferredSocialLogin.promise;
             })
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
             $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
-           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts });
+           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
+       );
     });
 
     it("should expose correct data to the scope", function() {
@@ -107,6 +119,8 @@ describe('AuthModalDialogCtrl Test', function () {
         expect($scope.continueAsGuest).toBeDefined();
         expect($scope.showResetPassword).toBeDefined();
         expect($scope.clearErrors).toBeDefined();
+        expect($scope.googleClientId).toEqualData(googleClientId);
+        expect($window.fbAsyncInit).toBeTruthy();
     });
 
     describe('signin()', function(){
@@ -198,6 +212,31 @@ describe('AuthModalDialogCtrl Test', function () {
             expect($scope.errors.signin).toEqualData([]);
             expect($scope.errors.signup).toEqualData([]);
         });
+    });
+
+    describe('fbLogin()', function(){
+        it('should invoke social login', function(){
+            var token = 'token';
+            $scope.fbLogin();
+            expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+        });
+    });
+
+    describe('fbParse()', function(){
+        it('should invoke FB parse', function(){
+           $scope.fbParse();
+            expect(FB.XFBML.parse).toHaveBeenCalled();
+        });
+    })
+
+    describe('onGoogleLogin', function(){
+       it('should invoke social login', function(){
+           var token = 'token';
+           $rootScope.$broadcast('event:google-plus-signin-success', {access_token: token});
+           deferredSocialLogin.resolve({});
+           $scope.$apply();
+           expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+       });
     });
 
 });

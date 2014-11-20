@@ -46,7 +46,9 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
                         } else if (key === settings.configKeys.fbAppIdKey) {
-                            settings.facebookAppId = JSON.parse(value);
+                            settings.facebookAppId = value;
+                        } else if (key === settings.configKeys.googleClientId){
+                            settings.googleClientId = value;
                         }
                     }
 
@@ -90,6 +92,7 @@ angular.module('ds.shared')
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
+                                    def.resolve({});
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -97,9 +100,9 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
+                                def.resolve({});
                                 CartSvc.getCart();
                             }
-                            def.resolve({});
                             initialized = true;
 
                         });
