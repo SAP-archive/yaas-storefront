@@ -11,7 +11,7 @@
  */
 describe('CheckoutSvc', function () {
 
-    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc, checkoutOrderUrl, shippingCostUrl;
+    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, mockedGlobalData, checkoutSvc, checkoutOrderUrl, shippingCostUrl;
 
     var order = {};
 
@@ -66,6 +66,7 @@ describe('CheckoutSvc', function () {
 
     mockedStripeJS = {};
     mockedCartSvc = {};
+    mockedGlobalData = {};
 
     beforeEach(module('ds.shared', function($provide) {
         $provide.value('storeConfig', {});
@@ -95,8 +96,10 @@ describe('CheckoutSvc', function () {
             mockedStripeJS.createToken = function(data, callback) {
                 callback(stripeStatus, stripeResponse);
             };
+            mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
@@ -204,9 +207,11 @@ describe('CheckoutSvc', function () {
                 callback(stripeStatus, stripeResponse);
             };
             mockedStripeJS.createToken = createTokenStub;
+            mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
 
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
@@ -254,7 +259,11 @@ describe('CheckoutSvc', function () {
         beforeEach(function() {
             module('restangular');
             module('ds.checkout', function($provide){
+                mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
+
                 $provide.value('CartSvc', mockedCartSvc);
+                $provide.value('StripeJS', mockedStripeJS);
+                $provide.value('GlobalData', mockedGlobalData);
             });
         });
 
