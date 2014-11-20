@@ -144,6 +144,7 @@ angular.module('ds.i18n')
         STREET: 'Straße',
         SAVE: 'Speichern',
         WELCOME: 'Willkommen',
+        ITEM_IN_ORDER: 'translation needed',
         ITEMS_IN_ORDER: 'Postenzähler',
         NOT_SET: 'Unbekannt',
         ORDER_HISTORY: 'Bestellverlauf',
@@ -192,6 +193,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben',
+        LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
          titles

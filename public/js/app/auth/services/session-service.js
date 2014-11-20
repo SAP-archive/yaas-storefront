@@ -59,6 +59,34 @@ angular.module('ds.auth')
                 if ( $state.is('base.checkout.details') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
                     $state.go(settings.homeState);
                 }
+            },
+
+            /**
+             * Updates the current account profile with data from the social login profile, if properties
+             * have not yet been set in the profile.
+             * @param profile object with properties "firstName", "lastName", "email"
+             */
+            afterSocialLogin: function(profile){
+                if(profile.email || profile.firstName || profile.lastName){
+                    AccountSvc.getCurrentAccount().then(function(accResult){
+                        var updated = false;
+                        if(!accResult.firstName && !accResult.lastName){
+                            accResult.firstName = profile.firstName;
+                            accResult.lastName = profile.lastName;
+                            updated = true;
+                        }
+                        if(!accResult.contactEmail && profile.email){
+                            accResult.contactEmail = profile.email;
+                            updated = true;
+                        }
+                        if(updated) {
+                            AccountSvc.updateAccount(accResult);
+                        }
+                    });
+                }
+
             }
+
+
         };
     }]);

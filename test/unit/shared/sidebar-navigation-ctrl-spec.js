@@ -114,6 +114,7 @@ describe('SidebarNavigationCtrl', function () {
             expect($scope.language.selected.value).toEqual(langCode);
 
             expect($scope.languages).toBeDefined();
+            expect($scope.store).toBeDefined();
             /*
             expect($scope.languages.length).toEqual($scope.languageCodes.length);
             for (var i = 0; i < $scope.languageCodes.length; i++) {

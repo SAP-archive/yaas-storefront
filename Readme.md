@@ -33,6 +33,8 @@ in an optional step.
         - source - source event of the update (manual | currency | language | merge | reset)
 'language:updated' - fired when the store's language has changed
 'currency:updated' - fired when the store's currency has changed
+'user:signedin' - signals that a user has been authenticated
+'user:signedout' - signals that a user has logged off
 
 ## Testing
 
