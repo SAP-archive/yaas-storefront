@@ -13,7 +13,7 @@ describe('ProductSvc Test', function () {
 
     var $scope, $rootScope, $httpBackend, productSvc, productsUrl;
     var acceptLang = "de";
-    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}, getCurrencyId: function(){return 'USD'}};
 
     var prodList = [
         {name: 'Shirt'},
@@ -65,7 +65,7 @@ describe('ProductSvc Test', function () {
 
         it('sets accept-language header', function(){
 
-            $httpBackend.expectGET(productsUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond(prodList);
+            $httpBackend.expectGET(productsUrl, {"accept-language":acceptLang,"hybris-currency":"USD","Accept":"application/json, text/plain, */*"}).respond(prodList);
 
             productSvc.query();
             $httpBackend.flush();
