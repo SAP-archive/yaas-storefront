@@ -38,28 +38,27 @@
                     <div ng-if="confirmationDetails.itemCount > 1">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
                     <div ng-if="confirmationDetails.itemCount <= 1">{{confirmationDetails.itemCount}} {{'ITEM_IN_YOUR_ORDER' | translate}}</div>
                 </div>
-                    <div ng-repeat="product in confirmationDetails.products">
-                            <div class="cart-item row">
-                                <div class="col-xs-4 col-md-4 text-center img-col">
-                                    <a ui-sref="base.product.detail( {productId: product.id} )">
-                                        <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class="img-responsive"/>
-                                    </a>
+                <div ng-repeat="product in confirmationDetails.products">
+                        <div class="cart-item row">
+                            <div class="col-xs-4 col-md-4 text-center img-col">
+                                <a ui-sref="base.product.detail( {productId: product.id} )">
+                                    <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class="img-responsive"/>
+                                </a>
 
-                                </div>
-                                <div class="col-xs-8 col-md-8  detail-col">
-
-                                    <div class="name">{{product.name}}</div>
-                                    <div class="sku item-attr">{{'SKU' | translate}}: <span> {{product.sku }}</span></div>
-                                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{product.price | currency: currencySymbol}}</span></div>
-                                    <div class="variants row item-attr">
-                                        <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{product.amount}}</span></div>
-                                    </div>
-                                    <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{product.price * product.amount |currency: currencySymbol}}</span>
-                                    </div>
                             </div>
+                            <div class="col-xs-8 col-md-8  detail-col">
+
+                                <div class="name">{{product.name}}</div>
+                                <div class="sku item-attr">{{'SKU' | translate}}: <span> {{product.sku }}</span></div>
+                                <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{product.price | currency: currencySymbol}}</span></div>
+                                <div class="variants row item-attr">
+                                    <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{product.amount}}</span></div>
+                                </div>
+                                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{product.price * product.amount |currency: currencySymbol}}</span>
+                                </div>
                         </div>
                     </div>
-               
+                </div>
 			</section>
 
 		</div>
