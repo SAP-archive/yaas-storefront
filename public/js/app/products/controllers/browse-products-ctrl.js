@@ -22,6 +22,8 @@ angular.module('ds.products')
         $scope.category = category || {};
 
 
+        $rootScope.$emit('category:selected', {category: category});
+
         function getProductIdsFromElements(elements){
 
             return elements.map(function(element){

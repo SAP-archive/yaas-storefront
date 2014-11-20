@@ -111,7 +111,7 @@ angular.module('ds.products')
                         });
                     }
                     cdef.promise.then(function (category) {
-                        PriceProductREST.Categories.all('categories').one(category.id).all('elements').getList().then(
+                        PriceProductREST.Categories.all('categories').one(category.id).all('elements').getList({recursive: true}).then(
                             function(elements){
                                 category.elements = elements.plain();
                                 compositeDef.resolve(category);
