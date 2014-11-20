@@ -40,7 +40,7 @@ angular.module('ds.products')
 
         return {
 
-            /** Returns a promise over the category list.*/
+            /** Returns a promise over the category list as loaded from the service.*/
             getCategories: function () {
                 var catDef = $q.defer();
 
@@ -55,11 +55,28 @@ angular.module('ds.products')
                 }, function (error) {
                     catDef.reject(error);
                 });
-
                 return catDef.promise;
             },
 
 
+
+            getCategoryById: function(categoryId){
+                var catDef = $q.defer();
+                if(categoryMap){
+                    catDef.resolve(categoryMap[categoryId]);
+                } else {
+                    this.getCategories().then(function(){
+                        catDef.resolve(categoryMap[categoryId]);
+                    });
+                }
+                return catDef.promise;
+            },
+
+            /** Returns the category along with "element list".
+             * If category will be retrieved from cache if existing.
+             * @param categorySlug ("sluggified" name per logic in this service - name, ~,  categoryId, e.g. 'green-bottles~3456')
+             * @returns {*}
+             */
             getCategoryWithProducts: function (categorySlug) {
                 var compositeDef = $q.defer();
 
@@ -102,10 +119,6 @@ angular.module('ds.products')
             /** Remove local category storage to force retrieval from server on next request.*/
             resetCategoryCache: function(){
               categoryMap = null;
-            },
-
-            getSlug: function (name) {
-                return sluggify(name);
             }
         };
 }]);

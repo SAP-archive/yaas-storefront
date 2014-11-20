@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={}, mockedElements=[];
+    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={};
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -60,7 +60,7 @@ describe('BrowseProductsCtrl', function () {
 
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
-                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
+                    'settings': settings, 'category': mockedCategory});
 
         });
 
@@ -82,11 +82,29 @@ describe('BrowseProductsCtrl', function () {
 
     });
 
+    describe('Initialize with category without elements', function(){
+        beforeEach(function () {
+            browseProdCtrl = $controller('BrowseProductsCtrl',
+                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': settings, 'category': {elements:[]}});
+
+        });
+
+        it('should set count properties to zero', function(){
+
+            expect($scope.products).toEqualData([]);
+            expect($scope.productsFrom).toEqualData(0);
+            expect($scope.productsTo).toEqualData(0);
+            expect($scope.total).toEqualData(0);
+        });
+
+    });
+
     describe('function', function() {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
-                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
+                    'settings': settings, 'category': mockedCategory});
 
         });
 
@@ -157,6 +175,16 @@ describe('BrowseProductsCtrl', function () {
                 expect(window.pageYOffset).toEqualData(0);
             });
 
+        });
+
+        describe('showRefineContainer', function(){
+           it('should toggle refineContainerShowing', function(){
+              $scope.refineContainerShowing = false;
+               $scope.showRefineContainer();
+               expect($scope.refineContainerShowing).toBeTruthy();
+               $scope.showRefineContainer();
+               expect($scope.refineContainerShowing).toBeFalsy();
+           });
         });
 
     });

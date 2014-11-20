@@ -7,25 +7,25 @@ angular.module('ds.products')
     .directive('dsCategoryBreadcrumb', ['$translate', '$compile', function ($translate, $compile) {
 
          return {//
-             restrict: 'AE',
+             restrict: 'E',
              replace: true,
              priority: 1000,
-             link: function($scope, $element){
+             link: function($scope, $element, $attrs){
 
                  //start creating an html string for our "view".
                  var bc = '<div><a ui-sref="base.category({catName: null})" id="bc0"></a>';
 
-                 var i = 0;
-                 angular.forEach($scope.category.path, function(cat){
-                     if(++ i< $scope.category.path.length) {
-                         bc += ' / <a ui-sref="base.category({catName: \''+ cat.slug+'\' })\" id="bc' + cat.id+'">' + cat.name +'</a>';
-                     } else {
-                         bc += ' / '+ cat.name;
-                     }
-                 });
+                 if($scope.category && $scope.category.path){
+                     var i = 0;
+                     angular.forEach($scope.category.path, function(cat){
+                         if($attrs.linklast || ++ i< $scope.category.path.length) {
+                             bc += ' / <a ui-sref="base.category({catName: \''+ cat.slug+'\' })\" id="bc' + cat.id+'">' + cat.name +'</a>';
+                         } else {
+                             bc += ' / '+ cat.name;
+                         }
+                     });
+                 }
                  bc += '</div>';
-
-
 
                  //create an angular element. (this is still our "view")
                  var el = angular.element(bc);

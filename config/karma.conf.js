@@ -49,6 +49,7 @@ module.exports = function(config){
         'public/js/app/products/products-index.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
+        'public/js/app/products/directives/category-breadcrumb.js',
         'public/js/app/products/services/product-service.js',
         'public/js/app/products/services/price-service.js',
         'public/js/app/products/services/price-product-rest.js',
