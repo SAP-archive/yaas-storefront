@@ -93,7 +93,7 @@ describe('CategorySvc', function () {
         it('should return category with products', function () {
             categorySvc.resetCategoryCache();
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
-            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements').respond([]);
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements?recursive=true').respond([]);
             var cat = null;
             categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function (category) {
                 cat = category;
