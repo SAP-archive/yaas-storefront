@@ -30,7 +30,7 @@ angular.module('ds.shared')
                             rowSelector: 'li'
                         });
 
-                        $(document).on('click', '.mainCategory', function(e){
+                        $(document).on('click', '.mainCategory', function(){
                             /*remove all of the nested selectedd displays calsses*/
                             $('.secondaryCategory').removeClass('mactive');
                             $('.mainCategory').removeClass('mactive');
@@ -38,7 +38,7 @@ angular.module('ds.shared')
                             $(this).addClass('mactive');
                         });
 
-                        $(document).on('click','.secondaryCategory',function(e){
+                        $(document).on('click','.secondaryCategory',function(){
                             $('.secondaryCategory').removeClass('mactive');
                             $(this).addClass('mactive');
                         });
