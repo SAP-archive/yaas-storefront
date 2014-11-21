@@ -13,7 +13,7 @@ describe('CategorySvc', function () {
 
     var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
     var acceptLang = "de";
-    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}, getCurrencyId: function(){return 'USD'}};
 
     var cosmeticsId = "117771264";
     var cosmeticsSlug = 'cosmetics';
@@ -81,7 +81,7 @@ describe('CategorySvc', function () {
         });
 
         it('sets accept-language header', function(){
-            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
+            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"hybris-currency":"USD","Accept":"application/json, text/plain, */*"}).respond([]);
             categorySvc.getCategories();
             $httpBackend.flush();
         });
