@@ -6164,7 +6164,7 @@ html.disable-scroll {
     font-weight: bold;
     font-size: 17px;
     color: #141b25;
-    margin: 0 0 40px 0 !important;
+    margin: 0 0 40px 0;
   }
   #sidebar .sub-navi .sub-navi-list ul > li > a:hover {
     text-decoration: none;
@@ -6193,6 +6193,19 @@ html.disable-scroll {
     width: 32px;
     height: 1px;
     background: #c4c4c4;
+  }
+  #sidebar .sub-navi .sub-navi-list div.tertiaryCategory {
+    margin: 12px 0 0 0;
+    font-weight: bold;
+  }
+  #sidebar .sub-navi .sub-navi-list div.tertiaryCategory ul {
+    display: block;
+  }
+  #sidebar .sub-navi .sub-navi-list div.tertiaryCategory ul > li > a {
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
 @media (max-width: 991px) {
