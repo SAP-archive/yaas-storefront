@@ -14,7 +14,7 @@
 
 /** REST configuration for services related to checkout. */
 angular.module('ds.checkout')
-    .factory('CheckoutREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', 'settings', function(Restangular, siteConfig, GlobalData, settings){
+    .factory('CheckoutREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
         return {
             /** Configures main checkout API endpoint.*/
             Checkout: Restangular.withConfig(function(RestangularConfigurer) {
