@@ -71,6 +71,7 @@ angular.module('ds.products')
 
             getCategoryById: function(categoryId){
                 var catDef = $q.defer();
+
                 if(categoryMap){
                     catDef.resolve(categoryMap[categoryId]);
                 } else {

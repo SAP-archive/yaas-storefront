@@ -194,6 +194,31 @@ describe('BrowseProductsCtrl', function () {
            });
         });
 
+        describe('onCategory:Selected', function(){
+            var catDef;
+
+            beforeEach(function(){
+                catDef = $q.defer();
+                mockedCategorySvc.getCategoryById = jasmine.createSpy('getCategoryById').andCallFake(function(){
+                   return catDef.promise;
+                });
+            });
+
+           it('should retrieve new category and reload if language changed', function(){
+               $rootScope.$emit('categories:updated', {categories: [], source: 'language:updated'});
+               var cat = {slug: 'slug'};
+               catDef.resolve(cat);
+               $scope.$apply();
+               expect(mockedCategorySvc.getCategoryById).toHaveBeenCalledWith(mockedCategory.id);
+               expect(mockedState.transitionTo).toHaveBeenCalledWith( 'base.category', { catName : 'slug' }, { reload : true, inherit : true, notify : true });
+           });
+
+            it('should not reload if no language change', function(){
+                $rootScope.$emit('categories:updated', {categories: []});
+                expect(mockedCategorySvc.getCategoryById).not.toHaveBeenCalled();
+            });
+        });
+
     });
 
 });
