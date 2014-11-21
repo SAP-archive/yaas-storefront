@@ -25,6 +25,7 @@ module.exports = function(config){
         'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
         'public/js/vendor/angular-sanitize/angular-sanitize.js',
         'public/js/vendor/angular-ui-select/dist/select.min.js',
+        'public/js/vendor/angular-directive.g-signin/google-plus-signin.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',

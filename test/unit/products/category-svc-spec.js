@@ -13,7 +13,7 @@ describe('CategorySvc', function () {
 
     var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
     var acceptLang = "de";
-    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}, getCurrencyId: function(){return 'USD'}};
 
     var cosmeticsId = "117771264";
     var cosmeticsSlug = 'cosmetics~'+cosmeticsId;

@@ -41,9 +41,6 @@ window.app = angular.module('ds.router', [
                             httpQueue.appendBlocked(config, deferred);
                             return deferred.promise;
                         }
-                        if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.headers.hybrisCurrency] = GlobalData.getCurrencyId();
-                        }
                     }
                     return config || $q.when(config);
                 },
@@ -271,6 +268,7 @@ window.app = angular.module('ds.router', [
                                         return prod;
                                     }
                                 });
+
                         }
                     }
                 })
@@ -288,8 +286,10 @@ window.app = angular.module('ds.router', [
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function (CheckoutSvc) {
-                            return CheckoutSvc.getShippingCost();
+                        shippingCost: function (CheckoutSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return CheckoutSvc.getShippingCost();
+                            }
                         }
                     }
                 })

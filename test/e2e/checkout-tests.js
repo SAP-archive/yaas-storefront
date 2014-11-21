@@ -83,7 +83,7 @@ describe("checkout:", function () {
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(4000);
+        browser.sleep(2000);
      });
 
 
@@ -101,7 +101,7 @@ describe("checkout:", function () {
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
-            tu.clickElement('xpath', tu.contineShopping);
+            tu.clickElement('id', tu.contineShopping);
             tu.clickElement('css', 'img');
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
@@ -162,7 +162,7 @@ describe("checkout:", function () {
            });
 
            it('should populate with existing address for logged in user', function () {
-            tu.clickElement('xpath', tu.contineShopping); 
+            tu.clickElement('id', tu.contineShopping); 
             browser.sleep(500);           
             tu.loginHelper('order@test.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
@@ -184,7 +184,7 @@ describe("checkout:", function () {
 
 
            it('should create order on account page', function () {
-            tu.clickElement('xpath', tu.contineShopping);            
+            tu.clickElement('id', tu.contineShopping);            
             tu.loginHelper('order@test.com', 'password');
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(3000);
