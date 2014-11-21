@@ -32,30 +32,27 @@ angular.module('ds.shared')
                             rowSelector: 'li'
                         });
 
-                        $(document).on('click','#sidebar .navi > li.has-sub > a',function(e){
-                            //console.log('click sub with nav');
-                            e.preventDefault();
-                            $('#sidebar .navi > li > a').removeClass('mactive');
+                        $(docuemnt).on('click', '.mainCategory', function(e){
+                            /*remove all of the nested selectedd displays calsses*/
+                            $('.secondaryCategory').removeClass('mactive');
+                            $('.mainCategory').removeClass('mactive');
+
                             $(this).addClass('mactive');
-                            $('#sidebar .navi').addClass('sub-1');
                         });
 
-                        $(document).on('click','#sidebar .navi .sub-navi-list > li.has-sub > a',function(e){
-                            //console.log('subnavi click')
-                            e.preventDefault();
-                            $('#sidebar .navi .sub-navi-list > li > a').removeClass('mactive');
+                        $(document).on('click','.secondaryCategory',function(e){
+                            $('.secondaryCategory').removeClass('mactive');
                             $(this).addClass('mactive');
-                            $('#sidebar .navi').addClass('sub-2');
                         });
 
-                        $(document).on('click','#sidebar .navi ul.sub-navi-list > li.back > a',function(e){
+                        $('#sidebar .navi ul.sub-navi-list > li.back > a').on('click',function(e){
                             e.preventDefault();
                             $('#sidebar .navi > li > a').removeClass('mactive');
                             $('#sidebar .navi').removeClass('sub-1');
                             $('#sidebar .navi').removeClass('sub-2');
                         });
 
-                        $(document).on('click','#sidebar .navi ul.sub-navi-list  ul >  li.back > a',function(e){
+                        $('#sidebar .navi ul.sub-navi-list  ul >  li.back > a').on('click',function(e){
                             e.preventDefault();
                             $('#sidebar .navi .sub-navi-list > li > a').removeClass('mactive');
                             $('#sidebar .navi').removeClass('sub-2');

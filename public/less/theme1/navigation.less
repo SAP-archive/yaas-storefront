@@ -80,12 +80,15 @@
 					display: block;
 					color:#202122;
 					font-size: 15px;
-					//line-height: 46px;
-
+					text-decoration: none;
 					padding-top: 15px;
 					padding-bottom: 15px;
 					text-transform: uppercase;
 					text-align: center;
+
+                    &.mactive{
+                      color:@brand-primary;
+                    }
 
 					&:hover{
 						text-decoration: none;
@@ -94,6 +97,16 @@
 
 					
 				}
+
+                .secondaryCategory{
+                  &:hover{
+                    color: @lightblue;
+                  }
+
+                  &.mactive{
+                    color:@brand-primary;
+                  }
+                }
 
 				&.active > a{
 					color: @lightblue;
@@ -159,26 +172,30 @@
 
 				&> li > a{
 					padding: 0;
-						position: relative;
-						line-height: 30px;
-						color: #6a6b6b;
-                        text-decoration: none;
-                        padding-bottom: 10px;
-						font-family: @font-family-serif;
-						font-style: italic;
-						font-size: 17px;
+                    position: relative;
+                    line-height: 30px;
+                    color: #6a6b6b;
+                    text-decoration: none;
+                    padding-bottom: 10px;
+                    font-family: @font-family-serif;
+                    font-style: italic;
+                    font-size: 17px;
 
-						&:after{
-							content:"";
-							position: absolute;
-							bottom: 0;
-							left: 50%;
-							margin: 0 0 0 -16px;
-							width: 32px;
-							height: 1px;
-							background: #c4c4c4;
+                    &:after{
+                      content:"";
+                      position: absolute;
+                      bottom: 0;
+                      left: 50%;
+                      margin: 0 0 0 -16px;
+                      width: 32px;
+                      height: 1px;
+                      background: #c4c4c4;
 
-						}
+                    }
+
+                    &.mactive{
+                      color:@brand-primary;
+                    }
 					
 
 					
@@ -244,7 +261,6 @@
 					line-height: 51px;
 					color:#202122;
 					border-bottom:1px solid #dedede;
-					
 
 					&.mactive + .sub-navi{
 						display: block;
