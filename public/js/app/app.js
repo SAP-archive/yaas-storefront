@@ -253,7 +253,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         product: function ($stateParams, PriceProductREST, initialized) {
-                            if (initialized) {
+                            if (initialized) { // parent resolve - if-check to make usage explicit
                                 return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
                                     .then(function (result) {
                                         return result;
@@ -277,7 +277,7 @@ window.app = angular.module('ds.router', [
                             return CheckoutSvc.getDefaultOrder();
                         },
                         shippingCost: function (CheckoutSvc, initialized) {
-                            if (initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return CheckoutSvc.getShippingCost();
                             }
                         }
