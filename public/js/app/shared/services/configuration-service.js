@@ -91,13 +91,10 @@ angular.module('ds.shared')
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
-<<<<<<< HEAD
                                     CategorySvc.getCategories().then(function(){
                                         def.resolve({});
                                     });
-=======
-                                    def.resolve({});
->>>>>>> develop
+
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -105,15 +102,12 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
-<<<<<<< HEAD
-                                CartSvc.getCart(); // no need to wait for cart promise to resolve
+
                                 CategorySvc.getCategories().then(function(){
                                     def.resolve({});
                                 });
-=======
-                                def.resolve({});
-                                CartSvc.getCart();
->>>>>>> develop
+                                CartSvc.getCart(); // no need to wait for cart promise to resolve
+
                             }
                             initialized = true;
                         });

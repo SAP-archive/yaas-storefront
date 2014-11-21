@@ -89,7 +89,7 @@ describe('CategorySvc', function () {
         });
 
         it('sets accept-language header', function(){
-            $httpBackend.expectGET(categoryUrl+catQueryPath, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
+            $httpBackend.expectGET(categoryUrl+catQueryPath, {"accept-language":"de","hybris-currency":"USD","Accept":"application/json, text/plain, */*"}).respond([]);
             categorySvc.getCategories();
             $httpBackend.flush();
         });

@@ -255,19 +255,22 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST, CategorySvc) {
-                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                .then(function (prod) {
-                                    if(prod.categories && prod.categories.length){
-                                        return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
-                                            prod.richCategory = category;
-                                            return prod;
-                                        });
+                        product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                            if(initialized){
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                    .then(function (prod) {
+                                        if(prod.categories && prod.categories.length){
+                                            return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
+                                                prod.richCategory = category;
+                                                return prod;
+                                            });
 
-                                    } else {
-                                        return prod;
-                                    }
-                                });
+                                        } else {
+                                            return prod;
+                                        }
+                                    });
+                            }
+
 
                         }
                     }
