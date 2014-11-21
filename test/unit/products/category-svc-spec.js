@@ -73,12 +73,18 @@ describe('CategorySvc', function () {
         it('issues GET for first request only', function () {
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
 
-            var cats = categorySvc.getCategories();
+            var cats;
+            categorySvc.getCategories().then(function(result){
+                cats = result;
+            });
 
             $httpBackend.flush();
             expect(cats).toBeDefined();
 
-            categorySvc.getCategories();
+            cats = null;
+            cats = categorySvc.getCategoriesFromCache();
+            expect(cats).toBeDefined();
+            $httpBackend.verifyNoOutstandingExpectation();
             $httpBackend.verifyNoOutstandingRequest();
         });
 
@@ -86,6 +92,33 @@ describe('CategorySvc', function () {
             $httpBackend.expectGET(categoryUrl+catQueryPath, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
             categorySvc.getCategories();
             $httpBackend.flush();
+        });
+    });
+
+    describe('getCategoryById', function(){
+       it('should retrieve the category from map if cached', function(){
+           $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
+           categorySvc.getCategories();
+           $httpBackend.flush();
+           var cat = null;
+           categorySvc.getCategoryById(cosmeticsId).then(function(result){
+               cat = result;
+           });
+           $scope.$apply();
+           expect(cat).toBeTruthy();
+           expect(cat.name).toEqualData('Cosmetics');
+       });
+
+        it('should retrieve the category server if none cached', function(){
+            $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
+            var cat = null;
+            categorySvc.getCategoryById(cosmeticsId).then(function(result){
+                cat = result;
+            });
+            $httpBackend.flush();
+            $scope.$apply();
+            expect(cat).toBeTruthy();
+            expect(cat.name).toEqualData('Cosmetics');
         });
     });
 
@@ -103,6 +136,37 @@ describe('CategorySvc', function () {
             expect(cat).toBeTruthy();
             expect(cat.name).toEqualData('Cosmetics');
             $httpBackend.verifyNoOutstandingRequest();
+
+            cat = null;
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements?recursive=true').respond([]);
+            categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function (category) {
+                cat = category;
+            });
+            $scope.$apply();
+            $httpBackend.flush();
+            expect(cat).toBeTruthy();
+            expect(cat.name).toEqualData('Cosmetics');
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should return null category for invalid slug', function(){
+            var cat = null;
+            $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
+            categorySvc.getCategoryWithProducts('slug').then(function (category) {
+                cat = category;
+            });
+            $scope.$apply();
+            $httpBackend.flush();
+            expect(cat).toBeFalsy();
+        });
+
+        it('should return null cartegory for null slug', function(){
+            var cat= null;
+            categorySvc.getCategoryWithProducts(null).then(function (category) {
+                cat = category;
+            });
+            $scope.$apply();
+            expect(cat).toBeFalsy();
         });
 
     });

@@ -17,7 +17,7 @@ html
   body
 
     div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
-      div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation")
+      div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation", sticky-navigation)
       div(class="mainContent")
           div(ui-view="topNavigation")
           div(class="main")
