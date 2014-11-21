@@ -7,12 +7,10 @@ angular.module('ds.shared')
     .directive('dsMenuAim', [function () {
 
         function activateSubmenu(row) {
-            console.log('activate');
             angular.element(row).addClass('active');
         }
 
         function deactivateSubmenu(row) {
-            //console.log('deactivate 1');
             angular.element(row).removeClass('active');
         }
 
@@ -32,7 +30,7 @@ angular.module('ds.shared')
                             rowSelector: 'li'
                         });
 
-                        $(docuemnt).on('click', '.mainCategory', function(e){
+                        $(document).on('click', '.mainCategory', function(e){
                             /*remove all of the nested selectedd displays calsses*/
                             $('.secondaryCategory').removeClass('mactive');
                             $('.mainCategory').removeClass('mactive');
