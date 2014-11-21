@@ -22,9 +22,7 @@ angular.module('ds.shared')
             this.apis = {
 
                 account: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',              //original
-                    // baseUrl: 'https://yaas-test.apigee.net/test/account/v2/' + stId,   //new tenant id url pending
-                    // 404: https://yaas-test.apigee.net/test/account/v2/8bwhetym79cq/auth/anonymous/login?hybris-tenant=8bwhetym79cq
+                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
