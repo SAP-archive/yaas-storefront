@@ -23,7 +23,7 @@ angular.module('ds.products')
                 return {
                     element: element,
                     params: params,
-                    headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
+                    headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}, {'hybris-currency': GlobalData.getCurrencyId()}),
                     httpConfig: httpConfig
                 };
             });

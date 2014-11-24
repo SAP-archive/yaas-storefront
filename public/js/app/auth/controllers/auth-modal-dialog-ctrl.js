@@ -16,9 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
-       'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts', '$window',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc,
-                  settings, AuthDialogManager, GlobalData, loginOpts, $window) {
+        'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts', '$window',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager, GlobalData, loginOpts, $window) {
 
             $scope.user = {
                 signup: {},
@@ -33,26 +32,58 @@ angular.module('ds.auth')
                 signin: []
             };
 
-            $scope.clearErrors = function(){
+            $scope.clearErrors = function () {
                 $scope.errors.signin = [];
                 $scope.errors.signup = [];
             };
-            
-            function onFbLogin(fbToken){
+
+            function onFbLogin(fbToken) {
                 AuthSvc.socialLogin('facebook', fbToken).then(function () {
                     $modalInstance.close();
                     /* jshint ignore:start */
-                    FB.api('/me', function(response) {
-                       SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
-                    });
+                    try {
+                        FB.api('/me', function (response) {
+                            SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
+                        });
+                    } catch (error){
+                        console.error('Unable to load FB user profile');
+                    }
                     /* jshint ignore:end */
                 }, function () {
                     $scope.errors.signin.push('LOGIN_FAILED');
                 });
             }
 
+            function onGoogleLogIn(gToken){
+                AuthSvc.socialLogin('google', gToken).then(function () {
+                    $modalInstance.close();
+                    /* jshint ignore:start */
+                    try {
+                        gapi.client.load('plus', 'v1').then(function () {
+                            gapi.client.plus.people.get({
+                                'userId': 'me'
+                            }).then(function (response) {
+                                if (response.result) {
+                                    SessionSvc.afterSocialLogin({email: response.result.emails[0].value, firstName: response.result.name.givenName,
+                                        lastName: response.result.name.familyName});
+                                }
+
+                            });
+                        });
+                    } catch (error){
+                        console.error('Unable to load Google+ user profile');
+                    }
+                    /* jshint ignore:end */
+                }, function () {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                });
+            }
+
+            $scope.fbAppId = settings.facebookAppId;
+
             try {
-                if(settings.facebookAppId){
+                if ($scope.fbAppId) {
+
                     // load Facebook SDK
                     $window.fbAsyncInit = function () {
                         FB.init({
@@ -83,10 +114,18 @@ angular.module('ds.auth')
 
                     }(document, 'script', 'facebook-jssdk'));
                 }
-            } catch (e){
+            } catch (e) {
                 console.error('Unable to initialize Facebook API');
                 console.error(e);
             }
+
+            // scope variable used by google+ signing directive
+            $scope.googleClientId = settings.googleClientId;
+
+            // react to event fired by goole+ signing directive
+            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+                onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
+            });
 
 
             var extractServerSideErrors = function (response) {
@@ -167,17 +206,9 @@ angular.module('ds.auth')
              * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
              * and not for subsequent displays.
              */
-            $scope.fbParse = function(){
-                if(typeof FB !== 'undefined'){
-                    FB.getLoginStatus(function(response) {
-                        if (response.status === 'connected') {
-                            $scope.fbLoggedIn = true;
-                        } else {
-                            $scope.fbLoggedIn = false;
-                        }
-                    });
+            $scope.fbParse = function () {
+                if (typeof FB !== 'undefined') {
                     FB.XFBML.parse();
-
                 }
             };
 
@@ -187,9 +218,9 @@ angular.module('ds.auth')
              * invoke the FB.login API through code rather than the integrated FB button,
              * the login dialog will be a pop-up rather than an iframe.
              */
-            $scope.fbLogin = function(){
+            $scope.fbLogin = function () {
 
-                FB.getLoginStatus(function(response) {
+                FB.getLoginStatus(function (response) {
                     if (response.status === 'connected') {
                         $scope.fbLoggedIn = true;
                         onFbLogin(response.authResponse.accessToken);

@@ -4,8 +4,8 @@
         exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
-        exports.contineShopping = "//div[@id='cart']/div/div/button";
-        exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
+        exports.contineShopping = "continue-shopping";
+        exports.removeFromCart = "remove-product"
         exports.frenchPressDescription = element(by.binding('product.description'));
         exports.backToTopButton = "(//button[@type='button'])[6]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
