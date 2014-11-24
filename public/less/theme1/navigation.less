@@ -7,6 +7,10 @@
 		text-align: center;
 	}
 
+    .mactive{
+      color:@brand-primary !important;
+    }
+
     .seperator{
       width: 36px;
       height: 1px;
@@ -85,9 +89,7 @@
 					text-transform: uppercase;
 					text-align: center;
 
-                    &.mactive{
-                      color:@brand-primary;
-                    }
+
 
 					&:hover{
 						text-decoration: none;
@@ -102,9 +104,6 @@
                     color: @lightblue;
                   }
 
-                  &.mactive{
-                    color:@brand-primary;
-                  }
                 }
 
 				&.active > a{
@@ -192,9 +191,10 @@
 
                     }
 
-                    &.mactive{
-                      color:@brand-primary;
+                    &.noSubCategories:after{
+                      background: transparent;
                     }
+
 					
 
 					
