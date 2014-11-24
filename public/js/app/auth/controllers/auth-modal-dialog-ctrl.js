@@ -201,6 +201,7 @@ angular.module('ds.auth')
             };
 
 
+
             /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
              * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
              * and not for subsequent displays.
