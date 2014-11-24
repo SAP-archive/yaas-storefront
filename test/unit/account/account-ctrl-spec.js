@@ -158,8 +158,9 @@ describe('AccountCtrl Test', function () {
             expect($scope.account).toBeDefined();
             expect($scope.addresses).toBeDefined();
             expect($scope.orders).toBeDefined();
-            expect($scope.showAllButton).toBeDefined();
+            expect($scope.showAllOrdersButton).toBeDefined();
             expect($scope.currencies).toBeDefined();
+            expect($scope.showAddressButtons).toBeDefined();
             expect($scope.showCurrency).toBeDefined();
             expect($scope.languageLocales).toBeDefined();
             expect($scope.showLanguageLocale).toBeDefined();
@@ -240,7 +241,7 @@ describe('AccountCtrl Test', function () {
             $scope.showAllOrders();
             $scope.$digest();
             expect(mockedOrderListSvc.query).toHaveBeenCalled();
-            expect($scope.showAllButton).toEqualData(false);
+            expect($scope.showAllOrdersButton).toEqualData(false);
             expect($scope.orders).toEqualData(mockedOrderList);
         });
 
