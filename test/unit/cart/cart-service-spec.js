@@ -120,7 +120,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
             var successSpy = jasmine.createSpy();
             cartPromise.then(successSpy);
 
@@ -134,7 +134,7 @@ describe('CartSvc Test', function () {
         it('should return failing promise if cart POST fails', function(){
             mockBackend.expectPOST(cartUrl).respond(500, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
             var failureSpy = jasmine.createSpy();
             cartPromise.then(function(){}, failureSpy);
 
@@ -149,7 +149,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(500, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2);
+            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
             var failureSpy = jasmine.createSpy();
             cartPromise.then(function(){}, failureSpy);
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
@@ -169,7 +169,7 @@ describe('CartSvc Test', function () {
             });
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
-            cartSvc.addProductToCart(prod1, 2);
+            cartSvc.addProductToCart(prod1, 2, {});
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
                 {
                     "currency": "USD",
@@ -222,7 +222,7 @@ describe('CartSvc Test', function () {
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
-                var promise = cartSvc.addProductToCart(prod1, 1);
+                var promise = cartSvc.addProductToCart(prod1, 1, {});
                 var successSpy = jasmine.createSpy();
                 promise.then(successSpy);
                 mockBackend.flush();
@@ -232,7 +232,7 @@ describe('CartSvc Test', function () {
             it('should return rejected promise if update fails', function(){
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 3})
                     .respond(500, {});
-                var promise = cartSvc.addProductToCart(prod1, 1);
+                var promise = cartSvc.addProductToCart(prod1, 1, {});
                 var failureSpy = jasmine.createSpy();
                 promise.then(function(){}, failureSpy);
                 mockBackend.flush();
@@ -240,7 +240,7 @@ describe('CartSvc Test', function () {
             });
 
             it('should return promise if attempting update with qty = 0', function(){
-                var promise = cartSvc.addProductToCart(prod1, 0);
+                var promise = cartSvc.addProductToCart(prod1, 0, {});
                 $scope.$apply();
                 expect(promise).toBeTruthy();
                 expect(promise.then).toBeTruthy();
@@ -271,13 +271,13 @@ describe('CartSvc Test', function () {
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
-                cartSvc.updateCartItem(item, 5);
+                cartSvc.updateCartItem(item, 5, {});
                 mockBackend.flush();
             });
 
             it('should issue no calls if qty < 1', function(){
                 var item = cartSvc.getLocalCart().items[0];
-                cartSvc.updateCartItem(item, 0);
+                cartSvc.updateCartItem(item, 0, {});
                 mockBackend.verifyNoOutstandingRequest();
             });
 
@@ -285,7 +285,7 @@ describe('CartSvc Test', function () {
                 var item = cartSvc.getLocalCart().items[0];
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 5})
                     .respond(500, {});
-                cartSvc.updateCartItem(item, 5);
+                cartSvc.updateCartItem(item, 5, {});
                 mockBackend.flush();
                 expect(cartSvc.getLocalCart().items[0].error).toBeTruthy();
             });

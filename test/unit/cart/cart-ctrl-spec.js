@@ -72,6 +72,43 @@ describe('CartCtrl Test', function () {
 
     });
 
+    describe('close cart after timeout', function(){
+
+        it('should call createCartTimeout', function(){
+            expect($scope.cartShouldCloseAfterTimeout).toBe(false);
+            $rootScope.$emit('cart:closeAfterTimeout');
+            expect($scope.cartShouldCloseAfterTimeout).toBe(true);
+            expect($scope.createCartTimeout).toHaveBeenCalled;
+        });
+
+        describe('create cart timeout method', function(){
+
+            it('should call $apply', function(){
+                expect($scope.cartShouldCloseAfterTimeout).toBe(false);
+                $scope.createCartTimeout();
+                expect($scope.$apply).toHaveBeenCalled;
+                expect($scope.cartTimeOut).toMatch(/\d{1,}/)
+            });
+        });
+
+        describe('mouse enters cart area', function(){
+            it('should create the timeout', function(){
+                $scope.cartHovered();
+                expect($scope.cartTimeOut).toBeFalsy();
+            })
+        });
+
+        describe('mouse leaves cart area', function(){
+            it('should clear the timeout', function(){
+                $scope.cartUnHovered();
+                expect($scope.createCartTimeout).toHaveBeenCalled;
+
+            })
+        })
+    });
+
+
+
     describe('update line item', function () {
 
         it(' should call service update', function () {

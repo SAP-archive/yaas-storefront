@@ -92,6 +92,7 @@ angular.module('ds.shared')
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
+                                    def.resolve({});
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -99,9 +100,9 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
+                                def.resolve({});
                                 CartSvc.getCart();
                             }
-                            def.resolve({});
                             initialized = true;
 
                         });
