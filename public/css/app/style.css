@@ -6405,6 +6405,9 @@ html.disable-scroll {
 #sidebar .store-settings {
   margin: 20px 0 100px;
 }
+#full-cart-btn {
+  outline: none !important;
+}
 .top-navigation {
   position: relative;
   min-height: 50px;

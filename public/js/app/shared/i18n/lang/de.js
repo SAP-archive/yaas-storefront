@@ -160,6 +160,7 @@ angular.module('ds.i18n')
         WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
         SHOW_ALL: 'Alle anzeigen',
+        SHOW_LESS: 'Weniger',
 
         /*
          login, password, signup
