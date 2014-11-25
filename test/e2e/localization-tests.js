@@ -77,8 +77,8 @@
           tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/button", 'CHECKOUT');
+          assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
+          assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
           assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
           assertTextByElement('css', 'td.ng-binding', '1 ITEM');
           // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Item Price: $24.57');
@@ -90,8 +90,8 @@
           tu.clickElement('css', 'div.thumb');
           tu.selectLanguage('German');
           tu.clickElement('id', 'buy-button');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'WEITER EINKAUFEN');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/button", 'KASSE');
+          assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
+          assertTextByElement('binding', "CHECKOUT", 'KASSE');
           assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
           assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
           // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Artikel Preis: $24.57');

@@ -1,5 +1,6 @@
 #sidebar{
-	background: @lightergrey;
+	background: @lightestgrey;
+	//padding: 30px 15px ;
 
 
 	a.logo{
@@ -393,6 +394,9 @@
 
 }
 
+#full-cart-btn{
+  outline: none;
+}
 
 
 .top-navigation{
@@ -417,10 +421,12 @@
     	color: #636465;
     	font-size: 32px;
 		padding: 13px 20px;
+
     	&.cart{
     		color: #fff;
     		background: @darkergrey;
     		position: relative;
+
     		top: 0;
     		.visible-xs;
 			.visible-sm;
@@ -431,6 +437,7 @@
     			top: 15px;
     			left: 48%;
     		}
+
     	}
 	}
 
@@ -504,6 +511,39 @@
 			right: @offcanvas-right-width-d;
 		}
 	}
+
+.socialMediaSigninContainer{
+  margin:0 0 55px 0;
+
+
+}
+
+.forgot-password-btn{
+  font-size: 13px;
+}
+
+
+.signInTabs{
+  &.nav-tabs > li.active > a,
+  &.nav-tabs > li.active > a:hover,
+  &.nav-tabs > li.active > a:focus {
+    background-color: transparent ;
+    border: none;
+    font-weight: bold;
+    color: #000;
+
+  }
+
+  &.nav-tabs > li > a,
+  &.nav-tabs > li > a:hover,
+  &.nav-tabs > li > a:focus {
+    padding: 0 15px;
+  }
+
+  .signInButton{
+    border-right: 1px solid #838485;
+  }
+}
 
 
 /* TO THE TOP BTN */

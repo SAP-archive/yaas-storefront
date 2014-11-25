@@ -78,6 +78,7 @@ angular.module('ds.i18n')
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
         ENJOY_YOUR_ITEMS: 'Enjoy your items!',
         FOR_YOUR_ORDER: 'for your order!',
+        ITEM_IN_YOUR_ORDER: 'Item in your order',
         ITEMS_IN_YOUR_ORDER: 'Items in your order',
         QUESTIONS: 'If you have any questions, contact us at',
         ORDER: 'Order',
@@ -157,6 +158,7 @@ angular.module('ds.i18n')
         WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
         PASSWORD_TOO_SHORT: 'Password too short',
         SHOW_ALL: 'Show all',
+        SHOW_LESS: 'Show less',
 
         /*
            login, password, signup
