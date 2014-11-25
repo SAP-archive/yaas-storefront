@@ -335,8 +335,8 @@
             <div class="form-group input-group">
                 <span class="input-group-addon"><label class="control-label" for="shipMethod">{{'METHOD' | translate}}</label></span>
                 <select class="form-control" name="shipMethod" id="shipMethod">
-                    <option ng-if="shippingCosts.price.price <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{shippingCosts.price.price | currency : shippingCosts.price.currencyId + ' '}}</option>
-                    <option ng-if="shippingCosts.price.price > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{shippingCosts.price.price | currency : shippingCosts.price.currencyId + ' '}}</option>
+                    <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
+                    <option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
                 </select>
             </div>
         </div>

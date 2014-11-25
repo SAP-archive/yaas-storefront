@@ -80,12 +80,26 @@ angular.module('ds.shared')
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;
                     var symbol = '?';
-                    if (id === 'USD') {
+                    if (id === 'USD' || id === 'CAD') {
                         symbol = '$';
                     }
                     else if (id === 'EUR') {
                         symbol = '\u20AC';
                     }
+                    else if (id === 'GBP') {
+                        symbol = '\u20A4';
+                    }
+                    else if (id === 'JPY' || id === 'CNY') {
+                        symbol = '\u00A5';
+                    }
+                    else if (id === 'PLN') {
+                        symbol = '\u007A' + '\u0142';
+                    }
+                    else if (id === 'CHF') {
+                        symbol = 'CHF';
+                    }
+
+
                     return symbol;
                 },
 
