@@ -22,6 +22,7 @@ describe('AccountCtrl Test', function () {
         setCurrency: jasmine.createSpy('setCurrency'),
         getLanguageCode: function(){ return null},
         getCurrencyId: function() { return null},
+        getCurrencySymbol: function () {return '$'},
         getAvailableLanguages: function() { return [{id:'en', label:eng}]},
         getAvailableCurrencies: function() { return [{id:'USD', label: usd}]},
         getCurrency: function() { return null},
