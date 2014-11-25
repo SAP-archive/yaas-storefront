@@ -64,7 +64,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: '1. Meine Daten',
         STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
         STEP_3_PAYMENT: '3. Zahlung',
-        STEP_4_REVIEW_AND_PAYMENT: '4. Bestätigung',
+        STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
@@ -159,6 +159,7 @@ angular.module('ds.i18n')
         WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
         SHOW_ALL: 'Alle anzeigen',
+        SHOW_LESS: 'Weniger',
 
         /*
          login, password, signup

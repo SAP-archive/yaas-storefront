@@ -17,13 +17,13 @@ angular.module('ds.checkout')
         function ($scope, $rootScope, cart, shippingCost, GlobalData) {
 
             $scope.cart = cart;
-            $scope.currencySymbol = GlobalData.getCurrencySymbol();
-            $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol();
+            $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
+            $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
-                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+                $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             });
 
             $scope.$on('$destroy', unbind);
