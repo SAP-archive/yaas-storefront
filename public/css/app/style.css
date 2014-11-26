@@ -5074,6 +5074,9 @@ button.close {
 .modal-open {
   overflow: hidden;
 }
+.popoverCloseBtn {
+  margin: 10px 10px 0 0;
+}
 .modal {
   display: none;
   overflow: auto;

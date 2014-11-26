@@ -33,7 +33,7 @@ angular.module('ds.shared')
 
                     var options = {
                         html: true,
-                        template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'),
+                        template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>'),
                         content:  $compile(data)(scope)
                     };
                     $(function(){
@@ -45,6 +45,10 @@ angular.module('ds.shared')
                             getController(scope.popoverController, scope);
                             AuthDialogManager.showPopover();
 //
+                        });
+
+                        $(document).on('click', '.js-closePopover', function(e){
+                            $(element).popover('hide');
                         });
 
                     });

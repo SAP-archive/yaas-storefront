@@ -21,101 +21,19 @@ angular.module('ds.auth')
                   settings, AuthDialogManager, GlobalData, SessionSvc, loginOpts) {
 
 
-            $scope.user = {
-                signup: {},
-                signin: {
-                    email: '',
-                    password: ''
-                }
-            };
+            $scope.user = AuthSvc.user;
 
-            $scope.errors = {
-                signup: [],
-                signin: []
-            };
-
-            var performSignin = function (authModel, fromSignUp) {
-                var signInPromise = AuthSvc.signin(authModel);
-                signInPromise.then(function () {
-                    $scope.errors.signin = [];
-                    loginOpts.fromSignUp = fromSignUp;
-                    SessionSvc.afterLogIn(loginOpts);
-                }, function (response) {
-                    $scope.errors.signin = extractServerSideErrors(response);
-                });
-                return signInPromise;
-            };
-
-            var extractServerSideErrors = function (response) {
-                var errors = [];
-                if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
-                    errors.push({message: 'PASSWORD_INVALID'});
-                } else if (response.status === 401 || response.status === 404) {
-                    errors.push({ message: 'INVALID_CREDENTIALS' });
-                } else if (response.status === 409) {
-                    errors.push({ message: 'ACCOUNT_ALREADY_EXISTS' });
-                } else if (response.status === 403) {
-                    errors.push({ message: 'ACCOUNT_LOCKED' });
-                } else if (response.data && response.data.details && response.data.details.message) {
-                    errors.push(response.data.details.message);
-                } else if (response.data && response.data.message) {
-                    errors.push({ message: response.data.message });
-                } else {
-                    errors.push({message: response.status});
-                }
-
-                return errors;
-            };
+            $scope.errors = AuthSvc.errors;
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
-                var deferred = $q.defer();
-
-                if (signUpForm.$valid) {
-                    AuthSvc.signup(authModel).then(
-                        function () {
-                            $scope.errors.signup = [];
-                            performSignin(authModel, {fromSignUp: true}).then(
-                                function (response) {
-                                    settings.hybrisUser = $scope.user.signup.email;
-
-                                    deferred.resolve(response);
-                                },
-                                function (response) {
-                                    deferred.reject(response);
-                                }
-                            );
-                        }, function (response) {
-                            $scope.errors.signup = extractServerSideErrors(response);
-                            deferred.reject({ message: 'Signup form is invalid!', errors: $scope.errors.signup });
-                        }
-                    );
-                } else {
-                    deferred.reject({ message: 'Signup form is invalid!'});
-                }
-
-                return deferred.promise;
+                AuthSvc.FormSignup(authModel, signUpForm, $scope);
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-                var deferred = $q.defer();
 
-                if (signinForm.$valid) {
-                    performSignin(authModel).then(
-                        function (response) {
-                            settings.hybrisUser = $scope.user.signin.email;
-
-                            deferred.resolve(response);
-                        },
-                        function (response) {
-                            deferred.reject(response);
-                        }
-                    );
-                } else {
-                    deferred.reject({ message: 'Signin form is invalid!'});
-                }
-                return deferred.promise;
+                AuthSvc.FormSignIn(authModel, signinForm, $scope);
             };
 
             /** Closes the dialog. */
@@ -125,7 +43,6 @@ angular.module('ds.auth')
 
             /** Closes the dialog.*/
             $scope.closeDialog = function(){
-//                $modalInstance.close();
             };
 
             /** Shows the "request password reset" dialog.*/
@@ -134,8 +51,7 @@ angular.module('ds.auth')
             };
 
             $scope.clearErrors = function(){
-                $scope.errors.signin = [];
-                $scope.errors.signup = [];
+                AuthSvc.clearErrors($scope);
             };
 
 

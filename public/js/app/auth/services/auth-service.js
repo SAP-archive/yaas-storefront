@@ -27,6 +27,95 @@ angular.module('ds.auth')
 
         var AuthenticationService = {
 
+            user:{
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            },
+
+            errors:{
+                signup: [],
+                signin: []
+            },
+
+
+            extractServerSideErrors: function (response)
+            {
+                var errors = [];
+                if (response.status === 400 && response.data.details && response.data.details[0].field && response.data.details[0].field === 'password') {
+                    errors.push({message: 'PASSWORD_INVALID'});
+                } else if (response.status === 401 || response.status === 404) {
+                    errors.push({ message: 'INVALID_CREDENTIALS' });
+                } else if (response.status === 409) {
+                    errors.push({ message: 'ACCOUNT_ALREADY_EXISTS' });
+                } else if (response.status === 403) {
+                    errors.push({ message: 'ACCOUNT_LOCKED' });
+                } else if (response.data && response.data.details && response.data.details.message) {
+                    errors.push(response.data.details.message);
+                } else if (response.data && response.data.message) {
+                    errors.push({ message: response.data.message });
+                } else {
+                    errors.push({message: response.status});
+                }
+
+                return errors;
+            },
+
+            FormSignup: function(authModel, signUpForm, scope, modalInstance, type){
+
+                var deferred = $q.defer();
+
+                if (signUpForm.$valid) {
+                    AuthenticationService.signup(authModel, {fromSignUp: true}).then(
+                        function (response) {
+                            scope.errors.signup = [];
+                            settings.hybrisUser = scope.user.signup.email;
+                            if(type != undefined){
+                                modalInstance.close(response);
+                            }
+                            deferred.resolve(response);
+                        }, function (response) {
+                            scope.errors.signup = AuthenticationService.extractServerSideErrors(response);
+                            deferred.reject({ message: 'Signup form is invalid!', errors: scope.errors.signup });
+                        }
+                    );
+                } else {
+                    deferred.reject({ message: 'Signup form is invalid!'});
+                }
+                return deferred.promise;
+            },
+
+            FormSignIn: function(authModel, signinForm, scope, modalInstance, type)
+            {
+                var deferred = $q.defer();
+                if (signinForm.$valid) {
+                    AuthenticationService.signin(authModel).then(function () {
+                        scope.errors.signin = [];
+                        settings.hybrisUser = scope.user.signin.email;
+                        if(type != undefined){
+                            modalInstance.close({});
+                        }
+                        deferred.resolve({});
+                    }, function (response) {
+                        scope.errors.signin = AuthenticationService.extractServerSideErrors(response);
+                        deferred.reject(response);
+                    });
+                } else {
+                    deferred.reject({ message: 'Signin form is invalid!'});
+                }
+                return deferred.promise;
+
+            },
+
+            clearErrors: function(scope)
+            {
+                scope.errors.signin = [];
+                scope.errors.signup = [];
+            },
+
+
             /**
              * Performs login (customer specific or anonymous) and updates the current OAuth token in the local storage.
              * Returns a promise with "success" = access token for when that action has been performed.
