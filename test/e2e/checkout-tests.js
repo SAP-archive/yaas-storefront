@@ -71,6 +71,26 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('cvc', cvcNumber);
           }
 
+          function checkoutAsLoggedInUserTest(account, capsAccount){
+            tu.clickElement('id', tu.contineShopping); 
+            browser.sleep(500);           
+            tu.loginHelper(account, 'password');
+            tu.clickElement('id', tu.cartButtonId);
+            browser.sleep(2000);
+            tu.clickElement('css', tu.checkoutButton);
+            browser.sleep(1000);
+            // tu.sendKeysById('firstNameAccount', 'Mike');
+            // tu.sendKeysById('lastNameAccount', 'Night');
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
+            browser.sleep(500)
+            tu.clickElement('id', 'place-order-btn');
+            browser.sleep(20000);
+            verifyOrderConfirmation(capsAccount, 'MIKE', '123', 'BOULDER, CO 80301');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
+            tu.clickElement('id', "logout-btn");
+          }
+
 describe("checkout:", function () {
 
 
@@ -84,6 +104,9 @@ describe("checkout:", function () {
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
         browser.sleep(2000);
+           browser.takeScreenshot().then(function (png) {
+               writeScreenShot(png, '/Users/i840624/Documents/development/main-page1.png');
+           }); 
      });
 
 
@@ -161,27 +184,20 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
 
-           it('should populate with existing address for logged in user', function () {
-            tu.clickElement('id', tu.contineShopping); 
-            browser.sleep(500);           
-            tu.loginHelper('order@test.com', 'password');
-            tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(1000);
-            tu.clickElement('css', tu.checkoutButton);
-            browser.sleep(1000);
-            // tu.sendKeysById('firstNameAccount', 'Mike');
-            // tu.sendKeysById('lastNameAccount', 'Night');
-            fillCreditCardForm('5555555555554444', '06', '2015', '000')
-            browser.sleep(500)
-            tu.clickElement('id', 'place-order-btn');
-            browser.sleep(20000);
-            verifyOrderConfirmation('ORDER@TEST.COM', 'MIKE', '123', 'BOULDER, CO 80301');
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
-            tu.clickElement('id', "logout-btn");
+           iit('should populate with existing address for logged in user', function () {
+            checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
 
            });
 
+           it('should populate with existing address for logged in user', function () {
+            checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
+
+           });
+
+           it('should populate with existing address for logged in user', function () {
+            checkoutAsLoggedInUserTest("euro-order@test.com", "EURO-ORDER@TEST.COM");
+
+           });
 
            it('should create order on account page', function () {
             tu.clickElement('id', tu.contineShopping);            
