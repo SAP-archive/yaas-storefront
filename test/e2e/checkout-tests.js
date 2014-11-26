@@ -91,6 +91,19 @@ var tu = require('./protractor-utils.js');
             tu.clickElement('id', "logout-btn");
           }
 
+          function verifyOrderOnAccountPage(account, total) {
+            tu.clickElement('id', tu.contineShopping);            
+            tu.loginHelper(account, 'password');
+            tu.clickElement('css', 'img.user-avatar');
+            browser.sleep(3000);
+            expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual(total);          
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
+            element(by.repeater('order in orders').row(0).column('order.created')).click();
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
+            tu.clickElement('id', "logout-btn");
+          }
+
 describe("checkout:", function () {
 
 
@@ -184,32 +197,23 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
            });
 
-           iit('should populate with existing address for logged in user', function () {
-            checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
-
-           });
-
            it('should populate with existing address for logged in user', function () {
             checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
 
            });
 
-           it('should populate with existing address for logged in user', function () {
-            checkoutAsLoggedInUserTest("euro-order@test.com", "EURO-ORDER@TEST.COM");
+           it('should checkout in Euros', function () {
+            checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
 
            });
 
            it('should create order on account page', function () {
-            tu.clickElement('id', tu.contineShopping);            
-            tu.loginHelper('order@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(3000);
-            expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$24.61");          
-            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
-            element(by.repeater('order in orders').row(0).column('order.created')).click();
-            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
-            tu.clickElement('id', "logout-btn");
+            verifyOrderOnAccountPage('order@test.com', '$24.61')
+
+           });
+
+           it('should create order on account page in Euros', function () {
+            verifyOrderOnAccountPage('euro-order@test.com', '€14.53')
 
            });
 
