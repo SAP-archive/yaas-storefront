@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
-        'settings', 'AuthDialogManager', 'GlobalData', 'loginOpts', '$window',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager, GlobalData, loginOpts, $window) {
+        'settings', 'AuthDialogManager',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager) {
 
 
             $scope.user = AuthSvc.user;

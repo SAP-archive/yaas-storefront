@@ -4,20 +4,20 @@
 'use strict';
 
 angular.module('ds.shared')
-.directive('popOver', ['$compile', '$controller', 'AuthDialogManager',  function ( $compile, $controller, AuthDialogManager) {
+.directive('popOver', ['$compile', '$controller', 'AuthDialogManager', 'AuthSvc', 'settings', function ( $compile, Controller, AuthDialogManager, AuthSvc, settings) {
 
     var getController = function getController(controllerInstance, scope)
     {
-        var controller = undefined;
+        var controller;
         var controlsLocals = {
             loginOpts: {}
         };
 
         controlsLocals.$scope = scope;
 
-        controller = new $controller(controllerInstance, controlsLocals);
+        controller = new Controller(controllerInstance, controlsLocals);
         return controller;
-    }
+    };
 
     return {
         restrict: 'A',
@@ -27,7 +27,7 @@ angular.module('ds.shared')
             popoverController:'@'
         },
 
-        link: function (scope, element, attrs, ctrl) {
+        link: function (scope, element) {
             $.ajax({url:scope.templateUrl}).done(
                 function(data){
 
@@ -36,8 +36,16 @@ angular.module('ds.shared')
                         template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>'),
                         content:  $compile(data)(scope)
                     };
+
+                    scope.fbAppId = settings.facebookAppId;
+
+                    AuthSvc.initFBAPI(scope);
+
+                    // scope variable used by google+ signing directive
+                    scope.googleClientId = settings.googleClientId;
+
                     $(function(){
-                        $(element).popover(options).addClass(scope.popoverClass)
+                        $(element).popover(options).addClass(scope.popoverClass);
 
 
                         $(element).on('shown.bs.popover', function(){
@@ -47,7 +55,7 @@ angular.module('ds.shared')
 //
                         });
 
-                        $(document).on('click', '.js-closePopover', function(e){
+                        $(document).on('click', '.js-closePopover', function(){
                             $(element).popover('hide');
                         });
 

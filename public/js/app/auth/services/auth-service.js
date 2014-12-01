@@ -126,7 +126,9 @@ angular.module('ds.auth')
                 AuthenticationService.socialLogin('google', gToken).then(function () {
 //                    close the modal if it's been passed
                     if(!_.isUndefined(modalInstance))
+                    {
                         modalInstance.close();
+                    }
                     /* jshint ignore:start */
                     try {
                         gapi.client.load('plus', 'v1').then(function () {
@@ -188,7 +190,7 @@ angular.module('ds.auth')
                         function (response) {
                             scope.errors.signup = [];
                             settings.hybrisUser = scope.user.signup.email;
-                            if(type != undefined){
+                            if(type !== undefined){
                                 modalInstance.close(response);
                             }
                             deferred.resolve(response);
@@ -210,7 +212,7 @@ angular.module('ds.auth')
                     AuthenticationService.signin(authModel).then(function () {
                         scope.errors.signin = [];
                         settings.hybrisUser = scope.user.signin.email;
-                        if(type != undefined){
+                        if(type !== undefined){
                             modalInstance.close({});
                         }
                         deferred.resolve({});
