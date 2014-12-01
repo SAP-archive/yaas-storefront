@@ -101,7 +101,7 @@
           <tr ng-repeat="order in orders">
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.totalPrice | currency: currencySymbol}}</td>
+            <td>{{order.totalPrice | currency: order.currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>

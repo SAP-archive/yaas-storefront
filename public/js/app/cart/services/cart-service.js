@@ -128,7 +128,7 @@ angular.module('ds.cart')
 
         function ensureCorrectCurrency(cartId){
             if(cart.currency!==GlobalData.getCurrencyId()) {
-                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function () {
+                CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: GlobalData.getCurrencyId()}).then(function () {
                     CartREST.Cart.one('carts', cartId).get().then(function (response) {
                         cart = response.plain();
                         return getCartWithImages(cart);
@@ -224,7 +224,7 @@ angular.module('ds.cart')
                 CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
                     cart = authUserCart.plain();
                     if(cart.currency!==GlobalData.getCurrencyId()){
-                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST(GlobalData.getCurrencyId()).then(function(){
+                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: GlobalData.getCurrencyId()}).then(function(){
                             handleCartMerge(anonCart, true);
                         });
                     } else {
