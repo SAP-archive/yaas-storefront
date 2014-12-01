@@ -14,16 +14,25 @@
 
 /** REST configuration for services related to checkout. */
 angular.module('ds.checkout')
-    .factory('CheckoutREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('CheckoutREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
 
         return {
             /** Configures main checkout API endpoint.*/
             Checkout: Restangular.withConfig(function(RestangularConfigurer) {
-							RestangularConfigurer.setBaseUrl(settings.apis.checkout.baseUrl);
+							RestangularConfigurer.setBaseUrl(siteConfig.apis.checkout.baseUrl);
             }),
             /** Configures main shipping costs API endpoint.*/
             ShippingCosts: Restangular.withConfig(function(RestangularConfigurer) {
-							RestangularConfigurer.setBaseUrl(settings.apis.shippingCosts.baseUrl);
+							RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingCosts.baseUrl);
+                            RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+
+                                return {
+                                    element: element,
+                                    params: params,
+                                    headers: _.extend(headers, {'hybris-currency': GlobalData.getCurrencyId()}),
+                                    httpConfig: httpConfig
+                                };
+                            });
             })
         };
 

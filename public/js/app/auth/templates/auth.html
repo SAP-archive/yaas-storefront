@@ -1,27 +1,41 @@
-<div class="modal-body">
-    <section class="row">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
-            <li><a href="#signup" role="tab" data-toggle="tab">{{'CREATE_ACCOUNT' | translate}}</a></li>
-        </ul>
-        <br>
+<section class="row">
+    <!-- Nav tabs -->
+    <div ng-if="googleClientId || fbAppId" class="socialMediaSigninContainer">
+        <div class="fbLogin col-sm-6">
+            <div ng-if="fbLoggedIn" id="intercept" ng-click="fbLogin()">
+                <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large">
+                </fb:login-button>
+            </div>
+            <div ng-if="!fbLoggedIn" id="intercept">
+                <fb:login-button  ng-init="fbParse()" id="fb-login-button" scope="public_profile,email" size="large">
+                </fb:login-button>
+            </div>
+        </div>
+        <div class="googlePlusLogin col-sm-6" ng-app="directive.g+signin" ng-if="googleClientId">
+            <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+        </div>
+    </div>
 
-        <div class="tab-content">
-            <div class="tab-pane active" id="signin">
-                <div ng-include="'./js/app/auth/templates/signin.html'"></div>
-            </div>
-            <div class="tab-pane" id="signup">
-                <div ng-include="'./js/app/auth/templates/signup.html'"></div>
-            </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs signInTabs" role="tablist">
+      <li class="active signInButton"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
+      <li><a href="#signup" role="tab" data-toggle="tab">{{'CREATE_ACCOUNT' | translate}}</a></li>
+    </ul><br>
+    <div class="tab-content">
+        <div class="tab-pane active" id="signin">
+            <div ng-include="'./js/app/auth/templates/signin.html'"></div>
         </div>
-        <div class="continue-as-guest-section" ng-if="'base.checkout.details' | isState">
-            <hr>
-            <a href="" ng-click="continueAsGuest()" class="btn btn-primary btn-lg btn-block">{{'CONTINUE_AS_GUEST'
-                | translate}}</a>
+        <div class="tab-pane" id="signup">
+            <div ng-include="'./js/app/auth/templates/signup.html'"></div>
         </div>
-    </section>
-</div>
+    </div>
+    <div class="continue-as-guest-section" ng-if="'base.checkout.details' | isState">
+        <hr>
+        <a href="" ng-click="continueAsGuest()" class="btn btn-primary btn-lg btn-block">
+            {{'CONTINUE_AS_GUEST' | translate}}
+        </a>
+    </div>
+</section>
 
 
 

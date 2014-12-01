@@ -11,15 +11,15 @@
  */
 
 describe('AccountCtrl Test', function () {
-    var $scope, $controller, $q, AccountCtrl, authModel, AccountSvc, mockBackend, mockedOrderListSvc,
+    var $scope, $controller, $q, AccountCtrl, authModel, mockBackend, mockedOrderListSvc,
         addresses, account, orders, modalPromise;
     var storeTenant = '121212';
     var eng = 'English';
     var usd = 'US Dollar';
     var mockedGlobalData = {
         store: {tenant: storeTenant},
-        setLanguage: jasmine.createSpy(),
-        setCurrency: jasmine.createSpy(),
+        setLanguage: jasmine.createSpy('setLanguage'),
+        setCurrency: jasmine.createSpy('setCurrency'),
         getLanguageCode: function(){ return null},
         getCurrencyId: function() { return null},
         getAvailableLanguages: function() { return [{id:'en', label:eng}]},
@@ -31,6 +31,8 @@ describe('AccountCtrl Test', function () {
             }
         }
     };
+
+    var AccountSvc = { };
 
     var mockedSettings = {
         accessCookie: 'accessCookie',
@@ -94,23 +96,17 @@ describe('AccountCtrl Test', function () {
         $provide.value('$translate', mockedTranslate);
     }));
 
-    beforeEach(inject(function(_AccountSvc_, _$httpBackend_, _$q_) {
-        AccountSvc = _AccountSvc_;
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_, _$q_) {
         mockBackend = _$httpBackend_;
         $q = _$q_;
         addresses = $q.defer();
         account = $q.defer();
         orders = $q.defer();
-        
         modalPromise = $q.defer();
         mockedModal.close = jasmine.createSpy('close');
         mockedModal.result = modalPromise.promise;
-        // modalPromise.resolve({});
         mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
         updatePasswordDfd = $q.defer();
-    }));
-
-    beforeEach(inject(function(_$rootScope_, _$controller_, $q, _AccountSvc_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -120,7 +116,6 @@ describe('AccountCtrl Test', function () {
 
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-        AccountSvc = _AccountSvc_;
 
         var deferredAddressSave = $q.defer();
         var deferredAddressGet = $q.defer();
@@ -163,8 +158,9 @@ describe('AccountCtrl Test', function () {
             expect($scope.account).toBeDefined();
             expect($scope.addresses).toBeDefined();
             expect($scope.orders).toBeDefined();
-            expect($scope.showAllButton).toBeDefined();
+            expect($scope.showAllOrdersButton).toBeDefined();
             expect($scope.currencies).toBeDefined();
+            expect($scope.showAddressButtons).toBeDefined();
             expect($scope.showCurrency).toBeDefined();
             expect($scope.languageLocales).toBeDefined();
             expect($scope.showLanguageLocale).toBeDefined();
@@ -245,7 +241,7 @@ describe('AccountCtrl Test', function () {
             $scope.showAllOrders();
             $scope.$digest();
             expect(mockedOrderListSvc.query).toHaveBeenCalled();
-            expect($scope.showAllButton).toEqualData(false);
+            expect($scope.showAllOrdersButton).toEqualData(false);
             expect($scope.orders).toEqualData(mockedOrderList);
         });
 

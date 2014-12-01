@@ -13,8 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var configurationsUrl = 'http://configuration-v3.test.cf.hybris.com/configurations';
-    var $scope, $rootScope, $httpBackend, $q, configSvc,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, configurationsUrl,
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
             setAvailableLanguages: jasmine.createSpy()
@@ -53,11 +52,13 @@ describe('ConfigurationSvc Test', function () {
         mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy();
 
-        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_) {
+        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             configSvc = _ConfigSvc_;
+            siteConfig = SiteConfigSvc;
+            configurationsUrl = siteConfig.apis.configuration.baseUrl + '/configurations';
             $q = _$q_;
         });
     });

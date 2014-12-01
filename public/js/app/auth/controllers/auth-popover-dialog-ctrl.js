@@ -41,6 +41,14 @@ angular.module('ds.auth')
 
             };
 
+            // scope variable used by google+ signing directive
+            $scope.googleClientId = settings.googleClientId;
+
+            // react to event fired by goole+ signing directive
+            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+                onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope );
+            });
+
             /** Closes the dialog.*/
             $scope.closeDialog = function(){
             };

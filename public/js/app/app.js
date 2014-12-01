@@ -22,27 +22,24 @@ window.app = angular.module('ds.router', [
     .constant('_', window._)
 
       /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData',
-        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData) {
+    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
+        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData, siteConfig) {
 
             return {
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     // skip html requests as well as anonymous login URL
-                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(settings.apis.account.baseUrl) < 0) {
+                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(siteConfig.apis.account.baseUrl) < 0) {
 
                         var token = TokenSvc.getToken().getAccessToken();
                         if (token) {
-                            config.headers[settings.apis.headers.hybrisAuthorization] = 'Bearer ' + token;
+                            config.headers[settings.headers.hybrisAuthorization] = 'Bearer ' + token;
                         } else {
                             // no local token - issue request to get token (async) and "save" http request for re-try
                             $injector.get('AnonAuthSvc').getToken();
                             var deferred = $q.defer();
                             httpQueue.appendBlocked(config, deferred);
                             return deferred.promise;
-                        }
-                        if (config.url.indexOf('product-details') > -1) {
-                            config.headers[settings.apis.headers.hybrisCurrency] = GlobalData.getCurrencyId();
                         }
                     }
                     return config || $q.when(config);
@@ -111,12 +108,12 @@ window.app = angular.module('ds.router', [
 
             var oldHeaders = {};
             if(url.indexOf('yaas')<0) {
-                delete $httpProvider.defaults.headers.common[settings.apis.headers.hybrisAuthorization];
+                delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                oldHeaders [settings.apis.headers.hybrisTenant] = storeConfig.storeTenant;
-                oldHeaders [settings.apis.headers.hybrisRoles] = settings.roleSeller;
-                oldHeaders [settings.apis.headers.hybrisUser] = settings.hybrisUser;
-                oldHeaders [settings.apis.headers.hybrisApp] = settings.hybrisApp;
+                oldHeaders [settings.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.headers.hybrisRoles] = settings.roleSeller;
+                oldHeaders [settings.headers.hybrisUser] = settings.hybrisUser;
+                oldHeaders [settings.headers.hybrisApp] = settings.hybrisApp;
             }
             return {
                 element: element,
@@ -170,10 +167,14 @@ window.app = angular.module('ds.router', [
                 }
             });
 
-            $rootScope.$watch(function() { return AuthSvc.isAuthenticated(); }, function(isAuthenticated) {
-                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout');
+            // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
+            //   which may be removed by browser/user
+            $rootScope.$watch(function () {
+                return AuthSvc.isAuthenticated();
+            }, function (isAuthenticated, wasAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
                 GlobalData.user.isAuthenticated = isAuthenticated;
-                GlobalData.user.username = TokenSvc.getToken().getUsername();
+
             });
 
             $rootScope.$on('currency:updated', function (event, newCurrId) {
@@ -191,8 +192,8 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
 
             TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
@@ -251,11 +252,13 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST) {
-                            return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                .then(function (result) {
-                                    return result;
-                                });
+                        product: function ($stateParams, PriceProductREST, initialized) {
+                            if (initialized) { // parent resolve - if-check to make usage explicit
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                    .then(function (result) {
+                                        return result;
+                                    });
+                            }
                         }
                     }
                 })
@@ -273,8 +276,10 @@ window.app = angular.module('ds.router', [
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         },
-                        shippingCost: function (CheckoutSvc) {
-                            return CheckoutSvc.getShippingCost();
+                        shippingCost: function (CheckoutSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return CheckoutSvc.getShippingCost();
+                            }
                         }
                     }
                 })
@@ -318,10 +323,10 @@ window.app = angular.module('ds.router', [
                         account: function(AccountSvc) {
                             return AccountSvc.account();
                         },
-                        addresses: function(AccountSvc, settings) {
+                        addresses: function(AccountSvc) {
                             var query = {
                                 pageNumber: 1,
-                                pageSize: settings.apis.account.addresses.initialPageSize
+                                pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
                             return AccountSvc.getAddresses(query);
                         },

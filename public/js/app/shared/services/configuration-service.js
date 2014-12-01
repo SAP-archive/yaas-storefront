@@ -45,8 +45,13 @@ angular.module('ds.shared')
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
+                        } else if (key === settings.configKeys.fbAppIdKey) {
+                            settings.facebookAppId = value;
+                        } else if (key === settings.configKeys.googleClientId){
+                            settings.googleClientId = value;
                         }
                     }
+
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
@@ -80,12 +85,14 @@ angular.module('ds.shared')
                                         GlobalData.setCurrency(account.preferredCurrency);
                                         currencySet = true;
                                     }
+
                                     if (!languageSet) {
                                         GlobalData.loadInitialLanguage();
                                     }
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
+                                    def.resolve({});
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -93,10 +100,11 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
+                                def.resolve({});
                                 CartSvc.getCart();
                             }
-                            def.resolve({});
                             initialized = true;
+
                         });
                     }
                     return def.promise;

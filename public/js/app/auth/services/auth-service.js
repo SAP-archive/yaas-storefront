@@ -16,8 +16,8 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc',
-        function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc) {
+    .factory('AuthSvc', ['AuthREST', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc', '$window',
+        function (AuthREST, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc, $window) {
 
         function loginAndSetToken(user){
             return AuthREST.Customers.all('login').customPOST(user).then(function(response){
@@ -38,6 +38,122 @@ angular.module('ds.auth')
             errors:{
                 signup: [],
                 signin: []
+            },
+
+            /** Calls the Facebook API to validate that the user is logged into FB - if yes,
+             * the existing FB token will be used to log the user into the store.  Note that this
+             * function should only be called if the user is already logged into Facebook - if we
+             * invoke the FB.login API through code rather than the integrated FB button,
+             * the login dialog will be a pop-up rather than an iframe.
+             */
+            faceBookLogin: function(scope){
+                FB.getLoginStatus(function (response) {
+                    if (response.status === 'connected') {
+                        scope.fbLoggedIn = true;
+                        AuthenticationService.onFbLogin(scope, response.authResponse.accessToken);
+                    } else {
+                        // fallback logic only
+                        scope.fbLoggedIn = false;
+                        FB.login();
+                    }
+                });
+
+            },
+
+            initFBAPI: function(scope, modalinstance)
+            {
+                try {
+                    if (scope.fbAppId) {
+
+                        // load Facebook SDK
+                        $window.fbAsyncInit = function () {
+                            FB.init({
+                                appId: settings.facebookAppId,
+                                xfbml: false,
+                                version: 'v2.2'
+                            });
+
+                            // Catch "login" events as the user logs in through the FB login dialog which is shown by the FB SDK
+                            FB.Event.subscribe('auth.statusChange', function (response) {
+                                if (response.status === 'connected') {
+                                    AuthenticationService.onFbLogin(scope, response.authResponse.accessToken, modalinstance);
+                                }
+                            });
+                            FB.XFBML.parse();
+                        };
+                        (function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            var fbElement = d.getElementById(id);
+                            if (fbElement) {
+
+                                return;
+                            }
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = '//connect.facebook.net/en_US/sdk.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+
+                        }(document, 'script', 'facebook-jssdk'));
+                    }
+                } catch (e) {
+                    console.error('Unable to initialize Facebook API');
+                    console.error(e);
+                }
+            },
+
+            onFbLogin: function(scope, fbToken, modalInstance){
+                AuthenticationService.socialLogin('facebook', fbToken).then(function () {
+                    if(!_.isUndefined(modalInstance))
+                    {
+                        modalInstance.close();
+                    }
+                    /* jshint ignore:start */
+                    try {
+                        FB.api('/me', function (response) {
+                            SessionSvc.afterSocialLogin({email: response.email, firstName: response.first_name, lastName: response.last_name });
+                        });
+                    } catch (error){
+                        console.error('Unable to load FB user profile');
+                    }
+                    /* jshint ignore:end */
+                }, function () {
+                    scope.errors.signin.push('LOGIN_FAILED');
+                });
+            },
+
+            onGoogleLogin: function(gToken, scope, modalInstance){
+
+                AuthenticationService.socialLogin('google', gToken).then(function () {
+//                    close the modal if it's been passed
+                    if(!_.isUndefined(modalInstance))
+                        modalInstance.close();
+                    /* jshint ignore:start */
+                    try {
+                        gapi.client.load('plus', 'v1').then(function () {
+                            gapi.client.plus.people.get({
+                                'userId': 'me'
+                            }).then(function (response) {
+                                if (response.result) {
+                                    SessionSvc.afterSocialLogin({email: response.result.emails[0].value, firstName: response.result.name.givenName,
+                                        lastName: response.result.name.familyName});
+                                }
+
+                            });
+                        });
+                    } catch (error){
+                        console.error('Unable to load Google+ user profile');
+                    }
+                    /* jshint ignore:end */
+                }, function () {
+                    scope.errors.signin.push('LOGIN_FAILED');
+                });
+
+            },
+
+            fbParse: function(){
+                if (typeof FB !== 'undefined') {
+                    FB.XFBML.parse();
+                }
             },
 
 
@@ -160,7 +276,7 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('password').all('reset').customPOST( user);
             },
 
-            /** Issues a 'change password' request.  Returns the promise of the completed action.
+            /** Issues a 'change reset' request via email/link with token.  Returns the promise of the completed action.
              * @param token that was obtained for password reset
              * @param new password
              */
@@ -172,6 +288,7 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('password').all('reset').all('update').customPOST( user);
             },
 
+            /** Modifies the password for an authenticated user.*/
             updatePassword: function(oldPassword, newPassword, email) {
                 var payload = {
                     currentPassword: oldPassword,
@@ -179,7 +296,17 @@ angular.module('ds.auth')
                     email: email
                 };
                 return AuthREST.Customers.all('password').all('change').customPOST(payload);
+            },
+
+            /** Performs login logic following login through social media login.*/
+            socialLogin: function (providerId, token) {
+                return AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
+                    // passing static username to trigger 'is authenticated' validation of token
+                    TokenSvc.setToken(response.accessToken, 'social');
+                    SessionSvc.afterLogIn();
+                });
             }
+
         };
         return AuthenticationService;
 

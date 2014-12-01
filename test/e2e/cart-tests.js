@@ -3,9 +3,9 @@ var tu = require('./protractor-utils.js');
 
        function loadProductIntoCart(cartAmount, cartTotal) {
          tu.clickElement('id', tu.cartButtonId);
-         browser.sleep(250);
-         expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-         tu.clickElement('xpath', tu.contineShopping);
+         browser.sleep(1000);
+         expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+         tu.clickElement('binding', 'CONTINUE_SHOPPING');
          tu.clickElement('xpath', tu.whiteCoffeeMug);
          browser.sleep(1000);
          tu.clickElement('id', tu.buyButton);
@@ -31,22 +31,22 @@ describe("cart:", function () {
 
        it('should load one product into cart', function () {
         loadProductIntoCart('1', '$10.67');
-        tu.clickElement('xpath', tu.removeFromCart);
+        tu.clickElement('id', tu.removeFromCart);
         browser.sleep(1000);
-        expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+        expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
        });
 
        it('should load one product into cart in Euros', function () {
         tu.selectCurrency('Euro');
         loadProductIntoCart('1', '€7.99');
-        tu.clickElement('xpath', tu.removeFromCart);
+        tu.clickElement('id', tu.removeFromCart);
         browser.sleep(1000);
-        expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+        expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
        });
 
        it('should load one product into cart in USD and change to Euros', function () {
         loadProductIntoCart('1', '$10.67');
-        tu.clickElement('xpath', tu.contineShopping);
+        tu.clickElement('binding', 'CONTINUE_SHOPPING');
         tu.selectCurrency('Euro');
         tu.clickElement('id', tu.cartButtonId);     
         tu.verifyCartTotal('€7.99');
@@ -56,7 +56,7 @@ describe("cart:", function () {
 
        // it('should load one product into cart in USD and change to Euros while logged in', function () {
        //  loadProductIntoCart('1', '$10.67');
-       //  tu.clickElement('xpath', tu.contineShopping);
+       //  tu.clickElement('binding', 'CONTINUE_SHOPPING');
        //  tu.loginHelper('euros@test.com', 'password');
        //  tu.clickElement('id', tu.cartButtonId);    
        //  tu.verifyCartTotal('€7.99');
@@ -65,8 +65,8 @@ describe("cart:", function () {
          it('should load multiple products into cart', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-           expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-           tu.clickElement('xpath', tu.contineShopping);
+           expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(250);
            tu.clickElement('xpath', tu.whiteCoffeeMug);
            browser.sleep(1000);
@@ -75,7 +75,7 @@ describe("cart:", function () {
            tu.verifyCartAmount("1");
            browser.sleep(1000);
            tu.verifyCartTotal("$10.67");
-           tu.clickElement('xpath', tu.contineShopping);
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(500);
            tu.clickElement('css', 'img');
            browser.sleep(250);
@@ -91,30 +91,36 @@ describe("cart:", function () {
          it('should update quantity', function () {
            tu.clickElement('id', tu.cartButtonId);
            browser.sleep(250);
-           expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-           tu.clickElement('xpath', tu.contineShopping);
+           expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(250);
            tu.clickElement('xpath', tu.whiteCoffeeMug);
            browser.sleep(2000);
            tu.clickElement('id', tu.buyButton);
            browser.sleep(2000);
-           tu.verifyCartAmount("1");
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.sleep(1000);
+           tu.clickElement('id', tu.cartButtonId);
            browser.sleep(1000);
+           tu.verifyCartAmount("1");
            tu.verifyCartTotal("$10.67");
-           tu.clickElement('xpath', tu.contineShopping);
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(250);
            tu.clickElement('id', tu.buyButton);
-           browser.sleep(3000);
+           browser.sleep(2000);
+           tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.sleep(1000);
+           tu.clickElement('id', tu.cartButtonId);
            tu.verifyCartAmount('2');
            browser.sleep(1000);
            tu.verifyCartTotal('$21.34');
            tu.sendKeysByXpath(tu.cartQuantity, '5');
-           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
+           tu.clickElement('binding', 'EST_ORDER_TOTAL');
            browser.sleep(1000);
            tu.verifyCartAmount("5");
            tu.verifyCartTotal("$53.35");
            tu.sendKeysByXpath(tu.cartQuantity, '10');
-           tu.clickElement('xpath', "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/div");
+           tu.clickElement('binding', 'EST_ORDER_TOTAL');
            browser.sleep(2000);
            tu.verifyCartAmount("10");
            tu.verifyCartTotal("$106.70");
@@ -135,14 +141,15 @@ describe("cart:", function () {
          it('should not allow negative numbers', function () {
           tu.clickElement('id', tu.cartButtonId);
           browser.sleep(250);
-          expect(element(by.xpath("//div[@id='cart']/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-          tu.clickElement('xpath', tu.contineShopping);
+          expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+          tu.clickElement('binding', 'CONTINUE_SHOPPING');
           tu.clickElement('xpath', tu.whiteCoffeeMug);
           browser.sleep(1000);
           tu.clickElement('id', tu.buyButton); 
           browser.sleep(250);
           tu.verifyCartTotal("$10.67");
           tu.sendKeysByXpath(tu.cartQuantity, '-5');
+          tu.clickElement('xpath', "//div[@id='cart']/div/div[2]/section[2]/div/div/div[2]/div");
           tu.verifyCartAmount('5');
           browser.sleep(250);
           tu.verifyCartTotal('$53.35');

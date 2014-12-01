@@ -161,4 +161,26 @@ describe('SessionSvc', function () {
         });
     });
 
+    describe('afterSocialLogin()', function(){
+
+        var profile = {firstName: 'first', lastName: 'lastName', email: 'email'};
+        var meDef;
+
+        beforeEach(function(){
+           meDef = $q.defer();
+           mockedAccountSvc.getCurrentAccount = jasmine.createSpy().andCallFake(function(){
+             return meDef.promise;
+           });
+        });
+
+        it('should get current account and update name and email', function(){
+
+            SessionSvc.afterSocialLogin(profile);
+            meDef.resolve({});
+            $scope.$apply();
+            expect(mockedAccountSvc.updateAccount).toHaveBeenCalledWith({ firstName: profile.firstName, lastName: profile.lastName,
+            contactEmail: profile.email});
+        });
+    });
+
 });

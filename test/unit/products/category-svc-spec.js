@@ -11,12 +11,9 @@
  */
 describe('CategorySvc', function () {
 
-
-    var categoryUrl = 'https://yaas-test.apigee.net/test/category/v1/categories';
-
-    var $scope, $rootScope, $httpBackend, categorySvc;
+    var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
     var acceptLang = "de";
-    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}};
+    var mockedGlobalData = { getAcceptLanguages: function(){ return acceptLang}, getCurrencyId: function(){return 'USD'}};
 
     var cosmeticsId = "117771264";
     var cosmeticsSlug = 'cosmetics';
@@ -55,11 +52,17 @@ describe('CategorySvc', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_) {
+        module('ds.shared', function($provide){
+            $provide.value('storeConfig', {});
+        });
+
+        inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
             categorySvc = _CategorySvc_;
+            siteConfig = SiteConfigSvc;
+            categoryUrl = siteConfig.apis.categories.baseUrl + 'categories';
         });
     });
 
@@ -78,7 +81,7 @@ describe('CategorySvc', function () {
         });
 
         it('sets accept-language header', function(){
-            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"Accept":"application/json, text/plain, */*"}).respond([]);
+            $httpBackend.expectGET(categoryUrl, {"accept-language":acceptLang,"hybris-currency":"USD","Accept":"application/json, text/plain, */*"}).respond([]);
             categorySvc.getCategories();
             $httpBackend.flush();
         });
