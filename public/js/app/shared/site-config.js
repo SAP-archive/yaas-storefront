@@ -41,9 +41,7 @@ angular.module('ds.shared')
                 },
 
                 configuration: {
-                    baseUrl: 'http://configuration-v3.test.cf.hybris.com'             //original
-                    // baseUrl: 'http://configuration-v4.test.cf.hybris.com/' + stId  //new tenant id url pending
-                    //v4: 404 //Andreas Thaler indicates this is in process, team bananas.
+                    baseUrl: 'https://yaas-test.apigee.net/test/configuration/v4/' + stId
                 } ,
 
                 customers: {
