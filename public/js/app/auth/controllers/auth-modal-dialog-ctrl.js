@@ -72,7 +72,6 @@ angular.module('ds.auth')
 
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin($scope);
-
             };
 
         }]);

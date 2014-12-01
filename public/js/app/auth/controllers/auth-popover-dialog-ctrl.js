@@ -25,6 +25,19 @@ angular.module('ds.auth')
 
             $scope.errors = AuthSvc.errors;
 
+            $scope.fbAppId = settings.facebookAppId;
+
+            AuthSvc.initFBAPI($scope);
+
+            // scope variable used by google+ signing directive
+            $scope.googleClientId = settings.googleClientId;
+
+            // react to event fired by goole+ signing directive
+            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope);
+            });
+
+
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
                 AuthSvc.FormSignup(authModel, signUpForm, $scope);
@@ -32,26 +45,14 @@ angular.module('ds.auth')
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-
                 AuthSvc.FormSignIn(authModel, signinForm, $scope);
             };
 
             /** Closes the dialog. */
-            $scope.continueAsGuest = function () {
-
-            };
-
-            // scope variable used by google+ signing directive
-            $scope.googleClientId = settings.googleClientId;
-
-            // react to event fired by goole+ signing directive
-            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope );
-            });
+            $scope.continueAsGuest = function(){};
 
             /** Closes the dialog.*/
-            $scope.closeDialog = function(){
-            };
+            $scope.closeDialog = function(){};
 
             /** Shows the "request password reset" dialog.*/
             $scope.showResetPassword = function () {
@@ -62,5 +63,15 @@ angular.module('ds.auth')
                 AuthSvc.clearErrors($scope);
             };
 
+            /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
+             * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
+             * and not for subsequent displays.
+             */
+            $scope.fbParse = AuthSvc.fbParse;
+
+
+            $scope.fbLogin = function () {
+                AuthSvc.faceBookLogin($scope);
+            };
 
         }]);
