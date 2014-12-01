@@ -16,9 +16,9 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthPopoverDialogCtrl', ['$rootScope', '$scope', '$controller', '$q', 'AuthSvc',
-       'settings', 'AuthDialogManager', 'GlobalData', 'SessionSvc', 'loginOpts',
+       'settings', 'AuthDialogManager',
         function ($rootScope, $scope,  $controller, $q, AuthSvc,
-                  settings, AuthDialogManager, GlobalData, SessionSvc, loginOpts) {
+                  settings, AuthDialogManager) {
 
 
             $scope.user = AuthSvc.user;
@@ -27,10 +27,10 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
 
-            AuthSvc.initFBAPI($scope);
-
             // scope variable used by google+ signing directive
             $scope.googleClientId = settings.googleClientId;
+
+            AuthSvc.initFBAPI($scope);
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
