@@ -49,13 +49,34 @@
     </ul>
     <div class="seperator"></div>
 </div>
-<div class="store-settings hy-stickyComponent">
+
+<div class="store-settings  hidden-md hidden-lg">
     <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
         <ui-select-match id="language-select" placeholder="Select language" >
             <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
         </ui-select-match>
         <ui-select-choices repeat="lang in languages | filter: $select.search">
             <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20">
+            <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
+
+    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
+        </ui-select-match>
+        <ui-select-choices repeat="curr in currencies | filter: $select.search">
+            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
+</div>
+
+<div class="store-settings hy-stickyComponent hidden-sm hidden-xs">
+    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+        <ui-select-match id="language-select" placeholder="Select language" >
+            <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value | translate}}
+        </ui-select-match>
+        <ui-select-choices repeat="lang in languages | filter: $select.search">
+            <img src="./img/flags/{{lang.iso}}.jpg" width="20">
             <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
         </ui-select-choices>
     </ui-select>

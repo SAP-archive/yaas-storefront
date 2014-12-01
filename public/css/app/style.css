@@ -5168,7 +5168,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 500px;
+    width: 600px;
     margin: 30px auto;
   }
   .modal-content {
@@ -5181,7 +5181,7 @@ button.close {
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 500px;
+    width: 900px;
   }
 }
 .tooltip {
@@ -6405,9 +6405,6 @@ html.disable-scroll {
 #sidebar .store-settings {
   margin: 20px 0 100px;
 }
-#full-cart-btn {
-  outline: none !important;
-}
 .top-navigation {
   position: relative;
   min-height: 50px;
@@ -6669,28 +6666,6 @@ html.disable-scroll {
   color: #fff;
   right: 500px;
 }
-.socialMediaSigninContainer {
-  margin: 0 0 55px 0;
-}
-.forgot-password-btn {
-  font-size: 13px;
-}
-.signInTabs.nav-tabs > li.active > a,
-.signInTabs.nav-tabs > li.active > a:hover,
-.signInTabs.nav-tabs > li.active > a:focus {
-  background-color: transparent ;
-  border: none;
-  font-weight: bold;
-  color: #000;
-}
-.signInTabs.nav-tabs > li > a,
-.signInTabs.nav-tabs > li > a:hover,
-.signInTabs.nav-tabs > li > a:focus {
-  padding: 0 15px;
-}
-.signInTabs .signInButton {
-  border-right: 1px solid #838485;
-}
 /* TO THE TOP BTN */
 .back-to-top-button {
   height: 40px;
@@ -6859,7 +6834,7 @@ html.disable-scroll {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   color: #6d6e6f;
-  font-size: 13px;
+  font-size: 14px;
 }
 .cart-item .item-attr span {
   font-size: 16px;
@@ -6895,21 +6870,18 @@ html.disable-scroll {
 /* SUMMARY TABLE */
 .summary {
   text-transform: uppercase;
-  margin-top: 26px;
 }
 .summary table th,
 .summary table tfoot td {
   color: #3c3c3c;
-  font-size: 21px;
-  font-weight: 400;
+  font-size: 19px;
+  font-weight: normal;
   border-width: 1px;
 }
 .summary table > tbody > tr > td {
   color: #929292;
   border: none;
   font-size: 14px;
-  padding-bottom: 21px;
-  padding-top: 0;
 }
 .edit-cart {
   position: fixed;
@@ -7967,87 +7939,12 @@ section .hero-unit {
     margin-left: 0;
   }
 }
-.account {
-  /* UPSCALING IMPROVMENTS */
-}
-@media screen and (max-width: 991px) {
-  .account section {
-    padding: 15px !important;
-  }
-  .account section .area {
-    padding-bottom: 50px;
-  }
-  .account section .page-headline {
-    margin-top: 0;
-  }
-  .account section .summary {
-    border-bottom: 1px solid #ddddd2 !important;
-  }
-  .account section .cart-item {
-    padding: 25px 0;
-    border-top: 1px solid #ddddd2;
-  }
-  .account section .cart-item .item-attr {
-    margin-bottom: 0 !important;
-    margin-top: 0;
-  }
-}
-.account h2 {
-  font-size: 26px;
-  padding-bottom: 0;
-  margin-bottom: 36px;
-}
-.account .orderHeaderContainer {
-  padding-bottom: 64px;
-}
-.account .orderHeaderContainer .section-headline {
-  margin-top: 64px;
-}
-.account .orderHeaderContainer .area {
-  min-height: 127px;
-  margin: 0;
-}
-.account .orderHeaderContainer address {
-  margin-bottom: 0;
-  min-height: 1px;
-}
-.account .orderStatusContainer h2 {
-  padding: 0;
-  margin: 0;
-}
-.account .orderItemsContainer .section-headline {
-  margin: 34px 0 25px 0;
-}
-.account .orderItemsContainer h2 {
-  padding: 0;
-  margin: 0;
-}
-.account .orderItemsContainer .table-responsive {
-  font-size: 13px;
-}
-.account .orderItemsContainer .img-col {
-  padding: 0;
-}
-.account section {
-  padding-left: 62px;
-  padding-right: 62px;
-}
-.account .breadCrumb {
-  font-family: Georgia, "Times New Roman", Times, serif, serif;
-  text-transform: none;
-  font-style: italic;
-  font-size: 13px;
-}
 .account .img-circle {
   margin-top: 25px;
   min-width: 45px;
 }
 .account .page-headline {
-  margin-top: 65px;
-}
-.account .page-headline h1 {
-  font-size: 34px;
-  margin-top: 5px;
+  margin-top: -20px;
 }
 .account .inline-label {
   font-family: Georgia, "Times New Roman", Times, serif, serif;
@@ -8057,14 +7954,14 @@ section .hero-unit {
 .account .order-status {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
-  font-weight: bold;
-  font-size: 26px;
 }
 .account .cart-item {
   border: none;
-  padding-top: 0;
   padding-bottom: 0;
   padding-left: 0;
+}
+.account .summary {
+  float: right;
 }
 @media screen and (max-width: 767px) {
   .account .summary {
@@ -8074,23 +7971,6 @@ section .hero-unit {
 }
 .account .order-tabel {
   border-bottom: 1px solid #dddddd;
-}
-.account .order-tabel table {
-  width: auto;
-}
-.account .order-tabel th {
-  padding-left: 0;
-  padding-right: 0;
-  font-weight: 500;
-  white-space: normal !important;
-}
-.account .order-tabel td {
-  padding: 28px 0;
-  white-space: normal !important;
-}
-.account .order-tabel .priceColumn {
-  text-align: right;
-  padding-right: 12px;
 }
 .default-address span {
   font-weight: bold;
@@ -8378,7 +8258,7 @@ address {
   color: #202122;
 }
 body {
-  background: #f5f5f5;
+  background: #eeeeee;
 }
 input[type='number'] {
   -moz-appearance: textfield;
