@@ -53,7 +53,7 @@ angular.module('ds.shared')
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/order/v4/' + stId
                 },
 
                 prices: {
