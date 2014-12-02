@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory={ id:123};
+    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory = {};
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -8,7 +8,18 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products = {};
     mockedGlobalData.products.meta = {};
     mockedGlobalData.products.meta.total = 10;
-    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
+    mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
+    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
+    mockedCategory.id = 123;
+    mockedCategory.elements = [
+        {
+            'id': 456,
+            'ref': {
+                'id': 'prod1',
+                'type': 'product'
+            }
+        }
+    ];
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 
@@ -43,14 +54,21 @@ describe('BrowseProductsCtrl', function () {
         $q = _$q_;
         mockedProductSvc = {};
         productResult = [
-            {'name': 'prod1'}
+            {'id': 'prod1', 'name': 'prod1'}
         ];
         productResult.headers =  [];
         deferredProducts = $q.defer();
         deferredProducts.resolve(productResult);
         mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
 
-        priceResult = [];
+        priceResult = [
+            {
+                'currency': 'USD',
+                'priceId': 'price1',
+                'productId': 'prod1',
+                'value': '10.00'
+            }
+        ];
         deferredPrices = $q.defer();
         deferredPrices.resolve(priceResult);
 

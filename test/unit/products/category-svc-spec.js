@@ -29,7 +29,11 @@ describe('CategorySvc', function () {
         "name" : "Office Supply"
     }, {
         "id" : "117770496",
-        "name" : "Computer Accessories"
+        "name" : "Computer Accessories",
+        "subcategories": [
+            {"id": "9876", "name": "Keyboards"},
+            {"id": "5432", "name": "Mice"}
+        ]
     }, {
         "id" : cosmeticsId,
         "name" : "Cosmetics"
