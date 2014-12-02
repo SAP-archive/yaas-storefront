@@ -13,7 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, configurationsUrl,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl,
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
             setAvailableLanguages: jasmine.createSpy()
@@ -52,7 +52,7 @@ describe('ConfigurationSvc Test', function () {
         mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy();
 
-        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_, SiteConfigSvc) {
+        inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_, SiteConfigSvc, _settings_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $httpBackend = _$httpBackend_;
@@ -60,6 +60,7 @@ describe('ConfigurationSvc Test', function () {
             siteConfig = SiteConfigSvc;
             configurationsUrl = siteConfig.apis.configuration.baseUrl + '/configurations';
             $q = _$q_;
+            settings = _settings_;
         });
     });
 
@@ -97,10 +98,10 @@ describe('ConfigurationSvc Test', function () {
             $scope.$apply();
             expect(mockedAccountSvc.account).toHaveBeenCalled();
 
-            expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(lang);
-            expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(curr);
+            expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(lang, settings.eventSource.initialization);
+            expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(curr, settings.eventSource.initialization);
             expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalledWith(customerId);
-            //??? expect(successCallback).toHaveBeenCalled();
+            expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();
         });
 
@@ -119,25 +120,11 @@ describe('ConfigurationSvc Test', function () {
             expect(mockedGlobalData.loadInitialLanguage).toHaveBeenCalled;
             expect(mockedGlobalData.loadInitialCurrency).toHaveBeenCalled;
             expect(mockedCartSvc.getCart).toHaveBeenCalled;
-            //expect(successCallback).toHaveBeenCalled();
+            expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();
         });
 
-        it('should switch cart currency if different than current currency', function(){
-            mockedAuthSvc.isAuthenticated = jasmine.createSpy().andReturn(false);
-            var cartDef = $q.defer();
-            mockedCartSvc.getCart = jasmine.createSpy().andCallFake(function(){
-                cartDef.promise;
-            });
-            cartDef.resolve({currency: 'CAD'});
-            configSvc.initializeApp();
-            var curr = 'USD';
-            mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn(curr);
 
-            $httpBackend.flush();
-            $scope.$apply();
-            // ??? expect(mockedCartSvc.switchCurrency).toHaveBeenCalledWith(curr);
-        });
     }) ;
 
 

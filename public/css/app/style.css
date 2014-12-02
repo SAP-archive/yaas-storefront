@@ -6353,7 +6353,7 @@ html.disable-scroll {
   padding: 10px;
 }
 #full-cart-btn {
-  outline: none !important;
+  outline: none;
 }
 .top-navigation {
   position: relative;

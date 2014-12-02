@@ -4,7 +4,7 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('CategorySvc', ['PriceProductREST', 'GlobalData', '$q', function(PriceProductREST, GlobalData, $q){
+    .factory('CategorySvc', ['$rootScope', 'PriceProductREST', 'GlobalData', '$q', function($rootScope, PriceProductREST, GlobalData, $q){
 
         function sluggify(name){
            return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue'));
@@ -29,6 +29,7 @@ angular.module('ds.products')
 
                     GlobalData.categoryMap = catNameMap;
                     catDef.resolve(cats);
+                    $rootScope.$emit('categories:updated', { categories: cats});
                 }, function (error) {
                     catDef.reject(error);
                 });

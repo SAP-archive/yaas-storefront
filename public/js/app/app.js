@@ -124,9 +124,9 @@ window.app = angular.module('ds.router', [
         });
     }])
     .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
         function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
-                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
 
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
@@ -177,16 +177,12 @@ window.app = angular.module('ds.router', [
 
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurrId, fromLogin) {
-                if (!fromLogin) {
-                    CartSvc.switchCurrency(newCurrId);
-                }
+            $rootScope.$on('currency:updated', function (event, eveObj) {
+                EventSvc.onCurrencyChange(event,eveObj);
             });
 
-            $rootScope.$on('language:updated', function (languageCode, fromLogin) {
-                if (!fromLogin) {
-                    CartSvc.getCart();
-                }
+            $rootScope.$on('language:updated', function (event, eveObj) {
+                EventSvc.onLanguageChange(event, eveObj);
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -275,7 +271,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         cart: function (CartSvc) {
-                            return CartSvc.getCart();
+                            return CartSvc.getLocalCart();
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();

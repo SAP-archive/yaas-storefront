@@ -32,7 +32,16 @@ in an optional step.
         - cart - current cart instance
         - source - source event of the update (manual | currency | language | merge | reset)
 'language:updated' - fired when the store's language has changed
+    event object:
+        - languageCode: new language code
+        - source: source of the event
 'currency:updated' - fired when the store's currency has changed
+    event object:
+        - currencyId: new currency id
+        - source: source of the event
+'categories:updated' - fired when categories have been reloaded
+    event object:
+        - categories: new category tree
 'user:signedin' - signals that a user has been authenticated
 'user:signedout' - signals that a user has logged off
 

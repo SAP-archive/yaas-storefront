@@ -49,7 +49,7 @@ angular.module('ds.shared')
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v5/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v6/' + stId
                 },
 
                 orders: {

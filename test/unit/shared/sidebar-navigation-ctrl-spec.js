@@ -179,14 +179,14 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('onLanguageChanged', function(){
         it('should update the selected language if different', function(){
-            $rootScope.$emit('language:updated', {iso: 'pl'});
+            $rootScope.$emit('language:updated', {languageCode: 'pl'});
             expect(mockedGlobalData.setLanguage).toHaveBeenCalled;
         });
     });
 
     describe('onCurrencyChanged', function(){
         it('should update the selected currency if different', function(){
-            $rootScope.$emit('currency:updated', {id: 'EUR'});
+            $rootScope.$emit('currency:updated', {currencyId: 'EUR'});
             expect(mockedGlobalData.setCurrency).toHaveBeenCalled;
         });
     })

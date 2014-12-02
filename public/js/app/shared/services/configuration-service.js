@@ -78,11 +78,11 @@ angular.module('ds.shared')
                                 // if session still in tact, load user preferences
                                 AccountSvc.account().then(function (account) {
                                     if (account.preferredLanguage) {
-                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
+                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
                                         languageSet = true;
                                     }
                                     if (account.preferredCurrency) {
-                                        GlobalData.setCurrency(account.preferredCurrency);
+                                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.initialization);
                                         currencySet = true;
                                     }
 
