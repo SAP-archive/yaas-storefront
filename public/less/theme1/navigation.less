@@ -220,6 +220,17 @@
 		}
 	}
 
+    @media (max-width: @screen-md-max){
+      .categoryDetail{
+        overflow: hidden;
+        .hyicon{
+          float: right;
+          top: 19px;
+          color: #696a6a;
+        }
+      }
+    }
+
 
 
 	@media (max-width: @screen-sm-max){
@@ -251,12 +262,13 @@
 
 			& > li{
 				padding: 0;
-				padding-left: 21px;
+				padding-left: 18px;
+                padding-right: 18px;
 				
 				& > a{
 					display: block;
                     text-decoration: none;
-                    padding-bottom: 10px;
+                    padding: 0;
 					line-height: 51px;
 					color:#202122;
 					border-bottom:1px solid #dedede;

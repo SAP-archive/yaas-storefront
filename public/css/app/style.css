@@ -5168,7 +5168,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 500px;
     margin: 30px auto;
   }
   .modal-content {
@@ -5181,7 +5181,7 @@ button.close {
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
+    width: 500px;
   }
 }
 .tooltip {
@@ -6040,6 +6040,9 @@ html.disable-scroll {
   margin: 30px 0 ;
   text-align: center;
 }
+#sidebar .mactive {
+  color: #428bca !important;
+}
 #sidebar .seperator {
   width: 36px;
   height: 1px;
@@ -6126,18 +6129,12 @@ html.disable-scroll {
     text-transform: uppercase;
     text-align: center;
   }
-  #sidebar .navi > li > a.mactive {
-    color: #428bca;
-  }
   #sidebar .navi > li > a:hover {
     text-decoration: none;
     color: #0079ff;
   }
   #sidebar .navi > li .secondaryCategory:hover {
     color: #0079ff;
-  }
-  #sidebar .navi > li .secondaryCategory.mactive {
-    color: #428bca;
   }
   #sidebar .navi > li.active > a {
     color: #0079ff;
@@ -6204,8 +6201,8 @@ html.disable-scroll {
     height: 1px;
     background: #c4c4c4;
   }
-  #sidebar .sub-navi .sub-navi-list > li > a.mactive {
-    color: #428bca;
+  #sidebar .sub-navi .sub-navi-list > li > a.noSubCategories:after {
+    background: transparent;
   }
   #sidebar .sub-navi .sub-navi-list div.tertiaryCategory {
     margin: 12px 0 0 0;
@@ -6221,12 +6218,23 @@ html.disable-scroll {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
+@media (max-width: 1199px) {
+  #sidebar .categoryDetail {
+    overflow: hidden;
+  }
+  #sidebar .categoryDetail .hyicon {
+    float: right;
+    top: 19px;
+    color: #696a6a;
+  }
+}
 @media (max-width: 991px) {
   #sidebar {
     overflow: auto;
   }
   #sidebar .navi {
     margin: 0 0 0 0;
+    height: auto !important;
     transition: all 0.3s;
     left: 0;
     padding-left: 0;
@@ -6244,12 +6252,13 @@ html.disable-scroll {
   }
   #sidebar .navi > li {
     padding: 0;
-    padding-left: 21px;
+    padding-left: 18px;
+    padding-right: 18px;
   }
   #sidebar .navi > li > a {
     display: block;
     text-decoration: none;
-    padding-bottom: 10px;
+    padding: 0;
     line-height: 51px;
     color: #202122;
     border-bottom: 1px solid #dedede;
@@ -6404,6 +6413,9 @@ html.disable-scroll {
 }
 #sidebar .store-settings {
   margin: 20px 0 100px;
+}
+#full-cart-btn {
+  outline: none;
 }
 .top-navigation {
   position: relative;
@@ -6666,6 +6678,28 @@ html.disable-scroll {
   color: #fff;
   right: 500px;
 }
+.socialMediaSigninContainer {
+  margin: 0 0 55px 0;
+}
+.forgot-password-btn {
+  font-size: 13px;
+}
+.signInTabs.nav-tabs > li.active > a,
+.signInTabs.nav-tabs > li.active > a:hover,
+.signInTabs.nav-tabs > li.active > a:focus {
+  background-color: transparent ;
+  border: none;
+  font-weight: bold;
+  color: #000;
+}
+.signInTabs.nav-tabs > li > a,
+.signInTabs.nav-tabs > li > a:hover,
+.signInTabs.nav-tabs > li > a:focus {
+  padding: 0 15px;
+}
+.signInTabs .signInButton {
+  border-right: 1px solid #838485;
+}
 /* TO THE TOP BTN */
 .back-to-top-button {
   height: 40px;
@@ -6834,7 +6868,7 @@ html.disable-scroll {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   color: #6d6e6f;
-  font-size: 14px;
+  font-size: 13px;
 }
 .cart-item .item-attr span {
   font-size: 16px;
@@ -6870,18 +6904,21 @@ html.disable-scroll {
 /* SUMMARY TABLE */
 .summary {
   text-transform: uppercase;
+  margin-top: 26px;
 }
 .summary table th,
 .summary table tfoot td {
   color: #3c3c3c;
-  font-size: 19px;
-  font-weight: normal;
+  font-size: 21px;
+  font-weight: 400;
   border-width: 1px;
 }
 .summary table > tbody > tr > td {
   color: #929292;
   border: none;
   font-size: 14px;
+  padding-bottom: 21px;
+  padding-top: 0;
 }
 .edit-cart {
   position: fixed;
@@ -7939,12 +7976,87 @@ section .hero-unit {
     margin-left: 0;
   }
 }
+.account {
+  /* UPSCALING IMPROVMENTS */
+}
+@media screen and (max-width: 991px) {
+  .account section {
+    padding: 15px !important;
+  }
+  .account section .area {
+    padding-bottom: 50px;
+  }
+  .account section .page-headline {
+    margin-top: 0;
+  }
+  .account section .summary {
+    border-bottom: 1px solid #ddddd2 !important;
+  }
+  .account section .cart-item {
+    padding: 25px 0;
+    border-top: 1px solid #ddddd2;
+  }
+  .account section .cart-item .item-attr {
+    margin-bottom: 0 !important;
+    margin-top: 0;
+  }
+}
+.account h2 {
+  font-size: 26px;
+  padding-bottom: 0;
+  margin-bottom: 36px;
+}
+.account .orderHeaderContainer {
+  padding-bottom: 64px;
+}
+.account .orderHeaderContainer .section-headline {
+  margin-top: 64px;
+}
+.account .orderHeaderContainer .area {
+  min-height: 127px;
+  margin: 0;
+}
+.account .orderHeaderContainer address {
+  margin-bottom: 0;
+  min-height: 1px;
+}
+.account .orderStatusContainer h2 {
+  padding: 0;
+  margin: 0;
+}
+.account .orderItemsContainer .section-headline {
+  margin: 34px 0 25px 0;
+}
+.account .orderItemsContainer h2 {
+  padding: 0;
+  margin: 0;
+}
+.account .orderItemsContainer .table-responsive {
+  font-size: 13px;
+}
+.account .orderItemsContainer .img-col {
+  padding: 0;
+}
+.account section {
+  padding-left: 62px;
+  padding-right: 62px;
+}
+.account .breadCrumb {
+  font-family: Georgia, "Times New Roman", Times, serif, serif;
+  text-transform: none;
+  font-style: italic;
+  font-size: 13px;
+}
 .account .img-circle {
   margin-top: 25px;
   min-width: 45px;
 }
 .account .page-headline {
-  margin-top: -20px;
+  margin-top: 65px;
+}
+.account .page-headline h1 {
+  font-size: 34px;
+  margin-top: 5px;
 }
 .account .inline-label {
   font-family: Georgia, "Times New Roman", Times, serif, serif;
@@ -7954,14 +8066,14 @@ section .hero-unit {
 .account .order-status {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
 }
 .account .cart-item {
   border: none;
+  padding-top: 0;
   padding-bottom: 0;
   padding-left: 0;
-}
-.account .summary {
-  float: right;
 }
 @media screen and (max-width: 767px) {
   .account .summary {
@@ -7971,6 +8083,23 @@ section .hero-unit {
 }
 .account .order-tabel {
   border-bottom: 1px solid #dddddd;
+}
+.account .order-tabel table {
+  width: auto;
+}
+.account .order-tabel th {
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: 500;
+  white-space: normal !important;
+}
+.account .order-tabel td {
+  padding: 28px 0;
+  white-space: normal !important;
+}
+.account .order-tabel .priceColumn {
+  text-align: right;
+  padding-right: 12px;
 }
 .default-address span {
   font-weight: bold;
@@ -8258,7 +8387,7 @@ address {
   color: #202122;
 }
 body {
-  background: #eeeeee;
+  background: #f5f5f5;
 }
 input[type='number'] {
   -moz-appearance: textfield;

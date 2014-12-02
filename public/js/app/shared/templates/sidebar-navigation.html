@@ -28,7 +28,11 @@
     <div class="seperator"></div>
     <ul ds-menu-aim class="navi hy-scrollingNav">
         <li ng-repeat="category in categories" class="js-listRoot"> <!-- class="has-sub" -->
-            <a ui-sref="base.category( {catName: category.slug} )" class="mainCategory categoryLevel" ng-click="hideMobileNav()">{{ category.name  }} <span class="hyicon hyicon-chevron-bold-right"></span></a>
+            <a ui-sref="base.category( {catName: category.slug} )" class="mainCategory categoryLevel" ng-click="hideMobileNav()">
+                <span class="categoryDetail">{{ category.name  }}
+                    <span class="hyicon hyicon-chevron-thin-right"></span>
+                </span>
+            </a>
             <div ng-if="category.subcategories" class="sub-navi">
                 <ul class="sub-navi-list">
                     <li ng-repeat="sub2 in category.subcategories" class="flyoutSubCategory js-flyoutSubCategory {'has-sub': sub2.subcategories}">
