@@ -62,7 +62,7 @@
           tu.clickElement('css', 'div.thumb');
           assertTextByElement('css', 'label.ng-binding', 'Qty:');
           assertTextByElement('id', 'buy-button', 'BUY');
-          assertTextByElement('css', 'div.headline.ng-binding', 'Description:');
+          assertTextByElement('css', 'div.headline.ng-binding', 'DESCRIPTION:');
         });
 
         it('should load product-detail in german', function () {
@@ -70,7 +70,7 @@
           tu.selectLanguage('German');
           assertTextByElement('css', 'label.ng-binding', 'Menge:');
           assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
-          assertTextByElement('css', 'div.headline.ng-binding', 'Beschreibung:');
+          assertTextByElement('css', 'div.headline.ng-binding', 'BESCHREIBUNG:');
         });
 
         it('should load cart in english', function () {
