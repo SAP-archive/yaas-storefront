@@ -7216,6 +7216,7 @@ section footer button {
 .owl-carousel.thumbnails a {
   margin-right: 30px;
   display: block;
+  overflow: hidden;
 }
 .owl-carousel.thumbnails a img {
   display: block;
@@ -7688,7 +7689,6 @@ section .hero-unit {
   .product-gallery .thumbnails a > img {
     height: 84px;
     width: auto;
-    margin: 0 auto;
   }
 }
 .rating {
