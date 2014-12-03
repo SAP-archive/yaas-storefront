@@ -253,7 +253,7 @@ angular.module('ds.cart')
                 refreshCartAfterLogin: function (customerId) {
                     // store existing anonymous cart
                     var anonCart = cart;
-                    var self = this;
+               
                     // retrieve any cart associated with the authenticated user
                     CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
                         // there is an existing cart - update scope instance
