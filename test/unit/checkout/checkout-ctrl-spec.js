@@ -8,7 +8,9 @@ describe('CheckoutCtrl', function () {
         user: {
             isAuthenticated: '',
             user: null
-        }
+        },
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
     };
     var AuthDialogManager = {
         isOpened: jasmine.createSpy('then'),
@@ -41,8 +43,9 @@ describe('CheckoutCtrl', function () {
         cart = {};
         order.creditCard = {};
         shippingCost = {};
-        shippingCost.price = {};
-        shippingCost.price.price = 4.99;
+        shippingCost.price = {
+            'USD': 4.99
+        };
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         };

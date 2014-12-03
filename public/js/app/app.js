@@ -177,12 +177,16 @@ window.app = angular.module('ds.router', [
 
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurrId) {
-                CartSvc.switchCurrency(newCurrId);
+            $rootScope.$on('currency:updated', function (event, newCurrId, fromLogin) {
+                if (!fromLogin) {
+                    CartSvc.switchCurrency(newCurrId);
+                }
             });
 
-            $rootScope.$on('language:updated', function () {
-                CartSvc.getCart();
+            $rootScope.$on('language:updated', function (languageCode, fromLogin) {
+                if (!fromLogin) {
+                    CartSvc.getCart();
+                }
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

@@ -17,11 +17,11 @@ angular.module('ds.shared')
             var availableCurrencies = [];
             var languageMap = [];
             var availableLanguages = [];
-            function setCurrencyWithOptionalCookie(currencyId, setCookie) {
+            function setCurrencyWithOptionalCookie(currencyId, setCookie, fromLogin) {
                 if(currencyId && currencyId in currencyMap ) {
                     if( currencyId!==activeCurrencyId){
                         activeCurrencyId =  currencyId;
-                        $rootScope.$emit('currency:updated',  currencyId);
+                        $rootScope.$emit('currency:updated',  currencyId, fromLogin);
                     }
                     if(setCookie){
                         CookieSvc.setCurrencyCookie(currencyId);
@@ -31,13 +31,13 @@ angular.module('ds.shared')
                 }
             }
 
-            function setLanguageWithOptionalCookie(newLangCode, setCookie){
+            function setLanguageWithOptionalCookie(newLangCode, setCookie, fromLogin){
                 if(newLangCode && newLangCode in languageMap) {
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
                         $translate.use(languageCode);
                         acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
-                        $rootScope.$emit('language:updated',  languageCode);
+                        $rootScope.$emit('language:updated',  languageCode, fromLogin);
                     }
                     if(setCookie) {
                         CookieSvc.setLanguageCookie(languageCode);
@@ -80,18 +80,32 @@ angular.module('ds.shared')
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;
                     var symbol = '?';
-                    if (id === 'USD') {
+                    if (id === 'USD' || id === 'CAD') {
                         symbol = '$';
                     }
                     else if (id === 'EUR') {
                         symbol = '\u20AC';
                     }
+                    else if (id === 'GBP') {
+                        symbol = '\u20A4';
+                    }
+                    else if (id === 'JPY' || id === 'CNY') {
+                        symbol = '\u00A5';
+                    }
+                    else if (id === 'PLN') {
+                        symbol = '\u007A' + '\u0142';
+                    }
+                    else if (id === 'CHF') {
+                        symbol = 'CHF';
+                    }
+
+
                     return symbol;
                 },
 
                 /** Sets the code of the language that's supposed to be active for the store.*/
-                setLanguage: function (newLangCode) {
-                    setLanguageWithOptionalCookie(newLangCode, true);
+                setLanguage: function (newLangCode, fromLogin) {
+                    setLanguageWithOptionalCookie(newLangCode, true, fromLogin);
                 },
 
 
@@ -128,8 +142,8 @@ angular.module('ds.shared')
                  * If the id is not part of the "available" currencies, the update will be silently rejected.
                  * @param object with property id === currency id; if property setCookie === true, setting will
                  * be written to cookie (if valid)*/
-                setCurrency: function (currency) {
-                   setCurrencyWithOptionalCookie(currency, true);
+                setCurrency: function (currency, fromLogin) {
+                   setCurrencyWithOptionalCookie(currency, true, fromLogin);
                 },
 
                 /** Determines the initial active currency for the store, based on store configuration and
