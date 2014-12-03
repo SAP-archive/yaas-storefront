@@ -140,5 +140,7 @@
            });
 
            browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/vera.coberley/code/barebones-product-service/demo-store/main-page.png');
-           });   */
+               writeScreenShot(png, '/Users/(i-number)/Documents/development/main-page.png');
+           }); 
+
+             */
