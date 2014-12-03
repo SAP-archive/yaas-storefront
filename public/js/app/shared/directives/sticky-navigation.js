@@ -20,7 +20,7 @@ angular.module('ds.shared')
         $(window).resize(function(){
 
             setNavigationHeight(container);
-        })
+        });
 
         var setNavigationHeight = function setNavigationHeight(){
             var availableHeight = container.height();
@@ -30,7 +30,7 @@ angular.module('ds.shared')
             reservedHeight = 0;
             marginOffset = 0;
 
-            $('.hy-stickyComponent').each(function(index, val){
+            $('.hy-stickyComponent').each(function(){
                 reservedHeight += $(this).outerHeight(true) ;
             });
 
@@ -49,7 +49,7 @@ angular.module('ds.shared')
 
         return {
             restrict: 'A',
-            link: function(scope, element, attrs) {
+            link: function(scope, element) {
                 container = $(element);
                 $timeout(setNavigationHeight, 0);
             }
