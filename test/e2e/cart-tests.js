@@ -14,6 +14,7 @@ var tu = require('./protractor-utils.js');
          tu.verifyCartTotal(cartTotal);
        }
 
+
 describe("cart:", function () {
 
 
@@ -71,9 +72,8 @@ describe("cart:", function () {
            tu.clickElement('xpath', tu.whiteCoffeeMug);
            browser.sleep(1000);
            tu.clickElement('id', tu.buyButton);
-           browser.sleep(3000);
+           browser.sleep(2000);
            tu.verifyCartAmount("1");
-           browser.sleep(1000);
            tu.verifyCartTotal("$10.67");
            tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(500);
@@ -132,7 +132,7 @@ describe("cart:", function () {
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
            tu.clickElement('binding', 'CONTINUE_SHOPPING');
            tu.clickElement('xpath', tu.blackCoffeeMug);
-           tu.clickElement('xpath', tu.outOfStockButton);
+           tu.clickElement('id', 'out-of-stock-btn');
            browser.sleep(500);
            tu.clickElement('id',tu.cartButtonId);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');

@@ -19,7 +19,6 @@ angular.module('ds.confirmation')
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         $scope.isAuthenticated = isAuthenticated;
         window.scrollTo(0, 0);
 
@@ -44,6 +43,8 @@ angular.module('ds.confirmation')
             var productParms = {
                 q: 'sku:(' + productSkus + ')'
             };
+
+            $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
 
             ProductSvc.query(productParms).then(function(productResult){
                 $scope.confirmationDetails.products = productResult;

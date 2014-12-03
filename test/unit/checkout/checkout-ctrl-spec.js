@@ -1,22 +1,16 @@
 describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd,
-        $modal, mockedModal, shippingCost, MockedAuthSvc;
+        $modal, mockedModal, shippingCost, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
+        returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
-
-    var MockedAccountSvc = {
-        getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn({
-            then: jasmine.createSpy('then')
-        }),
-        getAddresses: jasmine.createSpy('getAddresses').andReturn({
-            then: jasmine.createSpy('then')
-        })
-    };
     var GlobalData = {
         user: {
             isAuthenticated: '',
             user: null
-        }
+        },
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
     };
     var AuthDialogManager = {
         isOpened: jasmine.createSpy('then'),
@@ -45,11 +39,13 @@ describe('CheckoutCtrl', function () {
     beforeEach(module('ds.checkout', function($provide) {
         order = {};
         order.shipTo = {};
+        order.billTo = {};
         cart = {};
         order.creditCard = {};
         shippingCost = {};
-        shippingCost.price = {};
-        shippingCost.price.price = 4.99;
+        shippingCost.price = {
+            'USD': 4.99
+        };
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         };
@@ -58,6 +54,7 @@ describe('CheckoutCtrl', function () {
                 opened: {
                     then: jasmine.createSpy('then')
                 },
+                close: jasmine.createSpy('close'),
                 dismiss: jasmine.createSpy('dismiss')
             })
         };
@@ -70,7 +67,6 @@ describe('CheckoutCtrl', function () {
         $provide.value('shippingCost', shippingCost);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
-        $provide.value('GlobalData', GlobalData);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
@@ -95,7 +91,42 @@ describe('CheckoutCtrl', function () {
             return checkoutDfd.promise;
         });
 
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
+        returnAccount = {
+            contactEmail: 'mike@hybris.com',
+            title: 'Dr.',
+            firstName: 'Mike',
+            middleName: 'R',
+            lastName: 'ODonnell'
+        };
+
+        returnAddress = {
+            contactName: 'Mike',
+            street: '123 Main St',
+            streetAppendix: 'Apt 2',
+            country: 'USA',
+            city: 'Boulder',
+            state: 'CO',
+            zipCode: '80302',
+            contractPhone: '555-555-5555',
+            isDefault: true
+        };
+
+        returnAddresses = [];
+        returnAddresses.push(returnAddress);
+
+        accountDef = $q.defer();
+        accountDef.resolve(returnAccount);
+        addressDef = $q.defer();
+        addressDef.resolve(returnAddress);
+        addressesDef = $q.defer();
+        addressesDef.resolve(returnAddresses);
+        MockedAccountSvc = {
+            account: jasmine.createSpy('account').andReturn(accountDef.promise),
+            getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn(addressDef.promise),
+            getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
+        };
+
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
     });
 
     describe('initialization', function () {
@@ -103,7 +134,7 @@ describe('CheckoutCtrl', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
             expect($scope.wiz).toBeTruthy();
-        })
+        });
 
 
         it('should retrieve addresses for authenticated user', function(){
@@ -112,7 +143,26 @@ describe('CheckoutCtrl', function () {
             MockedAuthSvc = {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
+            GlobalData.user.isAuthenticated = true;
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            $scope.$apply();
+            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
+            expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
+            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
+        });
+
+        it('should populate user data on signin', function(){
+            isAuthenticated = true;
+            MockedAuthSvc.isAuthenticated.reset();
+            MockedAuthSvc = {
+                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
+            };
+            GlobalData.user.isAuthenticated = true;
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            $rootScope.$broadcast('user:signedin');
+            $scope.$apply();
+            expect(MockedAccountSvc.account).toHaveBeenCalled();
             expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
         });
@@ -125,7 +175,7 @@ describe('CheckoutCtrl', function () {
             MockedAuthSvc = {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
 
             expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
@@ -416,6 +466,17 @@ describe('CheckoutCtrl', function () {
             var newCart =  {id: 'newCartId'};
             $rootScope.$broadcast('cart:updated', {cart: newCart});
             expect($scope.cart).toEqualData(newCart);
+        });
+    });
+
+    describe('select address', function(){
+        it(' should open the modal dialog and select the address', function(){
+            $scope.openAddressDialog();
+            $scope.selectAddress(returnAddress);
+            expect($scope.wiz.shipToSameAsBillTo).toEqualData(true);
+            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
+            $scope.openAddressDialog();
+            $scope.closeAddressDialog();
         });
     });
 
