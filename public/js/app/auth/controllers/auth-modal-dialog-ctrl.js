@@ -89,6 +89,7 @@ angular.module('ds.auth')
                         FB.init({
                             appId: settings.facebookAppId,
                             xfbml: false,
+                            oauth : true,
                             version: 'v2.2'
                         });
 
@@ -227,9 +228,32 @@ angular.module('ds.auth')
                     } else {
                         // fallback logic only
                         $scope.fbLoggedIn = false;
-                        FB.login();
+                        FB.login(function(response) {
+
+                            if (response.authResponse) {
+                                console.log('Welcome!  Fetching your information.... ');
+                                //console.log(response); // dump complete info
+                                onFbLogin( response.authResponse.accessToken );
+//                                var access_token = response.authResponse.accessToken; //get access token
+//                                user_id = response.authResponse.userID; //get FB UID
+//
+//                                FB.api('/me', function(response) {
+//                                    user_email = response.email; //get user email
+//                                    // you can store this data into your database
+//                                });
+
+                            } else {
+                                //user hit cancel button
+                                console.log('User cancelled login or did not fully authorize.');
+
+                            }
+                        }, {
+                            scope: 'publish_stream,email'
+                        });
                     }
                 });
+
+
 
             };
 

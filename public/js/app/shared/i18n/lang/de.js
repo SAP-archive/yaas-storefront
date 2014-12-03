@@ -121,6 +121,8 @@ angular.module('ds.i18n')
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
+        SIGN_IN_WITH_FACEBOOK: 'Anmelden with Facebook',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Anmeldung with Google +',
         MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Konto erstellen',
         CONTINUE_AS_GUEST: 'Weiter als Gast',
