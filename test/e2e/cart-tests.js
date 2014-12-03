@@ -136,7 +136,7 @@ describe("cart:", function () {
            browser.sleep(500);
            tu.clickElement('id',tu.cartButtonId);
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
-         // });
+         });
 
          // it('should not allow negative numbers', function () {
          //  tu.clickElement('id', tu.cartButtonId);
