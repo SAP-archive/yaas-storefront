@@ -24,7 +24,7 @@ $(document).ready(function () {
 	if ($(".gallery .thumbnails").length && $(".gallery .thumbnails").owlCarousel) {
 		$(".gallery .thumbnails").owlCarousel({
 			items : 5,
-			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 10]],
+			itemsCustom:[[0, 5], [400, 5], [700, 5], [1000, 5], [1200, 5], [1600, 5]],
 			navigation:true,
 			navigationText:false,
 			lazyLoad : true,
@@ -137,7 +137,7 @@ $(document).ready(function () {
 	if ($(".carousel").length && $(".carousel").owlCarousel) {
 		$(".carousel").owlCarousel({
 			items : 5,
-			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 16]],
+			itemsCustom:[[0, 1], [660,1], [661, 5], [1000, 5], [1200, 5], [1600, 5]],
 			navigation:true,
 			navigationText:false,
 			lazyLoad : true,

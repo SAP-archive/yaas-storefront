@@ -7076,6 +7076,11 @@ section footer button {
   left: 0;
   right: 0;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .owl-carousel .owl-controls .owl-pagination {
+    display: none !important;
+  }
+}
 @media (min-width: 992px) and (max-width: 1199px) {
   .owl-carousel .owl-controls .owl-pagination {
     display: none !important;
@@ -7209,7 +7214,7 @@ section footer button {
   border-bottom: 3px solid #fff;
 }
 .owl-carousel.thumbnails a {
-  margin: 0 15px;
+  margin-right: 30px;
   display: block;
 }
 .owl-carousel.thumbnails a img {
@@ -7665,6 +7670,16 @@ section .hero-unit {
 }
 .product-gallery .thumbnails {
   padding: 0;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
 }
 @media (min-width: 1199px) {
   .product-gallery .thumbnails {
