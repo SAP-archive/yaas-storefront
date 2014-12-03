@@ -14,6 +14,7 @@ var tu = require('./protractor-utils.js');
          tu.verifyCartTotal(cartTotal);
        }
 
+
 describe("cart:", function () {
 
 
@@ -137,7 +138,7 @@ describe("cart:", function () {
            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
          });
 
-         iit('should not allow negative numbers', function () {
+         it('should not allow negative numbers', function () {
           tu.clickElement('id', tu.cartButtonId);
           browser.sleep(250);
           expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');

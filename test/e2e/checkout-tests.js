@@ -117,9 +117,6 @@ describe("checkout:", function () {
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
         browser.sleep(2000);
-           browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/i840624/Documents/development/main-page1.png');
-           }); 
      });
 
 
@@ -213,12 +210,12 @@ describe("checkout:", function () {
            });
 
            it('should create order on account page in Euros', function () {
-            verifyOrderOnAccountPage('euro-order@test.com', '€14.53')
+            verifyOrderOnAccountPage('euro-order@test.com', '€22.52')
 
            });
 
            it('should merge carts and checkout for logged in user', function () {
-            tu.clickElement('xpath', tu.contineShopping);
+            tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
             tu.clickElement('css', 'img');
             tu.clickElement('xpath', tu.whiteThermos);
