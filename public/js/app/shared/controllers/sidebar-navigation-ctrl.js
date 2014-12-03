@@ -43,7 +43,7 @@ angular.module('ds.shared')
 
             function switchCurrency(currencyId) {
                 GlobalData.setCurrency(currencyId);
-                if($state.is('base.category') || $state.is('base.product.detail')) {
+                if($state.is('base.category') || $state.is('base.product.detail') || $state.is('base.checkout.details')) {
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: true,

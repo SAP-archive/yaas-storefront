@@ -126,7 +126,7 @@ window.app = angular.module('ds.router', [
     .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'CategorySvc',
         function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
-                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, CategorySvc) {
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
@@ -176,13 +176,17 @@ window.app = angular.module('ds.router', [
 
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurrId) {
-                CartSvc.switchCurrency(newCurrId);
+            $rootScope.$on('currency:updated', function (event, newCurrId, fromLogin) {
+                if (!fromLogin) {
+                    CartSvc.switchCurrency(newCurrId);
+                }
             });
 
-            $rootScope.$on('language:updated', function () {
-                CartSvc.getCart();
-                CategorySvc.getCategories('language:updated');
+
+            $rootScope.$on('language:updated', function (languageCode, fromLogin) {
+                if (!fromLogin) {
+                    CartSvc.getCart();
+                }
             });
 
             // setting root scope variables that drive class attributes in the BODY tag

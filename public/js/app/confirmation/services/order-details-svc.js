@@ -60,6 +60,9 @@ angular.module('ds.confirmation')
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
                     confirmationDetails.entries = orderDetails.entries;
+
+                    confirmationDetails.currency = orderDetails.currency;
+
                     return confirmationDetails;
                 });
 

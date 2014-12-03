@@ -31,7 +31,7 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v4/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v5/' + stId
                 },
 
                 categories: {
@@ -49,11 +49,11 @@ angular.module('ds.shared')
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v5/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v6/' + stId
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/order/v4/' + stId
                 },
 
                 prices: {
@@ -70,7 +70,7 @@ angular.module('ds.shared')
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v4/' + stId
                 }
             };
 

@@ -64,7 +64,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: '1. Meine Daten',
         STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
         STEP_3_PAYMENT: '3. Zahlung',
-        STEP_4_REVIEW_AND_PAYMENT: '4. Bestätigung',
+        STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
