@@ -4,7 +4,7 @@
   "description": "Single page javascript application to demonstrate CAAS APIs.",
   "main": "public/js/shared-index.js",
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt",
+    "start": "node node_modules/grunt-cli/bin/grunt default:stage",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant",
     "postinstall": "bower install; grunt testENV"
@@ -52,7 +52,8 @@
     "karma-script-launcher": "~0.1.0",
     "phantomcss": "^0.4.5",
     "phantomjs": "^1.9.12",
-    "resemblejs": "^1.0.1"
+    "resemblejs": "^1.0.1",
+    "grunt-text-replace" : "0.4.0"
   },
   "author": "hybris",
   "license": "proprietary"

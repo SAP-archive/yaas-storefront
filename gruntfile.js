@@ -9,7 +9,15 @@ module.exports = function (grunt) {
     var JS_DIR = 'public/js/app';
     var LESS_DIR = 'public/less';
 
+    // Dynamic domain replacement
+    var PROD_DOMAIN = 'api.yaas.io',
+        TEST_DOMAIN = 'yaas-test.apigee.net',
+        STAGE_DOMAIN = 'api.stage.yaas.io',
+        REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
+        DOMAIN_MSG = 'Could not find environment domain in build parameter. Built with default domain. Use grunt build:test [:stage or :prod] to specify.';
+
     require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-text-replace');
 
     // Project Configuration
     grunt.initConfig({
@@ -158,17 +166,72 @@ module.exports = function (grunt) {
                 report: 'min',
                 mangle: false
             }
+        },
+
+        replace: {
+            test: {
+                src: [ REPLACEMENT_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                    to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
+                }]
+            },
+            stage: {
+                src: [ REPLACEMENT_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                    to: 'StartDynamicDomain*/ \''+ STAGE_DOMAIN +'\' /*EndDynamicDomain'
+                }]
+            },
+            prod: {
+                src: [ REPLACEMENT_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                    to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
+                }]
+            }
         }
 
     });
 
     grunt.option('force', true);
 
+
+    function runDomainReplace(domainParam){
+        switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam ) {
+            case 'test':
+                grunt.task.run('replace:test');
+                break;
+            case 'stage':
+                grunt.task.run('replace:stage');
+                break;
+            case 'prod':
+                grunt.task.run('replace:prod');
+                break;
+            default:
+                grunt.warn(DOMAIN_MSG);
+                grunt.task.run('replace:stage');
+        }
+    }
+
+    grunt.registerTask('default', 'Warning for default', function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('defaultTask'); // Wrap default build task to add parameters and warnings.
+    });
+
+    grunt.registerTask('build', 'Parameters for build', function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('buildTask');    // Wrap build task to add parameters and warnings.
+    });
+
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
 
     // Default task
-    grunt.registerTask('default', [
+    grunt.registerTask('defaultTask', [
         'jshint',
         'less:dev',
         'concurrent:dev'
@@ -188,8 +251,9 @@ module.exports = function (grunt) {
     grunt.registerTask('production', [
         'expressKeepAlive'
     ]);
+
     // Build task
-    grunt.registerTask('build', [
+    grunt.registerTask('buildTask', [
         'clean:dist',
         'concurrent:dist',
         'copy',
