@@ -38,14 +38,14 @@ angular.module('ds.auth')
              * - targetStateParams - state params to go with the targetState
              * */
             afterLogIn: function (context) {
-
+                var fromLogin = true;
                 // there must be an account
                 AccountSvc.account().then(function (account) {
                     if (account.preferredLanguage) {
-                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
+                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], fromLogin);
                     }
                     if (account.preferredCurrency) {
-                        GlobalData.setCurrency(account.preferredCurrency);
+                        GlobalData.setCurrency(account.preferredCurrency, fromLogin);
                     }
                     return account;
                 }).finally(function () {

@@ -1,6 +1,14 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+
+       function writeScreenShot(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'base64'));
+           stream.end();
+       }
+
 describe("product page", function () {
 
   describe("verify product pages", function () {
@@ -35,19 +43,19 @@ describe("product page", function () {
       it("should get product detail page", function () {
         tu.clickElement('xpath', tu.whiteCoffeeMug);
         browser.sleep(3000);
-        expect(tu.frenchPressDescription.getText()).toEqual('Description:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
+        expect(tu.frenchPressDescription.getText()).toEqual('DESCRIPTION:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('$10.67');
-        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Mugs');
+        expect(element(by.binding('cat.name')).getText()).toEqual('Mugs');
         tu.selectLanguage('German');
         tu.selectCurrency('Euro');
         browser.sleep(3000);
-        expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+        expect(tu.frenchPressDescription.getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
         
-        expect(element(by.binding('product.categories[0].name')).getText()).toEqual('Tassen');
+        expect(element(by.binding('cat.name')).getText()).toEqual('Tassen');
         // verify refreshing grabs correct config (STOR-1183)
         browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
-        expect(tu.frenchPressDescription.getText()).toEqual('Beschreibung:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+        expect(tu.frenchPressDescription.getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
         expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
 
     });
@@ -100,9 +108,9 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-name', 'USB', '$5.99');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
-        browser.get(tu.tenant + '/#!/ct/mugs');
+        browser.get(tu.tenant + '/#!/ct/mugs~85248');
         browser.driver.manage().window().maximize();
-        browser.sleep(5000);
+        browser.sleep(2000);
         tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
         tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
         browser.sleep(750);

@@ -110,8 +110,8 @@ describe('SessionSvc', function () {
 
             accountDef.resolve(account);
             $scope.$apply();
-            expect(mockedGlobalData.setLanguage).wasCalledWith(lang);
-            expect(mockedGlobalData.setCurrency).wasCalledWith(cur);
+            expect(mockedGlobalData.setLanguage).wasCalledWith(lang, true);
+            expect(mockedGlobalData.setCurrency).wasCalledWith(cur, true);
         });
 
 

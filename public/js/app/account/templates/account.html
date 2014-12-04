@@ -98,19 +98,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="order in orders">
+          <tr ng-repeat="order in orders | limitTo: showOrdersFilter ">
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.totalPrice | currency: currencySymbol}}</td>
+            <td>{{order.totalPrice | currency: order.currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="text-center">
+    <div class="text-center" ng-if="showOrderButtons">
       <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
     </div>
+
 
   </section>
 
