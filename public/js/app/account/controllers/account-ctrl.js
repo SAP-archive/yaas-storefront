@@ -232,4 +232,11 @@ angular.module('ds.account')
                 AuthDialogManager.showUpdatePassword();
             };
 
+            /*
+             need to set the currency symbol for each order
+             */
+            angular.forEach($scope.orders, function (order) {
+                order.currencySymbol = GlobalData.getCurrencySymbol(order.currency);
+            });
+
         }]);

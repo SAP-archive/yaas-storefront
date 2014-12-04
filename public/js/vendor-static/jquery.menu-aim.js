@@ -158,9 +158,9 @@
          * Activate a menu row.
          */
         var activate = function(row) {
-                if (row == activeRow) {
-                    return;
-                }
+//                if (row == activeRow) {
+//                    return;
+//                }
 
                 if (activeRow) {
                     options.deactivate(activeRow);
