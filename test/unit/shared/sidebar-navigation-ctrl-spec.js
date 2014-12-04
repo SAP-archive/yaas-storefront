@@ -13,7 +13,7 @@
 describe('SidebarNavigationCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
-        getCategories: jasmine.createSpy().andReturn({then: function(){}})
+        getCategoriesFromCache: jasmine.createSpy().andReturn({then: function(){}})
     };
     var currency =  {id: 'USD', label: 'US Dollar'};
     var currencies = [currency];
@@ -98,7 +98,7 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('onInitialization', function(){
         it('should retrieve categories', function(){
-           expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
+           expect(mockedCategorySvc.getCategoriesFromCache).toHaveBeenCalled();
         });
 
         it("should get available languages from GlobalData", function() {

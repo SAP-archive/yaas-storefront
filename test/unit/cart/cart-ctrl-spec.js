@@ -146,6 +146,14 @@ describe('CartCtrl Test', function () {
         });
     });
 
+    describe('toggle cart', function(){
+        it('should set showCart to false', function(){
+           $rootScope.showCart = true;
+            $scope.toggleCart();
+            expect($rootScope.showCart).toBeFalsy();
+        });
+    });
+
 
 
 });

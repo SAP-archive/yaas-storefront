@@ -93,6 +93,7 @@ angular.module('ds.i18n')
             navigation
          */
         PRODUCTS: 'Products',
+        BACK_TO: 'Back To',
 
         /*
             product detail page
