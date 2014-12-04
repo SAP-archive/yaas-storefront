@@ -73,7 +73,7 @@ angular.module('ds.products')
                 if(obj.source==='language:updated') {
                     CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
                         var parms = {};
-                        if (cat.slug){
+                        if (cat && cat.slug){
                             parms.catName = cat.slug;
                         }
                         $state.transitionTo('base.category', parms, {
