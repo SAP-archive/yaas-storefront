@@ -13,7 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, configurationsUrl,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, configurationsUrl, siteConfig
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
             setAvailableLanguages: jasmine.createSpy()
@@ -23,7 +23,7 @@ describe('ConfigurationSvc Test', function () {
     var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
         "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"},
         {"key":"project_lang", "value":"[{\"id\":\"en\",\"label\":\"English\"}]"}];
-    var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={};
+    var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={}, mockedCategorySvc = {};
 
     beforeEach(function() {
         module('restangular');
@@ -35,6 +35,7 @@ describe('ConfigurationSvc Test', function () {
         $provide.value('AuthSvc', mockedAuthSvc);
         $provide.value('AccountSvc', mockedAccountSvc);
         $provide.value('CartSvc', mockedCartSvc);
+        $provide.value('CategorySvc', mockedCategorySvc);
     }));
 
     beforeEach(function () {
@@ -52,6 +53,8 @@ describe('ConfigurationSvc Test', function () {
         mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy();
 
+
+
         inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
@@ -65,13 +68,19 @@ describe('ConfigurationSvc Test', function () {
 
     describe('initializeApp', function(){
         var promise;
+        var catDef;
 
         beforeEach(function(){
             $httpBackend.expectGET(configurationsUrl).respond(200, mockedStoreConfig);
+            catDef = $q.defer();
+            mockedCategorySvc.getCategories = jasmine.createSpy('getCategories').andCallFake(function(){
+                return catDef.promise;
+            });
         });
 
         it('should GET settings and update store config', function () {
             promise = configSvc.initializeApp();
+            catDef.resolve({});
             $httpBackend.flush();
             expect(mockedGlobalData.store.name).toEqualData(storeName);
             expect(mockedGlobalData.store.logo).toEqualData(logoUrl);

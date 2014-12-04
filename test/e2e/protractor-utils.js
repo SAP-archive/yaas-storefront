@@ -7,10 +7,9 @@
         exports.contineShopping = "continue-shopping";
         exports.removeFromCart = "remove-product"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[6]"
+        exports.backToTopButton = "(//button[@type='button'])[9]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[3]/button"
-        exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
         exports.tenant = 'ytvlw4f7ebox'
 
 
