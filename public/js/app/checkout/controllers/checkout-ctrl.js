@@ -402,12 +402,14 @@ angular.module('ds.checkout')
                     scope: $scope,
                     resolve: {
                         addresses: function(AccountSvc) {
-                            var promise = AccountSvc.getAddresses();
-                            promise.then(function(response) {
+
+                            return AccountSvc.getAddresses().then(function(response) {
                                 $scope.addresses = decorateSelectedAddress(response);
                                 $scope.isDialog = true;
+                                $scope.showAddressDefault = 6;
+                                $scope.showAddressFilter = $scope.showAddressDefault;
                             });
-                            return promise;
+
                         }
                     }
                   });
