@@ -17,7 +17,7 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
             $scope.user = GlobalData.user;
-            $scope.categories = [];
+            $scope.categories = CategorySvc.getCategoriesFromCache();
 
             // binds logo in sidebar
             $scope.store = GlobalData.store;
@@ -30,29 +30,20 @@ angular.module('ds.shared')
                 $scope.languages = availableLanguages.map(function(lang, index) { return { iso:  lang.id, value: response[index] }; });
             });
 
-            function loadCategories(){
-                CategorySvc.getCategories().then(function(categories){
-                    $scope.categories = categories;
-                });
-            }
-
-            loadCategories();
 
             function refreshDataOnLanguageChange(){
-                if($state.is('base.category') || $state.is('base.product.detail')) {
+                if($state.is('base.product.detail')) {
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: true,
                         notify: true
                     });
-                } else {
-                    loadCategories();
                 }
             }
 
             function switchCurrency(currencyId) {
                 GlobalData.setCurrency(currencyId);
-                if($state.is('base.category') || $state.is('base.product.detail')) {
+                if($state.is('base.category') || $state.is('base.product.detail') || $state.is('base.checkout.details')) {
                     $state.transitionTo($state.current, $stateParams, {
                         reload: true,
                         inherit: true,
@@ -89,7 +80,13 @@ angular.module('ds.shared')
                 refreshDataOnLanguageChange();
             });
 
-            $scope.$on('$destroy', unbindCurrency, unbindLang);
+            var unbindCat = $rootScope.$on('categories:updated', function(eve, obj){
+                if(!$scope.categories || obj.source === 'language:updated'){
+                    $scope.categories = obj.categories;
+                }
+            });
+
+            $scope.$on('$destroy', unbindCurrency, unbindLang, unbindCat);
 
             $scope.logout = function () {
                 AuthSvc.signOut();
