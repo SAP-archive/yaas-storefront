@@ -45,11 +45,11 @@ angular.module('ds.shared')
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v5/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v6/' + stId
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/order/v4/' + stId
                 },
 
                 prices: {

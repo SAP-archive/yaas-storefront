@@ -31,7 +31,7 @@ angular.module('ds.confirmation')
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
             var productSkus = details.entries.map(function (entry) {
-                return entry.sku;
+                return entry.product.sku;
             });
             var amount = details.entries.map(function(entry){
                return entry.amount;
@@ -56,7 +56,7 @@ angular.module('ds.confirmation')
                  */
                 angular.forEach(details.entries, function (entry) {
                     angular.forEach($scope.confirmationDetails.products, function (product, key) {
-                        if (product.sku === entry.sku) {
+                        if (product.sku === entry.product.sku) {
                             $scope.confirmationDetails.products[key].price = entry.unitPrice;
                             $scope.confirmationDetails.products[key].amount = entry.amount;
                         }

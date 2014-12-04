@@ -127,6 +127,7 @@ angular.module('ds.cart')
         }
 
         function ensureCorrectCurrency(cartId){
+            var deferred = $q.defer();
             if(cart.currency!==GlobalData.getCurrencyId()) {
                 CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: GlobalData.getCurrencyId()}).then(function () {
                     CartREST.Cart.one('carts', cartId).get().then(function (response) {
@@ -135,8 +136,9 @@ angular.module('ds.cart')
                     });
                 });
             } else {
-                return $q.when(cart);
+                deferred.resolve(cart);
             }
+            return deferred.promise;
         }
 
         /** Retrieves the current cart state from the service, updates the local instance
