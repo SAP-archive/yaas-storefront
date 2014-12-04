@@ -22,16 +22,14 @@ angular.module('ds.shared')
             this.apis = {
 
                 account: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',              //original
-                    // baseUrl: 'https://yaas-test.apigee.net/test/account/v2/' + stId,   //new tenant id url pending
-                    // 404: https://yaas-test.apigee.net/test/account/v2/8bwhetym79cq/auth/anonymous/login?hybris-tenant=8bwhetym79cq
+                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
                 },
 
                 cart: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v4/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v5/' + stId
                 },
 
                 categories: {
@@ -43,17 +41,15 @@ angular.module('ds.shared')
                 },
 
                 configuration: {
-                    baseUrl: 'http://configuration-v3.test.cf.hybris.com'             //original
-                    // baseUrl: 'http://configuration-v4.test.cf.hybris.com/' + stId  //new tenant id url pending
-                    //v4: 404 //Andreas Thaler indicates this is in process, team bananas.
+                    baseUrl: 'https://yaas-test.apigee.net/test/configuration/v4/' + stId
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v5/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v6/' + stId
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/order/v4/' + stId
                 },
 
                 prices: {
@@ -70,7 +66,7 @@ angular.module('ds.shared')
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v3/' + stId
+                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v4/' + stId
                 }
             };
 

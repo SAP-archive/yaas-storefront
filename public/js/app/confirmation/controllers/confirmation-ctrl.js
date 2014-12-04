@@ -19,7 +19,6 @@ angular.module('ds.confirmation')
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
-        $scope.currencySymbol = GlobalData.getCurrencySymbol();
         $scope.isAuthenticated = isAuthenticated;
         window.scrollTo(0, 0);
 
@@ -32,7 +31,7 @@ angular.module('ds.confirmation')
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
             var productSkus = details.entries.map(function (entry) {
-                return entry.sku;
+                return entry.product.sku;
             });
             var amount = details.entries.map(function(entry){
                return entry.amount;
@@ -45,6 +44,8 @@ angular.module('ds.confirmation')
                 q: 'sku:(' + productSkus + ')'
             };
 
+            $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
+
             ProductSvc.query(productParms).then(function(productResult){
                 $scope.confirmationDetails.products = productResult;
 
@@ -55,7 +56,7 @@ angular.module('ds.confirmation')
                  */
                 angular.forEach(details.entries, function (entry) {
                     angular.forEach($scope.confirmationDetails.products, function (product, key) {
-                        if (product.sku === entry.sku) {
+                        if (product.sku === entry.product.sku) {
                             $scope.confirmationDetails.products[key].price = entry.unitPrice;
                             $scope.confirmationDetails.products[key].amount = entry.amount;
                         }
