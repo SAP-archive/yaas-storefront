@@ -1,6 +1,14 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+
+       function writeScreenShot(data, filename) {
+           var stream = fs.createWriteStream(filename);
+
+           stream.write(new Buffer(data, 'base64'));
+           stream.end();
+       }
+
 describe("product page", function () {
 
   describe("verify product pages", function () {
@@ -100,9 +108,9 @@ describe("product page", function () {
         tu.sortAndVerifyPagination('-name', 'USB', '$5.99');
         browser.sleep(750);
         tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
-        browser.get(tu.tenant + '/#!/ct/mugs');
+        browser.get(tu.tenant + '/#!/ct/mugs~85248');
         browser.driver.manage().window().maximize();
-        browser.sleep(5000);
+        browser.sleep(2000);
         tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
         tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
         browser.sleep(750);
