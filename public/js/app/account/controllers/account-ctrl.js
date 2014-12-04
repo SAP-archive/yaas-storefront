@@ -37,7 +37,7 @@ angular.module('ds.account')
 
             // show more or less addresses.
             $scope.showAddressDefault = 6;
-            $scope.showAddressButtons = false;
+            $scope.showAddressButtons = ($scope.addresses.length >= $scope.showAddressDefault);
             $scope.showAllAddressButton = true;
             $scope.showAddressFilter = $scope.showAddressDefault;
 
@@ -162,6 +162,7 @@ angular.module('ds.account')
                     $scope.addresses = addresses;
                     $scope.defaultAddress = getDefaultAddress();
                     $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
+                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter-1);
                 });
             };
 
@@ -207,7 +208,6 @@ angular.module('ds.account')
                     // show filtered list or show all addresses. Hide if all data is shown within filter.
                     $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
                     $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
-
                 });
             };
 
