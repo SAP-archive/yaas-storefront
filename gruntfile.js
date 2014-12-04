@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 
     // Dynamic domain replacement
     var PROD_DOMAIN = 'api.yaas.io',
-        TEST_DOMAIN = 'yaas-test.apigee.net',
+        TEST_DOMAIN = 'yaas-test.apigee.net/test',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Built with default domain. Use grunt build:test [:stage or :prod] to specify.';
@@ -199,7 +199,7 @@ module.exports = function (grunt) {
 
     grunt.option('force', true);
 
-
+    // Read build parameter and set the dynamic domain for environment or give warning message.
     function runDomainReplace(domainParam){
         switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam ) {
             case 'test':
@@ -213,18 +213,26 @@ module.exports = function (grunt) {
                 break;
             default:
                 grunt.warn(DOMAIN_MSG);
-                grunt.task.run('replace:stage');
+                grunt.task.run('replace:test');
         }
     }
 
+    // Wrap default build task to add parameters and warnings.
     grunt.registerTask('default', 'Warning for default', function(domainParam){
         runDomainReplace(domainParam);
-        grunt.task.run('defaultTask'); // Wrap default build task to add parameters and warnings.
+        grunt.task.run('defaultTask');
     });
 
+    // Wrap build task to add parameters and warnings.
     grunt.registerTask('build', 'Parameters for build', function(domainParam){
         runDomainReplace(domainParam);
-        grunt.task.run('buildTask');    // Wrap build task to add parameters and warnings.
+        grunt.task.run('buildTask');
+    });
+
+    // Wrap build task to add parameters and warnings.
+    grunt.registerTask('multiTenant', 'Parameters for multiTenant build', function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('multiTenantTask');
     });
 
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
@@ -238,15 +246,16 @@ module.exports = function (grunt) {
     ]);
 
     // Default task
-    grunt.registerTask('multiTenant', [
+    grunt.registerTask('multiTenantTask', [
         'jshint',
         'less:dev',
         'concurrent:multiTenant'
     ]);
 
-    grunt.registerTask('testENV', [
+    // deprecated?
+    // grunt.registerTask('testENV', [
 
-    ]);
+    // ]);
 
     grunt.registerTask('production', [
         'expressKeepAlive'
