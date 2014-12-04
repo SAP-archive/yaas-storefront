@@ -8394,6 +8394,10 @@ address {
 body {
   background: #f5f5f5;
 }
+body.fixedLayout {
+  position: fixed;
+  overflow-y: hidden;
+}
 input[type='number'] {
   -moz-appearance: textfield;
 }
