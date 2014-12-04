@@ -43,7 +43,7 @@ describe('ConfirmationCtrl Test', function () {
     }));
 
     beforeEach(function(){
-        mockedOrderDetails = {'id': 'order5678', 'entries': [{'product':{'sku': 'product1234', 'amount': '1', 'unitPrice': '10'}}, {'product':{'sku': 'product5678', 'amount': '2', 'unitPrice': '5'}}]};
+        mockedOrderDetails = {'id': 'order5678', 'entries': [{'product':{'sku': 'product1234'}, 'amount': '1', 'unitPrice': '10'}, {product:{'sku': 'product5678'}, 'amount': '2', 'unitPrice': '5'}]};
 
         mockedOrderDetails.headers = [];
         var deferredOrderDetails = $q.defer();

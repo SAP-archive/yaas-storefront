@@ -57,8 +57,8 @@ angular.module('ds.confirmation')
                 angular.forEach(details.entries, function (entry) {
                     angular.forEach($scope.confirmationDetails.products, function (product, key) {
                         if (product.sku === entry.product.sku) {
-                            $scope.confirmationDetails.products[key].price = entry.product.unitPrice;
-                            $scope.confirmationDetails.products[key].amount = entry.product.amount;
+                            $scope.confirmationDetails.products[key].price = entry.unitPrice;
+                            $scope.confirmationDetails.products[key].amount = entry.amount;
                         }
                     });
                 });
