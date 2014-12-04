@@ -17,7 +17,7 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
             $scope.user = GlobalData.user;
-            $scope.categories = [];
+            $scope.categories = CategorySvc.getCategoriesFromCache();
 
             // binds logo in sidebar
             $scope.store = GlobalData.store;
@@ -30,14 +30,11 @@ angular.module('ds.shared')
                 $scope.languages = availableLanguages.map(function(lang, index) { return { iso:  lang.id, value: response[index] }; });
             });
 
-            // load categories
-            CategorySvc.getCategories();
-
-            var unbindCats = $rootScope.$on('categories:updated', function(eve, eveObj){
-               $scope.categories = eveObj.categories;
+            var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
+                if(!$scope.categories || obj.source === 'language:updated'){
+                    $scope.categories = obj.categories;
+                }
             });
-
-
 
             $scope.$watch('language.selected', function(newValue, oldValue) {
                 if (!angular.equals(newValue, oldValue) && newValue.iso) {
@@ -50,7 +47,6 @@ angular.module('ds.shared')
                     GlobalData.setCurrency(newValue.id);
                 }
             });
-
 
             // handling currency updates initiated from outside this controller
             var unbindCurrency = $rootScope.$on('currency:updated', function (eve, eveObj) {

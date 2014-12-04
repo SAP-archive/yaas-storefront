@@ -77,8 +77,6 @@ $(document).ready(function () {
 
 	   	$(".gallery .image .zoomButton").on("click",function(e){
 		 	e.preventDefault();
-
-
 		 	if(isTap){
 		 		initZoom("tap")
 
@@ -154,91 +152,94 @@ $(document).ready(function () {
 
 
 
+/*
+	$("#sidebar .navi").menuAim({
+	      // Function to call when a row is purposefully activated. Use this
+	      // to show a submenu's content for the activated row.
+	      activate: function(row) {
+	      	$(row).addClass("active");
+	      },
 
-	// $("#sidebar .navi").menuAim({
-	//      // Function to call when a row is purposefully activated. Use this
-	//      // to show a submenu's content for the activated row.
-	//      activate: function(row) {
-	//      	$(row).addClass("active");
-	//      },
+	      // Function to call when a row is deactivated.
+	      deactivate: function(row) {
+	      	$(row).removeClass("active");
+	      },
 
-	//      // Function to call when a row is deactivated.
-	//      deactivate: function(row) {
-	//      	$(row).removeClass("active");
-	//      },
+	      // Function to call when mouse enters a menu row. Entering a row
+	      // does not mean the row has been activated, as the user may be
+	      // mousing over to a submenu.
+	      enter: function() {},
 
-	//      // Function to call when mouse enters a menu row. Entering a row
-	//      // does not mean the row has been activated, as the user may be
-	//      // mousing over to a submenu.
-	//      enter: function() {},
+	      // Function to call when mouse exits a menu row.
+	      exit: function() {},
 
-	//      // Function to call when mouse exits a menu row.
-	//      exit: function() {},
+	      // Function to call when mouse exits the entire menu. If this returns
+	      // true, the current row's deactivation event and callback function
+	      // will be fired. Otherwise, if this isn't supplied or it returns
+	      // false, the currently activated row will stay activated when the
+	      // mouse leaves the menu entirely.
+	      exitMenu: function() {
+	      	$("#sidebar .navi > li").removeClass("active");
+	      },
 
-	//      // Function to call when mouse exits the entire menu. If this returns
-	//      // true, the current row's deactivation event and callback function
-	//      // will be fired. Otherwise, if this isn't supplied or it returns
-	//      // false, the currently activated row will stay activated when the
-	//      // mouse leaves the menu entirely.
-	//      exitMenu: function() {
-	//      	$("#sidebar .navi > li").removeClass("active");
-	//      },
+	      // Selector for identifying which elements in the menu are rows
+	      // that can trigger the above events. Defaults to "> li".
+	      rowSelector: "> li",
 
-	//      // Selector for identifying which elements in the menu are rows
-	//      // that can trigger the above events. Defaults to "> li".
-	//      rowSelector: "> li",
+	      // You may have some menu rows that aren't submenus and therefore
+	      // shouldn't ever need to "activate." If so, filter submenu rows w/
+	      // this selector. Defaults to "*" (all elements).
+	      submenuSelector: "*",
 
-	//      // You may have some menu rows that aren't submenus and therefore
-	//      // shouldn't ever need to "activate." If so, filter submenu rows w/
-	//      // this selector. Defaults to "*" (all elements).
-	//      submenuSelector: "*",
+	      // Direction the submenu opens relative to the main menu. This
+	      // controls which direction is "forgiving" as the user moves their
+	      // cursor from the main menu into the submenu. Can be one of "right",
+	      // "left", "above", or "below". Defaults to "right".
+	      submenuDirection: "right"
+	  });
 
-	//      // Direction the submenu opens relative to the main menu. This
-	//      // controls which direction is "forgiving" as the user moves their
-	//      // cursor from the main menu into the submenu. Can be one of "right",
-	//      // "left", "above", or "below". Defaults to "right".
-	//      submenuDirection: "right"
-	//  });
-
-
-
-
-
-	$(document).on("click","#sidebar .navi > li.has-sub > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi > li > a").removeClass("mactive");
-		$(this).addClass("mactive");
+ $(document).on("click","#sidebar .navi > li.has-sub > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi > li > a").removeClass("mactive");
+ $(this).addClass("mactive");
 
 
-		$("#sidebar .navi").addClass("sub-1");
+ $("#sidebar .navi").addClass("sub-1");
 
-	})
+ })
 
-
-	$(document).on("click","#sidebar .navi .sub-navi-list > li.has-sub > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
-		$(this).addClass("mactive");
-		$("#sidebar .navi").addClass("sub-2");
-	})
+ $(document).on("click","#sidebar .navi .sub-navi-list > li.has-sub > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
+ $(this).addClass("mactive");
+ $("#sidebar .navi").addClass("sub-2");
+ })
 
 
 
+ $(document).on("click","#sidebar .navi ul.sub-navi-list > li.back > a",function(e){
+ e.preventDefault();
+ $("#sidebar .navi > li > a").removeClass("mactive");
+ $("#sidebar .navi").removeClass("sub-1");
+ $("#sidebar .navi").removeClass("sub-2");
 
-	$(document).on("click","#sidebar .navi ul.sub-navi-list > li.back > a",function(e){
-		e.preventDefault();
-		$("#sidebar .navi > li > a").removeClass("mactive");
-		$("#sidebar .navi").removeClass("sub-1");
-		$("#sidebar .navi").removeClass("sub-2");
+ })
 
-	})
+ $(document).on("click","#sidebar .navi ul.sub-navi-list  ul >  li.back > a ",function(e){
+ e.preventDefault();
+ $("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
+ $("#sidebar .navi").removeClass("sub-2");
 
-	$(document).on("click","#sidebar .navi ul.sub-navi-list  ul >  li.back > a ",function(e){
-		e.preventDefault();
-		$("#sidebar .navi .sub-navi-list > li > a").removeClass("mactive");
-		$("#sidebar .navi").removeClass("sub-2");
+ })
 
-	})
+
+
+
+
+
+
+ */
+
 
 
 

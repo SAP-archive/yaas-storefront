@@ -52,24 +52,22 @@ angular.module('ds.shared')
                  * @param eve language changed event
                  * @param eveObj - property: languageCode
                  */
-                onLanguageChange: function(eve, eveObj) {
+                onLanguageChange: function (eve, eveObj) {
                     // cart is already loaded on login and initialization - no need for separate refresh
-                    if ( eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
+                    if (eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
                         CartSvc.getCart();
                     }
                     // Any state that requires an updated localized data load should be refreshed (with exception of checkout,
                     //   as cart update is handled separately due to its global nature)
-                    if($state.is('base.category') || $state.is('base.product.detail')) {
-                        $state.transitionTo($state.current, $stateParams, {
-                            reload: true,
-                            inherit: true,
-                            notify: true
-                        });
-                        // no need to issue separate call for category reload - will be loaded during state refresh
-                    } else {
-                        // for any other state, just ensure that localized categories are loaded for nav bar
-                        CategorySvc.getCategories();
-                    }
+                    CategorySvc.getCategories().then(function () {
+                        if ($state.is('base.category') || $state.is('base.product.detail')) {
+                            $state.transitionTo($state.current, $stateParams, {
+                                reload: true,
+                                inherit: true,
+                                notify: true
+                            });
+                        }
+                    });
                 }
 
             };

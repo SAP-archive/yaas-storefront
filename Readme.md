@@ -44,6 +44,8 @@ in an optional step.
         - categories: new category tree
 'user:signedin' - signals that a user has been authenticated
 'user:signedout' - signals that a user has logged off
+'categories:updated' - signals that categories have been reloaded by Category Service 
+'category:selected' - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
 
 ## Testing
 

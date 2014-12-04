@@ -15,8 +15,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc) {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, CategorySvc) {
             var initialized = false;
 
             /**
@@ -57,7 +57,6 @@ angular.module('ds.shared')
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
                 });
                 return configPromise;
-
             }
 
 
@@ -92,7 +91,10 @@ angular.module('ds.shared')
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
-                                    def.resolve({});
+                                    CategorySvc.getCategories().then(function(){
+                                        def.resolve({});
+                                    });
+
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -100,11 +102,14 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
-                                def.resolve({});
-                                CartSvc.getCart();
+
+                                CategorySvc.getCategories().then(function(){
+                                    def.resolve({});
+                                });
+                                CartSvc.getCart(); // no need to wait for cart promise to resolve
+
                             }
                             initialized = true;
-
                         });
                     }
                     return def.promise;

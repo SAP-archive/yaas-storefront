@@ -13,7 +13,7 @@
 describe('SidebarNavigationCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $state, AuthDialogManager, mockedCategorySvc = {
-        getCategories: jasmine.createSpy().andReturn({then: function(){}})
+        getCategoriesFromCache: jasmine.createSpy().andReturn({then: function(){}})
     };
     var currency =  {id: 'USD', label: 'US Dollar'};
     var currencies = [currency];
@@ -98,7 +98,7 @@ describe('SidebarNavigationCtrl', function () {
 
     describe('onInitialization', function(){
         it('should retrieve categories', function(){
-           expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
+           expect(mockedCategorySvc.getCategoriesFromCache).toHaveBeenCalled();
         });
 
         it("should get available languages from GlobalData", function() {
@@ -133,30 +133,6 @@ describe('SidebarNavigationCtrl', function () {
             };
         });
     });
-
-    /*
-    describe('switchLanguage()', function(){
-
-        it('should setLanguage in GlobalData', function(){
-            var newLang = 'de';
-            $scope.switchLanguage(newLang);
-            expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
-        });
-
-        it('should reload product state', function(){
-            var newLang =  'pl';
-            $scope.switchLanguage(newLang);
-            expect(mockedState.transitionTo).toHaveBeenCalled();
-        });
-
-        it('should reload categories for non-product states', function(){
-            $controller('SidebarNavigationCtrl', {$scope: $scope, $state: {is: function(){return false}}, cart: cart, GlobalData: mockedGlobalData,
-                AuthSvc: mockedAuthSvc,
-                AuthDialogManager:AuthDialogManager, CategorySvc: mockedCategorySvc});
-            $scope.switchLanguage('pl');
-            expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
-        });
-    });*/
 
     describe('watchLanguage', function(){
        it('should setLanguage in GlobalData if selected language changes', function(){
@@ -212,23 +188,6 @@ describe('SidebarNavigationCtrl', function () {
            expect($rootScope.showMobileNav).toBeFalsy();
        });
     });
-
-    /*
-    describe('switchCurrency()', function(){
-        var cur = 'EU';
-        beforeEach(function(){
-            var cur = 'EU';
-            $scope.switchCurrency(cur);
-        });
-
-        it('should set currency in GlobalData', function(){
-            expect(mockedGlobalData.setCurrency).wasCalledWith(cur);
-        });
-
-        it('should reload current state', function(){
-            expect(mockedState.transitionTo).toHaveBeenCalled();
-        });
-    });*/
 
     describe('login()', function(){
        it('should delegate to AuthDialogMgr', function(){
