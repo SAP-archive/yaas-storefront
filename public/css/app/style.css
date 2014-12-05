@@ -7984,6 +7984,9 @@ section .hero-unit {
 .account {
   /* UPSCALING IMPROVMENTS */
 }
+.account .orderHistoryCard .leftCol {
+  font-size: 11px;
+}
 @media screen and (max-width: 991px) {
   .account section {
     padding: 15px !important;
