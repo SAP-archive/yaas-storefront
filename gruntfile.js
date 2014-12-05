@@ -79,7 +79,7 @@ module.exports = function (grunt) {
             dev : {
                 options : {
                     strictImports : true,
-                    sourceMap: true,
+                    sourceMap: false,
                     sourceMapFilename: 'public/css/app/style.css.map',
                     sourceMapURL: 'http://localhost/css/style.css.map'
                 },
