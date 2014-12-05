@@ -75,15 +75,15 @@ angular.module('ds.cart')
             }
         };
 
-        $scope.cartHovered = function()
+        $scope.acartHovered = function()
         {
             clearTimeout($scope.cartTimeOut);
         };
 
-        $scope.cartUnHovered = function()
+        $scope.acartUnHovered = function()
         {
             //if none of the inputs are focused then create the 3 second timer after mouseout
-            if( !$('#cart input').is(':focus') )
+            if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
             {
                 $scope.createCartTimeout();
             }
