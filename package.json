@@ -7,7 +7,9 @@
     "start": "node node_modules/grunt-cli/bin/grunt default:test",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant",
-    "postinstall": "bower install; grunt testENV"
+    "multiTenantProd": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
+    "multiTenantStage": "node node_modules/grunt-cli/bin/grunt multiTenant:stage",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "bower": "latest",
