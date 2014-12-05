@@ -1,14 +1,37 @@
 .account{
 
   .orderHistoryCard{
-//    margin: 0 0 40px 0;
-    &.created{
-//      padding: 20px 10px;
-//      background-color: #9aff4d;
+    margin: 0 20px 20px 0;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-right: 0;
+    padding-left: 8px;
+
+    .panel{
+      margin-bottom: 0;
+      padding-right: 0;
+//
+    }
+
+    &.green{
+      background-color: #18bc33;
+    }
+
+    &.red{
+      background-color: #f31313;
+    }
+
+    &.blue{
+      background-color: #5bc0de;
     }
 
     .leftCol{
       font-size: 11px;
+    }
+
+    .cardStatusIdentifier{
+      height: 100%;
+      width: 8px;
     }
   }
 
