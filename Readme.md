@@ -99,7 +99,11 @@ This will launch a storefront for an existing tenant.  Later, we will modify the
 
 Preparing project for deployment (concatenation/minification/revisioning):
 
-	$ grunt build
+	$ grunt build:test
+
+	    The :test parameter is required to set the dynamic domains of the api service.
+	    If this domain is not specified with the parameter, it is very likely that the services will not be located.
+	    npm start is configured to run grunt build:test. Other options are :stage and :prod and can be configured in the gruntfile.
 
 Then on page public/index.html, remove the existing script references and replace them with references to the two 
 generated static files from **dist** directory (dist/js/*.js, dist/css/*.css).
