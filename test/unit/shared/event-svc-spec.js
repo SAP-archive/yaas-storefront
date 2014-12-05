@@ -77,6 +77,7 @@ describe('EventSvc', function(){
 
     describe('onLanguageChange', function(){
         var state;
+        var categoriesDef;
 
         beforeEach(function () {
 
@@ -85,8 +86,11 @@ describe('EventSvc', function(){
                     return (state === compState);
                 });
             mockedState.transitionTo = jasmine.createSpy();
+            categoriesDef = $q.defer();
             mockedCartSvc.getCart = jasmine.createSpy();
-            mockedCategorySvc.getCategories = jasmine.createSpy();
+            mockedCategorySvc.getCategories = jasmine.createSpy().andCallFake(function(){
+                return categoriesDef.promise;
+            });
         });
 
         it('should refresh cart if event source not login or initialization', function(){
@@ -100,11 +104,13 @@ describe('EventSvc', function(){
                 state = 'base.category';
             });
 
-            it('should reload state for category and prod detail', function(){
+            it('should reload categories and state for category and prod detail', function(){
                 EventSvc.onLanguageChange({}, {source: settings.eventSource.initialization});
+                categoriesDef.resolve({});
+                $scope.$apply();
                 expect(mockedCartSvc.getCart).not.toHaveBeenCalled();
                 expect(mockedState.transitionTo).toHaveBeenCalled();
-                expect(mockedCategorySvc.getCategories).not.toHaveBeenCalled();
+                expect(mockedCategorySvc.getCategories).toHaveBeenCalled();
             });
         });
 
