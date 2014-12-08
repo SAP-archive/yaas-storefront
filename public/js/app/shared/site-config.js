@@ -31,7 +31,7 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-                    baseUrl: 'https://' + dynamicDomain + '/cart/v4/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/cart/v5/' + tenantId
                 },
 
                 categories: {
@@ -47,11 +47,11 @@ angular.module('ds.shared')
                 } ,
 
                 customers: {
-                    baseUrl: 'https://' + dynamicDomain + '/customer/v5/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/customer/v6/' + tenantId
                 },
 
                 orders: {
-                    baseUrl: 'https://' + dynamicDomain + '/order/v3/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/order/v4/' + tenantId
                 },
 
                 prices: {
@@ -68,7 +68,7 @@ angular.module('ds.shared')
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + dynamicDomain + '/shipping-cost/v3/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/shipping-cost/v4/' + tenantId
                 }
             };
 
