@@ -1,12 +1,17 @@
-$(document).ready(function () {
+var initRefineAffix = function()
+{
+    $('#refineAffix').affix({
+        offset: {
+            top: function () {
+//                debugger;
+                return (this.top = $('.product-grid').offset().top)
+            }
+        }
+    });
+}
 
-	$('#refineAffix').affix({
-		offset: {
-			top: function () {
-				return (this.top = $('.product-grid').offset().top)
-			}
-		}
-	});
+
+$(document).ready(function () {
 
 	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
 		$(".gallery .image").owlCarousel({

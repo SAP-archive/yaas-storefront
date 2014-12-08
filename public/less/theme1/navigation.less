@@ -473,6 +473,10 @@
 	position: fixed;
 	z-index: @zIndex-topnavigation;
 
+    @media (max-width: @screen-md-min) {
+      z-index:10000;
+    }
+
 	.navbar-btn{
 		margin-bottom: 0px;
     	margin-top: 0px;
