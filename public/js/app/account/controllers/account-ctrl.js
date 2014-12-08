@@ -35,12 +35,17 @@ angular.module('ds.account')
             $scope.orders = orders;
             $scope.defaultAddress = getDefaultAddress();
 
-            $scope.showAllOrdersButton = true;
-
-            $scope.showAddressButtons = true;
-            $scope.showAllAddressButton = true;
+            // show more or less addresses.
             $scope.showAddressDefault = 6;
+            $scope.showAddressButtons = ($scope.addresses.length >= $scope.showAddressDefault);
+            $scope.showAllAddressButton = true;
             $scope.showAddressFilter = $scope.showAddressDefault;
+
+            // show more or less orders.
+            $scope.showOrdersDefault = 10;
+            $scope.showAllOrdersButton = true;
+            $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
+            $scope.showOrdersFilter = $scope.showOrdersDefault;
 
             $scope.currencies = GlobalData.getAvailableCurrencies();
 
@@ -156,6 +161,8 @@ angular.module('ds.account')
                 AccountSvc.getAddresses().then(function (addresses) {
                     $scope.addresses = addresses;
                     $scope.defaultAddress = getDefaultAddress();
+                    $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
+                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter-1);
                 });
             };
 
@@ -174,12 +181,18 @@ angular.module('ds.account')
 
 
             $scope.showAllOrders = function () {
+                $scope.showAllOrdersButton = !$scope.showAllOrdersButton;
+
                 var parms = {
                     pageSize: 100
                 };
                 OrderListSvc.query(parms).then(function (orders) {
-                    $scope.showAllOrdersButton = false;
                     $scope.orders = orders;
+
+                    // show filtered list or show all orders. Hide if all data is shown within filter.
+                    $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
+                    $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
+
                 });
             };
 
@@ -195,7 +208,6 @@ angular.module('ds.account')
                     // show filtered list or show all addresses. Hide if all data is shown within filter.
                     $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
                     $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
-
                 });
             };
 
@@ -219,5 +231,12 @@ angular.module('ds.account')
             $scope.updatePassword = function () {
                 AuthDialogManager.showUpdatePassword();
             };
+
+            /*
+             need to set the currency symbol for each order
+             */
+            angular.forEach($scope.orders, function (order) {
+                order.currencySymbol = GlobalData.getCurrencySymbol(order.currency);
+            });
 
         }]);

@@ -1,13 +1,15 @@
 #sidebar{
-	background: @lightestgrey;
-	//padding: 30px 15px ;
-
+	background: @lightergrey;
 
 	a.logo{
 		display: block;
 		margin: 30px 0 ;
 		text-align: center;
 	}
+
+    .mactive{
+      color:@brand-primary !important;
+    }
 
     .seperator{
       width: 36px;
@@ -50,15 +52,20 @@
 			
 		}
 	}
-	
+
+    .flyoutSubCategory{
+      margin: 0 0 40px 0;
+    }
+
+    .mainCategory{
+      padding: 0 15px;
+    }
 
 	@media (min-width: @screen-md-min){
 		.navi{
 			margin: 5px 0 5px 0;
 			.list-unstyled;
-//			position: static;
             overflow-y: scroll;
-//            height: 40px;
 			.hyicon{
 				display: none
 			}
@@ -76,11 +83,13 @@
 					display: block;
 					color:#202122;
 					font-size: 15px;
-					//line-height: 46px;
+					text-decoration: none;
 					padding-top: 15px;
 					padding-bottom: 15px;
 					text-transform: uppercase;
 					text-align: center;
+
+
 
 					&:hover{
 						text-decoration: none;
@@ -89,6 +98,13 @@
 
 					
 				}
+
+                .secondaryCategory{
+                  &:hover{
+                    color: @lightblue;
+                  }
+
+                }
 
 				&.active > a{
 					color: @lightblue;
@@ -105,8 +121,8 @@
 
 
 
-		
-	 
+
+
 
 
 		.sub-navi{
@@ -115,8 +131,8 @@
 			top: 0;
 			bottom: 0;
 			left: 100%;
-			padding: 66px 28px 86px;
-			min-width: 250px;
+			padding: 50px 28px 86px;
+			min-width: 246px;
 
 			white-space:nowrap;
 			background: #e2e2e2;
@@ -128,14 +144,17 @@
 				ul{
 					display: none;
 					.list-unstyled;
-					margin: 0 0 30px 0 ;
 					& > li{
+
 						& > a{
 						line-height: 21px;
+                        text-decoration: none;
+                        padding-bottom: 10px;
 						display: block;
 						font-weight: bold;
+                        font-size: 17px;
 						color: #141b25;
-
+                        margin: 0 0 40px 0;
 						&:hover{
 							text-decoration: none;
 							color: @lightblue;
@@ -151,34 +170,66 @@
 
 				&> li > a{
 					padding: 0;
+                    position: relative;
+                    line-height: 30px;
+                    color: #6a6b6b;
+                    text-decoration: none;
+                    padding-bottom: 10px;
+                    font-family: @font-family-serif;
+                    font-style: italic;
+                    font-size: 17px;
 
-						position: relative;
-						line-height: 30px;
-						color: #6a6b6b;
+                    &:after{
+                      content:"";
+                      position: absolute;
+                      bottom: 0;
+                      left: 50%;
+                      margin: 0 0 0 -16px;
+                      width: 32px;
+                      height: 1px;
+                      background: #c4c4c4;
 
-						font-family: @font-family-serif;
-						font-style: italic;
-						font-size: 14px;
+                    }
 
-						&:after{
-							content:"";
-							position: absolute;
-							bottom: 0;
-							left: 50%;
-							margin: 0 0 0 -16px;
-							width: 32px;
-							height: 1px;
-							background: #c4c4c4;
+                    &.noSubCategories:after{
+                      background: transparent;
+                    }
 
-						}
 					
 
 					
 				}
+
+                div.tertiaryCategory{
+                  margin: 12px 0 0 0;
+                  font-weight: bold;
+                  ul{
+                    display:block;
+                  }
+
+                  ul > li > a{
+                    margin-bottom: 10px;
+                    padding-bottom: 0;
+                    font-size: 14px;
+                    font-family: @font-family-sans-serif;
+                  }
+
+                }
 			}
 
 		}
 	}
+
+    @media (max-width: @screen-md-max){
+      .categoryDetail{
+        overflow: hidden;
+        .hyicon{
+          float: right;
+          top: 19px;
+          color: #696a6a;
+        }
+      }
+    }
 
 
 
@@ -206,18 +257,21 @@
 
 			& > li:first-child > a{
 				border-top:1px solid #dedede;
+
 			}
 
 			& > li{
 				padding: 0;
-				padding-left: 21px;
+				padding-left: 18px;
+                padding-right: 18px;
 				
 				& > a{
 					display: block;
+                    text-decoration: none;
+                    padding: 0;
 					line-height: 51px;
 					color:#202122;
 					border-bottom:1px solid #dedede;
-					
 
 					&.mactive + .sub-navi{
 						display: block;
@@ -257,7 +311,7 @@
 
 				& > li{
 					padding: 0;
-					
+
 					display: block;
 					line-height: 51px;
 					color:#202122;
@@ -294,6 +348,8 @@
 						border-bottom:1px solid #d9d9d9;	
 						display: block;
 						color:#6a6b6b;
+                        padding-bottom: 10px;
+                        text-decoration: none;
 						font-family: @font-family-serif;
 						font-style: italic;
 
@@ -387,8 +443,10 @@
 	}
 
 	.store-settings{
-		margin: 20px 0 60px;
+		margin: 20px 0 100px;
 	}
+
+
 
 
 
@@ -519,6 +577,75 @@
 .socialMediaSigninContainer{
   margin:0 0 55px 0;
 
+  .googlePlusLogin{
+    padding-right: 0 !important;
+  }
+
+  .googleSignIn{
+    height: 43px;
+    background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
+
+    .googleSignInLabel{
+      color: #f2f3f8;
+      position: absolute;
+      z-index:200;
+      left: 67px;
+      top: 12px;
+      font-size: 97%;
+    }
+  }
+
+  .fbLogin{
+    padding-left: 0 !important;
+    .fbLoginButton{
+      height: 43px;
+      background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
+    }
+    .fbsignInLabel{
+      color: #f2f3f8;
+      position: absolute;
+      z-index:200;
+      left: 46px;
+      top: 12px;
+      font-size: 97%;
+    }
+
+  }
+
+
+
+  .fb_iframe_widget{
+
+
+    >span{
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+
+  iframe{
+    width: 100% !important;
+    height: 100% !important;
+
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=01)";
+
+    /* IE 5-7 */
+    filter: alpha(opacity=01);
+
+    /* Netscape */
+    -moz-opacity: 0.01;
+
+    /* Safari 1.x */
+    -khtml-opacity: 0.01;
+
+    /* Good browsers */
+    opacity: 0.01;
+
+    ._4z_b{
+      width: 100%;
+      height: 100%;
+    }
+  }
 
 }
 

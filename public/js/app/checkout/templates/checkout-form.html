@@ -335,8 +335,8 @@
             <div class="form-group input-group">
                 <span class="input-group-addon"><label class="control-label" for="shipMethod">{{'METHOD' | translate}}</label></span>
                 <select class="form-control" name="shipMethod" id="shipMethod">
-                    <option ng-if="shippingCosts.price.price <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{shippingCosts.price.price | currency : shippingCosts.price.currencyId + ' '}}</option>
-                    <option ng-if="shippingCosts.price.price > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{shippingCosts.price.price | currency : shippingCosts.price.currencyId + ' '}}</option>
+                    <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
+                    <option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
                 </select>
             </div>
         </div>
@@ -449,7 +449,7 @@
 </ng-form>
 <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
 <a id="step4">
-    <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_AND_PAYMENT' | translate}}</h2>
+    <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
 </a>
 <div class="error" ng-if="message" style="color:red">
     <small class="help-inline has-error">
@@ -461,7 +461,7 @@
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
     <div class="col-xs-6 text-right">
-        <span class="value">{{cart.totalPrice.price | currency: currencySymbol}}</span>
+        <span class="value">{{cart.totalPrice.value | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"

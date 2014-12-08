@@ -2,8 +2,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', 'category',
-        function ($scope, ProductSvc, PriceSvc, GlobalData, settings, category) {
+    .controller('BrowseProductsCtrl', [ '$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -21,6 +21,8 @@ angular.module('ds.products')
 
         $scope.category = category || {};
 
+
+        $rootScope.$emit('category:selected', {category: category});
 
         function getProductIdsFromElements(elements){
 
@@ -67,11 +69,42 @@ angular.module('ds.products')
             );
         }
 
-        /*
-          Retrieves more products from the product service and adds them to the product list.
-          This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
-         */
+            // Primary Reason for categories to be updated is that the language change.
+            //  We'll have to retrieve the current slug for the category (and thus this page)
+            //  and reload to ensure the breadcrumbs and slug reflect the latest setting.
+            var unbindCat = $rootScope.$on('categories:updated', function (eve, obj) {
+                if(obj.source==='language:updated') {
+                    CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
+                        var parms = {};
+                        if (cat && cat.slug){
+                            parms.catName = cat.slug;
+                        }
+                        $state.transitionTo('base.category', parms, {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
+
+                    });
+                }
+
+            });
+
+            $scope.$on('$destroy', unbindCat);
+
+            /*
+              Retrieves more products from the product service and adds them to the product list.
+              This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
+             */
         $scope.addMore = function () {
+            // category selected, but no products associated with category - leave blank for time being
+            if($scope.category.elements && $scope.category.elements.length === 0){
+                $scope.products = [];
+                $scope.productsFrom = 0;
+                $scope.productsTo = 0;
+                $scope.total = 0;
+                return;
+            }
             /*
                 this function is only for infinite scrolling, which is disabled when a sort is applied.
              */
@@ -80,13 +113,11 @@ angular.module('ds.products')
             // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
             if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                 if (!$scope.requestInProgress) {
-
-//                    if ($scope.sort === '') {
                         $scope.pageNumber = $scope.pageNumber + 1;
                         var qSpec = 'published:true';
-                        if($scope.category.elements && $scope.category.elements.length > 0 ) {
+                        if($scope.category.elements && $scope.category.elements.length > 0){
                             qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
-                        }
+                        } // If no category elements (rather than length = 0), we're showing "all" products
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
@@ -112,7 +143,6 @@ angular.module('ds.products')
                             }, function() {
                                 $scope.requestInProgress = false;
                             });
-//                    }
                 }
             }
         };

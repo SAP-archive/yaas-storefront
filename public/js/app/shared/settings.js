@@ -50,5 +50,11 @@ angular.module('ds.shared')
 
         placeholderImage: 'img/no-image.png',
 
-        homeState: 'base.category'
+        homeState: 'base.category',
+
+        eventSource: {
+            login: 'login',
+            initialization: 'init',
+            unknown: 'unknown'
+        }
     });

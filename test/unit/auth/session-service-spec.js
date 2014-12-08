@@ -12,7 +12,7 @@
 
 describe('SessionSvc', function () {
 
-    var mockedState, $q, $scope, SessionSvc, accountDef, mockedStateParams = {},
+    var mockedState, $q, $scope, SessionSvc, accountDef, settings, mockedStateParams = {},
     mockedAccountSvc = {
             updateAccount: jasmine.createSpy()
         },
@@ -42,24 +42,22 @@ describe('SessionSvc', function () {
         data: {auth: 'authenticated'}
     };
 
-    var homeState = 'homeState';
-    var mockedSettings = {
-        homeState: homeState
-    }
 
+    beforeEach(module('ds.shared'));
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('AccountSvc', mockedAccountSvc);
         $provide.value('CartSvc', mockedCartSvc);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
         $provide.value('$stateParams', mockedStateParams);
-        $provide.value('settings', mockedSettings);
+        //$provide.value('settings', mockedSettings);
     }));
 
-    beforeEach(inject(function(_SessionSvc_,  _$q_, _$rootScope_) {
+    beforeEach(inject(function(_SessionSvc_,  _$q_, _$rootScope_, _settings_) {
         SessionSvc = _SessionSvc_;
         $q = _$q_;
         $scope = _$rootScope_.$new();
+        settings = _settings_;
     }));
 
     describe('afterLoginFromSignUp()', function(){
@@ -110,8 +108,8 @@ describe('SessionSvc', function () {
 
             accountDef.resolve(account);
             $scope.$apply();
-            expect(mockedGlobalData.setLanguage).wasCalledWith(lang);
-            expect(mockedGlobalData.setCurrency).wasCalledWith(cur);
+            expect(mockedGlobalData.setLanguage).wasCalledWith(lang, settings.eventSource.login);
+            expect(mockedGlobalData.setCurrency).wasCalledWith(cur, settings.eventSource.login);
         });
 
 
@@ -152,7 +150,7 @@ describe('SessionSvc', function () {
 
         it('should navigate to home page if current state is protected', function(){
             SessionSvc.afterLogOut();
-            expect(mockedState.go).wasCalledWith(homeState);
+            expect(mockedState.go).wasCalledWith( 'base.category');
         });
 
         it('should reset the cart', function(){

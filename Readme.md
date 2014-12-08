@@ -32,9 +32,20 @@ in an optional step.
         - cart - current cart instance
         - source - source event of the update (manual | currency | language | merge | reset)
 'language:updated' - fired when the store's language has changed
+    event object:
+        - languageCode: new language code
+        - source: source of the event
 'currency:updated' - fired when the store's currency has changed
+    event object:
+        - currencyId: new currency id
+        - source: source of the event
+'categories:updated' - fired when categories have been reloaded
+    event object:
+        - categories: new category tree
 'user:signedin' - signals that a user has been authenticated
 'user:signedout' - signals that a user has logged off
+'categories:updated' - signals that categories have been reloaded by Category Service 
+'category:selected' - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
 
 ## Testing
 
@@ -88,7 +99,11 @@ This will launch a storefront for an existing tenant.  Later, we will modify the
 
 Preparing project for deployment (concatenation/minification/revisioning):
 
-	$ grunt build
+	$ grunt build:test
+
+	    The :test parameter is required to set the dynamic domains of the api service.
+	    If this domain is not specified with the parameter, it is very likely that the services will not be located.
+	    npm start is configured to run grunt build:test. Other options are :stage and :prod and can be configured in the gruntfile.
 
 Then on page public/index.html, remove the existing script references and replace them with references to the two 
 generated static files from **dist** directory (dist/js/*.js, dist/css/*.css).

@@ -12,65 +12,63 @@ angular.module('ds.shared')
 
         function SiteConfigSvcProvider(storeConfig) {
 
-            var stId = '';
+            // Dynamic Domain is generated and replaced by build script, see gruntfile.
+            var dynamicDomain = /*StartDynamicDomain*/ 'yaas-test.apigee.net/test' /*EndDynamicDomain*/;
+
+            var tenantId = '';
 
             // handle dynamic tenant data.
             if(!_.isEmpty(storeConfig) && !_.isEmpty(storeConfig.storeTenant)) {
-                stId = storeConfig.storeTenant;
+                tenantId = storeConfig.storeTenant;
             }
 
             this.apis = {
-
                 account: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',              //original
-                    // baseUrl: 'https://yaas-test.apigee.net/test/account/v2/' + stId,   //new tenant id url pending
-                    // 404: https://yaas-test.apigee.net/test/account/v2/8bwhetym79cq/auth/anonymous/login?hybris-tenant=8bwhetym79cq
+                    baseUrl: 'https://' + dynamicDomain + '/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
                 },
 
                 cart: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/cart/v4/' + tenantId
                 },
 
                 categories: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/category/v2/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/category/v2/' + tenantId
                 },
 
                 checkout: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/checkout-mashup/v4/' + tenantId
                 },
 
                 configuration: {
-                    baseUrl: 'http://configuration-v3.test.cf.hybris.com'             //original
-                    // baseUrl: 'http://configuration-v4.test.cf.hybris.com/' + stId  //new tenant id url pending
-                    //v4: 404 //Andreas Thaler indicates this is in process, team bananas.
+                    baseUrl: 'https://' + dynamicDomain + '/configuration/v4/' + tenantId
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v5/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/customer/v5/' + tenantId
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/order/v3/' + tenantId
                 },
 
                 prices: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/price/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/price/v3/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/product/v3/' + stId,
+                    baseUrl: 'https://' + dynamicDomain + '/product/v3/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/product-details/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/product-details/v3/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/shipping-cost/v3/' + tenantId
                 }
             };
 

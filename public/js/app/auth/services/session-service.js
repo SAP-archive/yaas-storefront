@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('ds.auth')
-    /** Encapsulates the logic for what needs to happen once a user is logged i or logged out.*/
+    /** Encapsulates the logic for what needs to happen once a user is logged in or logged out.*/
     .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings',
         function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings) {
 
@@ -42,10 +42,10 @@ angular.module('ds.auth')
                 // there must be an account
                 AccountSvc.account().then(function (account) {
                     if (account.preferredLanguage) {
-                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
+                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.login);
                     }
                     if (account.preferredCurrency) {
-                        GlobalData.setCurrency(account.preferredCurrency);
+                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.login);
                     }
                     return account;
                 }).finally(function () {

@@ -64,7 +64,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: 'Step 1. My Details',
         STEP_2_SHIPPING_INFORMATION: 'Step 2. Shipping Information',
         STEP_3_PAYMENT: 'Step 3. Payment',
-        STEP_4_REVIEW_AND_PAYMENT: 'Step 4. Review and Payment',
+        STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
         TAX: 'Tax',
         TOTAL: 'Total',
@@ -93,6 +93,7 @@ angular.module('ds.i18n')
             navigation
          */
         PRODUCTS: 'Products',
+        BACK_TO: 'Back To',
 
         /*
             product detail page
@@ -121,6 +122,8 @@ angular.module('ds.i18n')
 		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
+        SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Log in with Google +',
         MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',

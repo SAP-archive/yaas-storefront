@@ -124,16 +124,15 @@ window.app = angular.module('ds.router', [
         });
     }])
     .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
-                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc) {
 
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
+        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
             }
 
-            
             //closeOffcanvas func for mask 
 
             $rootScope.closeOffcanvas = function(){
@@ -174,15 +173,14 @@ window.app = angular.module('ds.router', [
             }, function (isAuthenticated, wasAuthenticated) {
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
                 GlobalData.user.isAuthenticated = isAuthenticated;
-
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurrId) {
-                CartSvc.switchCurrency(newCurrId);
+            $rootScope.$on('currency:updated', function (event, eveObj) {
+                EventSvc.onCurrencyChange(event,eveObj);
             });
 
-            $rootScope.$on('language:updated', function () {
-                CartSvc.getCart();
+            $rootScope.$on('language:updated', function (event, eveObj) {
+                EventSvc.onLanguageChange(event, eveObj);
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -238,8 +236,11 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
 
-                        category: function ($stateParams, CategorySvc) {
-                            return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                        category: function ($stateParams, CategorySvc, initialized) {
+                            if(initialized){
+                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                            }
+
                         }
                     }
                 })
@@ -252,13 +253,23 @@ window.app = angular.module('ds.router', [
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST, initialized) {
-                            if (initialized) { // parent resolve - if-check to make usage explicit
+                        product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                            if(initialized){
                                 return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
-                                    .then(function (result) {
-                                        return result;
+                                    .then(function (prod) {
+                                        if(prod.categories && prod.categories.length){
+                                            return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
+                                                prod.richCategory = category;
+                                                return prod;
+                                            });
+
+                                        } else {
+                                            return prod;
+                                        }
                                     });
                             }
+
+
                         }
                     }
                 })
@@ -271,7 +282,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         cart: function (CartSvc) {
-                            return CartSvc.getCart();
+                            return CartSvc.getLocalCart();
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
