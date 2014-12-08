@@ -6501,6 +6501,11 @@ html.disable-scroll {
     display: table-cell !important;
   }
 }
+@media (max-width: 992px) {
+  .top-navigation {
+    z-index: 10000;
+  }
+}
 .top-navigation .navbar-btn {
   margin-bottom: 0px;
   margin-top: 0px;
@@ -7355,6 +7360,15 @@ section .hero-unit {
   color: #0079ff;
   box-shadow: none;
 }
+.refine-section#refineAffix .viewingContainer {
+  margin: 0;
+  padding: 0 20px 0 0;
+}
+@media (max-width: 992px) {
+  .refine-section#refineAffix .viewingContainer {
+    padding: 0 33px 0 0;
+  }
+}
 .refine-section .refineContainer,
 .refine-section .sortContainer,
 .refine-section .viewingContainer {
@@ -7380,6 +7394,14 @@ section .hero-unit {
   line-height: 46px;
   height: 46px;
   padding: 0 10px 0 0;
+}
+.refine-section .viewingContainer {
+  padding: 0 87px 0 0;
+}
+@media (max-width: 992px) {
+  .refine-section .viewingContainer {
+    padding: 0;
+  }
 }
 .refine-section .refineContainer {
   background: #fff;
@@ -7502,15 +7524,28 @@ section .hero-unit {
 .refine-panel .facet ul li input:checked + label span:before {
   content: '\e811';
 }
+.off-canvas.right #refineAffix {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
 #refineAffix {
-  z-index: 100000;
+  z-index: 1000;
   height: 50px;
+  padding: 0 99px 0 0;
   top: -100px;
   background: rgba(255, 255, 255, 0.9);
   margin: 0;
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out;
+}
+@media (max-width: 992px) {
+  #refineAffix {
+    padding: 0 ;
+    margin-top: 75px;
+    top: -175px;
+  }
 }
 #refineAffix.affix {
   top: 0;
@@ -8338,7 +8373,7 @@ address {
   color: #202122;
 }
 body {
-  background: #f5f5f5;
+  background: #fff;
 }
 input[type='number'] {
   -moz-appearance: textfield;

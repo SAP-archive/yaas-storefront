@@ -59,6 +59,9 @@ angular.module('ds.products')
                         });
 
                         $scope.prices = angular.extend($scope.prices, pricesMap);
+                        //initialize the viewing bar promixity script
+                        initRefineAffix();
+
                     }
                 }
             );
