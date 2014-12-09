@@ -402,7 +402,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/ct/');
+            $urlRouterProvider.otherwise('/home');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
