@@ -12,7 +12,7 @@
 
 describe('CartSvc Test', function () {
 
-    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl;
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData={};
     var cartId = 'cartId456';
     var prodId = '123';
     var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
@@ -43,7 +43,8 @@ describe('CartSvc Test', function () {
                 "value" : 10.67
             },
             "quantity" : 1.0
-        } ]
+        } ],
+        "currency": "USD"
     };
 
 
@@ -56,16 +57,8 @@ describe('CartSvc Test', function () {
         module('restangular');
         module('ds.products');
         module('ds.cart', function($provide){
-           // $provide.value('ProductSvc', mockedProductSvc);
             $provide.value('AccountSvc', mockedAccountSvc);
-
-            $provide.value('GlobalData', {
-                getCurrencyId: function (){
-                return 'USD'
-            }, getAcceptLanguages: function(){
-                return 'en'
-            }});
-
+            $provide.value('GlobalData', mockedGlobalData);
             $provide.value('storeConfig', {});
             $provide.value('$state', mockedState);
             $provide.value('$stateParams', {});
@@ -102,6 +95,8 @@ describe('CartSvc Test', function () {
                 return angular.equals(this.actual, expected);
             }
         });
+        mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
+        mockedGlobalData.getAcceptLanguages = jasmine.createSpy('getAcceptLanguages').andReturn('en');
     }));
 
     describe('getLocalCart', function () {
@@ -303,7 +298,7 @@ describe('CartSvc Test', function () {
 
             beforeEach(function(){
                 eventSpy = spyOn($rootScope, '$emit');
-
+                mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn("EUR");
             });
 
             it('should switch the cart currency', function () {
@@ -325,12 +320,14 @@ describe('CartSvc Test', function () {
                                 },
                                 "id": itemId
                             }
-                        ]
+                        ],
+                        "currency": "EUR"
                     });
                 mockBackend.expectGET(productUrl+'?q=id:('+prodId+')').respond(200, [{id: prodId, images: ['myurl'], name:'name'}]);
                 cartSvc.switchCurrency('EUR');
                 mockBackend.flush();
-                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', {cart: { id : 'cartId456', items : [ { product : { id : '123', name : 'name' }, unitPrice : { currency : 'USD', value : 5 }, id : '0', images : [ 'myurl' ] } ] }, source:'currency'});
+                var closeAfterTimeout;
+                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', {cart: { currency: 'EUR', id : 'cartId456', items : [ { product : { id : '123', name : 'name' }, unitPrice : { currency : 'USD', value : 5 }, id : '0', images : [ 'myurl' ] } ] }, source:'currency', closeAfterTimeout: closeAfterTimeout });
             });
 
             it('should signal cart error on currency switch failure', function(){
@@ -388,6 +385,7 @@ describe('CartSvc Test', function () {
         it('should merge the cart if there was an anonymous cart with items', function(){
             var anonCartId = 'anon123';
             var prodId2 = 'prod2';
+            // Set existing anonymous cart in CartSvc scope:
             // should query anonymous cart - with items:
             mockBackend.expectGET(cartUrl).respond(200, {
                 "currency": "USD",
@@ -411,6 +409,9 @@ describe('CartSvc Test', function () {
             cartSvc.getCart();
             mockBackend.flush();
 
+            ////////////////////////////
+            // Actual test setup
+
             // should get cart for customer
             mockBackend.expectGET(cartUrl+'?customerId='+custId).respond(200, {
                 "currency": "USD",
@@ -433,8 +434,9 @@ describe('CartSvc Test', function () {
             // should issue merge request https://yaas-test.apigee.net/test/cart/v3/carts/cartId456/merge
             mockBackend.expectPOST(cartUrl+'/'+cartId+'/merge', {"carts":[anonCartId]}).respond(200, {});
             // should refresh current cart
-            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, {});
-
+            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, {currency: 'USD'});
+            // should query product info for items in shopper cart
+            mockBackend.whenGET(productUrl+'?q=id:('+prodId+')').respond(500, {});
             cartSvc.refreshCartAfterLogin(custId);
             mockBackend.flush();
         });
@@ -464,13 +466,13 @@ describe('CartSvc Test', function () {
                 "id": cartId
             });
 
-            mockBackend.whenGET('https://yaas-test.apigee.net/test/product/v2/products?q=id:('+prodId+')').respond(500, {});
+            mockBackend.whenGET(productUrl+'?q=id:('+prodId+')').respond(500, {});
 
             // should issue changeCurrency request
             mockBackend.expectPOST(cartUrl+'/'+cartId+'/changeCurrency').respond(204, {});
 
-            // should refresh current cart
-            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, {});
+            // should refresh current cart - fake currency to match global data so second currency change won't be triggered
+            mockBackend.expectGET(cartUrl+'/'+cartId).respond(200, { currency: "USD"});
 
             cartSvc.refreshCartAfterLogin(custId);
             mockBackend.flush();
@@ -512,7 +514,7 @@ describe('CartSvc Test', function () {
             // merge anonymous cart into current cart
             mockBackend.expectPOST(cartUrl+'/'+custCartId+'/merge', {"carts":[cartId]}).respond(200, {});
             // refresh cart after merge:
-            mockBackend.expectGET(cartUrl+'/'+custCartId).respond(200, {});
+            mockBackend.expectGET(cartUrl+'/'+custCartId).respond(200, {currency: 'USD'});
             cartSvc.refreshCartAfterLogin(custId);
             mockBackend.flush();
         });

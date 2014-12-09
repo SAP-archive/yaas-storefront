@@ -12,61 +12,63 @@ angular.module('ds.shared')
 
         function SiteConfigSvcProvider(storeConfig) {
 
-            var stId = '';
+            // Dynamic Domain is generated and replaced by build script, see gruntfile.
+            var dynamicDomain = /*StartDynamicDomain*/ 'yaas-test.apigee.net/test' /*EndDynamicDomain*/;
+
+            var tenantId = '';
 
             // handle dynamic tenant data.
             if(!_.isEmpty(storeConfig) && !_.isEmpty(storeConfig.storeTenant)) {
-                stId = storeConfig.storeTenant;
+                tenantId = storeConfig.storeTenant;
             }
 
             this.apis = {
-
                 account: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
+                    baseUrl: 'https://' + dynamicDomain + '/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
                 },
 
                 cart: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/cart/v5/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/cart/v5/' + tenantId
                 },
 
                 categories: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/category/v2/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/category/v2/' + tenantId
                 },
 
                 checkout: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/checkout-mashup/v4/' + tenantId
                 },
 
                 configuration: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/configuration/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/configuration/v4/' + tenantId
                 } ,
 
                 customers: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/customer/v6/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/customer/v6/' + tenantId
                 },
 
                 orders: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/order/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/order/v4/' + tenantId
                 },
 
                 prices: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/price/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/price/v3/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/product/v3/' + stId,
+                    baseUrl: 'https://' + dynamicDomain + '/product/v3/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/product-details/v3/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/product-details/v3/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v4/' + stId
+                    baseUrl: 'https://' + dynamicDomain + '/shipping-cost/v4/' + tenantId
                 }
             };
 
