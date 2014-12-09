@@ -65,7 +65,6 @@ angular.module('ds.cart')
         /**
          *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */
-         
         $scope.updateCartItem = function (item, itemQty, config) {
             if (itemQty > 0) {
                 CartSvc.updateCartItem(item, itemQty, config);
@@ -75,12 +74,12 @@ angular.module('ds.cart')
             }
         };
 
-        $scope.acartHovered = function()
+        $scope.cartHover = function()
         {
             clearTimeout($scope.cartTimeOut);
         };
 
-        $scope.acartUnHovered = function()
+        $scope.cartUnHover = function()
         {
             //if none of the inputs are focused then create the 3 second timer after mouseout
             if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
