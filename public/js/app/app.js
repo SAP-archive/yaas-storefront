@@ -6,6 +6,7 @@ window.app = angular.module('ds.router', [
     'ui.router',
     'ds.shared',
     'ds.i18n',
+    'ds.home',
     'ds.products',
     'ds.cart',
     'ds.checkout',
@@ -222,6 +223,22 @@ window.app = angular.module('ds.router', [
                         }
                     }
                 })
+                .state('base.home', {
+                    url: '/home',
+                    views: {
+                        'main@':{
+                            templateUrl: 'js/app/home/templates/home.html',
+                            controller: 'HomeCtrl'
+                        }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
+                    }
+                })
                 .state('base.product', {
                     url: '/products/',
                     abstract: true
@@ -385,7 +402,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/ct/');
+            $urlRouterProvider.otherwise('/home');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {

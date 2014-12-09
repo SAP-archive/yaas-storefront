@@ -50,7 +50,9 @@ angular.module('ds.shared')
 
         placeholderImage: 'img/no-image.png',
 
-        homeState: 'base.category',
+//        homeState: 'base.category',
+
+        homeState: 'base.home',
 
         eventSource: {
             login: 'login',
