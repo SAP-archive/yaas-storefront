@@ -13,9 +13,8 @@
 
 angular.module('ds.home')
 
-    .controller('HomeCtrl', ['$scope',  '$state',
-
-        function ($scope, $state) {
+    .controller('HomeCtrl', ['$scope',
+        function ($scope) {
 
             $scope.carouselInterval = 5000;
             var slides = $scope.slides = [];
