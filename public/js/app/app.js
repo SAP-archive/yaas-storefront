@@ -6,6 +6,7 @@ window.app = angular.module('ds.router', [
     'ui.router',
     'ds.shared',
     'ds.i18n',
+    'ds.home',
     'ds.products',
     'ds.cart',
     'ds.checkout',
@@ -212,6 +213,22 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
+                    }
+                })
+                .state('base.home', {
+                    url: '/home',
+                    views: {
+                        'main@':{
+                            templateUrl: 'js/app/home/templates/home.html',
+                            controller: 'HomeCtrl'
                         }
                     },
                     resolve:{
