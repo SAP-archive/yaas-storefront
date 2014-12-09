@@ -8,8 +8,10 @@ var async = require('async');
 
 var storeNameConfigKey = 'store.settings.name';
 
-var configSvcUrl = 'http://configuration-v2.test.cf.hybris.com/configurations/';
-var authSvcUrl = 'http://yaas-test.apigee.net/test/account/v1/auth/';
+// Dynamic Domain is generated and replaced by build script, see gruntfile.
+var dynamicDomain = /*StartDynamicDomain*/ 'yaas-test.apigee.net/test' /*EndDynamicDomain*/;
+var configSvcUrl = 'https://' + dynamicDomain + '/configuration/v4/';
+var authSvcUrl = 'https://' + dynamicDomain + '/account/v1/auth/';
 
 
 //****************************************************************

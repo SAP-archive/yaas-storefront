@@ -9,7 +9,8 @@
     "singleTenantProd": "node node_modules/grunt-cli/bin/grunt default:prod",
     "singleTenantStage": "node node_modules/grunt-cli/bin/grunt default:stage",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant",
+    "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
+    "multiTenantTest": "node node_modules/grunt-cli/bin/grunt multiTenant:test",
     "multiTenantProd": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
     "multiTenantStage": "node node_modules/grunt-cli/bin/grunt multiTenant:stage",
     "postinstall": "bower install"
