@@ -6,8 +6,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope',
-        function (storeConfig, $translate, CookieSvc, $rootScope) {
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope', 'settings',
+        function (storeConfig, $translate, CookieSvc, $rootScope, settings) {
 
             var languageCode = 'en';
             var acceptLanguages = languageCode;
@@ -17,30 +17,38 @@ angular.module('ds.shared')
             var availableCurrencies = [];
             var languageMap = [];
             var availableLanguages = [];
-            function setCurrencyWithOptionalCookie(currencyId, setCookie, fromLogin) {
+
+            function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
                 if(currencyId && currencyId in currencyMap ) {
                     if( currencyId!==activeCurrencyId){
                         activeCurrencyId =  currencyId;
-                        $rootScope.$emit('currency:updated',  currencyId, fromLogin);
-                    }
-                    if(setCookie){
-                        CookieSvc.setCurrencyCookie(currencyId);
+                        // set cookie prior to eventing - event may cause application reload
+                        if(setCookie){
+                            CookieSvc.setCurrencyCookie(activeCurrencyId);
+                        }
+                        if(updateSource!== settings.eventSource.initialization){  // don't event on initialization
+                            $rootScope.$emit('currency:updated',  {currencyId: activeCurrencyId, source: updateSource });
+                        }
                     }
                 } else {
                     console.warn('Currency not valid: '+currencyId);
                 }
             }
 
-            function setLanguageWithOptionalCookie(newLangCode, setCookie, fromLogin){
+            function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource){
                 if(newLangCode && newLangCode in languageMap) {
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
+                        // set cookie prior to eventing - event may cause application reload
+                        if(setCookie) {
+                            CookieSvc.setLanguageCookie(languageCode);
+                        }
+
                         $translate.use(languageCode);
                         acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
-                        $rootScope.$emit('language:updated',  languageCode, fromLogin);
-                    }
-                    if(setCookie) {
-                        CookieSvc.setLanguageCookie(languageCode);
+                        if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
+                            $rootScope.$emit('language:updated',  {languageCode: languageCode, source: updateSource});
+                        }
                     }
                 } else {
                     console.warn('Language not valid: '+newLangCode);
@@ -104,8 +112,8 @@ angular.module('ds.shared')
                 },
 
                 /** Sets the code of the language that's supposed to be active for the store.*/
-                setLanguage: function (newLangCode, fromLogin) {
-                    setLanguageWithOptionalCookie(newLangCode, true, fromLogin);
+                setLanguage: function (newLangCode, updateSource) {
+                    setLanguageWithOptionalCookie(newLangCode, true, updateSource ? updateSource: settings.eventSource.unknown);
                 },
 
 
@@ -130,9 +138,9 @@ angular.module('ds.shared')
                 loadInitialLanguage: function(){
                     var languageCookie = CookieSvc.getLanguageCookie();
                     if(languageCookie && languageCookie.languageCode){
-                        setLanguageWithOptionalCookie(languageCookie.languageCode, false);
+                        setLanguageWithOptionalCookie(languageCookie.languageCode, false, settings.eventSource.initialization);
                     } else {
-                        setLanguageWithOptionalCookie(languageCode, true);
+                        setLanguageWithOptionalCookie(storeDefaultCurrency, true, settings.eventSource.initialization);
                     }
                 },
 
@@ -142,8 +150,8 @@ angular.module('ds.shared')
                  * If the id is not part of the "available" currencies, the update will be silently rejected.
                  * @param object with property id === currency id; if property setCookie === true, setting will
                  * be written to cookie (if valid)*/
-                setCurrency: function (currency, fromLogin) {
-                   setCurrencyWithOptionalCookie(currency, true, fromLogin);
+                setCurrency: function (currency, updateSource) {
+                   setCurrencyWithOptionalCookie(currency, true, updateSource ? updateSource: settings.eventSource.unknown);
                 },
 
                 /** Determines the initial active currency for the store, based on store configuration and
@@ -151,9 +159,9 @@ angular.module('ds.shared')
                 loadInitialCurrency: function(){
                     var currencyCookie = CookieSvc.getCurrencyCookie();
                     if(currencyCookie && currencyCookie.currency){
-                        setCurrencyWithOptionalCookie(currencyCookie.currency, false);
+                        setCurrencyWithOptionalCookie(currencyCookie.currency, false, settings.eventSource.initialization);
                     } else {
-                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true);
+                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true, settings.eventSource.initialization);
                     }
                 },
 

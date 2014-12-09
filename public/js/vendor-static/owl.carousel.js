@@ -306,6 +306,7 @@ if (typeof Object.create !== "function") {
                 roundPages = 0,
                 lastItem = base.itemsAmount - base.options.items;
 
+
             base.$owlItems.each(function (index) {
                 var $this = $(this);
                 $this
@@ -342,7 +343,13 @@ if (typeof Object.create !== "function") {
 
         calculateWidth : function () {
             var base = this;
-            base.itemWidth = Math.round(base.$elem.width() / base.options.items);
+            var fullItemCountWidth = Math.round(base.$elem.width() / base.options.items);
+
+            var shortItemCountWidth = Math.round(base.$elem.width() / base.orignalItems);
+            //use this calculation if the number of items excedes the visible count
+            base.itemWidth = (base.options.items < base.orignalItems)? shortItemCountWidth : fullItemCountWidth;
+            //TODO if the count is not the max for the display divide the width by the max number display
+
         },
 
         max : function () {

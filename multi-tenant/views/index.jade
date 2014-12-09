@@ -28,7 +28,7 @@ html
     // build:js js/multi-tenant-server.js
 
     script(src='js/vendor-static/jquery.min.js')
-    script(src='js/vendor/angular/angular.js')
+    script(src='js/vendor/angular/angular.min.js')
     script(src='js/vendor/angular-mocks/angular-mocks.js')
     script(src='js/vendor/angular-cookie/angular-cookie.js')
     script(src='js/vendor/restangular/dist/restangular.min.js')
@@ -66,12 +66,14 @@ html
     script(src='js/app/shared/shared-index.js')
     script(src='js/app/shared/settings.js')
     script(src='js/app/shared/site-config.js')
+    script(src='js/app/shared/directives/sticky-navigation.js')
     script(src='js/app/shared/directives/menu-aim.js')
     script(src='js/app/shared/services/cookie-svc.js')
     script(src='js/app/shared/services/global-data.js')
     script(src='js/app/shared/services/configuration-service.js')
     script(src='js/app/shared/services/configuration-rest.js')
     script(src='js/app/shared/services/http-queue.js')
+    script(src='js/app/shared/services/event-service.js')
     script(src='js/app/shared/filters/filters.js')
     script(src='js/app/shared/directives/sticky-navigation.js') 
     script(src='js/app/shared/controllers/sidebar-navigation-ctrl.js')
@@ -86,6 +88,9 @@ html
     script(src='js/app/orders/orders-index.js')
     script(src='js/app/orders/services/order-list-service.js')
     script(src='js/app/orders/services/orders-rest.js')
+
+    script(src='js/app/home/home-index.js')
+    script(src='js/app/home/controllers/home-ctrl.js')
 
     script(src='js/app/products/products-index.js')
     script(src='js/app/products/controllers/browse-products-ctrl.js')

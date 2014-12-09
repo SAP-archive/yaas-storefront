@@ -473,6 +473,10 @@
 	position: fixed;
 	z-index: @zIndex-topnavigation;
 
+    @media (max-width: @screen-md-min) {
+      z-index:10000;
+    }
+
 	.navbar-btn{
 		margin-bottom: 0px;
     	margin-top: 0px;
@@ -573,6 +577,75 @@
 .socialMediaSigninContainer{
   margin:0 0 55px 0;
 
+  .googlePlusLogin{
+    padding-right: 0 !important;
+  }
+
+  .googleSignIn{
+    height: 43px;
+    background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
+
+    .googleSignInLabel{
+      color: #f2f3f8;
+      position: absolute;
+      z-index:200;
+      left: 67px;
+      top: 12px;
+      font-size: 97%;
+    }
+  }
+
+  .fbLogin{
+    padding-left: 0 !important;
+    .fbLoginButton{
+      height: 43px;
+      background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
+    }
+    .fbsignInLabel{
+      color: #f2f3f8;
+      position: absolute;
+      z-index:200;
+      left: 46px;
+      top: 12px;
+      font-size: 97%;
+    }
+
+  }
+
+
+
+  .fb_iframe_widget{
+
+
+    >span{
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+
+  iframe{
+    width: 100% !important;
+    height: 100% !important;
+
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=01)";
+
+    /* IE 5-7 */
+    filter: alpha(opacity=01);
+
+    /* Netscape */
+    -moz-opacity: 0.01;
+
+    /* Safari 1.x */
+    -khtml-opacity: 0.01;
+
+    /* Good browsers */
+    opacity: 0.01;
+
+    ._4z_b{
+      width: 100%;
+      height: 100%;
+    }
+  }
 
 }
 

@@ -6,6 +6,7 @@ window.app = angular.module('ds.router', [
     'ui.router',
     'ds.shared',
     'ds.i18n',
+    'ds.home',
     'ds.products',
     'ds.cart',
     'ds.checkout',
@@ -124,10 +125,10 @@ window.app = angular.module('ds.router', [
         });
     }])
     .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'CategorySvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
-                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, CategorySvc) {
 
+       'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
+        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+                 AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
 
             if(storeConfig.token) { // if passed up from server in multi-tenant mode
                 TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
@@ -173,21 +174,14 @@ window.app = angular.module('ds.router', [
             }, function (isAuthenticated, wasAuthenticated) {
                 $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
                 GlobalData.user.isAuthenticated = isAuthenticated;
-
             });
 
-            $rootScope.$on('currency:updated', function (event, newCurrId, fromLogin) {
-                if (!fromLogin) {
-                    CartSvc.switchCurrency(newCurrId);
-                }
+            $rootScope.$on('currency:updated', function (event, eveObj) {
+                EventSvc.onCurrencyChange(event,eveObj);
             });
 
-
-            $rootScope.$on('language:updated', function (languageCode, fromLogin) {
-                if (!fromLogin) {
-                    CartSvc.getCart();
-                }
-                CategorySvc.getCategories('language:updated');
+            $rootScope.$on('language:updated', function (event, eveObj) {
+                EventSvc.onLanguageChange(event, eveObj);
             });
 
             // setting root scope variables that drive class attributes in the BODY tag
@@ -219,6 +213,22 @@ window.app = angular.module('ds.router', [
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
+                    }
+                })
+                .state('base.home', {
+                    url: '/home',
+                    views: {
+                        'main@':{
+                            templateUrl: 'js/app/home/templates/home.html',
+                            controller: 'HomeCtrl'
                         }
                     },
                     resolve:{
@@ -289,7 +299,7 @@ window.app = angular.module('ds.router', [
                     },
                     resolve: {
                         cart: function (CartSvc) {
-                            return CartSvc.getCart();
+                            return CartSvc.getLocalCart();
                         },
                         order: function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
@@ -392,7 +402,7 @@ window.app = angular.module('ds.router', [
                 });
 
 
-            $urlRouterProvider.otherwise('/ct/');
+            $urlRouterProvider.otherwise('/home');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
