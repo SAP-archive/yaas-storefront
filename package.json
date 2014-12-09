@@ -5,7 +5,7 @@
   "main": "public/js/shared-index.js",
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt default:prod",
-    "startTenantTest": "node node_modules/grunt-cli/bin/grunt default:test",
+    "startTest": "node node_modules/grunt-cli/bin/grunt default:test",
     "singleTenantProd": "node node_modules/grunt-cli/bin/grunt default:prod",
     "singleTenantStage": "node node_modules/grunt-cli/bin/grunt default:stage",
     "test": "node node_modules/grunt-cli/bin/grunt test",
