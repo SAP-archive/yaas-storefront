@@ -371,6 +371,7 @@
                 {{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}
                 </small>
             </div>
+            <!--<input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="postal" id="zipCodeShip" autocomplete="on" ng-required="!wiz.shipToSameAsBillTo">-->
             <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
                 (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
                 <span class="input-group-addon"><label class="control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label></span>
