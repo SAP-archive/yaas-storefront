@@ -8517,7 +8517,12 @@ address {
   color: #202122;
 }
 body {
+  background: #f5f5f5;
   background: #fff;
+}
+body.fixedLayout {
+  position: fixed;
+  overflow-y: hidden;
 }
 input[type='number'] {
   -moz-appearance: textfield;
