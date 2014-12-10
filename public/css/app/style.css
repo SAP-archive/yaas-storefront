@@ -8082,6 +8082,33 @@ section .hero-unit {
 .account {
   /* UPSCALING IMPROVMENTS */
 }
+.account .orderHistoryCard {
+  margin: 0 20px 20px 0;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding-right: 0;
+  padding-left: 8px;
+}
+.account .orderHistoryCard .panel {
+  margin-bottom: 0;
+  padding-right: 0;
+}
+.account .orderHistoryCard.green {
+  background-color: #18bc33;
+}
+.account .orderHistoryCard.red {
+  background-color: #f31313;
+}
+.account .orderHistoryCard.blue {
+  background-color: #5bc0de;
+}
+.account .orderHistoryCard .leftCol {
+  font-size: 11px;
+}
+.account .orderHistoryCard .cardStatusIdentifier {
+  height: 100%;
+  width: 8px;
+}
 @media screen and (max-width: 991px) {
   .account section {
     padding: 15px !important;
