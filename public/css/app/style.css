@@ -6007,8 +6007,24 @@ html.disable-scroll {
 .homepageContainer .carousel-control {
   display: none;
 }
+.homepageContainer .carouselImages .col-sm-6,
+.homepageContainer .carouselImages .col-md-6,
+.homepageContainer .carouselImages .col-lg-6 {
+  margin: 0;
+  padding: 0;
+}
 .homepageContainer .carouselImages img {
   width: 100%;
+  max-height: 613px;
+}
+.homepageContainer .carousel-indicators li {
+  background-color: #c0bfbc;
+  border-color: #c0bfbc;
+  margin: 0 7.5px;
+}
+.homepageContainer .carousel-indicators li.active {
+  background-color: #0068b3;
+  border-color: #0068b3;
 }
 .ml-menu {
   overflow: auto;
