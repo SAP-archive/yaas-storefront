@@ -57,10 +57,10 @@
 <div class="store-settings">
     <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
         <ui-select-match id="language-select" placeholder="Select language" >
-            <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20">{{$select.selected.value | translate}}
+            <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]">{{$select.selected.value | translate}}
         </ui-select-match>
         <ui-select-choices repeat="lang in languages | filter: $select.search">
-            <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20">
+            <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20" ng-if="localeImages[lang.iso]">
             <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
         </ui-select-choices>
     </ui-select>
@@ -77,10 +77,10 @@
 <div class="store-settings hy-stickyComponent hidden-sm hidden-xs">
     <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
         <ui-select-match id="language-select" placeholder="Select language" >
-            <img src="./img/flags/{{$select.selected.iso}}.jpg" width="20"> {{$select.selected.value}}
+            <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]"> {{$select.selected.value}}
         </ui-select-match>
         <ui-select-choices repeat="lang in languages | filter: $select.search">
-            <img src="./img/flags/{{lang.iso}}.jpg" width="20">
+            <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20" ng-if="localeImages[lang.iso]">
             <span ng-bind-html="lang.value | highlight: $select.search"></span>
         </ui-select-choices>
     </ui-select>

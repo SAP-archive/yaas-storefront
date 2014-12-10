@@ -5,10 +5,10 @@ angular.module('ds.shared')
 
 
     .controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
-        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc', '$translate', '$q',
+        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc', '$translate', '$q', 'settings',
 
         function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
-                  AuthSvc, AuthDialogManager, CategorySvc, $translate, $q) {
+                  AuthSvc, AuthDialogManager, CategorySvc, $translate, $q, settings) {
 
             $scope.currencies = GlobalData.getAvailableCurrencies();
             $scope.currency = { selected: GlobalData.getCurrency() };
@@ -53,6 +53,8 @@ angular.module('ds.shared')
                         }
                     }
                 });
+
+            $scope.localeImages = settings.localeImages;
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
                 if(!$scope.categories || obj.source === 'language:updated'){
