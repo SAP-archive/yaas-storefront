@@ -65,7 +65,8 @@
 		.navi{
 			margin: 5px 0 5px 0;
 			.list-unstyled;
-            overflow-y: scroll;
+            overflow-y: auto;
+            overflow-x: hidden;
 			.hyicon{
 				display: none
 			}
@@ -445,12 +446,18 @@
 	.store-settings{
 		margin: 20px 0 100px;
 	}
-
-
-
-
-
 }
+
+@media (max-width: @screen-md-max){
+  .cartContainer{
+    .btn-group-justified > .btn-group{
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+
 
 #full-cart-btn{
   outline: none;

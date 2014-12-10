@@ -6108,7 +6108,8 @@ html.disable-scroll {
     margin: 5px 0 5px 0;
     padding-left: 0;
     list-style: none;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   #sidebar .navi .hyicon {
     display: none;
@@ -6413,6 +6414,12 @@ html.disable-scroll {
 }
 #sidebar .store-settings {
   margin: 20px 0 100px;
+}
+@media (max-width: 1199px) {
+  .cartContainer .btn-group-justified > .btn-group {
+    display: block;
+    width: 100%;
+  }
 }
 #full-cart-btn {
   outline: none;
