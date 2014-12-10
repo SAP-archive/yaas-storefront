@@ -7207,6 +7207,11 @@ section footer button {
   left: 0;
   right: 0;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .owl-carousel .owl-controls .owl-pagination {
+    display: none !important;
+  }
+}
 @media (min-width: 992px) and (max-width: 1199px) {
   .owl-carousel .owl-controls .owl-pagination {
     display: none !important;
@@ -7340,8 +7345,9 @@ section footer button {
   border-bottom: 3px solid #fff;
 }
 .owl-carousel.thumbnails a {
-  margin: 0 15px;
+  margin-right: 30px;
   display: block;
+  overflow: hidden;
 }
 .owl-carousel.thumbnails a img {
   display: block;
@@ -7827,6 +7833,16 @@ section .hero-unit {
 .product-gallery .thumbnails {
   padding: 0;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
+}
 @media (min-width: 1199px) {
   .product-gallery .thumbnails {
     height: 84px;
@@ -7834,7 +7850,6 @@ section .hero-unit {
   .product-gallery .thumbnails a > img {
     height: 84px;
     width: auto;
-    margin: 0 auto;
   }
 }
 .rating {
@@ -8082,6 +8097,33 @@ section .hero-unit {
 }
 .account {
   /* UPSCALING IMPROVMENTS */
+}
+.account .orderHistoryCard {
+  margin: 0 20px 20px 0;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding-right: 0;
+  padding-left: 8px;
+}
+.account .orderHistoryCard .panel {
+  margin-bottom: 0;
+  padding-right: 0;
+}
+.account .orderHistoryCard.green {
+  background-color: #18bc33;
+}
+.account .orderHistoryCard.red {
+  background-color: #f31313;
+}
+.account .orderHistoryCard.blue {
+  background-color: #5bc0de;
+}
+.account .orderHistoryCard .leftCol {
+  font-size: 11px;
+}
+.account .orderHistoryCard .cardStatusIdentifier {
+  height: 100%;
+  width: 8px;
 }
 @media screen and (max-width: 991px) {
   .account section {
@@ -8491,7 +8533,12 @@ address {
   color: #202122;
 }
 body {
+  background: #f5f5f5;
   background: #fff;
+}
+body.fixedLayout {
+  position: fixed;
+  overflow-y: hidden;
 }
 input[type='number'] {
   -moz-appearance: textfield;

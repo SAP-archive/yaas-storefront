@@ -43,7 +43,7 @@ Start the project on localhost:9000 by executing:
 
 	$ npm start
 
-This will launch a storefront for an existing tenant against the "test" environment.  Later, we will modify the application to go against your own tenant.
+This will launch a storefront for an existing tenant against the "prod" environment.  Later, we will modify the application to go against your own tenant.
 
 
 ## Customization
@@ -69,11 +69,11 @@ You can now modify the style or logic of your storefront.  Any new JS scripts or
 
 Preparing project for deployment (concatenation/minification/revisioning):
 
-	$ grunt build:test
+	$ grunt build:prod
 
-	    The :test parameter is required to set the dynamic domains of the api service.
+	    The :prod parameter is required to set the dynamic domains of the api service.
 	    If this domain is not specified with the parameter, it is very likely that the services will not be located.
-	    npm start is configured to run grunt build:test. Other options are :stage and :prod and can be configured in the gruntfile.
+	    npm start is configured to run grunt build:prod. Other options are :stage and :test and can be configured in the gruntfile.
 
 Then on page public/index.html, remove the existing script references and replace them with references to the two 
 generated static files from **dist** directory (dist/js/*.js, dist/css/*.css).

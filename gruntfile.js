@@ -14,7 +14,8 @@ module.exports = function (grunt) {
         TEST_DOMAIN = 'yaas-test.apigee.net/test',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
-        DOMAIN_MSG = 'Could not find environment domain in build parameter. Built with default domain. Use grunt build:test [:stage or :prod] to specify.';
+        MULTITENANT_PATH = './multi-tenant/multi-tenant-server.js',
+        DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-text-replace');
@@ -192,6 +193,14 @@ module.exports = function (grunt) {
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
                     to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
                 }]
+            },
+            multiTenant: {
+                src: [ MULTITENANT_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                    to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
+                }]
             }
         }
 
@@ -213,7 +222,8 @@ module.exports = function (grunt) {
                 break;
             default:
                 grunt.warn(DOMAIN_MSG);
-                grunt.task.run('replace:test');
+                // Default build domain if none is specified.
+                grunt.task.run('replace:prod');
         }
     }
 
@@ -232,6 +242,7 @@ module.exports = function (grunt) {
     // Wrap build task to add parameters and warnings.
     grunt.registerTask('multiTenant', 'Parameters for multiTenant build', function(domainParam){
         runDomainReplace(domainParam);
+        grunt.task.run('replace:multiTenant');
         grunt.task.run('multiTenantTask');
     });
 
@@ -251,11 +262,6 @@ module.exports = function (grunt) {
         'less:dev',
         'concurrent:multiTenant'
     ]);
-
-    // deprecated?
-    // grunt.registerTask('testENV', [
-
-    // ]);
 
     grunt.registerTask('production', [
         'expressKeepAlive'
