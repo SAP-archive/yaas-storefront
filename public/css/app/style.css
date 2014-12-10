@@ -6707,6 +6707,10 @@ html.disable-scroll {
 .signInTabs .signInButton {
   border-right: 1px solid #838485;
 }
+#place-order-btn {
+  background-color: #20c909;
+  border-color: #20c909;
+}
 /* TO THE TOP BTN */
 .back-to-top-button {
   height: 40px;
