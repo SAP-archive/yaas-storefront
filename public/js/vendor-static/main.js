@@ -100,7 +100,7 @@ $(document).ready(function () {
 
 	 	if(type=="tap"){
 	 		$(".gallery .image").append('<div class="zoomCanvas">  <button class="btn btn-link zoomButtonClose"><span class="hyicon hyicon-menu"></span></button><canvas  id="zoomcanvas" style="width: 100%; height: 100%"></canvas></div>')
-	 	    de
+
 	 		 var gesturableImg = new ImgTouchCanvas({
 	            canvas: document.getElementById('zoomcanvas'),
 	            path: zoom
