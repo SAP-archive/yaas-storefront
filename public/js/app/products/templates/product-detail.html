@@ -34,7 +34,7 @@
                                     <label for="" >{{'QTY' | translate}}: </label>
                                 </span>
                                 <input type="number" min="1" step="1" pattern="\d*" class="form-control quantity"
-                                    ng-model="productDetailQty"
+                                    ng-model="productDetailQty" ng-change="changeQty(event)"
                                     onkeydown="return ( event.ctrlKey || event.altKey
                                         || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                                         || (95<event.keyCode && event.keyCode<106)
