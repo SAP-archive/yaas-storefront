@@ -17,14 +17,15 @@ angular.module('ds.home')
         function ($scope) {
 
             $scope.carouselInterval = 5000;
+
             $scope.slides = [
                 {
                     image: './img/homePg-hero-audio.jpg',
-                    url: 'http://www.google.com'
+                    url: window.location.origin + '/#!/ct/',
                 },
                 {
                     image: './img/homePg-hero-office.jpg',
-                    url: 'http://www.google.com'
+                    url: window.location.origin + '/#!/ct/',
                 }
             ];
 
