@@ -20,12 +20,12 @@ angular.module('ds.shared')
 
             function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
                 if(currencyId && currencyId in currencyMap ) {
+                    if(setCookie){
+                        CookieSvc.setCurrencyCookie(currencyId);
+                    }
                     if( currencyId!==activeCurrencyId){
                         activeCurrencyId =  currencyId;
-                        // set cookie prior to eventing - event may cause application reload
-                        if(setCookie){
-                            CookieSvc.setCurrencyCookie(activeCurrencyId);
-                        }
+
                         if(updateSource!== settings.eventSource.initialization){  // don't event on initialization
                             $rootScope.$emit('currency:updated',  {currencyId: activeCurrencyId, source: updateSource });
                         }
@@ -37,13 +37,11 @@ angular.module('ds.shared')
 
             function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource){
                 if(newLangCode && newLangCode in languageMap) {
+                    if(setCookie) {
+                        CookieSvc.setLanguageCookie(newLangCode);
+                    }
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
-                        // set cookie prior to eventing - event may cause application reload
-                        if(setCookie) {
-                            CookieSvc.setLanguageCookie(languageCode);
-                        }
-
                         $translate.use(languageCode);
                         acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
                         if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
@@ -140,7 +138,7 @@ angular.module('ds.shared')
                     if(languageCookie && languageCookie.languageCode){
                         setLanguageWithOptionalCookie(languageCookie.languageCode, false, settings.eventSource.initialization);
                     } else {
-                        setLanguageWithOptionalCookie(storeDefaultCurrency, true, settings.eventSource.initialization);
+                        setLanguageWithOptionalCookie(languageCode, true, settings.eventSource.initialization);
                     }
                 },
 
