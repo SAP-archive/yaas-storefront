@@ -101,32 +101,31 @@ $(document).ready(function () {
 	 	var current = oc.currentItem;
 
 	 	var $item =$(".gallery .image").find(".owl-item").eq(current).find("img");
-
-	 	//$item.before('<canvas class="zoomCanvas" id="zoomcanvas" style="width: 100%; height: 100%"></canvas>')
 	 	var zoom =  $item.data("zoom")
 
 
 
 	 	if(type=="tap"){
 	 		$(".gallery .image").append('<div class="zoomCanvas">  <button class="btn btn-link zoomButtonClose"><span class="hyicon hyicon-menu"></span></button><canvas  id="zoomcanvas" style="width: 100%; height: 100%"></canvas></div>')
-	 	
+
 	 		 var gesturableImg = new ImgTouchCanvas({
 	            canvas: document.getElementById('zoomcanvas'),
 	            path: zoom
 	        });
-	 	}else{
+	 	}
+
+        else{
 
 			$(".gallery .image .owl-item").each(function(){
-				var img = $(this).find("img")	
+				var img = $(this).find("img");
 
 				img.attr("src",img.data("zoom"))
 
-			})	
+			});
+            $(".gallery .image img").fullScreen(true);
 
-	 			$(".gallery").fullScreen(true);
+
 	 	}
-
-	 	console.log(type,current,zoom)
 
 	 }
 
