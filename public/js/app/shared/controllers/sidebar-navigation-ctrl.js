@@ -23,12 +23,36 @@ angular.module('ds.shared')
             $scope.store = GlobalData.store;
 
             $scope.language = { selected: { iso: GlobalData.getLanguageCode(), value: GlobalData.getLanguageCode() }};
+
             $scope.languages = [];
             var availableLanguages = GlobalData.getAvailableLanguages();
-            var langTransations = availableLanguages.map(function(lang) { return $translate(lang.id); });
-            $q.all(langTransations).then(function(response) {
-                $scope.languages = availableLanguages.map(function(lang, index) { return { iso:  lang.id, value: response[index] }; });
-            });
+            // Language translations (if we don't have them for current locale use values form config service - english versions)
+            var translationPromises = availableLanguages
+                .map(function(lang) {
+                    return $translate(lang.id).then(
+                        (function(lang) {
+                            return function(response) {
+                                $scope.languages.push({ iso:  lang.id, value: response });
+                            };
+                        })(lang),
+                        (function(lang) {
+                          return function() {
+                            $scope.languages.push({ iso:  lang.id, value: lang.label });
+                          };
+                        })(lang)
+                    );
+                });
+            // Upon resolving labels use default value for selected locale (if it selected locale has iso value set as value)
+            $q.all(translationPromises)
+                .finally(function() {
+                    var selectedLang;
+                    if ($scope.language.selected.iso === $scope.language.selected.value) {
+                        selectedLang = _.find($scope.languages, function(lang) { return $scope.language.selected.iso === lang.iso; });
+                        if (selectedLang && selectedLang.value) {
+                            $scope.language.selected.value = selectedLang.value;
+                        }
+                    }
+                });
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
                 if(!$scope.categories || obj.source === 'language:updated'){

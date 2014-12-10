@@ -48,6 +48,15 @@ angular.module('ds.shared')
             googleResponseToken: 'access_token'
         },
 
+        locales: {
+            en: {
+                img: './img/flags/en.jpg'
+            },
+            de: {
+                img: './img/flags/de.jpg'
+            }
+        },
+
         placeholderImage: 'img/no-image.png',
 
 //        homeState: 'base.category',
