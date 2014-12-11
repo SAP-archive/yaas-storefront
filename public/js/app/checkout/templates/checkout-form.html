@@ -70,7 +70,7 @@
                  ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="contactNameBill">{{'NAME' | translate}}</label></span>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
-                       required autocomplete="on">
+                       required autocomplete="on" >
             </div>
         </div>
         <div class="col-lg-6">
@@ -179,7 +179,7 @@
             <div class="form-group input-group">
                 <span class="input-group-addon"><label class="control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label></span>
                 <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
-                       autocomplete="on">
+                       autocomplete="on" placeholder="(Optional)">
             </div>
         </div>
         <div class="col-lg-12">
@@ -324,7 +324,7 @@
             <div class="col-lg-12">
                 <div class="form-group input-group">
                     <span class="input-group-addon"><label class="control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label></span>
-                    <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on">
+                    <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on" placeholder="(Optional)">
                 </div>
             </div>
         </div>
@@ -373,9 +373,9 @@
             </div>
             <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
                 (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
-                <span class="input-group-addon"><label class="control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label></span>
-                <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="ccNumber" id="ccNumber" ng-required="order.paymentMethod === 'creditCard'"
-                ng-model="order.creditCard.number" validate-card-number inline-error-input
+                <span class="input-group-addon"><label class="control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label></span><!-- validate-card-number-->
+                <input type="text" class="form-control" name="ccNumber" id="ccNumber"
+                       ng-model="order.creditCard.number" inline-error-input validate-card-number ng-required="order.paymentMethod === 'creditCard'"
                 inline-error-input-required-message="{{'REQUIRED' | translate}}"
                 ng-focus="paymentForm.ccNumber.focused=true"
                 ng-blur="paymentForm.ccNumber.focused=false"
@@ -394,20 +394,8 @@
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="expMonth">{{'MONTH' | translate}}</label></span>
                 <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                    <option value=""></option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                    ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
                 </select>
             </div>
         </div>
@@ -430,8 +418,8 @@
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
                 && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="cvc">{{'CVC_NUMBER' | translate}}</label></span>
-                <input type="text" ng-pattern="/^[0-9]*$/" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
-                inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-model="order.creditCard.cvc" validate-cvc
+                <input type="text" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                       inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-model="order.creditCard.cvc" validate-cvc
                 ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false"
                 ng-change="paymentForm.cvc.msg && resetErrorMsg(paymentForm.cvc)">
             </div>

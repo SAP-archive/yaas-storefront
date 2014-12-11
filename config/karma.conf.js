@@ -39,6 +39,7 @@ module.exports = function(config){
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
         'public/js/app/shared/services/http-queue.js',
+        'public/js/app/shared/services/event-service.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -46,6 +47,9 @@ module.exports = function(config){
         'public/js/app/shared/i18n/lang/en.js',
         'public/js/app/shared/i18n/lang/de.js',
         'public/js/app/shared/i18n/providers/translation-provider.js',
+
+        'public/js/app/home/home-index.js',
+        'public/js/app/home/controllers/home-ctrl.js',
 
         'public/js/app/products/products-index.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',

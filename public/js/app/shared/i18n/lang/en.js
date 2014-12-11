@@ -49,6 +49,7 @@ angular.module('ds.i18n')
         PAYMENT: 'Payment',
         PHONE_REQUIRED: 'Phone Required',
         PLACE_ORDER: 'Place Order',
+        PLACED_AT: 'Placed At',
         PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
         PLEASE_ENTER_VALID_CODE: 'Please enter a valid code',

@@ -4,7 +4,8 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('CategorySvc', ['PriceProductREST', '$q', '$rootScope', function(PriceProductREST, $q, $rootScope){
+
+    .factory('CategorySvc', ['$rootScope', 'PriceProductREST', 'GlobalData', '$q', function($rootScope, PriceProductREST, GlobalData, $q){
 
         var categoryMap;
         var catList;
@@ -67,8 +68,6 @@ angular.module('ds.products')
                 return catList;
             },
 
-
-
             getCategoryById: function(categoryId){
                 var catDef = $q.defer();
 
@@ -122,7 +121,6 @@ angular.module('ds.products')
                         );
                     });
                 }
-
                 return compositeDef.promise;
             },
 

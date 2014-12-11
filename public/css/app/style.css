@@ -5929,9 +5929,6 @@ html.disable-scroll {
     bottom: 0;
   }
 }
-.mainContent {
-  background: #f8f8f8;
-}
 @media (max-width: 992px) {
   .mainContent {
     margin-top: 75px;
@@ -6002,6 +5999,16 @@ html.disable-scroll {
   .right .mainContent {
     right: 500px;
   }
+}
+.homepageContainer .carousel {
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+.homepageContainer .carousel-control {
+  display: none;
+}
+.homepageContainer .carouselImages img {
+  width: 100%;
 }
 .ml-menu {
   overflow: auto;
@@ -6550,6 +6557,11 @@ html.disable-scroll {
     display: table-cell !important;
   }
 }
+@media (max-width: 992px) {
+  .top-navigation {
+    z-index: 10000;
+  }
+}
 .top-navigation .navbar-btn {
   margin-bottom: 0px;
   margin-top: 0px;
@@ -6777,16 +6789,6 @@ html.disable-scroll {
 }
 #cart section {
   padding: 10px 0;
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  #cart .btn-group.continue {
-    display: none !important;
-  }
-}
-@media (max-width: 767px) {
-  #cart .btn-group.continue {
-    display: none !important;
-  }
 }
 #cart .btn-group.checkout.disabled .btn {
   background-color: #F5F5F5;
@@ -7189,6 +7191,11 @@ section footer button {
   left: 0;
   right: 0;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .owl-carousel .owl-controls .owl-pagination {
+    display: none !important;
+  }
+}
 @media (min-width: 992px) and (max-width: 1199px) {
   .owl-carousel .owl-controls .owl-pagination {
     display: none !important;
@@ -7322,8 +7329,9 @@ section footer button {
   border-bottom: 3px solid #fff;
 }
 .owl-carousel.thumbnails a {
-  margin: 0 15px;
+  margin-right: 30px;
   display: block;
+  overflow: hidden;
 }
 .owl-carousel.thumbnails a img {
   display: block;
@@ -7455,6 +7463,15 @@ section .hero-unit {
   color: #0079ff;
   box-shadow: none;
 }
+.refine-section#refineAffix .viewingContainer {
+  margin: 0;
+  padding: 0 20px 0 0;
+}
+@media (max-width: 992px) {
+  .refine-section#refineAffix .viewingContainer {
+    padding: 0 33px 0 0;
+  }
+}
 .refine-section .refineContainer,
 .refine-section .sortContainer,
 .refine-section .viewingContainer {
@@ -7480,6 +7497,14 @@ section .hero-unit {
   line-height: 46px;
   height: 46px;
   padding: 0 10px 0 0;
+}
+.refine-section .viewingContainer {
+  padding: 0 87px 0 0;
+}
+@media (max-width: 992px) {
+  .refine-section .viewingContainer {
+    padding: 0;
+  }
 }
 .refine-section .refineContainer {
   background: #fff;
@@ -7602,15 +7627,28 @@ section .hero-unit {
 .refine-panel .facet ul li input:checked + label span:before {
   content: '\e811';
 }
+.off-canvas.right #refineAffix {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
 #refineAffix {
-  z-index: 100000;
+  z-index: 1000;
   height: 50px;
+  padding: 0 99px 0 0;
   top: -100px;
   background: rgba(255, 255, 255, 0.9);
   margin: 0;
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out;
+}
+@media (max-width: 992px) {
+  #refineAffix {
+    padding: 0 ;
+    margin-top: 75px;
+    top: -175px;
+  }
 }
 #refineAffix.affix {
   top: 0;
@@ -7779,6 +7817,16 @@ section .hero-unit {
 .product-gallery .thumbnails {
   padding: 0;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .product-gallery .thumbnails {
+    display: none !important;
+  }
+}
 @media (min-width: 1199px) {
   .product-gallery .thumbnails {
     height: 84px;
@@ -7786,7 +7834,6 @@ section .hero-unit {
   .product-gallery .thumbnails a > img {
     height: 84px;
     width: auto;
-    margin: 0 auto;
   }
 }
 .rating {
@@ -8038,6 +8085,33 @@ section .hero-unit {
 }
 .account {
   /* UPSCALING IMPROVMENTS */
+}
+.account .orderHistoryCard {
+  margin: 0 20px 20px 0;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding-right: 0;
+  padding-left: 8px;
+}
+.account .orderHistoryCard .panel {
+  margin-bottom: 0;
+  padding-right: 0;
+}
+.account .orderHistoryCard.green {
+  background-color: #18bc33;
+}
+.account .orderHistoryCard.red {
+  background-color: #f31313;
+}
+.account .orderHistoryCard.blue {
+  background-color: #5bc0de;
+}
+.account .orderHistoryCard .leftCol {
+  font-size: 11px;
+}
+.account .orderHistoryCard .cardStatusIdentifier {
+  height: 100%;
+  width: 8px;
 }
 @media screen and (max-width: 991px) {
   .account section {
@@ -8448,6 +8522,11 @@ address {
 }
 body {
   background: #f5f5f5;
+  background: #fff;
+}
+body.fixedLayout {
+  position: fixed;
+  overflow-y: hidden;
 }
 input[type='number'] {
   -moz-appearance: textfield;

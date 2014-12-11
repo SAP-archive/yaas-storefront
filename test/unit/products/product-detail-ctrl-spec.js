@@ -111,6 +111,20 @@ describe('ProductDetailCtrl', function () {
         });
     });
 
+    describe('quantity change', function () {
+        it('should disable buy button on invalid qty', function () {
+            $scope.productDetailQty = '';
+            $scope.changeQty();
+            expect($scope.buyButtonEnabled).toBeFalsy();
+        });
+
+        it('should enable buy button on valid qty', function () {
+            $scope.productDetailQty = 3;
+            $scope.changeQty();
+            expect($scope.buyButtonEnabled).toBeTruthy();
+        });
+    });
+
     describe('onCartUpdated', function () {
 
         beforeEach(function () {

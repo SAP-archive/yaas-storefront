@@ -14,7 +14,7 @@ html
               script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
               script(src='https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js')
         <![endif]
-  body
+  body(ng-class="{'fixedLayout': showCart}")
 
     div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
       div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation", sticky-navigation)
@@ -28,9 +28,8 @@ html
     // build:js js/multi-tenant-server.js
 
     script(src='js/vendor-static/jquery.min.js')
-    script(src='js/vendor/angular/angular.js')
-    script(src='js/vendor/angular-mocks/angular-mocks.js')
-    script(src='js/vendor/angular-cookie/angular-cookie.js')
+    script(src='js/vendor/angular/angular.min.js')
+    script(src='js/vendor/angular-cookie/angular-cookie.min.js')
     script(src='js/vendor/restangular/dist/restangular.min.js')
     script(src='js/vendor/angular-ui-router/release/angular-ui-router.min.js')
     script(src='js/vendor/angular-translate/angular-translate.min.js')
@@ -40,7 +39,7 @@ html
     script(src='js/vendor/spin.js/spin.js')
     script(src='js/vendor/angular-xeditable/dist/js/xeditable.min.js')
     script(src='js/vendor/angular-directive.g-signin/google-plus-signin.js')
-    script(src='js/vendor/angular-sanitize/angular-sanitize.js')
+    script(src='js/vendor/angular-sanitize/angular-sanitize.min.js')
     script(src='js/vendor/angular-ui-select/dist/select.min.js')
 
     script(src='js/bootstrap-multi-tenant.js')
@@ -66,12 +65,14 @@ html
     script(src='js/app/shared/shared-index.js')
     script(src='js/app/shared/settings.js')
     script(src='js/app/shared/site-config.js')
+    script(src='js/app/shared/directives/sticky-navigation.js')
     script(src='js/app/shared/directives/menu-aim.js')
     script(src='js/app/shared/services/cookie-svc.js')
     script(src='js/app/shared/services/global-data.js')
     script(src='js/app/shared/services/configuration-service.js')
     script(src='js/app/shared/services/configuration-rest.js')
     script(src='js/app/shared/services/http-queue.js')
+    script(src='js/app/shared/services/event-service.js')
     script(src='js/app/shared/filters/filters.js')
     script(src='js/app/shared/directives/sticky-navigation.js') 
     script(src='js/app/shared/controllers/sidebar-navigation-ctrl.js')
@@ -86,6 +87,9 @@ html
     script(src='js/app/orders/orders-index.js')
     script(src='js/app/orders/services/order-list-service.js')
     script(src='js/app/orders/services/orders-rest.js')
+
+    script(src='js/app/home/home-index.js')
+    script(src='js/app/home/controllers/home-ctrl.js')
 
     script(src='js/app/products/products-index.js')
     script(src='js/app/products/controllers/browse-products-ctrl.js')
