@@ -6007,8 +6007,24 @@ html.disable-scroll {
 .homepageContainer .carousel-control {
   display: none;
 }
+.homepageContainer .carouselImages .col-sm-6,
+.homepageContainer .carouselImages .col-md-6,
+.homepageContainer .carouselImages .col-lg-6 {
+  margin: 0;
+  padding: 0;
+}
 .homepageContainer .carouselImages img {
   width: 100%;
+  max-height: 613px;
+}
+.homepageContainer .carousel-indicators li {
+  background-color: #c0bfbc;
+  border-color: #c0bfbc;
+  margin: 0 7.5px;
+}
+.homepageContainer .carousel-indicators li.active {
+  background-color: #0068b3;
+  border-color: #0068b3;
 }
 .ml-menu {
   overflow: auto;
@@ -6115,7 +6131,8 @@ html.disable-scroll {
     margin: 5px 0 5px 0;
     padding-left: 0;
     list-style: none;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   #sidebar .navi .hyicon {
     display: none;
@@ -6762,6 +6779,10 @@ html.disable-scroll {
 }
 .signInTabs .signInButton {
   border-right: 1px solid #838485;
+}
+#place-order-btn {
+  background-color: #20c909;
+  border-color: #20c909;
 }
 /* TO THE TOP BTN */
 .back-to-top-button {

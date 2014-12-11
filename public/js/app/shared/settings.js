@@ -53,7 +53,7 @@ angular.module('ds.shared')
             de: './img/flags/de.jpg'
         },
 
-        placeholderImage: 'img/no-image.png',
+        placeholderImage: 'img/no-image.jpg',
 
 //        homeState: 'base.category',
 
