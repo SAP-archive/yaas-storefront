@@ -55,5 +55,13 @@ angular.module('ds.products')
                 });
             };
 
+            $scope.changeQty = function () {
+                if (!$scope.productDetailQty){
+                    $scope.buyButtonEnabled = false;
+                } else {
+                    $scope.buyButtonEnabled = true;
+                }
+            };
+
 
 }]);

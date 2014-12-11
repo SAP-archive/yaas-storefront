@@ -65,7 +65,8 @@
 		.navi{
 			margin: 5px 0 5px 0;
 			.list-unstyled;
-            overflow-y: scroll;
+            overflow-y: auto;
+            overflow-x: hidden;
 			.hyicon{
 				display: none
 			}
@@ -445,11 +446,6 @@
 	.store-settings{
 		margin: 20px 0 100px;
 	}
-
-
-
-
-
 }
 
 #full-cart-btn{
@@ -472,6 +468,10 @@
 	top: 0;
 	position: fixed;
 	z-index: @zIndex-topnavigation;
+
+    @media (max-width: @screen-md-min) {
+      z-index:10000;
+    }
 
 	.navbar-btn{
 		margin-bottom: 0px;
@@ -672,6 +672,11 @@
   }
 }
 
+
+#place-order-btn{
+  background-color: #20c909;
+  border-color:  #20c909;
+}
 
 /* TO THE TOP BTN */
 .back-to-top-button {

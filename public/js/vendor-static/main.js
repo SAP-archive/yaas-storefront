@@ -1,12 +1,17 @@
-$(document).ready(function () {
+var initRefineAffix = function()
+{
+    $('#refineAffix').affix({
+        offset: {
+            top: function () {
+//                debugger;
+                return (this.top = $('.product-grid').offset().top)
+            }
+        }
+    });
+}
 
-	$('#refineAffix').affix({
-		offset: {
-			top: function () {
-				return (this.top = $('.product-grid').offset().top)
-			}
-		}
-	});
+
+$(document).ready(function () {
 
 	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
 		$(".gallery .image").owlCarousel({
@@ -24,7 +29,7 @@ $(document).ready(function () {
 	if ($(".gallery .thumbnails").length && $(".gallery .thumbnails").owlCarousel) {
 		$(".gallery .thumbnails").owlCarousel({
 			items : 5,
-			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 10]],
+			itemsCustom:[[0, 5], [400, 5], [700, 5], [1000, 5], [1200, 5], [1600, 5]],
 			navigation:true,
 			navigationText:false,
 			lazyLoad : true,
@@ -96,32 +101,31 @@ $(document).ready(function () {
 	 	var current = oc.currentItem;
 
 	 	var $item =$(".gallery .image").find(".owl-item").eq(current).find("img");
-
-	 	//$item.before('<canvas class="zoomCanvas" id="zoomcanvas" style="width: 100%; height: 100%"></canvas>')
 	 	var zoom =  $item.data("zoom")
 
 
 
 	 	if(type=="tap"){
 	 		$(".gallery .image").append('<div class="zoomCanvas">  <button class="btn btn-link zoomButtonClose"><span class="hyicon hyicon-menu"></span></button><canvas  id="zoomcanvas" style="width: 100%; height: 100%"></canvas></div>')
-	 	
+
 	 		 var gesturableImg = new ImgTouchCanvas({
 	            canvas: document.getElementById('zoomcanvas'),
 	            path: zoom
 	        });
-	 	}else{
+	 	}
+
+        else{
 
 			$(".gallery .image .owl-item").each(function(){
-				var img = $(this).find("img")	
+				var img = $(this).find("img");
 
 				img.attr("src",img.data("zoom"))
 
-			})	
+			});
+            $(".gallery .image img").fullScreen(true);
 
-	 			$(".gallery").fullScreen(true);
+
 	 	}
-
-	 	console.log(type,current,zoom)
 
 	 }
 
@@ -137,7 +141,7 @@ $(document).ready(function () {
 	if ($(".carousel").length && $(".carousel").owlCarousel) {
 		$(".carousel").owlCarousel({
 			items : 5,
-			itemsCustom:[[0, 2], [400, 4], [700, 4], [1000, 4], [1200, 5], [1600, 16]],
+			itemsCustom:[[0, 1], [660,1], [661, 5], [1000, 5], [1200, 5], [1600, 5]],
 			navigation:true,
 			navigationText:false,
 			lazyLoad : true,
