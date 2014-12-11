@@ -13,7 +13,7 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="titleAccount">{{'TITLE' | translate}}</label></span>
-                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" placeholder="(Optional)">
+                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title">
                     <option value="Mr.">{{'MR' | translate}}</option>
                     <option value="Ms.">{{'MS' | translate}}</option>
                     <option value="Mrs.">{{'MRS' | translate}}</option>
@@ -394,20 +394,8 @@
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="expMonth">{{'MONTH' | translate}}</label></span>
                 <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                    <option value=""></option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                    ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
                 </select>
             </div>
         </div>
