@@ -31,7 +31,9 @@ Install bower:
 
 ### 2. Project requirements
 
-To locally install the project execute:
+Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.
+
+To locally install the project, execute:
 
 	$ npm install
 	$ npm update 
@@ -205,10 +207,13 @@ between modules.
 - [Restangular](https://github.com/mgonto/restangular) Library simplifying access of REST services through Angular's $resource service.
 - [ngInfiniteScroll](http://binarymuse.github.io/ngInfiniteScroll/) Infinite scrolling in AngularJS. Used for the "browse product" pages.
 
+### About Contributions
 
+At the moment, we are not accepting pull requests or contributions to this repository.  This is likely to change in the future.  In the meantime, we encourage you to create a fork of the repository and make edits there.  You can also report bugs using GitHub's issue tracking system.
 
+### License
 
-
+See the License.md file for complete license information.
 
 
 
