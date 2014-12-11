@@ -211,7 +211,9 @@ between modules.
 
 At the moment, we are not accepting pull requests or contributions to this repository.  This is likely to change in the future.  In the meantime, we encourage you to create a fork of the repository and make edits there.  You can also report bugs using GitHub's issue tracking system.
 
+### License
 
+See the License.md file for complete license information.
 
 
 
