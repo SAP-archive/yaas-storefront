@@ -39,7 +39,10 @@ angular.module('ds.auth')
 
             function onFbLogin(fbToken) {
                 AuthSvc.socialLogin('facebook', fbToken).then(function () {
-                    $modalInstance.close();
+                    if($modalInstance){
+                        $modalInstance.close();
+                    }
+
                     /* jshint ignore:start */
                     try {
                         FB.api('/me', function (response) {
