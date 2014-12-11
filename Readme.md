@@ -28,10 +28,11 @@ Install bower:
 
 	$ npm install -g bower
 
-
 ### 2. Project requirements
 
-To locally install the project execute:
+Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod. **Develop** will change frequently, and may contain expiremental features and code changes against services that are only available in development and test environments.
+
+To locally install the project, execute:
 
 	$ npm install
 	$ npm update 
@@ -205,6 +206,14 @@ between modules.
 - [Angular Bootstrap](http://angular-ui.github.io/bootstrap/) AngularJS implementation for Bootstrap widgets (for instance, pagination).
 - [Restangular](https://github.com/mgonto/restangular) Library simplifying access of REST services through Angular's $resource service.
 - [ngInfiniteScroll](http://binarymuse.github.io/ngInfiniteScroll/) Infinite scrolling in AngularJS. Used for the "browse product" pages.
+
+### About Contributions
+ 
+At the moment, we are not accepting pull requests or contributions to this repository.  This is likely to change in the future.  In the meantime, we encourage you to create a fork of the repository and make edits there.  You can also report bugs using GitHub's issue tracking system.
+
+### License
+ 
+See the License.md file for complete license information.
 
 
 
