@@ -8,6 +8,7 @@ angular.module('ds.i18n')
          */
         CHECKOUT: 'Kasse',
         CONTINUE_SHOPPING: 'Weiter Einkaufen',
+        SHOP: 'Geschäft',
         EST_ORDER_TOTAL: 'Zwischensumme',
         FREE_SHIPPING: 'Kostenloser Versand',
         ITEM: 'Artikel',

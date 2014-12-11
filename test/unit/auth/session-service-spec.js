@@ -150,7 +150,7 @@ describe('SessionSvc', function () {
 
         it('should navigate to home page if current state is protected', function(){
             SessionSvc.afterLogOut();
-            expect(mockedState.go).wasCalledWith( 'base.category');
+            expect(mockedState.go).wasCalledWith( 'base.home');
         });
 
         it('should reset the cart', function(){

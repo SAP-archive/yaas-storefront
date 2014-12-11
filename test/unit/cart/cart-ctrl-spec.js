@@ -58,7 +58,7 @@ describe('CartCtrl Test', function () {
             getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$')
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
 
         $rootScope.cart = products;
     });
@@ -93,16 +93,15 @@ describe('CartCtrl Test', function () {
 
         describe('mouse enters cart area', function(){
             it('should create the timeout', function(){
-                $scope.cartHovered();
+                $scope.cartHover();
                 expect($scope.cartTimeOut).toBeFalsy();
             })
         });
 
         describe('mouse leaves cart area', function(){
             it('should clear the timeout', function(){
-                $scope.cartUnHovered();
+                $scope.cartUnHover();
                 expect($scope.createCartTimeout).toHaveBeenCalled;
-
             })
         });
 

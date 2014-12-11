@@ -136,11 +136,15 @@
                     <tbody>
                     <tr>
                         <td >{{'SUBTOTAL' | translate}}</td>
-                        <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                        </td>
                     </tr>
                     <tr>
                         <td>{{'SHIPPING' | translate}}</td>
-                        <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            {{order.shipping.total.amount | currency: currencySymbol}}
+                        </td>
                     </tr>
                     </tbody>
                     <tfoot>
