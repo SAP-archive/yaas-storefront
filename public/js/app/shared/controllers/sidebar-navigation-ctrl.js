@@ -69,7 +69,7 @@ angular.module('ds.shared')
             $scope.localeImages = settings.localeImages;
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
-                if(!$scope.categories || obj.source === 'language:updated'){
+                if(!$scope.categories || obj.source === settings.eventSource.languageUpdate){
                     $scope.categories = obj.categories;
                 }
             });

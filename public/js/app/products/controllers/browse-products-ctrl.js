@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', [ '$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state) {
+    .controller('BrowseProductsCtrl', [ '$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location) {
 
         $scope.pageSize = 8;
         $scope.pageNumber = 0;
@@ -33,6 +33,12 @@ angular.module('ds.products')
 
         $scope.category = category || {};
 
+        // ensure category path is localized
+        var pathSegments =  $location.path().split('/');
+        if($scope.category.slug && pathSegments[pathSegments.length-1] !== $scope.category.slug){
+           pathSegments[pathSegments.length-1] = $scope.category.slug;
+            $location.path(pathSegments.join('/'));
+        }
 
         $rootScope.$emit('category:selected', {category: category});
 
@@ -88,7 +94,7 @@ angular.module('ds.products')
             //  We'll have to retrieve the current slug for the category (and thus this page)
             //  and reload to ensure the breadcrumbs and slug reflect the latest setting.
             var unbindCat = $rootScope.$on('categories:updated', function (eve, obj) {
-                if(obj.source==='language:updated') {
+                if(obj.source === settings.eventSource.languageUpdate) {
                     CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
                         var parms = {};
                         if (cat && cat.slug){

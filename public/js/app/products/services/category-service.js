@@ -55,7 +55,7 @@ angular.module('ds.products')
         return {
 
             /** Returns a promise over the category list as loaded from the service. Fires event "categories:updated".
-             * @param source - indicates source/reason for update, eg. 'language:updated'.
+             * @param source - indicates source/reason for update, eg. 'languageUpdate' - see setting.eventSource.
              * */
             getCategories: function (source) {
                 var catDef = $q.defer();

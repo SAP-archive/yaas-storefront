@@ -18,17 +18,32 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope', 'settings',
-        function (storeConfig, $translate, CookieSvc, $rootScope, settings) {
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
+        function (storeConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
 
-            var languageCode = 'en';
-            var acceptLanguages = languageCode;
+            var languageCode;
+            var defaultLang;
+            var languageMap = {};
+            var availableLanguages = {};
+            // HTTP accept-languages header setting for service calls
+            var acceptLanguages;
+
             var storeDefaultCurrency;
-            var activeCurrencyId = 'USD';
-            var currencyMap = [];
-            var availableCurrencies = [];
-            var languageMap = [];
-            var availableLanguages = [];
+            var activeCurrencyId;
+            var currencyMap = {};
+            var availableCurrencies = {};
+
+
+            // for label translation, we're limited to what we're providing in localization settings in i18
+            function setTranslateLanguage(langCode){
+                if(settings.translateLanguages.indexOf(langCode)>-1){
+                    $translate.use(langCode);
+                } else if (translateSettings.supportedLanguages.indexOf(defaultLang) > -1){
+                    $translate.use(defaultLang);
+                } else {
+                    $translate.use(translateSettings.defaultLanguageCode);
+                }
+            }
 
             function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
                 if(currencyId && currencyId in currencyMap ) {
@@ -43,7 +58,8 @@ angular.module('ds.shared')
                         }
                     }
                 } else {
-                    console.warn('Currency not valid: '+currencyId);
+                    console.warn('Currency not valid: '+currencyId+'. Using default currency '+storeDefaultCurrency);
+                    setCurrencyWithOptionalCookie(storeDefaultCurrency, true, updateSource);
                 }
             }
 
@@ -54,14 +70,15 @@ angular.module('ds.shared')
                     }
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
-                        $translate.use(languageCode);
                         acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
                         if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
                             $rootScope.$emit('language:updated',  {languageCode: languageCode, source: updateSource});
                         }
                     }
+                    setTranslateLanguage(languageCode);
                 } else {
-                    console.warn('Language not valid: '+newLangCode);
+                    console.warn('Language not valid: '+newLangCode+'. Using default language '+defaultLang);
+                    setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
                 }
 
             }
@@ -201,6 +218,9 @@ angular.module('ds.shared')
                             }
                         });
                     }
+                    if(!storeDefaultCurrency){
+                        console.error('No default currency defined!');
+                    }
                 },
 
                 /** Returns an array of currency instances supported by this project.*/
@@ -214,11 +234,15 @@ angular.module('ds.shared')
                         availableLanguages = languages;
                         angular.forEach(languages, function (language) {
                             languageMap[language.id] = language;
-
                             if (language.default) {
-                                languageCode = language.id;
+                                defaultLang = language.id;
+                                languageCode = defaultLang;
+                                acceptLanguages = defaultLang;
                             }
                         });
+                    }
+                    if(!defaultLang){
+                        console.error('No default language has been defined!');
                     }
                 },
 
