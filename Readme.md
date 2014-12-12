@@ -152,6 +152,10 @@ Tests are grouped by unit tests, end-to-end tests and styling tests under the "t
 the scripts/test.sh; end-to-end tests can be run via scripts/e2e-test.sh.  Unit test code coverage is published to folder "coverage"
 after running the unit test suite.
 
+## Adding Locales
+
+There are two distinct localization settings related to the store:  there are the language preferences that are configured in Builder, and then there are translations for all static information that's displayed in a store.  The Builder settings determine the language preferences for data retrieved through services, as well as the available language options that shoppers can select in the store.  The static information (button labels, instructions, etc) are provided in constant files in the code base - see **public/js/app/shared/i18/lang**.  Out of the box, the project currently only provides data in English and in German.  If the preferred language is supported by the app localization settings, it will be selected; otherwise, the static localization will be presented in English.  To support additional languages, provide your own localized constants and load the data in **public/js/app/shared/i18n/providers/translation-providers.js**.
+
 ## Multi-Tenant Mode
  
 This project also contains the basic wiring to run the same code instance against multiple configured storefronts. In order
