@@ -30,7 +30,6 @@
         
         it('should load product-list in english', function () {
           tu.selectLanguage('English');
-          assertTextByElement('linkText', 'ALL PRODUCTS', 'ALL PRODUCTS');
           assertTextByElement('binding', 'category.name', 'MUGS');
           assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
@@ -45,7 +44,6 @@
 
         it('should load product-list in german', function () {
           tu.selectLanguage('German');
-          assertTextByElement('linkText', 'ALLE PRODUKTE', 'ALLE PRODUKTE');
           assertTextByElement('binding', 'category.name', 'TASSEN');
           assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
           assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
@@ -62,7 +60,7 @@
           tu.clickElement('css', 'div.thumb');
           assertTextByElement('css', 'label.ng-binding', 'Qty:');
           assertTextByElement('id', 'buy-button', 'BUY');
-          assertTextByElement('css', 'div.headline.ng-binding', 'Description:');
+          assertTextByElement('css', 'div.headline.ng-binding', 'DESCRIPTION:');
         });
 
         it('should load product-detail in german', function () {
@@ -70,15 +68,15 @@
           tu.selectLanguage('German');
           assertTextByElement('css', 'label.ng-binding', 'Menge:');
           assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
-          assertTextByElement('css', 'div.headline.ng-binding', 'Beschreibung:');
+          assertTextByElement('css', 'div.headline.ng-binding', 'BESCHREIBUNG:');
         });
 
         it('should load cart in english', function () {
           tu.selectLanguage('English');
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'CONTINUE SHOPPING');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/button", 'CHECKOUT');
+          assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
+          assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
           assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
           assertTextByElement('css', 'td.ng-binding', '1 ITEM');
           // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Item Price: $24.57');
@@ -90,8 +88,8 @@
           tu.clickElement('css', 'div.thumb');
           tu.selectLanguage('German');
           tu.clickElement('id', 'buy-button');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div/button", 'WEITER EINKAUFEN');
-          assertTextByElement('xpath', "//div[@id='cart']/div/div[2]/button", 'KASSE');
+          assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
+          assertTextByElement('binding', "CHECKOUT", 'KASSE');
           assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
           assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
           // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[2]", 'Artikel Preis: $24.57');
@@ -104,8 +102,7 @@
           tu.selectLanguage('German');
           tu.clickElement('id', 'buy-button');
           browser.sleep(3000);
-          tu.clickElement('css', tu.checkoutButton);
-          assertTextByElement('xpath', '//small', 'Einfach bestellen in drei Schritten');
+          tu.clickElement('binding', 'CHECKOUT');
           assertTextByElement('css', 'h2.ng-binding', '1. Meine Daten');
           assertTextByElement('binding', 'TITLE', 'Anrede');
           assertTextByElement('binding', 'FIRST_NAME', 'Vorname');
@@ -133,8 +130,7 @@
           tu.clickElement('css', 'div.thumb');
           tu.clickElement('id', 'buy-button');
           browser.sleep(3000);
-          tu.clickElement('css', tu.checkoutButton);
-          assertTextByElement('xpath', '//small', 'Simple 3 Step Checkout');
+          tu.clickElement('binding', 'CHECKOUT');
           assertTextByElement('css', 'h2.ng-binding', 'Step 1. My Details');
           assertTextByElement('binding', 'TITLE', 'Title');
           assertTextByElement('binding', 'FIRST_NAME', 'First Name');

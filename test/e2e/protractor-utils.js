@@ -4,13 +4,12 @@
         exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
         exports.cartButtonId = 'full-cart-btn';
         exports.buyButton = "buy-button";
-        exports.contineShopping = "//div[@id='cart']/div/div/button";
-        exports.removeFromCart = "//div[@id='cart']/div[2]/section[2]/div/div/div[2]/button"
+        exports.contineShopping = "continue-shopping";
+        exports.removeFromCart = "remove-product"
         exports.frenchPressDescription = element(by.binding('product.description'));
-        exports.backToTopButton = "(//button[@type='button'])[6]"
+        exports.backToTopButton = "(//button[@type='button'])[9]"
         exports.cartQuantity = "(//input[@type='number'])[2]"
         exports.outOfStockButton = "//div[3]/button"
-        exports.checkoutButton = 'span.hyicon.hyicon-chevron-thin-right'
         exports.tenant = 'ytvlw4f7ebox'
 
 
@@ -140,5 +139,7 @@
            });
 
            browser.takeScreenshot().then(function (png) {
-               writeScreenShot(png, '/Users/vera.coberley/code/barebones-product-service/demo-store/main-page.png');
-           });   */
+               writeScreenShot(png, '/Users/(i-number)/Documents/development/main-page.png');
+           }); 
+
+             */

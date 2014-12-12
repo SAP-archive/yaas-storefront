@@ -1,14 +1,26 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.shared')
 
 
-	/**
-	 * Provides default settings (constants) for the application.
-	 * 
-	 * @type {Object}
-	 */
-	.constant('settings', {
+/**
+ * Provides default settings (constants) for the application.
+ *
+ * @type {Object}
+ */
+    .constant('settings', {
 
         hybrisUser: 'Anonymous',
         hybrisApp: 'y_ondemand_storefront',
@@ -18,85 +30,54 @@ angular.module('ds.shared')
         currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
 
-        // defines thea API endpoints and routes
-        apis: {
-            account: {
-                baseUrl: 'https://yaas-test.apigee.net/test/account/v1',
-                addresses: {
-                    initialPageSize: 6
-                }
+        // header keys
+        headers: {
+
+            // "final" headers for CaaS auth.
+            // will be replaced by full oauth flow.
+            hybrisTenant: 'hybris-tenant',
+            hybrisRoles: 'hybris-roles',
+            hybrisUser: 'hybris-user',
+            hybrisApp: 'hybris-app',
+            language: 'accept-language',
+            hybrisAuthorization: 'Authorization',
+            paging: {
+                total: 'hybris-Count'
             },
-
-            categories: {
-                baseUrl:  'https://yaas-test.apigee.net/test/category/v1' //'http://yaas-test.apigee.net/test/category/v0' //'http://yaas-test.apigee.net/test/category/v0'
-            },
-
-            configuration: {
-               baseUrl: 'http://configuration-v3.test.cf.hybris.com'
-            } ,
-
-            products: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product/v2',
-                pageSize: 10
-            },
-
-            productDetails: {
-                baseUrl: 'https://yaas-test.apigee.net/test/product-details/v2'
-            },
-
-            checkout: {
-                baseUrl: 'https://yaas-test.apigee.net/test/checkout-mashup/v3' //http://checkout-mashup-v3.test.cf.hybris.com'
-            },
-
-            orders: {
-                baseUrl: 'https://yaas-test.apigee.net/test/order/v2' //'http://order-v2.staged.cf.hybris.com'
-            },
-
-            cart: {
-                baseUrl: 'https://yaas-test.apigee.net/test/cart/v3' //'http://cart-v3.test.cf.hybris.com'
-            },
-
-            prices: {
-                baseUrl: 'https://yaas-test.apigee.net/test/price/v2'
-            },
-
-            shippingCosts: {
-                baseUrl: 'https://yaas-test.apigee.net/test/shipping-cost/v2'
-            },
-
-            customers: {
-                baseUrl: 'https://yaas-test.apigee.net/test/customer/v4'
-            },
-
-            // header keys
-            headers: {
-
-                // "final" headers for CaaS auth.
-                // will be replaced by full oauth flow.
-                hybrisTenant: 'hybris-tenant',
-                hybrisRoles: 'hybris-roles',
-                hybrisUser: 'hybris-user',
-                hybrisApp: 'hybris-app',
-                language:  'accept-language',
-                hybrisAuthorization: 'Authorization',
-                paging: {
-                    total: 'hybris-Count'
-                },
-
-                hybrisCurrency: 'hybris-currency'
-
-            }
+            hybrisCurrency: 'hybris-currency'
         },
+
         // relevant keys from configuration service:
         configKeys: {
+
             stripeKey: 'payment.stripe.key.public',
             storeCurrencies: 'project_curr',
             storeLanguages: 'project_lang',
             storeName: 'store.settings.name',
-            storeLogo: 'store.settings.image.logo.url'
+            storeLogo: 'store.settings.image.logo.url',
+            fbAppIdKey: 'facebook.app.id',
+            googleClientId: 'google.client.id',
+            googleResponseToken: 'access_token'
         },
 
-        placeholderImage: 'img/no-image.png',
+        localeImages: {
+            en: './img/flags/en.jpg',
+            de: './img/flags/de.jpg'
+        },
 
-        homeState: 'base.category'
+        // identifies the languages for which labels have been localized - see public/js/app/shared/i18n
+        translateLanguages:['en','de'],
+        // fallback language for label localization
+        translateDefault: 'en',
+
+        placeholderImage: 'img/no-image.jpg',
+
+        homeState: 'base.home',
+
+        eventSource: {
+            login: 'login',
+            initialization: 'init',
+            unknown: 'unknown',
+            languageUpdate: 'languageUpdate'
+        }
     });

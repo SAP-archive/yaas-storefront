@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.i18n')
@@ -8,6 +20,7 @@ angular.module('ds.i18n')
          */
         CHECKOUT: 'Kasse',
         CONTINUE_SHOPPING: 'Weiter Einkaufen',
+        SHOP: 'Geschäft',
         EST_ORDER_TOTAL: 'Zwischensumme',
         FREE_SHIPPING: 'Kostenloser Versand',
         ITEM: 'Artikel',
@@ -64,7 +77,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: '1. Meine Daten',
         STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
         STEP_3_PAYMENT: '3. Zahlung',
-        STEP_4_REVIEW_AND_PAYMENT: '4. Bestätigung',
+        STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
@@ -78,6 +91,7 @@ angular.module('ds.i18n')
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'Eine Bestellbestätigung wurde Ihnen zugesendet',
         ENJOY_YOUR_ITEMS: 'Viel Spass mit ihrer Bestellung!',
         FOR_YOUR_ORDER: 'für Ihre Bestellung!',
+        ITEM_IN_YOUR_ORDER: 'Element in der Reihenfolge',
         ITEMS_IN_YOUR_ORDER: 'Artikel in Ihrer Bestellung',
         QUESTIONS: 'Wenn Sie irgendwelche Fragen haben, kontaktieren Sie uns unter',
         ORDER: 'Bestellung',
@@ -92,6 +106,7 @@ angular.module('ds.i18n')
          navigation
          */
         PRODUCTS: 'Produkte',
+        BACK_TO: 'Zurück zu',
 
         /*
          product detail page
@@ -120,6 +135,8 @@ angular.module('ds.i18n')
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
+        SIGN_IN_WITH_FACEBOOK: 'Anmelden with Facebook',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Anmeldung with Google +',
         MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Konto erstellen',
         CONTINUE_AS_GUEST: 'Weiter als Gast',
@@ -143,6 +160,7 @@ angular.module('ds.i18n')
         STREET: 'Straße',
         SAVE: 'Speichern',
         WELCOME: 'Willkommen',
+        ITEM_IN_ORDER: 'translation needed',
         ITEMS_IN_ORDER: 'Postenzähler',
         NOT_SET: 'Unbekannt',
         ORDER_HISTORY: 'Bestellverlauf',
@@ -157,6 +175,7 @@ angular.module('ds.i18n')
         WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
         PASSWORD_TOO_SHORT: 'Passwort zu kurz',
         SHOW_ALL: 'Alle anzeigen',
+        SHOW_LESS: 'Weniger',
 
         /*
          login, password, signup
@@ -191,6 +210,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben',
+        LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
          titles

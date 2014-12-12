@@ -1,6 +1,6 @@
 describe('BrowseProductsCtrl', function () {
 
-    var $scope, $rootScope, $controller, mockedGlobalData, mockedThen, $q, settings, mockedCategory={}, mockedElements=[];
+    var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory = {};
     var productResult, priceResult, browseProdCtrl, mockedProductSvc, mockedPriceSvc, deferredProducts, deferredPrices;
 
     mockedGlobalData = {};
@@ -8,18 +8,34 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products = {};
     mockedGlobalData.products.meta = {};
     mockedGlobalData.products.meta.total = 10;
-    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('USD');
+    mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
+    mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
+    mockedCategory.id = 123;
+    mockedCategory.elements = [
+        {
+            'id': 456,
+            'ref': {
+                'id': 'prod1',
+                'type': 'product'
+            }
+        }
+    ];
+
+    var mockedState = { transitionTo: jasmine.createSpy()};
+
+    var mockedCategorySvc = {};
+    var mockedSettings = {placeholderImage: 'image', headers: { paging: {total: 'x'}}, eventSource:{ languageUpdate: 'languageUpdate'}};
 
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(angular.mock.module('ds.shared'));
+    //beforeEach(angular.mock.module('ds.shared'));
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.products'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_,_settings_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -29,7 +45,7 @@ describe('BrowseProductsCtrl', function () {
         $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-        settings = _settings_;
+
     }));
 
 
@@ -38,36 +54,51 @@ describe('BrowseProductsCtrl', function () {
         $q = _$q_;
         mockedProductSvc = {};
         productResult = [
-            {'name': 'prod1'}
-
+            {'id': 'prod1', 'name': 'prod1'}
         ];
         productResult.headers =  [];
         deferredProducts = $q.defer();
         deferredProducts.resolve(productResult);
         mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
 
-        priceResult = [];
+        priceResult = [
+            {
+                'currency': 'USD',
+                'priceId': 'price1',
+                'productId': 'prod1',
+                'value': '10.00'
+            }
+        ];
         deferredPrices = $q.defer();
         deferredPrices.resolve(priceResult);
+
         mockedPriceSvc = {};
         mockedPriceSvc.query =  jasmine.createSpy('query').andReturn(deferredPrices.promise);
     }));
 
     describe('Initialization', function () {
 
+        var selectedCat;
+
+
 
         beforeEach(function () {
+            $rootScope.$on('category:selected', function(eve, obj){
+                selectedCat = obj.category;
+            });
 
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
-                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
-
+                {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
         });
 
         it('should set image placeholder', function(){
             expect($scope.PLACEHOLDER_IMAGE).toBeTruthy();
         });
 
+        it('should fire category:selected event', function(){
+            expect(selectedCat).toEqualData(mockedCategory);
+        });
 
         it('should query products', function () {
             $scope.products = [];
@@ -79,15 +110,30 @@ describe('BrowseProductsCtrl', function () {
             expect($scope.products).toEqualData(productResult);
         });
 
+    });
+
+    describe('Initialize with category without elements', function(){
+        beforeEach(function () {
+            browseProdCtrl = $controller('BrowseProductsCtrl',
+                {'$scope': $scope, '$rootScope': $rootScope,  'ProductSvc': mockedProductSvc, 'PriceSvc':mockedPriceSvc, 'GlobalData':mockedGlobalData,
+                    'settings': mockedSettings, 'category': {elements:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
+
+        });
+
+        it('should set count properties to zero', function(){
+            expect($scope.products).toEqualData([]);
+            expect($scope.productsFrom).toEqualData(0);
+            expect($scope.productsTo).toEqualData(0);
+            expect($scope.total).toEqualData(0);
+        });
 
     });
 
     describe('function', function() {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
-                {$scope: $scope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
-                    'settings': settings, 'elements': mockedElements, 'category': mockedCategory});
-
+                {$scope: $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'PriceSvc': mockedPriceSvc, 'GlobalData': mockedGlobalData,
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
         });
 
 
@@ -113,11 +159,39 @@ describe('BrowseProductsCtrl', function () {
         describe('setSortedPage', function () {
             it('setSortedPage should update current page and query products', function () {
 
-                var page = 4;
-                $scope.setSortedPage(page);
+                $scope.setSortedPage();
                 expect(mockedProductSvc.query).toHaveBeenCalled();
-                expect($scope.pageNumber).toEqual(page);
-            })
+                expect($scope.setSortedPageNumber).toBe(1)
+            });
+        });
+
+        describe('setSortedPage product Loading scenarios ', function(){
+            beforeEach(function(){
+                $scope.total = 36;
+                $scope.pageSize = 8;
+            });
+            it('the current product page is 1 setSorted should load the first 8 products', function(){
+
+                $scope.pageNumber = 1;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe(8)
+
+            });
+
+            it('the current product page is 3 so setSorted should load the first 24 products', function(){
+
+                $scope.pageNumber = 3;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe(24)
+
+            });
+
+            it('the current product page is 5 so setSorted should return all of the products from the query', function(){
+                $scope.pageNumber = 5;
+                $scope.setSortedPage();
+                expect($scope.setSortedPageSize).toBe($scope.total)
+            });
+
         });
 
         describe('backToTop', function () {
@@ -126,7 +200,41 @@ describe('BrowseProductsCtrl', function () {
                 $scope.backToTop();
                 expect(window.pageYOffset).toEqualData(0);
             });
+        });
 
+        describe('showRefineContainer', function(){
+           it('should toggle refineContainerShowing', function(){
+              $scope.refineContainerShowing = false;
+               $scope.showRefineContainer();
+               expect($scope.refineContainerShowing).toBeTruthy();
+               $scope.showRefineContainer();
+               expect($scope.refineContainerShowing).toBeFalsy();
+           });
+        });
+
+        describe('onCategory:Selected', function(){
+            var catDef;
+
+            beforeEach(function(){
+                catDef = $q.defer();
+                mockedCategorySvc.getCategoryById = jasmine.createSpy('getCategoryById').andCallFake(function(){
+                   return catDef.promise;
+                });
+            });
+
+           it('should retrieve new category and reload if language changed', function(){
+               $rootScope.$emit('categories:updated', {categories: [], source: mockedSettings.eventSource.languageUpdate});
+               var cat = {slug: 'slug'};
+               catDef.resolve(cat);
+               $scope.$apply();
+               expect(mockedCategorySvc.getCategoryById).toHaveBeenCalledWith(mockedCategory.id);
+               expect(mockedState.transitionTo).toHaveBeenCalledWith( 'base.category', { catName : 'slug' }, { reload : true, inherit : true, notify : true });
+           });
+
+            it('should not reload if no language change', function(){
+                $rootScope.$emit('categories:updated', {categories: []});
+                expect(mockedCategorySvc.getCategoryById).not.toHaveBeenCalled();
+            });
         });
 
     });

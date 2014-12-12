@@ -22,9 +22,7 @@
  */
 describe('OrderDetailSvc Test', function () {
 
-
-    var ordersUrl = 'https://yaas-test.apigee.net/test/order/v2/orders';
-    var $scope, $rootScope, $httpBackend, orderDetailSvc;
+    var $scope, $rootScope, $httpBackend, orderDetailSvc, ordersUrl;
 
     var orderDetails = {};
     var shippingAddress = {};
@@ -47,6 +45,9 @@ describe('OrderDetailSvc Test', function () {
         module('ds.confirmation');
     });
 
+    beforeEach(module('ds.shared', function($provide) {
+        $provide.value('storeConfig', {});
+    }));
 
     beforeEach(function () {
         this.addMatchers({
@@ -55,11 +56,12 @@ describe('OrderDetailSvc Test', function () {
             }
         });
 
-        inject(function (_$httpBackend_, _$rootScope_, _OrderDetailSvc_) {
+        inject(function (_$httpBackend_, _$rootScope_, _OrderDetailSvc_, SiteConfigSvc) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-
             $httpBackend = _$httpBackend_;
+            siteConfig = SiteConfigSvc;
+            ordersUrl = siteConfig.apis.orders.baseUrl + 'orders';
             orderDetailSvc = _OrderDetailSvc_;
         });
     });

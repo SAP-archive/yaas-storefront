@@ -55,10 +55,10 @@ describe('CartCtrl Test', function () {
         };
 
         mockedGlobalData = {
-            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$')
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
 
         $rootScope.cart = products;
     });
@@ -72,6 +72,49 @@ describe('CartCtrl Test', function () {
 
     });
 
+    describe('close cart after timeout', function(){
+
+        it('should call createCartTimeout', function(){
+            expect($scope.cartShouldCloseAfterTimeout).toBe(false);
+            $rootScope.$emit('cart:closeAfterTimeout');
+            expect($scope.cartShouldCloseAfterTimeout).toBe(true);
+            expect($scope.createCartTimeout).toHaveBeenCalled;
+        });
+
+        describe('create cart timeout method', function(){
+
+            it('should call $apply', function(){
+                expect($scope.cartShouldCloseAfterTimeout).toBe(false);
+                $scope.createCartTimeout();
+                expect($scope.$apply).toHaveBeenCalled;
+                expect($scope.cartTimeOut).toMatch(/\d{1,}/)
+            });
+        });
+
+        describe('mouse enters cart area', function(){
+            it('should create the timeout', function(){
+                $scope.cartHover();
+                expect($scope.cartTimeOut).toBeFalsy();
+            })
+        });
+
+        describe('mouse leaves cart area', function(){
+            it('should clear the timeout', function(){
+                $scope.cartUnHover();
+                expect($scope.createCartTimeout).toHaveBeenCalled;
+            })
+        });
+
+        describe('toggleCart', function () {
+            it('should toggle the cart', function () {
+                $scope.toggleCart();
+                expect($rootScope.showCart).toEqualData(false);
+            });
+        });
+    });
+
+
+
     describe('update line item', function () {
 
         it(' should call service update', function () {
@@ -79,6 +122,35 @@ describe('CartCtrl Test', function () {
             expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
         });
 
+        it(' should remove item if qty is zero', function () {
+            $scope.updateCartItem({}, 0);
+            expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled;
+        });
+
+    });
+
+    describe('test event watches', function () {
+        it ('should set the scope cart to the event cart when cart updates', function () {
+            var newCart = {
+                id: '9876',
+                items: [
+                    {name: 'Bass Guitar', id: 'bass1234', price: 500, qty: 1}
+                ],
+                currency: 'USD'
+            };
+
+            $rootScope.$emit('cart:updated', {cart: newCart});
+
+            expect($scope.cart).toEqualData(newCart);
+        });
+    });
+
+    describe('toggle cart', function(){
+        it('should set showCart to false', function(){
+           $rootScope.showCart = true;
+            $scope.toggleCart();
+            expect($rootScope.showCart).toBeFalsy();
+        });
     });
 
 

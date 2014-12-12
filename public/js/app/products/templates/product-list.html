@@ -3,7 +3,7 @@
 
 <section class="gray">
     <div class="hero-unit">
-        <blockquote style="background-image: url(hero-merchandise.jpeg);background-position:0 0;">
+        <blockquote style="background-image: url('{{category.image}}' );background-position:0 0;">
             <p>{{store.name}}</p>
 
         </blockquote>
@@ -11,7 +11,16 @@
     </div>
 
     <div class="row">
-        <div ng-if="category.name" class="col-xs-12 col-sm-6  title"><a ui-sref="base.category({catName: null})">{{ 'ALL_PRODUCTS' | translate }}</a> / {{ category.name }}</div>
+        <div ng-if="category.name" class="col-xs-12 col-sm-6  title">
+
+            <a ng-repeat="cat in category.path" ng-if="!$last" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
+                <span ng-if="!$first"> / </span>
+                {{cat.name}}
+            </a>
+            <span ng-if="category.path && category.path.length > 1"> / </span>
+            {{category.path[category.path.length -1].name}}
+          
+        </div>
     </div>
     <div class="refine-section">
 
@@ -19,7 +28,7 @@
 
             <div ng-if="category.name" class="col-xs-12 col-sm-6  title">{{ category.name }}</div>
             <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'ALL_PRODUCTS' | translate }}</div>
-            <div class="col-sm-4 col-md-3 pull-right">
+            <div class="col-sm-6 col-md-6">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
                     <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
@@ -35,7 +44,7 @@
                         <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                         <div>
-                            <select ng-model="sort" ng-change="setSortedPage(1)" class="form-control">
+                            <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
                                 <!-- price sorting not yet implemented on service
                                 <option value="price">{{'PRICE_LOW_HIGH' | translate}}</option>
                                 <option value="-price">{{'PRICE_HIGH_LOW' | translate}}</option>
@@ -48,15 +57,6 @@
                     </div>
                 </div>
             </div>
-			<div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="col-sm-4 col-md-3 pull-right">
-					<pagination on-select-page="setSortedPage(page)" total-items="total"
-								page="pageNumber"
-								items-per-page="pageSize"
-								max-size="3"
-								rotate="false"
-								class="pagination-lg" previous-text="<" next-text=">">
-					</pagination>
-			</div>
             
         </div>
     </div>
@@ -87,17 +87,6 @@
                     <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
                 </div>
             </a>
-        </div>
-        <div ng-hide="sort == ''" ng-class="{disabled: pageNumber === 1}" class="row">
-            <div class="pull-right">
-                <pagination on-select-page="setSortedPage(page)" total-items="total"
-                            page="pageNumber"
-                            items-per-page="pageSize"
-                            max-size="3"
-                            rotate="false"
-                            class="pagination-lg" previous-text="<" next-text=">">
-                </pagination>
-            </div>
         </div>
     </div>
 

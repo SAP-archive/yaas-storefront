@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -44,7 +44,7 @@ angular.module('ds.account')
             getAddresses: function(query) {
                 var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList(query);
                 addressesPromise.then(function(response) {
-                    GlobalData.addresses.meta.total = parseInt(response.headers[settings.apis.headers.paging.total.toLowerCase()], 10) || 0;
+                    GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                 });
                 return addressesPromise;
             },

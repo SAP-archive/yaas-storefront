@@ -71,6 +71,39 @@ var tu = require('./protractor-utils.js');
             tu.sendKeysById('cvc', cvcNumber);
           }
 
+          function checkoutAsLoggedInUserTest(account, capsAccount){
+            tu.clickElement('id', tu.contineShopping); 
+            browser.sleep(500);           
+            tu.loginHelper(account, 'password');
+            tu.clickElement('id', tu.cartButtonId);
+            browser.sleep(2000);
+            tu.clickElement('binding', 'CHECKOUT');
+            browser.sleep(1000);
+            // tu.sendKeysById('firstNameAccount', 'Mike');
+            // tu.sendKeysById('lastNameAccount', 'Night');
+            fillCreditCardForm('5555555555554444', '06', '2015', '000')
+            browser.sleep(500)
+            tu.clickElement('id', 'place-order-btn');
+            browser.sleep(20000);
+            verifyOrderConfirmation(capsAccount, 'MIKE', '123', 'BOULDER, CO 80301');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
+            tu.clickElement('id', "logout-btn");
+          }
+
+          function verifyOrderOnAccountPage(account, total) {
+            tu.clickElement('id', tu.contineShopping);            
+            tu.loginHelper(account, 'password');
+            tu.clickElement('css', 'img.user-avatar');
+            browser.sleep(3000);
+            expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
+            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual(total);          
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
+            element(by.repeater('order in orders').row(0).column('order.created')).click();
+            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
+            tu.clickElement('id', "logout-btn");
+          }
+
 describe("checkout:", function () {
 
 
@@ -83,35 +116,35 @@ describe("checkout:", function () {
         browser.driver.manage().window().maximize();
         browser.sleep(8000);
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(4000);
+        browser.sleep(2000);
      });
 
 
 
 
            it('should load one product into cart and move to checkout', function () {
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('Item Price: $10.67', '$13.94', '1');
            });
 
            it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('Item Price: $10.67', '$24.61', '2');
            });
 
            it('should load 2 different products into cart and move to checkout', function () {
-            tu.clickElement('xpath', tu.contineShopping);
+            tu.clickElement('id', tu.contineShopping);
             tu.clickElement('css', 'img');
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
            });
 
            it('should allow all fields to be editable', function () {
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -131,7 +164,7 @@ describe("checkout:", function () {
           });
 
            it('should have basic validation on all fields', function () {
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             fillCheckoutFormExceptEmail('Bill');          
             tu.sendKeysById('email', 'mike@place.com'); 
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -162,49 +195,33 @@ describe("checkout:", function () {
            });
 
            it('should populate with existing address for logged in user', function () {
-            tu.clickElement('xpath', tu.contineShopping); 
-            browser.sleep(500);           
-            tu.loginHelper('order@test.com', 'password');
-            tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(1000);
-            tu.clickElement('css', tu.checkoutButton);
-            browser.sleep(1000);
-            // tu.sendKeysById('firstNameAccount', 'Mike');
-            // tu.sendKeysById('lastNameAccount', 'Night');
-            fillCreditCardForm('5555555555554444', '06', '2015', '000')
-            browser.sleep(500)
-            tu.clickElement('id', 'place-order-btn');
-            browser.sleep(20000);
-            verifyOrderConfirmation('ORDER@TEST.COM', 'MIKE', '123', 'BOULDER, CO 80301');
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
-            tu.clickElement('id', "logout-btn");
+            checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
 
            });
 
+           it('should checkout in Euros', function () {
+            checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
+
+           });
 
            it('should create order on account page', function () {
-            tu.clickElement('xpath', tu.contineShopping);            
-            tu.loginHelper('order@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(3000);
-            expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);          
-            expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual("$24.61");          
-            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");          
-            element(by.repeater('order in orders').row(0).column('order.created')).click();
-            expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED"); 
-            tu.clickElement('id', "logout-btn");
+            verifyOrderOnAccountPage('order@test.com', '$24.61')
+
+           });
+
+           it('should create order on account page in Euros', function () {
+            verifyOrderOnAccountPage('euro-order@test.com', '€22.52')
 
            });
 
            it('should merge carts and checkout for logged in user', function () {
-            tu.clickElement('xpath', tu.contineShopping);
+            tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
             tu.clickElement('css', 'img');
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
-            tu.clickElement('css', tu.checkoutButton);
+            tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
@@ -243,7 +260,7 @@ describe("mobile checkout:", function () {
        it('should allow all fields to be editable on mobile', function () {
         tu.clickElement('id', tu.buyButton);
         browser.sleep(1000);
-        tu.clickElement('css', tu.checkoutButton);
+        tu.clickElement('binding', 'CHECKOUT');
         tu.sendKeysById('email', 'mike@night.com');
         tu.sendKeysById('firstNameAccount', 'Mike');
         tu.sendKeysById('lastNameAccount', 'Night');
@@ -265,7 +282,7 @@ describe("mobile checkout:", function () {
        it('should have basic validation on mobile', function () {
         tu.clickElement('id', tu.buyButton);
         browser.sleep(1000);
-        tu.clickElement('css', tu.checkoutButton);
+        tu.clickElement('binding', 'CHECKOUT');
         tu.sendKeysById('email', 'mike@night.com');
         tu.sendKeysById('firstNameAccount', 'Mike');
         tu.sendKeysById('lastNameAccount', 'Night');

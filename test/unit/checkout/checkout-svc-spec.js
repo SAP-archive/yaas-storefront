@@ -11,11 +11,18 @@
  */
 describe('CheckoutSvc', function () {
 
-    var checkoutOrderUrl = 'https://yaas-test.apigee.net/test/checkout-mashup/v3/checkouts/order';
-
-    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, checkoutSvc;
+    var $scope, $rootScope, $httpBackend, $q, mockedCartSvc, mockedStripeJS, mockedGlobalData, checkoutSvc, checkoutOrderUrl, shippingCostUrl;
 
     var order = {};
+
+    mockedGlobalData = {
+        user: {
+            isAuthenticated: '',
+            user: null
+        },
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+    };
 
     order.account = {
         title: 'Mr.',
@@ -69,6 +76,10 @@ describe('CheckoutSvc', function () {
     mockedStripeJS = {};
     mockedCartSvc = {};
 
+    beforeEach(module('ds.shared', function($provide) {
+        $provide.value('storeConfig', {});
+    }));
+
     beforeEach(function(){
         mockedCartSvc.resetCart = jasmine.createSpy('resetCart');
 
@@ -95,15 +106,19 @@ describe('CheckoutSvc', function () {
             };
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
 
-            inject(function (_$httpBackend_, _$rootScope_, _CheckoutSvc_, _$q_) {
+            inject(function (_$httpBackend_, _$rootScope_, _CheckoutSvc_, _$q_, SiteConfigSvc) {
                 $rootScope = _$rootScope_;
                 $scope = _$rootScope_.$new();
                 $httpBackend = _$httpBackend_;
                 checkoutSvc = _CheckoutSvc_;
+                siteConfig = SiteConfigSvc;
+                checkoutOrderUrl = siteConfig.apis.checkout.baseUrl + 'checkouts/order';
+                shippingCostUrl = siteConfig.apis.shippingCosts.baseUrl + 'shippingcosts';
                 $q = _$q_;
             });
 
@@ -202,6 +217,7 @@ describe('CheckoutSvc', function () {
 
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
+            $provide.value('GlobalData', mockedGlobalData);
         }));
 
         beforeEach(function () {
@@ -235,15 +251,13 @@ describe('CheckoutSvc', function () {
     });
 
     describe('getShippingCost', function(){
-        var shippingCostUrl = 'https://yaas-test.apigee.net/test/shipping-cost/v2/shippingcosts';
-        var
-            onSuccessSpy,
-            onErrorSpy;
+
+        var onSuccessSpy, onErrorSpy;
 
         var defaultCost = {
 
             "price": {
-                "price": 0
+                "USD": 0
             }
         };
 
@@ -251,7 +265,10 @@ describe('CheckoutSvc', function () {
         beforeEach(function() {
             module('restangular');
             module('ds.checkout', function($provide){
+
                 $provide.value('CartSvc', mockedCartSvc);
+                $provide.value('StripeJS', mockedStripeJS);
+                $provide.value('GlobalData', mockedGlobalData);
             });
         });
 
@@ -271,8 +288,7 @@ describe('CheckoutSvc', function () {
             var singleCost = {
                 "id": "default",
                 "price": {
-                    "price": 2.99,
-                    "currencyId": "USD"
+                    "USD": 2.99
                 }
             };
             var costResponse = [singleCost ];

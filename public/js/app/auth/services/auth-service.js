@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -71,7 +71,7 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('password').all('reset').customPOST( user);
             },
 
-            /** Issues a 'change password' request.  Returns the promise of the completed action.
+            /** Issues a 'change reset' request via email/link with token.  Returns the promise of the completed action.
              * @param token that was obtained for password reset
              * @param new password
              */
@@ -83,6 +83,7 @@ angular.module('ds.auth')
                 return AuthREST.Customers.all('password').all('reset').all('update').customPOST( user);
             },
 
+            /** Modifies the password for an authenticated user.*/
             updatePassword: function(oldPassword, newPassword, email) {
                 var payload = {
                     currentPassword: oldPassword,
@@ -90,7 +91,17 @@ angular.module('ds.auth')
                     email: email
                 };
                 return AuthREST.Customers.all('password').all('change').customPOST(payload);
+            },
+
+            /** Performs login logic following login through social media login.*/
+            socialLogin: function (providerId, token) {
+                return AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
+                    // passing static username to trigger 'is authenticated' validation of token
+                    TokenSvc.setToken(response.accessToken, 'social');
+                    SessionSvc.afterLogIn();
+                });
             }
+
         };
         return AuthenticationService;
 

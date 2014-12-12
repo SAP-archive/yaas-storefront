@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -14,7 +14,7 @@
 
 /** REST configuration for services related to checkout. */
 angular.module('ds.orders')
-    .factory('OrdersREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('OrdersREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Configures main orders API endpoint.*/
@@ -25,7 +25,7 @@ angular.module('ds.orders')
                     result.headers = headers;
                     return result;
                 });
-                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.orders.baseUrl);
             })
         };
 

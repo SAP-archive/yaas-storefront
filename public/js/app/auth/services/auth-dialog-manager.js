@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -19,16 +19,21 @@ angular.module('ds.auth')
 
             var authDialog;
 
-            function openDialog(options) {
-                var deferResult = $q.defer();
-                // make sure only 1 instance exists in opened state
-                if (authDialog) {
+            function closeDialog(){
+                if (authDialog ) {
                     try {
                         authDialog.close();
-                    } catch(err){
+                    } catch (err){
 
                     }
                 }
+            }
+
+            function openDialog(options) {
+
+                var deferResult = $q.defer();
+                // make sure only 1 instance exists in opened state
+                closeDialog();
                 authDialog = $modal.open(options);
 
                 authDialog.result.then(
@@ -75,13 +80,7 @@ angular.module('ds.auth')
                 },
 
                 close: function() {
-                    if (authDialog ) {
-                        try {
-                            authDialog.close();
-                        } catch (err){
-
-                        }
-                    }
+                    closeDialog();
                 },
 
 

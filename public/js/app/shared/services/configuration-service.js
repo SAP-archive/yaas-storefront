@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -9,14 +9,15 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
+
 'use strict';
 
 /**
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc) {
+    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc',
+        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, CategorySvc) {
             var initialized = false;
 
             /**
@@ -45,14 +46,18 @@ angular.module('ds.shared')
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
                         } else if (key === settings.configKeys.storeLanguages){
                             GlobalData.setAvailableLanguages(JSON.parse(value));
+                        } else if (key === settings.configKeys.fbAppIdKey) {
+                            settings.facebookAppId = value;
+                        } else if (key === settings.configKeys.googleClientId){
+                            settings.googleClientId = value;
                         }
                     }
+
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
                 });
                 return configPromise;
-
             }
 
 
@@ -73,19 +78,24 @@ angular.module('ds.shared')
                                 // if session still in tact, load user preferences
                                 AccountSvc.account().then(function (account) {
                                     if (account.preferredLanguage) {
-                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0]);
+                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
                                         languageSet = true;
                                     }
                                     if (account.preferredCurrency) {
-                                        GlobalData.setCurrency(account.preferredCurrency);
+                                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.initialization);
                                         currencySet = true;
                                     }
+
                                     if (!languageSet) {
                                         GlobalData.loadInitialLanguage();
                                     }
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
+                                    CategorySvc.getCategories().then(function(){
+                                        def.resolve({});
+                                    });
+
                                     return account;
                                 }).then(function(account){
                                     CartSvc.refreshCartAfterLogin(account.id);
@@ -93,9 +103,13 @@ angular.module('ds.shared')
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
-                                CartSvc.getCart();
+
+                                CategorySvc.getCategories().then(function(){
+                                    def.resolve({});
+                                });
+                                CartSvc.getCart(); // no need to wait for cart promise to resolve
+
                             }
-                            def.resolve({});
                             initialized = true;
                         });
                     }

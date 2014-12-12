@@ -1,9 +1,25 @@
-<section class="row">
+<section class="row" >
 
-	<section>
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
-		  <li class="active"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
+    <section>
+        <!-- Nav tabs -->
+        <div ng-if="googleClientId || fbAppId" class="socialMediaSigninContainer">
+            <div class="fbLogin col-sm-6" ng-click="fbLogin()">
+                <div class="fbLoginButton">
+                    <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
+                </div>
+            </div>
+            <div class="googlePlusLogin col-sm-6" ng-app="directive.g+signin" ng-if="googleClientId">
+                <div class="googleSignIn">
+                    <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
+                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Nav tabs -->
+		<ul class="nav nav-tabs signInTabs" role="tablist">
+		  <li class="active signInButton"><a href="#signin" role="tab" data-toggle="tab">{{'SIGN_IN' | translate}}</a></li>
 		  <li><a href="#signup" role="tab" data-toggle="tab">{{'CREATE_ACCOUNT' | translate}}</a></li>
 		</ul><br>
 

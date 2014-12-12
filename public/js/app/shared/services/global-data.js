@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.shared')
@@ -6,44 +18,67 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope',
-        function (storeConfig, $translate, CookieSvc, $rootScope) {
+    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
+        function (storeConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
 
-            var languageCode = 'en';
-            var acceptLanguages = languageCode;
+            var languageCode;
+            var defaultLang;
+            var languageMap = {};
+            var availableLanguages = {};
+            // HTTP accept-languages header setting for service calls
+            var acceptLanguages;
+
             var storeDefaultCurrency;
-            var activeCurrencyId = 'USD';
-            var currencyMap = [];
-            var availableCurrencies = [];
-            var languageMap = [];
-            var availableLanguages = [];
-            function setCurrencyWithOptionalCookie(currencyId, setCookie) {
-                if(currencyId && currencyId in currencyMap ) {
-                    if( currencyId!==activeCurrencyId){
-                        activeCurrencyId =  currencyId;
-                        $rootScope.$emit('currency:updated',  currencyId);
-                    }
-                    if(setCookie){
-                        CookieSvc.setCurrencyCookie(currencyId);
-                    }
+            var activeCurrencyId;
+            var currencyMap = {};
+            var availableCurrencies = {};
+
+
+            // for label translation, we're limited to what we're providing in localization settings in i18
+            function setTranslateLanguage(langCode){
+                if(settings.translateLanguages.indexOf(langCode)>-1){
+                    $translate.use(langCode);
+                } else if (translateSettings.supportedLanguages.indexOf(defaultLang) > -1){
+                    $translate.use(defaultLang);
                 } else {
-                    console.warn('Currency not valid: '+currencyId);
+                    $translate.use(translateSettings.defaultLanguageCode);
                 }
             }
 
-            function setLanguageWithOptionalCookie(newLangCode, setCookie){
-                if(newLangCode && newLangCode in languageMap) {
-                    if (languageCode !== newLangCode) {
-                        languageCode = newLangCode;
-                        $translate.use(languageCode);
-                        acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
-                        $rootScope.$emit('language:updated',  languageCode);
+            function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
+                if(currencyId && currencyId in currencyMap ) {
+                    if(setCookie){
+                        CookieSvc.setCurrencyCookie(currencyId);
                     }
-                    if(setCookie) {
-                        CookieSvc.setLanguageCookie(languageCode);
+                    if( currencyId!==activeCurrencyId){
+                        activeCurrencyId =  currencyId;
+
+                        if(updateSource!== settings.eventSource.initialization){  // don't event on initialization
+                            $rootScope.$emit('currency:updated',  {currencyId: activeCurrencyId, source: updateSource });
+                        }
                     }
                 } else {
-                    console.warn('Language not valid: '+newLangCode);
+                    console.warn('Currency not valid: '+currencyId+'. Using default currency '+storeDefaultCurrency);
+                    setCurrencyWithOptionalCookie(storeDefaultCurrency, true, updateSource);
+                }
+            }
+
+            function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource){
+                if(newLangCode && newLangCode in languageMap) {
+                    if(setCookie) {
+                        CookieSvc.setLanguageCookie(newLangCode);
+                    }
+                    if (languageCode !== newLangCode) {
+                        languageCode = newLangCode;
+                        acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                        if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
+                            $rootScope.$emit('language:updated',  {languageCode: languageCode, source: updateSource});
+                        }
+                    }
+                    setTranslateLanguage(languageCode);
+                } else {
+                    console.warn('Language not valid: '+newLangCode+'. Using default language '+defaultLang);
+                    setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
                 }
 
             }
@@ -80,18 +115,32 @@ angular.module('ds.shared')
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;
                     var symbol = '?';
-                    if (id === 'USD') {
+                    if (id === 'USD' || id === 'CAD') {
                         symbol = '$';
                     }
                     else if (id === 'EUR') {
                         symbol = '\u20AC';
                     }
+                    else if (id === 'GBP') {
+                        symbol = '\u20A4';
+                    }
+                    else if (id === 'JPY' || id === 'CNY') {
+                        symbol = '\u00A5';
+                    }
+                    else if (id === 'PLN') {
+                        symbol = '\u007A' + '\u0142';
+                    }
+                    else if (id === 'CHF') {
+                        symbol = 'CHF';
+                    }
+
+
                     return symbol;
                 },
 
                 /** Sets the code of the language that's supposed to be active for the store.*/
-                setLanguage: function (newLangCode) {
-                    setLanguageWithOptionalCookie(newLangCode, true);
+                setLanguage: function (newLangCode, updateSource) {
+                    setLanguageWithOptionalCookie(newLangCode, true, updateSource ? updateSource: settings.eventSource.unknown);
                 },
 
 
@@ -116,9 +165,9 @@ angular.module('ds.shared')
                 loadInitialLanguage: function(){
                     var languageCookie = CookieSvc.getLanguageCookie();
                     if(languageCookie && languageCookie.languageCode){
-                        setLanguageWithOptionalCookie(languageCookie.languageCode, false);
+                        setLanguageWithOptionalCookie(languageCookie.languageCode, false, settings.eventSource.initialization);
                     } else {
-                        setLanguageWithOptionalCookie(storeDefaultCurrency, true);
+                        setLanguageWithOptionalCookie(languageCode, true, settings.eventSource.initialization);
                     }
                 },
 
@@ -128,8 +177,8 @@ angular.module('ds.shared')
                  * If the id is not part of the "available" currencies, the update will be silently rejected.
                  * @param object with property id === currency id; if property setCookie === true, setting will
                  * be written to cookie (if valid)*/
-                setCurrency: function (currency) {
-                   setCurrencyWithOptionalCookie(currency, true);
+                setCurrency: function (currency, updateSource) {
+                   setCurrencyWithOptionalCookie(currency, true, updateSource ? updateSource: settings.eventSource.unknown);
                 },
 
                 /** Determines the initial active currency for the store, based on store configuration and
@@ -137,9 +186,9 @@ angular.module('ds.shared')
                 loadInitialCurrency: function(){
                     var currencyCookie = CookieSvc.getCurrencyCookie();
                     if(currencyCookie && currencyCookie.currency){
-                        setCurrencyWithOptionalCookie(currencyCookie.currency, false);
+                        setCurrencyWithOptionalCookie(currencyCookie.currency, false, settings.eventSource.initialization);
                     } else {
-                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true);
+                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true, settings.eventSource.initialization);
                     }
                 },
 
@@ -169,6 +218,9 @@ angular.module('ds.shared')
                             }
                         });
                     }
+                    if(!storeDefaultCurrency){
+                        console.error('No default currency defined!');
+                    }
                 },
 
                 /** Returns an array of currency instances supported by this project.*/
@@ -182,11 +234,15 @@ angular.module('ds.shared')
                         availableLanguages = languages;
                         angular.forEach(languages, function (language) {
                             languageMap[language.id] = language;
-
                             if (language.default) {
-                                languageCode = language.id;
+                                defaultLang = language.id;
+                                languageCode = defaultLang;
+                                acceptLanguages = defaultLang;
                             }
                         });
+                    }
+                    if(!defaultLang){
+                        console.error('No default language has been defined!');
                     }
                 },
 

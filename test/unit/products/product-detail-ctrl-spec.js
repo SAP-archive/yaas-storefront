@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedCategorySvc, cartDef,mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
     };
 
@@ -29,12 +29,12 @@ describe('ProductDetailCtrl', function () {
                 name: 'fakeCat',
                 slug: 'fake-cat'
             }
-        ]
+        ],
+        richCategory: {
+            id: 12345
+        }
     };
 
-    mockedCategorySvc = {
-        getSlug: jasmine.createSpy().andReturn('fake-cat')
-    };
 
     var dummyImg = 'dummy';
     var mockedSettings = {
@@ -67,8 +67,14 @@ describe('ProductDetailCtrl', function () {
         };
 
         $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'CategorySvc': mockedCategorySvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
 
+    });
+
+    describe('initialization', function(){
+       it('should set the category for the breadcrumb', function(){
+          expect($scope.category).toBeTruthy();
+       });
     });
 
     describe('buy published product', function () {
@@ -90,12 +96,32 @@ describe('ProductDetailCtrl', function () {
             expect($scope.error).toBeTruthy();
         });
 
+        it('should re-enable buy button on error', function(){
+            $scope.addToCartFromDetailPage();
+            cartDef.reject();
+            $scope.$apply();
+            expect($scope.buyButtonEnabled).toBeTruthy();
+        });
+
     });
 
     describe('initialization', function () {
         it('product without image should get default image', function () {
             expect($scope.product.images[0].url).toEqualData(dummyImg);
-            expect($scope.catSlug).toEqualData('fake-cat');
+        });
+    });
+
+    describe('quantity change', function () {
+        it('should disable buy button on invalid qty', function () {
+            $scope.productDetailQty = '';
+            $scope.changeQty();
+            expect($scope.buyButtonEnabled).toBeFalsy();
+        });
+
+        it('should enable buy button on valid qty', function () {
+            $scope.productDetailQty = 3;
+            $scope.changeQty();
+            expect($scope.buyButtonEnabled).toBeTruthy();
         });
     });
 

@@ -1,10 +1,154 @@
 .account{
+
+  .orderHistoryCard{
+    margin: 0 20px 20px 0;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-right: 0;
+    padding-left: 8px;
+
+    .panel{
+      margin-bottom: 0;
+      padding-right: 0;
+//
+    }
+
+    &.green{
+      background-color: #18bc33;
+    }
+
+    &.red{
+      background-color: #f31313;
+    }
+
+    &.blue{
+      background-color: #5bc0de;
+    }
+
+    .leftCol{
+      font-size: 11px;
+    }
+
+    .cardStatusIdentifier{
+      height: 100%;
+      width: 8px;
+    }
+  }
+
+  /* UPSCALING IMPROVMENTS */
+  @media screen and (max-width: @screen-sm-max){
+
+    section{
+        padding: 15px !important;
+
+        .area{
+          padding-bottom:50px;
+        }
+
+        .page-headline {
+          margin-top: 0;
+        }
+
+        .summary{
+          border-bottom: 1px solid #ddddd2 !important;
+        }
+
+        .cart-item{
+          padding: 25px 0;
+          border-top: 1px solid #ddddd2;
+          .item-attr{margin-bottom: 0 !important; margin-top: 0;}
+
+        }
+
+    }
+
+
+  }
+
+    h2{
+      font-size: 26px;
+      padding-bottom:0;
+      margin-bottom: 36px;
+    }
+
+    .orderHeaderContainer{
+
+      padding-bottom: 64px;
+
+      .section-headline{
+        margin-top: 64px;
+      }
+
+
+      .area{
+        min-height: 127px;
+        margin: 0;
+      }
+
+      address{
+        margin-bottom: 0;
+        min-height:1px;
+      }
+
+    }
+
+    .orderStatusContainer{
+      h2{
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    .orderItemsContainer{
+
+      .section-headline{
+        margin: 34px 0 25px 0;
+      }
+
+      h2{
+        padding: 0;
+        margin: 0;
+      }
+
+      .table-responsive{
+        font-size: 13px;
+      }
+
+      .img-col{
+        padding: 0;
+      }
+
+
+
+    }
+
+
+    section{
+      padding-left: 62px;
+      padding-right: 62px;
+    }
+
+
+
+    .breadCrumb{
+      font-family: @font-family-serif, serif;
+      text-transform: none;
+      font-style: italic;
+      font-size: 13px;
+    }
+
 	.img-circle{
 		margin-top: 25px;
 		min-width: 45px;
 	}
 	.page-headline{
-		margin-top: -@line-height-computed ;
+		margin-top: 65px;
+
+        h1{
+          font-size: 34px;
+          margin-top: 5px;
+        }
+
 	}
 	.inline-label{
 		font-family: @font-family-serif, serif;
@@ -15,16 +159,19 @@
 	.order-status{
 		font-family:   @font-family-sans-serif;
 		font-style: normal;
+        font-weight: bold;
+        font-size: 26px;
 	}
 
 	.cart-item{
 		border:none;
+        padding-top: 0;
 		padding-bottom: 0;
 		padding-left: 0;
 	}
 
 	.summary{
-		float: right;
+//		float: right;
 		@media screen and (max-width: @screen-xs-max) {
 			width: 100%;
 			float: none;
@@ -33,6 +180,24 @@
 
 	.order-tabel{
 		border-bottom: 1px solid @table-border-color;
+        table{width: auto;}
+        th{
+          padding-left: 0;
+          padding-right: 0;
+          font-weight: 500;
+          white-space: normal !important;
+        }
+
+        td{
+          padding: 28px 0;
+          white-space: normal !important;
+        }
+
+        .priceColumn{
+          text-align: right;
+          padding-right: 12px;
+        }
+
 	}
 }
 
@@ -57,3 +222,5 @@ address {
 		color: @state-danger-text !important;
 	}
 }
+
+

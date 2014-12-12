@@ -1,4 +1,4 @@
-<section class="white">
+<section class="white productDetailsContainer">
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
@@ -18,7 +18,10 @@
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
                 <div class="page-headline">
-                    <small><a ui-sref="base.category( {catName: catSlug} )">{{product.categories[0].name}}</a></small></br>
+                    <small><a ng-repeat="cat in category.path" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
+                        <span ng-if="!$first">/</span> {{cat.name}}
+                    </a></small>
+                   </br>
                 </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
@@ -30,8 +33,8 @@
                                 <span class="input-group-addon">
                                     <label for="" >{{'QTY' | translate}}: </label>
                                 </span>
-                                <input type="number" min="1" step="1" pattern="\d*" class="form-control"
-                                    ng-model="productDetailQty"
+                                <input type="number" min="1" step="1" pattern="\d*" class="form-control quantity"
+                                    ng-model="productDetailQty" ng-change="changeQty(event)"
                                     onkeydown="return ( event.ctrlKey || event.altKey
                                         || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                                         || (95<event.keyCode && event.keyCode<106)
@@ -43,18 +46,16 @@
                     </div>  
 
                     <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div ng-if="error" class="error" >
+                        <div ng-if="error" class="col-md-12 col-lg-12">
+                            <div class="error" >
                                 <small class="help-inline has-error">
                                     {{'ERROR_ADDING_TO_CART' | translate}}
                                 </small>
                             </div>
                         </div>
-                        <div ng-show="{{product.inStock}}" class="col-md-12 col-lg-12">
-                            <button id="buy-button" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
-                        </div>
-                        <div ng-show="{{!product.inStock}}" class="col-md-12 col-lg-12">
-                            <button class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
+                        <div  class="col-md-12 col-lg-12 buyButton">
+                            <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'BUY' | translate}}</button>
+                            <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
                         </div>
                     </div>
                 </form>

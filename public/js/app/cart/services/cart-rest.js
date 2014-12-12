@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -13,12 +13,12 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('CartREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Endpoint for Main Cart.*/
             Cart: Restangular.withConfig(function (RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.cart.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.cart.baseUrl);
             })
         };
 

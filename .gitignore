@@ -6,6 +6,9 @@ public/js/vendor
 public/css/vendor
 .tmp/
 *.iml
+public/css/app/style.css.map
 .idea
 coverage/
 config/config.js
+dist
+.DS_Store

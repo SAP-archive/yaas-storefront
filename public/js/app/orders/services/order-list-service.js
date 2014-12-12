@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -18,7 +18,7 @@ angular.module('ds.orders')
         var getOrders = function (parms) {
             var ordersPromise = OrdersREST.Orders.all('orders').getList(parms);
             ordersPromise.then(function(response) {
-                GlobalData.orders.meta.total = parseInt(response.headers[settings.apis.headers.paging.total], 10) || 0;
+                GlobalData.orders.meta.total = parseInt(response.headers[settings.headers.paging.total], 10) || 0;
             });
             return ordersPromise;
         };

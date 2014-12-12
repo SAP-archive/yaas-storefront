@@ -76,15 +76,46 @@
     <div class="row">
       <div ng-include="'./js/app/account/templates/addresses.html'"></div>
     </div>
-    <div class="text-center" ng-if="GlobalData.addresses.meta.total > addresses.length">
-      <button class="btn btn-link" ng-click="showAllAddresses()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+
+    <div class="text-center" ng-if="showAddressButtons">
+      <button class="btn btn-link" ng-show="showAllAddressButton" ng-click="showAllAddresses()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link" ng-show="!showAllAddressButton" ng-click="showAllAddresses()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
     </div>
+
   </section>
   <section class="mediumgray">
     <div class="section-headline clearfix">
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
-    <div class="table-responsive">
+
+   <div class="hidden-md hidden-lg row">
+       <div ng-repeat="order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
+           <div class="cardStatusIdentifier pull-left" ></div>
+           <div class="panel">
+               <div class="panel-body " >
+                   <div class="row">
+                       <div class="col-sm-8 col-xs-8 leftCol">
+                           <p>
+                           <strong>{{'PLACED_AT'|translate}}</strong></br>
+                           {{order.created | date: 'medium'}}
+                           </p>
+                           <p>
+                               <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
+                               <a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a>
+                           </p>
+                           <p>{{order.totalPrice | currency: order.currencySymbol}}</p>
+                       </div>
+                       <div class="col-sm-4 col-xs-4">
+                        <p><strong>{{order.status}}</strong></p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+
+    <div class="table-responsive hidden-sm hidden-xs">
       <table class="table">
         <thead>
           <tr>
@@ -95,17 +126,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="order in orders">
+          <tr ng-repeat="order in orders | limitTo: showOrdersFilter ">
             <td>{{order.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.totalPrice | currency: currencySymbol}}</td>
+            <td>{{order.totalPrice | currency: order.currencySymbol}}</td>
             <td><strong>{{order.status}}</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="text-center">
-      <button class="btn btn-link" ng-show="showAllButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+
+    <div class="text-center" ng-if="showOrderButtons">
+      <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
     </div>
+
+
   </section>
+
 </div>

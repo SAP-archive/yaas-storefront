@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.i18n')
@@ -8,6 +20,7 @@ angular.module('ds.i18n')
          */
         CHECKOUT: 'Checkout',
         CONTINUE_SHOPPING: 'Continue shopping',
+        SHOP: 'Shop',
         EST_ORDER_TOTAL: 'Est. order total',
         FREE_SHIPPING: 'Free Shipping and Returns in the US',
         ITEM: 'Item',
@@ -49,6 +62,7 @@ angular.module('ds.i18n')
         PAYMENT: 'Payment',
         PHONE_REQUIRED: 'Phone Required',
         PLACE_ORDER: 'Place Order',
+        PLACED_AT: 'Placed At',
         PLEASE_CORRECT_ERRORS: 'Please correct the errors above before placing your order.',
         PLEASE_ENTER_VALID_CC: 'Please enter a valid credit card number',
         PLEASE_ENTER_VALID_CODE: 'Please enter a valid code',
@@ -64,7 +78,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: 'Step 1. My Details',
         STEP_2_SHIPPING_INFORMATION: 'Step 2. Shipping Information',
         STEP_3_PAYMENT: 'Step 3. Payment',
-        STEP_4_REVIEW_AND_PAYMENT: 'Step 4. Review and Payment',
+        STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
         TAX: 'Tax',
         TOTAL: 'Total',
@@ -78,6 +92,7 @@ angular.module('ds.i18n')
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
         ENJOY_YOUR_ITEMS: 'Enjoy your items!',
         FOR_YOUR_ORDER: 'for your order!',
+        ITEM_IN_YOUR_ORDER: 'Item in your order',
         ITEMS_IN_YOUR_ORDER: 'Items in your order',
         QUESTIONS: 'If you have any questions, contact us at',
         ORDER: 'Order',
@@ -92,6 +107,7 @@ angular.module('ds.i18n')
             navigation
          */
         PRODUCTS: 'Products',
+        BACK_TO: 'Back To',
 
         /*
             product detail page
@@ -120,6 +136,8 @@ angular.module('ds.i18n')
 		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
+        SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Log in with Google +',
         MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',
@@ -157,6 +175,7 @@ angular.module('ds.i18n')
         WRONG_CURRENT_PASSWORD: 'Please provide correct current password!',
         PASSWORD_TOO_SHORT: 'Password too short',
         SHOW_ALL: 'Show all',
+        SHOW_LESS: 'Show less',
 
         /*
            login, password, signup
@@ -191,6 +210,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
         ENTER_EMAIL: 'Enter Email',
+        LOGIN_FAILED: 'Login failed',
 
 
         /*

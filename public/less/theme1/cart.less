@@ -8,10 +8,6 @@
 
 	/* TOP BUTTON ROW */ 
 	.btn-group{
-		&.continue{
-			.hidden-sm; 
-			.hidden-xs;
-		}
 
 		&.checkout{
 			&.disabled{
@@ -114,7 +110,7 @@
 		font-family: Georgia, "Times New Roman", serif;
 		font-style: italic;
 		color: @darkergrey;	
-		font-size: 14px;
+		font-size: 13px;
 
 		span{
 			font-size: 16px;
@@ -171,18 +167,21 @@
 .summary{
 
 	text-transform: uppercase;
+    margin-top: 26px;
 
 	table{
 		th, tfoot td{
 			color: @darkestgrey;
-			font-size: 19px;
-			font-weight: normal;
+			font-size: 21px;
+			font-weight: 400;
 			border-width: 1px;
 		}
 		& > tbody > tr > td{
 			color: @darkgrey;
 			border:none;
 			font-size: 14px;
+            padding-bottom: 21px;
+            padding-top: 0;
 		}
 
 

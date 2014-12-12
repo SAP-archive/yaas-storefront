@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -13,11 +13,11 @@
 'use strict';
 
 angular.module('ds.confirmation')
-    .factory('OrderREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('OrderREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             Orders: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.orders.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.orders.baseUrl);
             })
         };
 

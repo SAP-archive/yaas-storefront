@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -14,12 +14,12 @@
 
 /** REST service configuration for the "configuration" API. */
 angular.module('ds.shared')
-    .factory('ConfigurationREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('ConfigurationREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Main configuration endpoint.*/
             Config: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(settings.apis.configuration.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.configuration.baseUrl);
             })
         };
 

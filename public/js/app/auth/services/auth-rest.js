@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -14,7 +14,7 @@
 
 /** REST configuration for services related to authorization. */
 angular.module('ds.auth')
-    .factory('AuthREST', ['settings', 'Restangular', function(settings, Restangular){
+    .factory('AuthREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
             /** Configures main authorization API endpoint.*/
@@ -27,7 +27,7 @@ angular.module('ds.auth')
                     }
                     return result;
                 });
-                RestangularConfigurer.setBaseUrl(settings.apis.customers.baseUrl);
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.customers.baseUrl);
             })
 
         };
