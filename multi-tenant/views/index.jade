@@ -19,7 +19,7 @@ html
 
     div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
       div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation", sticky-navigation)
-      div(class="mainContent")
+      div(class="mainContent", hy-match-container="window", min-height)
           div(ui-view="topNavigation")
           div(class="main")
             div(ui-view="main")
@@ -68,6 +68,7 @@ html
     script(src='js/app/shared/settings.js')
     script(src='js/app/shared/site-config.js')
     script(src='js/app/shared/directives/sticky-navigation.js')
+    script(src='js/app/shared/directives/min-height.js')
     script(src='js/app/shared/directives/menu-aim.js')
     script(src='js/app/shared/services/cookie-svc.js')
     script(src='js/app/shared/services/global-data.js')
@@ -76,7 +77,6 @@ html
     script(src='js/app/shared/services/http-queue.js')
     script(src='js/app/shared/services/event-service.js')
     script(src='js/app/shared/filters/filters.js')
-    script(src='js/app/shared/directives/sticky-navigation.js') 
     script(src='js/app/shared/controllers/sidebar-navigation-ctrl.js')
     script(src='js/app/shared/controllers/top-navigation-ctrl.js')
 

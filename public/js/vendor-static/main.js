@@ -13,6 +13,8 @@ var initRefineAffix = function()
 
 $(document).ready(function () {
 
+    $()
+
 	if ($(".gallery .image").length && $(".gallery .image").owlCarousel) {
 		$(".gallery .image").owlCarousel({
 			singleItem : true,
