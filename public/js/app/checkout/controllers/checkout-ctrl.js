@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -181,6 +181,8 @@ angular.module('ds.checkout')
                 for (var year = new Date().getFullYear(), i = year, stop = year + 10; i < stop; i++) {
                     this.years.push(i);
                 }
+                this.months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
             };
 
             $scope.wiz = new Wiz();

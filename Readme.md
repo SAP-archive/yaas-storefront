@@ -9,9 +9,6 @@ serve as starting point for creating a customized store front.
 The following steps will demonstrate how to install and run the code on localhost.  At the end, you will be able to browse and "shop" in 
 a pre-configured store.  Feel free to take items through checkout, using any Stripe test credit card number (https://stripe.com/docs/testing).
 
-Please do not invoke any POST or PUT requests against the default tenant by programmatic means or through a REST console.
-You may do so after setting up your own tenant.
-
 ###  1. System requirements
 
 Install node and npm:
@@ -28,10 +25,11 @@ Install bower:
 
 	$ npm install -g bower
 
-
 ### 2. Project requirements
 
-To locally install the project execute:
+Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod. **Develop** will change frequently, and may contain experimental features and code changes against services that are only available in development and test environments.
+
+To locally install the project, execute:
 
 	$ npm install
 	$ npm update 
@@ -50,9 +48,8 @@ This will launch a storefront for an existing tenant against the "prod" environm
 
 Now, let's create a new tenant for your specific project so that you can modify your store and product offering as you see fit.
 
-If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
-
 ### 1.  Sign up for your a new store and configure it
+If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
 Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
 
 ### 2.  Replace the default tenant id in the code base with your own (see project adminstration settings in the Builder).  
@@ -71,9 +68,9 @@ Preparing project for deployment (concatenation/minification/revisioning):
 
 	$ grunt build:prod
 
-	    The :prod parameter is required to set the dynamic domains of the api service.
-	    If this domain is not specified with the parameter, it is very likely that the services will not be located.
-	    npm start is configured to run grunt build:prod. Other options are :stage and :test and can be configured in the gruntfile.
+The :prod parameter is required to set the dynamic domains of the api service.  If this domain is not specified with the parameter, it is very likely that the services will not be located.
+
+**npm start** is configured to run **grunt build:prod**. Other options are **:stage** and **:test** and can be configured in the gruntfile.
 
 Then on page public/index.html, remove the existing script references and replace them with references to the two 
 generated static files from **dist** directory (dist/js/*.js, dist/css/*.css).
@@ -112,25 +109,27 @@ in an optional step.
 
 ## Application Events
 
--'cart:updated' - fired when new cart information has been acquired from the service; 
-    event object:
+The following application events are used to communicate state changes that affect the entire application overall.  Interested controllers can subscribe to these events.  
+
+- **'cart:updated'** - fired when new cart information has been acquired from the service; 
+    - event object:
         - cart - current cart instance
         - source - source event of the update (manual | currency | language | merge | reset)
--'language:updated' - fired when the store's language has changed
-    event object:
+- **'language:updated'** - fired when the store's language has changed
+    - event object:
         - languageCode: new language code
         - source: source of the event
--'currency:updated' - fired when the store's currency has changed
-    event object:
+- **'currency:updated'** - fired when the store's currency has changed
+    - event object:
         - currencyId: new currency id
         - source: source of the event
--'categories:updated' - fired when categories have been reloaded
-    event object:
+- **'categories:updated'** - fired when categories have been reloaded
+    - event object:
         - categories: new category tree
--'user:signedin' - signals that a user has been authenticated
--'user:signedout' - signals that a user has logged off
--'categories:updated' - signals that categories have been reloaded by Category Service 
--'category:selected' - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
+        - source: reason for category update
+- **'user:signedin'** - signals that a user has been authenticated
+- **'user:signedout'** - signals that a user has logged off
+- **'category:selected'** - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
 
 ## Running Against Different Environments
 
@@ -204,6 +203,14 @@ between modules.
 - [Angular Bootstrap](http://angular-ui.github.io/bootstrap/) AngularJS implementation for Bootstrap widgets (for instance, pagination).
 - [Restangular](https://github.com/mgonto/restangular) Library simplifying access of REST services through Angular's $resource service.
 - [ngInfiniteScroll](http://binarymuse.github.io/ngInfiniteScroll/) Infinite scrolling in AngularJS. Used for the "browse product" pages.
+
+### About Contributions
+ 
+At the moment, we are not accepting pull requests or contributions to this repository.  This is likely to change in the future.  In the meantime, we encourage you to create a fork of the repository and make edits there.  You can also report bugs using GitHub's issue tracking system.
+
+### License
+ 
+See the License.md file for complete license information.
 
 
 
