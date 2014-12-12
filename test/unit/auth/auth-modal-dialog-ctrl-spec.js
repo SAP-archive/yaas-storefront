@@ -16,6 +16,7 @@ describe('AuthModalDialogCtrl Test', function () {
     var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
        mockedSessionSvc={
            afterLogIn: jasmine.createSpy()
+
        }, mockBackend,
         deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
@@ -30,7 +31,7 @@ describe('AuthModalDialogCtrl Test', function () {
         init: jasmine.createSpy()
 
     };
-    var googleClientId = 'gClientId';
+    var googleClientId = 'google.client.id';
     var mockedSettings = {
         googleClientId: googleClientId,
         configKeys: {
@@ -90,15 +91,43 @@ describe('AuthModalDialogCtrl Test', function () {
         deferredSocialLogin = $q.defer();
 
         MockedAuthSvc = {
+            user:{
+
+            },
+
+            errors:{
+
+            },
+
+            FormSignup: jasmine.createSpy('FormSignup'),
+
+            FormSignIn: jasmine.createSpy('FormSignIn'),
+
+            clearErrors: jasmine.createSpy('clearErrors'),
+
+            isAuthenticated: jasmine.createSpy('isAuthenticated'),
+
+            requestPasswordReset: jasmine.createSpy('requestPasswordReset'),
+
+            changePassword: jasmine.createSpy('changePassword'),
+
             signin: jasmine.createSpy('signin').andCallFake(function(){
                 return deferredSignIn.promise;
             }),
             signup: jasmine.createSpy('signup').andCallFake(function() {
                 return deferredSignUp.promise;
             }),
-            socialLogin: jasmine.createSpy('socialLogin').andCallFake(function(){
-                return deferredSocialLogin.promise;
-            })
+            initFBAPI: jasmine.createSpy('initFBAPI').andCallFake(function(){
+//                return deferredIni
+            }),
+
+            onGoogleLogIn: jasmine.createSpy('onGoogleLogIn'),
+
+            fbParse: jasmine.createSpy('fbParse'),
+
+            faceBookLogin: jasmine.createSpy('faceBookLogin'),
+
+            socialLogin: jasmine.createSpy('socialLogin')
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
@@ -109,18 +138,13 @@ describe('AuthModalDialogCtrl Test', function () {
 
     it("should expose correct data to the scope", function() {
         expect($scope.user).toBeDefined();
-        expect($scope.user.signup).toBeDefined();
-        expect($scope.user.signin).toBeDefined();
         expect($scope.errors).toBeDefined();
-        expect($scope.errors.signup).toBeDefined();
-        expect($scope.errors.signin).toBeDefined();
         expect($scope.signup).toBeDefined();
         expect($scope.signin).toBeDefined();
         expect($scope.continueAsGuest).toBeDefined();
         expect($scope.showResetPassword).toBeDefined();
         expect($scope.clearErrors).toBeDefined();
         expect($scope.googleClientId).toEqualData(googleClientId);
-        expect($window.fbAsyncInit).toBeTruthy();
     });
 
     describe('signin()', function(){
@@ -128,7 +152,7 @@ describe('AuthModalDialogCtrl Test', function () {
         it("should call AuthSvc signin if form valid", function() {
             mockedForm.$valid = true;
             $scope.signin(authModel, mockedForm);
-            expect(MockedAuthSvc.signin).toHaveBeenCalledWith(authModel);
+            expect(MockedAuthSvc.FormSignIn).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -145,13 +169,12 @@ describe('AuthModalDialogCtrl Test', function () {
             deferredSignIn.resolve({});
             $rootScope.$apply();
 
-            expect($modalInstanceMock.close).toHaveBeenCalled();
-            expect($scope.errors.signin).toEqualData([]);
+            expect($scope.errors.signin).toEqualData(['bad stuff']);
         });
 
         it('should set errors on failure', function(){
             mockedForm.$valid = true;
-            $scope.errors.signin = [];
+            $scope.errors.signin = [{message: 'PASSWORD_INVALID'}];
             $scope.signin(authModel, mockedForm);
             deferredSignIn.reject({status: 400, data:{ details:[{field: 'password'}]}});
             $rootScope.$apply();
@@ -161,16 +184,14 @@ describe('AuthModalDialogCtrl Test', function () {
 
     describe('signup', function(){
 
-        it("should call AuthSvc signup if form valid", function() {
+        it("should call AuthSvc signup if form valid form valid", function() {
             mockedForm.$valid = true;
             $scope.errors.signup = ['bad stuff'];
             $scope.signup(authModel, mockedForm);
 
             deferredSignUp.resolve({});
             $rootScope.$apply();
-            expect(MockedAuthSvc.signup).toHaveBeenCalledWith(authModel, {});
-            expect($modalInstanceMock.close).toHaveBeenCalled();
-            expect($scope.errors.signup).toEqualData([]);
+            expect(MockedAuthSvc.FormSignup).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -179,14 +200,6 @@ describe('AuthModalDialogCtrl Test', function () {
             expect(MockedAuthSvc.signup).not.toHaveBeenCalled();
         });
 
-        it('should set errors on failure', function(){
-            mockedForm.$valid = true;
-            $scope.errors.signup = [];
-            $scope.signup(authModel, mockedForm);
-            deferredSignUp.reject({status: 409});
-            $rootScope.$apply();
-            expect($scope.errors.signup).toEqualData([{ message: 'ACCOUNT_ALREADY_EXISTS' }]);
-        });
 
     });
 
@@ -209,8 +222,7 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.errors.signin = ['something is wrong'];
             $scope.errors.signup = ['more stuff wrong'];
             $scope.clearErrors();
-            expect($scope.errors.signin).toEqualData([]);
-            expect($scope.errors.signup).toEqualData([]);
+            expect(MockedAuthSvc.clearErrors).toHaveBeenCalled();
         });
     });
 
@@ -218,16 +230,9 @@ describe('AuthModalDialogCtrl Test', function () {
         it('should invoke social login', function(){
             var token = 'token';
             $scope.fbLogin();
-            expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+            expect(MockedAuthSvc.faceBookLogin).toHaveBeenCalled();
         });
     });
-
-    describe('fbParse()', function(){
-        it('should invoke FB parse', function(){
-           $scope.fbParse();
-            expect(FB.XFBML.parse).toHaveBeenCalled();
-        });
-    })
 
     describe('onGoogleLogin', function(){
        it('should invoke social login', function(){
@@ -235,7 +240,7 @@ describe('AuthModalDialogCtrl Test', function () {
            $rootScope.$broadcast('event:google-plus-signin-success', {access_token: token});
            deferredSocialLogin.resolve({});
            $scope.$apply();
-           expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
+           expect(MockedAuthSvc.onGoogleLogIn).toHaveBeenCalled();
        });
     });
 
