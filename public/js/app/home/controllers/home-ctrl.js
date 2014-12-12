@@ -22,11 +22,11 @@ angular.module('ds.home')
             $scope.slides = [
                 {
                     image: './img/homePg-hero-audio.jpg',
-                    url: window.location.origin + '/#!/ct/',
+                    state: 'base.category'
                 },
                 {
                     image: './img/homePg-hero-office.jpg',
-                    url: window.location.origin + '/#!/ct/',
+                    state: 'base.category'
                 }
             ];
 
