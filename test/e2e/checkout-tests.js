@@ -106,17 +106,22 @@ var tu = require('./protractor-utils.js');
 
 describe("checkout:", function () {
 
-
+   beforeEach(function(){
+       browser.driver.manage().window().maximize();
+   });
 
    describe("verify checkout functionality", function () {
 
      beforeEach(function () {
      	browser.manage().deleteAllCookies();
+
         browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
-        browser.driver.manage().window().maximize();
-        browser.sleep(8000);
+
+         browser.wait(function(){
+             return element(by.id(tu.buyButton)).isPresent();
+         });
         tu.clickElement('id', tu.buyButton);
-        browser.sleep(2000);
+
      });
 
 
@@ -238,16 +243,16 @@ describe("checkout:", function () {
    });
 });
 
-describe("mobile checkout:", function () {
+xdescribe("mobile checkout:", function () {
 
-
+   beforeEach(function(){
+       browser.driver.manage().window().setSize(750, 1100);
+   });
 
    describe("verify mobile checkout functionality", function () {
 
      beforeEach(function () {
-      browser.manage().deleteAllCookies();    	
-
-        browser.driver.manage().window().setSize(750, 1100);       
+      browser.manage().deleteAllCookies();
         browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
        browser.sleep(8000);
      });

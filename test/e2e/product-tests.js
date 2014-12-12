@@ -11,12 +11,20 @@ var tu = require('./protractor-utils.js');
 
 describe("product page", function () {
 
+    beforeEach(function () {
+        browser.manage().deleteAllCookies();
+
+        browser.driver.manage().window().maximize();
+
+    });
+
   describe("verify product pages", function () {
 
     beforeEach(function () {
-      browser.manage().deleteAllCookies();    	
-      browser.get(tu.tenant + '/#!/products');
-      browser.driver.manage().window().maximize();
+
+        // NOTE - THIS ROUTE ACTUALLY WON'T BE HIT ANYMORE BY USERS SINCE ADDITION OF NEW HOME PAGE
+        // (but it still demonstrates overall product behavior, so I think it's OK)
+      browser.get(tu.tenant + '/#!/ct/');
       browser.sleep(8000);
     });
 

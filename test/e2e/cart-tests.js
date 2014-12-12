@@ -17,15 +17,17 @@ var tu = require('./protractor-utils.js');
 
 describe("cart:", function () {
 
+   beforeEach(function(){
+       browser.driver.manage().window().maximize();
 
+   });
 
    describe("verify cart functionality", function () {
 
      beforeEach(function () {
+         browser.manage().deleteAllCookies();
          // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
-       browser.driver.manage().window().maximize();
-       browser.manage().deleteAllCookies();
-       browser.get(tu.tenant + '/#!/products');
+       browser.get(tu.tenant + '/#!/ct/');
        browser.sleep(10000);
      });
 

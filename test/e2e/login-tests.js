@@ -35,7 +35,7 @@ describe("login:", function () {
          // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
       browser.manage().deleteAllCookies();    	
        browser.driver.manage().window().maximize();
-       browser.get(tu.tenant + '/#!/products');
+       browser.get(tu.tenant + '/#!/ct');
        browser.sleep(8000);
      });
 

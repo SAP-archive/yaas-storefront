@@ -1,13 +1,15 @@
+var ScreenShotReporter = require('protractor-screenshot-reporter');
+
 exports.config = {
   allScriptsTimeout: 30000,
 
   specs: [
-    '../test/e2e/*tests.js'
+    //'../test/e2e/*tests.js'
+      '../test/e2e/product-tests.js'
   ],
 
   capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.cli.args':['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
+    'browserName': 'chrome'
   },
 
   onPrepare: function() {      
@@ -15,9 +17,16 @@ exports.config = {
     jasmine.getEnv().addReporter(
       new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
     );
+      // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
+      jasmine.getEnv().addReporter(new ScreenShotReporter({
+          baseDirectory: './tmp/screenshots',
+          takeScreenShotsOnlyForFailedSpecs: true
+      }));
   },
 
-  baseUrl: 'http://demo-store.dev.cf.hybris.com/',
+
+
+  baseUrl: 'http://localhost:9000/',
 
   framework: 'jasmine',
 

@@ -22,7 +22,7 @@
 
       beforeEach(function () {
         browser.manage().deleteAllCookies();
-        browser.get(tu.tenant + '/#!/products');
+        browser.get(tu.tenant + '/#!/ct');
         browser.driver.manage().window().maximize();
         browser.sleep(9000);
       });
