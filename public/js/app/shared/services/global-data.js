@@ -70,7 +70,7 @@ angular.module('ds.shared')
                     }
                     if (languageCode !== newLangCode) {
                         languageCode = newLangCode;
-                        acceptLanguages = (languageCode === storeConfig.defaultLanguage ? languageCode : languageCode + ';q=1,' + storeConfig.defaultLanguage + ';q=0.5');
+                        acceptLanguages = (languageCode === defaultLang ? languageCode : languageCode + ';q=1,' + defaultLang + ';q=0.5');
                         if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
                             $rootScope.$emit('language:updated',  {languageCode: languageCode, source: updateSource});
                         }
