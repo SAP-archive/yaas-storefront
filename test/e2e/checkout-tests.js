@@ -140,7 +140,10 @@ describe("checkout:", function () {
 
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
-            tu.clickElement('css', 'img');
+            //reload product page to get around homepage
+           browser.get(tu.tenant + '/#!/ct');
+           // proper way:
+           // tu.clickElement('css', 'img');
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
@@ -222,8 +225,10 @@ describe("checkout:", function () {
            it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
-            tu.clickElement('css', 'img');
-            tu.clickElement('xpath', tu.whiteThermos);
+            //reload product page to get around homepage
+           browser.get(tu.tenant + '/#!/ct');
+           // proper way:
+           // tu.clickElement('css', 'img');            tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');

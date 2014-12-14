@@ -194,7 +194,7 @@ describe("login:", function () {
          tu.clickElement('id', 'update-password-btn');
          browser.sleep(500);
          tu.clickElement('id', "logout-btn");
-         browser.sleep(1000);
+         browser.sleep(500);
          browser.get(tu.tenant + '/#!/ct');
          tu.clickElement('id', "login-btn");
          browser.sleep(1000);

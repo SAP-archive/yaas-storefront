@@ -79,7 +79,10 @@ describe("cart:", function () {
            tu.verifyCartTotal("$10.67");
            tu.clickElement('binding', 'CONTINUE_SHOPPING');
            browser.sleep(500);
-           tu.clickElement('css', 'img');
+            //reload product page to get around homepage
+           browser.get(tu.tenant + '/#!/ct');
+           // proper way:
+           // tu.clickElement('css', 'img');
            browser.sleep(250);
            tu.clickElement('xpath', tu.whiteThermos);
            tu.clickElement('id', tu.buyButton);
