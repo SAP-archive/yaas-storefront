@@ -182,7 +182,7 @@ describe("login:", function () {
          tu.clickElement('id', "logout-btn");
        });
 
-       iit('should allow user to update their password', function () {
+       it('should allow user to update their password', function () {
          tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);

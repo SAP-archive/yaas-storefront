@@ -4,8 +4,8 @@ exports.config = {
   allScriptsTimeout: 30000,
 
   specs: [
-    // '../test/e2e/*tests.js'
-      '../test/e2e/login-tests.js'   
+    '../test/e2e/*tests.js'
+      // '../test/e2e/login-tests.js'   
   ],
 
   capabilities: {
@@ -35,7 +35,7 @@ browser.addMockModule('disableNgAnimate', disableNgAnimate);
 
 
 
-  baseUrl: 'http://localhost:9000/',
+  baseUrl: 'http://demo-store.dev.cf.hybris.com//',
 
   framework: 'jasmine',
 
