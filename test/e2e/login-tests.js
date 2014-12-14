@@ -135,7 +135,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password with incorrect password', function () {
-         tu.loginHelper('password@test.com', 'password');
+         tu.loginHelper('badpassword@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -152,7 +152,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password if it less than 6 chars', function () {
-         tu.loginHelper('password@test.com', 'password');
+         tu.loginHelper('badpassword@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -168,7 +168,7 @@ describe("login:", function () {
        });
 
        it('should not allow user to update their password if it does not match confirmation', function () {
-         tu.loginHelper('password@test.com', 'password');
+         tu.loginHelper('badpassword@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
          tu.clickElement('id', 'password-edit');
@@ -182,7 +182,7 @@ describe("login:", function () {
          tu.clickElement('id', "logout-btn");
        });
 
-       it('should allow user to update their password', function () {
+       iit('should allow user to update their password', function () {
          tu.loginHelper('password@test.com', 'password');
          tu.clickElement('css', 'img.user-avatar');
          browser.sleep(1000);
@@ -194,7 +194,8 @@ describe("login:", function () {
          tu.clickElement('id', 'update-password-btn');
          browser.sleep(500);
          tu.clickElement('id', "logout-btn");
-         browser.sleep(500);
+         browser.sleep(1000);
+         browser.get(tu.tenant + '/#!/ct');
          tu.clickElement('id', "login-btn");
          browser.sleep(1000);
          tu.sendKeysById('usernameInput', 'password@test.com');

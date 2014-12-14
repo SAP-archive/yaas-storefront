@@ -1,4 +1,4 @@
-var ScreenShotReporter = require('protractor-screenshot-reporter');
+// var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
   allScriptsTimeout: 30000,
@@ -15,20 +15,27 @@ exports.config = {
   },
 
   onPrepare: function() {      
-    require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
-    );
-      // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
-      jasmine.getEnv().addReporter(new ScreenShotReporter({
-          baseDirectory: './tmp/screenshots',
-          takeScreenShotsOnlyForFailedSpecs: true
-      }));
+    // require('jasmine-reporters');
+    // jasmine.getEnv().addReporter(
+    //   new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
+    // );
+    //   // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
+    //   jasmine.getEnv().addReporter(new ScreenShotReporter({
+    //       baseDirectory: './tmp/screenshots',
+    //       takeScreenShotsOnlyForFailedSpecs: true
+    //   }));
+    var disableNgAnimate = function() {
+      angular.module('disableNgAnimate', []).run(['$animate', function($animate) {
+        $animate.enabled(false);
+      }]);
+};
+
+browser.addMockModule('disableNgAnimate', disableNgAnimate);
   },
 
 
 
-  baseUrl: 'http://demo-store.dev.cf.hybris.com/',
+  baseUrl: 'http://localhost:9000/',
 
   framework: 'jasmine',
 
