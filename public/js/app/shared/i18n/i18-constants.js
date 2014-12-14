@@ -13,32 +13,28 @@
 'use strict';
 
 angular.module('ds.i18n')
-     /** Provides access to the dictionaries.*/
-	.provider('i18nConstants', ['TranslationsEN', 'TranslationsDE',
-		function i18nConstantsProvider(TranslationsEN, TranslationsDE) {
-		
-			this.languages = {
-				en: {
-					code: 'en',
-					translations: TranslationsEN
-				},
-				de: {
-					code: 'de',
-					translations: TranslationsDE
-				}
-			};
+    // default and supported languages for static information only - service language preferences are set in "GlobalData" via config service
+    .constant('translateSettings', {
+        defaultLanguageCode: 'en',
+        supportedLanguages: ['en', 'de']
+    })
+/** Provides access to the dictionaries.*/
+    .provider('i18nConstants', ['TranslationsEN', 'TranslationsDE',
+        function i18nConstantsProvider(TranslationsEN, TranslationsDE) {
 
-			this.getLanguageCodes = function() {
-				var langCodes = [];
-				for(var lang in this.languages) {
-					langCodes.push(this.languages[lang].code);
-				}
-				return langCodes;
-			};
+            this.$get = [function () {
+                return this;
+            }];
 
-			this.$get = [function() {
-				return this;
-			}];
-
-		}
-	]);
+            this.languages = {
+                en: {
+                    code: 'en',
+                    translations: TranslationsEN
+                },
+                de: {
+                    code: 'de',
+                    translations: TranslationsDE
+                }
+            };
+        }
+    ]);

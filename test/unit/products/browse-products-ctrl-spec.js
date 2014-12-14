@@ -24,7 +24,7 @@ describe('BrowseProductsCtrl', function () {
     var mockedState = { transitionTo: jasmine.createSpy()};
 
     var mockedCategorySvc = {};
-    var mockedSettings = {placeholderImage: 'image', headers: { paging: {total: 'x'}}};
+    var mockedSettings = {placeholderImage: 'image', headers: { paging: {total: 'x'}}, eventSource:{ languageUpdate: 'languageUpdate'}};
 
     //***********************************************************************
     // Common Setup
@@ -223,7 +223,7 @@ describe('BrowseProductsCtrl', function () {
             });
 
            it('should retrieve new category and reload if language changed', function(){
-               $rootScope.$emit('categories:updated', {categories: [], source: 'language:updated'});
+               $rootScope.$emit('categories:updated', {categories: [], source: mockedSettings.eventSource.languageUpdate});
                var cat = {slug: 'slug'};
                catDef.resolve(cat);
                $scope.$apply();

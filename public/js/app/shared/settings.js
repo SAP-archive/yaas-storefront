@@ -65,15 +65,19 @@ angular.module('ds.shared')
             de: './img/flags/de.jpg'
         },
 
-        placeholderImage: 'img/no-image.jpg',
+        // identifies the languages for which labels have been localized - see public/js/app/shared/i18n
+        translateLanguages:['en','de'],
+        // fallback language for label localization
+        translateDefault: 'en',
 
-//        homeState: 'base.category',
+        placeholderImage: 'img/no-image.jpg',
 
         homeState: 'base.home',
 
         eventSource: {
             login: 'login',
             initialization: 'init',
-            unknown: 'unknown'
+            unknown: 'unknown',
+            languageUpdate: 'languageUpdate'
         }
     });

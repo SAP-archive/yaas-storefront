@@ -14,24 +14,15 @@
 
 angular.module('ds.i18n')
      /** Acts as dictionary provider for localization. */
-	.provider('Translation', ['$translateProvider', 'i18nConstantsProvider',
-		function TranslationProvider($translateProvider, i18nConstantsProvider) {
-			var defaultLang = i18nConstantsProvider.languages.en.code;
+	.provider('Translation', ['$translateProvider', 'i18nConstantsProvider', 'translateSettings',
+		function TranslationProvider($translateProvider, i18nConstantsProvider, translateSettings) {
 
 			$translateProvider.translations('en', i18nConstantsProvider.languages.en.translations);
 			$translateProvider.translations('de', i18nConstantsProvider.languages.de.translations);
-			$translateProvider.preferredLanguage(defaultLang);
-
-			this.getDefaultLanguage = function() {
-				return defaultLang;
-			};
+			$translateProvider.preferredLanguage(translateSettings.defaultLanguageCode);
 
 			this.setPreferredLanguage = function(langCode) {
-				$translateProvider.preferredLanguage(langCode || defaultLang);
-			};
-
-			this.switchLanguage = function(langCode) {
-				$translateProvider.use(langCode || defaultLang);
+				$translateProvider.preferredLanguage(langCode || translateSettings.defaultLanguageCode);
 			};
 
 			this.$get = ['$translateProvider', 'i18nConstantsProvider',

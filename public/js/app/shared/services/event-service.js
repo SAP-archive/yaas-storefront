@@ -60,7 +60,7 @@ angular.module('ds.shared')
                     }
                     // Any state that requires an updated localized data load should be refreshed (with exception of checkout,
                     //   as cart update is handled separately due to its global nature)
-                    CategorySvc.getCategories().then(function () {
+                    CategorySvc.getCategories(settings.eventSource.languageUpdate).then(function () {
                         if ($state.is('base.category') || $state.is('base.product.detail')) {
                             $state.transitionTo($state.current, $stateParams, {
                                 reload: true,

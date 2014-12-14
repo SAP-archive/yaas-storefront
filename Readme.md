@@ -9,9 +9,6 @@ serve as starting point for creating a customized store front.
 The following steps will demonstrate how to install and run the code on localhost.  At the end, you will be able to browse and "shop" in 
 a pre-configured store.  Feel free to take items through checkout, using any Stripe test credit card number (https://stripe.com/docs/testing).
 
-Please do not invoke any POST or PUT requests against the default tenant by programmatic means or through a REST console.
-You may do so after setting up your own tenant.
-
 ###  1. System requirements
 
 Install node and npm:
@@ -30,7 +27,7 @@ Install bower:
 
 ### 2. Project requirements
 
-Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod. **Develop** will change frequently, and may contain expiremental features and code changes against services that are only available in development and test environments.
+Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod. **Develop** will change frequently, and may contain experimental features and code changes against services that are only available in development and test environments.
 
 To locally install the project, execute:
 
@@ -154,6 +151,10 @@ For instance, to invoke the build for **prod**, you issue the command **grunt bu
 Tests are grouped by unit tests, end-to-end tests and styling tests under the "test" folder.  Unit tests can be run via
 the scripts/test.sh; end-to-end tests can be run via scripts/e2e-test.sh.  Unit test code coverage is published to folder "coverage"
 after running the unit test suite.
+
+## Adding Locales
+
+There are two distinct localization settings related to the store:  there are the language preferences that are configured in Builder, and then there are translations for all static information that's displayed in a store.  The Builder settings determine the language preferences for data retrieved through services, as well as the available language options that shoppers can select in the store.  The static information (button labels, instructions, etc) are provided in constant files in the code base - see **public/js/app/shared/i18/lang**.  Out of the box, the project currently only provides data in English and in German.  If the preferred language is supported by the app localization settings, it will be selected; otherwise, the static localization will be presented in English.  To support additional languages, provide your own localized constants and load the data in **public/js/app/shared/i18n/providers/translation-providers.js**.
 
 ## Multi-Tenant Mode
  
