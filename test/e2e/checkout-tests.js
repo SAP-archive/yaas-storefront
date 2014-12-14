@@ -140,10 +140,7 @@ describe("checkout:", function () {
 
            it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
-            //reload product page to get around homepage
-           browser.get(tu.tenant + '/#!/ct');
-           // proper way:
-           // tu.clickElement('css', 'img');
+            element(by.repeater('category in categories').row(1).column('category.name')).click();          
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
@@ -225,10 +222,8 @@ describe("checkout:", function () {
            it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
-            //reload product page to get around homepage
-           browser.get(tu.tenant + '/#!/ct');
-           // proper way:
-           // tu.clickElement('css', 'img');            tu.clickElement('xpath', tu.whiteThermos);
+            element(by.repeater('category in categories').row(1).column('category.name')).click();          
+            tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
@@ -240,7 +235,7 @@ describe("checkout:", function () {
             verifyOrderConfirmation('CHECKOUT@TEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800');
             tu.clickElement('binding', 'orderInfo.orderId');
             expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake place");
-            tu.clickElement('id', "logout-btn");
+            // tu.clickElement('id', "logout-btn");
 
            });
 

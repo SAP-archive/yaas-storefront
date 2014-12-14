@@ -5,7 +5,6 @@ exports.config = {
 
   specs: [
     '../test/e2e/*tests.js'
-      // '../test/e2e/login-tests.js'   
   ],
 
   capabilities: {
@@ -15,15 +14,15 @@ exports.config = {
   },
 
   onPrepare: function() {      
-    // require('jasmine-reporters');
-    // jasmine.getEnv().addReporter(
-    //   new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
-    // );
-    //   // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
-    //   jasmine.getEnv().addReporter(new ScreenShotReporter({
-    //       baseDirectory: './tmp/screenshots',
-    //       takeScreenShotsOnlyForFailedSpecs: true
-    //   }));
+    require('jasmine-reporters');
+    jasmine.getEnv().addReporter(
+      new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
+    );
+      // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
+      // jasmine.getEnv().addReporter(new ScreenShotReporter({
+      //     baseDirectory: './tmp/screenshots',
+      //     takeScreenShotsOnlyForFailedSpecs: true
+      // }));
     var disableNgAnimate = function() {
       angular.module('disableNgAnimate', []).run(['$animate', function($animate) {
         $animate.enabled(false);
