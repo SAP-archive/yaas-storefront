@@ -6716,6 +6716,11 @@ html.disable-scroll {
 .socialMediaSigninContainer .googlePlusLogin {
   padding-right: 0 !important;
 }
+@media (max-width: 991px) {
+  .socialMediaSigninContainer .googlePlusLogin {
+    padding: 0 !important;
+  }
+}
 .socialMediaSigninContainer .googleSignIn {
   height: 43px;
   background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
@@ -6742,6 +6747,12 @@ html.disable-scroll {
   left: 46px;
   top: 12px;
   font-size: 97%;
+}
+@media (max-width: 991px) {
+  .socialMediaSigninContainer .fbLogin {
+    padding: 0 !important;
+    margin: 20px 0 !important;
+  }
 }
 .socialMediaSigninContainer .fb_iframe_widget > span {
   width: 100% !important;
@@ -6773,7 +6784,7 @@ html.disable-scroll {
   background-color: transparent ;
   border: none;
   font-weight: bold;
-  color: #000;
+  color: #2a6496;
 }
 .signInTabs.nav-tabs > li > a,
 .signInTabs.nav-tabs > li > a:hover,
@@ -6783,8 +6794,9 @@ html.disable-scroll {
 .signInTabs li.signInButton {
   border-right: 1px solid #838485;
 }
-.signInTabs li.signInButton > a {
-  padding-left: 0;
+.signInTabs li.signInButton > a,
+.signInTabs li.signInButton > a.active {
+  padding-left: 0 !important;
 }
 #place-order-btn {
   background-color: #20c909;

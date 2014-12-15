@@ -575,6 +575,13 @@
 
   .googlePlusLogin{
     padding-right: 0 !important;
+
+  }
+
+  @media (max-width: @screen-sm-max){
+    .googlePlusLogin{
+      padding: 0 !important;
+    }
   }
 
   .googleSignIn{
@@ -606,6 +613,13 @@
       font-size: 97%;
     }
 
+  }
+
+  @media(max-width: @screen-sm-max) {
+    .fbLogin {
+      padding: 0 !important;
+      margin: 20px 0 !important;
+    }
   }
 
 
@@ -657,7 +671,7 @@
     background-color: transparent ;
     border: none;
     font-weight: bold;
-    color: #000;
+    color: #2a6496;
 
   }
 
@@ -670,8 +684,9 @@
   li.signInButton{
     border-right: 1px solid #838485;
 
-    >a{
-      padding-left: 0;
+    >a,
+    >a.active,{
+      padding-left: 0 !important;
     }
   }
 }
