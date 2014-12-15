@@ -8,19 +8,7 @@ var tu = require('./protractor-utils.js');
           var curr_year = d.getFullYear();
           var currentDate = month + " " + curr_date + ", " + curr_year;
 
-      function writeHtml(data, filename) {
-           var stream = fs.createWriteStream(filename);
 
-           stream.write(new Buffer(data, 'utf8'));
-           stream.end();
-      }
-
-      function writeScreenShot(data, filename) {
-           var stream = fs.createWriteStream(filename);
-
-           stream.write(new Buffer(data, 'base64'));
-           stream.end();
-       }
 
           function fillCheckoutFormExceptEmail(form) {
             tu.sendKeysById('contactName' + form, 'Mike Night');

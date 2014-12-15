@@ -1,44 +1,43 @@
-// var ScreenShotReporter = require('protractor-screenshot-reporter');
+var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
-  allScriptsTimeout: 30000,
+    allScriptsTimeout: 30000,
 
-  specs: [
-    '../test/e2e/*tests.js'
-  ],
+    specs: [
+        '../test/e2e/product-tests.js'
+    ],
 
-  capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.cli.args':['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
+    capabilities: {
+        'browserName': 'chrome'//,
+        //'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
 
-  },
+    },
 
-  onPrepare: function() {      
-    require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
-    );
-      // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
-      // jasmine.getEnv().addReporter(new ScreenShotReporter({
-      //     baseDirectory: './tmp/screenshots',
-      //     takeScreenShotsOnlyForFailedSpecs: true
-      // }));
-    var disableNgAnimate = function() {
-      angular.module('disableNgAnimate', []).run(['$animate', function($animate) {
-        $animate.enabled(false);
-      }]);
-};
+    onPrepare: function () {
+        require('jasmine-reporters');
+        jasmine.getEnv().addReporter(
+            new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
+        );
+        // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
+        jasmine.getEnv().addReporter(new ScreenShotReporter({
+            baseDirectory: './tmp/screenshots',
+            takeScreenShotsOnlyForFailedSpecs: true
+        }));
+        var disableNgAnimate = function () {
+            angular.module('disableNgAnimate', []).run(['$animate', function ($animate) {
+                $animate.enabled(false);
+            }]);
+        };
 
-browser.addMockModule('disableNgAnimate', disableNgAnimate);
-  },
+        browser.addMockModule('disableNgAnimate', disableNgAnimate);
+    },
 
 
+    baseUrl: 'http://demo-store.dev.cf.hybris.com/',
 
-  baseUrl: 'http://demo-store.dev.cf.hybris.com/',
+    framework: 'jasmine',
 
-  framework: 'jasmine',
-
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 60000
-  }
+    jasmineNodeOpts: {
+        defaultTimeoutInterval: 300000
+    }
 };
