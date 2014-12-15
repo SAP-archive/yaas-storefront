@@ -47,12 +47,16 @@ describe("product page", function () {
             expect(element(by.binding('cat.name')).getText()).toEqual('Mugs');
             tu.selectLanguage('German');
             tu.selectCurrency('Euro');
-            browser.sleep(3000);
-            //div[contains(@class,'product-details')]/div[(contains(@class, 'price') && text()="bananas"]
-            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
+            browser.wait(function () {
+                // wait for product translation
+                return element(by.path( '//div[contains(@class,"product-details")]/div[(contains(@class, "name") && text()="bananas"]')).isPresent();
+            });
+            browser.wait(function () {
+                // wait for currency updaten
+                return element(by.path( '//div[contains(@class,"product-details")]/div[(contains(@class, "price") && text()="€7.99"]')).isPresent();
+            });
             expect(element(by.binding('cat.name')).getText()).toEqual('Tassen');
-            // verify refreshing grabs correct config (STOR-1183)
+            // verify refreshing grabs correct currency and language preferences
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
             expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
