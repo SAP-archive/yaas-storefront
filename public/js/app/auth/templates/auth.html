@@ -3,12 +3,12 @@
     <section>
         <!-- Nav tabs -->
         <div ng-if="googleClientId || fbAppId" class="socialMediaSigninContainer row">
-            <div class="fbLogin col-sm-6" ng-click="fbLogin()">
+            <div class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
                 <div class="fbLoginButton">
                     <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
                 </div>
             </div>
-            <div class="googlePlusLogin col-sm-6" ng-app="directive.g+signin" ng-if="googleClientId">
+            <div class="googlePlusLogin col-sm-6 col-xs-12" ng-app="directive.g+signin" ng-if="googleClientId">
                 <div class="googleSignIn">
                     <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
                     <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
