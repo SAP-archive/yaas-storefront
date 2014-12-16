@@ -6748,7 +6748,7 @@ html.disable-scroll {
   top: 12px;
   font-size: 97%;
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .socialMediaSigninContainer .fbLogin {
     padding: 0 !important;
     margin: 20px 0 !important;
