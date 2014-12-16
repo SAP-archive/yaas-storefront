@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/5436f9a25acee4d3c910c085/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
@@ -16,18 +18,17 @@ exports.tenant = 'ytvlw4f7ebox';
 
 exports.verifyCartAmount = function (amount) {
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
-}
+};
 
 exports.verifyCartTotal = function (total) {
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
-}
+};
 
 exports.writeHtml = function (data, filename) {
     var stream = fs.createWriteStream(filename);
-
     stream.write(new Buffer(data, 'utf8'));
     stream.end();
-}
+};
 
 var clickElement = exports.clickElement = function (type, pageElement) {
     if (type === 'id') {
@@ -41,7 +42,6 @@ var clickElement = exports.clickElement = function (type, pageElement) {
     } else if (type === 'binding') {
         element(by.binding(pageElement)).click();
     }
-
 };
 
 exports.scrollToBottomOfProducts = function (end) {
@@ -58,51 +58,47 @@ exports.scrollToBottomOfProducts = function (end) {
         }
     }
     return deferred.promise;
-}
+};
 
 exports.getTextByRepeaterRow = function findProductByRepeaterRow(number) {
-    var number
     expect(element(by.repeater('product in products').row(number).column('product.name')).getText());
-}
+};
 
 exports.clickByRepeaterRow = function (number) {
     element(by.repeater('product in products').row(number).column('product.name')).click();
-}
+};
+
 var assertTextByRepeaterRow = exports.assertProductByRepeaterRow = function (number, productName) {
-    var number, productName
     expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
-}
+};
 
 var selectOption = exports.selectOption = function (option) {
     element(by.css('select option[value="' + option + '"]')).click()
-}
+};
 
 exports.sortAndVerifyPagination = function (sort, product1, price1) {
     selectOption(sort);
     browser.sleep(250);
     assertTextByRepeaterRow(0, product1);
     expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
-}
+};
 
 exports.sendKeysByXpath = function (pageElement, keys) {
     element(by.xpath(pageElement)).clear();
     element(by.xpath(pageElement)).sendKeys(keys);
-}
+};
 
 exports.sendKeysById = function (pageElement, keys) {
     element(by.id(pageElement)).clear();
     element(by.id(pageElement)).sendKeys(keys);
-}
+};
 
 exports.selectLanguage = function (language) {
     clickElement('id', 'language-select');
     clickElement('linkText', language);
-}
+};
 
-exports.selectCurrency = function (currency) {
-    clickElement('id', 'currency-select');
-    clickElement('linkText', currency);
-}
+
 
 var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
     if (type === 'id') {
@@ -124,9 +120,28 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
+exports.selectCurrency = function (currency) {
+    clickElement('id', 'currency-select');
+    /* CURRENCY SELECTION DOES NOT WORK IN CHROME - elements not clickable.
+    if(currency === 'US Dollar'){
+        browser.driver.actions().mouseMove(element(by.linkText(currency))).perform();
+        browser.sleep(4000);
+    } else {
+       sendKeys('linkText', 'US Dollar', 40);
+        browser.sleep(4000);
+    }*/
+
+    clickElement('linkText', currency);
+}
+
 exports.loginHelper = function (userName, password) {
+    // need to activate link first in real browser via hover
+    browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
+    browser.sleep(200);
     clickElement('id', "login-btn");
-    browser.sleep(1000);
+    browser.wait(function () {
+        return element(by.binding('SIGN_IN')).isPresent();
+    });
     sendKeys('id', 'usernameInput', userName);
     sendKeys('id', 'passwordInput', password);
     clickElement('id', 'sign-in-button');

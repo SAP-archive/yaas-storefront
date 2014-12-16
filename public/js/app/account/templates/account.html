@@ -88,7 +88,7 @@
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
 
-   <div class="hidden-md row">
+   <div class="hidden-md  hidden-lg row">
        <div ng-repeat="order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
            <div class="cardStatusIdentifier pull-left" ></div>
            <div class="panel">

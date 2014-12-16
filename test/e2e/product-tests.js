@@ -15,7 +15,6 @@ describe("product page", function () {
             browser.get(tu.tenant + '/#!/ct/');
         });
 
-
         it('should scroll to load more products', function () {
             expect(element(by.css('p.ng-binding')).getText()).toEqual('Süshi Démo Støre');
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
@@ -37,7 +36,7 @@ describe("product page", function () {
             });
         });
 
-        iit("should get product detail page", function () {
+        it("should get product detail page", function () {
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.wait(function () {
                 return element(by.binding(tu.productDescriptionBind)).isPresent();
@@ -47,16 +46,13 @@ describe("product page", function () {
             expect(element(by.binding('cat.name')).getText()).toEqual('Mugs');
             tu.selectLanguage('German');
             tu.selectCurrency('Euro');
-            browser.wait(function () {
-                // wait for product translation
-                return element(by.path( '//div[contains(@class,"product-details")]/div[(contains(@class, "name") && text()="bananas"]')).isPresent();
-            });
-            browser.wait(function () {
-                // wait for currency updaten
-                return element(by.path( '//div[contains(@class,"product-details")]/div[(contains(@class, "price") && text()="€7.99"]')).isPresent();
-            });
+
+            browser.sleep(3000);
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
+
             expect(element(by.binding('cat.name')).getText()).toEqual('Tassen');
-            // verify refreshing grabs correct currency and language preferences
+            // verify refreshing grabs correct config (STOR-1183)
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
             expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
