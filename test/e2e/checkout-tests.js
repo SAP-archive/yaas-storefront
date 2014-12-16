@@ -268,6 +268,7 @@ describe("mobile checkout:", function () {
             fillCheckoutFormExceptEmail('Bill');
             tu.clickElement('xpath', continueButton1);
             browser.sleep(500)
+
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             // fillCheckoutFormExceptEmail('Ship');
