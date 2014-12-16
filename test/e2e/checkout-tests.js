@@ -243,7 +243,7 @@ describe("checkout:", function () {
    });
 });
 
-xdescribe("mobile checkout:", function () {
+describe("mobile checkout:", function () {
 
    beforeEach(function(){
        browser.driver.manage().window().setSize(750, 1100);
