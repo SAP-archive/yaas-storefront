@@ -201,14 +201,14 @@ describe("checkout:", function () {
 
         });
 
-        it('should create order on account page', function () {
+        // need to account for duplicate order repeater
+        xit('should create order on account page', function () {
             verifyOrderOnAccountPage('order@test.com', '$24.61')
-
         });
 
-        it('should create order on account page in Euros', function () {
+        // need to account for duplicate order repeater
+        xit('should create order on account page in Euros', function () {
             verifyOrderOnAccountPage('euro-order@test.com', '€22.52')
-
         });
 
         it('should merge carts and checkout for logged in user', function () {
