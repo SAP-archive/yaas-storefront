@@ -54,7 +54,7 @@ angular.module('ds.shared')
 
                             getController(scope.popoverController, scope);
                             AuthDialogManager.showPopover();
-//
+
                         });
 
                         $(document).on('click', '.js-closePopover', function(){
