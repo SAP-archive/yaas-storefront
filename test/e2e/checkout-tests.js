@@ -210,7 +210,7 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page', function () {
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$24.61');
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$23.92');
         });
 
         it('should create order on account page in Euros', function () {
