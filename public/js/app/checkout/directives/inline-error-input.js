@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -58,20 +58,22 @@ angular.module('ds.checkout')
                         }
                     },
                     getErrorMessages = function() {
+
                         var errorMsgs = {
                                 'inlineErrorMsgs': []
                             },
                         errorsJSON = [];
+                        // "required" errors don't show in conjunction with Stripe validation, so performing
+                        //   separate check here:
+                        if(attrs.required && !ngModel.value){
+                            errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || fieldRequired);
+                        }
                         angular.forEach(ngModel.$error, function (value, key) {
                             errorsJSON.push(key);
                         });
                         for(var errorKey in errorsJSON) {
                             switch(errorsJSON[errorKey]) {
-                                case 'required':
-                                    if (ngModel.$error.required) {
-                                        errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputRequiredMessage || fieldRequired);
-                                    }
-                                    break;
+
                                 case 'minlength':
                                     if (ngModel.$error.minlength) {
                                         errorMsgs.inlineErrorMsgs.push(attrs.inlineErrorInputMinLengthMessage || fieldTooShort);

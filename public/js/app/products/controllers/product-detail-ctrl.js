@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.products')
@@ -5,17 +17,16 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'CategorySvc', 'product', 'settings', 'GlobalData',
-        function($scope, $rootScope, CartSvc, CategorySvc, product, settings, GlobalData) {
-
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData',
+        function($scope, $rootScope, CartSvc, product, settings, GlobalData) {
 
             $scope.product = product;
+
+            // used by breadcrumb directive
+            $scope.category = product.richCategory;
+
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
-
-            if ($scope.product.categories[0]) {
-                $scope.catSlug = CategorySvc.getSlug($scope.product.categories[0].name);
-            }
 
             if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
                 $scope.product.images = [{url: settings.placeholderImage}];
@@ -54,6 +65,14 @@ angular.module('ds.products')
                     $scope.error = 'ERROR_ADDING_TO_CART';
                     $scope.buyButtonEnabled = true;
                 });
+            };
+
+            $scope.changeQty = function () {
+                if (!$scope.productDetailQty){
+                    $scope.buyButtonEnabled = false;
+                } else {
+                    $scope.buyButtonEnabled = true;
+                }
             };
 
 

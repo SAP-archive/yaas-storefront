@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.i18n')
@@ -8,6 +20,7 @@ angular.module('ds.i18n')
          */
         CHECKOUT: 'Kasse',
         CONTINUE_SHOPPING: 'Weiter Einkaufen',
+        SHOP: 'Geschäft',
         EST_ORDER_TOTAL: 'Zwischensumme',
         FREE_SHIPPING: 'Kostenloser Versand',
         ITEM: 'Artikel',
@@ -64,7 +77,7 @@ angular.module('ds.i18n')
         STEP_1_MY_DETAILS: '1. Meine Daten',
         STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
         STEP_3_PAYMENT: '3. Zahlung',
-        STEP_4_REVIEW_AND_PAYMENT: '4. Bestätigung',
+        STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
@@ -93,6 +106,7 @@ angular.module('ds.i18n')
          navigation
          */
         PRODUCTS: 'Produkte',
+        BACK_TO: 'Zurück zu',
 
         /*
          product detail page
@@ -121,6 +135,8 @@ angular.module('ds.i18n')
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
+        SIGN_IN_WITH_FACEBOOK: 'Anmelden with Facebook',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Anmeldung with Google +',
         MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Konto erstellen',
         CONTINUE_AS_GUEST: 'Weiter als Gast',

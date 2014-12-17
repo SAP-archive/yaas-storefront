@@ -15,6 +15,15 @@ describe('CheckoutSvc', function () {
 
     var order = {};
 
+    mockedGlobalData = {
+        user: {
+            isAuthenticated: '',
+            user: null
+        },
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+    };
+
     order.account = {
         title: 'Mr.',
         firstName: 'Michael',
@@ -61,12 +70,11 @@ describe('CheckoutSvc', function () {
                 "country":"USA","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
-        "customer":{"name":"Mr. Michael Jeffrey Jordan","email":"bs@sushi.com"},
+        "customer":{"title":"Mr.", "firstName":"Michael", "middleName":"Jeffrey", "lastName":"Jordan","email":"bs@sushi.com"},
         "totalPrice":7.79,"shippingCost": 4.5};
 
     mockedStripeJS = {};
     mockedCartSvc = {};
-    mockedGlobalData = {};
 
     beforeEach(module('ds.shared', function($provide) {
         $provide.value('storeConfig', {});
@@ -96,7 +104,6 @@ describe('CheckoutSvc', function () {
             mockedStripeJS.createToken = function(data, callback) {
                 callback(stripeStatus, stripeResponse);
             };
-            mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
             $provide.value('GlobalData', mockedGlobalData);
@@ -207,7 +214,6 @@ describe('CheckoutSvc', function () {
                 callback(stripeStatus, stripeResponse);
             };
             mockedStripeJS.createToken = createTokenStub;
-            mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
 
             $provide.value('CartSvc', mockedCartSvc);
             $provide.value('StripeJS', mockedStripeJS);
@@ -251,7 +257,7 @@ describe('CheckoutSvc', function () {
         var defaultCost = {
 
             "price": {
-                "price": 0
+                "USD": 0
             }
         };
 
@@ -259,7 +265,6 @@ describe('CheckoutSvc', function () {
         beforeEach(function() {
             module('restangular');
             module('ds.checkout', function($provide){
-                mockedGlobalData.getCurrencyId = jasmine.createSpy().andReturn('USD');
 
                 $provide.value('CartSvc', mockedCartSvc);
                 $provide.value('StripeJS', mockedStripeJS);
@@ -283,8 +288,7 @@ describe('CheckoutSvc', function () {
             var singleCost = {
                 "id": "default",
                 "price": {
-                    "price": 2.99,
-                    "currencyId": "USD"
+                    "USD": 2.99
                 }
             };
             var costResponse = [singleCost ];

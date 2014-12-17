@@ -14,7 +14,7 @@
     <section class="white orderHeaderContainer">
         <div class="page-headline">
             <div class="breadCrumb">
-                <a href="/account/">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}
+                <a data-ui-sref="base.account">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}
             </div>
             <h1>{{'ORDER' | translate}} {{order.id}}</h1>
         </div>
@@ -136,11 +136,15 @@
                     <tbody>
                     <tr>
                         <td >{{'SUBTOTAL' | translate}}</td>
-                        <td class="text-right">{{order.totalPrice - order.tax - order.shippingCost | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                        </td>
                     </tr>
                     <tr>
                         <td>{{'SHIPPING' | translate}}</td>
-                        <td class="text-right">{{order.shippingCost | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            {{order.shipping.total.amount | currency: currencySymbol}}
+                        </td>
                     </tr>
                     </tbody>
                     <tfoot>

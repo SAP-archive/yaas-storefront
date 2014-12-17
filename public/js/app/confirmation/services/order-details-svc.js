@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -60,6 +60,9 @@ angular.module('ds.confirmation')
                     confirmationDetails.emailAddress = orderDetails.customer.email;
 
                     confirmationDetails.entries = orderDetails.entries;
+
+                    confirmationDetails.currency = orderDetails.currency;
+
                     return confirmationDetails;
                 });
 

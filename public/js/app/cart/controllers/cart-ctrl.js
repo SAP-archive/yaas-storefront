@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -65,7 +65,6 @@ angular.module('ds.cart')
         /**
          *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */
-         
         $scope.updateCartItem = function (item, itemQty, config) {
             if (itemQty > 0) {
                 CartSvc.updateCartItem(item, itemQty, config);
@@ -75,15 +74,15 @@ angular.module('ds.cart')
             }
         };
 
-        $scope.cartHovered = function()
+        $scope.cartHover = function()
         {
             clearTimeout($scope.cartTimeOut);
         };
 
-        $scope.cartUnHovered = function()
+        $scope.cartUnHover = function()
         {
             //if none of the inputs are focused then create the 3 second timer after mouseout
-            if( !$('#cart input').is(':focus') )
+            if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
             {
                 $scope.createCartTimeout();
             }

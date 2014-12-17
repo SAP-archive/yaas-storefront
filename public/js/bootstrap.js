@@ -1,10 +1,22 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 // Bootstrap the application for single tenant mode
 (function () {
 
     var storeConfig = {};
-    storeConfig.storeTenant = '8bwhetym79cq';
+    storeConfig.storeTenant = 'defaultproj';
 
     try {
         angular.module('config', []).constant('storeConfig', storeConfig);

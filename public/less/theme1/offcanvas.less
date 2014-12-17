@@ -98,8 +98,15 @@ html.disable-scroll{
   }
 }
 
+@media (min-width: @screen-md-min){
+  #sidebar{
+    position: fixed;
+    bottom: 0;
+  }
+}
+
 .mainContent{
-  background: @lightestgreyplus;
+//  background: @lightestgreyplus;
 
   @media (max-width: @screen-md-min){
       margin-top: @topNavigationHeight;

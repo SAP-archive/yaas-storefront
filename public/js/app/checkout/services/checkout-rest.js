@@ -1,7 +1,7 @@
-/*
+/**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -15,7 +15,6 @@
 /** REST configuration for services related to checkout. */
 angular.module('ds.checkout')
     .factory('CheckoutREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
-
         return {
             /** Configures main checkout API endpoint.*/
             Checkout: Restangular.withConfig(function(RestangularConfigurer) {

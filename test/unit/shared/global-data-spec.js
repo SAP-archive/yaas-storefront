@@ -8,9 +8,10 @@ describe('GlobalData', function () {
             setLanguageCookie: jasmine.createSpy(),
             setCurrencyCookie: jasmine.createSpy()
         };
+
     var GlobalData = null;
     var defaultLang = 'en';
-    var $rootScope;
+    var $rootScope,  $translate, translateSettings;
 
     beforeEach( function() {
 
@@ -25,26 +26,38 @@ describe('GlobalData', function () {
         module(function ($provide) {
             $provide.value('CookieSvc', mockedCookieSvc);
 
-            $provide.constant('storeConfig', {defaultLanguage: defaultLang});
+            $provide.constant('storeConfig', {});
+
         });
 
-        inject(function(_GlobalData_, _$rootScope_){
+        inject(function(_GlobalData_, _$rootScope_, _$translate_, _translateSettings_){
             GlobalData = _GlobalData_;
             $rootScope = _$rootScope_;
+            $translate = _$translate_;
+            translateSettings = _translateSettings_;
         });
+        spyOn($translate, 'use');
 
     });
 
     describe('setLanguage()', function () {
 
         beforeEach(function(){
-           GlobalData.setAvailableLanguages([{id:'en', label: 'English'}, {id: 'de', label: 'Deutsch'}]);
+           GlobalData.setAvailableLanguages([{id:'en', label: 'English', default: true}, {id: 'de', label: 'Deutsch'}, {id:'fr', label:'Français'}]);
         });
 
-        it('should notify translate service', function(){
+        it('should apply supported language in translate service', function(){
             var newLang = 'de';
             GlobalData.setLanguage(newLang);
-            //expect(mockedTranslate.use).toHaveBeenCalledWith(newLang);
+            expect($translate.use).toHaveBeenCalledWith(newLang);
+            expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
+        });
+
+
+        it('should use default language for unsupported language', function(){
+            var newLang = 'fr';
+            GlobalData.setLanguage(newLang);
+            expect($translate.use).toHaveBeenCalledWith('en');
             expect(mockedCookieSvc.setLanguageCookie).toHaveBeenCalled();
         });
 
@@ -76,7 +89,7 @@ describe('GlobalData', function () {
         beforeEach(function(){
             currencyEventSpy =  jasmine.createSpy();
             $rootScope.$on('currency:updated', currencyEventSpy);
-            GlobalData.setAvailableCurrencies([{id:'EUR'}, {id:'USD'}]);
+            GlobalData.setAvailableCurrencies([{id:'EUR'}, {id:'USD', default: true}]);
             GlobalData.setCurrency(newCur);
         });
 
@@ -99,9 +112,9 @@ describe('GlobalData', function () {
             expect(curSymbol).toEqualData('\u20AC');
         });
 
-        it('should reject the currency update if currency not among available currencies', function(){
+        it('should revert to default currency if new currency not among available currencies', function(){
            GlobalData.setCurrency('pl');
-            expect(GlobalData.getCurrencyId()).toEqualData(newCur);
+            expect(GlobalData.getCurrencyId()).toEqualData('USD');
 
         });
 
