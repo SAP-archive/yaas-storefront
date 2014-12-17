@@ -181,16 +181,16 @@ angular.module('ds.checkout')
 
                 newOrder.customer = {};
                 newOrder.customer.customerNumber = order.cart.customerId;
-                if (order.account.title && order.account.title != '') {
+                if (order.account.title && order.account.title !== '') {
                     newOrder.customer.title = order.account.title;
                 }
-                if (order.account.firstName && order.account.firstName != '') {
+                if (order.account.firstName && order.account.firstName !== '') {
                     newOrder.customer.firstName = order.account.firstName;
                 }
-                if (order.account.middleName && order.account.middleName != '') {
+                if (order.account.middleName && order.account.middleName !== '') {
                     newOrder.customer.middleName = order.account.middleName;
                 }
-                if (order.account.lastName && order.account.lastName != '') {
+                if (order.account.lastName && order.account.lastName !== '') {
                     newOrder.customer.lastName = order.account.lastName;
                 }
                 newOrder.customer.email = order.account.email;
