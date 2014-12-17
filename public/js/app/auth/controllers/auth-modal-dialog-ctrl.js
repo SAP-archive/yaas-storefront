@@ -22,12 +22,6 @@ angular.module('ds.auth')
 
             $scope.user = AuthSvc.user;
 
-            $scope.errors = AuthSvc.errors;
-
-            $scope.fbAppId = settings.facebookAppId;
-
-            AuthSvc.initFBAPI($scope, $modalInstance);
-
             function onFbLogin(fbToken) {
                 AuthSvc.socialLogin('facebook', fbToken).then(function () {
                     if($modalInstance){
@@ -158,8 +152,6 @@ angular.module('ds.auth')
 
             $scope.fbLogin = function () {
 
-                AuthSvc.faceBookLogin($scope);
-
                 FB.getLoginStatus(function (response) {
                     if (response.status === 'connected') {
                         $scope.fbLoggedIn = true;
@@ -191,8 +183,6 @@ angular.module('ds.auth')
                         });
                     }
                 });
-
-
 
             };
 
