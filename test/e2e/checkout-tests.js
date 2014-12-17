@@ -102,7 +102,6 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.loginHelper(account, 'password');
     tu.clickElement('css', 'img.user-avatar');
     tu.waitForAccountPage();
-    browser.sleep(30000);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
@@ -211,11 +210,11 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page', function () {
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$13.94');
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$24.61');
         });
 
         it('should create order on account page in Euros', function () {
-            verifyOrderOnAccountPageBigScreen('euro-order@test.com', '€14.53');
+            verifyOrderOnAccountPageBigScreen('euro-order@test.com', '€22.52');
         });
 
         it('should merge carts and checkout for logged in user', function () {

@@ -16,7 +16,6 @@ describe("product page", function () {
         });
 
         it('should scroll to load more products', function () {
-            expect(element(by.css('p.ng-binding')).getText()).toEqual('Süshi Démo Støre');
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
             tu.getTextByRepeaterRow(0);
             tu.scrollToBottomOfProducts().then(function () {
