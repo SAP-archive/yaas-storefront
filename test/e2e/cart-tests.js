@@ -146,7 +146,7 @@ describe("cart:", function () {
             tu.clickElement('id', 'out-of-stock-btn');
             browser.sleep(500);
             tu.clickElement('id', tu.cartButtonId);
-            waitForCart();
+            tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
