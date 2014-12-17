@@ -66,7 +66,7 @@ describe("cart:", function () {
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             tu.loginHelper('currtest@hybristest.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
-            waitForCart();
+            tu.waitForCart();
             tu.verifyCartTotal('€7.99');
             tu.clickElement('id', tu.removeFromCart);
         });
