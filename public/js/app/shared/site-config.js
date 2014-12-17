@@ -43,7 +43,6 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-
                     baseUrl: 'https://' + dynamicDomain + '/cart/v5/' + tenantId
                 },
 

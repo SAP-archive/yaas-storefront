@@ -49,12 +49,6 @@ angular.module('ds.shared')
 
 
                     $(function(){
-//                        scope.fbAppId = settings.facebookAppId;
-//
-//                        AuthSvc.initFBAPI(scope);
-//
-//                        // scope variable used by google+ signing directive
-//                        scope.googleClientId = settings.googleClientId;
 
                         $(element).popover(options).addClass(scope.popoverClass);
 
