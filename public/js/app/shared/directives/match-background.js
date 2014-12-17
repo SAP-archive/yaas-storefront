@@ -13,16 +13,11 @@
 'use strict';
 
 angular.module('ds.shared')
-    .directive('matchBackground',[ function(){
-
+    .directive('matchBackground',[ function() {
         return {
             restrict: 'A',
-            scope: {
-                hyMatchContainer: '@hyMatchContainer'
-            },
             link: function(scope, element) {
-
-                // match color of container into page background so it does not differ for 0 products.
+                // match color of container to page background so that it will not differ for short verticle views.
                 var bgColor = $(element).css('background-color');
                 $('html').css('background-color', bgColor);
             }
