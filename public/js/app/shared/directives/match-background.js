@@ -20,7 +20,7 @@ angular.module('ds.shared')
             scope: {
                 hyMatchContainer: '@hyMatchContainer'
             },
-            link: function(scope, element, attrs) {
+            link: function(scope, element) {
 
                 // match color of container into page background so it does not differ for 0 products.
                 var bgColor = $(element).css('background-color');
