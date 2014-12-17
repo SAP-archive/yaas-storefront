@@ -88,8 +88,8 @@
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
 
-   <div class="hidden-md row">
-       <div ng-repeat="order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
+   <div class="hidden-md hidden-lg row">
+       <div ng-repeat="m_order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
            <div class="cardStatusIdentifier pull-left" ></div>
            <div class="panel">
                <div class="panel-body " >
@@ -97,16 +97,16 @@
                        <div class="col-sm-8 col-xs-8 leftCol">
                            <p>
                            <strong>{{'PLACED_AT'|translate}}</strong></br>
-                           {{order.created | date: 'medium'}}
+                           {{m_order.created | date: 'medium'}}
                            </p>
                            <p>
                                <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
-                               <a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a>
+                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{order.id}}</a>
                            </p>
-                           <p>{{order.totalPrice | currency: order.currencySymbol}}</p>
+                           <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                        </div>
                        <div class="col-sm-4 col-xs-4">
-                        <p><strong>{{order.status}}</strong></p>
+                        <p><strong>{{m_order.status}}</strong></p>
                        </div>
                    </div>
                </div>
@@ -126,11 +126,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="order in orders | limitTo: showOrdersFilter ">
-            <td>{{order.created | date: 'medium'}}</td>
-            <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.totalPrice | currency: order.currencySymbol}}</td>
-            <td><strong>{{order.status}}</strong></td>
+          <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
+            <td>{{xrder.created | date: 'medium'}}</td>
+            <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
+            <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
+            <td><strong>{{xrder.status}}</strong></td>
           </tr>
         </tbody>
       </table>

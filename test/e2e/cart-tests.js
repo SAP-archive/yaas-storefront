@@ -1,15 +1,11 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
-function waitForCart(){
-    browser.wait(function () {
-        return element(by.binding('CHECKOUT')).isPresent();
-    });
-}
+
 
 function loadProductIntoCart(cartAmount, cartTotal) {
     tu.clickElement('id', tu.cartButtonId);
-    waitForCart();
+    tu.waitForCart();
     expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
     tu.clickElement('binding', 'CONTINUE_SHOPPING');
     browser.wait(function () {
@@ -20,7 +16,7 @@ function loadProductIntoCart(cartAmount, cartTotal) {
         return element(by.id(tu.buyButton)).isPresent();
     });
     tu.clickElement('id', tu.buyButton);
-    waitForCart();
+    tu.waitForCart();
     tu.verifyCartAmount(cartAmount);
     tu.verifyCartTotal(cartTotal);
 }
@@ -77,14 +73,14 @@ describe("cart:", function () {
 
         it('should load multiple products into cart', function () {
             tu.clickElement('id', tu.cartButtonId);
-            waitForCart();
+            tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.sleep(1000);
             tu.clickElement('id', tu.buyButton);
-            waitForCart();
+            tu.waitForCart();
             tu.verifyCartAmount("1");
             tu.verifyCartTotal("$10.67");
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
@@ -97,7 +93,7 @@ describe("cart:", function () {
             tu.clickElement('xpath', tu.whiteThermos);
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);
-            waitForCart();
+            tu.waitForCart();
             tu.verifyCartTotal("$20.65");
         });
 
@@ -105,14 +101,14 @@ describe("cart:", function () {
         //once cart bugs are fixed add multiple products to this test 10/3
         it('should update quantity', function () {
             tu.clickElement('id', tu.cartButtonId);
-            waitForCart();
+            tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.sleep(2000);
             tu.clickElement('id', tu.buyButton);
-            waitForCart();
+            tu.waitForCart();
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(1000);
             tu.clickElement('id', tu.cartButtonId);

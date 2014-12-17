@@ -68,12 +68,12 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     browser.sleep(500);
     tu.loginHelper(account, 'password');
     tu.clickElement('id', tu.cartButtonId);
-    browser.sleep(2000);
+    tu.waitForCart();
     tu.clickElement('binding', 'CHECKOUT');
     browser.sleep(1000);
     // tu.sendKeysById('firstNameAccount', 'Mike');
     // tu.sendKeysById('lastNameAccount', 'Night');
-    fillCreditCardForm('5555555555554444', '06', '2015', '000')
+    fillCreditCardForm('5555555555554444', '06', '2015', '000');
     browser.sleep(500)
     tu.clickElement('id', 'place-order-btn');
     //browser.sleep(20000);
@@ -83,16 +83,31 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     tu.clickElement('id', "logout-btn");
 }
 
-function verifyOrderOnAccountPage(account, total) {
+// not validated yet - selectors may not be accurate - TODO
+function verifyOrderOnAccountPageMobile(account, total) {
     tu.clickElement('id', tu.contineShopping);
     tu.loginHelper(account, 'password');
     tu.clickElement('css', 'img.user-avatar');
-    browser.sleep(3000);
-    expect(element(by.repeater('order in orders').row(0).column('order.created')).getText()).toContain(currentDate);
-    expect(element(by.repeater('order in orders').row(0).column('order.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");
-    element(by.repeater('order in orders').row(0).column('order.created')).click();
-    expect(element(by.repeater('order in orders').row(0).column('order.status')).getText()).toEqual("CREATED");
+    tu.waitForAccountPage();
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.created')).getText()).toContain(currentDate);
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.totalPrice')).getText()).toEqual(total);
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    element(by.repeater('m_order in orders').row(0).column('m_order.created')).click();
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    tu.clickElement('id', "logout-btn");
+}
+
+function verifyOrderOnAccountPageBigScreen(account, total) {
+    tu.clickElement('id', tu.contineShopping);
+    tu.loginHelper(account, 'password');
+    tu.clickElement('css', 'img.user-avatar');
+    tu.waitForAccountPage();
+    browser.sleep(30000);
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
     tu.clickElement('id', "logout-btn");
 }
 
@@ -111,11 +126,7 @@ describe("checkout:", function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
             tu.clickElement('id', tu.buyButton);
-            browser.wait(function () {
-                return element(by.binding('CHECKOUT')).isPresent();
-            });
-            // not visible immediately?
-            browser.sleep(100);
+            tu.waitForCart();
         });
 
 
@@ -193,30 +204,29 @@ describe("checkout:", function () {
 
         it('should populate with existing address for logged in user', function () {
             checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
-
         });
 
         it('should checkout in Euros', function () {
             checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
-
         });
 
-        // need to account for duplicate order repeater
-        xit('should create order on account page', function () {
-            verifyOrderOnAccountPage('order@test.com', '$24.61')
+        it('should create order on account page', function () {
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$13.94');
         });
 
-        // need to account for duplicate order repeater
-        xit('should create order on account page in Euros', function () {
-            verifyOrderOnAccountPage('euro-order@test.com', '€22.52')
+        it('should create order on account page in Euros', function () {
+            verifyOrderOnAccountPageBigScreen('euro-order@test.com', '€14.53');
         });
 
         it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
+            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(1).column('category.name'))).perform();
+            browser.sleep(200);
             element(by.repeater('category in categories').row(1).column('category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
+            tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
@@ -226,11 +236,9 @@ describe("checkout:", function () {
             //browser.sleep(20000);
             verifyOrderConfirmation('CHECKOUT@TEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800');
             tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake place");
+            expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
             // tu.clickElement('id', "logout-btn");
-
         });
-
 
     });
 });
@@ -255,11 +263,7 @@ describe("mobile checkout:", function () {
 
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
-            browser.wait(function () {
-                return element(by.binding('CHECKOUT')).isPresent();
-            });
-            // not visible immediately?
-            browser.sleep(100);
+            tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -282,11 +286,7 @@ describe("mobile checkout:", function () {
 
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
-            browser.wait(function () {
-                return element(by.binding('CHECKOUT')).isPresent();
-            });
-            // not visible immediately?
-            browser.sleep(100);
+            tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -308,7 +308,15 @@ describe("mobile checkout:", function () {
             //browser.sleep(20000);
             // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
+        });
 
+        // TODO - mobile login slightly more complex due to account drop-down
+        xit('should create order on account page', function () {
+            verifyOrderOnAccountPageMobile('order@test.com', '$24.61')
+        });
+
+        xit('should create order on account page in Euros', function () {
+            verifyOrderOnAccountPageMobile('euro-order@test.com', '€22.52')
         });
 
     });

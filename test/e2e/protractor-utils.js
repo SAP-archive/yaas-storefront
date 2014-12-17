@@ -14,7 +14,14 @@ exports.backToTopButton = "(//button[@type='button'])[9]";
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'ytvlw4f7ebox';
+exports.accountWithOrderEmail = 'order@test.com';
 
+
+exports.waitForCart = function(){
+    browser.wait(function () {
+        return element(by.binding('CHECKOUT')).isPresent();
+    });
+};
 
 exports.verifyCartAmount = function (amount) {
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
@@ -22,6 +29,12 @@ exports.verifyCartAmount = function (amount) {
 
 exports.verifyCartTotal = function (total) {
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
+};
+
+exports.waitForAccountPage = function(){
+    browser.wait(function () {
+        return element(by.binding('WELCOME')).isPresent();
+    });
 };
 
 exports.writeHtml = function (data, filename) {
