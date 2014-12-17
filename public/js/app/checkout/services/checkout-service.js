@@ -37,24 +37,6 @@ angular.module('ds.checkout')
             this.creditCard = new CreditCard();
         };
 
-        var getCustomerName = function (account) {
-            var name = '';
-
-            if (account.title) {
-                name = account.title + ' ';
-            }
-
-            name = name + account.firstName + ' ';
-
-            if (account.middleName) {
-                name = name + account.middleName + ' ';
-            }
-
-            name = name + account.lastName;
-
-            return name;
-        };
-
         /** Error types to distinguish between Stripe validation and order submission errors
          * during checkout. */
         var ERROR_TYPES = {
