@@ -20,11 +20,8 @@ angular.module('ds.auth')
         function ($rootScope, $scope,  $controller, $q, AuthSvc,
                   settings, AuthDialogManager) {
 
-
             $scope.user = AuthSvc.user;
-
             $scope.errors = AuthSvc.errors;
-
             $scope.fbAppId = settings.facebookAppId;
 
             // scope variable used by google+ signing directive
@@ -36,7 +33,6 @@ angular.module('ds.auth')
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
                 AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope);
             });
-
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
@@ -68,7 +64,6 @@ angular.module('ds.auth')
              * and not for subsequent displays.
              */
             $scope.fbParse = AuthSvc.fbParse;
-
 
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin($scope);
