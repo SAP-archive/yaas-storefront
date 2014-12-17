@@ -6711,10 +6711,15 @@ html.disable-scroll {
   right: 500px;
 }
 .socialMediaSigninContainer {
-  margin: 0 0 55px 0;
+  margin: 0 0 75px 0;
 }
 .socialMediaSigninContainer .googlePlusLogin {
   padding-right: 0 !important;
+}
+@media (max-width: 991px) {
+  .socialMediaSigninContainer .googlePlusLogin {
+    padding: 0 !important;
+  }
 }
 .socialMediaSigninContainer .googleSignIn {
   height: 43px;
@@ -6742,6 +6747,12 @@ html.disable-scroll {
   left: 46px;
   top: 12px;
   font-size: 97%;
+}
+@media (max-width: 767px) {
+  .socialMediaSigninContainer .fbLogin {
+    padding: 0 !important;
+    margin: 20px 0 !important;
+  }
 }
 .socialMediaSigninContainer .fb_iframe_widget > span {
   width: 100% !important;
@@ -6773,15 +6784,19 @@ html.disable-scroll {
   background-color: transparent ;
   border: none;
   font-weight: bold;
-  color: #000;
+  color: #2a6496;
 }
 .signInTabs.nav-tabs > li > a,
 .signInTabs.nav-tabs > li > a:hover,
 .signInTabs.nav-tabs > li > a:focus {
-  padding: 0 15px;
+  padding: 0 25px;
 }
-.signInTabs .signInButton {
+.signInTabs li.signInButton {
   border-right: 1px solid #838485;
+}
+.signInTabs li.signInButton > a,
+.signInTabs li.signInButton > a.active {
+  padding-left: 0 !important;
 }
 #place-order-btn {
   background-color: #20c909;
@@ -7453,6 +7468,9 @@ section .hero-unit {
   font: 31px Georgia, "Times New Roman", Times, serif, sans-serif;
   text-align: center;
   color: #fff;
+}
+.hero-unit blockquote p {
+  display: none;
 }
 .hero-unit blockquote footer {
   color: #fff;
