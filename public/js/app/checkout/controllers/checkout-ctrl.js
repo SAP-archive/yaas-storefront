@@ -126,11 +126,6 @@ angular.module('ds.checkout')
                 getAddresses();
             });
 
-            if (!AuthSvc.isAuthenticated()) {
-                AuthDialogManager.open(null, { required: true });
-
-                }
-
             getDefaultAddress();
             if (GlobalData.user.isAuthenticated) {
                 getAccount();

@@ -171,9 +171,11 @@ window.app = angular.module('ds.router', [
                     // block immediate state transition
                     event.preventDefault();
 
-                    var dlg = $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
-                    dlg.then(function(){}, function(){
-                        $state.go(settings.homeState);
+                    var dlg = $injector.get('AuthDialogManager').open({}, {});
+                    dlg.then(function(){
+                            $state.go(toState, toParams)},
+                        function(){
+                            $state.go(settings.homeState);
                     });
 
                 }
@@ -321,6 +323,9 @@ window.app = angular.module('ds.router', [
                                 return CheckoutSvc.getShippingCost();
                             }
                         }
+                    },
+                    data: {
+                        auth: 'authenticated'
                     }
                 })
 
