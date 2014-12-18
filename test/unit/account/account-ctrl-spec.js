@@ -231,6 +231,7 @@ describe('AccountCtrl Test', function () {
         });
 
         it("should show the language locale as expected", function () {
+            $scope.account.preferredLanguage = '';
             var retVal = $scope.showLanguageLocale();
             expect(retVal).toEqualData('NOT_SET');
             $scope.account.preferredLanguage = 'en';
