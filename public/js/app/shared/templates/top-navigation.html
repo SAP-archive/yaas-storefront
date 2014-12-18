@@ -1,4 +1,4 @@
-<nav class="top-navigation">
+<nav class="top-navigation" ng-cloak>
 <!-- mobile "hamburger" menu button-->
 <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
     <span class="hyicon hyicon-menu"></span>
@@ -36,6 +36,6 @@
 
 </nav>
 <!-- full size cart icon -->
-<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
+<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
     <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
 </button>

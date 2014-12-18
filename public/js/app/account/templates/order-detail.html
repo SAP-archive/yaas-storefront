@@ -11,7 +11,7 @@
   -->
 
 <div class="account">
-    <section class="white orderHeaderContainer">
+    <section class="white orderHeaderContainer" ng-cloak>
         <div class="page-headline">
             <div class="breadCrumb">
                 <a data-ui-sref="base.account">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}
@@ -64,12 +64,12 @@
 
         </div>
     </section>
-    <section class="mediumgray orderStatusContainer">
+    <section class="mediumgray orderStatusContainer" ng-cloak>
         <div class="section-headline">
             <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
     </section>
-    <section class="white clearfix orderItemsContainer">
+    <section class="white clearfix orderItemsContainer" ng-cloak>
         <div class="section-headline">
             <h2>{{'ITEMS_IN_YOUR_ORDER' | translate}}</h2>
         </div>
