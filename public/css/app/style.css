@@ -8572,12 +8572,12 @@ address {
   background: #e2e2e2;
   color: #202122;
 }
-body,
-html {
+html.disable-scroll,
+body.disable-scroll {
   height: 100%;
 }
-body .main,
-html .main {
+html.disable-scroll .main,
+body.disable-scroll .main {
   max-height: 100%;
 }
 body {
