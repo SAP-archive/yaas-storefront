@@ -23,7 +23,6 @@ angular.module('ds.shared')
         };
 
         controlsLocals.$scope = scope;
-
         controller = new Controller(controllerInstance, controlsLocals);
         return controller;
     };
@@ -40,25 +39,18 @@ angular.module('ds.shared')
 
             $.ajax({url:scope.templateUrl}).done(
                 function(data){
-
                     var options = {
                         html: true,
                         template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>'),
                         content:  $compile(data)(scope)
                     };
 
-
-
-                    $(function(){
-
+                    $(function() {
                         $(element).popover(options).addClass(scope.popoverClass);
 
-
                         $(element).on('shown.bs.popover', function(){
-
                             getController(scope.popoverController, scope);
                             AuthDialogManager.showPopover();
-
                         });
 
                         $(document).on('click', '.js-closePopover', function(){
@@ -75,11 +67,7 @@ angular.module('ds.shared')
                         }
                     });
 
-
-
                 });
-
-
 
         }
     };
