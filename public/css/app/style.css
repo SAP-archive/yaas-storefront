@@ -7470,7 +7470,7 @@ section .hero-unit {
   color: #fff;
 }
 .hero-unit blockquote p {
-  display: none;
+  display: none !important;
 }
 .hero-unit blockquote footer {
   color: #fff;
@@ -7487,13 +7487,20 @@ section .hero-unit {
   -ms-transform: translate(0, -50%);
   transform: translate(0, -50%);
 }
+.productListingBreadCrumb .breadCrumbText {
+  font: 13px Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  color: #7d7e7f;
+  margin: 0 0 15px 0;
+}
 .refine-section {
   margin: 0;
 }
 .refine-section .title {
-  font: 29px Georgia, "Times New Roman", Times, serif, sans-serif;
+  font: 34px "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
   margin: 0 0 20px 0;
-  font-style: italic;
+  text-transform: uppercase;
+  color: #333333;
 }
 .refine-section .gridButtons {
   float: right;
@@ -7775,6 +7782,9 @@ section .hero-unit {
 }
 .productDetailsContainer .product-details .buyButton {
   margin: 22px 0 0 0;
+}
+.productDetailsContainer .product-details .buyButton button {
+  padding: 16px 0;
 }
 .productDetailsContainer .product-details .checkout-form {
   margin: 30px 0;
