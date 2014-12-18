@@ -124,15 +124,14 @@ angular.module('ds.auth')
             onGoogleLogin: function(gToken, scope, modalInstance){
 
                 AuthenticationService.socialLogin('google', gToken).then(function () {
-//                    close the modal if it's been passed
+                    // close the modal if it's been passed
                     if(!_.isUndefined(modalInstance))
                     {
                         modalInstance.close();
                     }
-                    /* jshint ignore:start */
                     try {
-                        gapi.client.load('plus', 'v1').then(function () {
-                            gapi.client.plus.people.get({
+                        window.gapi.client.load('plus', 'v1').then(function () {
+                            window.gapi.client.plus.people.get({
                                 'userId': 'me'
                             }).then(function (response) {
                                 if (response.result) {
@@ -145,7 +144,6 @@ angular.module('ds.auth')
                     } catch (error){
                         console.error('Unable to load Google+ user profile');
                     }
-                    /* jshint ignore:end */
                 }, function () {
                     scope.errors.signin.push('LOGIN_FAILED');
                 });
