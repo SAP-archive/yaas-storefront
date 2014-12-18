@@ -51,9 +51,7 @@ angular.module('ds.auth')
 
             return {
 
-                showPopover: function showPopover()
-                {
-                    //TODO?
+                showPopover: function showPopover() {
                 },
 
                 /**
