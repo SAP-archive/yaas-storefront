@@ -1,17 +1,10 @@
-body,html{
-  height: 100%;
-  .main{
-    max-height: 100%;
-  }
-}
-
 body{
 
     background: @lightestgrey;
 
   &.fixedLayout{
-//    position: fixed;
-    overflow-y:hidden !important;
+    position: fixed;
+    overflow-y:hidden;
   }
 //    background: @lightestgrey;
 
@@ -101,7 +94,6 @@ input[type='number']{
     .right &,
     .left &,
     .mask &{
-        overflow-y: hidden;
     	opacity: 1;
     	visibility: visible;
     }

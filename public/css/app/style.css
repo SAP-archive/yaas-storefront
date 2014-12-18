@@ -8562,19 +8562,12 @@ address {
   background: #e2e2e2;
   color: #202122;
 }
-body,
-html {
-  height: 100%;
-}
-body .main,
-html .main {
-  max-height: 100%;
-}
 body {
   background: #f5f5f5;
 }
 body.fixedLayout {
-  overflow-y: hidden !important;
+  position: fixed;
+  overflow-y: hidden;
 }
 input[type='number'] {
   -moz-appearance: textfield;
@@ -8634,7 +8627,6 @@ input[type='number'] {
 .right .content-mask,
 .left .content-mask,
 .mask .content-mask {
-  overflow-y: hidden;
   opacity: 1;
   visibility: visible;
 }
