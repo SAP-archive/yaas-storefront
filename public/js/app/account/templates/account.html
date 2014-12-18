@@ -10,7 +10,7 @@
 ~ license agreement you entered into with hybris.
 -->
 <div class="account">
-  <section class="white">
+  <section class="white" ng-cloak>
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-9 col-sm-5">
@@ -66,7 +66,7 @@
       </div>
     </div>
   </section>
-  <section>
+  <section ng-cloak>
     <div class="section-headline clearfix">
       <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
       <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
@@ -83,7 +83,7 @@
     </div>
 
   </section>
-  <section class="mediumgray" match-background>
+  <section class="mediumgray" match-background ng-cloak>
     <div class="section-headline clearfix">
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
