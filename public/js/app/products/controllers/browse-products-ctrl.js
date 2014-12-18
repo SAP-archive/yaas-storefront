@@ -94,7 +94,7 @@ angular.module('ds.products')
             //  We'll have to retrieve the current slug for the category (and thus this page)
             //  and reload to ensure the breadcrumbs and slug reflect the latest setting.
             var unbindCat = $rootScope.$on('categories:updated', function (eve, obj) {
-                if(obj.source === settings.eventSource.languageUpdate) {
+                if(obj.source === settings.evenstSource.languageUpdate) {
                     CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
                         var parms = {};
                         if (cat && cat.slug){
