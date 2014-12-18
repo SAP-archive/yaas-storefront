@@ -19,13 +19,10 @@ angular.module('ds.auth')
         'settings', 'AuthDialogManager',
         function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager) {
 
-
             $scope.user = AuthSvc.user;
-
             $scope.errors = AuthSvc.errors;
-
             $scope.fbAppId = settings.facebookAppId;
-
+            
             AuthSvc.initFBAPI($scope, $modalInstance);
 
             // scope variable used by google+ signing directive

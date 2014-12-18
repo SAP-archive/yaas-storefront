@@ -17,8 +17,7 @@ angular.module('ds.auth')
  */
     .controller('AuthPopoverDialogCtrl', ['$rootScope', '$scope', '$controller', '$q', 'AuthSvc',
        'settings', 'AuthDialogManager',
-        function ($rootScope, $scope,  $controller, $q, AuthSvc,
-                  settings, AuthDialogManager) {
+        function ($rootScope, $scope, $controller, $q, AuthSvc, settings, AuthDialogManager) {
 
             $scope.user = AuthSvc.user;
             $scope.errors = AuthSvc.errors;

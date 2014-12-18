@@ -83,6 +83,7 @@ module.exports = function(config){
 
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
+        'public/js/app/auth/controllers/auth-popover-dialog-ctrl.js',
         'public/js/app/auth/controllers/password-reset-ctrl.js',
         'public/js/app/auth/controllers/password-update-ctrl.js',
         'public/js/app/auth/controllers/password-reset-update-ctrl.js',

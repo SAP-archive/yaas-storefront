@@ -10,15 +10,12 @@
  * license agreement you entered into with hybris.
  */
 
-describe('AuthModalDialogCtrl Test', function () {
+describe('AuthPopoverDialogCtrl Test', function () {
+    // var AuthPopoverDialogCtrl;
     var storeTenant = '121212';
     var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
-       mockedSessionSvc={
-           afterLogIn: jasmine.createSpy()
-
-       }, mockBackend,
-        deferredSignIn, deferredSignUp, deferredSocialLogin;
+    var $scope, $rootScope, $controller, $window, AuthPopoverDialogCtrl, $q, MockedAuthSvc, mockedLoginOpts={},
+        mockBackend, deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
     // global variable to mimic FB API
     FB = {
@@ -49,14 +46,11 @@ describe('AuthModalDialogCtrl Test', function () {
         email: email,
         password: 'secret'
     };
-    $modalInstanceMock = {
-        close: jasmine.createSpy('close')
-    };
 
-    //***********************************************************************
+    // ***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
-    //***********************************************************************
+    // ***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('restangular'));
@@ -65,10 +59,7 @@ describe('AuthModalDialogCtrl Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$translate', {});
-        $provide.value('SessionSvc', mockedSessionSvc);
     }));
-
-
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_, _$window_) {
 
@@ -92,7 +83,6 @@ describe('AuthModalDialogCtrl Test', function () {
 
         MockedAuthSvc = {
             user:{},
-
             errors:{},
 
             FormSignup: jasmine.createSpy('FormSignup'),
@@ -117,21 +107,22 @@ describe('AuthModalDialogCtrl Test', function () {
             socialLogin: jasmine.createSpy('socialLogin')
         };
 
-        AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
-            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
-           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
-       );
+        AuthPopoverDialogCtrl = $controller('AuthPopoverDialogCtrl',
+            {$scope: $scope, AuthSvc: MockedAuthSvc, AuthDialogManager: mockedAuthDialogManager });
+
     });
+
 
     it("should expose correct data to the scope", function() {
         expect($scope.user).toBeDefined();
         expect($scope.errors).toBeDefined();
+        expect($scope.fbAppId).toBeDefined();
+        expect($scope.googleClientId).toBeDefined();
         expect($scope.signup).toBeDefined();
         expect($scope.signin).toBeDefined();
         expect($scope.continueAsGuest).toBeDefined();
         expect($scope.showResetPassword).toBeDefined();
         expect($scope.clearErrors).toBeDefined();
-        expect($scope.googleClientId).toEqualData(googleClientId);
     });
 
     describe('signin()', function(){
@@ -192,20 +183,6 @@ describe('AuthModalDialogCtrl Test', function () {
        it('should delegate to AuthDialogManager', function(){
           $scope.showResetPassword();
            expect(mockedAuthDialogManager.showResetPassword).toHaveBeenCalled();
-       });
-    });
-
-    describe('continueAsGuest()', function(){
-       it('should close dialog', function(){
-           $scope.continueAsGuest();
-           expect($modalInstanceMock.close).toHaveBeenCalled();
-       });
-    });
-
-    describe('closeDialog()', function(){
-       it('should close dialog', function(){
-           $scope.closeDialog();
-           expect($modalInstanceMock.close).toHaveBeenCalled();
        });
     });
 
