@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
-        'settings', 'AuthDialogManager',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager) {
+        'settings', 'AuthDialogManager', '$window',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager,  $window) {
 
 
             $scope.user = AuthSvc.user;
@@ -42,10 +42,10 @@ angular.module('ds.auth')
                 });
             }
 
+            /* jshint ignore:start */
             function onGoogleLogIn(gToken){
                 AuthSvc.socialLogin('google', gToken).then(function () {
                     $modalInstance.close();
-                    /* jshint ignore:start */
                     try {
                         gapi.client.load('plus', 'v1').then(function () {
                             gapi.client.plus.people.get({
@@ -61,11 +61,11 @@ angular.module('ds.auth')
                     } catch (error){
                         console.error('Unable to load Google+ user profile');
                     }
-                    /* jshint ignore:end */
                 }, function () {
                     $scope.errors.signin.push('LOGIN_FAILED');
                 });
             }
+            /* jshint ignore:end */
 
             $scope.fbAppId = settings.facebookAppId;
 
@@ -162,7 +162,6 @@ angular.module('ds.auth')
                         FB.login(function(response) {
 
                             if (response.authResponse) {
-                                console.log('Welcome!  Fetching your information.... ');
                                 //console.log(response); // dump complete info
                                 onFbLogin( response.authResponse.accessToken );
 //                                var access_token = response.authResponse.accessToken; //get access token
