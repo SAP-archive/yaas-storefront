@@ -19,7 +19,7 @@ html
 
     div(class="off-canvas", ng-class="{'right': showCart, 'left': showMobileNav}")
       div(ui-view="sidebarNavigation", class="sidebar-offcanvas", id="sidebar", role="navigation", sticky-navigation)
-      div(class="mainContent", hy-match-container="window", match-background)
+      div(class="mainContent", match-background)
           div(ui-view="topNavigation")
           div(class="main")
             div(ui-view="main")
