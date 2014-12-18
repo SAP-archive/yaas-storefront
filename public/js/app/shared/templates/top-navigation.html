@@ -7,7 +7,7 @@
 <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
         ng-click="toggleCart()">
     <span class="hyicon hyicon-cart"></span>
-    <span class="quantity">{{ cart.totalUnitsCount }}</span>
+    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
 </button>
 
 <button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!user.isAuthenticated" >
@@ -37,5 +37,5 @@
 </nav>
 <!-- full size cart icon -->
 <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
+    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
 </button>
