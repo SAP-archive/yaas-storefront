@@ -57,6 +57,7 @@ angular.module('ds.account')
             $scope.languageLocales = GlobalData.getAvailableLanguages();
 
             $scope.showLanguageLocale = function () {
+                $scope.account.preferredLanguage = $scope.account.preferredLanguage.split('_')[0];
                 var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage ? $scope.account.preferredLanguage : '?'});
                 return (selected && selected.length) ? selected[0].label : notSet;
             };
