@@ -18,8 +18,8 @@ html.disable-scroll{
 
   .popover{
     &.loginPopover{
-      max-width: 500px;
-      min-width: 500px;
+      max-width: 535px;
+      min-width: 535px;
       margin-top: 80px;
     }
     background-color:#ebebeb;
@@ -98,8 +98,15 @@ html.disable-scroll{
   }
 }
 
+@media (min-width: @screen-md-min){
+  #sidebar{
+    position: fixed;
+    bottom: 0;
+  }
+}
+
 .mainContent{
-  background: @lightestgreyplus;
+//  background: @lightestgreyplus;
 
   @media (max-width: @screen-md-min){
       margin-top: @topNavigationHeight;

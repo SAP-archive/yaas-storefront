@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q',
-        function (CheckoutREST, StripeJS, CartSvc, settings, $q) {
+    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q', 'GlobalData',
+        function (CheckoutREST, StripeJS, CartSvc, settings, $q, GlobalData) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {
@@ -35,24 +35,6 @@ angular.module('ds.checkout')
 
             this.paymentMethod = 'creditCard';
             this.creditCard = new CreditCard();
-        };
-
-        var getCustomerName = function (account) {
-            var name = '';
-
-            if (account.title) {
-                name = account.title + ' ';
-            }
-
-            name = name + account.firstName + ' ';
-
-            if (account.middleName) {
-                name = name + account.middleName + ' ';
-            }
-
-            name = name + account.lastName;
-
-            return name;
         };
 
         /** Error types to distinguish between Stripe validation and order submission errors
@@ -181,7 +163,18 @@ angular.module('ds.checkout')
 
                 newOrder.customer = {};
                 newOrder.customer.customerNumber = order.cart.customerId;
-                newOrder.customer.name = getCustomerName(order.account);
+                if (order.account.title && order.account.title !== '') {
+                    newOrder.customer.title = order.account.title;
+                }
+                if (order.account.firstName && order.account.firstName !== '') {
+                    newOrder.customer.firstName = order.account.firstName;
+                }
+                if (order.account.middleName && order.account.middleName !== '') {
+                    newOrder.customer.middleName = order.account.middleName;
+                }
+                if (order.account.lastName && order.account.lastName !== '') {
+                    newOrder.customer.lastName = order.account.lastName;
+                }
                 newOrder.customer.email = order.account.email;
 
                 // Will be submitted as "hybris-user" request header
@@ -199,7 +192,7 @@ angular.module('ds.checkout')
                 CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts){
                     var defaultCost = {};
                     defaultCost.price = {};
-                    defaultCost.price.price = 0;
+                    defaultCost.price[GlobalData.getCurrencyId()] = 0;
 
                     var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
                     deferred.resolve(costs);

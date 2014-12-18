@@ -1,65 +1,103 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 /**
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('CategorySvc', ['PriceProductREST', 'GlobalData', '$q', function(PriceProductREST, GlobalData, $q){
+
+    .factory('CategorySvc', ['$rootScope', 'PriceProductREST', 'GlobalData', '$q', function($rootScope, PriceProductREST, GlobalData, $q){
+
+        var categoryMap;
+        var catList;
 
         function sluggify(name){
-           return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue'));
+            // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
+            return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+        }
+
+        function loadCategory(cat, parent){
+            cat.path = [];
+            if(parent){
+                angular.copy(parent.path, cat.path);
+            }
+            cat.path.push(cat);
+            cat.slug = sluggify(cat.name)+'~'+cat.id;
+            categoryMap[cat.id] = cat;
+
+            if(cat.subcategories){
+                angular.forEach(cat.subcategories, function(sub){
+                    loadCategory(sub, cat);
+                });
+            }
+        }
+
+        function getCategory(slug){
+            var tildeIndex = slug.indexOf('~');
+            if(tildeIndex < 0) {
+                return null;
+            }
+            var catId = slug.substring(tildeIndex+1, slug.length);
+            return categoryMap[catId];
         }
 
         return {
 
-            /** Returns a promise over the category list.*/
-            getCategories: function () {
+            /** Returns a promise over the category list as loaded from the service. Fires event "categories:updated".
+             * @param source - indicates source/reason for update, eg. 'languageUpdate' - see setting.eventSource.
+             * */
+            getCategories: function (source) {
                 var catDef = $q.defer();
 
-                PriceProductREST.Categories.all('categories').getList().then(function (result) {
-                   // var catMap = [];
-                    var catNameMap = [];
-                    var cats = [];
+                PriceProductREST.Categories.all('categories').getList({ expand: 'subcategories', toplevel: true }).then(function (result) {
+                    categoryMap = {};
+                    catList = [];
                     angular.forEach(result.plain(), function (category) {
-                        var slug = sluggify(category.name);
-                        category.slug = slug;
-                        catNameMap[slug] = category;
-                        cats.push(category);
-                    }, catNameMap);
-
-                    GlobalData.categoryMap = catNameMap;
-                    catDef.resolve(cats);
+                        catList.push(category);
+                        loadCategory(category);
+                    });
+                    $rootScope.$emit('categories:updated', {categories: catList, source: source});
+                    catDef.resolve(catList);
                 }, function (error) {
                     catDef.reject(error);
                 });
-
                 return catDef.promise;
             },
 
-            /*
-            getCategory: function(categoryId) {
-                var cdef = $q.defer();
-                if(categoryId === '0'){
-                    cdef.resolve(null);
-                } else if(GlobalData.categoryMap){
-                    var category = GlobalData.categoryMap[categoryId];
-                    cdef.resolve(category);
-                } else {
-                    this.getCategories().then(function () {
-                        var category = GlobalData.categoryMap[categoryId];
-                        if(!category) {
-                            category = {};
-                        }
-                        cdef.resolve(category);
-                    });
-                }
-                return cdef.promise;
-            },*/
-
-            getProducts: function(categoryId){
-                return PriceProductREST.Categories.all('categories').one(categoryId).all('elements').getList();
+            /** Returns categories from cache.*/
+            getCategoriesFromCache: function(){
+                return catList;
             },
 
+            getCategoryById: function(categoryId){
+                var catDef = $q.defer();
+
+                if(categoryMap){
+                    catDef.resolve(categoryMap[categoryId]);
+                } else {
+                    this.getCategories().then(function(){
+                        catDef.resolve(categoryMap[categoryId]);
+                    });
+                }
+                return catDef.promise;
+            },
+
+            /** Returns the category along with "element list".
+             * If category will be retrieved from cache if existing.
+             * @param categorySlug ("sluggified" name per logic in this service - name, ~,  categoryId, e.g. 'green-bottles~3456')
+             * @returns {*}
+             */
             getCategoryWithProducts: function (categorySlug) {
                 var compositeDef = $q.defer();
 
@@ -67,20 +105,25 @@ angular.module('ds.products')
                     compositeDef.resolve(null);
                 } else {
                     var cdef = $q.defer();
-                    if (GlobalData.categoryMap) {
-                        var category = GlobalData.categoryMap[categorySlug];
-                        cdef.resolve(category);
+                    if (categoryMap) {
+                        var category = getCategory(categorySlug);
+                        if(category){
+                            cdef.resolve(category);
+                        } else {
+                            cdef.reject();
+                        }
                     } else {
                         this.getCategories().then(function () {
-                            var category = GlobalData.categoryMap[categorySlug];
-                            if (!category) {
-                                category = {};
+                            var category = getCategory(categorySlug);
+                            if(category){
+                                cdef.resolve(category);
+                            } else {
+                                cdef.reject();
                             }
-                            cdef.resolve(category);
                         });
                     }
                     cdef.promise.then(function (category) {
-                        PriceProductREST.Categories.all('categories').one(category.id).all('elements').getList().then(
+                        PriceProductREST.Categories.all('categories').one(category.id).all('elements').getList({recursive: true}).then(
                             function(elements){
                                 category.elements = elements.plain();
                                 compositeDef.resolve(category);
@@ -90,16 +133,12 @@ angular.module('ds.products')
                         );
                     });
                 }
-
                 return compositeDef.promise;
             },
 
-            clearCategoryCache: function(){
-                GlobalData.categoryMap = null;
-            },
-
-            getSlug: function (name) {
-                return sluggify(name);
+            /** Remove local category storage to force retrieval from server on next request.*/
+            resetCategoryCache: function(){
+              categoryMap = null;
             }
         };
 }]);

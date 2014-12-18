@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 angular.module('ds.shared')
@@ -48,7 +60,24 @@ angular.module('ds.shared')
             googleResponseToken: 'access_token'
         },
 
-        placeholderImage: 'img/no-image.png',
+        localeImages: {
+            en: './img/flags/en.jpg',
+            de: './img/flags/de.jpg'
+        },
 
-        homeState: 'base.category'
+        // identifies the languages for which labels have been localized - see public/js/app/shared/i18n
+        translateLanguages:['en','de'],
+        // fallback language for label localization
+        translateDefault: 'en',
+
+        placeholderImage: 'img/no-image.jpg',
+
+        homeState: 'base.home',
+
+        eventSource: {
+            login: 'login',
+            initialization: 'init',
+            unknown: 'unknown',
+            languageUpdate: 'languageUpdate'
+        }
     });

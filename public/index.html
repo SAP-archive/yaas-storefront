@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>hybris Store Template</title>
     <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
     <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
@@ -14,9 +14,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body ng-class="{'fixedLayout': showCart}">
 <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation"></div>
+    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation" sticky-navigation></div>
     <div class="mainContent">
         <div ui-view="topNavigation"></div>
         <div  class="main">
@@ -30,28 +30,32 @@
 
 <!-- /.container--><!-- build:js js/multi-tenant-server.js-->
 <script src="js/vendor-static/jquery.min.js"></script>
-<script src="js/vendor/angular/angular.js"></script>
-<script src="js/vendor/angular-cookie/angular-cookie.js"></script>
+<script src="js/vendor/angular/angular.min.js"></script>
+<script src="js/vendor/angular-cookie/angular-cookie.min.js"></script>
 <script src="js/vendor/restangular/dist/restangular.min.js"></script>
-<script src="js/vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="js/vendor/angular-translate/angular-translate.min.js"></script>
 <script src="js/vendor/lodash/dist/lodash.compat.min.js"></script>
 <script src="js/vendor/angular-stripe-js/build/angular-stripe-js.min.js"></script>
 <script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
-<script src="js/vendor/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="js/vendor/angular-xeditable/dist/js/xeditable.min.js"></script>
 <script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
-<script src="js/vendor/angular-sanitize/angular-sanitize.js"></script>
+<script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/vendor/spin.js/spin.js"></script>
 <script src="js/app/shared/shared-index.js"></script>
 <script src="js/app/shared/settings.js"></script>
 <script src="js/app/shared/site-config.js"></script>
+<script src="js/app/shared/directives/menu-aim.js"></script>
+<script src="js/app/shared/directives/match-background.js"></script>
+<script src="js/app/shared/directives/sticky-navigation.js"></script>
 <script src="js/app/shared/services/cookie-svc.js"></script>
 <script src="js/app/shared/services/global-data.js"></script>
 <script src="js/app/shared/services/configuration-service.js"></script>
 <script src="js/app/shared/services/configuration-rest.js"></script>
 <script src="js/app/shared/services/http-queue.js"></script>
+<script src="js/app/shared/services/event-service.js"></script>
 <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
 <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
 <script src="js/app/shared/filters/filters.js"></script>
@@ -63,6 +67,8 @@
 <script src="js/app/orders/orders-index.js"></script>
 <script src="js/app/orders/services/order-list-service.js"></script>
 <script src="js/app/orders/services/orders-rest.js"></script>
+<script src="js/app/home/home-index.js"></script>
+<script src="js/app/home/controllers/home-ctrl.js"></script>
 <script src="js/app/products/products-index.js"></script>
 <script src="js/app/products/controllers/browse-products-ctrl.js"></script>
 <script src="js/app/products/controllers/product-detail-ctrl.js"></script>
@@ -76,7 +82,7 @@
 <script src="js/app/cart/services/cart-service.js"></script>
 <script src="js/app/checkout/checkout-index.js"></script>
 <script src="js/app/checkout/controllers/checkout-ctrl.js"></script>
-<script src="js/app/checkout/controllers/order-detail-ctrl.js"></script>
+<script src="js/app/checkout/controllers/checkout-cart-ctrl.js"></script>
 <script src="js/app/checkout/services/checkout-service.js"></script>
 <script src="js/app/checkout/directives/inline-error-input.js"></script>
 <script src="js/app/checkout/services/checkout-rest.js"></script>
@@ -108,6 +114,7 @@
 <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="js/vendor-static/ui-bootstrap-tpls.js"></script>
 <script src="js/vendor-static/jquery.menu-aim.js"></script>
+<script src="js/vendor-static/main.js"></script>
 <script src="https://js.stripe.com/v2/"></script>
 </body>
 <!-- endbuild--><!-- Production--><!--script(src='dist/public/js/617caaa4.multi-tenant-server.js')--></html>

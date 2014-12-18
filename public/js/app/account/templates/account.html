@@ -83,11 +83,39 @@
     </div>
 
   </section>
-  <section class="mediumgray">
+  <section class="mediumgray" match-background>
     <div class="section-headline clearfix">
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
-    <div class="table-responsive">
+
+   <div class="hidden-md hidden-lg row">
+       <div ng-repeat="m_order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
+           <div class="cardStatusIdentifier pull-left" ></div>
+           <div class="panel">
+               <div class="panel-body " >
+                   <div class="row">
+                       <div class="col-sm-8 col-xs-8 leftCol">
+                           <p>
+                           <strong>{{'PLACED_AT'|translate}}</strong></br>
+                           {{m_order.created | date: 'medium'}}
+                           </p>
+                           <p>
+                               <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
+                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{order.id}}</a>
+                           </p>
+                           <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
+                       </div>
+                       <div class="col-sm-4 col-xs-4">
+                        <p><strong>{{m_order.status}}</strong></p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+
+    <div class="table-responsive hidden-sm hidden-xs">
       <table class="table">
         <thead>
           <tr>
@@ -98,19 +126,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="order in orders">
-            <td>{{order.created | date: 'medium'}}</td>
-            <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-            <td>{{order.totalPrice | currency: currencySymbol}}</td>
-            <td><strong>{{order.status}}</strong></td>
+          <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
+            <td>{{xrder.created | date: 'medium'}}</td>
+            <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
+            <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
+            <td><strong>{{xrder.status}}</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="text-center">
+    <div class="text-center" ng-if="showOrderButtons">
       <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
+      <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
     </div>
+
 
   </section>
 

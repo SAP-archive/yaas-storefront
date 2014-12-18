@@ -55,10 +55,10 @@ describe('CartCtrl Test', function () {
         };
 
         mockedGlobalData = {
-            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$')
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
 
         $rootScope.cart = products;
     });
@@ -93,18 +93,24 @@ describe('CartCtrl Test', function () {
 
         describe('mouse enters cart area', function(){
             it('should create the timeout', function(){
-                $scope.cartHovered();
+                $scope.cartHover();
                 expect($scope.cartTimeOut).toBeFalsy();
             })
         });
 
         describe('mouse leaves cart area', function(){
             it('should clear the timeout', function(){
-                $scope.cartUnHovered();
+                $scope.cartUnHover();
                 expect($scope.createCartTimeout).toHaveBeenCalled;
-
             })
-        })
+        });
+
+        describe('toggleCart', function () {
+            it('should toggle the cart', function () {
+                $scope.toggleCart();
+                expect($rootScope.showCart).toEqualData(false);
+            });
+        });
     });
 
 
@@ -116,6 +122,35 @@ describe('CartCtrl Test', function () {
             expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
         });
 
+        it(' should remove item if qty is zero', function () {
+            $scope.updateCartItem({}, 0);
+            expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled;
+        });
+
+    });
+
+    describe('test event watches', function () {
+        it ('should set the scope cart to the event cart when cart updates', function () {
+            var newCart = {
+                id: '9876',
+                items: [
+                    {name: 'Bass Guitar', id: 'bass1234', price: 500, qty: 1}
+                ],
+                currency: 'USD'
+            };
+
+            $rootScope.$emit('cart:updated', {cart: newCart});
+
+            expect($scope.cart).toEqualData(newCart);
+        });
+    });
+
+    describe('toggle cart', function(){
+        it('should set showCart to false', function(){
+           $rootScope.showCart = true;
+            $scope.toggleCart();
+            expect($rootScope.showCart).toBeFalsy();
+        });
     });
 
 

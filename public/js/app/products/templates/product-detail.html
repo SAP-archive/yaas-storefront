@@ -1,7 +1,7 @@
-<section class="white productDetailsContainer" min-height hy-match-container="window">
+<section class="white productDetailsContainer" match-background>
     <div class="row">
         <div class="col-md-8 col-md-push-4">
-            <div class="gallery product-gallery">
+            <div class="gallery product-gallery"> 
                 <div class="image">
                     <div ng-repeat="image in product.images">
                         <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
@@ -43,7 +43,7 @@
                                         || (event.keyCode==46) )">
                             </div>
                         </div>
-                    </div>
+                    </div>  
 
                     <div class="row">
                         <div ng-if="error" class="col-md-12 col-lg-12">

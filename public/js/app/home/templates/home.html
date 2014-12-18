@@ -1,0 +1,19 @@
+<div class="homepageContainer" match-background>
+    <div class="homepageCarouselContainer">
+        <carousel interval="carouselInterval">
+            <slide ng-repeat="slide in slides" active="slide.active">
+                <a data-ui-sref="{{slide.state}}">
+                    <img ng-src="{{slide.image}}" style="margin:auto;">
+                </a>
+            </slide>
+        </carousel>
+        <div class="row carouselImages">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <img src="./img/homePg-banner3.jpg" alt="free gift" />
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <img src="./img/homePg-banner4.jpg" alt="flight collection" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -9,20 +9,22 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
+
 'use strict';
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('OrderDetailCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData',
+    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData',
         function ($scope, $rootScope, cart, shippingCost, GlobalData) {
 
             $scope.cart = cart;
-            $scope.shippingCost = shippingCost;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
+            $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
+            $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
-                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+                $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             });
 
             $scope.$on('$destroy', unbind);

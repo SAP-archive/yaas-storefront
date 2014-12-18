@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('ds.shared')
-.directive('popOver', ['$compile', '$controller', 'AuthDialogManager', 'AuthSvc', 'settings', function ( $compile, Controller, AuthDialogManager, AuthSvc, settings) {
+.directive('popOver', ['$compile', '$controller', 'AuthDialogManager', function ( $compile, Controller, AuthDialogManager) {
 
     var getController = function getController(controllerInstance, scope)
     {
