@@ -128,7 +128,7 @@ angular.module('ds.auth')
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                if( authResult.status.method !== 'AUTO'){
+                if( authResult.status.method !== 'AUTO' ){
                     onGoogleLogIn(authResult[settings.configKeys.googleResponseToken]);
                 }
             });
