@@ -45,18 +45,15 @@ angular.module('ds.shared')
                         content:  $compile(data)(scope)
                     };
 
-                    $(function() {
-                        $(element).popover(options).addClass(scope.popoverClass);
+                    $(element).popover(options).addClass(scope.popoverClass);
 
-                        $(element).on('shown.bs.popover', function(){
-                            getController(scope.popoverController, scope);
-                            AuthDialogManager.showPopover();
-                        });
+                    $(element).on('shown.bs.popover', function(){
+                        getController(scope.popoverController, scope);
+                        AuthDialogManager.showPopover();
+                    });
 
-                        $(document).on('click', '.js-closePopover', function(){
-                            $(element).popover('hide');
-                        });
-
+                    $(document).on('click', '.js-closePopover', function(){
+                        $(element).popover('hide');
                     });
 
                     $('html').on('click', function (e) {
