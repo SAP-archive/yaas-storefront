@@ -150,7 +150,7 @@ angular.module('ds.auth')
                 } else if (response.data && response.data.message) {
                     errors.push({ message: response.data.message });
                 } else if (response.status === 0){
-                    errors.push({ message: "SERVER_UNAVAILABLE"});
+                    errors.push({ message: 'SERVER_UNAVAILABLE'});
                 } else {
                     errors.push({message: response.status});
                 }
