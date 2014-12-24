@@ -94,6 +94,7 @@ angular.module('ds.auth')
                             fjs.parentNode.insertBefore(js, fjs);
 
                         }(document, 'script', 'facebook-jssdk'));
+
                     }
                 } catch (e) {
                     console.error('Unable to initialize Facebook API');
