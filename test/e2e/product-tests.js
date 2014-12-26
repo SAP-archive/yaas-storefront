@@ -104,7 +104,7 @@ describe("product page", function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
+            tu.sortAndVerifyPagination('created:desc', 'PENHOLDER', '$1.99');
             browser.get(tu.tenant + '/#!/ct/mugs~85248');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
