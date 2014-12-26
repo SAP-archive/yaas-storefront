@@ -102,7 +102,7 @@ describe("product page", function () {
             tu.assertProductByRepeaterRow(0, 'EARBUDS');
             tu.sortAndVerifyPagination('name', 'EARBUDS', '$15.00');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', 'USB', '$5.99');
+            tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
             browser.get(tu.tenant + '/#!/ct/mugs~85248');
@@ -111,9 +111,9 @@ describe("product page", function () {
             tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
             tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
+            tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/cosmetics');
         });
 
