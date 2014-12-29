@@ -2,8 +2,8 @@
 
     <section>
         <!-- Nav tabs -->
-        <div class="socialMediaSigninContainer row">
-            <div ng-if="socialLogin.fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
+        <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer row">
+            <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
                 <div class="fbLoginButton">
                     <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
                 </div>

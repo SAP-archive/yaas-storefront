@@ -70,4 +70,6 @@ angular.module('ds.auth')
                 AuthSvc.faceBookLogin($scope);
             };
 
+            $scope.$digest();
+
         }]);
