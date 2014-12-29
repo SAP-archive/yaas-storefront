@@ -74,7 +74,7 @@ angular.module('ds.auth')
                 /** Loads the Facebook SDK. */
                 initFBAPI: function () {
                     try {
-                        if (settings.fbAppId) {
+                        if (settings.facebookAppId) {
 
                             // load Facebook SDK
                             $window.fbAsyncInit = function () {

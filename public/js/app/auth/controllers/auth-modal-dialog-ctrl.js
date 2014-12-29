@@ -26,16 +26,17 @@ angular.module('ds.auth')
                     password: ''
                 }
             };
+
             $scope.errors = {
                 signup: [],
                 signin: []
             };
-            $scope.socialLogin = {
-                fbAppId: settings.facebookAppId,
-                googleClientId: settings.googleClientId
-            };
+
+            $scope.fbAppId = settings.facebookAppId;
+            $scope.googleClientId = settings.googleClientId;
+
             
-            AuthSvc.initFBAPI($modalInstance);
+            AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
@@ -78,8 +79,6 @@ angular.module('ds.auth')
                 $modalInstance.close();
             };
 
-
-
             /** Shows the "request password reset" dialog.*/
             $scope.showResetPassword = function () {
                 AuthDialogManager.showResetPassword();
@@ -89,14 +88,9 @@ angular.module('ds.auth')
                 $scope.errors.signin = [];
                 $scope.errors.signup = [];
             };
-            /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
-             * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
-             * and not for subsequent displays.
-             */
-            $scope.fbParse = AuthSvc.fbParse;
 
             $scope.fbLogin = function () {
-                AuthSvc.faceBookLogin($scope);
+                AuthSvc.faceBookLogin();
             };
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
