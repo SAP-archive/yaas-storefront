@@ -14,8 +14,8 @@
 
 /** Authorization manager.  */
 angular.module('ds.auth')
-    .factory('AuthDialogManager', ['$modal', '$location', 'settings', '$q',
-        function($modal, $location, settings, $q){
+    .factory('AuthDialogManager', ['$modal',
+        function($modal){
 
             var authDialog;
 
@@ -30,23 +30,10 @@ angular.module('ds.auth')
             }
 
             function openDialog(options) {
-
-                var deferResult = $q.defer();
                 // make sure only 1 instance exists in opened state
                 closeDialog();
                 authDialog = $modal.open(options);
-
-                authDialog.result.then(
-                    // dialog closed
-                    function(success) {
-                        deferResult.resolve(success);
-                    },
-                    // dialog dismissed
-                    function(error) {
-                        deferResult.reject(error);
-                    }
-                );
-                return deferResult.promise;
+                return authDialog.result;
             }
 
             return {

@@ -16,31 +16,61 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
-        'settings', 'AuthDialogManager',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager) {
+        'settings', 'AuthDialogManager', 'loginOpts',
+        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager, loginOpts) {
 
-            $scope.user = AuthSvc.user;
-            $scope.errors = AuthSvc.errors;
+            $scope.user = {
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            };
+            $scope.errors = {
+                signup: [],
+                signin: []
+            };
             $scope.socialLogin = {
                 fbAppId: settings.facebookAppId,
                 googleClientId: settings.googleClientId
             };
             
-            AuthSvc.initFBAPI($scope, $modalInstance);
+            AuthSvc.initFBAPI($modalInstance);
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope, $modalInstance);
+                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
             });
+
+            /** Closes the dialog.*/
+            $scope.closeDialog = function(){
+                if($modalInstance){
+                    $modalInstance.close();
+                }
+            };
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
-                AuthSvc.formSignUp(authModel, signUpForm, $scope, $modalInstance, 'modal');
+                if (signUpForm.$valid) {
+                    AuthSvc.signup(authModel, loginOpts).then(
+                        function () {
+                            $scope.closeDialog();
+                        }, function (response) {
+                            $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
+                        }
+                    );
+                }
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-                AuthSvc.formSignIn(authModel, signinForm, $scope, $modalInstance, 'modal');
+                if (signinForm.$valid) {
+                    AuthSvc.signin(authModel).then(function () {
+                        $scope.closeDialog();
+                    }, function (response) {
+                        $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
+                    });
+                }
             };
 
             /** Closes the dialog. */
@@ -48,10 +78,7 @@ angular.module('ds.auth')
                 $modalInstance.close();
             };
 
-            /** Closes the dialog.*/
-            $scope.closeDialog = function(){
-                $modalInstance.close();
-            };
+
 
             /** Shows the "request password reset" dialog.*/
             $scope.showResetPassword = function () {
@@ -59,7 +86,8 @@ angular.module('ds.auth')
             };
 
             $scope.clearErrors = function() {
-                AuthSvc.clearErrors($scope);
+                $scope.errors.signin = [];
+                $scope.errors.signup = [];
             };
             /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
              * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
@@ -70,5 +98,15 @@ angular.module('ds.auth')
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin($scope);
             };
+
+            var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
+                if(obj.loggedIn){
+                    $scope.closeDialog();
+                } else {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                }
+            });
+
+            $scope.$on('$destroy', unbind);
 
         }]);

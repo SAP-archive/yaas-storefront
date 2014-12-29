@@ -49,7 +49,6 @@ angular.module('ds.shared')
 
                     $(element).on('shown.bs.popover', function(){
                         getController(scope.popoverController, scope);
-                        scope.digest();
                     });
 
                     $(document).on('click', '.js-closePopover', function(){

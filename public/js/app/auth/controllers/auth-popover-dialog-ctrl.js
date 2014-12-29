@@ -19,8 +19,18 @@ angular.module('ds.auth')
        'settings', 'AuthDialogManager',
         function ($rootScope, $scope, $controller, $q, AuthSvc, settings, AuthDialogManager) {
 
-            $scope.user = AuthSvc.user;
-            $scope.errors = AuthSvc.errors;
+            $scope.user = {
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            };
+            $scope.errors = {
+                signup: [],
+                signin: []
+            };
+
             $scope.socialLogin = {
                 fbAppId: settings.facebookAppId,
                 googleClientId: settings.googleClientId
@@ -28,21 +38,35 @@ angular.module('ds.auth')
 
             $scope.$digest();
 
-            AuthSvc.initFBAPI($scope);
+            AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope);
+                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
             });
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
-                AuthSvc.formSignUp(authModel, signUpForm, $scope);
+                if (signUpForm.$valid) {
+                    AuthSvc.signup(authModel, {}).then(
+                        function () {
+                            $scope.closeDialog();
+                        }, function (response) {
+                            $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
+                        }
+                    );
+                }
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-                AuthSvc.formSignIn(authModel, signinForm, $scope);
+                if (signinForm.$valid) {
+                    AuthSvc.signin(authModel).then(function () {
+                        $scope.closeDialog();
+                    }, function (response) {
+                        $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
+                    });
+                }
             };
 
             /** Closes the dialog. */
@@ -57,7 +81,8 @@ angular.module('ds.auth')
             };
 
             $scope.clearErrors = function(){
-                AuthSvc.clearErrors($scope);
+                $scope.errors.signin = [];
+                $scope.errors.signup = [];
             };
 
             /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
@@ -70,6 +95,14 @@ angular.module('ds.auth')
                 AuthSvc.faceBookLogin($scope);
             };
 
-            $scope.$digest();
+            var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
+                if(obj.loggedIn){
+                    $scope.closeDialog();
+                } else {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                }
+            });
+
+            $scope.$on('$destroy', unbind);
 
         }]);
