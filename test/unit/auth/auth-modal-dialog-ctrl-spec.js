@@ -91,13 +91,8 @@ describe('AuthModalDialogCtrl Test', function () {
         deferredSocialLogin = $q.defer();
 
         MockedAuthSvc = {
-            user:{},
 
-            errors:{},
-
-            formSignUp: jasmine.createSpy('formSignUp'),
-            formSignIn: jasmine.createSpy('formSignIn'),
-            clearErrors: jasmine.createSpy('clearErrors'),
+            extractServerSideErrors: jasmine.createSpy('extractServerSideErrors'),
             isAuthenticated: jasmine.createSpy('isAuthenticated'),
             requestPasswordReset: jasmine.createSpy('requestPasswordReset'),
             changePassword: jasmine.createSpy('changePassword'),
@@ -112,7 +107,6 @@ describe('AuthModalDialogCtrl Test', function () {
             }),
 
             onGoogleLogIn: jasmine.createSpy('onGoogleLogIn'),
-            fbParse: jasmine.createSpy('fbParse'),
             faceBookLogin: jasmine.createSpy('faceBookLogin'),
             socialLogin: jasmine.createSpy('socialLogin')
         };
@@ -139,7 +133,7 @@ describe('AuthModalDialogCtrl Test', function () {
         it("should call AuthSvc signin if form valid", function() {
             mockedForm.$valid = true;
             $scope.signin(authModel, mockedForm);
-            expect(MockedAuthSvc.formSignIn).toHaveBeenCalled();
+            expect(MockedAuthSvc.signin).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -161,11 +155,11 @@ describe('AuthModalDialogCtrl Test', function () {
 
         it('should set errors on failure', function(){
             mockedForm.$valid = true;
-            $scope.errors.signin = [{message: 'PASSWORD_INVALID'}];
+            $scope.errors.signin = [];
             $scope.signin(authModel, mockedForm);
             deferredSignIn.reject({status: 400, data:{ details:[{field: 'password'}]}});
             $rootScope.$apply();
-            expect($scope.errors.signin).toEqualData([{message: 'PASSWORD_INVALID'}]);
+            expect(MockedAuthSvc.extractServerSideErrors).toHaveBeenCalled();
         });
     });
 
@@ -178,7 +172,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
             deferredSignUp.resolve({});
             $rootScope.$apply();
-            expect(MockedAuthSvc.formSignUp).toHaveBeenCalled();
+            expect(MockedAuthSvc.signup).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -214,7 +208,8 @@ describe('AuthModalDialogCtrl Test', function () {
             $scope.errors.signin = ['something is wrong'];
             $scope.errors.signup = ['more stuff wrong'];
             $scope.clearErrors();
-            expect(MockedAuthSvc.clearErrors).toHaveBeenCalled();
+            expect($scope.errors.signin).toEqualData([]);
+            expect($scope.errors.signup).toEqualData([]);
         });
     });
 
