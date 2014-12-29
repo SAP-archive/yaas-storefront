@@ -69,4 +69,6 @@ angular.module('ds.auth')
                 console.log('checked')
             };
 
+            $scope.$digest();
+
         }]);
