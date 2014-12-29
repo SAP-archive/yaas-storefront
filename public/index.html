@@ -4,7 +4,9 @@
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>hybris Store Template</title>
+    <!--title>hybris Store Template</title
+    <title title-config>{{configuredTitle}} - Store Template</title>-->
+    <title title-config ng-bind-template="{{titleConfig}}">Store Template</title>
     <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
     <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
     <link href="js/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
@@ -23,7 +25,7 @@
             <div ui-view="main"></div>
             <div class="content-mask" ng-click="closeOffcanvas()"></div>
         </div>
-        
+
     </div>
     <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 </div>
@@ -50,6 +52,7 @@
 <script src="js/app/shared/site-config.js"></script>
 <script src="js/app/shared/directives/menu-aim.js"></script>
 <script src="js/app/shared/directives/match-background.js"></script>
+<script src="js/app/shared/directives/title-config.js"></script>
 <script src="js/app/shared/directives/sticky-navigation.js"></script>
 <script src="js/app/shared/services/cookie-svc.js"></script>
 <script src="js/app/shared/services/global-data.js"></script>

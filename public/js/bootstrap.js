@@ -16,7 +16,8 @@
 (function () {
 
     var storeConfig = {};
-    storeConfig.storeTenant = 'defaultproj';
+    // storeConfig.storeTenant = 'defaultproj';
+    storeConfig.storeTenant = '8bwhetym79cq';
 
     try {
         console.log(storeConfig);

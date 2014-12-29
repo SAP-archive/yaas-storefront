@@ -4,7 +4,9 @@ html(ng-class="{'disable-scroll': showCart || showMobileNav }")
     meta(charset='utf8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width', initial-scale='1.0', maximum-scale='1', user-scalable='0')
-    title=store.name
+    //title=store.name
+    title(title-config)
+        {{ configuredTitle }} - StoreTemplate
     link(rel='stylesheet', href='js/vendor/angular-ui-select/dist/select.min.css')
 
     link(rel='stylesheet', href=store.style, type='text/css', media='screen, projection')
@@ -69,6 +71,7 @@ html(ng-class="{'disable-scroll': showCart || showMobileNav }")
     script(src='js/app/shared/site-config.js')
     script(src='js/app/shared/directives/sticky-navigation.js')
     script(src='js/app/shared/directives/match-background.js')
+    script(src='ja/app/shared/directives/title-config.js')
     script(src='js/app/shared/directives/menu-aim.js')
     script(src='js/app/shared/services/cookie-svc.js')
     script(src='js/app/shared/services/global-data.js')

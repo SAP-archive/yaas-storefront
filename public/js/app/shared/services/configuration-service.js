@@ -16,8 +16,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc',
-        function ($q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, CategorySvc) {
+    .factory('ConfigSvc', ['$rootScope', '$q', 'settings', 'GlobalData', 'ConfigurationREST', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc',
+        function ($rootScope, $q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, CategorySvc) {
             var initialized = false;
 
             /**
@@ -40,6 +40,8 @@ angular.module('ds.shared')
                             /* jshint ignore:end */
                         } else if (key === settings.configKeys.storeName) {
                             GlobalData.store.name = value;
+                            $rootScope.titleConfig = value;
+                            debugger;
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
