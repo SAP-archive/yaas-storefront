@@ -47,11 +47,14 @@ angular.module('ds.auth')
              * the login dialog will be a pop-up rather than an iframe.
              */
             faceBookLogin: function(scope){
+                console.log(FB)
                 FB.getLoginStatus(function (response) {
                     if (response.status === 'connected') {
+                        console.log('test')
                         scope.fbLoggedIn = true;
                         AuthenticationService.onFbLogin(scope, response.authResponse.accessToken);
                     } else {
+                        console.log('test')
                         // fallback logic only
                         scope.fbLoggedIn = false;
                         FB.login();
