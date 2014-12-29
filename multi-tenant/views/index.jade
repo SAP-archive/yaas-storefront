@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-class="{'disable-scroll': showCart || showMobileNav }")
   head
     meta(charset='utf8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -30,6 +30,7 @@ html
 
     script(src='js/vendor-static/jquery.min.js')
     script(src='js/vendor/angular/angular.min.js')
+    script(src='js/vendor/angular-touch/angular-touch.js')
     script(src='js/vendor/angular-cookie/angular-cookie.min.js')
     script(src='js/vendor/restangular/dist/restangular.min.js')
     script(src='js/vendor/angular-ui-router/release/angular-ui-router.min.js')
@@ -124,8 +125,9 @@ html
     script(src='js/vendor/bootstrap/js/popover.js')
     script(src='js/app/shared/directives/popover.js')
     script(src='js/vendor/angular-bootstrap/ui-bootstrap-tpls.js')
-    script(src='js/vendor-static/ui-bootstrap-tpls.js')
+  
     script(src='js/vendor-static/jquery.menu-aim.js')
+
     script(src='https://js.stripe.com/v2/')
 
 

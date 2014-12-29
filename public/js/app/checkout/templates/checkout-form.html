@@ -4,7 +4,7 @@
 {{'SECURE_CHECKOUT' | translate}}
 </h1>
 <ng-form name="checkoutForm" novalidate autocomplete="on">
-<ng-form name="billToForm" novalidate autocomplete="on">
+<ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-1" ng-class="{'done': wiz.step1Done}">
     <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
     ng-click="editBillTo()"></span></h2>
@@ -190,7 +190,7 @@
     </div>
 </div>
 </ng-form>
-<ng-form name="shipToForm" novalidate autocomplete="on">
+<ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
     <a id="step2">
         <h2> {{'STEP_2_SHIPPING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editBillTo()"></span></h2>
@@ -348,7 +348,7 @@
 </div>
 </div>
 </ng-form>
-<ng-form name="paymentForm" novalidate autocomplete="on">
+<ng-form name="paymentForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
 <a id="step3">
     <h2>{{'STEP_3_PAYMENT' | translate}} <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
@@ -436,7 +436,7 @@
 </div>
 </div>
 </ng-form>
-<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}">
+<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}" ng-cloak>
 <a id="step4">
     <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
 </a>
