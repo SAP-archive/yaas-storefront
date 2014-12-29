@@ -95,8 +95,8 @@ describe('AuthModalDialogCtrl Test', function () {
 
             errors:{},
 
-            FormSignup: jasmine.createSpy('FormSignup'),
-            FormSignIn: jasmine.createSpy('FormSignIn'),
+            formSignUp: jasmine.createSpy('formSignUp'),
+            formSignIn: jasmine.createSpy('formSignIn'),
             clearErrors: jasmine.createSpy('clearErrors'),
             isAuthenticated: jasmine.createSpy('isAuthenticated'),
             requestPasswordReset: jasmine.createSpy('requestPasswordReset'),
@@ -139,7 +139,7 @@ describe('AuthModalDialogCtrl Test', function () {
         it("should call AuthSvc signin if form valid", function() {
             mockedForm.$valid = true;
             $scope.signin(authModel, mockedForm);
-            expect(MockedAuthSvc.FormSignIn).toHaveBeenCalled();
+            expect(MockedAuthSvc.formSignIn).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){
@@ -178,7 +178,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
             deferredSignUp.resolve({});
             $rootScope.$apply();
-            expect(MockedAuthSvc.FormSignup).toHaveBeenCalled();
+            expect(MockedAuthSvc.formSignUp).toHaveBeenCalled();
         });
 
         it('should not call AuthSvc if form invalid', function(){

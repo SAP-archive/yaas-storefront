@@ -51,8 +51,6 @@ angular.module('ds.auth')
 
             return {
 
-                showPopover: function showPopover() {
-                },
 
                 /**
                  * Creates and opens the authorization dialog for sign in/create account.

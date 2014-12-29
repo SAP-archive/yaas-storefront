@@ -3,15 +3,15 @@
     <section>
         <!-- Nav tabs -->
         <div class="socialMediaSigninContainer row">
-            <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
+            <div ng-if="socialLogin.fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
                 <div class="fbLoginButton">
                     <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
                 </div>
             </div>
-            <div ng-if="googleClientId"  class="googlePlusLogin col-sm-6 col-xs-12" ng-app="directive.g+signin">
+            <div ng-if="socialLogin.googleClientId"  class="googlePlusLogin col-sm-6 col-xs-12">
                 <div class="googleSignIn">
                     <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
-                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                    <google-plus-signin clientid="{{socialLogin.googleClientId}}" approvalprompt="force"></google-plus-signin>
                 </div>
             </div>
         </div>

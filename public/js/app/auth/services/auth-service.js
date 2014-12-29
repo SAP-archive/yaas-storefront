@@ -47,14 +47,12 @@ angular.module('ds.auth')
              * the login dialog will be a pop-up rather than an iframe.
              */
             faceBookLogin: function(scope){
-                console.log(FB)
+
                 FB.getLoginStatus(function (response) {
                     if (response.status === 'connected') {
-                        console.log('test')
                         scope.fbLoggedIn = true;
                         AuthenticationService.onFbLogin(scope, response.authResponse.accessToken);
                     } else {
-                        console.log('test')
                         // fallback logic only
                         scope.fbLoggedIn = false;
                         FB.login();
@@ -66,7 +64,7 @@ angular.module('ds.auth')
             initFBAPI: function(scope, modalinstance)
             {
                 try {
-                    if (scope.fbAppId) {
+                    if (scope.socialLogin.fbAppId) {
 
                         // load Facebook SDK
                         $window.fbAsyncInit = function () {
@@ -125,7 +123,7 @@ angular.module('ds.auth')
                 });
             },
 
-            onGoogleLogin: function(gToken, scope, modalInstance){
+            onGoogleLogIn: function(gToken, scope, modalInstance){
 
                 AuthenticationService.socialLogin('google', gToken).then(function () {
                     // close the modal if it's been passed
@@ -183,7 +181,7 @@ angular.module('ds.auth')
                 return errors;
             },
 
-            FormSignup: function(authModel, signUpForm, scope, modalInstance, type){
+            formSignUp: function(authModel, signUpForm, scope, modalInstance, type){
 
                 var deferred = $q.defer();
 
@@ -207,7 +205,7 @@ angular.module('ds.auth')
                 return deferred.promise;
             },
 
-            FormSignIn: function(authModel, signinForm, scope, modalInstance, type)
+            formSignIn: function(authModel, signinForm, scope, modalInstance, type)
             {
                 var deferred = $q.defer();
                 if (signinForm.$valid) {

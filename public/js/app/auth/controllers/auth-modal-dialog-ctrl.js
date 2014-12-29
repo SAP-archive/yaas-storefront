@@ -21,12 +21,12 @@ angular.module('ds.auth')
 
             $scope.user = AuthSvc.user;
             $scope.errors = AuthSvc.errors;
-            $scope.fbAppId = settings.facebookAppId;
+            $scope.socialLogin = {
+                fbAppId: settings.facebookAppId,
+                googleClientId: settings.googleClientId
+            };
             
             AuthSvc.initFBAPI($scope, $modalInstance);
-
-            // scope variable used by google+ signing directive
-            $scope.googleClientId = settings.googleClientId;
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
@@ -35,12 +35,12 @@ angular.module('ds.auth')
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
-                AuthSvc.FormSignup(authModel, signUpForm, $scope, $modalInstance, 'modal');
+                AuthSvc.formSignUp(authModel, signUpForm, $scope, $modalInstance, 'modal');
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-                AuthSvc.FormSignIn(authModel, signinForm, $scope, $modalInstance, 'modal');
+                AuthSvc.formSignIn(authModel, signinForm, $scope, $modalInstance, 'modal');
             };
 
             /** Closes the dialog. */

@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.shared')
-.directive('popOver', ['$compile', '$controller', 'AuthDialogManager', function ( $compile, Controller, AuthDialogManager) {
+.directive('popOver', ['$compile', '$controller', function ( $compile, Controller) {
 
     var getController = function getController(controllerInstance, scope)
     {
@@ -49,7 +49,7 @@ angular.module('ds.shared')
 
                     $(element).on('shown.bs.popover', function(){
                         getController(scope.popoverController, scope);
-                        AuthDialogManager.showPopover();
+                        scope.digest();
                     });
 
                     $(document).on('click', '.js-closePopover', function(){
