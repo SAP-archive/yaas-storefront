@@ -41,7 +41,6 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.storeName) {
                             GlobalData.store.name = value;
                             $rootScope.titleConfig = value;
-                            debugger;
                         } else if (key === settings.configKeys.storeLogo) {
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
