@@ -210,7 +210,7 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page', function () {
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$23.92');
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$24.61');
         });
 
         it('should create order on account page in Euros', function () {
@@ -310,11 +310,11 @@ describe("mobile checkout:", function () {
         });
 
         // TODO - mobile login slightly more complex due to account drop-down
-        xit('should create order on account page', function () {
+        xit('should create order on account page mobile', function () {
             verifyOrderOnAccountPageMobile('order@test.com', '$24.61')
         });
 
-        xit('should create order on account page in Euros', function () {
+        xit('should create order on account page in Euros mobile', function () {
             verifyOrderOnAccountPageMobile('euro-order@test.com', '€22.52')
         });
 
