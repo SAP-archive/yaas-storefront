@@ -6124,27 +6124,32 @@ html.disable-scroll {
   padding: 0 20px;
   text-align: center;
 }
+#sidebar .currencySelector {
+  text-transform: uppercase;
+  padding: 0 20px;
+  text-align: center;
+}
 #sidebar .store-settings .popover {
   margin-left: -21px !important;
 }
 #sidebar .store-settings .popover.right .arrow {
   top: 102px !important;
 }
-#sidebar .localeSelectorListContainer {
+#sidebar .selectorListContainer {
   width: 187px;
   padding: 0 20px;
 }
-#sidebar .localeSelectorListContainer .uppercase {
+#sidebar .selectorListContainer .uppercase {
   text-transform: uppercase;
 }
-#sidebar .localeSelectorListContainer .translationHeader {
+#sidebar .selectorListContainer .popoverHeader {
   font-weight: bold;
   padding: 20px 0 17px 0;
   margin: 20px 0 37px 0;
   text-align: center;
   border-bottom: 1px solid #c4c4c4;
 }
-#sidebar .localeSelectorListContainer .language {
+#sidebar .selectorListContainer .entity {
   text-decoration: none;
   cursor: pointer;
   background-color: transparent;
@@ -6157,12 +6162,12 @@ html.disable-scroll {
   background-image: url('../../img/language_select_inactive.png');
   color: #7d7e7f !important;
 }
-#sidebar .localeSelectorListContainer .language:hover,
-#sidebar .localeSelectorListContainer .language.active {
+#sidebar .selectorListContainer .entity:hover,
+#sidebar .selectorListContainer .entity.active {
   color: #000 !important;
   background-image: url('../../img/language_select_active.png');
 }
-#sidebar .localeSelectorListContainer .language.active {
+#sidebar .selectorListContainer .entity.active {
   cursor: default;
 }
 #sidebar a.logo {

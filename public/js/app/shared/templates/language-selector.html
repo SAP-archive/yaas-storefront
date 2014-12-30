@@ -1,14 +1,14 @@
-<div class="localeSelectorListContainer">
-    <div class="row translationHeader">
+<div class="selectorListContainer">
+    <div class="row popoverHeader">
         {{'LOCALE' | translate}}
     </div>
-    <div class="languages">
+    <div class="entities">
         <div ng-repeat="lang in languages">
             
-            <span class="language" ng-class="{'active': language.selected.iso == lang.iso}" ng-show="language.selected.iso == lang.iso">
+            <span class="entity" ng-class="{'active': language.selected.iso == lang.iso}" ng-show="language.selected.iso == lang.iso">
                 <span class="uppercase">{{lang.iso}}</span>  - {{lang.value | translate}}
             </span>
-            <a ng-show="language.selected.iso != lang.iso" ng-click="updateLanguage(lang)" class="language" >
+            <a ng-show="language.selected.iso != lang.iso" ng-click="updateLanguage(lang)" class="entity" >
                 <span class="uppercase">{{lang.iso}}</span> - {{lang.value | translate}}
             </a>
         </div>
