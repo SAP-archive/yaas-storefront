@@ -1,13 +1,20 @@
+html.disable-scroll,
+body.disable-scroll{
+  height: 100%;
+  .main{
+    max-height: 100%;
+  }
+}
+
 body{
 
     background: @lightestgrey;
 
   &.fixedLayout{
-    position: fixed;
-    overflow-y:hidden;
+//    position: fixed;
+    overflow-y:hidden !important;
   }
 //    background: @lightestgrey;
-  background: #fff;
 
 }
 
@@ -95,6 +102,7 @@ input[type='number']{
     .right &,
     .left &,
     .mask &{
+        overflow-y: hidden;
     	opacity: 1;
     	visibility: visible;
     }

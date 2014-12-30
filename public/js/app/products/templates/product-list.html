@@ -1,7 +1,4 @@
-
-
-
-<section class="gray">
+<section class="gray" match-background>
     <div class="hero-unit">
         <blockquote style="background-image: url('{{category.image}}' );background-position:0 0;">
             <p>{{store.name}}</p>
@@ -9,9 +6,8 @@
         </blockquote>
 
     </div>
-
-    <div class="row">
-        <div ng-if="category.name" class="col-xs-12 col-sm-6  title">
+    <div class="row productListingBreadCrumb" ng-cloak>
+        <div ng-if="category.name" class="col-xs-12 col-sm-6  title breadCrumbText">
 
             <a ng-repeat="cat in category.path" ng-if="!$last" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
                 <span ng-if="!$first"> / </span>
@@ -22,7 +18,7 @@
           
         </div>
     </div>
-    <div class="refine-section">
+    <div class="refine-section" ng-cloak>
 
         <div class="row">
 
@@ -50,8 +46,8 @@
                                 <option value="-price">{{'PRICE_HIGH_LOW' | translate}}</option>
                                 -->
                                 <option value="name">A-Z</option>
-                                <option value="-name">Z-A</option>
-                                <option value="-created">{{'NEWEST' | translate}}</option>
+                                <option value="name:desc">Z-A</option>
+                                <option value="created:desc">{{'NEWEST' | translate}}</option>
                             </select>
                         </div>
                     </div>
@@ -75,7 +71,7 @@
     </div>
 
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false">
+    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" ng-cloak>
         <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">

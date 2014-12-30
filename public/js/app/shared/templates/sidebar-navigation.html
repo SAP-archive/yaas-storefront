@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<div class="hy-flexibleHeightNav">
+<div class="hy-flexibleHeightNav" ng-cloak>
     <div class="seperator"></div>
     <ul ds-menu-aim class="navi hy-scrollingNav">
         <li ng-repeat="category in categories" class="js-listRoot"> <!-- class="has-sub" -->
@@ -54,8 +54,8 @@
     <div class="seperator"></div>
 </div>
 
-<div class="store-settings">
-    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+<div class="store-settings" ng-cloak>
+    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1">
         <ui-select-match id="language-select" placeholder="Select language" >
             <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]">{{$select.selected.value | translate}}
         </ui-select-match>
@@ -65,7 +65,7 @@
         </ui-select-choices>
     </ui-select>
 
-    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1">
         <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
         </ui-select-match>
         <ui-select-choices repeat="curr in currencies | filter: $select.search">
@@ -74,7 +74,7 @@
     </ui-select>
 </div>
 
-<div class="store-settings hy-stickyComponent hidden-sm hidden-xs">
+<div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak>
     <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
         <ui-select-match id="language-select" placeholder="Select language" >
             <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]"> {{$select.selected.value}}

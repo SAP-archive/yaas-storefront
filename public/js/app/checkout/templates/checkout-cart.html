@@ -1,10 +1,10 @@
 <h2>{{ORDER_DETAILS | translate}}</h2>
-<section class="excerpt‎">
+<section class="excerpt‎" ng-cloak>
     <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
     <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
     <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value + shippingCost | currency: shippingCurrencySymbol}}</div>
 </section>
-<section>
+<section ng-cloak>
     <div ng-repeat="item in cart.items track by $index">
         <div class="cart-item row">
             <div class="col-xs-4 col-md-4 text-center img-col">
@@ -25,7 +25,7 @@
         </div>
     </div>
 </section>
-<section class="summary">
+<section class="summary" ng-cloak>
     <table class="table">
         <tbody>
         <tr>

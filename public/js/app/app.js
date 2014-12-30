@@ -327,9 +327,9 @@ window.app = angular.module('ds.router', [
                 .state('base.checkout.details', {
                     url: '/checkout/',
                     views: {
-                        'orderdetails': {
-                            templateUrl: 'js/app/checkout/templates/order-details.html',
-                            controller: 'OrderDetailCtrl'
+                        'checkoutcart': {
+                            templateUrl: 'js/app/checkout/templates/checkout-cart.html',
+                            controller: 'CheckoutCartCtrl'
                         },
                         'checkoutform': {
                             templateUrl: 'js/app/checkout/templates/checkout-form.html',

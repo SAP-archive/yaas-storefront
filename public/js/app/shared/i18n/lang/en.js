@@ -113,6 +113,7 @@ angular.module('ds.i18n')
             product detail page
          */
         BUY: 'Buy',
+        ADD_TO_CART:'Add to Cart',
         DESCRIPTION: 'Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',

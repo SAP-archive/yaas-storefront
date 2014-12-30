@@ -128,9 +128,11 @@ angular.module('ds.auth')
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
+                // ignore google+ auto login feature event
+                if( authResult.status.method !== 'AUTO' ){
+                    onGoogleLogIn(authResult[settings.configKeys.googleResponseToken]);
+                }
             });
-
 
             var extractServerSideErrors = function (response) {
                 console.log(response);

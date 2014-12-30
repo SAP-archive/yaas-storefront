@@ -6000,6 +6000,9 @@ html.disable-scroll {
     right: 500px;
   }
 }
+.homepageContainer {
+  background-color: #fff;
+}
 .homepageContainer .carousel {
   padding: 0;
   margin: 0 0 20px 0;
@@ -6708,10 +6711,15 @@ html.disable-scroll {
   right: 500px;
 }
 .socialMediaSigninContainer {
-  margin: 0 0 55px 0;
+  margin: 0 0 75px 0;
 }
 .socialMediaSigninContainer .googlePlusLogin {
   padding-right: 0 !important;
+}
+@media (max-width: 991px) {
+  .socialMediaSigninContainer .googlePlusLogin {
+    padding: 0 !important;
+  }
 }
 .socialMediaSigninContainer .googleSignIn {
   height: 43px;
@@ -6739,6 +6747,12 @@ html.disable-scroll {
   left: 46px;
   top: 12px;
   font-size: 97%;
+}
+@media (max-width: 767px) {
+  .socialMediaSigninContainer .fbLogin {
+    padding: 0 !important;
+    margin: 20px 0 !important;
+  }
 }
 .socialMediaSigninContainer .fb_iframe_widget > span {
   width: 100% !important;
@@ -6770,15 +6784,19 @@ html.disable-scroll {
   background-color: transparent ;
   border: none;
   font-weight: bold;
-  color: #000;
+  color: #2a6496;
 }
 .signInTabs.nav-tabs > li > a,
 .signInTabs.nav-tabs > li > a:hover,
 .signInTabs.nav-tabs > li > a:focus {
-  padding: 0 15px;
+  padding: 0 25px;
 }
-.signInTabs .signInButton {
+.signInTabs li.signInButton {
   border-right: 1px solid #838485;
+}
+.signInTabs li.signInButton > a,
+.signInTabs li.signInButton > a.active {
+  padding-left: 0 !important;
 }
 #place-order-btn {
   background-color: #20c909;
@@ -7451,6 +7469,9 @@ section .hero-unit {
   text-align: center;
   color: #fff;
 }
+.hero-unit blockquote p {
+  display: none !important;
+}
 .hero-unit blockquote footer {
   color: #fff;
   font: 15px Georgia, "Times New Roman", Times, serif, sans-serif;
@@ -7466,13 +7487,20 @@ section .hero-unit {
   -ms-transform: translate(0, -50%);
   transform: translate(0, -50%);
 }
+.productListingBreadCrumb .breadCrumbText {
+  font: 13px Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  color: #7d7e7f;
+  margin: 0 0 15px 0;
+}
 .refine-section {
   margin: 0;
 }
 .refine-section .title {
-  font: 29px Georgia, "Times New Roman", Times, serif, sans-serif;
+  font: 34px "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
   margin: 0 0 20px 0;
-  font-style: italic;
+  text-transform: uppercase;
+  color: #333333;
 }
 .refine-section .gridButtons {
   float: right;
@@ -7755,6 +7783,9 @@ section .hero-unit {
 .productDetailsContainer .product-details .buyButton {
   margin: 22px 0 0 0;
 }
+.productDetailsContainer .product-details .buyButton button {
+  padding: 16px 0;
+}
 .productDetailsContainer .product-details .checkout-form {
   margin: 30px 0;
 }
@@ -8028,10 +8059,10 @@ section .hero-unit {
   padding: 15px 0 0 0;
 }
 .order-detail section.summary,
-.order-detail section.excerpt‎ {
+.order-detail section.excerpt {
   padding: 10px 35px 0;
 }
-.order-detail section.excerpt‎ {
+.order-detail section.excerpt {
   text-transform: uppercase;
   color: #6d6e6f;
   font-size: 16px;
@@ -8541,13 +8572,19 @@ address {
   background: #e2e2e2;
   color: #202122;
 }
+html.disable-scroll,
+body.disable-scroll {
+  height: 100%;
+}
+html.disable-scroll .main,
+body.disable-scroll .main {
+  max-height: 100%;
+}
 body {
   background: #f5f5f5;
-  background: #fff;
 }
 body.fixedLayout {
-  position: fixed;
-  overflow-y: hidden;
+  overflow-y: hidden !important;
 }
 input[type='number'] {
   -moz-appearance: textfield;
@@ -8607,6 +8644,7 @@ input[type='number'] {
 .right .content-mask,
 .left .content-mask,
 .mask .content-mask {
+  overflow-y: hidden;
   opacity: 1;
   visibility: visible;
 }

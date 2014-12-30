@@ -229,14 +229,31 @@ describe('AuthModalDialogCtrl Test', function () {
         });
     })
 
-    xdescribe('onGoogleLogin', function(){
-       it('should invoke social login', function(){
+
+    describe('onGoogleLogin', function(){
+       it('should invoke social login for non-auto login', function(){
            var token = 'token';
-           $rootScope.$broadcast('event:google-plus-signin-success', {access_token: token});
-           deferredSocialLogin.resolve({});
+           var eventObj = {
+               access_token: token,
+                status:{method: 'whatever'}
+           };
+           $rootScope.$broadcast('event:google-plus-signin-success', eventObj );
+           deferredSocialLogin.resolve();
            $scope.$apply();
            expect(MockedAuthSvc.socialLogin).toHaveBeenCalled();
        });
+
+        it('should NOT invoke social login for auto login', function(){
+            var token = 'token';
+            var eventObj = {
+                access_token: token,
+                status:{method: 'AUTO'}
+            };
+            $rootScope.$broadcast('event:google-plus-signin-success', eventObj );
+            deferredSocialLogin.resolve();
+            $scope.$apply();
+            expect(MockedAuthSvc.socialLogin).not.toHaveBeenCalled();
+        });
     });
 
 });
