@@ -12,8 +12,8 @@
 
 'use strict';
 
-angular.module('ds.shared')
-.directive('popOver', ['$compile', '$controller', 'AuthDialogManager', function ( $compile, Controller, AuthDialogManager) {
+angular.module('ds.auth')
+.directive('popOver', ['$compile', '$controller', function ( $compile, Controller) {
 
     var getController = function getController(controllerInstance, scope)
     {
@@ -23,6 +23,7 @@ angular.module('ds.shared')
         };
 
         controlsLocals.$scope = scope;
+
         controller = new Controller(controllerInstance, controlsLocals);
         return controller;
     };
@@ -47,9 +48,10 @@ angular.module('ds.shared')
 
                     $(element).popover(options).addClass(scope.popoverClass);
 
+
                     $(element).on('shown.bs.popover', function(){
                         getController(scope.popoverController, scope);
-                        AuthDialogManager.showPopover();
+                        scope.$digest();
                     });
 
                     $(document).on('click', '.js-closePopover', function(){

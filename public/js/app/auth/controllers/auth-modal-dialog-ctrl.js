@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -15,42 +15,67 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
-        'settings', 'AuthDialogManager',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager) {
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
+        'settings', 'AuthDialogManager', 'loginOpts',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts) {
 
-            $scope.user = AuthSvc.user;
-            $scope.errors = AuthSvc.errors;
+            $scope.user = {
+                signup: {},
+                signin: {
+                    email: '',
+                    password: ''
+                }
+            };
+
+            $scope.errors = {
+                signup: [],
+                signin: []
+            };
+
             $scope.fbAppId = settings.facebookAppId;
-            
-            AuthSvc.initFBAPI($scope, $modalInstance);
-
-            // scope variable used by google+ signing directive
             $scope.googleClientId = settings.googleClientId;
+            
+            AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken], $scope, $modalInstance);
+                if( authResult.status.method !== 'AUTO' ){
+                    AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
+                }
             });
+
+            /** Closes the dialog.*/
+            $scope.closeDialog = function(){
+                AuthDialogManager.close();
+            };
 
             /** Shows dialog that allows the user to create a new account.*/
             $scope.signup = function (authModel, signUpForm) {
-                AuthSvc.FormSignup(authModel, signUpForm, $scope, $modalInstance, 'modal');
+                if (signUpForm.$valid) {
+                    AuthSvc.signup(authModel, loginOpts).then(
+                        function () {
+                            $scope.closeDialog();
+                        }, function (response) {
+                            $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
+                        }
+                    );
+                }
             };
 
             /** Shows dialog that allows the user to sign in so account specific information can be accessed. */
             $scope.signin = function (authModel, signinForm) {
-                AuthSvc.FormSignIn(authModel, signinForm, $scope, $modalInstance, 'modal');
+                if (signinForm.$valid) {
+                    AuthSvc.signin(authModel).then(function () {
+                        $scope.closeDialog();
+                    }, function (response) {
+                        $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
+                    });
+                }
             };
 
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
-                $modalInstance.close();
-            };
-
-            /** Closes the dialog.*/
-            $scope.closeDialog = function(){
-                $modalInstance.close();
+                $scope.closeDialog();
             };
 
             /** Shows the "request password reset" dialog.*/
@@ -59,16 +84,22 @@ angular.module('ds.auth')
             };
 
             $scope.clearErrors = function() {
-                AuthSvc.clearErrors($scope);
+                $scope.errors.signin = [];
+                $scope.errors.signup = [];
             };
-            /** Prompts the Facebook SKD to re-parse the <fb:login-button> tag in the
-             * sign-up HTML and display the button.  Otherwise, the button is only shown at FB SDK load time
-             * and not for subsequent displays.
-             */
-            $scope.fbParse = AuthSvc.fbParse;
 
             $scope.fbLogin = function () {
-                AuthSvc.faceBookLogin($scope);
+                AuthSvc.faceBookLogin();
             };
+
+            var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
+                if(obj.loggedIn){
+                    $scope.closeDialog();
+                } else {
+                    $scope.errors.signin.push('LOGIN_FAILED');
+                }
+            });
+
+            $scope.$on('$destroy', unbind);
 
         }]);

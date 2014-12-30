@@ -6805,6 +6805,7 @@ html.disable-scroll {
   font-size: 97%;
 }
 .socialMediaSigninContainer .fbLogin {
+  cursor: pointer;
   padding-left: 0 !important;
 }
 .socialMediaSigninContainer .fbLogin .fbLoginButton {
