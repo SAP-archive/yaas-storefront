@@ -112,6 +112,7 @@ angular.module('ds.i18n')
          product detail page
          */
         BUY: 'In den Warenkorb',
+        ADD_TO_CART:'In den Warenkorb',
         DESCRIPTION: 'Beschreibung',
         OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',

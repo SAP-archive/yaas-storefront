@@ -150,12 +150,6 @@ $(document).ready(function () {
 			responsiveBaseWidth:$(".carousel")
 		});
 	}
-	
-
-
-
-
-
 
 
 

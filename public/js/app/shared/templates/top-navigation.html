@@ -1,4 +1,4 @@
-<nav class="top-navigation">
+<nav class="top-navigation" ng-cloak>
 <!-- mobile "hamburger" menu button-->
 <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
     <span class="hyicon hyicon-menu"></span>
@@ -7,12 +7,12 @@
 <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
         ng-click="toggleCart()">
     <span class="hyicon hyicon-cart"></span>
-    <span class="quantity">{{ cart.totalUnitsCount }}</span>
+    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
 </button>
 
-<button type="button" class="btn btn-link navbar-btn pull-right signin" ng-click="login()" ng-if="!user.isAuthenticated" >
+<a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn pull-right signin" pop-over data-placement="bottom" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
   <img src="./img/user-icon_small.png" class="user-avatar">
-</button>
+</a>
 <div class="dropdown pull-right">
   <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
     <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
@@ -36,6 +36,6 @@
 
 </nav>
 <!-- full size cart icon -->
-<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()">
-    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount }}</span>
+<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
 </button>

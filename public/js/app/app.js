@@ -248,8 +248,10 @@ window.app = angular.module('ds.router', [
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: function(ConfigSvc) {
-                            return ConfigSvc.initializeApp();
+                        dummy: function(initialized){// force initialization delay
+                            if(initialized) {
+                                return {};
+                            }
                         }
                     }
                 })
@@ -332,9 +334,9 @@ window.app = angular.module('ds.router', [
                 .state('base.checkout.details', {
                     url: '/checkout/',
                     views: {
-                        'orderdetails': {
-                            templateUrl: 'js/app/checkout/templates/order-details.html',
-                            controller: 'OrderDetailCtrl'
+                        'checkoutcart': {
+                            templateUrl: 'js/app/checkout/templates/checkout-cart.html',
+                            controller: 'CheckoutCartCtrl'
                         },
                         'checkoutform': {
                             templateUrl: 'js/app/checkout/templates/checkout-form.html',

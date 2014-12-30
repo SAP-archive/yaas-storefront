@@ -68,9 +68,9 @@ describe("product page", function () {
             // browser.sleep(750);
             tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', "WOMEN'S T-SHIRT - GRAY", '$14.99');
+            tu.sortAndVerifyPagination('name:desc', "WOMEN'S T-SHIRT - GRAY", '$14.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
         });
 
         it("should get order of products correctly in german and Euros", function () {
@@ -86,9 +86,9 @@ describe("product page", function () {
             // browser.sleep(750);
             tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', 'WASSER-FLASCHE', '€19.99');
+            tu.sortAndVerifyPagination('name:desc', 'WASSER-FLASCHE', '€19.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'BIERKRUG W / HELLES', '€6.39');
+            tu.sortAndVerifyPagination('created:desc', 'BIERKRUG W / HELLES', '€6.39');
         });
 
 
@@ -102,18 +102,18 @@ describe("product page", function () {
             tu.assertProductByRepeaterRow(0, 'EARBUDS');
             tu.sortAndVerifyPagination('name', 'EARBUDS', '$15.00');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', 'USB', '$5.99');
+            tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'PENHOLDER', '$1.99');
+            tu.sortAndVerifyPagination('created:desc', 'PENHOLDER', '$1.99');
             browser.get(tu.tenant + '/#!/ct/mugs~85248');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
             tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
             tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-name', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
+            tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('-created', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/cosmetics');
         });
 
