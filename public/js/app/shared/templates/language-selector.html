@@ -1,0 +1,10 @@
+<div class="localeSelectorListContainer">
+    <h2>{{'LOCALE' | translate}}</h2>
+
+    <div class="row">
+        <div class="col-xs-6 col-sm-6" ng-repeat="lang in languages">
+            <a ng-click="updateLanguage(lang)">{{lang.value}}</a>
+        </div>
+    </div>
+
+</div>

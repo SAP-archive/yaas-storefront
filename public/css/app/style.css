@@ -6119,6 +6119,14 @@ html.disable-scroll {
 #sidebar {
   background: #eeeeee;
 }
+#sidebar .languageSelector {
+  text-transform: uppercase;
+  padding: 0 20px;
+  text-align: center;
+}
+#sidebar .localeSelectorListContainer {
+  width: 187px;
+}
 #sidebar a.logo {
   display: block;
   margin: 30px 0 ;
