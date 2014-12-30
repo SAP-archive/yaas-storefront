@@ -15,9 +15,9 @@ angular.module('ds.auth')
 /**
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
-    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', '$modalInstance', '$controller', '$q', 'AuthSvc', 'SessionSvc',
+    .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
         'settings', 'AuthDialogManager', 'loginOpts',
-        function ($rootScope, $scope, $modalInstance, $controller, $q, AuthSvc, SessionSvc, settings, AuthDialogManager, loginOpts) {
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts) {
 
             $scope.user = {
                 signup: {},
@@ -34,20 +34,19 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
-
             
             AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
+                if( authResult.status.method !== 'AUTO' ){
+                    AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
+                }
             });
 
             /** Closes the dialog.*/
             $scope.closeDialog = function(){
-                if($modalInstance){
-                    $modalInstance.close();
-                }
+                AuthDialogManager.close();
             };
 
             /** Shows dialog that allows the user to create a new account.*/
@@ -76,7 +75,7 @@ angular.module('ds.auth')
 
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
-                $modalInstance.close();
+                $scope.closeDialog();
             };
 
             /** Shows the "request password reset" dialog.*/

@@ -12,12 +12,9 @@
 
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
-    var mockedGlobalData = {store: {tenant: storeTenant}};
-    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
-       mockedSessionSvc={
-           afterLogIn: jasmine.createSpy()
 
-       }, mockBackend,
+    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
+
         deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
     // global variable to mimic FB API
@@ -41,7 +38,8 @@ describe('AuthModalDialogCtrl Test', function () {
     };
 
     var mockedAuthDialogManager = {
-        showResetPassword: jasmine.createSpy('showResetPassword')
+        showResetPassword: jasmine.createSpy('showResetPassword'),
+        close: jasmine.createSpy('close')
     };
 
     var email = 'some.user@hybris.com';
@@ -63,14 +61,12 @@ describe('AuthModalDialogCtrl Test', function () {
     beforeEach(angular.mock.module('ui.router'));
     beforeEach(module('ds.auth', function ($provide) {
         $provide.value('settings', mockedSettings);
-        $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('$translate', {});
-        $provide.value('SessionSvc', mockedSessionSvc);
+
     }));
 
 
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$httpBackend_, _$window_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$window_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -81,7 +77,6 @@ describe('AuthModalDialogCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $q = _$q_;
-        mockBackend = _$httpBackend_;
         $window = _$window_;
     }));
 
@@ -111,9 +106,8 @@ describe('AuthModalDialogCtrl Test', function () {
             socialLogin: jasmine.createSpy('socialLogin')
         };
 
-        AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $modalInstance: $modalInstanceMock,
-            $controller: $controller, $q: $q, AuthSvc: MockedAuthSvc, SessionSvc: mockedSessionSvc,
-           settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
+        AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $q: $q, AuthSvc: MockedAuthSvc,
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
        );
     });
 
@@ -192,14 +186,14 @@ describe('AuthModalDialogCtrl Test', function () {
     describe('continueAsGuest()', function(){
        it('should close dialog', function(){
            $scope.continueAsGuest();
-           expect($modalInstanceMock.close).toHaveBeenCalled();
+           expect(mockedAuthDialogManager.close).toHaveBeenCalled();
        });
     });
 
     describe('closeDialog()', function(){
        it('should close dialog', function(){
            $scope.closeDialog();
-           expect($modalInstanceMock.close).toHaveBeenCalled();
+           expect(mockedAuthDialogManager.close).toHaveBeenCalled();
        });
     });
 
