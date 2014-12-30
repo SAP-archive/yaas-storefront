@@ -19,7 +19,6 @@
     storeConfig.storeTenant = 'defaultproj';
 
     try {
-        console.log(storeConfig);
         angular.module('config', []).constant('storeConfig', storeConfig);
         angular.element(document).ready(function () {
             angular.bootstrap(document, [

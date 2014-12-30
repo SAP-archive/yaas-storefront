@@ -45,6 +45,9 @@ describe('AuthDialogManager', function () {
             expect(AuthDialogManager.open).toBeDefined();
             expect(AuthDialogManager.close).toBeDefined();
             expect(AuthDialogManager.showUpdatePassword).toBeDefined();
+            expect(AuthDialogManager.showResetPassword).toBeDefined();
+            expect(AuthDialogManager.showPasswordChanged).toBeDefined();
+            expect(AuthDialogManager.showCheckEmail).toBeDefined();
         });
     });
 
