@@ -16,7 +16,7 @@
 
     <div ng-if="!user.isAuthenticated">
         <p>
-            <a ng-if="!user.isAuthenticated" class="signin btn btn-link hidden-xs hidden-sm" pop-over data-placement="right" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
+            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over data-placement="right" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
                 <img src="./img/user-icon_small.png" class="user-avatar">
                 {{'SIGN_IN' | translate}}
             </a>
