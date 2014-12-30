@@ -6124,13 +6124,46 @@ html.disable-scroll {
   padding: 0 20px;
   text-align: center;
 }
+#sidebar .store-settings .popover {
+  margin-left: -21px !important;
+}
+#sidebar .store-settings .popover.right .arrow {
+  top: 102px !important;
+}
 #sidebar .localeSelectorListContainer {
-  text-align: right;
   width: 187px;
   padding: 0 20px;
 }
 #sidebar .localeSelectorListContainer .uppercase {
   text-transform: uppercase;
+}
+#sidebar .localeSelectorListContainer .translationHeader {
+  font-weight: bold;
+  padding: 20px 0 17px 0;
+  margin: 20px 0 37px 0;
+  text-align: center;
+  border-bottom: 1px solid #c4c4c4;
+}
+#sidebar .localeSelectorListContainer .language {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-position: lefts;
+  background-repeat: no-repeat;
+  padding: 0 0 0 38px;
+  margin: 0 0 11px 0;
+  height: 23px;
+  display: block;
+  background-image: url('../../img/language_select_inactive.png');
+  color: #7d7e7f !important;
+}
+#sidebar .localeSelectorListContainer .language:hover,
+#sidebar .localeSelectorListContainer .language.active {
+  color: #000 !important;
+  background-image: url('../../img/language_select_active.png');
+}
+#sidebar .localeSelectorListContainer .language.active {
+  cursor: default;
 }
 #sidebar a.logo {
   display: block;
