@@ -6125,7 +6125,12 @@ html.disable-scroll {
   text-align: center;
 }
 #sidebar .localeSelectorListContainer {
+  text-align: right;
   width: 187px;
+  padding: 0 20px;
+}
+#sidebar .localeSelectorListContainer .uppercase {
+  text-transform: uppercase;
 }
 #sidebar a.logo {
   display: block;
