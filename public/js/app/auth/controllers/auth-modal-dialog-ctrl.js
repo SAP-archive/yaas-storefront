@@ -44,6 +44,11 @@ angular.module('ds.auth')
                 }
             });
 
+            $scope.$on('authlogin:error', function(){
+                var response = { status: 0 };
+                $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
+            });
+
             /** Closes the dialog.*/
             $scope.closeDialog = function(){
                 AuthDialogManager.close();
@@ -91,11 +96,6 @@ angular.module('ds.auth')
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin();
             };
-
-            $scope.$on('authlogin:error', function(event){
-                var response = { status: 0 };
-                $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
-            });
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
                 if(obj.loggedIn){
