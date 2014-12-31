@@ -3,7 +3,7 @@ applications:
 - name: demo-store
   command: npm run-script multiTenantTest
   buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
-  memory: 512M
+  memory: 1024M
   host: demo-store
   domain: test.cf.hybris.com
   instances: 1

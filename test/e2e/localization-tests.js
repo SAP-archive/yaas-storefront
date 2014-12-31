@@ -36,8 +36,8 @@ describe("Localization", function () {
             // assertTextByElement('css', 'option.ng-binding', 'PRICE LOW - HIGH');
             // assertTextByElement('css', 'option[value="-price"]', 'PRICE HIGH - LOW');
             assertTextByElement('css', 'option[value="name"]', 'A-Z');
-            assertTextByElement('css', 'option[value="-name"]', 'Z-A');
-            assertTextByElement('css', 'option[value="-created"]', 'NEWEST');
+            assertTextByElement('css', 'option[value="name:desc"]', 'Z-A');
+            assertTextByElement('css', 'option[value="created:desc"]', 'NEWEST');
         });
 
 
@@ -50,15 +50,15 @@ describe("Localization", function () {
             // assertTextByElement('css', 'option.ng-binding', 'PREIS AUFSTEIGEND');
             // assertTextByElement('css', 'option[value="-price"]', 'PREIS ABSTEIGEND');
             assertTextByElement('css', 'option[value="name"]', 'A-Z');
-            assertTextByElement('css', 'option[value="-name"]', 'Z-A');
-            assertTextByElement('css', 'option[value="-created"]', 'NEUESTE');
+            assertTextByElement('css', 'option[value="name:desc"]', 'Z-A');
+            assertTextByElement('css', 'option[value="created:desc"]', 'NEUESTE');
         });
 
         it('should load product-detail in english', function () {
             tu.selectLanguage('English');
             tu.clickElement('css', 'div.thumb');
             assertTextByElement('css', 'label.ng-binding', 'Qty:');
-            assertTextByElement('id', 'buy-button', 'BUY');
+            assertTextByElement('id', 'buy-button', 'ADD TO CART');
             assertTextByElement('css', 'div.headline.ng-binding', 'DESCRIPTION:');
         });
 
