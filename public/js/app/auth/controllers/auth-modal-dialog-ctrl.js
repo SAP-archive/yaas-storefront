@@ -92,6 +92,11 @@ angular.module('ds.auth')
                 AuthSvc.faceBookLogin();
             };
 
+            $scope.$on('authlogin:error', function(event){
+                var response = { status: 0 };
+                $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
+            });
+
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
                 if(obj.loggedIn){
                     $scope.closeDialog();

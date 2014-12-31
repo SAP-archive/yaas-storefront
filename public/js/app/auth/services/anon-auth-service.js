@@ -45,6 +45,7 @@ angular.module('ds.auth')
                         $rootScope.$emit('authtoken:obtained', token);
                     }, function(error){
                         inProgress = false;
+                        $rootScope.$broadcast('authlogin:error');               // display error message to user.
                         console.error('Unable to perform anonymous login:');
                         console.error(error);
                     });

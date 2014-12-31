@@ -22,6 +22,8 @@ angular.module('ds.auth')
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
+                }, function() {
+                    $rootScope.$broadcast('authlogin:error');
                 });
             }
 
