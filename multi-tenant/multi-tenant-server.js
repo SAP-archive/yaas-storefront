@@ -1,10 +1,6 @@
 
 var http = require('http');
 var express = require('express');
-var path = require('path');
-var request = require('request');
-require('request').debug = true;
-var async = require('async');
 
 // **************************************************************************
 
