@@ -27,6 +27,7 @@ window.app = angular.module('ds.router', [
     'ds.auth',
     'ds.orders',
     'ds.queue',
+    'ds.errors',
     'config',
     'xeditable',
     'ngSanitize',
@@ -412,6 +413,15 @@ window.app = angular.module('ds.router', [
                     },
                     data: {
                         auth: 'authenticated'
+                    }
+                })
+                .state('base.errors', {
+                    url: '/errors/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/errors/templates/error-display.html',
+                            controller: 'ErrorsCtrl'
+                        }
                     }
                 });
 

@@ -214,6 +214,11 @@ angular.module('ds.i18n')
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
+            error display
+        */
+        ERROR_TITLE: 'tbd...',
+
+        /*
          titles
     */
         DR: 'Dr.',

@@ -213,6 +213,11 @@ angular.module('ds.i18n')
         ENTER_EMAIL: 'Enter Email',
         LOGIN_FAILED: 'Login failed',
 
+        /*
+            error display
+        */
+        ERROR_TITLE: 'We are sorry, an error occured',
+
 
         /*
             titles
