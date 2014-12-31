@@ -246,8 +246,10 @@ window.app = angular.module('ds.router', [
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: function(ConfigSvc) {
-                            return ConfigSvc.initializeApp();
+                        dummy: function(initialized){// force initialization delay
+                            if(initialized) {
+                                return {};
+                            }
                         }
                     }
                 })

@@ -129,6 +129,9 @@ The following application events are used to communicate state changes that affe
         - source: reason for category update
 - **'user:signedin'** - signals that a user has been authenticated
 - **'user:signedout'** - signals that a user has logged off
+- **'user:socialLogIn'** - signals change via social login (both the external authentication as well as the subsequent yaas authentication)
+    - event object:
+        - loggedIn: true/false
 - **'category:selected'** - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
 
 ## Running Against Different Environments
