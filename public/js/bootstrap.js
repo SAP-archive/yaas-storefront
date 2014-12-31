@@ -19,6 +19,11 @@
     storeConfig.storeTenant = 'defaultproj';
 
     try {
+        var pathLength = window.location.pathname.length;
+        if(pathLength > 1){
+            storeConfig.storeTenant = window.location.pathname.substring(1, pathLength-1);
+        }
+        console.log(storeConfig.storeTenant);
         angular.module('config', []).constant('storeConfig', storeConfig);
         angular.element(document).ready(function () {
             angular.bootstrap(document, [
