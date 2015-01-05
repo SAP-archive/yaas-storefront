@@ -22,8 +22,6 @@ angular.module('ds.auth')
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
                     TokenSvc.setToken(response.accessToken, user ? user.email : null);
-                }, function() {
-                    $rootScope.$broadcast('authlogin:error');
                 });
             }
 
@@ -160,14 +158,8 @@ angular.module('ds.auth')
                         errors.push({message: 'ACCOUNT_ALREADY_EXISTS'});
                     } else if (response.status === 403) {
                         errors.push({message: 'ACCOUNT_LOCKED'});
-                    } else if (response.data && response.data.details && response.data.details.message) {
-                        errors.push(response.data.details.message);
-                    } else if (response.data && response.data.message) {
-                        errors.push({message: response.data.message});
-                    } else if (response.status === 0){
-                        errors.push({ message: 'SERVER_UNAVAILABLE'});
                     } else {
-                        errors.push({message: response.status});
+                        errors.push({ message: 'SERVER_UNAVAILABLE'});
                     }
                     return errors;
                 },

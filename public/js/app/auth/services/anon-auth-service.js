@@ -38,14 +38,13 @@ angular.module('ds.auth')
                 if(!inProgress) {
                     inProgress = true;
                     $http.post(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
-                        var token = getParameterByName('access_token', data.headers('Location'));
+                        var token = 'X';//getParameterByName('access_token', data.headers('Location'));
                         var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                         TokenSvc.setAnonymousToken(token, expiresIn);
                         inProgress = false;
                         $rootScope.$emit('authtoken:obtained', token);
                     }, function(error){
                         inProgress = false;
-                        $rootScope.$broadcast('authlogin:error');               // display error message to user.
                         console.error('Unable to perform anonymous login:');
                         console.error(error);
                     });
