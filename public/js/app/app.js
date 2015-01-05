@@ -173,7 +173,8 @@ window.app = angular.module('ds.router', [
 
                     var dlg = $injector.get('AuthDialogManager').open({}, {});
                     dlg.then(function(){
-                            $state.go(toState, toParams)},
+                            $state.go(toState, toParams);
+                        },
                         function(){
                             $state.go(settings.homeState);
                     });
