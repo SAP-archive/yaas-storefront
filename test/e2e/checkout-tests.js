@@ -13,7 +13,6 @@ function continueAsGuest(){
 }
 
 function fillCheckoutFormExceptEmail(form) {
-    continueAsGuest();
     tu.sendKeysById('contactName' + form, 'Mike Night');
     tu.sendKeysById('address1' + form, '123');
     tu.sendKeysById('address2' + form, '321');
@@ -152,6 +151,7 @@ describe("checkout:", function () {
 
         it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
+            continueAsGuest();
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -160,7 +160,7 @@ describe("checkout:", function () {
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            // fillCheckoutFormExceptEmail('Ship');
+            fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
             //browser.sleep(1000)
@@ -183,6 +183,7 @@ describe("checkout:", function () {
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
+            fillCheckoutFormExceptEmail('Ship');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
             browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
@@ -274,7 +275,7 @@ describe("mobile checkout:", function () {
 
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            // fillCheckoutFormExceptEmail('Ship');
+            fillCheckoutFormExceptEmail('Ship');
             tu.clickElement('xpath', continueButton2);
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('xpath', paymentButton);
@@ -298,7 +299,7 @@ describe("mobile checkout:", function () {
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            // fillCheckoutFormExceptEmail('Ship');
+            fillCheckoutFormExceptEmail('Ship');
             verifyValidationForEachField('Ship', 'xpath', continueButton2);
             tu.clickElement('xpath', continueButton2);
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
