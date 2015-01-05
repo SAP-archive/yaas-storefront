@@ -5074,6 +5074,9 @@ button.close {
 .modal-open {
   overflow: hidden;
 }
+.popoverCloseBtn {
+  margin: 10px 10px 0 0;
+}
 .modal {
   display: none;
   overflow: auto;
@@ -5907,6 +5910,35 @@ html.disable-scroll {
   overflow: visible;
   top: 0;
 }
+.sidebar-offcanvas .popover {
+  background-color: #ebebeb;
+  border: none;
+  background-clip: initial;
+  margin: 8px 0 0 40px;
+  -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.sidebar-offcanvas .popover.loginPopover {
+  max-width: 535px;
+  min-width: 535px;
+  margin-top: 80px;
+}
+.sidebar-offcanvas .popover.right .arrow {
+  top: 32.5%;
+  border: none;
+  left: -38px;
+  margin-top: 0px;
+}
+.sidebar-offcanvas .popover.right .arrow:after {
+  border-right-color: #ebebeb;
+  border-width: 19px;
+}
+.sidebar-offcanvas .popover-title {
+  display: none;
+}
+.sidebar-offcanvas .popover-inner {
+  padding: 64px;
+}
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
   content: " ";
@@ -5922,6 +5954,32 @@ html.disable-scroll {
 }
 .sidebar-offcanvas:after {
   clear: both;
+}
+.top-navigation .popover {
+  z-index: 1031;
+  background-color: #ebebeb;
+  border: none;
+  background-clip: initial;
+  margin: 0 40px 0 0;
+  -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.top-navigation .popover .modal-body section {
+  padding: 0;
+}
+.top-navigation .popover.loginPopover {
+  max-width: 360px;
+  min-width: 360px;
+  margin: -2px 0 0 -70px;
+}
+.top-navigation .popover.bottom .arrow {
+  border: none;
+  left: 69.5%;
+  margin-top: -21px;
+}
+.top-navigation .popover.bottom .arrow:after {
+  border-bottom-color: #ebebeb;
+  border-width: 22px;
 }
 @media (min-width: 992px) {
   #sidebar {
@@ -6455,7 +6513,7 @@ html.disable-scroll {
   height: 75px;
   border: 0;
   border-radius: 0;
-  background: #eeeeee;
+  background: #f5f5f5;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -6734,6 +6792,7 @@ html.disable-scroll {
   font-size: 97%;
 }
 .socialMediaSigninContainer .fbLogin {
+  cursor: pointer;
   padding-left: 0 !important;
 }
 .socialMediaSigninContainer .fbLogin .fbLoginButton {

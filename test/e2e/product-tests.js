@@ -20,7 +20,7 @@ describe("product page", function () {
             tu.getTextByRepeaterRow(0);
             tu.scrollToBottomOfProducts().then(function () {
                 tu.getTextByRepeaterRow(30); //verify last product has loaded
-                tu.clickElement('xpath', tu.backToTopButton);
+                tu.clickElement('id', tu.backToTopButton);
                 tu.clickElement('xpath', tu.blackCoffeeMug);
             });
         });
