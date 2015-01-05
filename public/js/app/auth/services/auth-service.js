@@ -21,7 +21,7 @@ angular.module('ds.auth')
 
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
-                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
+                    return TokenSvc.setToken(response.accessToken, user ? user.email : null);
                 });
             }
 
@@ -178,14 +178,19 @@ angular.module('ds.auth')
                 },
 
                 signup: function (user, context) {
-                    return AuthREST.Customers.all('signup').customPOST(user).then(function () {
+                    var def = $q.defer();
+                    AuthREST.Customers.all('signup').customPOST(user).then(function () {
                         loginAndSetToken(user).then(function () {
                             settings.hybrisUser = user.email;
+                            def.resolve({});
                             SessionSvc.afterLoginFromSignUp(context);
-                        }, function () {
-                            $q.reject('SignIn failed');
+                        }, function (error) {
+                            def.reject(error);
                         });
+                    }, function (error) {
+                        def.reject(error);
                     });
+                    return def.promise;
                 },
 
                 /** Logs the customer out and removes the token cookie. */

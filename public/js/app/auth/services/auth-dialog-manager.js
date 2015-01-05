@@ -48,7 +48,7 @@ angular.module('ds.auth')
                  * @param dialogOptions
                  * @param loginOptions - options for "post login" processing, such as the target URL
                  */
-                open: function(dialogConfig, dialogOptions, loginOptions) {
+                open: function(dialogConfig, dialogOptions, loginOptions, showContinueAsGuest) {
 
                     var modalOpts = angular.extend({
                             templateUrl: './js/app/auth/templates/auth.html',
@@ -56,6 +56,9 @@ angular.module('ds.auth')
                             resolve: {
                                 loginOpts: function() {
                                     return loginOptions || {};
+                                },
+                                showAsGuest: function(){
+                                    return showContinueAsGuest || {};
                                 }
                             }
                         }, dialogConfig || {});

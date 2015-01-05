@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest) {
 
             $scope.user = {
                 signup: {},
@@ -34,6 +34,8 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
+            // determines "continue as guest" button:
+            $scope.showAsGuest = showAsGuest;
 
             AuthSvc.initFBAPI();
 
