@@ -34,14 +34,19 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
-            
+
             AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                if( authResult.status.method !== 'AUTO' ){
+                if( authResult.status.method && authResult.status.method !== 'AUTO' ){
                     AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
                 }
+            });
+
+            $scope.$on('authlogin:error', function(){
+                var response = { status: 0 };
+                $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
             });
 
             /** Closes the dialog.*/

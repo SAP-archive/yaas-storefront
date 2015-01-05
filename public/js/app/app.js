@@ -136,15 +136,11 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
+    .run(['$rootScope', '$injector','ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
 
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+        function ($rootScope, $injector, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
                  AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
-
-            if(storeConfig.token) { // if passed up from server in multi-tenant mode
-                TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
-            }
 
             //closeOffcanvas func for mask 
 
@@ -206,10 +202,9 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
 
-            TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
             // States definition
             $stateProvider

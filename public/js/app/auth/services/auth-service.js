@@ -158,12 +158,8 @@ angular.module('ds.auth')
                         errors.push({message: 'ACCOUNT_ALREADY_EXISTS'});
                     } else if (response.status === 403) {
                         errors.push({message: 'ACCOUNT_LOCKED'});
-                    } else if (response.data && response.data.details && response.data.details.message) {
-                        errors.push(response.data.details.message);
-                    } else if (response.data && response.data.message) {
-                        errors.push({message: response.data.message});
                     } else {
-                        errors.push({message: response.status});
+                        errors.push({ message: 'SERVER_UNAVAILABLE'});
                     }
                     return errors;
                 },
