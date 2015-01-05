@@ -1,3 +1,18 @@
+
+*[pop-over]{
+  position: relative;
+  
+  .popover{ 
+    display: block;
+    position: relative;
+  }
+}
+
+.popoverContainer{
+  position: absolute;
+}
+
+
 #sidebar{
 	background: @lightergrey;
 
@@ -13,10 +28,10 @@
       text-align: center;
     }
   
-    .store-settings .popover{ margin-left: -21px !important;
+    .store-settings .popover{
       &.right{
         .arrow{
-          top: 102px !important;
+          bottom: 0 !important;
           
         }
         

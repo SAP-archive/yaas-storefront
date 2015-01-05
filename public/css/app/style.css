@@ -6116,6 +6116,16 @@ html.disable-scroll {
   border-left: 1px solid #fff;
   top: 0;
 }
+*[pop-over] {
+  position: relative;
+}
+*[pop-over] .popover {
+  display: block;
+  position: relative;
+}
+.popoverContainer {
+  position: absolute;
+}
 #sidebar {
   background: #eeeeee;
 }
@@ -6129,11 +6139,8 @@ html.disable-scroll {
   padding: 0 20px;
   text-align: center;
 }
-#sidebar .store-settings .popover {
-  margin-left: -21px !important;
-}
 #sidebar .store-settings .popover.right .arrow {
-  top: 102px !important;
+  bottom: 0 !important;
 }
 #sidebar .selectorListContainer {
   width: 187px;
