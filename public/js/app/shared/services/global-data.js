@@ -46,39 +46,49 @@ angular.module('ds.shared')
             }
 
             function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
-                if(currencyId && currencyId in currencyMap ) {
-                    if(setCookie){
-                        CookieSvc.setCurrencyCookie(currencyId);
-                    }
-                    if( currencyId!==activeCurrencyId){
-                        activeCurrencyId =  currencyId;
-
-                        if(updateSource!== settings.eventSource.initialization){  // don't event on initialization
-                            $rootScope.$emit('currency:updated',  {currencyId: activeCurrencyId, source: updateSource });
+                if(! _.isEmpty(currencyMap)) {
+                    if (currencyId && currencyId in currencyMap) {
+                        if (setCookie) {
+                            CookieSvc.setCurrencyCookie(currencyId);
                         }
+                        if (currencyId !== activeCurrencyId) {
+                            activeCurrencyId = currencyId;
+
+                            if (updateSource !== settings.eventSource.initialization) {  // don't event on initialization
+                                $rootScope.$emit('currency:updated', {
+                                    currencyId: activeCurrencyId,
+                                    source: updateSource
+                                });
+                            }
+                        }
+                    } else {
+                        console.warn('Currency not valid: ' + currencyId + '. Using default currency ' + storeDefaultCurrency);
+                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true, updateSource);
                     }
-                } else {
-                    console.warn('Currency not valid: '+currencyId+'. Using default currency '+storeDefaultCurrency);
-                    setCurrencyWithOptionalCookie(storeDefaultCurrency, true, updateSource);
                 }
             }
 
             function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource){
-                if(newLangCode && newLangCode in languageMap) {
-                    if(setCookie) {
-                        CookieSvc.setLanguageCookie(newLangCode);
-                    }
-                    if (languageCode !== newLangCode) {
-                        languageCode = newLangCode;
-                        acceptLanguages = (languageCode === defaultLang ? languageCode : languageCode + ';q=1,' + defaultLang + ';q=0.5');
-                        if(updateSource!== settings.eventSource.initialization){ // don't event on initialization
-                            $rootScope.$emit('language:updated',  {languageCode: languageCode, source: updateSource});
+                if(!_.isEmpty(languageMap)) {
+                    if (newLangCode && newLangCode in languageMap) {
+                        if (setCookie) {
+                            CookieSvc.setLanguageCookie(newLangCode);
                         }
+                        if (languageCode !== newLangCode) {
+                            languageCode = newLangCode;
+                            acceptLanguages = (languageCode === defaultLang ? languageCode : languageCode + ';q=1,' + defaultLang + ';q=0.5');
+                            if (updateSource !== settings.eventSource.initialization) { // don't event on initialization
+                                $rootScope.$emit('language:updated', {
+                                    languageCode: languageCode,
+                                    source: updateSource
+                                });
+                            }
+                        }
+                        setTranslateLanguage(languageCode);
+                    } else {
+                        console.warn('Language not valid: ' + newLangCode + '. Using default language ' + defaultLang);
+                        setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
                     }
-                    setTranslateLanguage(languageCode);
-                } else {
-                    console.warn('Language not valid: '+newLangCode+'. Using default language '+defaultLang);
-                    setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
                 }
 
             }

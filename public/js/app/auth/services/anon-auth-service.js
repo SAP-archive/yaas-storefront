@@ -16,7 +16,8 @@
  *  Encapsulates access to the account service for anonymous login/OAuth token retrieval.
  */
 angular.module('ds.auth')
-    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', 'GlobalData', 'SiteConfigSvc', function (TokenSvc, $http, $rootScope, GlobalData, siteConfig) {
+    .factory('AnonAuthSvc', ['TokenSvc', '$http', '$rootScope', '$translate', 'GlobalData', 'SiteConfigSvc',
+        function (TokenSvc, $http, $rootScope, $translate, GlobalData, siteConfig) {
 
         function getParameterByName(name, url) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -47,6 +48,9 @@ angular.module('ds.auth')
                         inProgress = false;
                         console.error('Unable to perform anonymous login:');
                         console.error(error);
+                        $translate('SERVER_UNAVAILABLE').then(function(value){
+                            window.alert(value);
+                        });
                     });
                 }
             }
