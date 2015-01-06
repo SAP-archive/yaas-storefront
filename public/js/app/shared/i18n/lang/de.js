@@ -112,6 +112,7 @@ angular.module('ds.i18n')
          product detail page
          */
         BUY: 'In den Warenkorb',
+        ADD_TO_CART:'In den Warenkorb',
         DESCRIPTION: 'Beschreibung',
         OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
@@ -203,6 +204,7 @@ angular.module('ds.i18n')
         FIELD_TOO_SHORT: 'Feld zu kurz!',
         FIELDS_NOT_MATCHING: 'Angaben stimmen nicht überein!',
 
+        SERVER_UNAVAILABLE: 'Server ist nicht verfügbar, bitte versuchen Sie es später erneut.',
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
         ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',

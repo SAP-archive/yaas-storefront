@@ -136,15 +136,11 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
+    .run(['$rootScope', '$injector','ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
 
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+        function ($rootScope, $injector, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
                  AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
-
-            if(storeConfig.token) { // if passed up from server in multi-tenant mode
-                TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
-            }
 
             //closeOffcanvas func for mask 
 
@@ -164,18 +160,25 @@ window.app = angular.module('ds.router', [
 
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
                 AuthDialogManager.close();
-
+                var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
+                var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
+                toState.repeat = false;
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
-                if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
 
+                if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
+                    var dlg = $injector.get('AuthDialogManager').open({}, toState.name === settings.checkoutState?{ required: true } : {}, {}, true);
 
-                    var dlg = $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
-                    dlg.then(function(){}, function(){
-                        $state.go(settings.homeState);
+                    dlg.then(function(){
+                            if(toState.name === settings.checkoutState){
+                                toState.repeat = true;
+                            }
+                            $state.go(toState, toParams);
+                        },
+                        function(){
+                            $state.go(settings.homeState);
                     });
-
                 }
             });
 
@@ -203,10 +206,9 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
 
-            TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
             // States definition
             $stateProvider
@@ -246,8 +248,10 @@ window.app = angular.module('ds.router', [
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: function(ConfigSvc) {
-                            return ConfigSvc.initializeApp();
+                        dummy: function(initialized){// force initialization delay
+                            if(initialized) {
+                                return {};
+                            }
                         }
                     }
                 })

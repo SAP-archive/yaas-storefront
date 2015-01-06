@@ -10,7 +10,7 @@ exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
 exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
-exports.backToTopButton = "(//button[@type='button'])[9]";
+exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'ytvlw4f7ebox';

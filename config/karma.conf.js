@@ -14,6 +14,7 @@ module.exports = function(config){
         'public/js/vendor-static/main.js',
         'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
+        'public/js/vendor/angular-touch/angular-touch.js',
         'public/js/vendor/angular-mocks/angular-mocks.js',
         'public/js/vendor/angular-cookie/angular-cookie.min.js',
         'public/js/vendor/angular-resource/angular-resource.min.js',

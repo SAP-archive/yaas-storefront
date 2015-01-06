@@ -126,11 +126,6 @@ angular.module('ds.checkout')
                 getAddresses();
             });
 
-            if (!AuthSvc.isAuthenticated()) {
-                AuthDialogManager.open(null, { required: true });
-
-                }
-
             getDefaultAddress();
             if (GlobalData.user.isAuthenticated) {
                 getAccount();
@@ -193,10 +188,6 @@ angular.module('ds.checkout')
                 if (billToFormValid) {
                     $scope.wiz.step1Done = true;
                     $scope.showPristineErrors = false;
-                    if ($scope.wiz.shipToSameAsBillTo) {
-                        $scope.setShipToSameAsBillTo();
-                    }
-
                     // guarantee correct scrolling for mobile
                     $location.hash('step2');
                     $anchorScroll();
