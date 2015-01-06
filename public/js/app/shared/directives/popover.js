@@ -45,33 +45,6 @@ angular.module('ds.auth')
                 function(data){
 
                     popoverTemplate = '<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content">'+data +'</div></div>';
-                    
-//                    var options = {
-//                        html: true,
-//                        template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>'),
-//                        content:  $compile(data)(scope)
-//                    };
-//
-//                    $(element).popover(options).addClass(scope.popoverClass);
-//
-//
-//                    $(element).on('shown.bs.popover', function(){
-//                        getController(scope.popoverController, scope);
-//                        scope.$digest();
-//                    });
-//
-//                    $(document).on('click', '.js-closePopover', function(){
-//                        $(element).popover('hide');
-//                    });
-//
-//                    $('html').on('click', function (e) {
-//                        //the 'is' for buttons that trigger popups
-//                        //the 'has' for icons within a button that triggers a popup
-//                        if (!$(element).is(e.target) && $(element).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-//                            $(element).popover('hide');
-//                        }
-//                    });
-
                 });
             
             $(element).hover(function(e){
@@ -83,24 +56,33 @@ angular.module('ds.auth')
                 
                 var leftPos;
                 var bottomPos = 0;
-                leftPos = $(e.currentTarget).width();
+                var topPos = 0;
+                leftPos = $(e.currentTarget).outerWidth() - 1;
+                
                 //set positioning of container
                 popoverContainer.css({left: leftPos + 'px' });
                 
                 if(scope.popoverPlacement)
                 {
-                    if(scope.popoverPlacement.toLowerCase() === 'bottom')
+                    switch(scope.popoverPlacement.toLowerCase())
                     {
-                        bottomPos -= 20;
-                        popoverContainer.css({bottom: bottomPos + 'px'});
+                        case 'bottom':
+                            bottomPos -= 20;
+                            popoverContainer.css({bottom: bottomPos + 'px'});
+                            break;
+                        
+                        case 'top':
+                            topPos -= 100;
+                            popoverContainer.css({top: topPos + 'px'});
+                            break;
                     }
-                    
                 }
 
                 getController(scope.popoverController, scope);
                 scope.$digest();
                 
             }, function(e){
+                //on un-hover hide the popover
                 $(e.currentTarget).find('.popoverContainer').remove();
             })
 

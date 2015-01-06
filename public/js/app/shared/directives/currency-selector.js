@@ -19,8 +19,6 @@ angular.module('ds.shared')
             $scope.currencies = GlobalData.getAvailableCurrencies();
             $scope.currency = { selected: GlobalData.getCurrency() };
 
-            console.log($scope.currencies);
-
             $scope.$watch('currency.selected', function(newValue, oldValue) {
                 if (!angular.equals(newValue, oldValue) && newValue.id) {
                     GlobalData.setCurrency(newValue.id);
@@ -36,7 +34,6 @@ angular.module('ds.shared')
             
             $scope.updateCurrency = function(newCurrency){
                 $scope.currency = { selected: newCurrency };
-                
             }
 
             $scope.$on('$destroy', unbindCurrency);

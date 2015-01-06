@@ -52,7 +52,7 @@ angular.module('ds.shared')
             link: function(scope, element) {
                 container = $(element);
                 angular.element(document).ready(function () {
-                    $timeout(setNavigationHeight, 0);
+                    $timeout(setNavigationHeight, 500);
                 });
             }
         };

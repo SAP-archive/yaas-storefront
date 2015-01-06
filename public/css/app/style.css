@@ -5914,14 +5914,13 @@ html.disable-scroll {
   background-color: #ebebeb;
   border: none;
   background-clip: initial;
-  margin: 8px 0 0 40px;
+  margin: 8px 0 0 0;
   -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
   box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
 }
 .sidebar-offcanvas .popover.loginPopover {
-  max-width: 535px;
-  min-width: 535px;
-  margin-top: 80px;
+  max-width: 595px;
+  min-width: 595px;
 }
 .sidebar-offcanvas .popover.right .arrow {
   top: 32.5%;
@@ -6559,6 +6558,9 @@ html.disable-scroll {
 }
 #full-cart-btn {
   outline: none;
+}
+a.signin {
+  display: block;
 }
 .top-navigation {
   position: relative;
