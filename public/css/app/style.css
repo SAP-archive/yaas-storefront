@@ -6128,22 +6128,22 @@ html.disable-scroll {
 #sidebar {
   background: #eeeeee;
 }
+#sidebar .currencySelector,
 #sidebar .languageSelector {
   text-transform: uppercase;
-  padding: 0 20px;
+  padding: 0  0 20px 0;
   text-align: center;
 }
-#sidebar .currencySelector {
-  text-transform: uppercase;
-  padding: 0 20px;
-  text-align: center;
+#sidebar .currencySelector .popover-content,
+#sidebar .languageSelector .popover-content {
+  padding: 9px 0 9px 14px;
 }
 #sidebar .store-settings .popover.right .arrow {
   bottom: 0 !important;
 }
 #sidebar .selectorListContainer {
   width: 187px;
-  padding: 0 20px;
+  text-align: left;
 }
 #sidebar .selectorListContainer .uppercase {
   text-transform: uppercase;
@@ -6151,7 +6151,7 @@ html.disable-scroll {
 #sidebar .selectorListContainer .popoverHeader {
   font-weight: bold;
   padding: 20px 0 17px 0;
-  margin: 20px 0 37px 0;
+  margin: 20px 15px 37px 0;
   text-align: center;
   border-bottom: 1px solid #c4c4c4;
 }

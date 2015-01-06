@@ -47,7 +47,7 @@ angular.module('ds.auth')
                     popoverTemplate = '<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content">'+data +'</div></div>';
                 });
             
-            $(element).hover(function(e){
+            $(element).on('mouseenter click', function(e){
 
                 var popoverContainer = $('<div class="popoverContainer"></div>');
                 $(e.currentTarget).append(popoverContainer);
@@ -58,6 +58,10 @@ angular.module('ds.auth')
                 var bottomPos = 0;
                 var topPos = 0;
                 leftPos = $(e.currentTarget).outerWidth() - 1;
+
+                $('.js-closePopover').on('click', function(e){
+                    $(element).find('.popoverContainer').remove();
+                });
                 
                 //set positioning of container
                 popoverContainer.css({left: leftPos + 'px' });
@@ -81,7 +85,9 @@ angular.module('ds.auth')
                 getController(scope.popoverController, scope);
                 scope.$digest();
                 
-            }, function(e){
+            });
+
+            $(element).on('mouseleave click', function(e){
                 //on un-hover hide the popover
                 $(e.currentTarget).find('.popoverContainer').remove();
             })
