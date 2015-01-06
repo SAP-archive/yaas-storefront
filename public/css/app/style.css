@@ -7640,6 +7640,7 @@ section .hero-unit {
   background: #fff;
   height: 46px;
   line-height: 46px;
+  padding-right: 0;
 }
 .refine-section .sortContainer .form-group {
   margin: 0 0 0 70px;
