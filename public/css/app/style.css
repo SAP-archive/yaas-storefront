@@ -8707,3 +8707,11 @@ input[type='number'] {
   opacity: 1;
   visibility: visible;
 }
+.errorPageContainer {
+  text-align: center;
+  padding-top: 75px;
+}
+.errorPageContainer .errorTitle {
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
