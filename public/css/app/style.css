@@ -5074,6 +5074,9 @@ button.close {
 .modal-open {
   overflow: hidden;
 }
+.popoverCloseBtn {
+  margin: 10px 10px 0 0;
+}
 .modal {
   display: none;
   overflow: auto;
@@ -5907,6 +5910,35 @@ html.disable-scroll {
   overflow: visible;
   top: 0;
 }
+.sidebar-offcanvas .popover {
+  background-color: #ebebeb;
+  border: none;
+  background-clip: initial;
+  margin: 8px 0 0 40px;
+  -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.sidebar-offcanvas .popover.loginPopover {
+  max-width: 535px;
+  min-width: 535px;
+  margin-top: 80px;
+}
+.sidebar-offcanvas .popover.right .arrow {
+  top: 32.5%;
+  border: none;
+  left: -38px;
+  margin-top: 0px;
+}
+.sidebar-offcanvas .popover.right .arrow:after {
+  border-right-color: #ebebeb;
+  border-width: 19px;
+}
+.sidebar-offcanvas .popover-title {
+  display: none;
+}
+.sidebar-offcanvas .popover-inner {
+  padding: 64px;
+}
 .sidebar-offcanvas:before,
 .sidebar-offcanvas:after {
   content: " ";
@@ -5922,6 +5954,32 @@ html.disable-scroll {
 }
 .sidebar-offcanvas:after {
   clear: both;
+}
+.top-navigation .popover {
+  z-index: 1031;
+  background-color: #ebebeb;
+  border: none;
+  background-clip: initial;
+  margin: 0 40px 0 0;
+  -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.top-navigation .popover .modal-body section {
+  padding: 0;
+}
+.top-navigation .popover.loginPopover {
+  max-width: 360px;
+  min-width: 360px;
+  margin: -2px 0 0 -70px;
+}
+.top-navigation .popover.bottom .arrow {
+  border: none;
+  left: 69.5%;
+  margin-top: -21px;
+}
+.top-navigation .popover.bottom .arrow:after {
+  border-bottom-color: #ebebeb;
+  border-width: 22px;
 }
 @media (min-width: 992px) {
   #sidebar {
@@ -6455,7 +6513,7 @@ html.disable-scroll {
   height: 75px;
   border: 0;
   border-radius: 0;
-  background: #eeeeee;
+  background: #f5f5f5;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -6734,6 +6792,7 @@ html.disable-scroll {
   font-size: 97%;
 }
 .socialMediaSigninContainer .fbLogin {
+  cursor: pointer;
   padding-left: 0 !important;
 }
 .socialMediaSigninContainer .fbLogin .fbLoginButton {
@@ -7470,7 +7529,7 @@ section .hero-unit {
   color: #fff;
 }
 .hero-unit blockquote p {
-  display: none;
+  display: none !important;
 }
 .hero-unit blockquote footer {
   color: #fff;
@@ -7487,13 +7546,20 @@ section .hero-unit {
   -ms-transform: translate(0, -50%);
   transform: translate(0, -50%);
 }
+.productListingBreadCrumb .breadCrumbText {
+  font: 13px Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  color: #7d7e7f;
+  margin: 0 0 15px 0;
+}
 .refine-section {
   margin: 0;
 }
 .refine-section .title {
-  font: 29px Georgia, "Times New Roman", Times, serif, sans-serif;
+  font: 34px "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
   margin: 0 0 20px 0;
-  font-style: italic;
+  text-transform: uppercase;
+  color: #333333;
 }
 .refine-section .gridButtons {
   float: right;
@@ -7775,6 +7841,9 @@ section .hero-unit {
 }
 .productDetailsContainer .product-details .buyButton {
   margin: 22px 0 0 0;
+}
+.productDetailsContainer .product-details .buyButton button {
+  padding: 16px 0;
 }
 .productDetailsContainer .product-details .checkout-form {
   margin: 30px 0;

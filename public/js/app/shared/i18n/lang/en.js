@@ -113,6 +113,7 @@ angular.module('ds.i18n')
             product detail page
          */
         BUY: 'Buy',
+        ADD_TO_CART:'Add to Cart',
         DESCRIPTION: 'Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
@@ -203,6 +204,7 @@ angular.module('ds.i18n')
         FIELD_TOO_SHORT: 'Field too short!',
         FIELDS_NOT_MATCHING: 'Fields not matching!',
 
+        SERVER_UNAVAILABLE: 'Server is unavailable, please try again later.',
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
         ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please wait 5 minutes and try again.',

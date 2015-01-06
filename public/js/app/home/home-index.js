@@ -17,6 +17,7 @@ angular.module('ds.home', [
     'restangular',
     'ds.shared',
     'ds.cart',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngTouch'
 ]);
 

@@ -21,7 +21,7 @@ angular.module('ds.queue', [])
         var rejectedBuffer = [];
         var authHeader = 'Authorization';
         /** Service initialized later because of circular dependency problem. */
-        var $http;
+        var $http, $translate;
         // keeps track of the last reject per URL
         var lastRejectTime = {};
 
@@ -46,7 +46,11 @@ angular.module('ds.queue', [])
             // retry loop where the root cause is not being fixed and otherwise, we would attempt to submit the
             // same failing request over and over.
             if(lastTime && new Date().getTime() - lastTime < 10000) {
-                console.log('Too soon to retry URL '+config.url);
+                console.warn('Too soon to retry URL '+config.url);
+                $translate = $translate || $injector.get('$translate');
+                $translate('SERVER_UNAVAILABLE').then(function(value){
+                    window.alert(value);
+                });
                 deferred.reject('Too soon to retry');
             } else {
                 lastRejectTime[config.url] = null;
