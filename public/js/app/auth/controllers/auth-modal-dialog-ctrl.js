@@ -103,7 +103,7 @@ angular.module('ds.auth')
                 if(obj.loggedIn){
                     $scope.closeDialog();
                 } else {
-                    $scope.errors.signin.push('LOGIN_FAILED');
+                    $scope.errors.signin = [({message: 'LOGIN_FAILED'})];
                 }
             });
 
