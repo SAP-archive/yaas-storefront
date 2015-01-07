@@ -143,6 +143,14 @@ describe('CartCtrl Test', function () {
 
             expect($scope.cart).toEqualData(newCart);
         });
+
+        it('should close cart and reset closeCartAfterTimeout on closeNow', function(){
+           $scope.cartShouldCloseAfterTimeout = false;
+            $rootScope.showCart = true;
+            $rootScope.$emit('cart:closeNow');
+            expect($rootScope.showCart).toBeFalsy();
+            expect($scope.cartShouldCloseAfterTimeout).toBeTruthy();
+        });
     });
 
     describe('toggle cart', function(){
@@ -151,6 +159,14 @@ describe('CartCtrl Test', function () {
             $scope.toggleCart();
             expect($rootScope.showCart).toBeFalsy();
         });
+    });
+
+    describe('keepCartOpen', function(){
+       it('should set closeCartAfterTimeout to false', function(){
+          $scope.closeCartAfterTimeout = true;
+           $scope.keepCartOpen();
+           expect($scope.cartShouldCloseAfterTimeout).toBeFalsy();
+       });
     });
 
 

@@ -44,8 +44,6 @@ angular.module('ds.checkout')
     .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
         function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
-            $rootScope.showCart = false;
-
             $scope.order = order;
             $scope.cart = cart;
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
