@@ -20,3 +20,4 @@ angular.module('ds.errors', [])
         	$state.go('base.home');
         }
     }]);
+    
