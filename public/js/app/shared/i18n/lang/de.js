@@ -217,7 +217,7 @@ angular.module('ds.i18n')
             error display
         */
         ERROR_TITLE: 'Seite nicht gefunden',
-        ERROR_MESSAGE: 'Ups! Da ist ein Problem . Diese Seite doesn\'t existiert nicht.',
+        ERROR_MESSAGE: 'Ups! Da ist ein Problem . Diese Seite existiert nicht.',
         ERROR_REDIRECT: 'Hier ist eine Seite , damit Sie wieder auf die Strecke .',
         HOMEPAGE: 'HOMEPAGE',
 
