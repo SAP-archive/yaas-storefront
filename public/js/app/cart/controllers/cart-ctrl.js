@@ -28,15 +28,21 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
+        var closeCart = function()
+        {
+            //update angulars data binding to showCart
+            $scope.$apply($rootScope.showCart = false);
+            $scope.cartShouldCloseAfterTimeout = false;
+        };
+
         $scope.createCartTimeout = function()
         {
             //create a timeout object in order to close the cart if it's not hovered
             $scope.cartTimeOut = _.delay(
                 function()
                 {
-                    //update angulars data binding to showCart
-                    $scope.$apply($rootScope.showCart = false);
-                    $scope.cartShouldCloseAfterTimeout = false;
+                    //close the cart
+                    closeCart();
                 },
                 $scope.cartAutoTimeoutLength);
         };
@@ -84,7 +90,7 @@ angular.module('ds.cart')
             //if none of the inputs are focused then create the 3 second timer after mouseout
             if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
             {
-                $scope.createCartTimeout();
+                closeCart();
             }
 
         };
