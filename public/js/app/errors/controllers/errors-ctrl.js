@@ -17,7 +17,8 @@ angular.module('ds.errors', [])
      */
     .controller('ErrorsCtrl', ['$scope', '$state', function( $scope, $state ) {
         $scope.redirect = function() {
-        	$state.go('base.home');
-        }
+            $state.go('base.home');
+        };
     }]);
-    
+
+
