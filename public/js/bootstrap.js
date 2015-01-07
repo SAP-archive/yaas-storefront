@@ -12,7 +12,7 @@
 
 'use strict';
 
-// Bootstrap the application for single tenant mode-.
+// Bootstrap the application for single tenant mode
 (function () {
 
     var storeConfig = {};
