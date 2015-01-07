@@ -216,8 +216,10 @@ angular.module('ds.i18n')
         /*
             error display
         */
-        ERROR_TITLE: 'We are sorry, an error occured',
-
+        ERROR_TITLE: 'Page not found',
+        ERROR_MESSAGE: 'Oops! There\'s a problem. This page doesn\'t exist.',
+        ERROR_REDIRECT: 'Here is a page to help you get back on track.',
+        HOMEPAGE: 'HOMEPAGE',
 
         /*
             titles

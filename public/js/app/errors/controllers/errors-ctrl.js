@@ -15,6 +15,8 @@ angular.module('ds.errors', [])
     /**
      *  Handles user error display.
      */
-    .controller('ErrorsCtrl', ['$scope', function( $scope ) {
-        $scope.errorDetails = 'These are not the droids you are looking for.';
+    .controller('ErrorsCtrl', ['$scope', '$state', function( $scope, $state ) {
+        $scope.redirect = function() {
+        	$state.go('base.home');
+        }
     }]);

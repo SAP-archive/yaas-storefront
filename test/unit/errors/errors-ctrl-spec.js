@@ -13,12 +13,17 @@
 describe('ErrorsCtrl Test', function () {
 
     var $scope, $rootScope, $controller;
+    var mockedState = {};
 
-    beforeEach(angular.mock.module('ds.errors'), function () {});
+    beforeEach(function(){
+        module('ds.errors');
+
+        module(function($provide){
+            $provide.value('$state', mockedState);
+        });
+    });
 
     beforeEach(inject(function(_$rootScope_, _$controller_) {
-
-        $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
     }));
@@ -26,11 +31,11 @@ describe('ErrorsCtrl Test', function () {
     describe('Errors Ctrl ', function () {
 
         beforeEach(function () {
-            errorsCtrl = $controller('ErrorsCtrl', {$scope: $scope, $rootScope: $rootScope});
+            errorsCtrl = $controller('ErrorsCtrl', {$scope: $scope});
         });
 
         it('should exist', function () {
-            expect($scope.errorDetails).toBeDefined();
+            expect($scope.redirect).toBeDefined();
         });
 
     });

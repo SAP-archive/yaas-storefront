@@ -216,7 +216,10 @@ angular.module('ds.i18n')
         /*
             error display
         */
-        ERROR_TITLE: 'tbd...',
+        ERROR_TITLE: 'Seite nicht gefunden',
+        ERROR_MESSAGE: 'Oops! Es\'s ein Problem . Diese Seite doesn\'t existieren.',
+        ERROR_REDIRECT: 'Hier ist eine Seite , damit Sie wieder auf die Strecke .',
+        HOMEPAGE: 'HOMEPAGE',
 
         /*
          titles

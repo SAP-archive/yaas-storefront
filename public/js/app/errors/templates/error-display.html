@@ -1,8 +1,12 @@
-<section class="errorPageContainer white" match-background>
+<section class="errorPageContainer white" match-background ng-cloak>
+  <h2 class="errorTitle">{{'ERROR_TITLE' | translate}}</h2>
+  <p>{{'ERROR_MESSAGE' | translate}}</p>
+  <p>{{'ERROR_REDIRECT' | translate}}</p>
 
-
-	<h2 class="errorTitle">{{'ERROR_TITLE' | translate}}</h2>
-	<p>{{errorDetails}}</p>
-
+    <div class="section-headline clearfix">
+	  <button class="btn btn-primary btn-lg" ng-click="redirect()">
+	  {{'HOMEPAGE' | translate}}
+	  </button>
+    </div>
 
 </section>
