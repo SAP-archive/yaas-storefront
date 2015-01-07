@@ -20,7 +20,7 @@
             </button>
         </div>
         <div class="btn-group checkout">
-            <button ng-if="cart.items.length" data-ui-sref="base.checkout.details" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
+            <button ng-if="cart.items.length" data-ui-sref="base.checkout.details" ng-click="keepCartOpen()" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
             </button>
             <button ng-if="!cart.items.length" ng-class="{ disabled: !cart.items.length }" class="btn">{{'CHECKOUT' | translate}}
             </button>

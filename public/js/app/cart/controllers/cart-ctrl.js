@@ -41,13 +41,18 @@ angular.module('ds.cart')
                 $scope.cartAutoTimeoutLength);
         };
 
-        $rootScope.$on('cart:closeAfterTimeout', function(){
+        var unbind2 = $rootScope.$on('cart:closeAfterTimeout', function(){
             $scope.cartShouldCloseAfterTimeout = true;
             //create a timeout object in order to close the cart if it's not hovered
             $scope.createCartTimeout();
         });
 
-        $scope.$on('$destroy', unbind);
+        var unbind3 = $rootScope.$on('cart:closeNow', function(){
+            $scope.cartShouldCloseAfterTimeout = true;
+            $rootScope.showCart = false;
+        });
+
+        $scope.$on('$destroy', unbind, unbind2, unbind3);
 
         /** Remove a product from the cart.
          * @param cart item id
@@ -77,6 +82,10 @@ angular.module('ds.cart')
         $scope.cartHover = function()
         {
             clearTimeout($scope.cartTimeOut);
+        };
+
+        $scope.keepCartOpen = function(){
+            $scope.cartShouldCloseAfterTimeout = false;
         };
 
         $scope.cartUnHover = function()
