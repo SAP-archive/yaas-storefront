@@ -35,7 +35,8 @@ angular.module('ds.auth')
             templateUrl:'@',
             popoverClass:'@',
             popoverController:'@',
-            popoverPlacement: '@'
+            popoverPlacement: '@',
+            showPopover: '@'
         },
 
         link: function (scope, element) {
@@ -60,7 +61,7 @@ angular.module('ds.auth')
                 var topPos = 0;
                 leftPos = $(e.currentTarget).outerWidth() - 1;
 
-                $('.js-closePopover').on('click', function(e){
+                $('.js-closePopover').on('click', function(){
                     $(element).find('.popoverContainer').remove();
                 });
                 
@@ -91,7 +92,7 @@ angular.module('ds.auth')
             $(element).on('mouseleave click', function(e){
                 //on un-hover hide the popover
                 $(e.currentTarget).find('.popoverContainer').remove();
-            })
+            });
 
         }
     };

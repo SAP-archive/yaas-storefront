@@ -56,7 +56,7 @@ angular.module('ds.shared')
 
             $scope.updateLanguage = function (newLang){
                 $scope.language.selected = newLang;
-            }
+            };
 
             // handling language updates initiated from outside this controller
             var unbindLang = $rootScope.$on('language:updated', function (eve, eveObj) {

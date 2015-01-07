@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.shared')
-    .controller('currencySelectorController',[ '$rootScope', '$scope', '$q', 'GlobalData', '$translate',
-        function($rootScope, $scope, $q, GlobalData, $translate){
+    .controller('currencySelectorController',[ '$rootScope', '$scope', '$q', 'GlobalData',
+        function($rootScope, $scope, $q, GlobalData){
 
             $scope.currencies = GlobalData.getAvailableCurrencies();
             $scope.currency = { selected: GlobalData.getCurrency() };
@@ -34,7 +34,7 @@ angular.module('ds.shared')
             
             $scope.updateCurrency = function(newCurrency){
                 $scope.currency = { selected: newCurrency };
-            }
+            };
 
             $scope.$on('$destroy', unbindCurrency);
             
