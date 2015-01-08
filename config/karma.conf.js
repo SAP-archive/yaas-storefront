@@ -94,6 +94,10 @@ module.exports = function(config){
         'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
         'public/js/app/auth/services/session-service.js',
+        
+        'public/js/app/shared/controllers/currency-selector-ctrl.js',
+        'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/directives/popover.js',
 
         'public/js/app/orders/orders-index.js',
         'public/js/app/orders/services/order-list-service.js',

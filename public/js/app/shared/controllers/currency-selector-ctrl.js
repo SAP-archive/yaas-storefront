@@ -27,6 +27,7 @@ angular.module('ds.shared')
 
             // handling currency updates initiated from outside this controller
             var unbindCurrency = $rootScope.$on('currency:updated', function (eve, eveObj) {
+                console.log(arguments)
                 if(eveObj.currencyId !== $scope.currency.id){
                     $scope.currency.selected = GlobalData.getCurrencyById(eveObj.currencyId);
                 }
