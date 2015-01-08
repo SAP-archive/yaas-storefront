@@ -20,7 +20,7 @@
 
     <div class="panel-body" ng-click="selectAddress(address)" ng-if="isDialog">
       <div class="btn-group-vertical pull-right states-toolbar">
-        <button class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.selected }"><span class="glyphicon glyphicon-check"></span></button>
+        <button class="btn btn-link btn-lg btn-toggle" ng-class="{ active: address.selected }" ng-if="address.selected"><span class="glyphicon glyphicon-check"></span></button>
       </div>
       <div class="">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
