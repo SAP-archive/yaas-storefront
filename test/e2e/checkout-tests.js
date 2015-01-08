@@ -13,10 +13,6 @@ function continueAsGuest(){
 }
 
 function fillCheckoutFormExceptEmail(form) {
-<<<<<<< HEAD
-    // continueAsGuest();
-=======
->>>>>>> e173774166137fc59cf35bd687a3eec7f133b97a
     tu.sendKeysById('contactName' + form, 'Mike Night');
     tu.sendKeysById('address1' + form, '123');
     tu.sendKeysById('address2' + form, '321');
@@ -164,13 +160,9 @@ describe("checkout:", function () {
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
         });
 
-        iit('should allow all fields to be editable', function () {
+        it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
-<<<<<<< HEAD
             clickOnModal();
-=======
-            continueAsGuest();
->>>>>>> e173774166137fc59cf35bd687a3eec7f133b97a
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
