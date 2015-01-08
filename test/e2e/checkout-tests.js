@@ -69,6 +69,7 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
     tu.clickElement('binding', 'CHECKOUT');
+    clickOnModal()
     browser.sleep(1000);
     // tu.sendKeysById('firstNameAccount', 'Mike');
     // tu.sendKeysById('lastNameAccount', 'Night');
@@ -109,6 +110,13 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.clickElement('id', "logout-btn");
 }
 
+    function clickOnModal() {
+            browser.wait(function () {
+                return element(by.binding('CONTINUE_AS_GUEST')).isPresent();
+            });
+            tu.clickElement('binding', 'CONTINUE_AS_GUEST');
+    }
+
 describe("checkout:", function () {
 
     beforeEach(function () {
@@ -130,12 +138,14 @@ describe("checkout:", function () {
 
         it('should load one product into cart and move to checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             verifyCartContents('Item Price: $10.67', '$13.94', '1');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
-            tu.clickElement('binding', 'CHECKOUT');
+            tu.clickElement('binding', 'CHECKOUT');         
+            clickOnModal()
             verifyCartContents('Item Price: $10.67', '$24.61', '2');
         });
 
@@ -146,12 +156,13 @@ describe("checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
         });
 
         it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
-            continueAsGuest();
+            clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -172,6 +183,7 @@ describe("checkout:", function () {
 
         it('should have basic validation on all fields', function () {
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             fillCheckoutFormExceptEmail('Bill');
             tu.sendKeysById('email', 'mike@place.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
@@ -229,6 +241,7 @@ describe("checkout:", function () {
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
@@ -265,6 +278,7 @@ describe("mobile checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
@@ -288,6 +302,7 @@ describe("mobile checkout:", function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');

@@ -182,6 +182,10 @@ window.app = angular.module('ds.router', [
                 }
             });
 
+            $rootScope.$on('$stateChangeSuccess', function(){
+                $rootScope.$emit('cart:closeNow');
+            });
+
             // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
             //   which may be removed by browser/user
             $rootScope.$watch(function () {
