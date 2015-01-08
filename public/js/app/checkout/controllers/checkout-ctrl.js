@@ -44,8 +44,6 @@ angular.module('ds.checkout')
     .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
         function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
-            $rootScope.showCart = false;
-
             $scope.order = order;
             $scope.cart = cart;
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
@@ -126,11 +124,6 @@ angular.module('ds.checkout')
                 getAddresses();
             });
 
-            if (!AuthSvc.isAuthenticated()) {
-                AuthDialogManager.open(null, { required: true });
-
-                }
-
             getDefaultAddress();
             if (GlobalData.user.isAuthenticated) {
                 getAccount();
@@ -193,10 +186,6 @@ angular.module('ds.checkout')
                 if (billToFormValid) {
                     $scope.wiz.step1Done = true;
                     $scope.showPristineErrors = false;
-                    if ($scope.wiz.shipToSameAsBillTo) {
-                        $scope.setShipToSameAsBillTo();
-                    }
-
                     // guarantee correct scrolling for mobile
                     $location.hash('step2');
                     $anchorScroll();

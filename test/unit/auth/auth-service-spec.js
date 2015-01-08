@@ -58,7 +58,6 @@ describe('AuthSvc Test', function () {
         module('ds.shared');
     });
 
-
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('TokenSvc', mockedTokenSvc);
         $provide.value('GlobalData', mockedGlobalData);
@@ -66,7 +65,6 @@ describe('AuthSvc Test', function () {
         $provide.value('storeConfig', storeConfig);
         $provide.value('SessionSvc', mockedSessionSvc);
     }));
-
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_,SiteConfigSvc) {
         AuthSvc = _AuthSvc_;

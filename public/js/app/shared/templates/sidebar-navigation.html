@@ -16,7 +16,7 @@
 
     <div ng-if="!user.isAuthenticated">
         <p>
-            <a ng-click="login()" id="login-btn" class="signin btn btn-link" >
+            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over data-placement="right" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
                 <img src="./img/user-icon_small.png" class="user-avatar">
                 {{'SIGN_IN' | translate}}
             </a>
@@ -75,7 +75,7 @@
 </div>
 
 <div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak>
-    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1">
         <ui-select-match id="language-select" placeholder="Select language" >
             <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]"> {{$select.selected.value}}
         </ui-select-match>
@@ -85,7 +85,7 @@
         </ui-select-choices>
     </ui-select>
 
-    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent">
+    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1">
         <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
         </ui-select-match>
         <ui-select-choices repeat="curr in currencies | filter: $select.search">
