@@ -98,7 +98,7 @@ describe("Localization", function () {
             // assertTextByElement('xpath', "//div[@id='cart']/section[2]/div/div/div[2]/div[4]", 'Gesamtpreis: $24.57');
         });
 
-        ii('should load checkout in german', function () {
+        it('should load checkout in german', function () {
             tu.clickElement('css', 'div.thumb');
             tu.selectLanguage('German');
             tu.clickElement('id', 'buy-button');
