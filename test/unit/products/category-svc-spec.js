@@ -113,6 +113,21 @@ describe('CategorySvc', function () {
            expect(cat.name).toEqualData('Cosmetics');
        });
 
+        it('should not load category if it doesn\'t have a name', function(){
+            $httpBackend.expectGET(categoryUrl+catQueryPath).respond([{
+                "id": cosmeticsId
+            }]);
+           
+            categorySvc.getCategories();
+            $httpBackend.flush();
+            var cat = null;
+            categorySvc.getCategoryById(cosmeticsId).then(function(result){
+                cat = result;
+            });
+            $scope.$apply();
+            expect(cat).toBeFalsy();
+        });
+
         it('should retrieve the category server if none cached', function(){
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
             var cat = null;

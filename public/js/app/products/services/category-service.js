@@ -64,8 +64,10 @@ angular.module('ds.products')
                     categoryMap = {};
                     catList = [];
                     angular.forEach(result.plain(), function (category) {
-                        catList.push(category);
-                        loadCategory(category);
+                        if(category.name){
+                            catList.push(category);
+                            loadCategory(category);
+                        }
                     });
                     $rootScope.$emit('categories:updated', {categories: catList, source: source});
                     catDef.resolve(catList);
