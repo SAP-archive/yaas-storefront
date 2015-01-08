@@ -8715,3 +8715,9 @@ input[type='number'] {
   margin-bottom: 40px;
   text-transform: uppercase;
 }
+.errorPageContainer .actionButton {
+  margin: 30px 0 0 0;
+}
+.errorPageContainer .actionButton .btn-secondary {
+  color: #fff;
+}
