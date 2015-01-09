@@ -69,8 +69,6 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
     tu.clickElement('binding', 'CHECKOUT');
-    clickOnModal()
-    browser.sleep(1000);
     // tu.sendKeysById('firstNameAccount', 'Mike');
     // tu.sendKeysById('lastNameAccount', 'Night');
     fillCreditCardForm('5555555555554444', '06', '2015', '000');
@@ -218,7 +216,7 @@ describe("checkout:", function () {
             checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
         });
 
-        it('should checkout in Euros', function () {
+        iit('should checkout in Euros', function () {
             checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
         });
 
@@ -241,7 +239,6 @@ describe("checkout:", function () {
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
