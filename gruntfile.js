@@ -76,29 +76,29 @@ module.exports = function (grunt) {
             ]
         },
 
-        less: {
-            dev : {
-                options : {
-                    strictImports : true,
-                    sourceMap: false,
-                    sourceMapFilename: 'public/css/app/style.css.map',
-                    sourceMapURL: 'http://localhost/css/style.css.map'
-                },
-                files : {
-                    'public/css/app/style.css' : 'public/less/theme1/style.less'
-                }
-            },
-            dist : {
-                options : {
-                    compress: true,
-                    strictImports : false,
-                    sourceMap: false
-                },
-                files : {
-                    'public/css/app/style.css' : 'public/less/theme1/style.less'
-                }
-            }
-        },
+        // less: {
+        //     dev : {
+        //         options : {
+        //             strictImports : true,
+        //             sourceMap: false,
+        //             sourceMapFilename: 'public/css/app/style.css.map',
+        //             sourceMapURL: 'http://localhost/css/style.css.map'
+        //         },
+        //         files : {
+        //             'public/css/app/style.css' : 'public/less/theme1/style.less'
+        //         }
+        //     },
+        //     dist : {
+        //         options : {
+        //             compress: true,
+        //             strictImports : false,
+        //             sourceMap: false
+        //         },
+        //         files : {
+        //             'public/css/app/style.css' : 'public/less/theme1/style.less'
+        //         }
+        //     }
+        // },
 
         concurrent: {
             dev: {
@@ -141,19 +141,19 @@ module.exports = function (grunt) {
             }
         },
 
-        rev: {
-            files: {
-                src: ['dist/**/*.{js,css}']
-            }
-        },
+        // rev: {
+        //     files: {
+        //         src: ['dist/**/*.{js,css}']
+        //     }
+        // },
 
-        useminPrepare: {
-            html: 'index.html'
-        },
+        // useminPrepare: {
+        //     html: 'index.html'
+        // },
 
-        usemin: {
-            html: ['dist/index.html']
-        },
+        // usemin: {
+        //     html: ['dist/index.html']
+        // },
 
         karma: {
             unit: { configFile: 'config/karma.conf.js', keepalive: true }
@@ -162,12 +162,59 @@ module.exports = function (grunt) {
             // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
         },
 
-        uglify: {
-            options: {
-                report: 'min',
-                mangle: false
-            }
+        // uglify: {
+        //     options: {
+        //         report: 'min',
+        //         mangle: false
+        //     }
+        // },
+
+//--NEWSTUFF-------------------------------------START
+
+  useminPrepare: {
+    html: './public/index.html',  //will concat and minify all script tags in build blocks.
+    options: {                    //concats in .tmp
+      dest: 'dist'                //minifies result at path in block to dist
+    }
+  },
+
+        usemin: {
+            html: ['dist/index.html']    //runs replacement tasks on index.
         },
+
+  // concat: {
+  //   generated: {
+  //     files: [
+  //       {
+  //         dest: '.tmp/concat/concat-storefront.js',
+  //         src: [
+  //               './public/js/bootstrap.js',
+  //               './public/js/vendor/spin.js/spin.js'
+  //           // 'app/js/app.js',
+  //           // 'app/js/controllers/thing-controller.js',
+  //           // 'app/js/models/thing-model.js',
+  //           // 'app/js/views/thing-view.js'
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // },
+  // uglify: {
+  //   generated: {
+  //     files: [
+  //       {
+  //         dest: 'dist/js/storefront.js',
+  //         src: [ '.tmp/concat/concat-storefront.js' ]
+  //       }
+  //     ]
+  //   }
+  // },
+
+
+
+//--NEWSTUFF-------------------------------------END
+
+
 
         replace: {
             test: {
@@ -226,7 +273,7 @@ module.exports = function (grunt) {
                 grunt.task.run('replace:prod');
         }
     }
-
+//------------------------------------------------
     // Wrap default build task to add parameters and warnings.
     grunt.registerTask('default', 'Warning for default', function(domainParam){
         runDomainReplace(domainParam);
@@ -245,7 +292,7 @@ module.exports = function (grunt) {
         grunt.task.run('replace:multiTenant');
         grunt.task.run('multiTenantTask');
     });
-
+//-------------------------------------------
     grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
 
@@ -269,15 +316,21 @@ module.exports = function (grunt) {
 
     // Build task
     grunt.registerTask('buildTask', [
-        'clean:dist',
-        'concurrent:dist',
-        'copy',
-        'useminPrepare',
+        'clean:dist',     //deletes contents in the dist folder and the .tmp folder
+        'concurrent:dist', //watches for livereload
+        'copy',           //moves dev files to dist
+        'useminPrepare',  //starts usemin process
+        //'concat',      //not configured
+        //'uglify',      //seems incomplete
+        //'less:dist',
+        //'rev',           //cachebusts css not js.
+        //NEWSTUFF
         'concat',
         'uglify',
-        'less:dist',
-        'rev',
-        'usemin'
+        'cssmin',
+        // 'filerev',
+
+        'usemin'         //completes usemin process
     ]);
 
 
