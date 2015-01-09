@@ -5955,21 +5955,20 @@ html.disable-scroll {
   clear: both;
 }
 .top-navigation .popover {
+  max-width: none;
+  font-size: 12px !important;
   z-index: 1031;
   background-color: #ebebeb;
   border: none;
   background-clip: initial;
-  margin: 0 40px 0 0;
   -webkit-box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
   box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
 }
 .top-navigation .popover .modal-body section {
   padding: 0;
 }
-.top-navigation .popover.loginPopover {
-  max-width: 360px;
-  min-width: 360px;
-  margin: -2px 0 0 -70px;
+.top-navigation .popover .row > section {
+  padding: 0;
 }
 .top-navigation .popover.bottom .arrow {
   border: none;
@@ -6115,10 +6114,10 @@ html.disable-scroll {
   border-left: 1px solid #fff;
   top: 0;
 }
-*[pop-over] {
+.popoverRestrain {
   position: relative;
 }
-*[pop-over] .popover {
+.popoverRestrain .popover {
   display: block;
   position: relative;
 }
@@ -6695,6 +6694,9 @@ a.signin {
     display: table-cell !important;
   }
 }
+.top-navigation .loginPopover .popover-title {
+  display: none;
+}
 @media (max-width: 992px) {
   .top-navigation {
     z-index: 10000;
@@ -6908,7 +6910,7 @@ a.signin {
 .signInTabs.nav-tabs > li > a,
 .signInTabs.nav-tabs > li > a:hover,
 .signInTabs.nav-tabs > li > a:focus {
-  padding: 0 25px;
+  padding: 0 20px;
 }
 .signInTabs li.signInButton {
   border-right: 1px solid #838485;

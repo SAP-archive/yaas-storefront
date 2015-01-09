@@ -15,12 +15,15 @@
     </div>
 
     <div ng-if="!user.isAuthenticated">
-        <p>
-            <a ng-if="!user.isAuthenticated" class="signin btn btn-link hidden-xs hidden-sm" pop-over  popover-Placement="top"  popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
-                <img src="./img/user-icon_small.png" class="user-avatar">
-                {{'SIGN_IN' | translate}}
-            </a>
-        </p>
+        <div class="popoverRestrain">
+            <p pop-over  popover-Placement="topofelement"  popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
+                <a ng-if="!user.isAuthenticated" class="signin btn btn-link hidden-xs hidden-sm" >
+                    <img src="./img/user-icon_small.png" class="user-avatar">
+                    {{'SIGN_IN' | translate}}
+                </a>
+            </p>
+        </div>
+        
     </div>
 </div>
 
@@ -74,7 +77,13 @@
 </div>
 
 <div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak ng-if="languages.length > 1">
-    <p class="languageSelector" popover-Placement="bottom" popover-Class="languageSelector" pop-over popover-Controller="languageSelectorController" template-Url="./js/app/shared/templates/language-selector.html">{{language.selected.value | translate}}</p>
-    <p class="currencySelector" popover-Placement="bottom" popover-Class="currencySelector" pop-over popover-Controller="currencySelectorController" template-Url="./js/app/shared/templates/currency-selector.html">{{currency.selected.id | translate}}</p>
+    <div class="popoverRestrain">
+        <p class="languageSelector" popover-Placement="bottomofelement" popover-Class="languageSelector" pop-over popover-Controller="languageSelectorController" template-Url="./js/app/shared/templates/language-selector.html">{{language.selected.value | translate}}</p>
+    </div>
+
+
+    <div class="popoverRestrain">
+        <p class="currencySelector" popover-Placement="bottomofelement" popover-Class="currencySelector" pop-over popover-Controller="currencySelectorController" template-Url="./js/app/shared/templates/currency-selector.html">{{currency.selected.id | translate}}</p>
+    </div>
 </div>
 

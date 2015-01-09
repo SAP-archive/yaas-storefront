@@ -1,5 +1,5 @@
 
-*[pop-over]{
+.popoverRestrain{
   position: relative;
   
   .popover{ 
@@ -547,6 +547,11 @@ a.signin{display:block;}
 	position: fixed;
 	z-index: @zIndex-topnavigation;
 
+    .loginPopover{
+      .popover-title{display: none;}
+
+    }
+
     @media (max-width: @screen-md-min) {
       z-index:10000;
     }
@@ -759,7 +764,7 @@ a.signin{display:block;}
   &.nav-tabs > li > a,
   &.nav-tabs > li > a:hover,
   &.nav-tabs > li > a:focus {
-    padding: 0 25px;
+    padding: 0 20px;
   }
 
   li.signInButton{
