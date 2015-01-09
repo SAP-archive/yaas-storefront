@@ -10,7 +10,7 @@
     <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
 </button>
 
-<div class="popoverRestrain pull-right">
+<div class="pull-right">
     <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin" pop-over popover-Placement="mobileTopMenu" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
       <img src="./img/user-icon_small.png" class="user-avatar">
     </a>

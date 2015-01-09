@@ -6114,10 +6114,10 @@ html.disable-scroll {
   border-left: 1px solid #fff;
   top: 0;
 }
-.popoverRestrain {
+*[pop-over] {
   position: relative;
 }
-.popoverRestrain .popover {
+*[pop-over] .popover {
   display: block;
   position: relative;
 }
