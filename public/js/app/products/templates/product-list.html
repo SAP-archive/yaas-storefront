@@ -40,15 +40,13 @@
                         <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                         <div>
-                            <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                <!-- price sorting not yet implemented on service
-                                <option value="price">{{'PRICE_LOW_HIGH' | translate}}</option>
-                                <option value="-price">{{'PRICE_HIGH_LOW' | translate}}</option>
-                                -->
-                                <option value="name">A-Z</option>
-                                <option value="name:desc">Z-A</option>
-                                <option value="created:desc">{{'NEWEST' | translate}}</option>
-                            </select>
+                            <span class='css-select-moz'>
+                                <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
+                                    <option value="name">A-Z</option>
+                                    <option value="name:desc">Z-A</option>
+                                    <option value="created:desc">{{'NEWEST' | translate}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                 </div>
