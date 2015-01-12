@@ -6885,6 +6885,9 @@ html.disable-scroll {
   /* PROMO MESSAGE */
   /* UPSCALING IMPROVMENTS */
 }
+#cart .cartContainer {
+  height: 100%;
+}
 #cart section {
   padding: 10px 0;
 }

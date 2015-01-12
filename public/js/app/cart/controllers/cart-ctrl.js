@@ -31,8 +31,10 @@ angular.module('ds.cart')
         var closeCart = function()
         {
             //update angulars data binding to showCart
-            $scope.$apply($rootScope.showCart = false);
+            $rootScope.showCart = false
             $scope.cartShouldCloseAfterTimeout = false;
+            $scope.$apply();
+            
         };
 
         $scope.createCartTimeout = function()
