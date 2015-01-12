@@ -14,7 +14,7 @@ module.exports = function (grunt) {
         TEST_DOMAIN = 'yaas-test.apigee.net/test',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
-        MULTITENANT_PATH = './multi-tenant/multi-tenant-server.js',
+        // MULTITENANT_PATH = './multi-tenant/multi-tenant-server.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
@@ -126,6 +126,9 @@ module.exports = function (grunt) {
                         src: [
                             '.tmp',
                             'dist/*'
+                            // , '!dist/public/js/*'
+                            // '!dist/.buildpacks','!dist/.cfignore', '!dist/.jshintrc', '!dist/.bowerrc',
+                            // '!manifest-prod.yml'
                         ]
                     }
                 ]
@@ -134,10 +137,16 @@ module.exports = function (grunt) {
 
         copy: {
             main: {
+                dot: true,
                 expand: true,
                 cwd: 'public/',
-                src: ['**', '!js/**', '../index.html', '!scss/**'],
-                dest: 'dist/'
+                // src: ['**', '!js/**', '!scss/**', '../index.html', '../.cfignore'],
+                src: [
+                    '**', 'js/**', '!scss/**',
+                    '../.cfignore', '../.buildpacks', '../.jshintrc', '../.bowerrc',
+                    '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json', 
+                    '../multi-tenant/**'],
+                dest: 'dist/public/'
             }
         },
 
@@ -174,12 +183,12 @@ module.exports = function (grunt) {
   useminPrepare: {
     html: './public/index.html',  //will concat and minify all script tags in build blocks.
     options: {                    //concats in .tmp
-      dest: 'dist'                //minifies result at path in block to dist
+      dest: 'dist/public'         //minifies result at path in block to dist
     }
   },
 
         usemin: {
-            html: ['dist/index.html']    //runs replacement tasks on index.
+            html: ['dist/public/index.html']    //runs replacement tasks on index.
         },
 
   // concat: {
@@ -240,15 +249,16 @@ module.exports = function (grunt) {
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
                     to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
                 }]
-            },
-            multiTenant: {
-                src: [ MULTITENANT_PATH ],
-                overwrite: true,
-                replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
-                }]
             }
+            // ,
+            // multiTenant: {
+            //     src: [ MULTITENANT_PATH ],
+            //     overwrite: true,
+            //     replacements: [{
+            //         from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+            //         to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
+            //     }]
+            // }
         }
 
     });
@@ -288,8 +298,8 @@ module.exports = function (grunt) {
 
     // Wrap build task to add parameters and warnings.
     grunt.registerTask('multiTenant', 'Parameters for multiTenant build', function(domainParam){
-        runDomainReplace(domainParam);
-        grunt.task.run('replace:multiTenant');
+        // runDomainReplace(domainParam);
+        // grunt.task.run('replace:multiTenant');
         grunt.task.run('multiTenantTask');
     });
 //-------------------------------------------
@@ -314,6 +324,11 @@ module.exports = function (grunt) {
         'expressKeepAlive'
     ]);
 
+    grunt.registerTask('remoteBuild', [
+        // 'expressKeepAlive'
+        'concurrent:multiTenant'
+    ]);
+
     // Build task
     grunt.registerTask('buildTask', [
         'clean:dist',     //deletes contents in the dist folder and the .tmp folder
@@ -327,7 +342,7 @@ module.exports = function (grunt) {
         //NEWSTUFF
         'concat',
         'uglify',
-        'cssmin',
+        // 'cssmin',
         // 'filerev',
 
         'usemin'         //completes usemin process

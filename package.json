@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Single page javascript application to demonstrate CAAS APIs.",
   "main": "public/js/shared-index.js",
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt default:prod",
     "startTest": "node node_modules/grunt-cli/bin/grunt default:test",
@@ -11,6 +14,7 @@
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
     "multiTenantTest": "node node_modules/grunt-cli/bin/grunt multiTenant:test",
+    "remoteBuild": "node node_modules/grunt-cli/bin/grunt remoteBuild",
     "multiTenantProd": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
     "multiTenantStage": "node node_modules/grunt-cli/bin/grunt multiTenant:stage",
     "postinstall": "bower install"
