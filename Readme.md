@@ -164,6 +164,13 @@ multi-tenant/multi-tenant-service.js. The multi-tenant mode is provided for deve
 You can now specify the desired project id as first path segment in the URL.  For instance, in order to run the store against project "myproject",
 specify URL http://localhost:9000/myproject.
 
+## Security
+
+### Click-Jacking
+
+It is recommended that you configure your deployment HTTP server to send the X-FRAME-OPTIONS header to restrict others from hosting your site inside an IFrame.
+See [OWASP Click-Jacking] (https://www.owasp.org/index.php/Clickjacking).
+
 
 # Resources
 
