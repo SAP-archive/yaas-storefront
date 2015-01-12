@@ -107,8 +107,13 @@ exports.sendKeysById = function (pageElement, keys) {
 };
 
 exports.selectLanguage = function (language) {
-    clickElement('id', 'language-select');
-    clickElement('linkText', language);
+    var currentLanguage = element(by.binding('language.selected.value'));
+    browser.driver.actions().mouseMove(currentLanguage).perform();
+    currentLanguage.click();
+    var newLanguage = element(by.repeater('lang in languages').row(1));
+    browser.driver.actions().mouseMove(newLanguage).perform();
+    expect(element(by.repeater('lang in languages').row(1)).getText()).toEqual(language);
+    newLanguage.click();
 };
 
 
@@ -133,22 +138,24 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-exports.selectCurrency = function (currency) {
-    clickElement('id', 'currency-select');
-    clickElement('id', 'currency-select');
-    clickElement('id', 'currency-select');
-    sendKeys('xpath', "(//input[@type='text'])[3]", currency)
-    browser.pause();
-    /* CURRENCY SELECTION DOES NOT WORK IN CHROME - elements not clickable.
-    if(currency === 'US Dollar'){
-        browser.driver.actions().mouseMove(element(by.linkText(currency))).perform();
-        browser.sleep(4000);
-    } else {
-       sendKeys('linkText', 'US Dollar', 40);
-        browser.sleep(4000);
-    }*/
+var selectCurrency = exports.selectCurrency = function (currency) {
+    var currentCurrency = element(by.binding('currency.selected.id'));
+    browser.driver.actions().mouseMove(currentCurrency).perform();
+    currentCurrency.click();
+    var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+    browser.driver.actions().mouseMove(newCurrency).perform();
+    expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
+    newCurrency.click();
+    // if (currency === element(by.repeater('currencyType in currencies').row(1)).getText()) {
+    //     var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+    //     browser.driver.actions().mouseMove(newCurrency).perform();
+    //     newCurrency.click();
+    // } else if (currency != element(by.repeater('currencyType in currencies').row(1).column('currencyType.label')).getText()) {
+    //     console.log('currency is already selected');
+    // }
 
-    clickElement('linkText', currency);
+
+
 }
 
 exports.loginHelper = function (userName, password) {

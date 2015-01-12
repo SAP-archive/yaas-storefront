@@ -82,10 +82,9 @@ describe("login:", function () {
 
         });
 
-        it('should create a new user', function () {
+        iit('should create a new user', function () {
             tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.clickElement('linkText', 'Create Account');
+            tu.clickElement('binding', 'CREATE_ACCOUNT');
             tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
             tu.sendKeysById('newPasswordInput', 'pass');
             tu.clickElement('id', 'create-acct-btn');

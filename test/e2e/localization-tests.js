@@ -28,7 +28,7 @@ describe("Localization", function () {
 
 
         it('should load product-list in english', function () {
-            tu.selectLanguage('English');
+            // tu.selectLanguage('English');
             assertTextByElement('binding', 'category.name', 'MUGS');
             assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
@@ -42,7 +42,7 @@ describe("Localization", function () {
 
 
         it('should load product-list in german', function () {
-            tu.selectLanguage('German');
+            tu.selectLanguage('DE - GERMAN');
             assertTextByElement('binding', 'category.name', 'TASSEN');
             assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
@@ -55,7 +55,7 @@ describe("Localization", function () {
         });
 
         it('should load product-detail in english', function () {
-            tu.selectLanguage('English');
+            // tu.selectLanguage('English');
             tu.clickElement('css', 'div.thumb');
             assertTextByElement('css', 'label.ng-binding', 'Qty:');
             assertTextByElement('id', 'buy-button', 'ADD TO CART');
@@ -64,14 +64,14 @@ describe("Localization", function () {
 
         it('should load product-detail in german', function () {
             tu.clickElement('css', 'div.thumb');
-            tu.selectLanguage('German');
+            tu.selectLanguage('DE - GERMAN');
             assertTextByElement('css', 'label.ng-binding', 'Menge:');
             assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
             assertTextByElement('css', 'div.headline.ng-binding', 'BESCHREIBUNG:');
         });
 
         it('should load cart in english', function () {
-            tu.selectLanguage('English');
+            // tu.selectLanguage('English');
             tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
             browser.sleep(1000);
@@ -86,7 +86,7 @@ describe("Localization", function () {
 
         it('should load cart in german', function () {
             tu.clickElement('css', 'div.thumb');
-            tu.selectLanguage('German');
+            tu.selectLanguage('DE - GERMAN');
             tu.clickElement('id', 'buy-button');
             browser.sleep(1000);
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
@@ -100,7 +100,7 @@ describe("Localization", function () {
 
         it('should load checkout in german', function () {
             tu.clickElement('css', 'div.thumb');
-            tu.selectLanguage('German');
+            tu.selectLanguage('DE - GERMAN');
             tu.clickElement('id', 'buy-button');
             browser.wait(function () {
                 return element(by.binding('CHECKOUT')).isPresent();
