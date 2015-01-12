@@ -356,9 +356,6 @@ window.app = angular.module('ds.router', [
                         isAuthenticated: function(AuthSvc){
                             return AuthSvc.isAuthenticated();
                         }
-                    },
-                    data: {
-                        auth: 'authenticated'
                     }
                 })
                 .state('base.account', {
