@@ -5086,7 +5086,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 10001 !important;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
@@ -5126,7 +5126,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 10000 !important;
   background-color: #000000;
 }
 .modal-backdrop.fade {
