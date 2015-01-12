@@ -216,7 +216,7 @@ describe("checkout:", function () {
             checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
         });
 
-        iit('should checkout in Euros', function () {
+        it('should checkout in Euros', function () {
             checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
         });
 
