@@ -49,7 +49,7 @@ angular.module('ds.auth')
             {
                 popoverContainer.remove();
                 popoverVisible = false;
-            }
+            };
 
             $.ajax({url:scope.templateUrl}).done(
                 function(data){
@@ -116,7 +116,7 @@ angular.module('ds.auth')
                     if(popoverContainer)
                     {
                         if(e.type === 'click'){
-                            return
+                            return;
                         }
                         closePopover(popoverContainer);
                     }
