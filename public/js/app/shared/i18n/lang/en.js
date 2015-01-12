@@ -138,7 +138,7 @@ angular.module('ds.i18n')
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
         SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
-        LOG_IN_WITH_GOOGLE_PLUS: 'Log in with Google +',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Sign in with Google +',
         MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',
