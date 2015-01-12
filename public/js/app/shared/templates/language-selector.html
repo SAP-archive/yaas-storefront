@@ -6,10 +6,10 @@
         <div ng-repeat="lang in languages">
             
             <span class="entity" ng-class="{'active': language.selected.iso == lang.iso}" ng-show="language.selected.iso == lang.iso">
-                <span class="uppercase">{{lang.iso}}</span>  - {{lang.value | translate}}
+                <span class="uppercase">{{lang.value | translate}}
             </span>
             <a ng-show="language.selected.iso != lang.iso" ng-click="updateLanguage(lang)" class="entity" >
-                <span class="uppercase">{{lang.iso}}</span> - {{lang.value | translate}}
+                <span class="uppercase">{{lang.value | translate}}
             </a>
         </div>
     </div>
