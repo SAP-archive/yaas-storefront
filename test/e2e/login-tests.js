@@ -25,6 +25,13 @@ function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
     tu.sendKeysById('contactPhone', phone);
 }
 
+function waitForAccountPage() {
+    browser.wait(function () {
+        return element(by.binding('MY_ACCOUNT')).isPresent();
+    });
+}
+
+
 describe("login:", function () {
 
 
@@ -45,6 +52,7 @@ describe("login:", function () {
 
         it('should allow existing user to login', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
+            browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
@@ -54,6 +62,7 @@ describe("login:", function () {
 
         it('should allow user to update account info', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
+            browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             updateTitleField('title', 'Mr.');
@@ -134,8 +143,9 @@ describe("login:", function () {
 
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'incorrect');
             tu.sendKeysById('newPassword', 'notnew');
@@ -144,15 +154,15 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.binding("error.message")).getText()).toEqual("Please provide correct current password!");
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
             tu.clickElement('id', "logout-btn");
 
         });
 
         it('should not allow user to update their password if it less than 6 chars', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', '123');
@@ -160,15 +170,15 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
             tu.clickElement('id', "logout-btn");
 
         });
 
         it('should not allow user to update their password if it does not match confirmation', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'incorrect1');
@@ -176,14 +186,14 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
             tu.clickElement('id', "logout-btn");
         });
 
         it('should allow user to update their password', function () {
             tu.loginHelper('password@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'password2');

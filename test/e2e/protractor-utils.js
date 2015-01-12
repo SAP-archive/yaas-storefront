@@ -135,6 +135,10 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 exports.selectCurrency = function (currency) {
     clickElement('id', 'currency-select');
+    clickElement('id', 'currency-select');
+    clickElement('id', 'currency-select');
+    sendKeys('xpath', "(//input[@type='text'])[3]", currency)
+    browser.pause();
     /* CURRENCY SELECTION DOES NOT WORK IN CHROME - elements not clickable.
     if(currency === 'US Dollar'){
         browser.driver.actions().mouseMove(element(by.linkText(currency))).perform();

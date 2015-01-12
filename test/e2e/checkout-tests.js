@@ -74,7 +74,6 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     fillCreditCardForm('5555555555554444', '06', '2015', '000');
     browser.sleep(500)
     tu.clickElement('id', 'place-order-btn');
-    //browser.sleep(20000);
     verifyOrderConfirmation(capsAccount, 'MIKE', '123', 'BOULDER, CO 80301');
     tu.clickElement('binding', 'orderInfo.orderId');
     expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
@@ -216,7 +215,7 @@ describe("checkout:", function () {
             checkoutAsLoggedInUserTest('order@test.com', 'ORDER@TEST.COM');
         });
 
-        iit('should checkout in Euros', function () {
+        it('should checkout in Euros', function () {
             checkoutAsLoggedInUserTest('euro-order@test.com', 'EURO-ORDER@TEST.COM');
         });
 

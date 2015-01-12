@@ -16,7 +16,8 @@ function loadProductIntoCart(cartAmount, cartTotal) {
         return element(by.id(tu.buyButton)).isPresent();
     });
     tu.clickElement('id', tu.buyButton);
-    tu.waitForCart();
+    tu.waitForCart();    
+    browser.sleep(300);
     tu.verifyCartAmount(cartAmount);
     tu.verifyCartTotal(cartTotal);
 }
@@ -25,7 +26,7 @@ function loadProductIntoCart(cartAmount, cartTotal) {
 describe("cart:", function () {
 
     beforeEach(function () {
-        browser.driver.manage().window().maximize();
+        browser.driver.manage().window().setSize(1000, 1900);
 
     });
 
@@ -53,11 +54,15 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        it('should load one product into cart in USD and change to Euros', function () {
+        iit('should load one product into cart in USD and change to Euros', function () {
             loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.pause();
             tu.selectCurrency('Euro');
             tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart(); 
+            browser.sleep(750);
+            browser.pause();
             tu.verifyCartTotal('€7.99');
         });
 
