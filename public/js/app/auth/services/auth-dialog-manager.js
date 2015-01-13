@@ -58,7 +58,7 @@ angular.module('ds.auth')
                                     return loginOptions || {};
                                 },
                                 showAsGuest: function(){
-                                    return showContinueAsGuest || {};
+                                    return showContinueAsGuest;
                                 }
                             }
                         }, dialogConfig || {});

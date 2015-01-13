@@ -108,7 +108,10 @@ describe("Localization", function () {
             // not visible immediately?
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-
+            browser.wait(function () {
+                return element(by.binding('CONTINUE_AS_GUEST')).isPresent();
+            });
+            tu.clickElement('binding', 'CONTINUE_AS_GUEST');
             assertTextByElement('css', 'h2.ng-binding', '1. Meine Daten');
             assertTextByElement('binding', 'TITLE', 'Anrede');
             assertTextByElement('binding', 'FIRST_NAME', 'Vorname');
@@ -135,12 +138,17 @@ describe("Localization", function () {
         it('should load checkout in english', function () {
             tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
+
             browser.wait(function () {
                 return element(by.binding('CHECKOUT')).isPresent();
             });
             // not visible immediately?
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
+            browser.wait(function () {
+                return element(by.binding('CONTINUE_AS_GUEST')).isPresent();
+            });
+            tu.clickElement('binding', 'CONTINUE_AS_GUEST');
             assertTextByElement('css', 'h2.ng-binding', 'Step 1. My Details');
             assertTextByElement('binding', 'TITLE', 'Title');
             assertTextByElement('binding', 'FIRST_NAME', 'First Name');
