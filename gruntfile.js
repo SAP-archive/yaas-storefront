@@ -139,7 +139,7 @@ module.exports = function (grunt) {
                 src: [
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
                     '../.buildpacks', '../.jshintrc', '../.bowerrc',
-                    '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json', 
+                    '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json',
                     '../multi-tenant/**'],
                 dest: 'dist/public/'
             }

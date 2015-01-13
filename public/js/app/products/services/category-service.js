@@ -24,8 +24,9 @@ angular.module('ds.products')
 
         function sluggify(name){
             // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
-            if(name)
-            return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+            if(name){ //do not conduct replacement if name is null.
+                return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+            }
         }
 
         function loadCategory(cat, parent){
