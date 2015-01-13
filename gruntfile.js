@@ -14,7 +14,6 @@ module.exports = function (grunt) {
         TEST_DOMAIN = 'yaas-test.apigee.net/test',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
-        // MULTITENANT_PATH = './multi-tenant/multi-tenant-server.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
@@ -76,29 +75,29 @@ module.exports = function (grunt) {
             ]
         },
 
-        // less: {
-        //     dev : {
-        //         options : {
-        //             strictImports : true,
-        //             sourceMap: false,
-        //             sourceMapFilename: 'public/css/app/style.css.map',
-        //             sourceMapURL: 'http://localhost/css/style.css.map'
-        //         },
-        //         files : {
-        //             'public/css/app/style.css' : 'public/less/theme1/style.less'
-        //         }
-        //     },
-        //     dist : {
-        //         options : {
-        //             compress: true,
-        //             strictImports : false,
-        //             sourceMap: false
-        //         },
-        //         files : {
-        //             'public/css/app/style.css' : 'public/less/theme1/style.less'
-        //         }
-        //     }
-        // },
+        less: {
+            dev : {
+                options : {
+                    strictImports : true,
+                    sourceMap: false,
+                    sourceMapFilename: 'public/css/app/style.css.map',
+                    sourceMapURL: 'http://localhost/css/style.css.map'
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            },
+            dist : {
+                options : {
+                    compress: true,
+                    strictImports : false,
+                    sourceMap: false
+                },
+                files : {
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                }
+            }
+        },
 
         concurrent: {
             dev: {
@@ -126,9 +125,6 @@ module.exports = function (grunt) {
                         src: [
                             '.tmp',
                             'dist/*'
-                            // , '!dist/public/js/*'
-                            // '!dist/.buildpacks','!dist/.cfignore', '!dist/.jshintrc', '!dist/.bowerrc',
-                            // '!manifest-prod.yml'
                         ]
                     }
                 ]
@@ -140,7 +136,6 @@ module.exports = function (grunt) {
                 dot: true,
                 expand: true,
                 cwd: 'public/',
-                // src: ['**', '!js/**', '!scss/**', '../index.html', '../.cfignore'],
                 src: [
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
                     '../.buildpacks', '../.jshintrc', '../.bowerrc',
@@ -150,19 +145,11 @@ module.exports = function (grunt) {
             }
         },
 
-        // rev: {
-        //     files: {
-        //         src: ['dist/**/*.{js,css}']
-        //     }
-        // },
-
-        // useminPrepare: {
-        //     html: 'index.html'
-        // },
-
-        // usemin: {
-        //     html: ['dist/index.html']
-        // },
+        rev: {
+            files: {
+                src: ['dist/**/*.{js,css}']
+            }
+        },
 
         karma: {
             unit: { configFile: 'config/karma.conf.js', keepalive: true }
@@ -171,83 +158,16 @@ module.exports = function (grunt) {
             // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
         },
 
-        // uglify: {
-        //     options: {
-        //         report: 'min',
-        //         mangle: false
-        //     }
-        // },
-
-//--NEWSTUFF-------------------------------------START
-
-  useminPrepare: {
-    html: './public/index.html',  //will concat and minify all script tags in build blocks.
-    options: {                    //concats in .tmp
-      dest: 'dist/public'         //minifies result at path in block to dist
-    }
-  },
+        useminPrepare: {
+            html: './public/index.html',  //concat and minify all script tags in build blocks.
+            options: {                    //concats in .tmp
+              dest: 'dist/public'         //minifies result at path in html block under this directory
+            }
+        },
 
         usemin: {
             html: ['dist/public/index.html']    //runs replacement tasks on index.
         },
-
-  // concat: {
-  //   generated: {
-  //     files: [
-  //       {
-  //         dest: '.tmp/concat/concat-storefront.js',
-  //         src: [
-  //               './public/js/bootstrap.js',
-  //               './public/js/vendor/spin.js/spin.js'
-  //           // 'app/js/app.js',
-  //           // 'app/js/controllers/thing-controller.js',
-  //           // 'app/js/models/thing-model.js',
-  //           // 'app/js/views/thing-view.js'
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // },
-  // uglify: {
-  //   generated: {
-  //     files: [
-  //       {
-  //         dest: 'dist/js/storefront.js',
-  //         src: [ '.tmp/concat/concat-storefront.js' ]
-  //       }
-  //     ]
-  //   }
-  // },
-
-
-
-//--NEWSTUFF-------------------------------------END
-
-
-
-// cssmin: {
-//   target: {
-//     files: {
-//       './dist/storefront.min.css': [
-//         './public/css/app/style.css',
-//         './public/js/vendor/angular-ui-select/dist/select.min.css',
-//         './public/js/vendor/angular-xeditable/dist/css/xeditable.css']
-//     }
-//     // files: [{
-//     //   expand: true,
-//     //   // cwd: 'release/css',
-//     //   // src: ['*.css', '!*.min.css'],
-
-//     //   dest: 'release/css',
-//     //   // dest: 'release/css',
-//     //   ext: '.min.css'
-//     // }]
-//   }
-// },
-
-
-
-
 
         replace: {
             test: {
@@ -274,20 +194,13 @@ module.exports = function (grunt) {
                     to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
                 }]
             }
-            // ,
-            // multiTenant: {
-            //     src: [ MULTITENANT_PATH ],
-            //     overwrite: true,
-            //     replacements: [{
-            //         from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-            //         to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
-            //     }]
-            // }
         }
 
     });
 
     grunt.option('force', true);
+
+    grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
     // Read build parameter and set the dynamic domain for environment or give warning message.
     function runDomainReplace(domainParam){
@@ -307,69 +220,59 @@ module.exports = function (grunt) {
                 grunt.task.run('replace:prod');
         }
     }
-//------------------------------------------------
-    // Wrap default build task to add parameters and warnings.
-    grunt.registerTask('default', 'Warning for default', function(domainParam){
-        runDomainReplace(domainParam);
-        grunt.task.run('defaultTask');
-    });
 
-    // Wrap build task to add parameters and warnings.
-    grunt.registerTask('build', 'Parameters for build', function(domainParam){
+    //--Tasks-With-Environment-Parameters----------------------------------------------
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('build', 'Parameters for build',
+      function(domainParam){
         runDomainReplace(domainParam);
         grunt.task.run('buildTask');
     });
 
-    // Wrap build task to add parameters and warnings.
-    grunt.registerTask('multiTenant', 'Parameters for multiTenant build', function(domainParam){
-        // runDomainReplace(domainParam);
-        // grunt.task.run('replace:multiTenant');
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('multiTenant', 'Parameters for multiTenant build',
+      function(domainParam){
+        runDomainReplace(domainParam);
         grunt.task.run('multiTenantTask');
     });
-//-------------------------------------------
-    grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
+    // Wrap dev build task with parameters and dynamic domain warnings.
+    grunt.registerTask('default', 'Warning for default',
+      function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('devTask');
+    });
+    //--------------------------------------------------------------------
 
-    // Default task
-    grunt.registerTask('defaultTask', [
+    grunt.registerTask('devTask', [
         'jshint',
         'less:dev',
         'concurrent:dev'
     ]);
 
-    // Default task
     grunt.registerTask('multiTenantTask', [
         'jshint',
         'less:dev',
         'concurrent:multiTenant'
     ]);
 
-    grunt.registerTask('production', [
-        'expressKeepAlive'
-    ]);
-
     grunt.registerTask('distributionBuild', [
-        // 'expressKeepAlive'      //error on deploy
-        'concurrent:multiTenant'
+        // 'expressKeepAlive',      //research, errors on distribution deploy
+        'concurrent:multiTenant'    //distribution build for remote deployment
     ]);
 
     // Build task
     grunt.registerTask('buildTask', [
-        'clean:dist',     //deletes contents in the dist folder and the .tmp folder
+        'clean:dist',      //deletes contents in the dist folder and the .tmp folder
         'concurrent:dist', //watches for livereload
-        'copy',           //moves dev files to dist
-        'useminPrepare',  //starts usemin process
-        //'concat',      //not configured
-        //'uglify',      //seems incomplete
+        'copy',            //moves dev files to dist
+        'useminPrepare',   //starts usemin process
         //'less:dist',
         //'rev',           //cachebusts css not js.
-        //NEWSTUFF
         'concat',
         'uglify',
         'cssmin',
-        // 'filerev',
-
-        'usemin'         //completes usemin process
+        'usemin'           //completes usemin process
     ]);
 
 
