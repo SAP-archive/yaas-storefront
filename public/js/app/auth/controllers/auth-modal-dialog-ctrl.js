@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest) {
 
             $scope.user = {
                 signup: {},
@@ -34,14 +34,21 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
-            
+            // determines "continue as guest" button:
+            $scope.showAsGuest = showAsGuest;
+
             AuthSvc.initFBAPI();
 
             // react to event fired by goole+ signing directive
             $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                if( authResult.status.method !== 'AUTO' ){
+                if( authResult.status.method && authResult.status.method !== 'AUTO' ){
                     AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
                 }
+            });
+
+            $scope.$on('authlogin:error', function(){
+                var response = { status: 0 };
+                $scope.errors.signin = AuthSvc.extractServerSideErrors(response);
             });
 
             /** Closes the dialog.*/
@@ -96,7 +103,7 @@ angular.module('ds.auth')
                 if(obj.loggedIn){
                     $scope.closeDialog();
                 } else {
-                    $scope.errors.signin.push('LOGIN_FAILED');
+                    $scope.errors.signin = [({message: 'LOGIN_FAILED'})];
                 }
             });
 

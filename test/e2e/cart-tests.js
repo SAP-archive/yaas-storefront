@@ -177,6 +177,14 @@ describe("cart:", function () {
             tu.verifyCartTotal('$7.99');
         });
 
+        it('should automatically close when mousing off', function () {
+            loadProductIntoCart('1', '$10.67');
+            browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
+            // wait over 3 seconds 
+            browser.sleep(4000);
+            browser.driver.actions().mouseMove(element(by.css('div.content-mask'))).perform();
+            expect(element(by.binding('CONTINUE_SHOPPING')).isDisplayed()).toBe(false);
+        });
 
     });
 });

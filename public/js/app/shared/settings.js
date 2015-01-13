@@ -73,6 +73,7 @@ angular.module('ds.shared')
         placeholderImage: 'img/no-image.jpg',
 
         homeState: 'base.home',
+        checkoutState: 'base.checkout.details',
 
         eventSource: {
             login: 'login',

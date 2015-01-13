@@ -204,6 +204,7 @@ angular.module('ds.i18n')
         FIELD_TOO_SHORT: 'Field too short!',
         FIELDS_NOT_MATCHING: 'Fields not matching!',
 
+        SERVER_UNAVAILABLE: 'Server is unavailable, please try again later.',
         INVALID_CREDENTIALS: 'You entered an invalid email or password.',
         PASSWORD_INVALID: 'Password invalid - minimum of 6 characters required.',
         ACCOUNT_LOCKED: 'Account has been locked due to excessive number of invalid login attempts. Please wait 5 minutes and try again.',
@@ -237,5 +238,12 @@ angular.module('ds.i18n')
         CONFIRMED: 'Confirmed',
         CREATED: 'Created',
         DECLINED: 'Declined',
-        SHIPPED: 'Shipped'
+        SHIPPED: 'Shipped',
+
+        /*
+        Order Details
+        */
+        CREDIT_CARD: 'Credit Card'
+
+
 	});

@@ -19,7 +19,8 @@ angular.module('ds.auth')
     {
         var controller;
         var controlsLocals = {
-            loginOpts: {}
+            loginOpts: {},
+            showAsGuest: false
         };
 
         controlsLocals.$scope = scope;

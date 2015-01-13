@@ -137,15 +137,11 @@ window.app = angular.module('ds.router', [
             };
         });
     }])
-    .run(['$rootScope', '$injector','storeConfig', 'ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
+    .run(['$rootScope', '$injector','ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
 
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
-        function ($rootScope, $injector, storeConfig, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
+        function ($rootScope, $injector, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
                  AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
-
-            if(storeConfig.token) { // if passed up from server in multi-tenant mode
-                TokenSvc.setAnonymousToken(storeConfig.token, storeConfig.expiresIn);
-            }
 
             //closeOffcanvas func for mask 
 
@@ -163,21 +159,35 @@ window.app = angular.module('ds.router', [
                 httpQueue.retryAll(token);
             });
 
-            $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 AuthDialogManager.close();
-
+                var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
+                var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
+                toState.repeat = false;
                 // handle attempt to access protected resource - show login dialog if user is not authenticated
-                if ( toState.data && toState.data.auth && toState.data.auth === 'authenticated' && !AuthSvc.isAuthenticated() ) {
 
+                if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
-
-                    var dlg = $injector.get('AuthDialogManager').open({}, {}, {targetState: toState, targetStateParams: toParams });
-                    dlg.then(function(){}, function(){
+                    if(!fromState.name){
                         $state.go(settings.homeState);
-                    });
+                    }
+                    var dlg = $injector.get('AuthDialogManager').open({}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
 
+                    dlg.then(function(){
+                            if(toState.name === settings.checkoutState){
+                                toState.repeat = true;
+                            }
+                            $state.go(toState, toParams);
+                        },
+                        function(){
+                            $state.go(settings.homeState);
+                    });
                 }
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function(){
+                $rootScope.$emit('cart:closeNow');
             });
 
             // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
@@ -204,10 +214,9 @@ window.app = angular.module('ds.router', [
     ])
 
     /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'storeConfig', 'SiteConfigSvcProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, storeConfig, siteConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
 
-            TranslationProvider.setPreferredLanguage(storeConfig.defaultLanguage);
 
             // States definition
             $stateProvider
