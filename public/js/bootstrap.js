@@ -16,7 +16,7 @@
 (function () {
 
     var storeConfig = {};
-    storeConfig.storeTenant = '8bwhetym79cq';
+    storeConfig.storeTenant = 'defaultproj';
 
     try {
         var pathLength = window.location.pathname.length;
