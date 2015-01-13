@@ -14,9 +14,9 @@
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
     "multiTenantTest": "node node_modules/grunt-cli/bin/grunt multiTenant:test",
-    "remoteBuild": "node node_modules/grunt-cli/bin/grunt remoteBuild",
     "multiTenantProd": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
     "multiTenantStage": "node node_modules/grunt-cli/bin/grunt multiTenant:stage",
+    "distributionBuild": "node node_modules/grunt-cli/bin/grunt distributionBuild",
     "postinstall": "bower install"
   },
   "dependencies": {

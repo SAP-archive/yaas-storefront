@@ -142,8 +142,8 @@ module.exports = function (grunt) {
                 cwd: 'public/',
                 // src: ['**', '!js/**', '!scss/**', '../index.html', '../.cfignore'],
                 src: [
-                    '**', 'js/**', '!scss/**',
-                    '../.cfignore', '../.buildpacks', '../.jshintrc', '../.bowerrc',
+                    '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
+                    '../.buildpacks', '../.jshintrc', '../.bowerrc',
                     '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json', 
                     '../multi-tenant/**'],
                 dest: 'dist/public/'
@@ -222,6 +222,30 @@ module.exports = function (grunt) {
 
 
 //--NEWSTUFF-------------------------------------END
+
+
+
+// cssmin: {
+//   target: {
+//     files: {
+//       './dist/storefront.min.css': [
+//         './public/css/app/style.css',
+//         './public/js/vendor/angular-ui-select/dist/select.min.css',
+//         './public/js/vendor/angular-xeditable/dist/css/xeditable.css']
+//     }
+//     // files: [{
+//     //   expand: true,
+//     //   // cwd: 'release/css',
+//     //   // src: ['*.css', '!*.min.css'],
+
+//     //   dest: 'release/css',
+//     //   // dest: 'release/css',
+//     //   ext: '.min.css'
+//     // }]
+//   }
+// },
+
+
 
 
 
@@ -324,8 +348,8 @@ module.exports = function (grunt) {
         'expressKeepAlive'
     ]);
 
-    grunt.registerTask('remoteBuild', [
-        // 'expressKeepAlive'
+    grunt.registerTask('distributionBuild', [
+        // 'expressKeepAlive'      //error on deploy
         'concurrent:multiTenant'
     ]);
 
@@ -342,7 +366,7 @@ module.exports = function (grunt) {
         //NEWSTUFF
         'concat',
         'uglify',
-        // 'cssmin',
+        'cssmin',
         // 'filerev',
 
         'usemin'         //completes usemin process
