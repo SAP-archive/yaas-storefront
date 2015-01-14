@@ -1,7 +1,7 @@
 ---
 applications:
 - name: shops.yaas
-  command: npm run-script optimizeCode
+  command: npm run-script singleProd
   buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
   memory: 1024M
   host: shops.yaas
