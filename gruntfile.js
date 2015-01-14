@@ -216,9 +216,6 @@ module.exports = function (grunt) {
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
         runDomainReplace(domainParam);
-        if (grunt.option('optimize')){
-            grunt.task.run('optimizeCode');
-        }
         grunt.task.run('singleProjectTask');
     });
 
@@ -226,9 +223,6 @@ module.exports = function (grunt) {
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
         runDomainReplace(domainParam);
-        if (grunt.option('optimize')){
-            grunt.task.run('optimizeCode');
-        }
         grunt.task.run('multiProjectTask');
     });
 
@@ -264,13 +258,6 @@ module.exports = function (grunt) {
         'cssmin',
         'usemin'           //completes usemin process
     ]);
-
-    // grunt.registerTask('deployBuild', [
-    //     // 'expressKeepAlive',      //research, errors on distribution deploy
-    //     'concurrent:multiProject'    //distribution build for remote deployment setup scripts
-    // ]);
-    // grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
-
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
