@@ -65,6 +65,11 @@
         <div class="col-lg-12">
             <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
         </div>
+        <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
+            <div class="form-group">
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn" ng-click="openAddressDialog(order.billTo)">Select from addressbook</button>
+            </div>
+        </div>
         <div class="col-lg-12">
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
@@ -201,7 +206,7 @@
         </div>
         <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
             <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" id="select-address-btn" ng-click="openAddressDialog()">Select from addressbook</button>
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn" ng-click="openAddressDialog(order.shipTo)">Select from addressbook</button>
             </div>
         </div>
         <div class="col-lg-12">
