@@ -7,15 +7,15 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt singleProject:prod",
-    "singleTest": "node node_modules/grunt-cli/bin/grunt singleProject:test",
-    "singleStage": "node node_modules/grunt-cli/bin/grunt singleProject:stage",
-    "singleProd": "node node_modules/grunt-cli/bin/grunt singleProject:prod",
-    "multiTest": "node node_modules/grunt-cli/bin/grunt multiProject:test",
-    "multiStage": "node node_modules/grunt-cli/bin/grunt multiProject:stage",
-    "multiProd": "node node_modules/grunt-cli/bin/grunt multiProject:prod",
-    "optimizeCode": "node node_modules/grunt-cli/bin/grunt optimizeCode",
-    "deployBuild": "node node_modules/grunt-cli/bin/grunt deployBuild",
+    "start": "node node_modules/grunt-cli/bin/grunt singleProject:prod --optimize",
+    "singleTest": "node node_modules/grunt-cli/bin/grunt singleProject:test --optimize",
+    "singleStage": "node node_modules/grunt-cli/bin/grunt singleProject:stage --optimize",
+    "singleProd": "node node_modules/grunt-cli/bin/grunt singleProject:prod --optimize",
+    "multiTest": "node node_modules/grunt-cli/bin/grunt multiProject:test --optimize",
+    "multiStage": "node node_modules/grunt-cli/bin/grunt multiProject:stage --optimize",
+    "multiProd": "node node_modules/grunt-cli/bin/grunt multiProject:prod --optimize",
+    "optimizeCode": "node node_modules/grunt-cli/bin/grunt optimizeCode --optimize",
+    "deployBuild": "node node_modules/grunt-cli/bin/grunt deployBuild --optimize",
     "postinstall": "bower install"
   },
   "dependencies": {

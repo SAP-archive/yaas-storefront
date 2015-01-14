@@ -216,7 +216,7 @@ module.exports = function (grunt) {
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
         runDomainReplace(domainParam);
-        if (domainParam === 'prod'){
+        if (grunt.option('optimize')){
             grunt.task.run('optimizeCode');
         }
         grunt.task.run('singleProjectTask');
@@ -226,7 +226,7 @@ module.exports = function (grunt) {
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
         runDomainReplace(domainParam);
-        if (domainParam === 'prod'){
+        if (grunt.option('optimize')){
             grunt.task.run('optimizeCode');
         }
         grunt.task.run('multiProjectTask');
