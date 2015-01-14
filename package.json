@@ -14,7 +14,7 @@
     "multiTest": "node node_modules/grunt-cli/bin/grunt multiProject:test --optimize",
     "multiStage": "node node_modules/grunt-cli/bin/grunt multiProject:stage --optimize",
     "multiProd": "node node_modules/grunt-cli/bin/grunt multiProject:prod --optimize",
-    "optimizeCode": "node node_modules/grunt-cli/bin/grunt optimizeCode --optimize",
+    "optimizeCode": "node node_modules/grunt-cli/bin/grunt prepareBuild --optimize",
     "deployBuild": "node node_modules/grunt-cli/bin/grunt deployBuild --optimize",
     "postinstall": "bower install"
   },
