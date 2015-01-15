@@ -18,6 +18,7 @@
     "prepareTest": "node node_modules/grunt-cli/bin/grunt prepareBuild:test",
     "prepareStage": "node node_modules/grunt-cli/bin/grunt prepareBuild:stage",
     "startServer": "node node_modules/grunt-cli/bin/grunt startServer --single",
+    "startServerMulti": "node node_modules/grunt-cli/bin/grunt startServer --multiple",
     "postinstall": "bower install"
   },
   "dependencies": {
