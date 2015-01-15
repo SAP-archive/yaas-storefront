@@ -135,7 +135,7 @@ module.exports = function (grunt) {
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
                     '../.buildpacks', '../.jshintrc', '../.bowerrc',
                     '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json',
-                    '../multi-tenant/**'],
+                    '../multi-tenant/**', '../server.js'],
                 dest: 'dist/public/'
             }
         },
@@ -235,7 +235,7 @@ module.exports = function (grunt) {
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('startServer', 'Start server within deploy environment',
-      function(domainParam){
+      function(){
         if (grunt.option('single')){
             grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
 
