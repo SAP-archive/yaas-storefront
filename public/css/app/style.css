@@ -6137,8 +6137,17 @@ html.disable-scroll {
 #sidebar .languageSelector .popover-content {
   padding: 9px 0 9px 14px;
 }
-#sidebar .store-settings .popover.right .arrow {
-  bottom: 0 !important;
+#sidebar .signinContainer {
+  position: relative;
+}
+#sidebar .signinContainer .popover {
+  top: -80px !important;
+}
+#sidebar .popover {
+  left: 210px !important;
+}
+#sidebar .popover .arrow {
+  display: none;
 }
 #sidebar .selectorListContainer {
   width: 187px;
@@ -6554,6 +6563,12 @@ html.disable-scroll {
 }
 #sidebar .store-settings {
   margin: 20px 0 100px;
+}
+#sidebar .store-settings .configSelector {
+  position: relative;
+}
+#sidebar .store-settings .configSelector .popover {
+  top: -170px !important;
 }
 #full-cart-btn {
   outline: none;

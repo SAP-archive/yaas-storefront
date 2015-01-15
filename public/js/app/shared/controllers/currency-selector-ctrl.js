@@ -30,6 +30,8 @@ angular.module('ds.shared')
                 if(eveObj.currencyId !== $scope.currency.id){
                     $scope.currency.selected = GlobalData.getCurrencyById(eveObj.currencyId);
                 }
+                
+//                $scope.$apply();
             });
             
             $scope.updateCurrency = function(newCurrency){

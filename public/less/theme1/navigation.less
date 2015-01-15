@@ -29,14 +29,23 @@
       }
     }
   
-    .store-settings .popover{
-      &.right{
-        .arrow{
-          bottom: 0 !important;
-          
-        }
+    .signinContainer{ 
+      position :relative;
+      .popover{
+        top: -80px !important;
         
       }
+    }
+  
+    .popover{
+      left: 210px !important;
+
+      .arrow{
+        display: none;
+
+      }
+        
+
     }
 
     .selectorListContainer{
@@ -522,6 +531,12 @@
 
 	.store-settings{
 		margin: 20px 0 100px;
+      .configSelector{
+        position: relative;
+        .popover{
+          top: -170px !important;
+        }
+      }
 	}
 }
 
