@@ -17,6 +17,7 @@
     "prepareProd": "node node_modules/grunt-cli/bin/grunt prepareBuild:prod",
     "prepareTest": "node node_modules/grunt-cli/bin/grunt prepareBuild:test",
     "prepareStage": "node node_modules/grunt-cli/bin/grunt prepareBuild:stage",
+    "deployBuild": "node node_modules/grunt-cli/bin/grunt deployBuild",
     "postinstall": "bower install"
   },
   "dependencies": {
