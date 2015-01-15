@@ -259,6 +259,14 @@ module.exports = function (grunt) {
         'usemin'           //completes usemin process
     ]);
 
+    grunt.registerTask('deployBuild', [
+        // 'expressKeepAlive',      //research, errors on distribution deploy
+        'concurrent:multiProject'    //distribution build for remote deployment setup scripts
+    ]);
+
+    // grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
+
+
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
     function runDomainReplace(domainParam){
