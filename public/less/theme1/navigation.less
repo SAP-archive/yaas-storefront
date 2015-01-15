@@ -629,6 +629,29 @@ a.signin{display:block;}
 				right: 0;
 		}
 	}
+
+  .mobileLoginPopoverContainer{
+    position: relative;
+    
+    .popover{
+      margin-top: 0;
+      .arrow{display:none;}
+      
+      @media (min-width: 481px) and (max-width: 960px){
+        left: -400px !important;
+        width:481px;
+      }
+
+      @media (max-width: 480px) {
+        left: -150px !important;
+        width:320px;
+      }
+
+    }
+    
+    
+  
+  }
 }
 
 
