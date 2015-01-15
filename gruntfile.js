@@ -133,8 +133,8 @@ module.exports = function (grunt) {
                 cwd: 'public/',
                 src: [
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
-                    '../.buildpacks', '../.jshintrc', '../.bowerrc',
-                    '../bower.json', '../gruntfile.js', '../License.md', '../package.json', '../products.json',
+                    '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
+                    '../gruntfile.js', '../License.md', '../package.json', '../products.json',
                     '../multi-tenant/**', '../server.js'],
                 dest: 'dist/public/'
             }
