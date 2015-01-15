@@ -233,6 +233,18 @@ module.exports = function (grunt) {
         grunt.task.run('optimizeCode');
     });
 
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('deployBuild', 'Build that runs within deploy environment',
+      function(domainParam){
+        if (grunt.option('single')){
+            grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
+        } else if (grunt.option('multiple')){
+            grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
+        } else {
+            grunt.task.run('concurrent:multiProject');   // default server if none is specified.
+        }
+    });
+
     //---Specialized-Build-Behaviors--------------------------------------------------------
     grunt.registerTask('singleProjectTask', [
         'jshint',
@@ -258,13 +270,6 @@ module.exports = function (grunt) {
         'cssmin',
         'usemin'           //completes usemin process
     ]);
-
-    grunt.registerTask('deployBuild', [
-        // 'expressKeepAlive',      //research, errors on distribution deploy
-        'concurrent:multiProject'    //distribution build for remote deployment setup scripts
-    ]);
-
-    // grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
 
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
