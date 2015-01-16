@@ -8133,6 +8133,9 @@ section .hero-unit {
   overflow: hidden;
   padding-bottom: 30px;
 }
+.addressBookModal .modal-dialog {
+  width: 85% !important;
+}
 .confirm {
   text-align: center;
 }
