@@ -231,5 +231,12 @@ angular.module('ds.i18n')
         CONFIRMED: 'Confirmed',
         CREATED: 'Created',
         DECLINED: 'Declined',
-        SHIPPED: 'Shipped'
+        SHIPPED: 'Shipped',
+
+        /*
+        Order Details
+        */
+        CREDIT_CARD: 'Credit Card'
+
+
 	});

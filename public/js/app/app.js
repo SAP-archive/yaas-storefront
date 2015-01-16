@@ -158,7 +158,7 @@ window.app = angular.module('ds.router', [
                 httpQueue.retryAll(token);
             });
 
-            $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 AuthDialogManager.close();
                 var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
                 var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
@@ -168,7 +168,10 @@ window.app = angular.module('ds.router', [
                 if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
-                    var dlg = $injector.get('AuthDialogManager').open({}, toState.name === settings.checkoutState?{ required: true } : {}, {}, true);
+                    if(!fromState.name){
+                        $state.go(settings.homeState);
+                    }
+                    var dlg = $injector.get('AuthDialogManager').open({}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
 
                     dlg.then(function(){
                             if(toState.name === settings.checkoutState){
@@ -180,6 +183,10 @@ window.app = angular.module('ds.router', [
                             $state.go(settings.homeState);
                     });
                 }
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function(){
+                $rootScope.$emit('cart:closeNow');
             });
 
             // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
