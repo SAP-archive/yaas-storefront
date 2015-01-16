@@ -390,6 +390,7 @@ angular.module('ds.checkout')
             $scope.openAddressDialog = function() {
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
+                    windowClass: 'addressBookModal',
                     scope: $scope,
                     resolve: {
                         addresses: function(AccountSvc) {
