@@ -277,10 +277,19 @@ describe('CheckoutCtrl', function () {
 
     describe('setShipToSameAsBillTo', function () {
 
-        it('should copy billing to shipping', function(){
+        it('should copy billing to shipping if true', function(){
+            $scope.wiz.shipToSameAsBillTo = true;
             $scope.order.billTo = mockBillTo;
-            $scope.setShipToSameAsBillTo();
+            $scope.toggleShipToSameAsBillTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
+        });
+
+        it('should blank out ship to if false', function(){
+            $scope.wiz.shipToSameAsBillTo = false;
+            $scope.order.billTo = mockBillTo;
+            $scope.order.shipTo = mockBillTo;
+            $scope.toggleShipToSameAsBillTo();
+            expect($scope.order.shipTo).toEqualData({});
         });
     });
 

@@ -239,9 +239,21 @@ angular.module('ds.checkout')
             };
 
             /** Copy bill-to information to the ship-to properties.*/
-            $scope.setShipToSameAsBillTo = function () {
+            var setShipToSameAsBillTo = function () {
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
-                $scope.wiz.shipToSameAsBillTo = true;
+            };
+
+            var clearShipTo = function(){
+                $scope.order.shipTo = {};
+                $scope.wiz.shipToSameAsBillTo = false;
+            };
+
+            $scope.toggleShipToSameAsBillTo = function(){
+                if($scope.wiz.shipToSameAsBillTo){
+                    setShipToSameAsBillTo();
+                } else {
+                    clearShipTo();
+                }
             };
 
             /** Reset any error messaging related to the credit card expiration date.*/
@@ -359,7 +371,7 @@ angular.module('ds.checkout')
 
                     $scope.submitIsDisabled = true;
                     if ($scope.wiz.shipToSameAsBillTo) {
-                        $scope.setShipToSameAsBillTo();
+                        setShipToSameAsBillTo();
                     }
                     $scope.order.cart = $scope.cart;
 
@@ -385,7 +397,7 @@ angular.module('ds.checkout')
                 target.contactPhone = address.contactPhone;
 
                 if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
-                    $scope.setShipToSameAsBillTo();
+                    setShipToSameAsBillTo();
                 }
                 $scope.wiz.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
             };
