@@ -81,7 +81,7 @@ The :prod parameter specifies which dynamic domain to connect with the api servi
 
 You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single project mode (default),
 you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
- that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
+ that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
 
 cf push -f static-manifest.yml
 
