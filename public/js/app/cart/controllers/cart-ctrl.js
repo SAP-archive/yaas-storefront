@@ -28,11 +28,15 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
-        var closeCart = function()
+        var closeCart = function(fromTimeout)
         {
             //update angulars data binding to showCart
-            $scope.$apply($rootScope.showCart = false);
+            $rootScope.showCart = false;
             $scope.cartShouldCloseAfterTimeout = false;
+            if (fromTimeout) {
+                $scope.$apply();
+            }
+            
         };
 
         $scope.createCartTimeout = function()
@@ -42,7 +46,7 @@ angular.module('ds.cart')
                 function()
                 {
                     //close the cart
-                    closeCart();
+                    closeCart(true);
                 },
                 $scope.cartAutoTimeoutLength);
         };

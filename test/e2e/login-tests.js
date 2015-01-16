@@ -212,6 +212,12 @@ describe("login:", function () {
             tu.clickElement('id', "logout-btn");
         });
 
+        it('should allow user to access order confirmation', function (){
+            browser.get(tu.tenant + '/#!/confirmation/CYFEF3PN/');
+            tu.loginHelper('mike.nightingale@hybris.com', 'password');
+            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is CYFEF3PN');
+        });
+
     });
 });
 
