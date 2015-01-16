@@ -32,6 +32,7 @@ window.app = angular.module('ds.router', [
     'xeditable',
     'ngSanitize',
     'ui.select'
+    ,'ds.backendMock'
 ])
     .constant('_', window._)
 
@@ -86,7 +87,11 @@ window.app = angular.module('ds.router', [
                                 httpQueue.appendRejected(response.config, deferred);
                                 return deferred.promise;
                             }
+                        } else {
+                            // show error view
+                            $injector.get('$state').go('base.errors', { errorId : '401' });
                         }
+
                     } else if(response.status === 403){
                         // if 403 during login, should already be handled by auth dialog controller
                         if(response.config.url.indexOf('login')<0) {
@@ -106,6 +111,12 @@ window.app = angular.module('ds.router', [
                                 });
                             }
                         }
+                    } else if(response.status === 404){
+                        // show error view.
+                        // $injector.get('$state').go('base.errors', { errorId : '404' });
+                    } else if(response.status === 500){
+                        //show error view with default message.
+                        $injector.get('$state').go('base.errors');
                     }
                     return $q.reject(response);
                 }
@@ -425,7 +436,7 @@ window.app = angular.module('ds.router', [
                     }
                 })
                 .state('base.errors', {
-                    url: '/errors/',
+                    url: '/errors/:errorId',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/errors/templates/error-display.html',

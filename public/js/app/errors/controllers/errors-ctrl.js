@@ -13,12 +13,32 @@
 
 angular.module('ds.errors', [])
     /**
-     *  Handles user error display.
+     *  Dynamic error display.
      */
-    .controller('ErrorsCtrl', ['$scope', '$state', function( $scope, $state ) {
-        $scope.redirect = function() {
-            $state.go('base.home');
-        };
+    .controller('ErrorsCtrl', ['$scope', '$state', '$stateParams', '$translate',
+		function( $scope, $state, $stateParams, $translate ) {
+
+			var errorType = '';
+
+			// if errorId is valid, then postfix dynamic message, else always generic message.
+			($stateParams.errorId === '401' || $stateParams.errorId === '404') ? errorType = '_' + $stateParams.errorId : '';
+
+			$translate('ERROR_TITLE' + errorType).then(function(value){
+				$scope.errorTitle = value;
+			});
+			$translate('ERROR_MESSAGE' + errorType).then(function(value){
+				$scope.errorMessage = value;
+			});
+			$translate('ERROR_REDIRECT').then(function(value){
+				$scope.errorRedirect = value;
+			});
+			$translate('ERROR_BUTTON_TEXT').then(function(value){
+				$scope.errorButtonText = value;
+			});
+
+	        $scope.redirect = function() {
+	            $state.go('base.home');
+	        };
     }]);
 
 
