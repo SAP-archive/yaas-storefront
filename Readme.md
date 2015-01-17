@@ -155,12 +155,13 @@ after running the unit test suite.
 There are two distinct localization settings related to the store:  there are the language preferences that are configured in Builder, and then there are translations for all static information that's displayed in a store.  The Builder settings determine the language preferences for data retrieved through services, as well as the available language options that shoppers can select in the store.  The static information (button labels, instructions, etc) are provided in constant files in the code base - see **public/js/app/shared/i18/lang**.  Out of the box, the project currently only provides data in English and in German.  If the preferred language is supported by the app localization settings, it will be selected; otherwise, the static localization will be presented in English.  To support additional languages, provide your own localized constants and load the data in **public/js/app/shared/i18n/providers/translation-providers.js**.
 
 ## Multi-Project Mode
- 
-This project also contains the basic wiring to run the same deployed store template instance against multiple configured storefronts. In order
-to do so, start the server by calling  "npm run-script multiProject".  This will start up the Express.JS server configured in file
-multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
-You can now specify the desired project id as first path segment in the URL.  For instance, in order to run the store against project "myproject",
-specify URL http://localhost:9000/myproject.
+
+This project contains the capability to run the same deployed store template against multiple configured storefronts. In order to do so, start the server by calling  "npm run-script multiProject".  This will start up the Express.JS server configured in file multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
+
+## Project-id Configuration
+
+You can specify the desired project id for both multi-project mode and single-project mode. In the multi-project setup the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: http://localhost:9000/myproject. In single-project mode you can set the configuration in the gruntfile as the PROJECT_ID variable. When you build it will be replaced into the development ensuring the project-id is always correct.
+
 
 ## Security
 
