@@ -28,11 +28,9 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
 
-            console.log($scope.product.media);
-
             if(!$scope.product.media || !$scope.product.media.length) { // set default image if no images configured
                 $scope.product.media = [{url: settings.placeholderImage}];
-            } else if (!$scope.product.media[i].customAttributes || !$scope.product.media[0].customAttributes.main){ // make sure main image is first in list
+            } else if (!$scope.product.media[0].customAttributes || !$scope.product.media[0].customAttributes.main){ // make sure main image is first in list
                 for (var i = 0; i < $scope.product.media.length; i++) {
                     if($scope.product.media[i].customAttributes && $scope.product.media[i].customAttributes.main){
                         var first = $scope.product.media[0];

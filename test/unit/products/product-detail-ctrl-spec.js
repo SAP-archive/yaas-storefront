@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-ddescribe('ProductDetailCtrl', function () {
+describe('ProductDetailCtrl', function () {
 
     var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
@@ -69,7 +69,7 @@ ddescribe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
         });
 
        it('should set the category for the breadcrumb', function(){
@@ -85,7 +85,7 @@ ddescribe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
         });
 
         it('should add to cart from detail page', function () {
@@ -120,7 +120,7 @@ ddescribe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -139,13 +139,11 @@ ddescribe('ProductDetailCtrl', function () {
     describe('onCartUpdated', function () {
 
         beforeEach(function () {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
             $scope.error = 'error';
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
-
-
-                $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
 
         });
 
