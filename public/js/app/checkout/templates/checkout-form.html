@@ -444,11 +444,14 @@
     {{message | translate}}
     </small>
 </div>
+
+    
 <div class="row step-detail" ng-class="{'has-error': message }">
-    <div class="col-xs-6">
+    <div class="hidden-lg" ng-include="'./js/app/checkout/templates/checkout-cart.html'"></div>
+    <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
-    <div class="col-xs-6 text-right">
+    <div class="col-xs-6 text-right hidden-sm hidden-xs">
         <span class="value">{{cart.totalPrice.value | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
