@@ -231,5 +231,10 @@ angular.module('ds.i18n')
         CONFIRMED: 'Bestätigt',
         CREATED: 'Erstellt',
         DECLINED: 'Zurückgegangen',
-        SHIPPED: 'Ausgeliefert'
+        SHIPPED: 'Ausgeliefert',
+
+        /*
+         Order Details
+         */
+        CREDIT_CARD: 'Kreditkarte'
     });
