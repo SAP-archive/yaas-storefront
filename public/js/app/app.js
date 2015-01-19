@@ -295,7 +295,7 @@ window.app = angular.module('ds.router', [
                     resolve: {
                         product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
                             if(initialized){
-                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).get()
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
                                     .then(function (prod) {
                                         if(prod.categories && prod.categories.length){
                                             return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
