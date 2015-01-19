@@ -69,6 +69,7 @@ angular.module('ds.i18n')
         REQUIRED: 'Erforderlich',
         SAME_AS_BILLING_ADDRESS: 'entspricht Rechnungsadresse',
         SECURE_CHECKOUT: 'Sicher bestellen',
+        SELECT_FROM_ADDRESS_BOOK: 'Vom Adressbuch Wählen',
         SHIPPING: 'Versand',
         SHIPPING_ADDRESS: 'Versandadresse',
         SIMPLE_3_STEP_CHECKOUT: 'Einfach bestellen in drei Schritten',

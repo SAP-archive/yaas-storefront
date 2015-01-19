@@ -35,7 +35,7 @@ exports.config = {
     },
 
 
-    baseUrl: 'http://demo-store.dev.cf.hybris.com/',
+    baseUrl: 'http://shops.dev.cf.hybris.com/',
 
     framework: 'jasmine',
 
