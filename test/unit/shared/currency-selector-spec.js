@@ -29,12 +29,26 @@ describe('currencySelectorController Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, currencySelectorController, stubbedCartSvc, mockedGlobalData;
+    var currencySelectorController, mockedGlobalData;
+
+    var currency =  {id: 'USD', label: 'US Dollar'};
+    var currencies = [currency];
 
     mockedGlobalData = {
         getAvailableCurrencies: jasmine.createSpy('getAvailableCurrencies').andReturn([]),
-        getCurrency: jasmine.createSpy('getCurrency').andReturn('originalValue'),
-        getCurrencyById: jasmine.createSpy('getCurrencyById').andReturn('usd'),
+        getCurrency: function(){
+            return currency;
+        },
+        getCurrencySymbol: function(){
+            return '$';
+        },
+        getCurrencyById: function(currId){
+            return {id: currId};
+        },
+        getAvailableCurrencies: function(){
+            return currencies;
+        },
+
         setCurrency: jasmine.createSpy('setCurrency')
     };
 
@@ -45,29 +59,33 @@ describe('currencySelectorController Test', function () {
 
     describe('Currency Selection', function () {
 
-        it('it should be able to update the selected currency', function () {
-            $scope.currency = {selected: 'origValue'};
-            $scope.updateCurrency('newVal');
-            expect($scope.currency).toEqual({selected: 'newVal'})
+        it('should have currency select box variables set correctly', function() {
+
+            expect($scope.currencies).toBeDefined();
+            expect($scope.currencies.length).toEqual(currencies.length);
+
+            for (var i = 0; i < currencies.length; i++) {
+                expect($scope.currencies[i]).toEqual(currencies[i]);
+            };
         });
 
-        it('should not change currency if values are the same', function(){
-            $scope.currency.id = 0;
-            $rootScope.$emit('currency:updated', {
-                currencyId: 0,
-                source: undefined
+        describe('watchCurrency', function(){
+            it('should setCurrency in GlobalData if selected currency changes', function(){
+                var newCurr =  'EUR';
+                $scope.currency.selected = {id: newCurr};
+                $scope.$apply();
+
+                //?? expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(newCurr);
             });
-            expect(mockedGlobalData.getCurrencyById).not.toHaveBeenCalled();
         });
 
-        it('should change currency if values are the same', function(){
-            $scope.currency.id = 1;
-            $rootScope.$emit('currency:updated', {
-                currencyId: 0,
-                source: undefined
+        describe('onCurrencyChanged', function(){
+            it('should update the selected currency if different', function(){
+                $rootScope.$emit('currency:updated', {currencyId: 'EUR'});
+                expect(mockedGlobalData.setCurrency).toHaveBeenCalled;
             });
-            expect(mockedGlobalData.getCurrencyById).toHaveBeenCalled();
-        });
+        })
+
 
     });
 

@@ -14,6 +14,11 @@ describe('languageSelectorController Test', function () {
 
     var $scope, $rootScope, $controller;
 
+    var langCode = 'en';
+    var language = {id: langCode}
+    var languages = [language];
+
+
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
@@ -29,28 +34,66 @@ describe('languageSelectorController Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, currencySelectorController, stubbedCartSvc, mockedGlobalData;
+    var mockedGlobalData;
 
-    mockedGlobalData = {
-        getAvailableLanguages: jasmine.createSpy('getAvailableLanguages').andReturn([]),
-        setLanguage: jasmine.createSpy('setLanguage').andReturn('newValue'),
-        getLanguageCode: jasmine.createSpy('getLanguageCode').andReturn('usd'),
-        setCurrency: jasmine.createSpy('setCurrency')
-    };
+   
+
+
 
     beforeEach(function () {
-        currencySelectorController = $controller('languageSelectorController', {$scope: $scope, $rootScope: $rootScope, 'GlobalData': mockedGlobalData});
-
+        mockedGlobalData = {
+            getAvailableLanguages: function(){return languages},
+            setLanguage: jasmine.createSpy('setLanguage'),
+            getLanguageCode: function(){return langCode;},
+            setCurrency: jasmine.createSpy('setCurrency')
+        };
+        spyOn(mockedGlobalData, 'getAvailableLanguages').andCallThrough();
+        languageSelectorController = $controller('languageSelectorController', {$scope: $scope, $rootScope: $rootScope, 'GlobalData': mockedGlobalData});
+        
     });
 
     describe('language Selection', function () {
 
-        it('it should be able to update the selected currency', function () {
-            $scope.language = {selected: 'origValue'};
-            $scope.updateLanguage('newVal');
-            expect($scope.language.selected).toBe('newVal')
+        it("should get available languages from GlobalData", function() {
+            expect(mockedGlobalData.getAvailableLanguages).wasCalled();
         });
 
+        describe('initialization', function() {
+            it('should have language related select box variables set correctly', function () {
+                expect($scope.language).toBeDefined();
+                expect($scope.language.selected).toBeDefined();
+                expect($scope.language.selected.iso).toBeDefined();
+                expect($scope.language.selected.iso).toEqual(langCode);
+                expect($scope.language.selected.value).toBeDefined();
+                expect($scope.language.selected.value).toEqual(langCode);
+
+                expect($scope.languages).toBeDefined();
+
+                /*
+                 expect($scope.languages.length).toEqual($scope.languageCodes.length);
+                 for (var i = 0; i < $scope.languageCodes.length; i++) {
+                 expect($scope.languages[i].iso).toEqual($scope.languageCodes[i]);
+                 expect($scope.languages[i].value).toEqual($scope.languageCodes[i]);
+                 };*/
+            });
+        });
+
+        describe('watchLanguage', function(){
+            it('should setLanguage in GlobalData if selected language changes', function(){
+                var newLang =  'pl';
+                $scope.language.selected = {iso: newLang, languageCode: newLang};
+                $scope.$apply();
+                //??? expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(newLang);
+            });
+        });
+
+
+        describe('onLanguageChanged', function(){
+            it('should update the selected language if different', function(){
+                $rootScope.$emit('language:updated', {languageCode: 'pl'});
+                expect(mockedGlobalData.setLanguage).toHaveBeenCalled;
+            });
+        });
 
 
     });

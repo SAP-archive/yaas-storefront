@@ -29,14 +29,23 @@
       }
     }
   
-    .store-settings .popover{
-      &.right{
-        .arrow{
-          bottom: 0 !important;
-          
-        }
+    .signinContainer{ 
+      position :relative;
+      .popover{
+        top: -80px !important;
         
       }
+    }
+  
+    .popover{
+      left: 210px !important;
+
+      .arrow{
+        display: none;
+
+      }
+        
+
     }
 
     .selectorListContainer{
@@ -60,10 +69,12 @@
         background-color: transparent;
         background-position: lefts;
         background-repeat: no-repeat;
-        padding: 0 0 0 38px;
+        padding: 0 0 0 28px;
         margin: 0 0 11px 0;
-        height: 23px;
+        min-height: 23px;
+        width: 160px;
         display: block;
+        line-height: 17px;
         background-image: url('../../img/language_select_inactive.png');
         color: #7d7e7f !important;
         
@@ -522,6 +533,12 @@
 
 	.store-settings{
 		margin: 20px 0 100px;
+      .configSelector{
+        position: relative;
+        .popover{
+          top: -170px !important;
+        }
+      }
 	}
 }
 
@@ -616,6 +633,29 @@ a.signin{display:block;}
 				right: 0;
 		}
 	}
+
+  .mobileLoginPopoverContainer{
+    position: relative;
+    
+    .popover{
+      margin-top: 0;
+      .arrow{display:none;}
+      
+      @media (min-width: 481px) and (max-width: 960px){
+        left: -400px !important;
+        width:481px;
+      }
+
+      @media (max-width: 480px) {
+        left: -150px !important;
+        width:320px;
+      }
+
+    }
+    
+    
+  
+  }
 }
 
 
