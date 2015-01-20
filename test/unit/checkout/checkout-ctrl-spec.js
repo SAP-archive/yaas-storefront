@@ -35,7 +35,7 @@ describe('CheckoutCtrl', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(module('restangular'));
+
     beforeEach(module('ds.checkout', function($provide) {
         order = {};
         order.shipTo = {};
@@ -58,10 +58,11 @@ describe('CheckoutCtrl', function () {
                 dismiss: jasmine.createSpy('dismiss')
             })
         };
-        isAuthenticated = false;
+        isAuthenticated = true;
         MockedAuthSvc = {
             isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
         };
+        GlobalData.user.isAuthenticated = true;
         $provide.value('cart', cart);
         $provide.value('order', order);
         $provide.value('shippingCost', shippingCost);
@@ -69,7 +70,7 @@ describe('CheckoutCtrl', function () {
         $provide.value('$modal', mockedModal);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_, _$httpBackend_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -82,6 +83,7 @@ describe('CheckoutCtrl', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $modal = _$modal_;
+        _$httpBackend_.whenGET(/^[A-Za-z-/]*\.html/).respond({});
     }));
 
     beforeEach(function () {
@@ -107,7 +109,7 @@ describe('CheckoutCtrl', function () {
             city: 'Boulder',
             state: 'CO',
             zipCode: '80302',
-            contractPhone: '555-555-5555',
+            contactPhone: '555-555-5555',
             isDefault: true
         };
 
@@ -117,12 +119,14 @@ describe('CheckoutCtrl', function () {
         accountDef = $q.defer();
         accountDef.resolve(returnAccount);
         addressDef = $q.defer();
-        addressDef.resolve(returnAddress);
+
         addressesDef = $q.defer();
         addressesDef.resolve(returnAddresses);
         MockedAccountSvc = {
             account: jasmine.createSpy('account').andReturn(accountDef.promise),
-            getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn(addressDef.promise),
+            getDefaultAddress: jasmine.createSpy('getDefaultAddress').andCallFake(function(){
+                return addressDef.promise
+            }),
             getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
         };
 
@@ -138,15 +142,11 @@ describe('CheckoutCtrl', function () {
 
 
         it('should retrieve addresses for authenticated user', function(){
-            isAuthenticated = true;
-            MockedAuthSvc.isAuthenticated.reset();
-            MockedAuthSvc = {
-                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
-            };
-            GlobalData.user.isAuthenticated = true;
+
             checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            addressDef.resolve(returnAddress);
+
             $scope.$apply();
-            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
@@ -163,7 +163,6 @@ describe('CheckoutCtrl', function () {
             $rootScope.$broadcast('user:signedin');
             $scope.$apply();
             expect(MockedAccountSvc.account).toHaveBeenCalled();
-            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
         });
 
@@ -278,10 +277,19 @@ describe('CheckoutCtrl', function () {
 
     describe('setShipToSameAsBillTo', function () {
 
-        it('should copy billing to shipping', function(){
+        it('should copy billing to shipping if true', function(){
+            $scope.wiz.shipToSameAsBillTo = true;
             $scope.order.billTo = mockBillTo;
-            $scope.setShipToSameAsBillTo();
+            $scope.toggleShipToSameAsBillTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
+        });
+
+        it('should blank out ship to if false', function(){
+            $scope.wiz.shipToSameAsBillTo = false;
+            $scope.order.billTo = mockBillTo;
+            $scope.order.shipTo = mockBillTo;
+            $scope.toggleShipToSameAsBillTo();
+            expect($scope.order.shipTo).toEqualData({});
         });
     });
 
@@ -470,13 +478,27 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('select address', function(){
-        it(' should open the modal dialog and select the address', function(){
+        it('should open the modal dialog and select the address for shipTo', function(){
+            addressDef.resolve(returnAddress);
+            $scope.$apply();
             $scope.openAddressDialog();
-            $scope.selectAddress(returnAddress);
+
+            $scope.selectAddress(returnAddress, $scope.order.shipTo);
             expect($scope.wiz.shipToSameAsBillTo).toEqualData(true);
+
             expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
             $scope.openAddressDialog();
             $scope.closeAddressDialog();
+        });
+
+        it('should open the modal dialog and select the address for billTo', function(){
+            $scope.order.shipTo = {};
+            $scope.openAddressDialog();
+            $scope.selectAddress(returnAddress, $scope.order.billTo);
+            $scope.$apply();
+            expect($scope.wiz.shipToSameAsBillTo).toEqualData(true);
+            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
         });
     });
 
