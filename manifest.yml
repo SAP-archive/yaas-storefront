@@ -7,5 +7,5 @@ applications:
   host: shops
   domain: yaas.io
   instances: 1
-  url: shops.yaas.hybris.com
+  url: shops.yaas.io
   path: ./dist
