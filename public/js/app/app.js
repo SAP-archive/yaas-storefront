@@ -171,7 +171,7 @@ window.app = angular.module('ds.router', [
                     if(!fromState.name){
                         $state.go(settings.homeState);
                     }
-                    var dlg = $injector.get('AuthDialogManager').open({}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
+                    var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
 
                     dlg.then(function(){
                             if(toState.name === settings.checkoutState){

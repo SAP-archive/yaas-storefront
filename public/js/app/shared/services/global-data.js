@@ -86,8 +86,14 @@ angular.module('ds.shared')
                         }
                         setTranslateLanguage(languageCode);
                     } else {
-                        console.warn('Language not valid: ' + newLangCode + '. Using default language ' + defaultLang);
-                        setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
+                        console.warn('Language not valid: ' + newLangCode);
+                        if(defaultLang && defaultLang in languageMap){
+                            console.log('Using default language instead: ' + defaultLang);
+                            setLanguageWithOptionalCookie(defaultLang, setCookie, updateSource);
+                        } else {
+                            console.error('No default language defined.');
+                        }
+
                     }
                 }
 
