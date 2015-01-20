@@ -52,7 +52,8 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
 
         mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
-        mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy();
+        mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy('refreshCartAfterLogin');
+        mockedCartSvc.getCart = jasmine.createSpy('getCart');
 
         inject(function (_$httpBackend_, _$rootScope_, _ConfigSvc_, _$q_, SiteConfigSvc, _settings_) {
             $rootScope = _$rootScope_;
@@ -79,6 +80,12 @@ describe('ConfigurationSvc Test', function () {
         });
 
         it('should GET settings and update store config', function () {
+            mockedAuthSvc.isAuthenticated = jasmine.createSpy().andReturn(true);
+            var accountDef = $q.defer();
+            mockedAuthSvc.isAuthenticated = jasmine.createSpy().andReturn(true);
+            mockedAccountSvc.account = jasmine.createSpy().andCallFake(function(){
+                return accountDef.promise;
+            });
             promise = configSvc.initializeApp();
             catDef.resolve({});
             $httpBackend.flush();

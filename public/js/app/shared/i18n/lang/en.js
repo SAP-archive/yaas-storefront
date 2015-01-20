@@ -70,6 +70,7 @@ angular.module('ds.i18n')
         REQUIRED: 'Required',
         SAME_AS_BILLING_ADDRESS: 'Same As Billing Address',
         SECURE_CHECKOUT: 'Secure Checkout',
+        SELECT_FROM_ADDRESS_BOOK: 'Select from address book',
         SHIPPING: 'Shipping',
         SHIPPING_ADDRESS: 'Shipping Address',
         SIMPLE_3_STEP_CHECKOUT: 'Simple 3 Step Checkout',
