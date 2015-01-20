@@ -3,12 +3,12 @@
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
                 <div class="image">
-                    <div ng-repeat="image in product.images">
+                    <div ng-repeat="image in product.media">
                         <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
                     </div>
                 </div>
-                <div class=" thumbnails" ng-if="product.images && product.images.length > 1">
-                    <a ng-repeat="image in product.images" class="item" href="#">
+                <div class=" thumbnails" ng-if="product.media && product.media.length > 1">
+                    <a ng-repeat="image in product.media" class="item" href="#">
                         <img class="lazyOwl" data-src="{{image.url}}" alt="">
                     </a>
                 </div>

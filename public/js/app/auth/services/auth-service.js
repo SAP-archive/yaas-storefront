@@ -67,7 +67,7 @@ angular.module('ds.auth')
                         } else {
                             FB.login();
                         }
-                    });
+                    }, true);
 
                 },
 

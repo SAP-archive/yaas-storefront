@@ -41,19 +41,19 @@ Start the project on localhost:9000 by executing:
 
 	$ npm start
 
-This will launch a storefront for an existing tenant against the "prod" environment.  Later, we will modify the application to go against your own tenant.
+This will launch a storefront for an existing project against the "prod" environment.  Later, we will modify the application to go against your own project.
 
 
 ## Customization
 
-Now, let's create a new tenant for your specific project so that you can modify your store and product offering as you see fit.
+Now, let's create a new project for your specific site so that you can modify your store and product offering as you see fit.
 
 ### 1.  Sign up for your a new store and configure it
 If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
 Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
 
-### 2.  Replace the default tenant id in the code base with your own (see project adminstration settings in the Builder).  
-In file public/js/bootstrap.js, replace the default "storeTenant" variable with your own project id.
+### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
+In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id.
 
 ### 3.  Launch a new session 
 Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
@@ -67,18 +67,21 @@ Preparing project for deployment (concatenation/minification/revisioning):
 
 	$ grunt build:prod
 
-The :prod parameter is required to set the dynamic domains of the api service.  If this domain is not specified with the parameter, it is very likely that the services will not be located.
+    or
+
+    $ grunt build
+
+The :prod parameter specifies which dynamic domain to connect with the api services.  If this domain is not specified with the parameter, a warning will appear in the build output and the default setting will be applied for the api url's, which is also set to the prod api domain in the gruntfile.
 
 **npm start** is configured to run **grunt build:prod**. Other options are **:stage** and **:test** and can be configured in the gruntfile.
 
-Then on page public/index.html, remove the existing script references and replace them with references to the two 
-generated static files from **dist** directory (dist/js/*.js, dist/css/*.css).
+**grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
 
 ### 6.  Deploy application to server
 
-You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single tenant mode (default),
+You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single project mode (default),
 you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
- that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
+ that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
 
 cf push -f static-manifest.yml
 
@@ -96,9 +99,7 @@ The project has been structured into domain modules under public/js/app.  Within
 Third party dependencies are copied to public/js/vendor via the bower-installer command as part of the npm postinstall target
 (see package.json file).
 
-The angular bootstrapping takes places in file public/js/bootstrap.js.  It is here that you will configure some basic properties 
-for the store front:
--"storeTenant" - the project id that identifies a particular store
+The angular bootstrapping takes places in file public/js/bootstrap.js.  This is where the project ID is provided for your app.
 
 From here, angular will load the "ds.route" module which comprises file public/js/app/app.js. It is here that the application
 if further configured before it can be launched.
@@ -133,18 +134,13 @@ The following application events are used to communicate state changes that affe
 
 ## Running Against Different Environments
 
-The service endpoint domains can be configured for a specific environment by specifying the desired target in the npm/grunt commands. 
+The service endpoint domains can be configured for a specific environment by specifying the desired target in the npm/grunt commands. The endpoint URLs are configured in public/js/app/shared/site-config.js.  When running grunt, the domain is injected into this configuration file via String replacement. The default environment is "prod", so you can simply invoke **grunt build** and **npm start** to build or build and run the application against the services in the **prod** environment.
 
-The endpoint URLs are configured in public/js/app/shared/site-config.js.  When running grunt, the domain is injected into this configuration file via String replacement.
-
-The default environment is "test", so you can simply invoke **grunt build** and **npm start** to build or build and run the application against the services in the **test** environment.
-
-Additional environments supported by the script are:
-    - prod
+Additional api environments supported by the script are:
+    - test
     - stage
 
-To build against an environment other than **test**, append **:[env]** to the grunt task you're calling. 
-For instance, to invoke the build for **prod**, you issue the command **grunt build:prod**.  To build and run the app via NPM against **stage**, you'll call **npm stage**.
+To build against an environment other than **prod**, append **:[env]** to the grunt task you're calling. For instance, to invoke the build for **test**, you issue the command **grunt build:test**.  To build and run the app via NPM against **stage**, you'll call **grunt build:stage**.
 
 ## Testing
 
@@ -156,13 +152,11 @@ after running the unit test suite.
 
 There are two distinct localization settings related to the store:  there are the language preferences that are configured in Builder, and then there are translations for all static information that's displayed in a store.  The Builder settings determine the language preferences for data retrieved through services, as well as the available language options that shoppers can select in the store.  The static information (button labels, instructions, etc) are provided in constant files in the code base - see **public/js/app/shared/i18/lang**.  Out of the box, the project currently only provides data in English and in German.  If the preferred language is supported by the app localization settings, it will be selected; otherwise, the static localization will be presented in English.  To support additional languages, provide your own localized constants and load the data in **public/js/app/shared/i18n/providers/translation-providers.js**.
 
-## Multi-Tenant Mode
- 
-This project also contains the basic wiring to run the same deployed store template instance against multiple configured storefronts. In order
-to do so, start the server by calling  "npm run-script multiTenant".  This will start up the Express.JS server configured in file
-multi-tenant/multi-tenant-service.js. The multi-tenant mode is provided for development and test purposes only.
-You can now specify the desired project id as first path segment in the URL.  For instance, in order to run the store against project "myproject",
-specify URL http://localhost:9000/myproject.
+## Multi-Project Mode
+
+This project contains the capability to run the same deployed store template against multiple configured storefronts. In order to do so, start the server by calling  "npm run-script multiProd".  This will start up the Express.JS server configured in file multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
+
+In the multi-project setup, instead of reading the project ID from bootstrap.js, the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: http://localhost:9000/myproject.
 
 ## Security
 
@@ -170,6 +164,10 @@ specify URL http://localhost:9000/myproject.
 
 It is recommended that you configure your deployment HTTP server to send the X-FRAME-OPTIONS header to restrict others from hosting your site inside an IFrame.
 See [OWASP Click-Jacking] (https://www.owasp.org/index.php/Clickjacking).
+
+## Optimization
+
+Performance optimizations are included in the gruntfile to improve the initial load time of the site. There is an 'optimizeCode' grunt task which concatenates and minifies JavaScript and CSS to reduce HTTP requests and the overall page size of the application. It works by pulling all the code from the development files into the .tmp directory, where it then concatenates and minifies before moving it to a final destination in the /dist directory. The 'optimizeCode' build task conducts all operations required with producing an optimized run-time, including: cleaning of /dist, copying of dependencies, and the replacement of the concatenated and minified resources. The code within the /dist directory then contains everything needed to run an optimized store front. To deploy those optimized resources, first run a build command that will populate the /dist directory with the optimized files (like **grunt build** for example) then deploy /dist to your server of choice and run **grunt startServer**. The startServer build task gives you the choice to run either a multi-project site or a single-project site with the flags --single or --multiple. It will start the server with only the minimum build steps necessary (including server-side optimizations),  excluding unecessary build tasks like linting.
 
 
 # Resources
@@ -191,8 +189,8 @@ Ultimately, the hybris commerce services support all needed business logic, and 
 We wanted to take advantage of the Node package manger, NPM, for resolving our infrastructure dependencies.  In addition,
 the Node based HTTP server turned out to be very quick to start up and thus ideal for development.
 
-The multi-tenant mode relies on NodeJS with Express so that dynamic routes can be created for multiple storefronts.
-The single-tenant distribution generated by this project, however, can be deployed on any HTTP server, without NodeJS.
+The multi-project mode relies on NodeJS with Express so that dynamic routes can be created for multiple storefronts.
+The single-project distribution generated by this project, however, can be deployed on any HTTP server, without NodeJS.
 
 ### Infrastructure Tools
 

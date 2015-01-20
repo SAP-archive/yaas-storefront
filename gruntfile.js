@@ -6,15 +6,16 @@ module.exports = function (grunt) {
 
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
-    var JS_DIR = 'public/js/app';
-    var LESS_DIR = 'public/less';
 
-    // Dynamic domain replacement
-    var PROD_DOMAIN = 'api.yaas.io',
-        TEST_DOMAIN = 'yaas-test.apigee.net/test',
+    // Configuration Variables.
+    var JS_DIR = 'public/js/app',
+        LESS_DIR = 'public/less',
+        PROJECT_ID = 'defaultproj',
+        PROJECT_ID_PATH = './public/js/bootstrap.js',
+        PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
-        REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
-        MULTITENANT_PATH = './multi-tenant/multi-tenant-server.js',
+        TEST_DOMAIN = 'yaas-test.apigee.net/test',
+        API_DOMAIN_PATH = './public/js/app/shared/site-config.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
@@ -22,11 +23,9 @@ module.exports = function (grunt) {
 
     // Project Configuration
     grunt.initConfig({
-
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
-
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']
@@ -101,21 +100,19 @@ module.exports = function (grunt) {
         },
 
         concurrent: {
-            dev: {
-                tasks: ['express:livereload', 'watch'],
+            singleProject: {
+                tasks: ['express:livereload', 'watch'],  //server.js
                 options: {
                     logConcurrentOutput: true
                 }
             },
-            multiTenant: {
-                tasks: ['express:multiTenant', 'watch'],
+            multiProject: {
+                tasks: ['express:multiTenant', 'watch'], //multi-tenant-server.js
                 options: {
                     logConcurrentOutput: true
                 }
             },
-            dist: [
-
-            ]
+            dist: []
         },
 
         clean: {
@@ -123,10 +120,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         dot: true,
-                        src: [
-                            '.tmp',
-                            'dist/*'
-                        ]
+                        src: ['.tmp','dist/*']
                     }
                 ]
             }
@@ -134,10 +128,15 @@ module.exports = function (grunt) {
 
         copy: {
             main: {
+                dot: true,
                 expand: true,
                 cwd: 'public/',
-                src: ['**', '!js/**', '../index.html', '!scss/**'],
-                dest: 'dist/'
+                src: [
+                    '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
+                    '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
+                    '../gruntfile.js', '../License.md', '../package.json', '../products.json',
+                    '../multi-tenant/**', '../server.js'],
+                dest: 'dist/public/'
             }
         },
 
@@ -147,14 +146,6 @@ module.exports = function (grunt) {
             }
         },
 
-        useminPrepare: {
-            html: 'index.html'
-        },
-
-        usemin: {
-            html: ['dist/index.html']
-        },
-
         karma: {
             unit: { configFile: 'config/karma.conf.js', keepalive: true }
             // TODO: get protractor working with grunt
@@ -162,16 +153,20 @@ module.exports = function (grunt) {
             // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
         },
 
-        uglify: {
-            options: {
-                report: 'min',
-                mangle: false
+        useminPrepare: {
+            html: './public/index.html',  //concat and minify all script tags in html build blocks.
+            options: {                    //concats in .tmp
+              dest: 'dist/public'         //minifies result at path in html block under this directory
             }
+        },
+
+        usemin: {
+            html: ['dist/public/index.html']    //runs replacement tasks on index.
         },
 
         replace: {
             test: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
@@ -179,7 +174,7 @@ module.exports = function (grunt) {
                 }]
             },
             stage: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
@@ -187,19 +182,19 @@ module.exports = function (grunt) {
                 }]
             },
             prod: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
                     to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
                 }]
             },
-            multiTenant: {
-                src: [ MULTITENANT_PATH ],
+            projectId: {
+                src: [ PROJECT_ID_PATH ],
                 overwrite: true,
                 replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
+                    from: /StartProjectId(.*)EndProjectId/g,
+                    to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
                 }]
             }
         }
@@ -208,6 +203,90 @@ module.exports = function (grunt) {
 
     grunt.option('force', true);
 
+    //--Convenience-Tasks-----------------------------------------------
+    // Wrap dev build task with parameters and dynamic domain warnings.
+    grunt.registerTask('default', 'Build parameters for default',
+      function(){
+        grunt.task.run('build');
+    });
+
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('build', 'Build parameters for build',
+      function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
+        grunt.task.run('jshint');
+        grunt.task.run('less:dev');
+        grunt.task.run('optimizeCode');
+    });
+
+    //--Tasks-With-Environment-Parameters----------------------------------------------
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('singleProject', 'Build parameters for singleProject build',
+      function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
+        grunt.task.run('singleProjectTask');
+    });
+
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('multiProject', 'Build parameters for multiProject build',
+      function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
+        grunt.task.run('multiProjectTask');
+    });
+
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
+      function(domainParam){
+        runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
+        grunt.task.run('optimizeCode');
+    });
+
+    // Wrap build task with parameters and dynamic domain warnings.
+    grunt.registerTask('startServer', 'Start server within deploy environment',
+      function(){
+        if (grunt.option('single')){
+            grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
+
+        } else if (grunt.option('multiple')){
+            grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
+
+        } else {
+            grunt.task.run('concurrent:multiProject');   // default server if none is specified.
+        }
+    });
+
+    //---Specialized-Build-Behaviors--------------------------------------------------------
+    grunt.registerTask('singleProjectTask', [
+        'jshint',
+        'less:dev',
+        'concurrent:singleProject'   //server.js
+    ]);
+
+    grunt.registerTask('multiProjectTask', [
+        'jshint',
+        'less:dev',
+        'concurrent:multiProject'  //multi-tenant-server.js
+    ]);
+
+    grunt.registerTask('optimizeCode', [
+        'clean:dist',      //deletes contents in the dist folder and the .tmp folder
+        // 'concurrent:dist',
+        'copy',            //moves dev files to dist
+        'useminPrepare',   //starts usemin process
+        //'less:dist',
+        //'rev',           //cachebusts css and js.
+        'concat',
+        'uglify',
+        'cssmin',
+        'usemin'           //completes usemin process
+    ]);
+
+
+    //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
     function runDomainReplace(domainParam){
         switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam ) {
@@ -226,59 +305,6 @@ module.exports = function (grunt) {
                 grunt.task.run('replace:prod');
         }
     }
-
-    // Wrap default build task to add parameters and warnings.
-    grunt.registerTask('default', 'Warning for default', function(domainParam){
-        runDomainReplace(domainParam);
-        grunt.task.run('defaultTask');
-    });
-
-    // Wrap build task to add parameters and warnings.
-    grunt.registerTask('build', 'Parameters for build', function(domainParam){
-        runDomainReplace(domainParam);
-        grunt.task.run('buildTask');
-    });
-
-    // Wrap build task to add parameters and warnings.
-    grunt.registerTask('multiTenant', 'Parameters for multiTenant build', function(domainParam){
-        runDomainReplace(domainParam);
-        grunt.task.run('replace:multiTenant');
-        grunt.task.run('multiTenantTask');
-    });
-
-    grunt.registerTask('expressKeepAlive', ['production:express', 'express-keepalive']);
-
-
-    // Default task
-    grunt.registerTask('defaultTask', [
-        'jshint',
-        'less:dev',
-        'concurrent:dev'
-    ]);
-
-    // Default task
-    grunt.registerTask('multiTenantTask', [
-        'jshint',
-        'less:dev',
-        'concurrent:multiTenant'
-    ]);
-
-    grunt.registerTask('production', [
-        'expressKeepAlive'
-    ]);
-
-    // Build task
-    grunt.registerTask('buildTask', [
-        'clean:dist',
-        'concurrent:dist',
-        'copy',
-        'useminPrepare',
-        'concat',
-        'uglify',
-        'less:dist',
-        'rev',
-        'usemin'
-    ]);
 
 
 };

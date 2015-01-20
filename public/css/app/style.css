@@ -6754,8 +6754,9 @@ a.signin {
 }
 .top-navigation .logo {
   text-align: center;
+  float: left;
   height: 75px;
-  padding: 10px;
+  padding: 4px;
 }
 .top-navigation .logo a {
   display: inline-block;
@@ -6763,6 +6764,7 @@ a.signin {
 }
 .top-navigation .logo a img {
   max-height: 100%;
+  max-width: 58px;
 }
 .off-canvas.left .top-navigation {
   background: none;
@@ -6940,6 +6942,9 @@ a.signin {
 .back-to-top-button:hover {
   color: #fff;
   background: #0068b3;
+}
+.mobileLoginModal section {
+  padding: 20px 14px;
 }
 #cart {
   background: #eeeeee;
@@ -7847,6 +7852,12 @@ section .hero-unit {
 .right {
   /* TODO: ADD SHIFTING FOR OFFCANVAS*/
 }
+.left {
+  /*hide the affix container for mobile */
+}
+.left #refineAffix {
+  display: none;
+}
 .responsive-fixed {
   position: fixed;
   width: auto;
@@ -8194,6 +8205,9 @@ section .hero-unit {
   border-bottom: 1px solid #bebebe;
   overflow: hidden;
   padding-bottom: 30px;
+}
+.addressBookModal .modal-dialog {
+  width: 85% !important;
 }
 .confirm {
   text-align: center;

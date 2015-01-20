@@ -53,10 +53,11 @@ angular.module('ds.shared')
                             settings.googleClientId = value;
                         }
                     }
-
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
+                    // no point trying to localize, since we couldn't load language preferences
+                    window.alert('Unable to load store configuration.  Please refresh!');
                 });
                 return configPromise;
             }
@@ -72,7 +73,7 @@ angular.module('ds.shared')
                     if (initialized) {
                         def.resolve({});
                     } else {
-                        loadConfiguration(GlobalData.store.tenant).finally(function () {
+                        loadConfiguration(GlobalData.store.tenant).then(function () {
                             var languageSet = false;
                             var currencySet = false;
                             if (AuthSvc.isAuthenticated()) {

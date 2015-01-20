@@ -37,8 +37,8 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-
     baseUrl: 'http://localhost:9000',
+
 
     framework: 'jasmine',
 
