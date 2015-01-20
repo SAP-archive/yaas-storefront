@@ -8,6 +8,7 @@ describe('httpQueue', function(){
     var config2 = {method: 'GET', url: '/someUrl2', headers: {}};
 
     beforeEach(module('ds.queue'));
+    beforeEach(module('pascalprecht.translate'));
 
     beforeEach(inject(function(_httpQueue_, _$httpBackend_, _$q_, _$rootScope_) {
         httpQueue = _httpQueue_;

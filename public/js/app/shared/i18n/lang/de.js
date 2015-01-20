@@ -69,6 +69,7 @@ angular.module('ds.i18n')
         REQUIRED: 'Erforderlich',
         SAME_AS_BILLING_ADDRESS: 'entspricht Rechnungsadresse',
         SECURE_CHECKOUT: 'Sicher bestellen',
+        SELECT_FROM_ADDRESS_BOOK: 'Vom Adressbuch Wählen',
         SHIPPING: 'Versand',
         SHIPPING_ADDRESS: 'Versandadresse',
         SIMPLE_3_STEP_CHECKOUT: 'Einfach bestellen in drei Schritten',
@@ -204,6 +205,7 @@ angular.module('ds.i18n')
         FIELD_TOO_SHORT: 'Feld zu kurz!',
         FIELDS_NOT_MATCHING: 'Angaben stimmen nicht überein!',
 
+        SERVER_UNAVAILABLE: 'Server ist nicht verfügbar, bitte versuchen Sie es später erneut.',
         INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
         PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
         ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',
@@ -230,5 +232,10 @@ angular.module('ds.i18n')
         CONFIRMED: 'Bestätigt',
         CREATED: 'Erstellt',
         DECLINED: 'Zurückgegangen',
-        SHIPPED: 'Ausgeliefert'
+        SHIPPED: 'Ausgeliefert',
+
+        /*
+         Order Details
+         */
+        CREDIT_CARD: 'Kreditkarte'
     });

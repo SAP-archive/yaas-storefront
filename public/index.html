@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title title-config ng-bind-template="{{titleConfig}}">Store Template</title>
+
+    <!-- dynamic optimized style sheet resources -->
+    <!-- build:css css/app/storefront.css -->
     <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
     <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
     <link href="js/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <!-- endbuild -->
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -15,20 +20,22 @@
     <![endif]-->
 </head>
 <body ng-class="{'fixedLayout': showCart}">
-<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-    <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation" sticky-navigation></div>
-    <div class="mainContent">
-        <div ui-view="topNavigation"></div>
-        <div  class="main">
-            <div ui-view="main"></div>
-            <div class="content-mask" ng-click="closeOffcanvas()"></div>
+    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+        <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation" sticky-navigation></div>
+        <div class="mainContent">
+            <div ui-view="topNavigation"></div>
+            <div  class="main">
+                <div ui-view="main"></div>
+                <div class="content-mask" ng-click="closeOffcanvas()"></div>
+            </div>
+
         </div>
-
+        <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
     </div>
-    <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
-</div>
+</body>
 
-<!-- /.container--><!-- build:js js/multi-tenant-server.js-->
+<!-- dynamic optimized script resources -->
+<!-- build:js js/storefront.js -->
 <script src="js/vendor-static/jquery.min.js"></script>
 <script src="js/vendor/angular/angular.min.js"></script>
 <script src="js/vendor/angular-touch/angular-touch.js"></script>
@@ -107,13 +114,16 @@
 <script src="js/app/auth/services/auth-service.js"></script>
 <script src="js/app/auth/services/anon-auth-service.js"></script>
 <script src="js/app/auth/services/auth-dialog-manager.js"></script>
-<script src="js/app/app.js"></script>
+
 <script src="js/vendor-static/bootstrap.min.js"></script>
 <script src="js/vendor/bootstrap/js/popover.js"></script>
 <script src="js/app/shared/directives/popover.js"></script>
 <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<!--<script src="js/vendor-static/ui-bootstrap-tpls.js"></script>-->
 <script src="js/vendor-static/jquery.menu-aim.js"></script>
+<!-- endbuild -->
+
+<!-- static script resources -->
+<script src="js/app/app.js"></script>
 <script src="https://js.stripe.com/v2/"></script>
-</body>
-<!-- endbuild--><!-- Production--><!--script(src='dist/public/js/617caaa4.multi-tenant-server.js')--></html>
+
+</html>

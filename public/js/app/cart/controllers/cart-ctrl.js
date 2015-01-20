@@ -28,26 +28,41 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
+        var closeCart = function(fromTimeout)
+        {
+            //update angulars data binding to showCart
+            $rootScope.showCart = false;
+            $scope.cartShouldCloseAfterTimeout = false;
+            if (fromTimeout) {
+                $scope.$apply();
+            }
+            
+        };
+
         $scope.createCartTimeout = function()
         {
             //create a timeout object in order to close the cart if it's not hovered
             $scope.cartTimeOut = _.delay(
                 function()
                 {
-                    //update angulars data binding to showCart
-                    $scope.$apply($rootScope.showCart = false);
-                    $scope.cartShouldCloseAfterTimeout = false;
+                    //close the cart
+                    closeCart(true);
                 },
                 $scope.cartAutoTimeoutLength);
         };
 
-        $rootScope.$on('cart:closeAfterTimeout', function(){
+        var unbind2 = $rootScope.$on('cart:closeAfterTimeout', function(){
             $scope.cartShouldCloseAfterTimeout = true;
             //create a timeout object in order to close the cart if it's not hovered
             $scope.createCartTimeout();
         });
 
-        $scope.$on('$destroy', unbind);
+        var unbind3 = $rootScope.$on('cart:closeNow', function(){
+            $scope.cartShouldCloseAfterTimeout = true;
+            $rootScope.showCart = false;
+        });
+
+        $scope.$on('$destroy', unbind, unbind2, unbind3);
 
         /** Remove a product from the cart.
          * @param cart item id
@@ -79,12 +94,16 @@ angular.module('ds.cart')
             clearTimeout($scope.cartTimeOut);
         };
 
+        $scope.keepCartOpen = function(){
+            $scope.cartShouldCloseAfterTimeout = false;
+        };
+
         $scope.cartUnHover = function()
         {
             //if none of the inputs are focused then create the 3 second timer after mouseout
             if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
             {
-                $scope.createCartTimeout();
+                closeCart();
             }
 
         };

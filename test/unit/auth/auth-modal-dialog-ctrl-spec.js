@@ -107,7 +107,7 @@ describe('AuthModalDialogCtrl Test', function () {
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $q: $q, AuthSvc: MockedAuthSvc,
-                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window }
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window , showAsGuest: false}
        );
     });
 
@@ -155,6 +155,12 @@ describe('AuthModalDialogCtrl Test', function () {
             $rootScope.$apply();
             expect(MockedAuthSvc.extractServerSideErrors).toHaveBeenCalled();
         });
+
+        it('should display error for service error broadcast', function(){
+            $rootScope.$broadcast('authlogin:error');
+            expect(MockedAuthSvc.extractServerSideErrors).toHaveBeenCalled();
+        });
+
     });
 
     describe('signup', function(){

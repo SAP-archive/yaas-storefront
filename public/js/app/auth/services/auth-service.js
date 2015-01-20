@@ -21,7 +21,7 @@ angular.module('ds.auth')
 
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
-                    TokenSvc.setToken(response.accessToken, user ? user.email : null);
+                    return TokenSvc.setToken(response.accessToken, user ? user.email : null);
                 });
             }
 
@@ -67,7 +67,7 @@ angular.module('ds.auth')
                         } else {
                             FB.login();
                         }
-                    });
+                    }, true);
 
                 },
 
@@ -158,12 +158,8 @@ angular.module('ds.auth')
                         errors.push({message: 'ACCOUNT_ALREADY_EXISTS'});
                     } else if (response.status === 403) {
                         errors.push({message: 'ACCOUNT_LOCKED'});
-                    } else if (response.data && response.data.details && response.data.details.message) {
-                        errors.push(response.data.details.message);
-                    } else if (response.data && response.data.message) {
-                        errors.push({message: response.data.message});
                     } else {
-                        errors.push({message: response.status});
+                        errors.push({ message: 'SERVER_UNAVAILABLE'});
                     }
                     return errors;
                 },
@@ -182,14 +178,19 @@ angular.module('ds.auth')
                 },
 
                 signup: function (user, context) {
-                    return AuthREST.Customers.all('signup').customPOST(user).then(function () {
+                    var def = $q.defer();
+                    AuthREST.Customers.all('signup').customPOST(user).then(function () {
                         loginAndSetToken(user).then(function () {
                             settings.hybrisUser = user.email;
+                            def.resolve({});
                             SessionSvc.afterLoginFromSignUp(context);
-                        }, function () {
-                            $q.reject('SignIn failed');
+                        }, function (error) {
+                            def.reject(error);
                         });
+                    }, function (error) {
+                        def.reject(error);
                     });
+                    return def.promise;
                 },
 
                 /** Logs the customer out and removes the token cookie. */
