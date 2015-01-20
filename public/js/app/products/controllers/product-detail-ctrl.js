@@ -28,8 +28,17 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
 
-            if(!$scope.product.images || !$scope.product.images.length) { // set default image if no images configured
-                $scope.product.images = [{url: settings.placeholderImage}];
+            if(!$scope.product.media || !$scope.product.media.length) { // set default image if no images configured
+                $scope.product.media = [{url: settings.placeholderImage}];
+            } else if (!$scope.product.media[0].customAttributes || !$scope.product.media[0].customAttributes.main){ // make sure main image is first in list
+                for (var i = 0; i < $scope.product.media.length; i++) {
+                    if($scope.product.media[i].customAttributes && $scope.product.media[i].customAttributes.main){
+                        var first = $scope.product.media[0];
+                        $scope.product.media[0] = $scope.product.media[i];
+                        $scope.product.media[i] = first;
+                        break;
+                    }
+                }
             }
 
             //input default values must be defined in controller, not html, if tied to ng-model
