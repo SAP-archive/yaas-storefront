@@ -24,10 +24,10 @@ exports.config = {
         );
         // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
         
-        jasmine.getEnv().addReporter(new ScreenShotReporter({
-            baseDirectory: './tmp/screenshots',
-            takeScreenShotsOnlyForFailedSpecs: true
-        }));
+        // jasmine.getEnv().addReporter(new ScreenShotReporter({
+        //     baseDirectory: './tmp/screenshots',
+        //     takeScreenShotsOnlyForFailedSpecs: true
+        // }));
         var disableNgAnimate = function () {
             angular.module('disableNgAnimate', []).run(['$animate', function ($animate) {
                 $animate.enabled(false);

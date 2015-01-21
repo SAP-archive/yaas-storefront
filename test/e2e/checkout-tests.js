@@ -23,7 +23,9 @@ function fillCheckoutFormExceptEmail(form) {
 }
 
 function verifyOrderConfirmation(email, name, number, cityStateZip) {
-    browser.sleep(15000);
+    browser.wait(function () {
+        return element(by.css('address > span.ng-binding')).isPresent();
+    });
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
@@ -68,6 +70,7 @@ function loginAndContinueToCheckout(account, capsAccount) {
     tu.loginHelper(account, 'password');
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
+    browser.sleep(500);
     tu.clickElement('binding', 'CHECKOUT');
     browser.wait(function () {
         return element(by.id("ccNumber")).isPresent();
@@ -205,6 +208,7 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.executeScript("document.getElementById('ccNumber').style.display='block';");
             validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
+            tu.clickElement('id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });

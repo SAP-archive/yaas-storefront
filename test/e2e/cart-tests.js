@@ -60,7 +60,6 @@ describe("cart:", function () {
             tu.selectCurrency('EURO');
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart(); 
-            browser.sleep(750);
             tu.verifyCartTotal('€7.99');
         });
 
@@ -180,7 +179,7 @@ describe("cart:", function () {
             tu.verifyCartTotal('$7.99');
         });
 
-        it('should automatically close when mousing off', function () {
+        xit('should automatically close when mousing off', function () {
             loadProductIntoCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
             // wait over 3 seconds 

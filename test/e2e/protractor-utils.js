@@ -28,6 +28,9 @@ exports.verifyCartAmount = function (amount) {
 };
 
 exports.verifyCartTotal = function (total) {
+    browser.wait(function () {
+        return element(by.css("th.text-right.ng-binding")).isPresent();
+    });
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
 };
 
@@ -143,6 +146,10 @@ var selectCurrency = exports.selectCurrency = function (currency) {
     browser.driver.actions().mouseMove(currentCurrency).perform();
     currentCurrency.click();
     var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+    browser.wait(function () {
+        return newCurrency.isPresent();
+    });
+    
     browser.driver.actions().mouseMove(newCurrency).perform();
     expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
     newCurrency.click();

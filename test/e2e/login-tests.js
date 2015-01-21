@@ -82,7 +82,7 @@ describe("login:", function () {
 
         });
 
-        iit('should create a new user', function () {
+        it('should create a new user', function () {
             tu.clickElement('id', "login-btn");
             tu.clickElement('binding', 'CREATE_ACCOUNT');
             tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
