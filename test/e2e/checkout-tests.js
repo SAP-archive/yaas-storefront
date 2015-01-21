@@ -62,15 +62,20 @@ function fillCreditCardForm(ccNumber, ccMonth, ccYear, cvcNumber) {
     tu.sendKeysById('cvc', cvcNumber);
 }
 
-function checkoutAsLoggedInUserTest(account, capsAccount) {
+function loginAndContinueToCheckout(account, capsAccount) {
     tu.clickElement('id', tu.contineShopping);
     browser.sleep(500);
     tu.loginHelper(account, 'password');
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
     tu.clickElement('binding', 'CHECKOUT');
-    // tu.sendKeysById('firstNameAccount', 'Mike');
-    // tu.sendKeysById('lastNameAccount', 'Night');
+    browser.wait(function () {
+        return element(by.id("ccNumber")).isPresent();
+    });
+}
+
+function checkoutAsLoggedInUserTest(account, capsAccount) {
+    loginAndContinueToCheckout(account, capsAccount);
     fillCreditCardForm('5555555555554444', '06', '2015', '000');
     browser.sleep(500)
     tu.clickElement('id', 'place-order-btn');
@@ -172,10 +177,6 @@ describe("checkout:", function () {
             fillCheckoutFormExceptEmail('Ship');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('id', 'place-order-btn');
-            //browser.sleep(1000)
-            // expect(element(by.css('p.text-center.ng-binding')).getText()).toContain('ONE MOMENT... PLACING YOUR ORDER');
-            //browser.sleep(25000);
-            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
@@ -203,13 +204,24 @@ describe("checkout:", function () {
             validateField('cvc', '', '123', 'id', 'place-order-btn');
             validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            // expect(element(by.xpath('//div[2]/div/small')).getText()).toContain('Your card number is incorrect.');
             browser.executeScript("document.getElementById('ccNumber').style.display='block';");
             validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-
-            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
+        });
+
+        it('should allow user to select address', function () {
+            loginAndContinueToCheckout('address@test.com', 'ADDRESS@TEST.COM');
+            expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Take out');
+            tu.clickElement('id', 'select-address-btn-1');
+            browser.wait(function () {
+                return element(by.id('myModalLabel')).isPresent();
+            });
+            expect(element(by.repeater('address in addresses').row(0)).getText()).toContain('Shipping');
+            expect(element(by.repeater('address in addresses').row(1)).getText()).toContain('Billing');
+            var address2 = element(by.repeater('address in addresses').row(1).column('address.streetNumber'));
+            address2.click();
+            expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Dine in');
         });
 
         it('should populate with existing address for logged in user', function () {
