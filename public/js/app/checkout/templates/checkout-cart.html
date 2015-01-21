@@ -1,4 +1,4 @@
-<h2>{{ORDER_DETAILS | translate}}</h2>
+<h2>{{'ORDER_DETAILS' | translate}}</h2>
 <section class="excerpt‎" ng-cloak>
     <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
     <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
@@ -45,3 +45,7 @@
         </tfoot>
     </table>
 </section>
+<section>
+    <button class="btn  btn-primary btn-lg btn-block" ng-click="showEditCart()"  ng-if="cart.items.length">Edit</button>
+</section>
+<div ui-view="editCart"></div>

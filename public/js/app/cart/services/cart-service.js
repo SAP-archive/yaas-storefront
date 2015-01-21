@@ -347,8 +347,6 @@ angular.module('ds.cart')
                 }
 
 
-
-
             };
 
         }]);

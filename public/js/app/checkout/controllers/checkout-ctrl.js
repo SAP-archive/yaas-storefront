@@ -52,6 +52,7 @@ angular.module('ds.checkout')
             $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
+
             var selectedAddress;
             var addressModalInstance;
 
@@ -410,5 +411,6 @@ angular.module('ds.checkout')
             $scope.closeAddressDialog = function () {
                 addressModalInstance.close();
             };
+
 
         }]);

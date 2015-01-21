@@ -317,7 +317,8 @@ window.app = angular.module('ds.router', [
                     abstract: true,
                     views: {
                         'main@': {
-                            templateUrl: 'js/app/checkout/templates/checkout-frame.html'
+                            templateUrl: 'js/app/checkout/templates/checkout-frame.html',
+                            controller: 'CheckoutBaseCtrl'
                         }
                     },
                     resolve: {
@@ -345,6 +346,11 @@ window.app = angular.module('ds.router', [
                         'checkoutform': {
                             templateUrl: 'js/app/checkout/templates/checkout-form.html',
                             controller: 'CheckoutCtrl'
+                        }
+                        ,
+                        'checkoutcartedit': {
+                            templateUrl: 'js/app/checkout/templates/checkout-edit-cart.html',
+                            controller: 'CheckoutEditCartCtrl'
                         }
                     }
                 })
