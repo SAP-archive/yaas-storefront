@@ -125,8 +125,21 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
 describe("checkout:", function () {
 
     beforeEach(function () {
-        browser.driver.manage().window().maximize();
+        browser.manage().deleteAllCookies();
+        browser.driver.manage().window().setSize(1000, 1000);
     });
+
+  afterEach(function() {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      // expect(browserLog.length).toEqual(1000);
+      // Uncomment to actually see the log.
+      console.log('log: ' + require('util').inspect(browserLog));
+        browser.switchTo().alert().then(
+            function (alert) { alert.accept(); },
+            function (err) { }
+            );
+        });
+  });
 
     describe("verify checkout functionality", function () {
 
@@ -279,6 +292,10 @@ describe("mobile checkout:", function () {
         beforeEach(function () {
             browser.manage().deleteAllCookies();
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+            browser.switchTo().alert().then(
+            function (alert) { alert.accept(); },
+            function (err) { }
+            );
         });
 
         var continueButton1 = '//div[15]/button'
@@ -289,6 +306,7 @@ describe("mobile checkout:", function () {
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
+            browser.sleep(500);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');
@@ -313,6 +331,7 @@ describe("mobile checkout:", function () {
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
+            browser.sleep(500);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');

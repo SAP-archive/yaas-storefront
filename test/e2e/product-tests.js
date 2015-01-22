@@ -6,13 +6,19 @@ describe("product page", function () {
 
     beforeEach(function () {
         browser.manage().deleteAllCookies();
-        browser.driver.manage().window().maximize();
+        browser.driver.manage().window().setSize(1000, 1000);
     });
 
     describe("verify product pages", function () {
 
         beforeEach(function () {
+            browser.manage().deleteAllCookies();
+            browser.driver.manage().window().setSize(1000, 1000);
             browser.get(tu.tenant + '/#!/ct/');
+            browser.switchTo().alert().then(
+                function (alert) { alert.accept(); },
+                function (err) { }
+            );
         });
 
         it('should scroll to load more products', function () {
@@ -43,7 +49,7 @@ describe("product page", function () {
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('DESCRIPTION:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
             expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('$10.67');
             expect(element(by.binding('cat.name')).getText()).toEqual('Mugs');
-            tu.selectLanguage('DE - GERMAN');
+            tu.selectLanguage('GERMAN');
             tu.selectCurrency('EURO');
 
             browser.sleep(3000);
@@ -77,7 +83,7 @@ describe("product page", function () {
             //default load
             tu.getTextByRepeaterRow(0);
             //price is not currently supported
-            tu.selectLanguage('DE - GERMAN');
+            tu.selectLanguage('GERMAN');
             tu.selectCurrency('EURO');
             browser.sleep(3000);
             // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
@@ -96,7 +102,6 @@ describe("product page", function () {
             //default load
             tu.getTextByRepeaterRow(0);
             //price is not currently supported
-            // tu.selectLanguage('English');
             browser.sleep(3000);
             tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
             tu.assertProductByRepeaterRow(0, 'EARBUDS');

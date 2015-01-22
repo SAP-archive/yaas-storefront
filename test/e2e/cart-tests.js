@@ -26,10 +26,22 @@ function loadProductIntoCart(cartAmount, cartTotal) {
 describe("cart:", function () {
 
     beforeEach(function () {
-        browser.driver.manage().window().setSize(1000, 1900);
-
+        browser.manage().deleteAllCookies();
+        browser.driver.manage().window().setSize(1000, 1000);
     });
 
+    afterEach(function() {
+        browser.manage().logs().get('browser').then(function(browserLog) {
+        // expect(browserLog.length).toEqual(1000);
+        // Uncomment to actually see the log.
+        console.log('log: ' + require('util').inspect(browserLog));
+        browser.switchTo().alert().then(
+            function (alert) { alert.accept(); },
+            function (err) { }
+            );
+        });
+
+    });
     describe("verify cart functionality", function () {
 
         beforeEach(function () {

@@ -40,10 +40,21 @@ describe("login:", function () {
         beforeEach(function () {
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().maximize();
+            browser.driver.manage().window().setSize(1000, 1000);
             browser.get(tu.tenant + '/#!/ct');
-        });
 
+        });
+      afterEach(function() {
+        browser.manage().logs().get('browser').then(function(browserLog) {
+          // expect(browserLog.length).toEqual(0);
+          // Uncomment to actually see the log.
+          console.log('log: ' + require('util').inspect(browserLog));
+        browser.switchTo().alert().then(
+            function (alert) { alert.accept(); },
+            function (err) { }
+            );
+        });
+      });
 
         it('should not allow user to login', function () {
             tu.loginHelper('bad@bad.com', 'bad');
@@ -64,7 +75,7 @@ describe("login:", function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(1000);
+            browser.sleep(2000);
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
             updateAccountField('first-name-edit', 'first');

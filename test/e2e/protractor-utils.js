@@ -114,6 +114,9 @@ exports.selectLanguage = function (language) {
     browser.driver.actions().mouseMove(currentLanguage).perform();
     currentLanguage.click();
     var newLanguage = element(by.repeater('lang in languages').row(1));
+    browser.wait(function () {
+        return newLanguage.isPresent();
+    });
     browser.driver.actions().mouseMove(newLanguage).perform();
     expect(element(by.repeater('lang in languages').row(1)).getText()).toEqual(language);
     newLanguage.click();
@@ -153,16 +156,6 @@ var selectCurrency = exports.selectCurrency = function (currency) {
     browser.driver.actions().mouseMove(newCurrency).perform();
     expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
     newCurrency.click();
-    // if (currency === element(by.repeater('currencyType in currencies').row(1)).getText()) {
-    //     var newCurrency = element(by.repeater('currencyType in currencies').row(1));
-    //     browser.driver.actions().mouseMove(newCurrency).perform();
-    //     newCurrency.click();
-    // } else if (currency != element(by.repeater('currencyType in currencies').row(1).column('currencyType.label')).getText()) {
-    //     console.log('currency is already selected');
-    // }
-
-
-
 }
 
 exports.loginHelper = function (userName, password) {
