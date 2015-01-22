@@ -67,6 +67,8 @@ module.exports = function(config){
 
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
+        'public/js/app/checkout/controllers/checkout-base-ctrl.js',
+        'public/js/app/checkout/controllers/checkout-edit-cart-ctrl.js',
         'public/js/app/checkout/services/checkout-service.js',
         'public/js/app/checkout/directives/inline-error-input.js',
         'public/js/app/checkout/services/checkout-rest.js',

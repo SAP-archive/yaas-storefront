@@ -7088,7 +7088,7 @@ html.disable-scroll {
 .edit-cart .continue{
   width:100%;
 }
-.edit-cart .checkout,.edit-cart .checkout button{
+.edit-cart .checkout, .edit-cart .checkout button{
   width:100%;
 }
 .edit-cart#cart {
@@ -7097,22 +7097,24 @@ html.disable-scroll {
 .edit-cart-empty{
   text-align: center;
   font-weight: bold;
+  padding-top:50px;
 }
 .edit-cart-backdrop{
-  position:fixed;
-  z-index:2;
+  position: fixed;
+  z-index: 2;
   top:0;
   left:0;
-  bottom:0;
+  bottom: 0;
   right:0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 @media screen and (min-width: 991px) {
   .edit-cart {
     width: 500px;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
-  .edit-cart {
+@media(min-width: 768px) and (max-width:991px){
+  .edit-cart{
     margin-top:75px;
   }
 }

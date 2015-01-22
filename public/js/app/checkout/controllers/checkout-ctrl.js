@@ -53,6 +53,23 @@ angular.module('ds.checkout')
             $scope.user = GlobalData.user;
             $scope.addresses = [];
 
+
+            var Wiz = function () {
+                this.step1Done = false;
+                this.step2Done = false;
+                this.step3Done = false;
+                this.shipToSameAsBillTo = true;
+                // credit card expiration year drop-down - go 10 years out
+                this.years = [];
+                for (var year = new Date().getFullYear(), i = year, stop = year + 10; i < stop; i++) {
+                    this.years.push(i);
+                }
+                this.months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+            };
+
+            $scope.wiz = new Wiz();
+
             var selectedAddress;
             var addressModalInstance;
 
@@ -165,21 +182,7 @@ angular.module('ds.checkout')
 
 
 
-            var Wiz = function () {
-                this.step1Done = false;
-                this.step2Done = false;
-                this.step3Done = false;
-                this.shipToSameAsBillTo = true;
-                // credit card expiration year drop-down - go 10 years out
-                this.years = [];
-                for (var year = new Date().getFullYear(), i = year, stop = year + 10; i < stop; i++) {
-                    this.years.push(i);
-                }
-                this.months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
 
-            };
-
-            $scope.wiz = new Wiz();
 
             /** Mark mobile wizard step 1 "done" - bill-to address information has been entered.*/
             $scope.billToDone = function (billToFormValid, form) {
@@ -411,6 +414,14 @@ angular.module('ds.checkout')
             $scope.closeAddressDialog = function () {
                 addressModalInstance.close();
             };
+
+            $scope.$on('goToStep2', function(){
+                if( $scope.wiz.step1Done &&  $scope.wiz.step2Done){
+                    $scope.wiz.step2Done = false;
+                    $location.hash('step2');
+                    $anchorScroll();
+                }
+            });
 
 
         }]);

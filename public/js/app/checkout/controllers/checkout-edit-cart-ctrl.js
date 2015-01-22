@@ -14,11 +14,11 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutEditCartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
+    .controller('CheckoutEditCartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData',
+        function($scope, $rootScope, CartSvc, GlobalData) {
 
 
     $scope.cart = CartSvc.getLocalCart();
-    $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
     var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
         $scope.cart = eveObj.cart;
@@ -39,12 +39,14 @@ angular.module('ds.checkout')
      *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
      */
     $scope.updateCartItem = function (item, itemQty, config) {
+        var promise;
         if (itemQty > 0) {
-            CartSvc.updateCartItem(item, itemQty, config);
+            promise = CartSvc.updateCartItem(item, itemQty, config);
         }
         else if (!itemQty || itemQty === 0) {
-            CartSvc.removeProductFromCart(item.id);
+            promise = CartSvc.removeProductFromCart(item.id);
         }
+        $scope.updatedCartItems.push(promise);
     };
 
 }]);

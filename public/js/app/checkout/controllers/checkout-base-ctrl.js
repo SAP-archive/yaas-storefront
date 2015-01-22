@@ -14,9 +14,11 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData','$location','CartSvc','$anchorScroll',
-        function ($scope, $rootScope, cart, shippingCost, GlobalData, $location, CartSvc,$anchorScroll) {
+    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope', 'cart','CartSvc','$q',
+        function ($scope, $rootScope, cart, CartSvc, $q) {
 
+
+            $scope.updatedCartItems = [];
 
             var totalPrice = 0;
             $scope.checkoutCartEditVisible = false;
@@ -27,16 +29,24 @@ angular.module('ds.checkout')
             };
             $scope.hideEditCart = function(){
                 $scope.checkoutCartEditVisible = false;
-                //If the mobile navigation is shown that means there are steps in checkout process
-                //Check if the subtotal value when opened edit cart is the different when closed
-                // (there are changes to cart)
-                cart = CartSvc.getLocalCart();
-                if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
-                    //Navigate to second step
 
-                    $location.hash('step2');
-                    $anchorScroll();
-                }
+                $q.all($scope.updatedCartItems).then(function () {
+                    //If the mobile navigation is shown that means there are steps in checkout process
+                    //Check if the subtotal value when opened edit cart is the different when closed
+                    // (there are changes to cart)
+                    CartSvc.getCart().then(function (cart){
+                        if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
+                            //call method that will check if needed to redirect to step2 in mobile
+
+                            $scope.$broadcast('goToStep2');
+                        }
+                    });
+
+                }, function () {
+                    //Something went wrong, show error to user
+                });
+
+
             };
 
         }]);

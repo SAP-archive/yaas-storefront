@@ -15,7 +15,7 @@
 		<div class="btn-group continue" ng-hide="!!cart.items">
 			<button class="btn  btn-default continue " data-ui-sref="base.category"><span class="hyicon hyicon-chevron-thin-left"></span> Continue shopping</button>
 		</div>
-		<div class="btn-group checkout" ng-hide="cart.items.length == 0">
+		<div class="btn-group checkout" ng-hide="!cart.items.length">
 			<button class="btn  btn-primary " ng-click="hideEditCart()" ng-if="cart.items.length">Back To Checkout <span class="hyicon hyicon-chevron-thin-right"></span>
 			</button>
 		</div>
@@ -23,6 +23,24 @@
 	<div  ng-hide="!!cart.items">
 		<p class="edit-cart-empty">There are no items in your cart.</p>
 	</div>
+
+	<section class="summary" ng-hide="!cart.items.length">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>{{'EST_ORDER_TOTAL' | translate}}</th>
+				<th class="text-right">{{cart.totalPrice.value || 0 | currency: currencySymbol}}</th>
+			<tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
+				<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+	<section>
 				<!-- Cart Item -->
 	<div ng-repeat="item in cart.items">
 		<div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
@@ -40,9 +58,8 @@
 				<div class="clearfix">
 					<div class="input-group pull-left" ng-class="{error: item.error}">
 						<span class="input-group-addon">{{'QTY' | translate}}:</span>
-						<form>
-							<input  ng-change="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"
-									type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
+						<form ng-submit="updateCartItem(item, item.quantity,{opencartAfterEdit: false})">
+							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
 								   ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"
 								   onkeydown="return ( event.keyCode==13 || event.ctrlKey || event.altKey
                                                     || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
