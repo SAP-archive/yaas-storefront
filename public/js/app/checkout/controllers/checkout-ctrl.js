@@ -72,7 +72,7 @@ angular.module('ds.checkout')
                     else {
                         addr.selected = false;
                     }
-                })
+                });
             };
 
             var getDefaultAddress = function (addresses) {
@@ -422,7 +422,7 @@ angular.module('ds.checkout')
                     resolve: {
                         addresses: function(AccountSvc) {
 
-                            return AccountSvc.getAddresses().then(function(response) {
+                            return AccountSvc.getAddresses().then(function() {
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;
