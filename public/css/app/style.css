@@ -6572,6 +6572,15 @@ html.disable-scroll {
 #sidebar .store-settings {
   margin: 20px 0 100px;
 }
+#sidebar .store-settings .selectContainer {
+  margin: 0  10px;
+}
+#sidebar .store-settings .selectContainer select {
+  width: 100%;
+  height: 30px;
+  margin: 20px 0 0;
+  padding-left: 10px;
+}
 #sidebar .store-settings .configSelector {
   position: relative;
 }

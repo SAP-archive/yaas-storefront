@@ -54,26 +54,16 @@
     <div class="seperator"></div>
 </div>
 
-<div class="store-settings hidden-md hidden-lg" ng-cloak >
-    <div ng-controller="languageSelectorController">
-        <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1">
-            <ui-select-match id="language-select" placeholder="Select language" >
-                {{$select.selected.value | translate}}
-            </ui-select-match>
-            <ui-select-choices repeat="lang in languages | filter: $select.search">
-                <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
-            </ui-select-choices>
-        </ui-select>
+<div class="store-settings hidden-md hidden-lg" >
+    <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
+        <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
+            <!--<option value="">{{'SELECT_LANGUAGE' | translate}}</option>-->
+        </select>
     </div>
-    
-    <div ng-controller="currencySelectorController">
-        <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1">
-            <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
-            </ui-select-match>
-            <ui-select-choices repeat="curr in currencies | filter: $select.search">
-                <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
-            </ui-select-choices>
-        </ui-select>
+    <div ng-controller="currencySelectorController" ng-cloak class="selectContainer">
+        <select ng-model="currency.selected" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1" ng-options="curr.label for curr in currencies">
+            <!--<option value="">{{'SELECT_CURRENCY' | translate}}</option>-->
+        </select>
     </div>
 </div>
 
