@@ -11,11 +11,33 @@
  */
 'use strict';
 
+(function(ng) {
+
+	if( !document.URL.match(/\?nobackend$/) ){
+		return ; // app will not use stubbed backend.
+	}
+
+
 angular.module('ds.backendMock', ['ngMockE2E'])
     /**
-     *  Dynamic error display.
+     *  Stub out fake responses to API calls. Allows front some autonomy.
      */
 		.run(function($httpBackend) {
+
+
+				$httpBackend.whenGET('./js/app/auth/templates/signin.html').passThrough();
+				$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
+
+				$httpBackend.whenGET(/^\/templates\//).passThrough();
+
+				   // Don't mock the html views
+			    $httpBackend.whenGET(/views\/\w+.*/).passThrough();
+			 
+			    // For everything else, don't mock
+			    $httpBackend.whenGET(/^\w+.*/).passThrough();
+			    $httpBackend.whenPOST(/^\w+.*/).passThrough();
+
+
 				// $httpBackend
 				// 	.expectGET('/js/app/auth/services/auth-rest.js')
 				// 	.respond(function (method, url, data, headers) {
@@ -46,17 +68,6 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 				// });
 
 
-				$httpBackend.whenGET('./js/app/auth/templates/signin.html').passThrough();
-				$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
-
-				$httpBackend.whenGET(/^\/templates\//).passThrough();
-
-				   // Don't mock the html views
-			    $httpBackend.whenGET(/views\/\w+.*/).passThrough();
-			 
-			    // For everything else, don't mock
-			    $httpBackend.whenGET(/^\w+.*/).passThrough();
-			    $httpBackend.whenPOST(/^\w+.*/).passThrough();
 				
 				// $httpBackend
 				// 	.expectGET('/js/vendor-static/jquery.min.map')
@@ -132,4 +143,4 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 // 			// });
 // 	}
 
-// })(angular);
+})(angular);
