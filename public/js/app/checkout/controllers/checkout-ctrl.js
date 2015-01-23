@@ -41,11 +41,17 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
         function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $scope.order = order;
-            $scope.cart = cart;
+
+            //Resolve in the ui.router state returns cart object, problem is when the user is loged in
+            //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
+            //this method changes cart. That is the reason cart was empty on refresh
+            //With this implementation we are getting the cart object from service after it is loaded
+            cart = $scope.cart;
+
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.order.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);

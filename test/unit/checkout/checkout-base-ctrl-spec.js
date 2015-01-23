@@ -25,15 +25,28 @@ describe('CheckoutBaseCtrl', function () {
     beforeEach(function () {
         // creating the mocked service
         cartDef = $q.defer();
+        var cart = {
+            items : [],
+            totalUnitsCount: 0,
+            subTotalPrice : {
+                value: 0
+            },
+            totalPrice : {
+                value:0
+            },
+            id: null
+        };
         MockedCartSvc = {
             getCart: jasmine.createSpy().andCallFake(function(){
                 return cartDef.promise;
-            })
+            }),
+            getLocalCart:jasmine.createSpy().andReturn(cart)
         };
 
         updatedCartDef = $q.defer();
 
-        $controller('CheckoutBaseCtrl', { $scope: $scope, $rootScope: $rootScope,cart: cart,
+        $scope.cart = cart;
+        $controller('CheckoutBaseCtrl', { $scope: $scope, $rootScope: $rootScope,
             'CartSvc': MockedCartSvc });
 
     });

@@ -125,7 +125,17 @@ describe('CheckoutCtrl', function () {
             getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn(addressDef.promise),
             getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
         };
-
+        $scope.cart = {
+            items : [],
+        totalUnitsCount: 0,
+        subTotalPrice : {
+            value: 0
+        },
+        totalPrice : {
+            value:0
+         },
+        id: null
+        };
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
     });
 

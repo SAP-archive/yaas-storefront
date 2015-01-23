@@ -14,17 +14,17 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope', 'cart','CartSvc','$q',
-        function ($scope, $rootScope, cart, CartSvc, $q) {
+    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope','CartSvc','$q',
+        function ($scope, $rootScope,  CartSvc, $q) {
 
-
+            $scope.cart = CartSvc.getLocalCart();
             $scope.updatedCartItems = [];
 
             var totalPrice = 0;
             $scope.checkoutCartEditVisible = false;
 
             $scope.showEditCart = function(){
-                totalPrice = cart.totalPrice.value;
+                totalPrice = $scope.cart.totalPrice.value;
                 $scope.checkoutCartEditVisible = true;
             };
             $scope.hideEditCart = function(){

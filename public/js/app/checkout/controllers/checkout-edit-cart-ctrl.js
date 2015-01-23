@@ -17,8 +17,7 @@ angular.module('ds.checkout')
     .controller('CheckoutEditCartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData',
         function($scope, $rootScope, CartSvc, GlobalData) {
 
-
-    $scope.cart = CartSvc.getLocalCart();
+        //$scope.cart;
 
     var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
         $scope.cart = eveObj.cart;

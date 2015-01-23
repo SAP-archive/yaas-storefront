@@ -17,7 +17,7 @@ angular.module('ds.checkout')
     .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData',
         function ($scope, $rootScope, cart, shippingCost, GlobalData) {
 
-            $scope.cart = cart;
+            cart = $scope.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
