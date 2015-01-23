@@ -26,17 +26,6 @@ describe("Localization", function () {
             browser.get(tu.tenant + '/#!/ct');
         });
 
-      afterEach(function() {
-        browser.manage().logs().get('browser').then(function(browserLog) {
-          // expect(browserLog.length).toEqual(0);
-          // Uncomment to actually see the log.
-          console.log('log: ' + require('util').inspect(browserLog));
-        browser.switchTo().alert().then(
-            function (alert) { alert.accept(); },
-            function (err) { }
-            );
-        });
-      });
         it('should load product-list in english', function () {
             // tu.selectLanguage('English');
             assertTextByElement('binding', 'category.name', 'MUGS');
@@ -83,7 +72,11 @@ describe("Localization", function () {
             tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
             tu.waitForCart();
-            browser.sleep(700);
+            tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            tu.clickElement('id', tu.cartButtonId);            
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
             assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
             assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
@@ -96,7 +89,11 @@ describe("Localization", function () {
             tu.selectLanguage('GERMAN');
             tu.clickElement('id', 'buy-button');
             tu.waitForCart();
-            browser.sleep(700);
+            tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            tu.clickElement('id', tu.cartButtonId);
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
             assertTextByElement('binding', "CHECKOUT", 'KASSE');
             assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');

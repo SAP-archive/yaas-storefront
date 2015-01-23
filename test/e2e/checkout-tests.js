@@ -126,20 +126,8 @@ describe("checkout:", function () {
 
     beforeEach(function () {
         browser.manage().deleteAllCookies();
-        browser.driver.manage().window().setSize(1000, 1000);
+        browser.driver.manage().window().setSize(1000, 1200);
     });
-
-  afterEach(function() {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      // expect(browserLog.length).toEqual(1000);
-      // Uncomment to actually see the log.
-      console.log('log: ' + require('util').inspect(browserLog));
-        browser.switchTo().alert().then(
-            function (alert) { alert.accept(); },
-            function (err) { }
-            );
-        });
-  });
 
     describe("verify checkout functionality", function () {
 
@@ -169,12 +157,16 @@ describe("checkout:", function () {
 
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
+            browser.sleep(500);
             element(by.repeater('category in categories').row(1).column('category.name')).click();
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteThermos)).isPresent();
+            });
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(100);
+            tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
+            clickOnModal();
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
         });
 
@@ -328,7 +320,7 @@ describe("mobile checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
-        it('should have basic validation on mobile', function () {
+        iit('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
             browser.sleep(500);

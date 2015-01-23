@@ -5,7 +5,7 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[9]", text);
+    tu.sendKeysByXpath("(//input[@type='text'])[5]", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
@@ -40,21 +40,11 @@ describe("login:", function () {
         beforeEach(function () {
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1000, 1000);
+            browser.driver.manage().window().setSize(1000, 1100);
             browser.get(tu.tenant + '/#!/ct');
 
         });
-      afterEach(function() {
-        browser.manage().logs().get('browser').then(function(browserLog) {
-          // expect(browserLog.length).toEqual(0);
-          // Uncomment to actually see the log.
-          console.log('log: ' + require('util').inspect(browserLog));
-        browser.switchTo().alert().then(
-            function (alert) { alert.accept(); },
-            function (err) { }
-            );
-        });
-      });
+
 
         it('should not allow user to login', function () {
             tu.loginHelper('bad@bad.com', 'bad');
@@ -89,7 +79,6 @@ describe("login:", function () {
             updateAccountField('first-name-edit', 'Joe');
             updateAccountField('middle-name-edit', 'C');
             updateAccountField('last-name-edit', 'Cool');
-            tu.clickElement('id', "logout-btn");
 
         });
 
@@ -105,7 +94,6 @@ describe("login:", function () {
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
-            tu.clickElement('id', "logout-btn");
 
 
         });
@@ -164,7 +152,6 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.binding("error.message")).getText()).toEqual("Please provide correct current password!");
             tu.clickElement('css', "button.close");
-            tu.clickElement('id', "logout-btn");
 
         });
 
@@ -180,7 +167,6 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            tu.clickElement('id', "logout-btn");
 
         });
 
@@ -196,7 +182,6 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            tu.clickElement('id', "logout-btn");
         });
 
         it('should allow user to update their password', function () {
@@ -210,7 +195,7 @@ describe("login:", function () {
             tu.sendKeysById('confirmNewPassword', 'password2');
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
-            browser.sleep(500);
+            browser.sleep(1500);
             tu.clickElement('id', "logout-btn");
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
@@ -229,12 +214,17 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(500);
-            tu.clickElement('id', "logout-btn");
         });
 
         it('should allow user to access order confirmation', function (){
             browser.get(tu.tenant + '/#!/confirmation/CYFEF3PN/');
-            tu.loginHelper('mike.nightingale@hybris.com', 'password');
+            browser.wait(function () {
+                return element(by.binding('SIGN_IN')).isPresent();
+            });
+            tu.sendKeys('id', 'usernameInput', 'mike.nightingale@hybris.com');
+            tu.sendKeys('id', 'passwordInput', 'password');
+            tu.clickElement('id', 'sign-in-button');
+            browser.sleep(1000);
             expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is CYFEF3PN');
         });
 

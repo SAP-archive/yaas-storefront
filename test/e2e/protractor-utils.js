@@ -21,6 +21,8 @@ exports.waitForCart = function(){
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
+    //even after element is present, may not be clickable
+    browser.sleep(500);
 };
 
 exports.verifyCartAmount = function (amount) {

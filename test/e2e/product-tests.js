@@ -64,8 +64,6 @@ describe("product page", function () {
         });
 
         it("should get order of products correctly in english and USD", function () {
-            //default load
-            // tu.selectLanguage('English');
             tu.getTextByRepeaterRow(0);
             //price is not currently supported
             // tu.sortAndVerifyPagination('price', 'FRENCH PRESS');
