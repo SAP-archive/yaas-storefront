@@ -35,7 +35,6 @@ function verifyOrderConfirmation(email, name, number, cityStateZip) {
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
     expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-    expect(element(by.binding("cart.totalPrice.value")).getText()).toContain(totalPrice);
     expect(element(by.css("tfoot > tr > td.text-right.ng-binding")).getText()).toEqual(totalPrice);
     expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
@@ -149,9 +148,18 @@ describe("checkout:", function () {
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
+            tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('binding', 'CHECKOUT');         
             clickOnModal()
+            browser.wait(function () {
+                return element(by.binding("ORDER_TOTAL")).isPresent();
+            });
             verifyCartContents('Item Price: $10.67', '$24.61', '2');
         });
 
@@ -276,7 +284,7 @@ describe("checkout:", function () {
 describe("mobile checkout:", function () {
 
     beforeEach(function () {
-        browser.driver.manage().window().setSize(750, 1100);
+        browser.driver.manage().window().setSize(750, 1200);
     });
 
     describe("verify mobile checkout functionality", function () {
@@ -320,7 +328,7 @@ describe("mobile checkout:", function () {
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
-        iit('should have basic validation on mobile', function () {
+        it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
             browser.sleep(500);
@@ -343,8 +351,6 @@ describe("mobile checkout:", function () {
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('xpath', paymentButton);
             tu.clickElement('id', "place-order-btn");
-            //browser.sleep(20000);
-            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 

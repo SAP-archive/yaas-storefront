@@ -139,11 +139,15 @@ describe("cart:", function () {
             tu.sendKeysByXpath(tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
+            tu.clickElement('binding', 'EST_ORDER_TOTAL');
+            browser.sleep(1000);
             tu.verifyCartAmount("5");
             tu.verifyCartTotal("$53.35");
             tu.sendKeysByXpath(tu.cartQuantity, '10');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(2000);
+            browser.sleep(1000);
+            tu.clickElement('binding', 'EST_ORDER_TOTAL');
+            browser.sleep(1000);
             tu.verifyCartAmount("10");
             tu.verifyCartTotal("$106.70");
         });
