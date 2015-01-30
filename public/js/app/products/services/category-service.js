@@ -74,7 +74,6 @@ angular.module('ds.products')
                     $rootScope.$emit('categories:updated', {categories: catList, source: source});
                     catDef.resolve(catList);
                 }, function (error) {
-                    debugger;
                     catDef.reject(error);
                 });
                 return catDef.promise;
@@ -115,7 +114,6 @@ angular.module('ds.products')
                         if(category){
                             cdef.resolve(category);
                         } else {
-                            debugger;
                             cdef.reject();
                         }
                     } else {
@@ -124,7 +122,6 @@ angular.module('ds.products')
                             if(category){
                                 cdef.resolve(category);
                             } else {
-                                debugger;
                                 cdef.reject();
                             }
                         });
