@@ -6,12 +6,12 @@ var express = require('express');
 
 // Build the server
 var app = express();
-var helmet = require('helmet');
+// var helmet = require('helmet');
 
-// Don't allow anyone to put content in a frame.
-app.use(helmet.frameguard('deny'));
-app.use(helmet.xssFilter());
-app.disable('x-powered-by');
+// // Don't allow anyone to put content in a frame.
+// app.use(helmet.frameguard('deny'));
+// app.use(helmet.xssFilter());
+// app.disable('x-powered-by');
 
 app.use("/:storename/", express.static(__dirname + '/../public/'));
 

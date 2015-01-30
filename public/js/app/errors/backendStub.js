@@ -14,6 +14,7 @@
 (function(ng) {
 
 	if( !document.URL.match(/\?nobackend$/) ){
+		angular.module('ds.backendMock', []);
 		return ; // app will not use stubbed backend.
 	}
 
@@ -24,26 +25,54 @@ angular.module('ds.backendMock', ['ngMockE2E'])
      */
 		.run(function($httpBackend) {
 
-
-				$httpBackend.whenGET('./js/app/auth/templates/signin.html').passThrough();
-				$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
-
-				$httpBackend.whenGET(/^\/templates\//).passThrough();
-
-				   // Don't mock the html views
-			    $httpBackend.whenGET(/views\/\w+.*/).passThrough();
-			 
-			    // For everything else, don't mock
-			    $httpBackend.whenGET(/^\w+.*/).passThrough();
-			    $httpBackend.whenPOST(/^\w+.*/).passThrough();
-
-
 				// $httpBackend
 				// 	.expectGET('/js/app/auth/services/auth-rest.js')
 				// 	.respond(function (method, url, data, headers) {
 				// 		debugger;
 				// 	    return [409, 'response body', {}, 'TestPhrase'];
 				// });
+
+				$httpBackend.whenGET('https://yaas-test.apigee.net/test/configuration/v4/8bwhetym79cq/configurations').respond(function(){
+					console.log('MOCK-CONFIGURATION');
+					// return 500;
+					return {
+  "key" : "customer.passwordreset.redirecturl",
+  "value" : "http://demo-store.test.cf.hybris.com/8bwhetym79cq/#!/changePassword?token="
+}, {
+  "key" : "store.settings.name",
+  "value" : "Sushi Dev Store"
+}, {
+  "key" : "payment.stripe.key.public",
+  "value" : "pk_test_KQWQGIbDxdKyIJtpasGbSgCz"
+}, {
+  "key" : "payment.stripe.key.private",
+  "value" : "sk_test_aSCS3gx0bJsUw61g6KJBjb23"
+}, {
+  "key" : "bente.kamperud@hybris.com_lang",
+  "value" : "[{\"id\":\"en\",\"label\":\"English\",\"default\":true,\"required\":true}]"
+}, {
+  "key" : "project_lang",
+  "value" : "[{\"id\":\"en\",\"label\":\"English\",\"default\":true,\"required\":true},{\"id\":\"de\",\"label\":\"German\",\"default\":false,\"required\":true}]"
+}, {
+  "key" : "facebook.app.id",
+  "value" : "611545182284242"
+}, {
+  "key" : "google.client.id",
+  "value" : "566749370288-git5emebgh3to7p1gscq2j9etsvmds4i.apps.googleusercontent.com"
+}, {
+  "key" : "bente.kamperud@hybris.com_curr",
+  "value" : "[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"
+}, {
+  "key" : "project_curr",
+  "value" : "[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true},{\"id\":\"EUR\",\"label\":\"Euro\",\"default\":false,\"required\":false}]"
+}, {
+  "key" : "store.settings.image.logo.url",
+  "value" : "https://yaas-test.apigee.net/test/media-repository/v2/8bwhetym79cq/SJ8Gkp4vpyKjuC7FCDw2kY1KUf6iEyRc/media/548179d0e46e11c342fd4a23"
+}, {
+  "key" : "order.notification.email.from",
+  "value" : "bente.kamperud@hybris.com"
+};
+				});
 
 				// $httpBackend.whenGET('http://dev.local:9000/js/vendor-static/jquery.min.map').respond(function(){
 				// 	console.log('HELLOminmap');
@@ -52,23 +81,36 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 
 				// $httpBackend.whenGET('/configurations').respond(500, {message: 'world'});
 
-				// $httpBackend.whenGET('https://api.yaas.io/category/v2/defaultproj/categories').respond(function(){
+				// $httpBackend.whenGET('https://api.yaas.io/category/v2/8bwhetym79cq/categories').respond(function(){
 				// 	console.log('HELLOCcategories');
 				// 	return "500";
 				// });
 
-				// $httpBackend.whenGET('https://api.yaas.io/configuration/v4/defaultproj/configurations').respond(function(){
+				// $httpBackend.whenGET('https://api.yaas.io/configuration/v4/8bwhetym79cq/configurations').respond(function(){
 				// 	console.log('HELLOCconfigurations');
 				// 	return "500";
 				// });
 
-				// $httpBackend.whenGET('https://api.yaas.io/cart/v5/defaultproj/carts').respond(function(){
+				// $httpBackend.whenGET(/^\/carts\//).respond(function(){
 				// 	console.log('HELLOCART');
 				// 	return "500";
 				// });
 
+				$httpBackend.whenGET('./js/app/auth/templates/signin.html').passThrough();
+				$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
 
-				
+				$httpBackend.whenGET(/^\/templates\//).passThrough();
+
+				   // Don't mock the html views
+			    $httpBackend.whenGET(/views\/\w+.*/).passThrough();
+
+			    // For everything else, don't mock
+			    $httpBackend.whenGET(/^\w+.*/).passThrough();
+			    $httpBackend.whenPOST(/^\w+.*/).passThrough();
+
+
+
+
 				// $httpBackend
 				// 	.expectGET('/js/vendor-static/jquery.min.map')
 				// 	.respond(function (method, url, data, headers) {
@@ -96,7 +138,7 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 				// 	    return [409, 'response body', {}, 'TestPhrase'];
 				// 	});
 				// $httpBackend
-				// 	.expectGET('https://api.yaas.io/cart/v5/defaultproj/carts')
+				// 	.expectGET('https://api.yaas.io/cart/v5/8bwhetym79cq/carts')
 				// 	.respond(function (method, url, data, headers) {
 				// 		debugger;
 				// 	    return [409, 'response body', {}, 'TestPhrase'];
@@ -124,7 +166,7 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 // 					    return [409, 'response body', {}, 'TestPhrase'];
 // 					});
 // 				$httpBackend
-// 					.expectGET('https://api.yaas.io/cart/v5/defaultproj/carts')
+// 					.expectGET('https://api.yaas.io/cart/v5/8bwhetym79cq/carts')
 // 					.respond(function (method, url, data, headers) {
 // 						debugger;
 // 					    return [409, 'response body', {}, 'TestPhrase'];
@@ -135,7 +177,7 @@ angular.module('ds.backendMock', ['ngMockE2E'])
 // 			// })
 // 			// .run(function($httpBackend){
 // 			// 	$httpBackend
-// 			// 		.expectGET('/#!/home')
+// 			// 		.expectGET('/#!/home') 	
 // 			// 		.respond(function (method, url, data, headers) {
 // 			// 			debugger;
 // 			// 		    return [409, 'response body', {}, 'TestPhrase'];

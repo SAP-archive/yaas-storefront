@@ -203,12 +203,12 @@ window.app = angular.module('ds.router', [
 
             // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
             //   which may be removed by browser/user
-            $rootScope.$watch(function () {
-                return AuthSvc.isAuthenticated();
-            }, function (isAuthenticated, wasAuthenticated) {
-                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
-                GlobalData.user.isAuthenticated = isAuthenticated;
-            });
+            // $rootScope.$watch(function () {
+            //     return AuthSvc.isAuthenticated();
+            // }, function (isAuthenticated, wasAuthenticated) {
+            //     $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
+            //     GlobalData.user.isAuthenticated = isAuthenticated;
+            // });
 
             $rootScope.$on('currency:updated', function (event, eveObj) {
                 EventSvc.onCurrencyChange(event,eveObj);
@@ -435,7 +435,7 @@ window.app = angular.module('ds.router', [
                         auth: 'authenticated'
                     }
                 })
-                .state('base.errors', {
+                .state('errors', {
                     url: '/errors/:errorId',
                     views: {
                         'main@': {
