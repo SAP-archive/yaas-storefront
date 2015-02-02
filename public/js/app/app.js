@@ -89,7 +89,7 @@ window.app = angular.module('ds.router', [
                             }
                         } else {
                             // show error view
-                            $injector.get('$state').go('base.errors', { errorId : '401' });
+                            $injector.get('$state').go('errors', { errorId : '401' });
                         }
 
                     } else if(response.status === 403){
@@ -111,12 +111,11 @@ window.app = angular.module('ds.router', [
                                 });
                             }
                         }
-                    } else if(response.status === 404){
-                        // show error view.
-                        // $injector.get('$state').go('base.errors', { errorId : '404' });
+                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 ){
+                        $injector.get('$state').go('errors', { errorId : '404' });
                     } else if(response.status === 500){
                         //show error view with default message.
-                        $injector.get('$state').go('base.errors');
+                        $injector.get('$state').go('errors');
                     }
                     return $q.reject(response);
                 }
@@ -203,12 +202,12 @@ window.app = angular.module('ds.router', [
 
             // Implemented as watch, since client-side determination of "logged" in depends on presence of token in cookie,
             //   which may be removed by browser/user
-            // $rootScope.$watch(function () {
-            //     return AuthSvc.isAuthenticated();
-            // }, function (isAuthenticated, wasAuthenticated) {
-            //     $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
-            //     GlobalData.user.isAuthenticated = isAuthenticated;
-            // });
+            $rootScope.$watch(function () {
+                return AuthSvc.isAuthenticated();
+            }, function (isAuthenticated, wasAuthenticated) {
+                $rootScope.$broadcast(isAuthenticated ? 'user:signedin' : 'user:signedout', {new: isAuthenticated, old: wasAuthenticated});
+                GlobalData.user.isAuthenticated = isAuthenticated;
+            });
 
             $rootScope.$on('currency:updated', function (event, eveObj) {
                 EventSvc.onCurrencyChange(event,eveObj);

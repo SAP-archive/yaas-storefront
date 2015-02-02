@@ -17,7 +17,8 @@
  */
 angular.module('ds.products')
 
-    .factory('CategorySvc', ['$rootScope', 'PriceProductREST', 'GlobalData', '$q', function($rootScope, PriceProductREST, GlobalData, $q){
+    .factory('CategorySvc', ['$rootScope', '$state', 'PriceProductREST', 'GlobalData', '$q', 
+        function($rootScope, $state, PriceProductREST, GlobalData, $q){
 
         var categoryMap;
         var catList;
@@ -115,6 +116,7 @@ angular.module('ds.products')
                             cdef.resolve(category);
                         } else {
                             cdef.reject();
+                            $state.go('errors', { errorId : '404' });
                         }
                     } else {
                         this.getCategories().then(function () {

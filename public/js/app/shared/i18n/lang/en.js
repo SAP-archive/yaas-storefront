@@ -223,7 +223,7 @@ angular.module('ds.i18n')
         ERROR_MESSAGE_401: 'Oops! There\'s a problem. Your login credentials don\'t allow access to this page.',
         ERROR_TITLE_404: 'Page not found',
         ERROR_MESSAGE_404: 'Oops! There\'s a problem. This page doesn\'t exist.',
-        ERROR_REDIRECT: 'Here is a page to help get you to get back on track.',
+        ERROR_REDIRECT: 'Here is a page to help you get back on track.',
         ERROR_BUTTON_TEXT: 'HOMEPAGE',
 
 

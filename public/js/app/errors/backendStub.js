@@ -12,7 +12,14 @@
 'use strict';
 
 (function(ng) {
-
+	/** BACKEND-MOCK-INSTRUCTIONS:
+	 *  Use the querystring parameter ?nobackend in url to load this module, otherwise it is empty in codebase.
+	 *  This module is multi-purpose. It can be used to a) mock data b) mock errors or c) passthrough desired services.
+	 *  To change state of mocking from error to data, change comments to pass back data, error integer, or passthrough at bottom.
+	 *  Realize that some mock data might go stale based on session state, if so, then paste updated JSON from response tabs.
+	 *  Sometimes clicking back the ?nobackend parameter can be removed causing unexpected results. Good to watch for that.
+	 *  Also, be sure that the domain and tenant id settings (below) are correct for your build environment.
+	**/
 	if( !document.URL.match(/\?nobackend$/) ){
 		// if not requested only add a blank stub to app dependency.
 		angular.module('ds.backendMock', []);
@@ -24,18 +31,21 @@
 
 			.run(function($httpBackend) {
 
-				var BUILD_DOMAIN = 'yaas-test.apigee.net/test';
-				var BUILD_TENANT = '8bwhetym79cq';
+				// MOCK-RUNNER-CONFIGURATION-.
+				var BUILD_DOMAIN = 'yaas-test.apigee.net/test',
+				    BUILD_TENANT = '8bwhetym79cq',
+				    MOCK_PRODUCT =  '5436899a3cceb8a9381288d9',
+				    MOCK_ORDER   =  'X38KIHUG'
 
-				// category-service.js #121 getCategories MOCK - an excellent test mock because it is a simple call/response call on home page.
+				//CATEGORY: category-service.js #121 getCategories MOCK - an excellent test mock because it is a simple call/response call on home page.
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/category/v2/'+BUILD_TENANT+'/categories?expand=subcategories&toplevel=true')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						// 404  //passing back single integer (instead of array) is status code. Any non 200 will fall to error handler.
+						//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
 						//MOCK-DATA-RESPONSE
 						[{
 						  "id" : "256",
-						  "name" : "Mugs",
+						  "name" : "MOCK",
 						  "description" : "description",
 						  "image" : "https://yaas-test.apigee.net/test/media-repository/v2/8bwhetym79cq/SJ8Gkp4vpyKjuC7FCDw2kY1KUf6iEyRc/media/5485a4c755ceb64199047c02",
 						  "subcategories" : [ {
@@ -111,7 +121,148 @@
 						} ]
 					); //end mock.
 
-					// sometimes data can be stale for non-mocked downstream services, copy and paste updated values to mimic state.
+				// PRODUCT-DETAILS: white mug MOCK.
+				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT)
+					.respond(
+						//MOCK-ERROR-STATUS-CODE
+						//404 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//MOCK-DATA-RESPONSE
+						{
+						  "id" : "5436899a3cceb8a9381288d9",
+						  "sku" : "P1234000",
+						  "name" : "hybris Coffee Mug - MOCK",
+						  "description" : "Drink your morning, afternoon, and evening coffee from the hybris mug.  Get caffinated in style. ",
+						  "published" : true,
+						  "images" : [ {
+						    "id" : "5436899af2ee256c97bed3c0",
+						    "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899af2ee256c97bed3c0"
+						  }, {
+						    "id" : "5436899bf2ee256c97bed3c2",
+						    "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c2"
+						  }, {
+						    "id" : "5436899bf2ee256c97bed3c4",
+						    "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c4"
+						  }, {
+						    "id" : "5436899bf2ee256c97bed3c6",
+						    "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c6"
+						  } ],
+						  "inStock" : true,
+						  "created" : "2014-10-09T13:11:54.108+0000",
+						  "color" : "White",
+						  "itemCondition" : "NEW",
+						  "adult" : false,
+						  "customAttributes" : [ ],
+						  "defaultPrice" : {
+						    "currency" : "USD",
+						    "priceId" : "5436899c5acee4d3c910b7cf",
+						    "value" : 9.99
+						  },
+						  "categories" : [ {
+						    "id" : "256",
+						    "name" : "Mugs",
+						    "description" : "description",
+						    "image" : "https://yaas-test.apigee.net/test/media-repository/v2/8bwhetym79cq/SJ8Gkp4vpyKjuC7FCDw2kY1KUf6iEyRc/media/5485a4c755ceb64199047c02"
+						  } ]
+						}
+					); //end mock.
+
+				// ORDERS: order confirmation MOCK.
+				console.log('https://yaas-test.apigee.net/test/order/v4/8bwhetym79cq/orders/X38KIHUG');
+				console.log('https://'+BUILD_DOMAIN+'/test/order/v4/'+BUILD_TENANT+'/orders/'+ MOCK_ORDER);
+				$httpBackend.whenGET('https://yaas-test.apigee.net/test/order/v4/8bwhetym79cq/orders/X38KIHUG')
+					.respond(
+						//MOCK-ERROR-STATUS-CODE
+						404 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//MOCK-DATA-RESPONSE
+						// {
+						//   "created" : "2015-02-02T19:12:55.765Z",
+						//   "status" : "CREATED",
+						//   "entries" : [ {
+						//     "amount" : 4,
+						//     "unitPrice" : 9.99,
+						//     "totalPrice" : 39.96,
+						//     "id" : "5436899a3cceb8a9381288d9",
+						//     "product" : {
+						//       "id" : "5436899a3cceb8a9381288d9",
+						//       "sku" : "P1234000",
+						//       "name" : "hybris Coffee Mug - White",
+						//       "description" : "Drink your morning, afternoon, and evening coffee from the hybris mug.  Get caffinated in style. ",
+						//       "published" : true,
+						//       "inStock" : true,
+						//       "created" : "2014-10-09T13:11:54.108+0000",
+						//       "externalImages" : [ ],
+						//       "images" : [ {
+						//         "id" : "5436899af2ee256c97bed3c0",
+						//         "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899af2ee256c97bed3c0"
+						//       }, {
+						//         "id" : "5436899bf2ee256c97bed3c2",
+						//         "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c2"
+						//       }, {
+						//         "id" : "5436899bf2ee256c97bed3c4",
+						//         "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c4"
+						//       }, {
+						//         "id" : "5436899bf2ee256c97bed3c6",
+						//         "url" : "http://media-repository-v2.test.cf.hybris.com/8bwhetym79cq/product/media/5436899bf2ee256c97bed3c6"
+						//       } ],
+						//       "color" : "White",
+						//       "itemCondition" : "NEW",
+						//       "adult" : false,
+						//       "customAttributes" : [ ]
+						//     }
+						//   } ],
+						//   "customer" : {
+						//     "id" : "C9851410463",
+						//     "name" : "asdfsasdf asfd",
+						//     "title" : "Mr.",
+						//     "firstName" : "asdfsasdf",
+						//     "lastName" : "asfd",
+						//     "email" : "test1@test1.com- MOCK"
+						//   },
+						//   "billingAddress" : {
+						//     "contactName" : "MOCK9999",
+						//     "street" : "9999MOCK",
+						//     "zipCode" : "999",
+						//     "city" : "999",
+						//     "country" : "USA",
+						//     "state" : "AK",
+						//     "contactPhone" : "9999"
+						//   },
+						//   "shippingAddress" : {
+						//     "contactName" : "99MOCK99",
+						//     "street" : "9999MOCK",
+						//     "zipCode" : "999MOCK",
+						//     "city" : "999",
+						//     "country" : "USA",
+						//     "state" : "AK",
+						//     "contactPhone" : "9999"
+						//   },
+						//   "payments" : [ {
+						//     "status" : "SUCCESS - MOCK",
+						//     "method" : "Visa",
+						//     "paymentResponse" : "ChargeId - ch_15Rpcx424QP3MpDM8oUPHenk",
+						//     "paidAmount" : 42.94,
+						//     "currency" : "USD"
+						//   } ],
+						//   "shipping" : {
+						//     "total" : {
+						//       "amount" : 2.98,
+						//       "currency" : "USD"
+						//     }
+						//   },
+						//   "tax" : {
+						//     "lines" : [ ],
+						//     "total" : {
+						//       "amount" : 0,
+						//       "currency" : "USD",
+						//       "inclusive" : false
+						//     }
+						//   },
+						//   "totalPrice" : 42.94,
+						//   "currency" : "USD"
+						// }
+					); //end mock.
+
+					//CONFIGURATION:
 					// $httpBackend.whenGET('https://yaas-test.apigee.net/test/configuration/v4/8bwhetym79cq/configurations').respond(function(){
 					// 	console.log('MOCK: CONFIGURATION');
 					// 	// return 500;
