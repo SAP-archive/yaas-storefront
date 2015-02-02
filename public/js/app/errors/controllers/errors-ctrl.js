@@ -21,7 +21,9 @@ angular.module('ds.errors', [])
 			var errorType = '';
 
 			// if errorId is valid, then postfix dynamic message, else always generic message.
-			($stateParams.errorId === '401' || $stateParams.errorId === '404') ? errorType = '_' + $stateParams.errorId : '';
+			if($stateParams.errorId === '401' || $stateParams.errorId === '404'){
+				errorType = '_' + $stateParams.errorId;
+			}
 
 			$translate('ERROR_TITLE' + errorType).then(function(value){
 				$scope.errorTitle = value;

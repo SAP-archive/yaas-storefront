@@ -44,7 +44,7 @@ angular.module('ds.auth')
                         TokenSvc.setAnonymousToken(token, expiresIn);
                         inProgress = false;
                         $rootScope.$emit('authtoken:obtained', token);
-                    }, function(error){
+                    }, function(){
                         inProgress = false;
                         console.error('Unable to perform anonymous login - ensure project id is configured correctly.');
                         $state.go('errors', {errorId: 404});
