@@ -38,9 +38,9 @@ angular.module('ds.errors', [])
 				$scope.errorButtonText = value;
 			});
 
-	        $scope.redirect = function() {
-	            $state.go('base.home');
-	        };
+			$scope.redirect = function() {
+				$state.go('base.home');
+			};
     }]);
 
 

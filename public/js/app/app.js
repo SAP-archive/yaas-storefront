@@ -28,11 +28,11 @@ window.app = angular.module('ds.router', [
     'ds.orders',
     'ds.queue',
     'ds.errors',
+    'ds.backendMock',
     'config',
     'xeditable',
     'ngSanitize',
     'ui.select'
-    ,'ds.backendMock'
 ])
     .constant('_', window._)
 
