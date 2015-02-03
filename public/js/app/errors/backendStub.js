@@ -37,7 +37,7 @@
 				    MOCK_PRODUCT =  '5436899a3cceb8a9381288d9',
 				    MOCK_ORDER   =  'X38KIHUG';
 
-				//CATEGORY: category-service.js #121 getCategories MOCK - an excellent test mock because it is a simple call/response call on home page.
+				// CATEGORY: category-service.js #121 getCategories MOCK - an excellent test mock because it is a simple call/response call on home page.
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/category/v2/'+BUILD_TENANT+'/categories?expand=subcategories&toplevel=true')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
@@ -121,25 +121,25 @@
 						} ]
 					); //end mock.
 
-				// ANONYMOUS-LOGIN: Account Service.
-				$httpBackend.whenPOST('https://yaas-test.apigee.net/test/account/v1/auth/anonymous/login?hybris-tenant=8bwhetym79cq')
-					.respond(
-						//MOCK-ERROR-STATUS-CODE
-						401 //401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
-						//MOCK-DATA-RESPONSE
-						// {
-						//   'status' : 403,
-						//   'message' : 'Project BAD8bwhetym79cq does not exist',
-						//   'type' : 'insufficient_permissions'
-						// }
-					); //end mock.
+				// ANONYMOUS-LOGIN: Account Service. Use to mock Authentication errors.
+				// $httpBackend.whenPOST('https://yaas-test.apigee.net/test/account/v1/auth/anonymous/login?hybris-tenant=8bwhetym79cq')
+				// 	.respond(
+				// 		//MOCK-ERROR-STATUS-CODE
+				// 		//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+				// 		//MOCK-DATA-RESPONSE
+				// 		// {
+				// 		//   'status' : 403,
+				// 		//   'message' : 'Project BAD8bwhetym79cq does not exist',
+				// 		//   'type' : 'insufficient_permissions'
+				// 		// }
+				// 	); //end mock.
 
 
 				// PRODUCT-DETAILS: white mug MOCK.
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT)
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						//404 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
 						//MOCK-DATA-RESPONSE
 						{
 						  'id' : '5436899a3cceb8a9381288d9',
@@ -181,12 +181,12 @@
 					); //end mock.
 
 				// ORDERS: order confirmation MOCK.
-				console.log('https://yaas-test.apigee.net/test/order/v4/8bwhetym79cq/orders/X38KIHUG');
-				console.log('https://'+BUILD_DOMAIN+'/test/order/v4/'+BUILD_TENANT+'/orders/'+ MOCK_ORDER);
-				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/test/order/v4/'+BUILD_TENANT+'/orders/'+ MOCK_ORDER)
+				// This will mock data for pages at: http://dev.local:9000/8bwhetym79cq/#!/confirmation/X38KIHUG/?nobackend and
+				// http://dev.local:9000/8bwhetym79cq/#!/orderDetail/X38KIHUG?nobackend
+				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/order/v4/'+BUILD_TENANT+'/orders/'+ MOCK_ORDER)
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						//404 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//401 //404 //500  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
 						//MOCK-DATA-RESPONSE
 						{
 						  'created' : '2015-02-02T19:12:55.765Z',
@@ -289,9 +289,9 @@
 					$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
 
 
-				    // dont mock everything else, specify pass through to avoid error.
-				    $httpBackend.whenGET(/^\w+.*/).passThrough();
-				    $httpBackend.whenPOST(/^\w+.*/).passThrough();
+					// dont mock everything else, specify pass through to avoid error.
+					$httpBackend.whenGET(/^\w+.*/).passThrough();
+					$httpBackend.whenPOST(/^\w+.*/).passThrough();
 
 				});
 
