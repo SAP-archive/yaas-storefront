@@ -14,14 +14,17 @@ describe('ErrorsCtrl Test', function () {
 
     var $scope, $rootScope, $controller;
     var mockedState = {};
+    var mockedStateParams = {
+            orderId: '12345'
+    };
+    function mockedTranslate(title) {
+        return { then: function(callback){callback(title)}};
+    }
 
-    beforeEach(function(){
-        module('ds.errors');
-
-        module(function($provide){
-            $provide.value('$state', mockedState);
-        });
-    });
+    beforeEach(module('ds.errors', function ($provide) {
+        $provide.value('$translate', mockedTranslate);
+        $provide.value('$state', mockedState);
+    }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_) {
         $scope = _$rootScope_.$new();
@@ -31,7 +34,7 @@ describe('ErrorsCtrl Test', function () {
     describe('Errors Ctrl ', function () {
 
         beforeEach(function () {
-            errorsCtrl = $controller('ErrorsCtrl', {$scope: $scope});
+            errorsCtrl = $controller('ErrorsCtrl', {$scope: $scope, $stateParams: mockedStateParams, $translate: mockedTranslate});
         });
 
         it('should exist', function () {
