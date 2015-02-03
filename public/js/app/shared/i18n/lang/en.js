@@ -134,6 +134,7 @@ angular.module('ds.i18n')
 
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
+        SELECT_LANGUAGE: 'Select a language',
 		en: 'English',
 		de: 'German',
         SIGN_OUT: 'Sign Out',
@@ -157,6 +158,7 @@ angular.module('ds.i18n')
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
         CURRENCY: 'Currency',
+        SELECT_CURRENCY: 'Select a currency',
         DATE: 'Date',
         LOCALE: 'Locale',
         NAME_REQUIRED: 'Name Required',
