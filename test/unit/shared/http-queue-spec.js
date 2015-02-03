@@ -1,13 +1,22 @@
 /**
- * Created by i839794 on 9/12/14.
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2014 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
  */
+
 describe('httpQueue', function(){
 
     var $q, $httpBackend, httpQueue, $scope;
     var config = {method: 'GET', url: '/someUrl', headers: {}};
     var config2 = {method: 'GET', url: '/someUrl2', headers: {}};
     var mockedState = {
-        go:function(){}
+        go: jasmine.createSpy()
     };
 
     beforeEach(module('pascalprecht.translate'));
@@ -57,8 +66,8 @@ describe('httpQueue', function(){
             expect(success).toEqualData({ method : 'GET', url : '/someUrl', headers : { Authorization : 'Bearer abc123' } } );
         });
 
-        it('should retry rejected requests', function(){
-
-        });
+        it('should redirect to error page on failure', function(){
+            expect(mockedState.go).toHaveBeenCalled();
+        })
     });
 });

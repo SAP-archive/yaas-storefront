@@ -19,7 +19,7 @@ describe('AnonAuthSvc', function () {
     var expiresIn = 700;
     var location =  'http://baas.test.cf.hybris.com/#scope=&expires_in=' + expiresIn + '&access_token=' + accessToken + '&user=ANONYMOUS&hybris-tenant=' + storeTenant;
     var mockedState = {
-        go:function(){}
+        go: jasmine.createSpy()
     };
 
     mockedTokenSvc = {
@@ -113,6 +113,10 @@ describe('AnonAuthSvc', function () {
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
+
+            it('should redirect to error page on failure', function(){
+                expect(mockedState.go).toHaveBeenCalled();
+            })
         });
 
     });

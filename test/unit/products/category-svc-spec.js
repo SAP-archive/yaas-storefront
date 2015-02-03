@@ -9,6 +9,7 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
+
 describe('CategorySvc', function () {
 
     var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
@@ -21,7 +22,7 @@ describe('CategorySvc', function () {
     var mockedCatName = 'catName';
     var mockedSlug = 'catname~'+mockedCatId;
     var mockedState = {
-        go:function(){}
+        go: jasmine.createSpy()
     };
 
     var categoryResponse = [ {
@@ -193,7 +194,5 @@ describe('CategorySvc', function () {
         });
 
     });
-
-
 
 });
