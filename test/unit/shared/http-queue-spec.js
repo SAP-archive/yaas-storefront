@@ -6,9 +6,15 @@ describe('httpQueue', function(){
     var $q, $httpBackend, httpQueue, $scope;
     var config = {method: 'GET', url: '/someUrl', headers: {}};
     var config2 = {method: 'GET', url: '/someUrl2', headers: {}};
+    var mockedState = {
+        go:function(){}
+    };
 
-    beforeEach(module('ds.queue'));
     beforeEach(module('pascalprecht.translate'));
+    beforeEach(module('ds.queue', function ($provide) {
+        $provide.value('$state', mockedState);
+    }));
+
 
     beforeEach(inject(function(_httpQueue_, _$httpBackend_, _$q_, _$rootScope_) {
         httpQueue = _httpQueue_;

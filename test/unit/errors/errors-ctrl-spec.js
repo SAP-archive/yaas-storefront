@@ -15,7 +15,7 @@ describe('ErrorsCtrl Test', function () {
     var $scope, $rootScope, $controller;
     var mockedState = {};
     var mockedStateParams = {
-            orderId: '12345'
+            errorId: '401'
     };
     function mockedTranslate(title) {
         return { then: function(callback){callback(title)}};

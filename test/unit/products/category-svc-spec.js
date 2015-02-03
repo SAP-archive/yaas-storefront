@@ -20,6 +20,9 @@ describe('CategorySvc', function () {
     var mockedCatId = 'catId';
     var mockedCatName = 'catName';
     var mockedSlug = 'catname~'+mockedCatId;
+    var mockedState = {
+        go:function(){}
+    };
 
     var categoryResponse = [ {
         "id" : "117767936",
@@ -48,6 +51,7 @@ describe('CategorySvc', function () {
         catMap[mockedSlug] = {name: mockedCatName, slug: mockedSlug, id:mockedCatId};
         mockedGlobalData.categoryMap = catMap;
         $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('$state', mockedState);
     }));
 
 
@@ -117,7 +121,7 @@ describe('CategorySvc', function () {
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond([{
                 "id": cosmeticsId
             }]);
-           
+
             categorySvc.getCategories();
             $httpBackend.flush();
             var cat = null;
