@@ -2,8 +2,8 @@ var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
     allScriptsTimeout: 30000,
-    sauceUser: 'BSDQA',
-    sauceKey: 'd91f4799-f3bc-4736-b699-1931d87b6db0',    
+    // sauceUser: 'BSDQA',
+    // sauceKey: 'd91f4799-f3bc-4736-b699-1931d87b6db0',    
 
     specs: [
         '../test/e2e/*-tests.js'

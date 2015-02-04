@@ -5,12 +5,12 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[5]", text);
+    tu.sendKeysByXpath("//input[@type='text']", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    element(by.xpath('//select')).sendKeys(text);
+    element(by.xpath("//select[@ng-model='$data']")).sendKeys(text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 

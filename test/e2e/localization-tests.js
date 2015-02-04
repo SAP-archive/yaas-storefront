@@ -76,7 +76,8 @@ describe("Localization", function () {
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
-            tu.clickElement('id', tu.cartButtonId);            
+            tu.clickElement('id', tu.cartButtonId); 
+            tu.waitForCart();           
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
             assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
             assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
@@ -94,6 +95,7 @@ describe("Localization", function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
             assertTextByElement('binding', "CHECKOUT", 'KASSE');
             assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');

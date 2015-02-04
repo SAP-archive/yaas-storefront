@@ -79,10 +79,15 @@ describe("cart:", function () {
             tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(250);
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isDisplayed();
+            });
             tu.clickElement('xpath', tu.whiteCoffeeMug);
-            browser.sleep(1000);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isDisplayed();
+            });
             tu.clickElement('id', tu.buyButton);
+            tu.waitForCart();
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
@@ -154,10 +159,16 @@ describe("cart:", function () {
 
         it('should not add out of stock item', function () {
             tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(250);
+            tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.wait(function () {
+                return element(by.xpath(tu.blackCoffeeMug)).isDisplayed();
+            });
             tu.clickElement('xpath', tu.blackCoffeeMug);
+            browser.wait(function () {
+                return element(by.id('out-of-stock-btn')).isDisplayed();
+            });
             tu.clickElement('id', 'out-of-stock-btn');
             browser.sleep(500);
             tu.clickElement('id', tu.cartButtonId);
