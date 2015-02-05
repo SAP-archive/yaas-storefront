@@ -31,106 +31,42 @@ describe('cartToggle Test', function () {
         });
 
         element = angular.element(
-
+                '<div cart-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">' +
+                    '<span name="cartSpan">Cart is Showing</span>' +
+                    '<button id="continue-shopping" ng-click="toggleCart()" >Continue Shopping</button>' +
+                '</div>'
         );
 
         $rootScope =  _$rootScope_;
         _$compile_(element)($rootScope);
     }));
 
-    describe('close cart after timeout', function(){
+    describe('handle the cart opening and closing functionality', function(){
 
-        it('should call createCartTimeout', function(){
+        it('should call createCartTimeout and close the cart after 3 seconds', function(){
+            $rootScope.showCart = true;
             $rootScope.$emit('cart:closeAfterTimeout');
-            expect($scope.cartShouldCloseAfterTimeout).toBe(true);
-            expect($scope.createCartTimeout).toHaveBeenCalled;
-        });
-
-        describe('create cart timeout method', function(){
-
-            it('should call $apply', function(){
-                expect($scope.cartShouldCloseAfterTimeout).toBe(false);
-                $scope.createCartTimeout();
-                expect($scope.$apply).toHaveBeenCalled;
-                expect($scope.cartTimeOut).toMatch(/\d{1,}/)
-            });
-        });
-
-        describe('mouse enters cart area', function(){
-            it('should create the timeout', function(){
-                $scope.cartHover();
-                expect($scope.cartTimeOut).toBeFalsy();
-            })
-        });
-
-        describe('mouse leaves cart area', function(){
-            it('should clear the timeout', function(){
-                $scope.cartUnHover();
-                expect($scope.createCartTimeout).toHaveBeenCalled;
-            })
-        });
-
-        describe('toggleCart', function () {
-            it('should toggle the cart', function () {
-                $scope.toggleCart();
+            $rootScope.$digest();
+            setTimeout(function() {
                 expect($rootScope.showCart).toEqualData(false);
-            });
-        });
-    });
-
-
-
-    describe('update line item', function () {
-
-        it(' should call service update', function () {
-            $scope.updateCartItem({}, 1);
-            expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
+            },4000);
+            $rootScope.$digest();
         });
 
-        it(' should remove item if qty is zero', function () {
-            $scope.updateCartItem({}, 0);
-            expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled;
-        });
-
-    });
-
-    describe('test event watches', function () {
-        it ('should set the scope cart to the event cart when cart updates', function () {
-            var newCart = {
-                id: '9876',
-                items: [
-                    {name: 'Bass Guitar', id: 'bass1234', price: 500, qty: 1}
-                ],
-                currency: 'USD'
-            };
-
-            $rootScope.$emit('cart:updated', {cart: newCart});
-
-            expect($scope.cart).toEqualData(newCart);
-        });
-
-        it('should close cart and reset closeCartAfterTimeout on closeNow', function(){
-            $scope.cartShouldCloseAfterTimeout = false;
+        it('should close the cart now', function(){
             $rootScope.showCart = true;
             $rootScope.$emit('cart:closeNow');
-            expect($rootScope.showCart).toBeFalsy();
-            expect($scope.cartShouldCloseAfterTimeout).toBeTruthy();
+            expect($rootScope.showCart).toEqualData(false);
         });
-    });
 
-    describe('toggle cart', function(){
-        it('should set showCart to false', function(){
+        it('should close the cart on continue shopping click', function(){
             $rootScope.showCart = true;
-            $scope.toggleCart();
-            expect($rootScope.showCart).toBeFalsy();
+            element.find('button[id="continue-shopping"]').click();
+            expect($rootScope.showCart).toEqualData(false);
         });
-    });
 
-    describe('keepCartOpen', function(){
-        it('should set closeCartAfterTimeout to false', function(){
-            $scope.closeCartAfterTimeout = true;
-            $scope.keepCartOpen();
-            expect($scope.cartShouldCloseAfterTimeout).toBeFalsy();
+        it('should clear timeout on mouse hover', function(){
+
         });
     });
 

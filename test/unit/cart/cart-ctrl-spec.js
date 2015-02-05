@@ -72,49 +72,6 @@ describe('CartCtrl Test', function () {
 
     });
 
-    describe('close cart after timeout', function(){
-
-        it('should call createCartTimeout', function(){
-            expect($scope.cartShouldCloseAfterTimeout).toBe(false);
-            $rootScope.$emit('cart:closeAfterTimeout');
-            expect($scope.cartShouldCloseAfterTimeout).toBe(true);
-            expect($scope.createCartTimeout).toHaveBeenCalled;
-        });
-
-        describe('create cart timeout method', function(){
-
-            it('should call $apply', function(){
-                expect($scope.cartShouldCloseAfterTimeout).toBe(false);
-                $scope.createCartTimeout();
-                expect($scope.$apply).toHaveBeenCalled;
-                expect($scope.cartTimeOut).toMatch(/\d{1,}/)
-            });
-        });
-
-        describe('mouse enters cart area', function(){
-            it('should create the timeout', function(){
-                $scope.cartHover();
-                expect($scope.cartTimeOut).toBeFalsy();
-            })
-        });
-
-        describe('mouse leaves cart area', function(){
-            it('should clear the timeout', function(){
-                $scope.cartUnHover();
-                expect($scope.createCartTimeout).toHaveBeenCalled;
-            })
-        });
-
-        describe('toggleCart', function () {
-            it('should toggle the cart', function () {
-                $scope.toggleCart();
-                expect($rootScope.showCart).toEqualData(false);
-            });
-        });
-    });
-
-
-
     describe('update line item', function () {
 
         it(' should call service update', function () {
@@ -143,32 +100,6 @@ describe('CartCtrl Test', function () {
 
             expect($scope.cart).toEqualData(newCart);
         });
-
-        it('should close cart and reset closeCartAfterTimeout on closeNow', function(){
-           $scope.cartShouldCloseAfterTimeout = false;
-            $rootScope.showCart = true;
-            $rootScope.$emit('cart:closeNow');
-            expect($rootScope.showCart).toBeFalsy();
-            expect($scope.cartShouldCloseAfterTimeout).toBeTruthy();
-        });
     });
-
-    describe('toggle cart', function(){
-        it('should set showCart to false', function(){
-           $rootScope.showCart = true;
-            $scope.toggleCart();
-            expect($rootScope.showCart).toBeFalsy();
-        });
-    });
-
-    describe('keepCartOpen', function(){
-       it('should set closeCartAfterTimeout to false', function(){
-          $scope.closeCartAfterTimeout = true;
-           $scope.keepCartOpen();
-           expect($scope.cartShouldCloseAfterTimeout).toBeFalsy();
-       });
-    });
-
-
 
 });
