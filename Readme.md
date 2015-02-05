@@ -52,8 +52,8 @@ Now, let's create a new project for your specific site so that you can modify yo
 If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
 Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
 
-### 2.  Replace the default tenant id in the code base with your own (see project adminstration settings in the Builder).  
-In file public/js/bootstrap.js, replace the default "storeTenant" variable with your own project id.
+### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
+In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id.
 
 ### 3.  Launch a new session 
 Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
@@ -99,9 +99,7 @@ The project has been structured into domain modules under public/js/app.  Within
 Third party dependencies are copied to public/js/vendor via the bower-installer command as part of the npm postinstall target
 (see package.json file).
 
-The angular bootstrapping takes places in file public/js/bootstrap.js.  It is here that you will configure some basic properties 
-for the store front:
--"storeTenant" - the project id that identifies a particular store
+The angular bootstrapping takes places in file public/js/bootstrap.js.  This is where the project ID is provided for your app.
 
 From here, angular will load the "ds.route" module which comprises file public/js/app/app.js. It is here that the application
 if further configured before it can be launched.
@@ -155,12 +153,10 @@ after running the unit test suite.
 There are two distinct localization settings related to the store:  there are the language preferences that are configured in Builder, and then there are translations for all static information that's displayed in a store.  The Builder settings determine the language preferences for data retrieved through services, as well as the available language options that shoppers can select in the store.  The static information (button labels, instructions, etc) are provided in constant files in the code base - see **public/js/app/shared/i18/lang**.  Out of the box, the project currently only provides data in English and in German.  If the preferred language is supported by the app localization settings, it will be selected; otherwise, the static localization will be presented in English.  To support additional languages, provide your own localized constants and load the data in **public/js/app/shared/i18n/providers/translation-providers.js**.
 
 ## Multi-Project Mode
- 
-This project also contains the basic wiring to run the same deployed store template instance against multiple configured storefronts. In order
-to do so, start the server by calling  "npm run-script multiProject".  This will start up the Express.JS server configured in file
-multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
-You can now specify the desired project id as first path segment in the URL.  For instance, in order to run the store against project "myproject",
-specify URL http://localhost:9000/myproject.
+
+This project contains the capability to run the same deployed store template against multiple configured storefronts. In order to do so, start the server by calling  "npm run-script multiProd".  This will start up the Express.JS server configured in file multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
+
+In the multi-project setup, instead of reading the project ID from bootstrap.js, the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: http://localhost:9000/myproject.
 
 ## Security
 

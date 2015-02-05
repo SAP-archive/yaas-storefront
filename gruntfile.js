@@ -6,14 +6,16 @@ module.exports = function (grunt) {
 
     var host = process.env.VCAP_APP_HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || 9000;
-    var JS_DIR = 'public/js/app';
-    var LESS_DIR = 'public/less';
 
-    // Dynamic domain replacement
-    var PROD_DOMAIN = 'api.yaas.io',
-        TEST_DOMAIN = 'yaas-test.apigee.net/test',
+    // Configuration Variables.
+    var JS_DIR = 'public/js/app',
+        LESS_DIR = 'public/less',
+        PROJECT_ID = 'defaultproj',
+        PROJECT_ID_PATH = './public/js/bootstrap.js',
+        PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
-        REPLACEMENT_PATH = './public/js/app/shared/site-config.js',
+        TEST_DOMAIN = 'yaas-test.apigee.net/test',
+        API_DOMAIN_PATH = './public/js/app/shared/site-config.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
@@ -21,11 +23,9 @@ module.exports = function (grunt) {
 
     // Project Configuration
     grunt.initConfig({
-
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
-
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']
@@ -166,7 +166,7 @@ module.exports = function (grunt) {
 
         replace: {
             test: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
@@ -174,7 +174,7 @@ module.exports = function (grunt) {
                 }]
             },
             stage: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
@@ -182,11 +182,19 @@ module.exports = function (grunt) {
                 }]
             },
             prod: {
-                src: [ REPLACEMENT_PATH ],
+                src: [ API_DOMAIN_PATH ],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
                     to: 'StartDynamicDomain*/ \''+ PROD_DOMAIN +'\' /*EndDynamicDomain'
+                }]
+            },
+            projectId: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartProjectId(.*)EndProjectId/g,
+                    to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
                 }]
             }
         }
@@ -206,6 +214,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', 'Build parameters for build',
       function(domainParam){
         runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
         grunt.task.run('jshint');
         grunt.task.run('less:dev');
         grunt.task.run('optimizeCode');
@@ -216,6 +225,7 @@ module.exports = function (grunt) {
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
         runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
         grunt.task.run('singleProjectTask');
     });
 
@@ -223,6 +233,7 @@ module.exports = function (grunt) {
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
         runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
         grunt.task.run('multiProjectTask');
     });
 
@@ -230,6 +241,7 @@ module.exports = function (grunt) {
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
       function(domainParam){
         runDomainReplace(domainParam);
+        grunt.task.run('replace:projectId');
         grunt.task.run('optimizeCode');
     });
 

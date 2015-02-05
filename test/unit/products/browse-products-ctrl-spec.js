@@ -54,7 +54,9 @@ describe('BrowseProductsCtrl', function () {
         $q = _$q_;
         mockedProductSvc = {};
         productResult = [
-            {'id': 'prod1', 'name': 'prod1'}
+            {'id': 'prod1', 'name': 'prod1', media: [{url: 'http://myimageurl1'}, {url: 'http://myimageurl1'}]},
+            {'id': 'prod2', 'name': 'prod2', media: [{url: 'http://myimageurl1', customAttributes:{}},
+                                                     {url: 'http://myimageurl2', customAttributes:{main: true}}] },
         ];
         productResult.headers =  [];
         deferredProducts = $q.defer();
@@ -108,6 +110,16 @@ describe('BrowseProductsCtrl', function () {
             expect(mockedProductSvc.query).toHaveBeenCalled();
             // indirect testing via resolved promise
             expect($scope.products).toEqualData(productResult);
+        });
+
+        it('should use first URL if no <<main>> image', function(){
+            $scope.$digest();
+            expect($scope.products[0].mainImageURL).toEqualData('http://myimageurl1');
+        });
+
+        it('should use the main image URL if present', function(){
+            $scope.$digest();
+            expect($scope.products[1].mainImageURL).toEqualData('http://myimageurl2');
         });
 
     });

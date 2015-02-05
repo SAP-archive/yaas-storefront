@@ -25,7 +25,7 @@ angular.module('ds.shared')
         function SiteConfigSvcProvider(storeConfig) {
 
             // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            var dynamicDomain = /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
+            var dynamicDomain = /*StartDynamicDomain*/ 'yaas-test.apigee.net/test' /*EndDynamicDomain*/;
 
             var tenantId = '';
 
@@ -67,7 +67,7 @@ angular.module('ds.shared')
                 },
 
                 prices: {
-                    baseUrl: 'https://' + dynamicDomain + '/price/v3/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/price/v4/' + tenantId
                 },
 
                 products: {

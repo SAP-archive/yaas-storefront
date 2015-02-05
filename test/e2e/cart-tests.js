@@ -16,7 +16,12 @@ function loadProductIntoCart(cartAmount, cartTotal) {
         return element(by.id(tu.buyButton)).isPresent();
     });
     tu.clickElement('id', tu.buyButton);
-    tu.waitForCart();
+    //wait for cart to close
+    browser.sleep(4000);
+    browser.wait(function () {
+        return element(by.id(tu.cartButtonId)).isDisplayed();
+    });
+    tu.clickElement('id', tu.cartButtonId);
     tu.verifyCartAmount(cartAmount);
     tu.verifyCartTotal(cartTotal);
 }
@@ -24,18 +29,15 @@ function loadProductIntoCart(cartAmount, cartTotal) {
 
 describe("cart:", function () {
 
-    beforeEach(function () {
-        browser.driver.manage().window().maximize();
-
-    });
-
-    describe("verify cart functionality", function () {
-
         beforeEach(function () {
             browser.manage().deleteAllCookies();
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
+            browser.driver.manage().window().setSize(1200, 1100);
             browser.get(tu.tenant + '/#!/ct/');
         });
+
+    describe("verify cart functionality", function () {
+
 
 
         it('should load one product into cart', function () {
@@ -46,7 +48,7 @@ describe("cart:", function () {
         });
 
         it('should load one product into cart in Euros', function () {
-            tu.selectCurrency('Euro');
+            tu.selectCurrency('EURO');
             loadProductIntoCart('1', '€7.99');
             tu.clickElement('id', tu.removeFromCart);
             browser.sleep(1000);
@@ -56,8 +58,9 @@ describe("cart:", function () {
         it('should load one product into cart in USD and change to Euros', function () {
             loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            tu.selectCurrency('Euro');
+            tu.selectCurrency('EURO');
             tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart(); 
             tu.verifyCartTotal('€7.99');
         });
 
@@ -76,11 +79,22 @@ describe("cart:", function () {
             tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(250);
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isDisplayed();
+            });
             tu.clickElement('xpath', tu.whiteCoffeeMug);
-            browser.sleep(1000);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isDisplayed();
+            });
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(4000);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
+            browser.sleep(300);
             tu.verifyCartAmount("1");
             tu.verifyCartTotal("$10.67");
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
@@ -98,7 +112,6 @@ describe("cart:", function () {
         });
 
 
-        //once cart bugs are fixed add multiple products to this test 10/3
         it('should update quantity', function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
@@ -106,69 +119,62 @@ describe("cart:", function () {
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
-            browser.sleep(2000);
             tu.clickElement('id', tu.buyButton);
-            tu.waitForCart();
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(1000);
+            //wait for cart to close
+            browser.sleep(4000);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
             tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(1000);
+            tu.waitForCart();
             tu.verifyCartAmount("1");
             tu.verifyCartTotal("$10.67");
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(2000);
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(1000);
+            browser.sleep(4000);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
             tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
             tu.verifyCartAmount('2');
             browser.sleep(1000);
             tu.verifyCartTotal('$21.34');
             tu.sendKeysByXpath(tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
+            tu.clickElement('binding', 'EST_ORDER_TOTAL');
+            browser.sleep(1000);
             tu.verifyCartAmount("5");
             tu.verifyCartTotal("$53.35");
             tu.sendKeysByXpath(tu.cartQuantity, '10');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(2000);
+            browser.sleep(1000);
+            tu.clickElement('binding', 'EST_ORDER_TOTAL');
+            browser.sleep(1000);
             tu.verifyCartAmount("10");
             tu.verifyCartTotal("$106.70");
         });
 
         it('should not add out of stock item', function () {
             tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(250);
+            tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            browser.wait(function () {
+                return element(by.xpath(tu.blackCoffeeMug)).isDisplayed();
+            });
             tu.clickElement('xpath', tu.blackCoffeeMug);
+            browser.wait(function () {
+                return element(by.id('out-of-stock-btn')).isDisplayed();
+            });
             tu.clickElement('id', 'out-of-stock-btn');
             browser.sleep(500);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
         });
-
-        // it('should not allow negative numbers', function () {
-        //  tu.clickElement('id', tu.cartButtonId);
-        //  browser.sleep(250);
-        //  expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-        //  tu.clickElement('binding', 'CONTINUE_SHOPPING');
-        //  tu.clickElement('xpath', tu.whiteCoffeeMug);
-        //  browser.sleep(1000);
-        //  tu.clickElement('id', tu.buyButton);
-        //  browser.sleep(250);
-        //  tu.verifyCartTotal("$10.67");
-        //  tu.sendKeysByXpath(tu.cartQuantity, '-5');
-        //  tu.clickElement('xpath', "//div[@id='cart']/div/div[2]/section[2]/div/div/div[2]/div");
-        //  tu.verifyCartAmount('5');
-        //  browser.sleep(250);
-        //  tu.verifyCartTotal('$53.35');
-        //  tu.sendKeysByXpath(tu.cartQuantity, 'it should not accept alpha');
-        //  tu.verifyCartAmount('');
-        //  tu.verifyCartTotal('$53.35');
-        // });
 
         it('should retrieve previous cart', function () {
             tu.loginHelper('cart@test.com', 'password');
@@ -177,7 +183,7 @@ describe("cart:", function () {
             tu.verifyCartTotal('$7.99');
         });
 
-        it('should automatically close when mousing off', function () {
+        xit('should automatically close when mousing off', function () {
             loadProductIntoCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
             // wait over 3 seconds 
