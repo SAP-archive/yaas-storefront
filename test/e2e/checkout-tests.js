@@ -23,7 +23,9 @@ function fillCheckoutFormExceptEmail(form) {
 }
 
 function verifyOrderConfirmation(email, name, number, cityStateZip) {
-    browser.sleep(15000);
+    browser.wait(function () {
+        return element(by.css('address > span.ng-binding')).isPresent();
+    });
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
@@ -33,7 +35,6 @@ function verifyOrderConfirmation(email, name, number, cityStateZip) {
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
     expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-    expect(element(by.binding("cart.totalPrice.value")).getText()).toContain(totalPrice);
     expect(element(by.css("tfoot > tr > td.text-right.ng-binding")).getText()).toEqual(totalPrice);
     expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
 
@@ -66,8 +67,10 @@ function loginAndContinueToCheckout(account, capsAccount) {
     tu.clickElement('id', tu.contineShopping);
     browser.sleep(500);
     tu.loginHelper(account, 'password');
+    browser.sleep(500);
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
+    browser.sleep(500);
     tu.clickElement('binding', 'CHECKOUT');
     browser.wait(function () {
         return element(by.id("ccNumber")).isPresent();
@@ -79,11 +82,10 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     fillCreditCardForm('5555555555554444', '06', '2015', '000');
     browser.sleep(500)
     tu.clickElement('id', 'place-order-btn');
-    //browser.sleep(20000);
     verifyOrderConfirmation(capsAccount, 'MIKE', '123', 'BOULDER, CO 80301');
     tu.clickElement('binding', 'orderInfo.orderId');
     expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
-    tu.clickElement('id', "logout-btn");
+    // tu.clickElement('id', "logout-btn");
 }
 
 // not validated yet - selectors may not be accurate - TODO
@@ -122,19 +124,20 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
 
 describe("checkout:", function () {
 
-    beforeEach(function () {
-        browser.driver.manage().window().maximize();
-    });
 
     describe("verify checkout functionality", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
+            browser.driver.manage().window().setSize(1000, 1200);
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(4000);
+            tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
         });
 
@@ -149,17 +152,32 @@ describe("checkout:", function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('binding', 'CHECKOUT');         
             clickOnModal()
+            browser.wait(function () {
+                return element(by.binding("ORDER_TOTAL")).isPresent();
+            });
             verifyCartContents('Item Price: $10.67', '$24.61', '2');
         });
 
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
+            browser.wait(function () {
+                return element(by.repeater('category in categories').row(1).column('category.name')).isPresent();
+            });
             element(by.repeater('category in categories').row(1).column('category.name')).click();
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteThermos)).isPresent();
+            });
             tu.clickElement('xpath', tu.whiteThermos);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(100);
+            //wait for cart to close
+            browser.sleep(4000);
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
+            clickOnModal();
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
         });
 
@@ -171,7 +189,7 @@ describe("checkout:", function () {
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
-            browser.sleep(500)
+            browser.sleep(500);
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             fillCheckoutFormExceptEmail('Ship');
@@ -206,6 +224,7 @@ describe("checkout:", function () {
             tu.clickElement('id', 'place-order-btn');
             browser.executeScript("document.getElementById('ccNumber').style.display='block';");
             validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
+            tu.clickElement('id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
@@ -268,7 +287,7 @@ describe("checkout:", function () {
 describe("mobile checkout:", function () {
 
     beforeEach(function () {
-        browser.driver.manage().window().setSize(750, 1100);
+        browser.driver.manage().window().setSize(750, 1200);
     });
 
     describe("verify mobile checkout functionality", function () {
@@ -276,6 +295,10 @@ describe("mobile checkout:", function () {
         beforeEach(function () {
             browser.manage().deleteAllCookies();
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+            browser.switchTo().alert().then(
+            function (alert) { alert.accept(); },
+            function (err) { }
+            );
         });
 
         var continueButton1 = '//div[15]/button'
@@ -285,6 +308,12 @@ describe("mobile checkout:", function () {
 
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(4000);
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
@@ -309,6 +338,12 @@ describe("mobile checkout:", function () {
 
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(4000);
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
@@ -329,8 +364,6 @@ describe("mobile checkout:", function () {
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('xpath', paymentButton);
             tu.clickElement('id', "place-order-btn");
-            //browser.sleep(20000);
-            // expect(element(by.css('span.highlight.ng-binding')).getText()).toContain('Order# ');
             verifyOrderConfirmation('MIKE@NIGHT.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
