@@ -33,7 +33,6 @@ describe('cartAutoToggle Test', function () {
         element = angular.element(
                 '<div cart-auto-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">' +
                     '<span name="cartSpan">Cart is Showing</span>' +
-                    '<button id="continue-shopping" ng-click="toggleCart()" >Continue Shopping</button>' +
                 '</div>'
         );
 
@@ -57,16 +56,6 @@ describe('cartAutoToggle Test', function () {
             $rootScope.showCart = true;
             $rootScope.$emit('cart:closeNow');
             expect($rootScope.showCart).toEqualData(false);
-        });
-
-        it('should close the cart on continue shopping click', function(){
-            $rootScope.showCart = true;
-            element.find('button[id="continue-shopping"]').click();
-            expect($rootScope.showCart).toEqualData(false);
-        });
-
-        it('should clear timeout on mouse hover', function(){
-
         });
     });
 

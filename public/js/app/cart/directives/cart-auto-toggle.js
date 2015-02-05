@@ -62,12 +62,6 @@ angular.module('ds.cart')
 
                 scope.$on('$destroy', unbind2, unbind3);
 
-                /** Toggles the "show cart view" property.
-                 */
-                scope.toggleCart = function (){
-                    $rootScope.showCart = false;
-                };
-
                 scope.cartHover = function()
                 {
                     clearTimeout(scope.cartTimeOut);

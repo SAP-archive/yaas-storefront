@@ -33,6 +33,12 @@ angular.module('ds.cart')
             CartSvc.removeProductFromCart(itemId);
         };
 
+        /** Toggles the "show cart view" property.
+         */
+        $scope.toggleCart = function (){
+            $rootScope.showCart = false;
+        };
+
         /**
          *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
          */

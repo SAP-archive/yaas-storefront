@@ -102,4 +102,10 @@ describe('CartCtrl Test', function () {
         });
     });
 
+    it('should toggle the cart', function () {
+        $rootScope.showCart = true;
+        $scope.toggleCart();
+        expect($rootScope.showCart).toEqualData(false);
+    });
+
 });
