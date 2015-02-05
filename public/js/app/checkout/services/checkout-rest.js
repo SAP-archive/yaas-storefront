@@ -19,7 +19,17 @@ angular.module('ds.checkout')
             /** Configures main checkout API endpoint.*/
             Checkout: Restangular.withConfig(function(RestangularConfigurer) {
 							RestangularConfigurer.setBaseUrl(siteConfig.apis.checkout.baseUrl);
+
+                RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+                    return {
+                        element: element,
+                        params: params,
+                        headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
+                        httpConfig: httpConfig
+                    };
+                });
             }),
+
             /** Configures main shipping costs API endpoint.*/
             ShippingCosts: Restangular.withConfig(function(RestangularConfigurer) {
 							RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingCosts.baseUrl);

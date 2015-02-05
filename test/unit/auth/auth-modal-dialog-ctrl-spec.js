@@ -66,6 +66,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
 
 
+
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_, _$window_) {
 
         this.addMatchers({
@@ -106,8 +107,8 @@ describe('AuthModalDialogCtrl Test', function () {
             socialLogin: jasmine.createSpy('socialLogin')
         };
 
-        AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, $q: $q, AuthSvc: MockedAuthSvc,
-                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, $window: $window , showAsGuest: false}
+        AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, AuthSvc: MockedAuthSvc,
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false}
        );
     });
 

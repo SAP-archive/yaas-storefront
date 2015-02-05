@@ -1,0 +1,16 @@
+<div class="selectorListContainer" ng-style="{ width: currencies.length <= 3 ? (currencies.length * 207) + 'px' : (3*207) + 'px' }">
+    <div class="row popoverHeader">
+        {{'CURRENCY' | translate}}
+    </div>
+    <div class="entities">
+        <div ng-repeat="currencyType in currencies" class="pull-left entityWrapper">
+            <span class="entity" ng-class="{'active': currency.selected.label == currencyType.label}" ng-show="currency.selected.label == currencyType.label">
+                <span class="uppercase">{{currencyType.label | translate}}</span>
+            </span>
+            <a ng-show="currency.selected.label != currencyType.label" ng-click="updateCurrency(currencyType)" class="entity" >
+                <span class="uppercase">{{currencyType.label | translate}}</span>
+            </a>
+        </div>
+    </div>
+
+</div>
