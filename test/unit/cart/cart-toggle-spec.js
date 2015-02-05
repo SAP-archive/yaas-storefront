@@ -1,0 +1,137 @@
+/*
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2014 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+describe('cartToggle Test', function () {
+
+    var $rootScope, element;
+
+    //***********************************************************************
+    // Common Setup
+    // - shared setup between constructor validation and method validation
+    //***********************************************************************
+
+    // configure the target controller's module for testing - see angular.mock
+    beforeEach(angular.mock.module('ds.cart'));
+
+    beforeEach(inject(function(_$rootScope_, _$compile_) {
+
+        this.addMatchers({
+            toEqualData: function (expected) {
+                return angular.equals(this.actual, expected);
+            }
+        });
+
+        element = angular.element(
+
+        );
+
+        $rootScope =  _$rootScope_;
+        _$compile_(element)($rootScope);
+    }));
+
+    describe('close cart after timeout', function(){
+
+        it('should call createCartTimeout', function(){
+            $rootScope.$emit('cart:closeAfterTimeout');
+            expect($scope.cartShouldCloseAfterTimeout).toBe(true);
+            expect($scope.createCartTimeout).toHaveBeenCalled;
+        });
+
+        describe('create cart timeout method', function(){
+
+            it('should call $apply', function(){
+                expect($scope.cartShouldCloseAfterTimeout).toBe(false);
+                $scope.createCartTimeout();
+                expect($scope.$apply).toHaveBeenCalled;
+                expect($scope.cartTimeOut).toMatch(/\d{1,}/)
+            });
+        });
+
+        describe('mouse enters cart area', function(){
+            it('should create the timeout', function(){
+                $scope.cartHover();
+                expect($scope.cartTimeOut).toBeFalsy();
+            })
+        });
+
+        describe('mouse leaves cart area', function(){
+            it('should clear the timeout', function(){
+                $scope.cartUnHover();
+                expect($scope.createCartTimeout).toHaveBeenCalled;
+            })
+        });
+
+        describe('toggleCart', function () {
+            it('should toggle the cart', function () {
+                $scope.toggleCart();
+                expect($rootScope.showCart).toEqualData(false);
+            });
+        });
+    });
+
+
+
+    describe('update line item', function () {
+
+        it(' should call service update', function () {
+            $scope.updateCartItem({}, 1);
+            expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
+        });
+
+        it(' should remove item if qty is zero', function () {
+            $scope.updateCartItem({}, 0);
+            expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled;
+        });
+
+    });
+
+    describe('test event watches', function () {
+        it ('should set the scope cart to the event cart when cart updates', function () {
+            var newCart = {
+                id: '9876',
+                items: [
+                    {name: 'Bass Guitar', id: 'bass1234', price: 500, qty: 1}
+                ],
+                currency: 'USD'
+            };
+
+            $rootScope.$emit('cart:updated', {cart: newCart});
+
+            expect($scope.cart).toEqualData(newCart);
+        });
+
+        it('should close cart and reset closeCartAfterTimeout on closeNow', function(){
+            $scope.cartShouldCloseAfterTimeout = false;
+            $rootScope.showCart = true;
+            $rootScope.$emit('cart:closeNow');
+            expect($rootScope.showCart).toBeFalsy();
+            expect($scope.cartShouldCloseAfterTimeout).toBeTruthy();
+        });
+    });
+
+    describe('toggle cart', function(){
+        it('should set showCart to false', function(){
+            $rootScope.showCart = true;
+            $scope.toggleCart();
+            expect($rootScope.showCart).toBeFalsy();
+        });
+    });
+
+    describe('keepCartOpen', function(){
+        it('should set closeCartAfterTimeout to false', function(){
+            $scope.closeCartAfterTimeout = true;
+            $scope.keepCartOpen();
+            expect($scope.cartShouldCloseAfterTimeout).toBeFalsy();
+        });
+    });
+
+});

@@ -16,10 +16,6 @@ angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
     .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
-
-        $scope.cartAutoTimeoutLength = 3000;
-        $scope.cartShouldCloseAfterTimeout = false;
-        $scope.cartTimeOut = void 0;
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
@@ -28,53 +24,13 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
-        var closeCart = function(fromTimeout)
-        {
-            //update angulars data binding to showCart
-            $rootScope.showCart = false;
-            $scope.cartShouldCloseAfterTimeout = false;
-            if (fromTimeout) {
-                $scope.$apply();
-            }
-            
-        };
-
-        $scope.createCartTimeout = function()
-        {
-            //create a timeout object in order to close the cart if it's not hovered
-            $scope.cartTimeOut = _.delay(
-                function()
-                {
-                    //close the cart
-                    closeCart(true);
-                },
-                $scope.cartAutoTimeoutLength);
-        };
-
-        var unbind2 = $rootScope.$on('cart:closeAfterTimeout', function(){
-            $scope.cartShouldCloseAfterTimeout = true;
-            //create a timeout object in order to close the cart if it's not hovered
-            $scope.createCartTimeout();
-        });
-
-        var unbind3 = $rootScope.$on('cart:closeNow', function(){
-            $scope.cartShouldCloseAfterTimeout = true;
-            $rootScope.showCart = false;
-        });
-
-        $scope.$on('$destroy', unbind, unbind2, unbind3);
+        $scope.$on('$destroy', unbind);
 
         /** Remove a product from the cart.
          * @param cart item id
          * */
         $scope.removeProductFromCart = function (itemId) {
             CartSvc.removeProductFromCart(itemId);
-        };
-
-        /** Toggles the "show cart view" property.
-         */
-        $scope.toggleCart = function (){
-            $rootScope.showCart = false;
         };
 
         /**
@@ -87,25 +43,6 @@ angular.module('ds.cart')
             else if (!itemQty || itemQty === 0) {
                 CartSvc.removeProductFromCart(item.id);
             }
-        };
-
-        $scope.cartHover = function()
-        {
-            clearTimeout($scope.cartTimeOut);
-        };
-
-        $scope.keepCartOpen = function(){
-            $scope.cartShouldCloseAfterTimeout = false;
-        };
-
-        $scope.cartUnHover = function()
-        {
-            //if none of the inputs are focused then create the 3 second timer after mouseout
-            if( !$('#cart input').is(':focus') && $scope.cartShouldCloseAfterTimeout )
-            {
-                closeCart();
-            }
-
         };
 
     }]);

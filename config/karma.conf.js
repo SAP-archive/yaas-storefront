@@ -62,6 +62,7 @@ module.exports = function(config){
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
+        'public/js/app/cart/directives/cart-toggle.js',
         'public/js/app/cart/services/cart-service.js',
         'public/js/app/cart/services/cart-rest.js',
 
