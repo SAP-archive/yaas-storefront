@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('cartToggle Test', function () {
+describe('cartAutoToggle Test', function () {
 
     var $rootScope, element;
 
@@ -31,7 +31,7 @@ describe('cartToggle Test', function () {
         });
 
         element = angular.element(
-                '<div cart-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">' +
+                '<div cart-auto-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">' +
                     '<span name="cartSpan">Cart is Showing</span>' +
                     '<button id="continue-shopping" ng-click="toggleCart()" >Continue Shopping</button>' +
                 '</div>'

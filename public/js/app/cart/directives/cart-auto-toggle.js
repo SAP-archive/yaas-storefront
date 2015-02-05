@@ -14,11 +14,11 @@
 
 angular.module('ds.cart')
 /**
- * cart-toggle
+ * cart-auto-toggle
  * This directive manages the cart's display
  * @return {Object}
  */
-    .directive('cartToggle',['$rootScope', function($rootScope){
+    .directive('cartAutoToggle',['$rootScope', function($rootScope){
         return {
             restrict: 'A',
             link: function(scope) {
