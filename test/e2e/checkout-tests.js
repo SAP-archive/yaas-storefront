@@ -123,20 +123,19 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
 
 describe("checkout:", function () {
 
-    beforeEach(function () {
-        browser.manage().deleteAllCookies();
-        browser.driver.manage().window().setSize(1000, 1200);
-    });
 
     describe("verify checkout functionality", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
+            browser.driver.manage().window().setSize(1000, 1200);
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
             tu.clickElement('id', tu.buyButton);
+            browser.sleep(4000)
+            tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
         });
 
@@ -148,12 +147,6 @@ describe("checkout:", function () {
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.wait(function () {
-                return element(by.id(tu.cartButtonId)).isDisplayed();
-            });
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('binding', 'CHECKOUT');         
             clickOnModal()
@@ -172,7 +165,8 @@ describe("checkout:", function () {
             });
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
-            tu.waitForCart();
+            browser.sleep(4000)
+            tu.clickElement('id', tu.cartButtonId);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
@@ -186,7 +180,7 @@ describe("checkout:", function () {
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
-            browser.sleep(500)
+            browser.sleep(500);
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
             fillCheckoutFormExceptEmail('Ship');
@@ -305,8 +299,12 @@ describe("mobile checkout:", function () {
 
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
+            browser.sleep(4000)
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
             tu.waitForCart();
-            browser.sleep(500);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');
@@ -330,8 +328,12 @@ describe("mobile checkout:", function () {
 
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
+            browser.sleep(4000)
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
             tu.waitForCart();
-            browser.sleep(500);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
             tu.sendKeysById('email', 'mike@night.com');
