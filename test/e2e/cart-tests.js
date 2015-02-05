@@ -87,6 +87,7 @@ describe("cart:", function () {
                 return element(by.id(tu.buyButton)).isDisplayed();
             });
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
             browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
@@ -119,6 +120,7 @@ describe("cart:", function () {
             browser.sleep(250);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
             browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();

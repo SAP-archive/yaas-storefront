@@ -71,8 +71,8 @@ describe("Localization", function () {
         it('should load cart in english', function () {
             tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
-            tu.waitForCart();
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            //wait for cart to close
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
@@ -89,8 +89,8 @@ describe("Localization", function () {
             tu.clickElement('css', 'div.thumb');
             tu.selectLanguage('GERMAN');
             tu.clickElement('id', 'buy-button');
-            tu.waitForCart();
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
+            //wait for cart to close
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });

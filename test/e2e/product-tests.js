@@ -31,7 +31,6 @@ describe("product page", function () {
             });
         });
 
-        // should be # of 31, but overall product count doesn't work in phantomjs
         it('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
             expect(element(by.css('div.page-indicator.ng-binding')).getText()).toEqual('1-8 of 37');

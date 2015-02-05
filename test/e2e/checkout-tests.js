@@ -67,6 +67,7 @@ function loginAndContinueToCheckout(account, capsAccount) {
     tu.clickElement('id', tu.contineShopping);
     browser.sleep(500);
     tu.loginHelper(account, 'password');
+    browser.sleep(500);
     tu.clickElement('id', tu.cartButtonId);
     tu.waitForCart();
     browser.sleep(500);
@@ -84,7 +85,7 @@ function checkoutAsLoggedInUserTest(account, capsAccount) {
     verifyOrderConfirmation(capsAccount, 'MIKE', '123', 'BOULDER, CO 80301');
     tu.clickElement('binding', 'orderInfo.orderId');
     expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
-    tu.clickElement('id', "logout-btn");
+    // tu.clickElement('id', "logout-btn");
 }
 
 // not validated yet - selectors may not be accurate - TODO
@@ -134,7 +135,8 @@ describe("checkout:", function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(4000)
+            //wait for cart to close
+            browser.sleep(4000);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
         });
@@ -158,15 +160,22 @@ describe("checkout:", function () {
 
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
-            browser.sleep(500);
+            browser.wait(function () {
+                return element(by.repeater('category in categories').row(1).column('category.name')).isPresent();
+            });
             element(by.repeater('category in categories').row(1).column('category.name')).click();
             browser.wait(function () {
                 return element(by.xpath(tu.whiteThermos)).isPresent();
             });
             tu.clickElement('xpath', tu.whiteThermos);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(4000)
+            //wait for cart to close
+            browser.sleep(4000);
             tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             verifyCartContents('Item Price: $10.67', '$23.92', '1');
@@ -299,7 +308,8 @@ describe("mobile checkout:", function () {
 
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(4000)
+            //wait for cart to close
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id('mobile-cart-btn')).isDisplayed();
             });
@@ -328,7 +338,8 @@ describe("mobile checkout:", function () {
 
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
-            browser.sleep(4000)
+            //wait for cart to close
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id('mobile-cart-btn')).isDisplayed();
             });

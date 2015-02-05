@@ -2,8 +2,8 @@ var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
     allScriptsTimeout: 30000,
-    // sauceUser: 'BSDQA',
-    // sauceKey: 'd91f4799-f3bc-4736-b699-1931d87b6db0',    
+    sauceUser: process.env.SAUCE_USERNAME,
+    sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: [
         '../test/e2e/*-tests.js'
@@ -11,7 +11,11 @@ exports.config = {
 
 
     capabilities: {
+        'platform': 'OS X 10.8',
         'browserName': 'chrome',
+        'screen-resolution': '1280x1024',
+        'record-video': false,
+        // not currently using phantomjs
         // 'browserName': 'phantomjs',
         'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
 
@@ -37,12 +41,12 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://shops-test.dev.cf.hybris.com',
+    baseUrl: 'http://shops.dev.cf.hybris.com',
 
 
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 90000
+        defaultTimeoutInterval: 150000
     }
 };
