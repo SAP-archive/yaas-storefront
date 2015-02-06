@@ -4,23 +4,25 @@
 
 <div class="authentication-cnt text-center hy-stickyComponent">
     <div ng-if="user.isAuthenticated" >
-        <p>
+        <div class="signinContainer">
             <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
                 <img src="./img/user-icon_small_active.png" class="user-avatar">
             </a>
-        </p>
+        </div>
         <p>
             <a ng-click="logout()" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a>
         </p>
     </div>
 
     <div ng-if="!user.isAuthenticated">
-        <p>
-            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over data-placement="right" popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
+
+        <div class="signinContainer">
+            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over  data-placement="auto"  popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
+
                 <img src="./img/user-icon_small.png" class="user-avatar">
                 {{'SIGN_IN' | translate}}
             </a>
-        </p>
+        </div>
     </div>
 </div>
 
@@ -54,43 +56,29 @@
     <div class="seperator"></div>
 </div>
 
-<div class="store-settings" ng-cloak>
-    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1">
-        <ui-select-match id="language-select" placeholder="Select language" >
-            <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]">{{$select.selected.value | translate}}
-        </ui-select-match>
-        <ui-select-choices repeat="lang in languages | filter: $select.search">
-            <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20" ng-if="localeImages[lang.iso]">
-            <span ng-bind-html="lang.value | translate | highlight: $select.search"></span>
-        </ui-select-choices>
-    </ui-select>
-
-    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1">
-        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
-        </ui-select-match>
-        <ui-select-choices repeat="curr in currencies | filter: $select.search">
-            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
-        </ui-select-choices>
-    </ui-select>
+<div class="store-settings hidden-md hidden-lg" >
+    <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
+        <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
+            <!--<option value="">{{'SELECT_LANGUAGE' | translate}}</option>-->
+        </select>
+    </div>
+    <div ng-controller="currencySelectorController" ng-cloak class="selectContainer">
+        <select ng-model="currency.selected" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1" ng-options="curr.label for curr in currencies">
+            <!--<option value="">{{'SELECT_CURRENCY' | translate}}</option>-->
+        </select>
+    </div>
 </div>
 
-<div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak>
-    <ui-select ng-model="language.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1">
-        <ui-select-match id="language-select" placeholder="Select language" >
-            <img ng-src="./img/flags/{{$select.selected.iso}}.jpg" width="20" ng-if="localeImages[$select.selected.iso]"> {{$select.selected.value}}
-        </ui-select-match>
-        <ui-select-choices repeat="lang in languages | filter: $select.search">
-            <img ng-src="./img/flags/{{lang.iso}}.jpg" width="20" ng-if="localeImages[lang.iso]">
-            <span ng-bind-html="lang.value | highlight: $select.search"></span>
-        </ui-select-choices>
-    </ui-select>
-
-    <ui-select ng-model="currency.selected" theme="bootstrap" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1">
-        <ui-select-match id="currency-select" placeholder="Select currency">{{$select.selected.id | translate}} {{$select.selected.label}}
-        </ui-select-match>
-        <ui-select-choices repeat="curr in currencies | filter: $select.search">
-            <span ng-bind-html="curr.label | translate | highlight: $select.search"></span>
-        </ui-select-choices>
-    </ui-select>
+<div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak >
+    <div class="configSelector" ng-controller="languageSelectorController">
+        <div data-placement="auto" popover-Class="languageSelectorContainer" pop-over popover-Controller="languageSelectorController" template-Url="./js/app/shared/templates/language-selector.html">
+            <p class="languageSelector" ng-if="languages.length > 1" >{{language.selected.value | translate}}</p>
+        </div>
+    </div>
+    <div class="configSelector" ng-controller="currencySelectorController">
+        <div data-placement="auto" popover-Class="currencySelectorContainer" pop-over popover-Controller="currencySelectorController" template-Url="./js/app/shared/templates/currency-selector.html">
+            <p class="currencySelector" ng-if="currencies.length > 1">{{currency.selected.id | translate}}</p>
+        </div>
+    </div>
 </div>
 

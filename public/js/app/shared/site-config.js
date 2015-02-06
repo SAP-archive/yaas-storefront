@@ -67,7 +67,7 @@ angular.module('ds.shared')
                 },
 
                 prices: {
-                    baseUrl: 'https://' + dynamicDomain + '/price/v3/' + tenantId
+                    baseUrl: 'https://' + dynamicDomain + '/price/v4/' + tenantId
                 },
 
                 products: {

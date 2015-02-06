@@ -39,11 +39,14 @@ angular.module('ds.auth')
 
         link: function (scope, element) {
 
+            var template = '';
             $.ajax({url:scope.templateUrl}).done(
                 function(data){
+                    template =  ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>');
                     var options = {
+                        trigger: 'click',
                         html: true,
-                        template: ('<div class="popover '+ scope.popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="glyphicon glyphicon-remove js-closePopover popoverCloseBtn pull-right" aria-hidden="true"></div><div class="clear"></div><div class="popover-content"></div></div>'),
+                        template:template,
                         content:  $compile(data)(scope)
                     };
 

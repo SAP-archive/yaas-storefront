@@ -3,16 +3,22 @@
   "version": "0.0.1",
   "description": "Single page javascript application to demonstrate CAAS APIs.",
   "main": "public/js/shared-index.js",
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt default:prod",
-    "startTest": "node node_modules/grunt-cli/bin/grunt default:test",
-    "singleTenantProd": "node node_modules/grunt-cli/bin/grunt default:prod",
-    "singleTenantStage": "node node_modules/grunt-cli/bin/grunt default:stage",
-    "test": "node node_modules/grunt-cli/bin/grunt test",
-    "multiTenant": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
-    "multiTenantTest": "node node_modules/grunt-cli/bin/grunt multiTenant:test",
-    "multiTenantProd": "node node_modules/grunt-cli/bin/grunt multiTenant:prod",
-    "multiTenantStage": "node node_modules/grunt-cli/bin/grunt multiTenant:stage",
+    "start": "node node_modules/grunt-cli/bin/grunt singleProject:prod",
+    "singleTest": "node node_modules/grunt-cli/bin/grunt singleProject:test",
+    "singleStage": "node node_modules/grunt-cli/bin/grunt singleProject:stage",
+    "singleProd": "node node_modules/grunt-cli/bin/grunt singleProject:prod",
+    "multiTest": "node node_modules/grunt-cli/bin/grunt multiProject:test",
+    "multiStage": "node node_modules/grunt-cli/bin/grunt multiProject:stage",
+    "multiProd": "node node_modules/grunt-cli/bin/grunt multiProject:prod",
+    "prepareProd": "node node_modules/grunt-cli/bin/grunt prepareBuild:prod",
+    "prepareTest": "node node_modules/grunt-cli/bin/grunt prepareBuild:test",
+    "prepareStage": "node node_modules/grunt-cli/bin/grunt prepareBuild:stage",
+    "startServer": "node node_modules/grunt-cli/bin/grunt startServer --single",
+    "startServerMulti": "node node_modules/grunt-cli/bin/grunt startServer --multiple",
     "postinstall": "bower install"
   },
   "dependencies": {
@@ -61,6 +67,7 @@
     "karma-script-launcher": "~0.1.0",
     "phantomcss": "^0.4.5",
     "phantomjs": "^1.9.12",
+    "protractor": "^1.6.1",
     "protractor-screenshot-reporter": "0.0.5",
     "resemblejs": "^1.0.1"
   },

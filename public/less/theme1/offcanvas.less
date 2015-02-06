@@ -13,20 +13,22 @@ html.disable-scroll{
   overflow-y: hidden;
 }
 
+
 /* MENU */
 .sidebar-offcanvas{
 
   .popover{
     &.loginPopover{
-      max-width: 535px;
-      min-width: 535px;
-      margin-top: 80px;
+      max-width: 595px;
+      min-width: 595px;
     }
     background-color:#ebebeb;
     border: none;
     background-clip: initial;
-    margin: 8px 0 0 40px;
+    margin: 8px 0 0 0;
     .box-shadow(7px 7px 9px rgba(0,0,0,.2));
+    
+    
   }
   .popover.right{
     .arrow{
@@ -63,23 +65,22 @@ html.disable-scroll{
 .top-navigation{
 
   .popover{
+    max-width: none;
+    font-size:12px !important;
     z-index:1031;
     .modal-body{
       section{
         padding: 0;
       }
     }
-    &.loginPopover{
-      max-width: 360px;
-      min-width: 360px;
-      margin:-2px 0 0 -70px;
-    }
     background-color:#ebebeb;
     border: none;
     background-clip: initial;
-    margin: 0 40px 0 0;
     .box-shadow(7px 7px 9px rgba(0,0,0,.2));
+    
+    .row>section{padding: 0;}
   }
+
 
   .popover.bottom{
     .arrow{

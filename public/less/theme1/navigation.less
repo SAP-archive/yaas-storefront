@@ -1,5 +1,95 @@
+
+*[pop-over]{
+  position: relative;
+  
+  .popover{ 
+    display: block;
+    position: relative;
+  }
+}
+
+.popoverContainer{
+  position: absolute;
+}
+
+
+
+
 #sidebar{
 	background: @lightergrey;
+
+
+    .currencySelector, .languageSelector{
+      text-transform: uppercase;
+      padding: 0  0 20px 0;
+      text-align: center;
+
+      .popover-content {
+        padding: 9px 0 9px 14px;
+      }
+    }
+  
+    .signinContainer{ 
+      position :relative;
+      .popover{
+        top: -80px !important;
+        
+      }
+    }
+  
+    .popover{
+      left: 210px !important;
+
+      .arrow{
+        display: none;
+
+      }
+        
+
+    }
+
+    .selectorListContainer{
+      width: 187px;
+      text-align: left;
+      .uppercase{
+        text-transform: uppercase;
+      }
+      
+      .popoverHeader{
+        font-weight: bold;
+        padding: 20px 0 17px 0;
+        margin: 20px 15px 37px 0;
+        text-align: center;
+        border-bottom: 1px solid #c4c4c4;
+      }
+      
+      .entity{
+        text-decoration: none;
+        cursor: pointer;
+        background-color: transparent;
+        background-position: lefts;
+        background-repeat: no-repeat;
+        padding: 0 0 0 28px;
+        margin: 0 0 11px 0;
+        min-height: 23px;
+        width: 160px;
+        display: block;
+        line-height: 17px;
+        background-image: url('../../img/language_select_inactive.png');
+        color: #7d7e7f !important;
+        
+        &:hover,
+        &.active{
+          color: #000 !important;
+          background-image: url('../../img/language_select_active.png');
+        }
+        
+        &.active{cursor: default;}
+      }
+      
+    }
+
+
 
 	a.logo{
 		display: block;
@@ -443,6 +533,19 @@
 
 	.store-settings{
 		margin: 20px 0 100px;
+       
+      .selectContainer{
+        margin: 0  10px;
+        select{width: 100%; height:30px; margin: 20px 0 0; padding-left: 10px; }
+      }
+
+      
+      .configSelector{
+        position: relative;
+        .popover{
+          top: -170px !important;
+        }
+      }
 	}
 }
 
@@ -450,6 +553,7 @@
   outline: none;
 }
 
+a.signin{display:block;}
 
 .top-navigation{
 	.navbar; 
@@ -466,6 +570,11 @@
 	top: 0;
 	position: fixed;
 	z-index: @zIndex-topnavigation;
+
+    .loginPopover{
+      .popover-title{display: none;}
+
+    }
 
     @media (max-width: @screen-md-min) {
       z-index:10000;
@@ -499,13 +608,15 @@
 
 	.logo{
 		text-align: center;
+        float: left;
 		height: @topNavigationHeight;
-		padding: 10px;
+		padding: 4px;
 		a{
 			display: inline-block;
 			height: 100%;
 			img{
 				max-height:100%;
+                max-width: 58px;
 			}
 		}
 	}
@@ -529,6 +640,29 @@
 				right: 0;
 		}
 	}
+
+  .mobileLoginPopoverContainer{
+    position: relative;
+    
+    .popover{
+      margin-top: 0;
+      .arrow{display:none;}
+      
+      @media (min-width: 481px) and (max-width: 960px){
+        left: -400px !important;
+        width:481px;
+      }
+
+      @media (max-width: 480px) {
+        left: -150px !important;
+        width:320px;
+      }
+
+    }
+    
+    
+  
+  }
 }
 
 
@@ -570,6 +704,8 @@
 
 .socialMediaSigninContainer{
   margin:0 0 75px 0;
+  
+  
 
   .googlePlusLogin{
     padding-right: 0 !important;
@@ -677,7 +813,7 @@
   &.nav-tabs > li > a,
   &.nav-tabs > li > a:hover,
   &.nav-tabs > li > a:focus {
-    padding: 0 25px;
+    padding: 0 20px;
   }
 
   li.signInButton{
@@ -714,4 +850,9 @@
 		background: @defaultblue;
 	}
 
+}
+
+.mobileLoginModal{
+  section{padding: 20px 14px;}
+  
 }
