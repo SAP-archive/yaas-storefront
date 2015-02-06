@@ -342,6 +342,10 @@ window.app = angular.module('ds.router', [
                             templateUrl: 'js/app/checkout/templates/checkout-cart.html',
                             controller: 'CheckoutCartCtrl'
                         },
+                        'checkoutcartmobile@base.checkout.details':{
+                            templateUrl: 'js/app/checkout/templates/checkout-cart.html',
+                            controller: 'CheckoutCartCtrl'
+                        },
                         'checkoutform': {
                             templateUrl: 'js/app/checkout/templates/checkout-form.html',
                             controller: 'CheckoutCtrl'

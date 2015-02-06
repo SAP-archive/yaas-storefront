@@ -1,0 +1,17 @@
+<div class="selectorListContainer" ng-style="{ width: languages.length <= 3 ? (languages.length * 207) + 'px' : (3*207) + 'px' }">
+    <div class="row popoverHeader">
+        {{'LOCALE' | translate}}
+    </div>
+    <div class="entities">
+            <div ng-repeat="lang in languages" class="pull-left entityWrapper">
+            
+            <span class="entity" ng-class="{'active': language.selected.iso == lang.iso}" ng-show="language.selected.iso == lang.iso">
+                <span class="uppercase">{{lang.value | translate}}</span>
+            </span>
+            <a ng-show="language.selected.iso != lang.iso" ng-click="updateLanguage(lang)" class="entity" >
+                <span class="uppercase">{{lang.value | translate}}</span>
+            </a>
+        </div>
+    </div>
+
+</div>

@@ -48,9 +48,9 @@ angular.module('ds.auth')
                         inProgress = false;
                         console.error('Unable to perform anonymous login:');
                         console.error(error);
-                        $translate('SERVER_UNAVAILABLE').then(function(value){
-                            window.alert(value);
-                        });
+                        // $translate('SERVER_UNAVAILABLE').then(function(value){
+                        //     window.alert(value);
+                        // });
                     });
                 }
             }
