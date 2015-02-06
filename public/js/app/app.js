@@ -13,7 +13,7 @@
 'use strict';
 
 /**  Initializes and configures the application. */
-window.app = angular.module('ds.router', [
+window.app = angular.module('ds.app', [
     'restangular',
     'ui.router',
     'ds.shared',
