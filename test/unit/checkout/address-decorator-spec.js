@@ -9,7 +9,6 @@ describe('directive: address-decorator', function() {
         html;
 
     beforeEach(function (){
-        //load the module
         module('ds.checkout');
 
         this.addMatchers({
@@ -18,8 +17,7 @@ describe('directive: address-decorator', function() {
             }
         });
 
-        //set our view html.
-        html = '<div address-decorator></div>';
+        elem = angular.element('<div address-decorator></div>');
 
         inject(function($compile, $rootScope) {
             scope = $rootScope.$new();
@@ -37,22 +35,15 @@ describe('directive: address-decorator', function() {
                 {id: '4567'}
             ];
 
-            //get the jqLite or jQuery element
-            elem = angular.element(html);
-
-            //compile the element into a function to
-            // process the view.
             compiled = $compile(elem);
 
-            //run the compiled view.
             compiled(scope);
-
-            //call digest on the scope!
-            scope.$digest();
         });
     });
 
     it('should properly decorate the addresses', function(){
+        scope.$digest();
+
         var selectedAddress = _.findWhere(scope.addresses, {id: '1234'});
 
         expect(selectedAddress.selected).toEqualData(true);
