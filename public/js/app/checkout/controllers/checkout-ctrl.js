@@ -64,17 +64,6 @@ angular.module('ds.checkout')
 
             $scope.$on('$destroy', unbind);
 
-            var decorateSelectedAddress = function(address) {
-                angular.forEach($scope.addresses, function (addr) {
-                    if (addr.id && addr.id === address.id) {
-                        addr.selected = true;
-                    }
-                    else {
-                        addr.selected = false;
-                    }
-                });
-            };
-
             var getDefaultAddress = function (addresses) {
                 return _.find(addresses, function (addr) {
                     return addr.isDefault;
@@ -409,19 +398,12 @@ angular.module('ds.checkout')
             };
 
             $scope.openAddressDialog = function(target) {
-                if (target === $scope.order.billTo) {
-                    decorateSelectedAddress(selectedBillingAddress);
-                }
-                else if (target === $scope.order.shipTo) {
-                    decorateSelectedAddress(selectedShippingAddress);
-                }
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
                     scope: $scope,
                     resolve: {
                         addresses: function(AccountSvc) {
-
                             return AccountSvc.getAddresses().then(function() {
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
