@@ -15,8 +15,9 @@
 angular.module('ds.checkout')
 /**
  * address-decorator
- * adds the 'selected' attribute to the currently selected address and removes it from other addresses
- * @return {Object}
+ *
+ * adds the 'selected' attribute to the currently selected address and removes it from other addresses, thereby adding
+ * a check mark next to the selected address
  */
     .directive('addressDecorator',[function(){
         return {
