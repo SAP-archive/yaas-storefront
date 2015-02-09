@@ -16,6 +16,8 @@
 	 *  Use the querystring parameter ?nobackend in url to load this module, otherwise it is empty in codebase.
 	 *  This module is multi-purpose. It can be used to a) mock data b) mock errors or c) passthrough desired services.
 	 *  To change state of mocking from error to data, change comments to pass back data, error integer, or passthrough at bottom.
+	 *  For error-mock: uncomment integer to mock status code. Integer return will hit error handler and mock error. Also comment out mock data.
+	 *  For data-mock: uncomment the JSON data return, and comment out the status code integer.
 	 *  Realize that some mock data might go stale based on session state, if so, then paste updated JSON from response tabs.
 	 *  Sometimes clicking back the ?nobackend parameter can be removed causing unexpected results. Good to watch for that.
 	 *  Also, be sure that the domain and tenant id settings (below) are correct for your build environment.
@@ -41,7 +43,7 @@
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/category/v2/'+BUILD_TENANT+'/categories?expand=subcategories&toplevel=true')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//401 //500 //404  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
 						//MOCK-DATA-RESPONSE
 						[{
 						  'id' : '256',
@@ -125,7 +127,7 @@
 				// $httpBackend.whenPOST('https://yaas-test.apigee.net/test/account/v1/auth/anonymous/login?hybris-tenant=8bwhetym79cq')
 				// 	.respond(
 				// 		//MOCK-ERROR-STATUS-CODE
-				// 		//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+				// 		//401 //500 //404  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
 				// 		//MOCK-DATA-RESPONSE
 				// 		// {
 				// 		//   'status' : 403,
@@ -136,12 +138,10 @@
 
 
 				// PRODUCT-DETAILS: white mug MOCK.
-				console.log('https://yaas-test.apigee.net/test/product-details/v3/8bwhetym79cq/productdetails/5436899a3cceb8a9381288d9?expand=media');
-				console.log('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT);
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT+'?expand=media')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						400 //401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//401 //500 //404  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
 						//MOCK-DATA-RESPONSE
 						{
 						  'id' : '5436899a3cceb8a9381288d9',
@@ -188,7 +188,7 @@
 				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/order/v4/'+BUILD_TENANT+'/orders/'+ MOCK_ORDER)
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						//401 //404 //500  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
 						//MOCK-DATA-RESPONSE
 						{
 						  'created' : '2015-02-02T19:12:55.765Z',
