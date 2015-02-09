@@ -136,16 +136,18 @@
 
 
 				// PRODUCT-DETAILS: white mug MOCK.
-				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT)
+				console.log('https://yaas-test.apigee.net/test/product-details/v3/8bwhetym79cq/productdetails/5436899a3cceb8a9381288d9?expand=media');
+				console.log('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT);
+				$httpBackend.whenGET('https://'+BUILD_DOMAIN+'/product-details/v3/'+BUILD_TENANT+'/productdetails/'+ MOCK_PRODUCT+'?expand=media')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
-						//401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
+						400 //401 //500 //404  //uncomment integer to mock status code. Any non 200 will fall to error handler and mock error.
 						//MOCK-DATA-RESPONSE
 						{
 						  'id' : '5436899a3cceb8a9381288d9',
 						  'sku' : 'P1234000',
 						  'name' : 'hybris Coffee Mug - MOCK',
-						  'description' : 'Drink your morning, afternoon, and evening coffee from the hybris mug.  Get caffinated in style. ',
+						  'description' : 'MOCK Drink your morning, afternoon, and evening coffee from the hybris mug.  Get caffinated in style. ',
 						  'published' : true,
 						  'images' : [ {
 						    'id' : '5436899af2ee256c97bed3c0',
