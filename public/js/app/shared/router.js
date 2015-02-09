@@ -1,0 +1,265 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2015 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+'use strict';
+
+angular.module('ds.router', [])
+
+    /** Sets up the routes for UI Router. */
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
+
+
+            // States definition
+            $stateProvider
+                .state('base', {
+                    abstract: true,
+                    views: {
+
+                        'sidebarNavigation@': {
+                            templateUrl: 'js/app/shared/templates/sidebar-navigation.html',
+                            controller: 'SidebarNavigationCtrl'
+                        },
+                        'topNavigation@': {
+                            templateUrl: 'js/app/shared/templates/top-navigation.html',
+                            controller: 'TopNavigationCtrl'
+                        },
+                        'cart@': {
+                            templateUrl: 'js/app/cart/templates/cart.html',
+                            controller: 'CartCtrl'
+                        }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        initialized: function(ConfigSvc) {
+                            return ConfigSvc.initializeApp();
+                        }
+                    }
+                })
+                .state('base.home', {
+                    url: '/home',
+                    views: {
+                        'main@':{
+                            templateUrl: 'js/app/home/templates/home.html',
+                            controller: 'HomeCtrl'
+                        }
+                    },
+                    resolve:{
+                        // this will block controller loading until the application has been initialized with
+                        //  all required configuration (language, currency)
+                        dummy: function(initialized){// force initialization delay
+                            if(initialized) {
+                                return {};
+                            }
+                        }
+                    }
+                })
+                .state('base.product', {
+                    url: '/products/',
+                    abstract: true
+                })
+                .state('base.category', {
+                    url: '/ct/:catName',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/products/templates/product-list.html',
+                            controller: 'BrowseProductsCtrl'
+                        }
+                    },
+                    resolve: {
+
+                        category: function ($stateParams, CategorySvc, initialized) {
+                            if(initialized){
+                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                            }
+
+                        }
+                    }
+                })
+                .state('base.product.detail', {
+                    url: ':productId/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/products/templates/product-detail.html',
+                            controller: 'ProductDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                            if(initialized){
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
+                                    .then(function (prod) {
+                                        if(prod.categories && prod.categories.length){
+                                            return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
+                                                prod.richCategory = category;
+                                                return prod;
+                                            });
+
+                                        } else {
+                                            return prod;
+                                        }
+                                    });
+                            }
+
+
+                        }
+                    }
+                })
+                .state('base.checkout', {
+                    abstract: true,
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/checkout/templates/checkout-frame.html'
+                        }
+                    },
+                    resolve: {
+                        cart: function (CartSvc) {
+                            return CartSvc.getLocalCart();
+                        },
+                        order: function (CheckoutSvc) {
+                            return CheckoutSvc.getDefaultOrder();
+                        },
+                        shippingCost: function (CheckoutSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return CheckoutSvc.getShippingCost();
+                            }
+                        }
+                    }
+                })
+
+                .state('base.checkout.details', {
+                    url: '/checkout/',
+                    views: {
+                        'checkoutcart': {
+                            templateUrl: 'js/app/checkout/templates/checkout-cart.html',
+                            controller: 'CheckoutCartCtrl'
+                        },
+                        'checkoutcartmobile@base.checkout.details':{
+                            templateUrl: 'js/app/checkout/templates/checkout-cart.html',
+                            controller: 'CheckoutCartCtrl'
+                        },
+                        'checkoutform': {
+                            templateUrl: 'js/app/checkout/templates/checkout-form.html',
+                            controller: 'CheckoutCtrl'
+                        }
+                    }
+                })
+                .state('base.confirmation', {
+                    url: '/confirmation/:orderId/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/confirmation/templates/confirmation.html',
+                            controller: 'ConfirmationCtrl'
+                        }
+                    },
+                    resolve: {
+                        isAuthenticated: function(AuthSvc){
+                            return AuthSvc.isAuthenticated();
+                        }
+                    }
+                })
+                .state('base.account', {
+                    url: '/account/',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/account/templates/account.html',
+                            controller: 'AccountCtrl'
+                        }
+                    },
+                    resolve: {
+                        account: function(AccountSvc) {
+                            return AccountSvc.account();
+                        },
+                        addresses: function(AccountSvc) {
+                            var query = {
+                                pageNumber: 1,
+                                pageSize: siteConfig.apis.account.addresses.initialPageSize
+                            };
+                            return AccountSvc.getAddresses(query);
+                        },
+                        orders: function(OrderListSvc) {
+                            var parms = {
+                                pageSize: 10
+                            };
+                            return OrderListSvc.query(parms);
+                        }
+                    },
+                    data: {
+                        auth: 'authenticated'
+                    }
+                })
+                .state('base.changePassword', {
+                    url: '/changePassword?token',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/auth/templates/password-reset.html',
+                            controller: 'ResetPasswordUpdateCtrl'
+                        }
+                    }
+                })
+                .state('base.orderDetail', {
+                    url: '/orderDetail/:orderId',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/account/templates/order-detail.html',
+                            controller: 'AccountOrderDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        order: function ($stateParams, OrdersREST) {
+                            return OrdersREST.Orders.one('orders', $stateParams.orderId).get()
+                                .then(function (result) {
+                                    window.scrollTo(0, 0);
+                                    result.id = $stateParams.id;
+                                    return result;
+                                });
+                        }
+                    },
+                    data: {
+                        auth: 'authenticated'
+                    }
+                });
+
+
+            $urlRouterProvider.otherwise('/home');
+
+            /* Code from angular ui-router to make trailing slash conditional */
+            $urlRouterProvider.rule(function($injector, $location) {
+                var path = $location.path()
+                // Note: misnomer. This returns a query object, not a search string
+                    , search = $location.search()
+                    , params
+                    ;
+
+                // check to see if the path already ends in '/'
+                if (path[path.length - 1] === '/') {
+                    return;
+                }
+
+                // If there was no search string / query params, return with a `/`
+                if (Object.keys(search).length === 0) {
+                    return path + '/';
+                }
+
+                // Otherwise build the search string and return a `/?` prefix
+                params = [];
+                angular.forEach(search, function(v, k){
+                    params.push(k + '=' + v);
+                });
+                return path + '/?' + params.join('&');
+            });
+            $locationProvider.hashPrefix('!');
+        }
+    ]);
+
+
