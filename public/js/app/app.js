@@ -70,7 +70,7 @@ window.app = angular.module('ds.router', [
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.status === 401  && response.config.url.indexOf('login') < 0 ) {
+                    if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
                         if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
                             // remove any existing token, as it appears to be invalid
@@ -87,7 +87,7 @@ window.app = angular.module('ds.router', [
                                 httpQueue.appendRejected(response.config, deferred);
                                 return deferred.promise;
                             }
-                        } else {
+                        } else if ( response.config.url.indexOf('login') < 0 ) {
                             // show error view
                             $injector.get('$state').go('errors', { errorId : '401' });
                         }
