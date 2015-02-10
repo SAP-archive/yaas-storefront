@@ -34,9 +34,9 @@ function verifyOrderConfirmation(email, name, number, cityStateZip) {
 
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
-    expect(element(by.xpath("//div[2]/div/div/div/div/section[2]/div/div/div[2]/div[2]")).getText()).toEqual(itemPrice); //item price
-    expect(element(by.css("tfoot > tr > td.text-right.ng-binding")).getText()).toEqual(totalPrice);
-    expect(element(by.css("div.variant.col-md-6  > span.ng-binding")).getText()).toEqual(quantity);
+    expect(element(by.xpath('//div[2]/section[2]/div/div/div[2]/div[2]')).getText()).toContain(itemPrice); //item price
+    expect(element(by.xpath('//div[2]/section[3]/table/tfoot/tr/td[2]')).getText()).toContain(totalPrice);
+    expect(element(by.xpath("//div[2]/section[2]/div/div/div[2]/div[3]/div")).getText()).toContain(quantity);
 
 }
 
@@ -129,7 +129,7 @@ describe("checkout:", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1000, 1200);
+            browser.driver.manage().window().setSize(1200, 1200);
             browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
@@ -145,7 +145,7 @@ describe("checkout:", function () {
         it('should load one product into cart and move to checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
-            verifyCartContents('Item Price: $10.67', '$13.94', '1');
+            verifyCartContents('$10.67', '$13.94', '1');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
@@ -155,7 +155,8 @@ describe("checkout:", function () {
             browser.wait(function () {
                 return element(by.binding("ORDER_TOTAL")).isPresent();
             });
-            verifyCartContents('Item Price: $10.67', '$24.61', '2');
+            // browser.pause();
+            verifyCartContents('$10.67', '$24.61', '2');
         });
 
         it('should load 2 different products into cart and move to checkout', function () {
@@ -259,7 +260,7 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen('euro-order@test.com', '€22.52');
         });
 
-        it('should merge carts and checkout for logged in user', function () {
+        isDisplayedt('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
             browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(1).column('category.name'))).perform();
