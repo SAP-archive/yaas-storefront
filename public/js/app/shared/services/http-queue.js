@@ -46,12 +46,13 @@ angular.module('ds.queue', [])
             // retry loop where the root cause is not being fixed and otherwise, we would attempt to submit the
             // same failing request over and over.
             if(lastTime && new Date().getTime() - lastTime < 10000) {
-                console.warn('Too soon to retry URL '+config.url);
+                var $state = $injector.get('$state');
                 $translate = $translate || $injector.get('$translate');
                 $translate('SERVER_UNAVAILABLE').then(function(value){
-                    window.alert(value);
+                    console.error(value);
                 });
                 deferred.reject('Too soon to retry');
+                $state.go('errors', { errorId : '401' });
             } else {
                 lastRejectTime[config.url] = null;
                 $http = $http || $injector.get('$http');
