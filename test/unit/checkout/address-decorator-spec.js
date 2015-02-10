@@ -4,9 +4,7 @@
 describe('directive: address-decorator', function() {
     var scope,
         elem,
-        directive,
-        compiled,
-        html;
+        compiled;
 
     beforeEach(function (){
         module('ds.checkout');

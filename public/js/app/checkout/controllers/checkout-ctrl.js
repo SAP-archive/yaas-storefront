@@ -147,11 +147,11 @@ angular.module('ds.checkout')
             var clearShipTo = function(){
                 selectedShippingAddress = {};
                 $scope.order.shipTo = {};
-                $scope.wiz.shipToSameAsBillTo = false;
+                $scope.shipToSameAsBillTo = false;
             };
 
             $scope.toggleShipToSameAsBillTo = function(){
-                if($scope.wiz.shipToSameAsBillTo){
+                if($scope.shipToSameAsBillTo){
                     setShipToSameAsBillTo();
                 } else {
                     clearShipTo();
@@ -210,14 +210,12 @@ angular.module('ds.checkout')
 
                 var msg = error.message;
                 if (error.type === 'card_error') {
-                    $scope.editPayment();
                     if (error.code && isFieldAttributableStripeError(error)) {
                         msg = 'PLEASE_CORRECT_ERRORS';
                         attributeStripeFieldError(error);
                     }
                 }
                 else if (error.type === 'payment_token_error') {
-                    $scope.editPayment();
                     msg = 'Server error - missing payment configuration key.  Please try again later.';
                 } else {
                     console.error('Stripe validation failed: ' + JSON.stringify(error));
@@ -272,7 +270,7 @@ angular.module('ds.checkout')
                     });
 
                     $scope.submitIsDisabled = true;
-                    if ($scope.wiz.shipToSameAsBillTo) {
+                    if ($scope.shipToSameAsBillTo) {
                         setShipToSameAsBillTo();
                     }
                     $scope.order.cart = $scope.cart;
@@ -307,7 +305,7 @@ angular.module('ds.checkout')
                 if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
                     setShipToSameAsBillTo();
                 }
-                $scope.wiz.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
+                $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
             };
 
             $scope.openAddressDialog = function(target) {
