@@ -31,6 +31,11 @@ angular.module('ds.products')
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
+            $scope.pagination = {
+              productsFrom: 1,
+              productsTo:  $scope.pageSize
+            };
+
             $scope.category = category || {};
 
             // ensure category path is localized
@@ -177,7 +182,7 @@ angular.module('ds.products')
                                 if (products) {
                                     GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                                     $scope.products = $scope.products.concat(products);
-                                    $scope.productsTo = $scope.products.length;
+                                    //$scope.productsTo = $scope.products.length;
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                     assignMainImage(products);
@@ -196,14 +201,14 @@ angular.module('ds.products')
                 window.scrollTo(0, 0);
             };
 
-            $scope.getViewingNumbers = function (pageNo) {
-                $scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
-                $scope.productsTo = $scope.pageSize * pageNo;
+            //$scope.getViewingNumbers = function (pageNo) {
+                //$scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
+                //$scope.productsTo = $scope.pageSize * pageNo;
 
-                if ($scope.productsTo > $scope.total && $scope.total !== 0) {
-                    $scope.productsTo = $scope.total;
-                }
-            };
+                //if ($scope.productsTo > $scope.total && $scope.total !== 0) {
+                //    $scope.productsTo = $scope.total;
+                //}
+            //};
 
             $scope.setSortedPage = function () {
 
@@ -217,7 +222,7 @@ angular.module('ds.products')
                 //if it is then we need to set caps on the pageSize and page number
                 $scope.setSortedPageSize = ($scope.pageNumber * $scope.pageSize > $scope.total) ? $scope.total : $scope.pageNumber * $scope.pageSize;
 
-                $scope.getViewingNumbers($scope.setSortedPageNumber);
+                //$scope.getViewingNumbers($scope.setSortedPageNumber);
 
                 /*
                  it is important to note that the $scope.pageNumber and $scope.pageSize are not being modified as they  need
@@ -241,7 +246,7 @@ angular.module('ds.products')
                     if (products) {
                         GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                         $scope.products = products;
-                        $scope.productsTo = $scope.products.length;
+                        //$scope.productsTo = $scope.products.length;
                         $scope.total = GlobalData.products.meta.total;
                         getPrices(products);
                         assignMainImage(products);
