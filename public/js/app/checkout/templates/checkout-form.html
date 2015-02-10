@@ -3,7 +3,7 @@
 <small class="visible-xs visible-sm">{{'SIMPLE_4_STEP_CHECKOUT' | translate}}</small>
 {{'SECURE_CHECKOUT' | translate}}
 </h1>
-<ng-form name="checkoutForm" novalidate autocomplete="on">
+<ng-form name="checkoutForm" mobile-checkout-wizard novalidate autocomplete="on">
 <ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-1" ng-class="{'done': wiz.step1Done}">
     <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
