@@ -87,7 +87,7 @@ window.app = angular.module('ds.router', [
                                 httpQueue.appendRejected(response.config, deferred);
                                 return deferred.promise;
                             }
-                        } else if ( response.config.url.indexOf('login') < 0 ) {
+                        } else if ( response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0) {
                             // show error view
                             $injector.get('$state').go('errors', { errorId : '401' });
                         }
