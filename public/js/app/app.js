@@ -29,6 +29,8 @@ window.app = angular.module('ds.app', [
     'ds.queue',
     'ds.router',
     'ds.http-proxy',
+    'ds.errors',
+    'ds.backendMock',
     'config',
     'xeditable',
     'ngSanitize',
@@ -137,6 +139,7 @@ window.app = angular.module('ds.app', [
             $rootScope.showCart =false;
             $rootScope.showMobileNav=false;
         }
+
     ]);
 
 

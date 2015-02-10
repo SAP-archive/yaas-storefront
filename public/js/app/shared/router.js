@@ -14,7 +14,7 @@
 
 angular.module('ds.router', [])
 
-    /** Sets up the routes for UI Router. */
+   /** Sets up the routes for UI Router. */
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
         function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
 
@@ -227,6 +227,15 @@ angular.module('ds.router', [])
                     },
                     data: {
                         auth: 'authenticated'
+                    }
+                })
+                .state('errors', {
+                    url: '/errors/:errorId',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/errors/templates/error-display.html',
+                            controller: 'ErrorsCtrl'
+                        }
                     }
                 });
 

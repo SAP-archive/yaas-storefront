@@ -138,6 +138,9 @@ angular.module('ds.cart')
                     if (!response || response.status !== 404) {
                         cart.error = true;
                     }
+                    else {
+                        console.warn('Could not find cart. A new cart will be created when the user adds an item.');
+                    }
                     defCart.resolve(cart);
                 });
                 defCart.promise.then(function () {

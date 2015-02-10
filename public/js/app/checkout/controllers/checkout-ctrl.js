@@ -52,7 +52,7 @@ angular.module('ds.checkout')
             $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
-            var selectedAddress;
+            var selectedBillingAddress, selectedShippingAddress;
             var addressModalInstance;
 
             $scope.order.account = {};
@@ -64,21 +64,15 @@ angular.module('ds.checkout')
 
             $scope.$on('$destroy', unbind);
 
-            var decorateSelectedAddress = function(addresses) {
-                if (selectedAddress) {
-                    angular.forEach(addresses, function(addr) {
-                        if (addr.id === selectedAddress.id) {
-                            addr.selected = true;
-                        }
-                    });
-                } else {
-                    angular.forEach(addresses, function(addr) {
-                        if (addr.isDefault) {
-                            addr.selected = true;
-                        }
-                    });
-                }
-                return addresses;
+            var decorateSelectedAddress = function(address) {
+                angular.forEach($scope.addresses, function (addr) {
+                    if (addr.id && addr.id === address.id) {
+                        addr.selected = true;
+                    }
+                    else {
+                        addr.selected = false;
+                    }
+                });
             };
 
             var getDefaultAddress = function (addresses) {
@@ -88,6 +82,7 @@ angular.module('ds.checkout')
             };
 
             var populateBillTo = function(address){
+                $scope.order.billTo.id = address.id;
                 $scope.order.billTo.contactName = address.contactName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
@@ -101,8 +96,11 @@ angular.module('ds.checkout')
             var getAddresses = function() {
                 if(AuthSvc.isAuthenticated()) {
                     AccountSvc.getAddresses().then(function (response) {
-                        $scope.addresses = decorateSelectedAddress(response);
-                        populateBillTo(getDefaultAddress($scope.addresses));
+                        var defaultAddress = getDefaultAddress(response);
+                        $scope.addresses = response;
+                        selectedBillingAddress = defaultAddress;
+                        selectedShippingAddress = defaultAddress;
+                        populateBillTo(defaultAddress);
                     });
                 }
             };
@@ -241,9 +239,11 @@ angular.module('ds.checkout')
             /** Copy bill-to information to the ship-to properties.*/
             var setShipToSameAsBillTo = function () {
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
+                selectedShippingAddress = $scope.order.shipTo;
             };
 
             var clearShipTo = function(){
+                selectedShippingAddress = {};
                 $scope.order.shipTo = {};
                 $scope.wiz.shipToSameAsBillTo = false;
             };
@@ -384,9 +384,15 @@ angular.module('ds.checkout')
             };
 
             $scope.selectAddress = function(address, target) {
-                selectedAddress = address;
+                if (target === $scope.order.billTo) {
+                    selectedBillingAddress = address;
+                }
+                else if (target === $scope.order.shipTo) {
+                    selectedShippingAddress = address;
+                }
                 addressModalInstance.close();
 
+                target.id = address.id;
                 target.contactName = address.contactName;
                 target.address1 = address.street;
                 target.address2 = address.streetAppendix;
@@ -403,6 +409,12 @@ angular.module('ds.checkout')
             };
 
             $scope.openAddressDialog = function(target) {
+                if (target === $scope.order.billTo) {
+                    decorateSelectedAddress(selectedBillingAddress);
+                }
+                else if (target === $scope.order.shipTo) {
+                    decorateSelectedAddress(selectedShippingAddress);
+                }
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
@@ -410,8 +422,7 @@ angular.module('ds.checkout')
                     resolve: {
                         addresses: function(AccountSvc) {
 
-                            return AccountSvc.getAddresses().then(function(response) {
-                                $scope.addresses = decorateSelectedAddress(response);
+                            return AccountSvc.getAddresses().then(function() {
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;

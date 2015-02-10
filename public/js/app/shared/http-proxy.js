@@ -14,7 +14,7 @@
 
 angular.module('ds.http-proxy', [])
 
-    /** Defines the HTTP interceptor. */
+       /** Defines the HTTP interceptors. */
     .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
         function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData, siteConfig) {
 
@@ -65,7 +65,11 @@ angular.module('ds.http-proxy', [])
                                 httpQueue.appendRejected(response.config, deferred);
                                 return deferred.promise;
                             }
+                        } else {
+                            // show error view
+                            $injector.get('$state').go('errors', { errorId : '401' });
                         }
+
                     } else if(response.status === 403){
                         // if 403 during login, should already be handled by auth dialog controller
                         if(response.config.url.indexOf('login')<0) {
@@ -85,6 +89,11 @@ angular.module('ds.http-proxy', [])
                                 });
                             }
                         }
+                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 ){
+                        $injector.get('$state').go('errors', { errorId : '404' });
+                    } else if(response.status === 500){
+                        //show error view with default message.
+                        $injector.get('$state').go('errors');
                     }
                     return $q.reject(response);
                 }
