@@ -111,7 +111,7 @@ window.app = angular.module('ds.router', [
                                 });
                             }
                         }
-                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 ){
+                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0){
                         $injector.get('$state').go('errors', { errorId : '404' });
                     } else if(response.status === 500){
                         //show error view with default message.
