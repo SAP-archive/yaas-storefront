@@ -260,7 +260,7 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen('euro-order@test.com', '€22.52');
         });
 
-        isDisplayedt('should merge carts and checkout for logged in user', function () {
+        it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@test.com', 'password');
             browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(1).column('category.name'))).perform();
