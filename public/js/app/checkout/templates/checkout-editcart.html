@@ -55,12 +55,7 @@
 							<div class="clearfix">
 								<div ng-class="{error: item.error}" class="input-group pull-left">
 									<span class="input-group-addon ng-binding">Qty:</span>
-									<input type="number" onkeydown="return ( event.ctrlKey || event.altKey
-		                    					|| (47&lt;event.keyCode &amp;&amp; event.keyCode&lt;58 &amp;&amp; event.shiftKey==false)
-		                    					|| (95&lt;event.keyCode &amp;&amp; event.keyCode&lt;106)
-		                    					|| (event.keyCode==8) || (event.keyCode==9)
-		                    					|| (event.keyCode&gt;34 &amp;&amp; event.keyCode&lt;40)
-		                    					|| (event.keyCode==46) )" ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min ng-valid-pattern ng-valid-number" pattern="\d*" step="1" min="0"><!--40-->
+									<input type="number" quantity-input ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min ng-valid-pattern ng-valid-number" pattern="\d*" step="1" min="0"><!--40-->
 								</div>
 							</div>
 							<div class="price-total item-attr ng-binding">Total Price: <span class="ng-binding">$9.99</span></div>
@@ -80,12 +75,7 @@
 							<div class="clearfix">
 								<div ng-class="{error: item.error}" class="input-group pull-left">
 									<span class="input-group-addon ng-binding">Qty:</span>
-									<input type="number" onkeydown="return ( event.ctrlKey || event.altKey
-		                    					|| (47&lt;event.keyCode &amp;&amp; event.keyCode&lt;58 &amp;&amp; event.shiftKey==false)
-		                    					|| (95&lt;event.keyCode &amp;&amp; event.keyCode&lt;106)
-		                    					|| (event.keyCode==8) || (event.keyCode==9)
-		                    					|| (event.keyCode&gt;34 &amp;&amp; event.keyCode&lt;40)
-		                    					|| (event.keyCode==46) )" ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity)" ng-model="item.quantity" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min ng-valid-pattern ng-valid-number" pattern="\d*" step="1" min="0"><!--40-->
+									<input quantity-input type="number" ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity)" ng-model="item.quantity" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min ng-valid-pattern ng-valid-number" pattern="\d*" step="1" min="0"><!--40-->
 								</div>
 							</div>
 							<div class="price-total item-attr ng-binding">Total Price: <span class="ng-binding">$29.99</span></div>
