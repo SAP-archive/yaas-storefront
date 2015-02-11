@@ -11,7 +11,8 @@
  */
 
 'use strict';
-
+//Used for determing the current visible items indexes
+//It is checking if the details (name and price) part of item is visible
 angular.module('ds.shared')
     .directive('infiniteScrollVisibleItems', ['$window', function ($window) {
         return {
@@ -29,7 +30,8 @@ angular.module('ds.shared')
                     var rect = el.getBoundingClientRect();
 
                     return (
-                    rect.top >= 0 &&
+                        //Used 100 instead of 0 because of the navigation
+                    rect.top >= 100 &&
                     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
                     );
                 };
@@ -38,23 +40,32 @@ angular.module('ds.shared')
                     var st = $window.scrollTop();
                     var directionUp = true;
                     if (st > lastScrollTop) {
-                        // downscroll code
+                        // down scroll
                         directionUp = false;
                     }
                     lastScrollTop = st;
                     return directionUp;
                 };
 
-                var handler = function () {
+                var handler = function (e) {
+
                     var firstVisibleIndex = 0;
                     var lastVisibleIndex = 0;
                     firstIndex = scope.pagination.productsFrom;
                     if (scrollDirectionUp()) {
-                        console.log('Scroll up');
+                        //console.log('Scroll up');
 
-
-                        //Get all elements that have index smaller than scope.productsTo
-                        elements = element.querySelectorAll('.productInfoContainer').slice(0,scope.pagination.productsTo);
+                        //If it is scroll event then the checking is done only on small part of elements based
+                        //on last visible items (if it is scroll up then the next visible items 100% have <= indexes
+                        //than last one)
+                        if(e.type === 'scroll'){
+                            //Get all elements that have index smaller than scope.productsTo
+                            elements = element.querySelectorAll('.productInfoContainer').slice(0,scope.pagination.productsTo);
+                        }
+                        else{
+                            //Loop over all elements
+                            elements = element.querySelectorAll('.productInfoContainer');
+                        }
 
                         for (i = elements.length - 1; i >= 0; i--) {
                             //Find the first one that is visible
@@ -77,14 +88,22 @@ angular.module('ds.shared')
                         offset = 0;
                     }
                     else {
-                        console.log('Scroll down');
+                        //console.log('Scroll down');
 
-                        offset = firstIndex;
+                        if(e.type === 'scroll'){
+                            //Get all elements from currently shown index - 3 until the end
+                            // elements = element.querySelectorAll(':nth-child(n+' + queryIndex + ') .productInfoContainer');
+                            elements = element.querySelectorAll('.productInfoContainer').slice(scope.pagination.productsFrom - 1);
 
-                        //Get all elements from currently shown index - 3 until the end
-                        var queryIndex = firstIndex - 1;
-                       // elements = element.querySelectorAll(':nth-child(n+' + queryIndex + ') .productInfoContainer');
-                        elements = element.querySelectorAll('.productInfoContainer').slice(0,scope.pagination.productsTo);
+                            offset = firstIndex;
+                        }
+                        else{
+                            //Loop over all elements
+                            elements = element.querySelectorAll('.productInfoContainer');
+
+                            //Set offset to 1 because looping is done over all elements
+                            offset = 1;
+                        }
 
 
                         for (i = 0; i < elements.length; i++) {
@@ -108,11 +127,11 @@ angular.module('ds.shared')
                         scope.pagination.productsTo = lastVisibleIndex + offset;
                     });
 
-                    console.log(scope.pagination.productsFrom);
-                    console.log(scope.pagination.productsTo);
+                    //console.log(scope.pagination.productsFrom);
+                    //console.log(scope.pagination.productsTo);
                 };
 
-                $window.on('scroll', handler);
+                $window.on('DOMContentLoaded load resize scroll', handler);
             }
         };
     }]);

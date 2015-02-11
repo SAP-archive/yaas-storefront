@@ -7287,6 +7287,9 @@ section footer button {
   padding-left: 15px;
   padding-right: 15px;
 }
+.product-grid .item {
+  height: 365px;
+}
 .product-grid .item a {
   display: block;
   background: #fff;
@@ -7304,7 +7307,7 @@ section footer button {
 }
 .product-grid .item a .thumb img {
   width: 100%;
-  height: auto;
+  height: 224px;
 }
 .product-grid .item a .name {
   margin: 0 20px;
