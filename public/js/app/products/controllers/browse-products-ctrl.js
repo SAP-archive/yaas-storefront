@@ -31,7 +31,7 @@ angular.module('ds.products')
 
             $scope.pagination = {
               productsFrom: 1,
-              productsTo:  $scope.pageSize
+              productsTo:  1
             };
 
             $scope.category = category || {};

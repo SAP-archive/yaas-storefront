@@ -74,7 +74,7 @@
          infinite-scroll-data="pagination" ng-cloak
          infinite-scroll-visible-items>
         <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
-             on-finish-render-ng-repeat>
+             on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
                     <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">

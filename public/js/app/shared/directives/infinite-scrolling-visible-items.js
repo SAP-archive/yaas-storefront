@@ -26,6 +26,7 @@ angular.module('ds.shared')
                 var i = 0;
                 var offset = 0;
 
+                //Function that checks if the element is visible in viewport
                 var isElementInViewport = function (el) {
                     var rect = el.getBoundingClientRect();
 
@@ -36,6 +37,7 @@ angular.module('ds.shared')
                     );
                 };
 
+                //Function that determines the direction of users scroll
                 var scrollDirectionUp = function () {
                     var st = $window.scrollTop();
                     var directionUp = true;
@@ -47,6 +49,7 @@ angular.module('ds.shared')
                     return directionUp;
                 };
 
+                //Function that handles events and calculates
                 var handler = function (e) {
 
                     var firstVisibleIndex = 0;
@@ -85,7 +88,6 @@ angular.module('ds.shared')
                             }
                             firstVisibleIndex += 1;
 
-                            //offset = lastVisibleIndex - scope.pagination.productsTo;
                             offset = 0;
                         }
                         else{
@@ -148,7 +150,7 @@ angular.module('ds.shared')
 
                 $window.on('resize scroll', handler);
 
-                scope.$on('ngRepeatFinished', function () {
+                scope.$on('initialViewportCheck', function () {
                   //Fire this event when the list finished rendering on page and DOM is completed
 
                     //Check if the firstVisibleIndex is 0 and only fire then, that way it is fired only on load
@@ -156,18 +158,6 @@ angular.module('ds.shared')
                         handler({type: 'initialViewportCheck'});
                     }
                 });
-            }
-        };
-    }])
-    .directive('onFinishRenderNgRepeat', ['$timeout','$rootScope',function ($timeout, $rootScope) {
-        return {
-            restrict: 'A',
-            link: function (scope) {
-                if (scope.$last === true) {
-                    $timeout(function () {
-                        $rootScope.$broadcast('ngRepeatFinished');
-                    });
-                }
             }
         };
     }]);
