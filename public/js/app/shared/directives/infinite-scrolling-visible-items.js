@@ -30,7 +30,7 @@ angular.module('ds.shared')
                     var rect = el.getBoundingClientRect();
 
                     return (
-                        //Used 100 instead of 0 because of the navigation
+                        //Used 100 instead of 0 because of the top navigation
                     rect.top >= 100 &&
                     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
                     );
@@ -58,46 +58,52 @@ angular.module('ds.shared')
                         //If it is scroll event then the checking is done only on small part of elements based
                         //on last visible items (if it is scroll up then the next visible items 100% have <= indexes
                         //than last one)
-                        if(e.type === 'scroll'){
+                        if (e.type === 'scroll') {
                             //Get all elements that have index smaller than scope.productsTo
-                            elements = element.querySelectorAll('.productInfoContainer').slice(0,scope.pagination.productsTo);
+                            elements = element.querySelectorAll('.productInfoContainer').slice(0, scope.pagination.productsTo);
                         }
-                        else{
+                        else {
                             //Loop over all elements
                             elements = element.querySelectorAll('.productInfoContainer');
                         }
+                        if(elements.length > 0) {
 
-                        for (i = elements.length - 1; i >= 0; i--) {
-                            //Find the first one that is visible
-                            if (isElementInViewport(elements[i])) {
-                                lastVisibleIndex = i + 1;
-                                break;
+                            for (i = elements.length - 1; i >= 0; i--) {
+                                //Find the first one that is visible
+                                if (isElementInViewport(elements[i])) {
+                                    lastVisibleIndex = i + 1;
+                                    break;
+                                }
                             }
-                        }
-                        firstVisibleIndex = 0;
-                        for (i = lastVisibleIndex - 1; i >= 0; i--) {
-                            //Find the first one that is visible
-                            if (!isElementInViewport(elements[i])) {
-                                firstVisibleIndex = i + 1;
-                                break;
+                            firstVisibleIndex = 0;
+                            for (i = lastVisibleIndex - 1; i >= 0; i--) {
+                                //Find the first one that is visible
+                                if (!isElementInViewport(elements[i])) {
+                                    firstVisibleIndex = i + 1;
+                                    break;
+                                }
                             }
-                        }
-                        firstVisibleIndex += 1;
+                            firstVisibleIndex += 1;
 
-                        //offset = lastVisibleIndex - scope.pagination.productsTo;
-                        offset = 0;
+                            //offset = lastVisibleIndex - scope.pagination.productsTo;
+                            offset = 0;
+                        }
+                        else{
+                            firstVisibleIndex = 1;
+                            lastVisibleIndex = 1;
+                        }
                     }
                     else {
                         //console.log('Scroll down');
 
-                        if(e.type === 'scroll'){
+                        if (e.type === 'scroll') {
                             //Get all elements from currently shown index - 3 until the end
                             // elements = element.querySelectorAll(':nth-child(n+' + queryIndex + ') .productInfoContainer');
                             elements = element.querySelectorAll('.productInfoContainer').slice(scope.pagination.productsFrom - 1);
 
                             offset = firstIndex;
                         }
-                        else{
+                        else {
                             //Loop over all elements
                             elements = element.querySelectorAll('.productInfoContainer');
 
@@ -105,33 +111,63 @@ angular.module('ds.shared')
                             offset = 1;
                         }
 
+                        if(elements.length > 0) {
 
-                        for (i = 0; i < elements.length; i++) {
-                            if (isElementInViewport(elements[i])) {
-                                firstVisibleIndex = i;
-                                break;
+                            for (i = 0; i < elements.length; i++) {
+                                if (isElementInViewport(elements[i])) {
+                                    firstVisibleIndex = i;
+                                    break;
+                                }
                             }
-                        }
 
-                        lastVisibleIndex = elements.length - 1;
-                        for (i = firstVisibleIndex; i < elements.length; i++) {
-                            if (!isElementInViewport(elements[i])) {
-                                lastVisibleIndex = i - 1;
-                                break;
+                            lastVisibleIndex = elements.length - 1;
+                            for (i = firstVisibleIndex; i < elements.length; i++) {
+                                if (!isElementInViewport(elements[i])) {
+                                    lastVisibleIndex = i - 1;
+                                    break;
+                                }
                             }
+                        } else{
+                            offset = 1;
+                            firstVisibleIndex = 1;
+                            lastVisibleIndex = 1;
                         }
                     }
 
-                    scope.$apply(function () {
+                    if (!scope.$$phase) {
+                        scope.$apply(function () {
+                            scope.pagination.productsFrom = firstVisibleIndex + offset;
+                            scope.pagination.productsTo = lastVisibleIndex + offset;
+                        });
+                    }
+                    else {
                         scope.pagination.productsFrom = firstVisibleIndex + offset;
                         scope.pagination.productsTo = lastVisibleIndex + offset;
-                    });
-
-                    //console.log(scope.pagination.productsFrom);
-                    //console.log(scope.pagination.productsTo);
+                    }
                 };
 
-                $window.on('DOMContentLoaded load resize scroll', handler);
+                $window.on('resize scroll', handler);
+
+                scope.$on('ngRepeatFinished', function () {
+                  //Fire this event when the list finished rendering on page and DOM is completed
+
+                    //Check if the firstVisibleIndex is 0 and only fire then, that way it is fired only on load
+                    if(firstIndex === 0) {
+                        handler({type: 'initialViewportCheck'});
+                    }
+                });
+            }
+        };
+    }])
+    .directive('onFinishRenderNgRepeat', ['$timeout','$rootScope',function ($timeout, $rootScope) {
+        return {
+            restrict: 'A',
+            link: function (scope) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        $rootScope.$broadcast('ngRepeatFinished');
+                    });
+                }
             }
         };
     }]);

@@ -24,8 +24,6 @@ angular.module('ds.products')
             $scope.sort = '';
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
-            $scope.productsFrom = 1;
-            $scope.productsTo = $scope.pageSize;
             $scope.store = GlobalData.store;
             $scope.prices = {};
             $scope.requestInProgress = false;
@@ -145,8 +143,10 @@ angular.module('ds.products')
                 // category selected, but no products associated with category - leave blank for time being
                 if ($scope.category.elements && $scope.category.elements.length === 0) {
                     $scope.products = [];
-                    $scope.productsFrom = 0;
-                    $scope.productsTo = 0;
+                    $scope.pagination = {
+                        productsFrom: 0,
+                        productsTo:  0
+                    };
                     $scope.total = 0;
                     return;
                 }
@@ -182,7 +182,12 @@ angular.module('ds.products')
                                 if (products) {
                                     GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                                     $scope.products = $scope.products.concat(products);
-                                    //$scope.productsTo = $scope.products.length;
+                                    if ($scope.products.length === 0){
+                                        $scope.pagination.productsFrom = 0;
+                                    }
+                                    else if($scope.products.length > 0 && query.pageNumber === 1) {
+                                        //Check for visible items in viewport
+                                    }
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                     assignMainImage(products);
@@ -201,15 +206,6 @@ angular.module('ds.products')
                 window.scrollTo(0, 0);
             };
 
-            //$scope.getViewingNumbers = function (pageNo) {
-                //$scope.productsFrom = $scope.pageSize * pageNo - $scope.pageSize + 1;
-                //$scope.productsTo = $scope.pageSize * pageNo;
-
-                //if ($scope.productsTo > $scope.total && $scope.total !== 0) {
-                //    $scope.productsTo = $scope.total;
-                //}
-            //};
-
             $scope.setSortedPage = function () {
 
                 $scope.setSortedPageSize = void 0;
@@ -221,8 +217,6 @@ angular.module('ds.products')
                 //check to see if the current page number times the page size is going to be greater than the total product count
                 //if it is then we need to set caps on the pageSize and page number
                 $scope.setSortedPageSize = ($scope.pageNumber * $scope.pageSize > $scope.total) ? $scope.total : $scope.pageNumber * $scope.pageSize;
-
-                //$scope.getViewingNumbers($scope.setSortedPageNumber);
 
                 /*
                  it is important to note that the $scope.pageNumber and $scope.pageSize are not being modified as they  need
@@ -246,7 +240,12 @@ angular.module('ds.products')
                     if (products) {
                         GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                         $scope.products = products;
-                        //$scope.productsTo = $scope.products.length;
+                        if ($scope.products.length === 0){
+                            $scope.pagination.productsFrom = 0;
+                        }
+                       else if($scope.products.length > 0 && query.pageNumber === 1){
+                            //Check for visible items in viewport
+                       }
                         $scope.total = GlobalData.products.meta.total;
                         getPrices(products);
                         assignMainImage(products);
@@ -256,8 +255,6 @@ angular.module('ds.products')
                     }
 
                 });
-
-
             };
 
             $scope.showRefineContainer = function () {

@@ -27,7 +27,7 @@
             <div class="col-sm-6 col-md-6">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
+                    <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
                 </div>
             </div>
         </div>
@@ -73,7 +73,8 @@
          infinite-scroll-immediate-check="false"
          infinite-scroll-data="pagination" ng-cloak
          infinite-scroll-visible-items>
-        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products">
+        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
+             on-finish-render-ng-repeat>
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
                     <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
