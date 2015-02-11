@@ -12,13 +12,7 @@
 
 describe('quantityInput Test', function () {
 
-    var $scope, element, inputEl;
-
-    var triggerKeyDown = function (element, keyCode) {
-        var e = angular.element.Event('keydown')
-        e.which = keyCode;
-        element.trigger(e);
-    };
+    var $scope, element;
 
     //***********************************************************************
     // Common Setup
@@ -39,8 +33,6 @@ describe('quantityInput Test', function () {
         element = angular.element(
             '<input quantity-input ng-model="model.testinput" name="testinput"/>'
         );
-
-        inputEl = element.find('input');
 
         $scope =  _$rootScope_;
         $scope.model = {};
