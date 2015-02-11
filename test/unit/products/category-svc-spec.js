@@ -9,6 +9,7 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with hybris.
  */
+
 describe('CategorySvc', function () {
 
     var $scope, $rootScope, $httpBackend, categorySvc, categoryUrl;
@@ -20,6 +21,9 @@ describe('CategorySvc', function () {
     var mockedCatId = 'catId';
     var mockedCatName = 'catName';
     var mockedSlug = 'catname~'+mockedCatId;
+    var mockedState = {
+        go: jasmine.createSpy()
+    };
 
     var categoryResponse = [ {
         "id" : "117767936",
@@ -48,6 +52,7 @@ describe('CategorySvc', function () {
         catMap[mockedSlug] = {name: mockedCatName, slug: mockedSlug, id:mockedCatId};
         mockedGlobalData.categoryMap = catMap;
         $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('$state', mockedState);
     }));
 
 
@@ -117,7 +122,7 @@ describe('CategorySvc', function () {
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond([{
                 "id": cosmeticsId
             }]);
-           
+
             categorySvc.getCategories();
             $httpBackend.flush();
             var cat = null;
@@ -189,7 +194,5 @@ describe('CategorySvc', function () {
         });
 
     });
-
-
 
 });

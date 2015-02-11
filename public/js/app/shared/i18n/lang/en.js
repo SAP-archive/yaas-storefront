@@ -134,12 +134,13 @@ angular.module('ds.i18n')
 
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
+        SELECT_LANGUAGE: 'Select a language',
 		en: 'English',
 		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
         SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
-        LOG_IN_WITH_GOOGLE_PLUS: 'Log in with Google +',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Sign in with Google +',
         MY_ACCOUNT: 'My Account',
         CREATE_ACCOUNT: 'Create Account',
         CONTINUE_AS_GUEST: 'Continue as our guest',
@@ -157,6 +158,7 @@ angular.module('ds.i18n')
         CONTACT_NAME: 'Contact Name',
         CONTACT_PHONE: 'Contact Phone',
         CURRENCY: 'Currency',
+        SELECT_CURRENCY: 'Select a currency',
         DATE: 'Date',
         LOCALE: 'Locale',
         NAME_REQUIRED: 'Name Required',
@@ -214,6 +216,18 @@ angular.module('ds.i18n')
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
         ENTER_EMAIL: 'Enter Email',
         LOGIN_FAILED: 'Login failed',
+
+        /*
+            dynamic error displays
+        */
+        ERROR_TITLE: 'Internal Error',
+        ERROR_MESSAGE: 'Oops! There\'s a problem.',
+        ERROR_TITLE_401: 'Unauthorized',
+        ERROR_MESSAGE_401: 'Oops! There\'s a problem. Your login credentials don\'t allow access to this page.',
+        ERROR_TITLE_404: 'Page not found',
+        ERROR_MESSAGE_404: 'Oops! There\'s a problem. This page doesn\'t exist.',
+        ERROR_REDIRECT: 'Here is a page to help you get back on track.',
+        ERROR_BUTTON_TEXT: 'HOMEPAGE',
 
 
         /*

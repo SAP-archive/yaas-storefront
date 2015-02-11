@@ -77,6 +77,8 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+        'public/js/app/errors/controllers/errors-ctrl.js',
+        'public/js/app/errors/backendStub.js',
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
@@ -96,6 +98,13 @@ module.exports = function(config){
         'public/js/app/auth/services/auth-dialog-manager.js',
         'public/js/app/auth/services/session-service.js',
 
+        'public/js/app/shared/router.js',
+        'public/js/app/shared/http-proxy.js',
+
+        'public/js/app/shared/controllers/currency-selector-ctrl.js',
+        'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/directives/popover.js',
+
         'public/js/app/orders/orders-index.js',
         'public/js/app/orders/services/order-list-service.js',
         'public/js/app/orders/services/orders-rest.js',
@@ -112,6 +121,7 @@ module.exports = function(config){
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
+        'test/unit/errors/*.js',
         'test/unit/home/*.js',
         'test/unit/orders/*.js',
         'test/unit/products/*.js',

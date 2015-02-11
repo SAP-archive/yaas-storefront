@@ -28,7 +28,7 @@
         angular.module('config', []).constant('storeConfig', storeConfig);
         angular.element(document).ready(function () {
             angular.bootstrap(document, [
-                'ds.router']);
+                'ds.app']);
         });
 
     } catch (exception) {
