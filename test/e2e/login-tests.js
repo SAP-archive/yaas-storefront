@@ -5,12 +5,12 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[9]", text);
+    tu.sendKeysByXpath("//input[@type='text']", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    element(by.xpath('//select')).sendKeys(text);
+    element(by.xpath("//select[@ng-model='$data']")).sendKeys(text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 
@@ -25,6 +25,13 @@ function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
     tu.sendKeysById('contactPhone', phone);
 }
 
+function waitForAccountPage() {
+    browser.wait(function () {
+        return element(by.binding('MY_ACCOUNT')).isPresent();
+    });
+}
+
+
 describe("login:", function () {
 
 
@@ -33,8 +40,9 @@ describe("login:", function () {
         beforeEach(function () {
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().maximize();
+            browser.driver.manage().window().setSize(1000, 1100);
             browser.get(tu.tenant + '/#!/ct');
+
         });
 
 
@@ -45,6 +53,7 @@ describe("login:", function () {
 
         it('should allow existing user to login', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
+            browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
@@ -54,8 +63,9 @@ describe("login:", function () {
 
         it('should allow user to update account info', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            browser.sleep(2000);
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
             updateAccountField('first-name-edit', 'first');
@@ -69,14 +79,12 @@ describe("login:", function () {
             updateAccountField('first-name-edit', 'Joe');
             updateAccountField('middle-name-edit', 'C');
             updateAccountField('last-name-edit', 'Cool');
-            tu.clickElement('id', "logout-btn");
 
         });
 
         it('should create a new user', function () {
             tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.clickElement('linkText', 'Create Account');
+            tu.clickElement('binding', 'CREATE_ACCOUNT');
             tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
             tu.sendKeysById('newPasswordInput', 'pass');
             tu.clickElement('id', 'create-acct-btn');
@@ -86,7 +94,6 @@ describe("login:", function () {
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
-            tu.clickElement('id', "logout-btn");
 
 
         });
@@ -134,8 +141,9 @@ describe("login:", function () {
 
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'incorrect');
             tu.sendKeysById('newPassword', 'notnew');
@@ -144,15 +152,14 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.binding("error.message")).getText()).toEqual("Please provide correct current password!");
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
-            tu.clickElement('id', "logout-btn");
 
         });
 
         it('should not allow user to update their password if it less than 6 chars', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', '123');
@@ -160,15 +167,14 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
-            tu.clickElement('id', "logout-btn");
 
         });
 
         it('should not allow user to update their password if it does not match confirmation', function () {
             tu.loginHelper('badpassword@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'incorrect1');
@@ -176,21 +182,20 @@ describe("login:", function () {
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
             tu.clickElement('css', "button.close");
-            browser.sleep(500);
-            tu.clickElement('id', "logout-btn");
         });
 
         it('should allow user to update their password', function () {
             tu.loginHelper('password@test.com', 'password');
-            tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'password2');
             tu.sendKeysById('confirmNewPassword', 'password2');
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
-            browser.sleep(500);
+            browser.sleep(1500);
             tu.clickElement('id', "logout-btn");
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
@@ -209,12 +214,17 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(500);
-            tu.clickElement('id', "logout-btn");
         });
 
         it('should allow user to access order confirmation', function (){
             browser.get(tu.tenant + '/#!/confirmation/CYFEF3PN/');
-            tu.loginHelper('mike.nightingale@hybris.com', 'password');
+            browser.wait(function () {
+                return element(by.binding('SIGN_IN')).isPresent();
+            });
+            tu.sendKeys('id', 'usernameInput', 'mike.nightingale@hybris.com');
+            tu.sendKeys('id', 'passwordInput', 'password');
+            tu.clickElement('id', 'sign-in-button');
+            browser.sleep(1000);
             expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is CYFEF3PN');
         });
 

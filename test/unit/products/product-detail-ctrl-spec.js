@@ -55,9 +55,7 @@ describe('ProductDetailCtrl', function () {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         $scope = $injector.get('$rootScope').$new();
-    }));
 
-    beforeEach(function () {
         // creating the mocked service
         cartDef = $q.defer();
         mockedCartSvc = {
@@ -65,19 +63,30 @@ describe('ProductDetailCtrl', function () {
                 return cartDef.promise;
             })
         };
-
-        $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-            'CartSvc': mockedCartSvc, 'product': mockProduct, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
-
-    });
+    }));
 
     describe('initialization', function(){
+
+        beforeEach(function () {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+        });
+
        it('should set the category for the breadcrumb', function(){
           expect($scope.category).toBeTruthy();
        });
+
+        it('product without image should get default image', function () {
+            expect($scope.product.media[0].url).toEqualData(dummyImg);
+        });
     });
 
     describe('buy published product', function () {
+
+        beforeEach(function () {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+        });
 
         it('should add to cart from detail page', function () {
             $scope.addToCartFromDetailPage();
@@ -97,6 +106,7 @@ describe('ProductDetailCtrl', function () {
         });
 
         it('should re-enable buy button on error', function(){
+            console.log($scope.product);
             $scope.addToCartFromDetailPage();
             cartDef.reject();
             $scope.$apply();
@@ -105,13 +115,14 @@ describe('ProductDetailCtrl', function () {
 
     });
 
-    describe('initialization', function () {
-        it('product without image should get default image', function () {
-            expect($scope.product.images[0].url).toEqualData(dummyImg);
-        });
-    });
-
     describe('quantity change', function () {
+
+
+        beforeEach(function () {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+        });
+
         it('should disable buy button on invalid qty', function () {
             $scope.productDetailQty = '';
             $scope.changeQty();
@@ -128,9 +139,12 @@ describe('ProductDetailCtrl', function () {
     describe('onCartUpdated', function () {
 
         beforeEach(function () {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
             $scope.error = 'error';
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
+
         });
 
         it('should show cart', function () {
@@ -144,6 +158,58 @@ describe('ProductDetailCtrl', function () {
         it('should remove any error', function(){
             expect($scope.error).toBeFalsy();
         })
+    });
+
+    describe('productWithMainImage', function(){
+        var mockProductWithMain = {
+            name: 'product1',
+            defaultPrice: {
+                currency: 'USD',
+                value: 5000
+            },
+            published: true,
+            media: [
+                {url:'http://url1', customAttributes:{}},
+                {url:'http://url2', customAttributes:{main:true}},
+                {url:'http://url3', customAttributes:{}}
+            ]
+        };
+
+        beforeEach(function(){
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+        });
+
+        it('should list main image first', function(){
+            expect($scope.product.media[0].url).toEqualData('http://url2');
+            expect($scope.product.media[1].url).toEqualData('http://url1');
+            expect($scope.product.media[2].url).toEqualData('http://url3');
+        });
+    });
+
+    describe('productWithoutMainImage', function(){
+        var mockProductWithImages = {
+            name: 'product1',
+            defaultPrice: {
+                currency: 'USD',
+                value: 5000
+            },
+            published: true,
+            media: [
+                {url:'http://url1', customAttributes:{}},
+                {url:'http://url2', customAttributes:{}}
+            ]
+        };
+
+        beforeEach(function(){
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+        });
+
+        it('should list first image first', function(){
+            expect($scope.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.media[1].url).toEqualData('http://url2');
+        });
     });
 
 

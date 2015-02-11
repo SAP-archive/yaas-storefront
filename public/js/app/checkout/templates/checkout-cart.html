@@ -13,7 +13,6 @@
                 </a>
             </div>
             <div class="col-xs-8 col-md-8  detail-col">
-
                 <div class="name">{{item.product.name}}</div>
                 <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span></div>
                 <div class="variants row item-attr">
@@ -28,20 +27,20 @@
 <section class="summary" ng-cloak>
     <table class="table">
         <tbody>
-        <tr>
-            <td>{{'SUBTOTAL' | translate}}</td>
-            <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
-        </tr>
-        <tr>
-            <td>{{'SHIPPING' | translate}}</td>
-            <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
-        </tr>
+            <tr>
+                <td>{{'SUBTOTAL' | translate}}</td>
+                <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+            </tr>
+            <tr>
+                <td>{{'SHIPPING' | translate}}</td>
+                <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
+            </tr>
         </tbody>
         <tfoot>
-        <tr>
-            <td>{{'ORDER_TOTAL' | translate}}</td>
-            <td class="text-right">{{cart.totalPrice.value | currency: currencySymbol}}</td>
-        <tr>
+            <tr>
+                <td>{{'ORDER_TOTAL' | translate}}</td>
+                <td class="text-right">{{cart.totalPrice.value | currency: currencySymbol}}</td>
+            <tr>
         </tfoot>
     </table>
 </section>

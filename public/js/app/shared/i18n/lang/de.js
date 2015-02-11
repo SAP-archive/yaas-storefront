@@ -133,12 +133,13 @@ angular.module('ds.i18n')
 
         EMPTY_MSG: 'Demo Shop - Coming soon',
 		LANGUAGES: 'Sprachen',
+        SELECT_LANGUAGE: 'Wählen Sie eine Sprache',
 		en: 'Englisch',
 		de: 'Deutsch',
         SIGN_OUT: 'Austragen',
         SIGN_IN: 'Anmelden',
-        SIGN_IN_WITH_FACEBOOK: 'Anmelden with Facebook',
-        LOG_IN_WITH_GOOGLE_PLUS: 'Anmeldung with Google +',
+        SIGN_IN_WITH_FACEBOOK: 'Mit Facebook Anmelden',
+        LOG_IN_WITH_GOOGLE_PLUS: 'Mit Google+ Anmelden',
         MY_ACCOUNT: 'Mein Profil',
         CREATE_ACCOUNT: 'Konto erstellen',
         CONTINUE_AS_GUEST: 'Weiter als Gast',
@@ -156,6 +157,7 @@ angular.module('ds.i18n')
         CONTACT_NAME: 'Kontact Name',
         CONTACT_PHONE: 'Kontakt Telefon',
         CURRENCY: 'Währung',
+        SELECT_CURRENCY: 'Wählen Sie eine Währung',
         DATE: 'Datum',
         LOCALE: 'Ort',
         NAME_REQUIRED: 'Name Erforderlich',
@@ -214,6 +216,19 @@ angular.module('ds.i18n')
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben',
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
+
+        /*
+            error display
+        */
+        ERROR_TITLE: 'Interner Fehler',
+        ERROR_MESSAGE: 'Ups! Da ist ein Problem',
+        ERROR_TITLE_401: 'Unbefugt',
+        ERROR_MESSAGE_401: 'Ups! Da ist ein Problem. Ihre Anmeldedaten gewähren keinen Zugang zu dieser Seite',
+        ERROR_TITLE_404: 'Seite nicht gefunden',
+        ERROR_MESSAGE_404: 'Ups! Da ist ein Problem. Diese Seite ist nicht vorhanden',
+        ERROR_REDIRECT: 'Hier ist eine Seite , damit Sie wieder auf die Strecke',
+        ERROR_BUTTON_TEXT: 'HOMEPAGE',
+
 
         /*
          titles

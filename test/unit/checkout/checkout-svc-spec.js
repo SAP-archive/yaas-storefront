@@ -21,7 +21,8 @@ describe('CheckoutSvc', function () {
             user: null
         },
         getCurrencyId: jasmine.createSpy().andReturn('USD'),
-        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+        getCurrencySymbol: jasmine.createSpy().andReturn('$'),
+        getAcceptLanguages: jasmine.createSpy().andReturn('en')
     };
 
     order.account = {
@@ -139,7 +140,9 @@ describe('CheckoutSvc', function () {
         describe('and successful order placement', function () {
 
             beforeEach(function(){
-                $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond({"orderId":"456"});
+                $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson, function(headers){
+                    return headers['accept-language'] == 'en';
+                }).respond({"orderId":"456"});
             });
 
             it('should issue POST', function () {
@@ -154,7 +157,7 @@ describe('CheckoutSvc', function () {
                 expect(mockedCartSvc.resetCart).toHaveBeenCalled();
             });
 
-        })
+        });
 
         describe('and order placement failing due to HTTP 500', function(){
             beforeEach(function(){

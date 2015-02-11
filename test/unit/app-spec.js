@@ -16,7 +16,7 @@ xdescribe('Router test', function () {
 
     var mockedStateParams = {};
     //beforeEach(module('config'));
-    beforeEach(module('ds.router'));
+    beforeEach(module('ds.app'));
 
     beforeEach(module('ds.products', function($provide) {
         mockedProductSvc = {
