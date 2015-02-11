@@ -1,6 +1,3 @@
-/**
- * Created by i839794 on 9/16/14.
- */
 describe('directive: mobile-checkout-wizard', function() {
     var scope,
         elem,
