@@ -218,6 +218,19 @@ angular.module('ds.i18n')
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
+            error display
+        */
+        ERROR_TITLE: 'Interner Fehler',
+        ERROR_MESSAGE: 'Ups! Da ist ein Problem',
+        ERROR_TITLE_401: 'Unbefugt',
+        ERROR_MESSAGE_401: 'Ups! Da ist ein Problem. Ihre Anmeldedaten gewähren keinen Zugang zu dieser Seite',
+        ERROR_TITLE_404: 'Seite nicht gefunden',
+        ERROR_MESSAGE_404: 'Ups! Da ist ein Problem. Diese Seite ist nicht vorhanden',
+        ERROR_REDIRECT: 'Hier ist eine Seite , damit Sie wieder auf die Strecke',
+        ERROR_BUTTON_TEXT: 'HOMEPAGE',
+
+
+        /*
          titles
     */
         DR: 'Dr.',
