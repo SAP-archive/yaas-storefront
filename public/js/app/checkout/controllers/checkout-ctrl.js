@@ -48,6 +48,9 @@ angular.module('ds.checkout')
             var addressModalInstance;
 
             $scope.order.account = {};
+
+            $scope.shipToSameAsBillTo = true;
+
             window.scrollTo(0, 0);
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
