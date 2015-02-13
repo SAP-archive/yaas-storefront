@@ -68,9 +68,11 @@ module.exports = function(config){
 
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
-        'public/js/app/checkout/services/checkout-service.js',
+        'public/js/app/checkout/directives/address-decorator.js',
         'public/js/app/checkout/directives/inline-error-input.js',
+        'public/js/app/checkout/directives/mobile-checkout-wizard.js',
         'public/js/app/checkout/services/checkout-rest.js',
+        'public/js/app/checkout/services/checkout-service.js',
 
         'public/js/app/confirmation/confirmation-index.js',
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
