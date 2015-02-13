@@ -186,6 +186,7 @@ angular.module('ds.i18n')
          */
         FORGOT_PW: 'Forgot your password?',
         PASSWORD: 'Password',
+        PASSWORD_MINCHAR: 'Min. 6 characters',
         CONFIRM_PASSWORD: 'Confirm Password',
         TOKEN: 'Token',
         RESET_PASSWORD: 'Reset Password',

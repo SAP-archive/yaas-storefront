@@ -185,6 +185,7 @@ angular.module('ds.i18n')
          login, password, signup
          */
         PASSWORD: 'Passwort',
+        PASSWORD_MINCHAR: 'Min. 6 Zeichen',
         CONFIRM_PASSWORD: 'Passwort bestätigen',
         FORGOT_PW: 'Passwort vergessen?',
         RESET_PASSWORD: 'Neues Passwort',
