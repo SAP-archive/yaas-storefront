@@ -14,10 +14,10 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll) {
 
-            $scope.pageSize = 8;
+            $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
@@ -32,6 +32,9 @@ angular.module('ds.products')
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
             $scope.category = category || {};
+
+            $scope.loadedPages = 1;
+            $scope.loadMorePages = false;
 
             // ensure category path is localized
             var pathSegments = $location.path().split('/');
@@ -84,6 +87,21 @@ angular.module('ds.products')
                             /* jshint ignore:start */
                             initRefineAffix();
                             /* jshint ignore:end */
+
+                            if($scope.loadMorePages) {
+                                $timeout(function(){
+
+                                    //GlobalData.products.lastViewedProductId
+                                    $scope.scrollTo('product_' + GlobalData.products.lastViewedProductId);
+                                    $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                                    $scope.pageNumber = $scope.loadedPages;
+
+                                    //Set page parameter
+                                    $location.search('page', $scope.pageNumber);
+
+                                    $scope.loadMorePages = false;
+                                },1);
+                            }
 
                         }
                     }
@@ -154,6 +172,8 @@ angular.module('ds.products')
                 if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                     if (!$scope.requestInProgress) {
                         $scope.pageNumber = $scope.pageNumber + 1;
+
+
                         var qSpec = 'published:true';
                         if ($scope.category.elements && $scope.category.elements.length > 0) {
                             qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
@@ -181,6 +201,9 @@ angular.module('ds.products')
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                     assignMainImage(products);
+
+                                    //Set page parameter
+                                    $location.search('page', $scope.pageNumber);
                                 }
                             }, function () {
                                 $scope.requestInProgress = false;
@@ -189,11 +212,32 @@ angular.module('ds.products')
                 }
             };
 
+            $scope.backToTop = function () {
+                window.scrollTo(0, 0);
+            };
+
+            $scope.scrollTo = function (id) {
+                var old = $location.hash();
+                $location.hash(id);
+                $anchorScroll();
+                $location.hash(old);
+            };
+
+            //Check for query parameter that has number of pages
+            if(!!$location.search().page){
+                $scope.loadedPages =  parseInt($location.search().page);
+                $scope.pageSize = $scope.pageSize * $scope.loadedPages;
+                $scope.sort = GlobalData.products.lastSort;
+                $scope.loadMorePages = true;
+            }
+
             // trigger initial load of items
             $scope.addMore();
 
-            $scope.backToTop = function () {
-                window.scrollTo(0, 0);
+            //Save id of the last viewed element, last viewed page and current sort
+            $scope.openProductDetails = function (productId) {
+                GlobalData.products.lastViewedProductId = productId;
+                GlobalData.products.lastSort = $scope.sort;
             };
 
             $scope.getViewingNumbers = function (pageNo) {

@@ -108,7 +108,10 @@ angular.module('ds.shared')
                 products: {
                     meta: {
                         total: 0
-                    }
+                    },
+                    pageSize: 8,
+                    lastSort: '',
+                    lastViewedProductId: ''
                 },
                 addresses:  {
                     meta: {
