@@ -32,7 +32,6 @@ angular.module('ds.checkout')
                     this.step1Done = false;
                     this.step2Done = false;
                     this.step3Done = false;
-                    this.shipToSameAsBillTo = true;
                     // credit card expiration year drop-down - go 10 years out
                     this.years = [];
                     for (var year = new Date().getFullYear(), i = year, stop = year + 10; i < stop; i++) {
@@ -62,7 +61,7 @@ angular.module('ds.checkout')
                 scope.shipToDone = function (shipToFormValid, form) {
                     scope.$broadcast('submitting:form', form);
                     // if the ship to form fields are hidden, angular considers them empty - work around that:
-                    if (shipToFormValid || scope.wiz.shipToSameAsBillTo) {
+                    if (shipToFormValid || scope.shipToSameAsBillTo) {
                         scope.wiz.step2Done = true;
                         scope.showPristineErrors = false;
                         // guarantee correct scrolling for mobile
