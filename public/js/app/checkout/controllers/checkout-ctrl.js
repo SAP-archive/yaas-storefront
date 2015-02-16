@@ -19,18 +19,10 @@ angular.module('ds.checkout')
  * The scope provides access to the data models "order" and "cart", as well as some properties to control display
  * of errors.
  *
- * This controller includes a checkout wizard for the mobile checkout process, which requires that information
- * is filled out in segments ("steps"), and all subsequent steps are blocked from input until the required
- * information has been provided for previous steps. If the user edits a previously completed step, all subsequent steps
- * are marked "undone" again, and the user has to tab through the remaining steps to advance.  Validation of
- * required fields comes into play as the user attempts to advance to the next.  If there are missing fields,
- * the missing fields will be highlighted as errors, and the user cannot advance until the necessary information
- * has been provided.
- *
  * In the checkout HTML, the "steps" are created by using nested forms which can be individually validated.
  *
- * The wizard does not come into play in full screen mode.  Required fields are checked and enforced when the user
- * indicates "submit".
+ * The wizard directive defined in mobileCheckoutWizard does not come into play in full screen mode.  Required fields
+ * are checked and enforced when the user indicates "submit".
  *
  * The controller also includes logic to copy the bill-to address to the ship-to address if that's what the user has indicated.
  *
@@ -79,6 +71,9 @@ angular.module('ds.checkout')
             var addressModalInstance;
 
             $scope.order.account = {};
+
+            $scope.shipToSameAsBillTo = true;
+
             window.scrollTo(0, 0);
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
@@ -86,17 +81,6 @@ angular.module('ds.checkout')
             });
 
             $scope.$on('$destroy', unbind);
-
-            var decorateSelectedAddress = function(address) {
-                angular.forEach($scope.addresses, function (addr) {
-                    if (addr.id && addr.id === address.id) {
-                        addr.selected = true;
-                    }
-                    else {
-                        addr.selected = false;
-                    }
-                });
-            };
 
             var getDefaultAddress = function (addresses) {
                 return _.find(addresses, function (addr) {
@@ -180,10 +164,6 @@ angular.module('ds.checkout')
                     }
                 };
 
-
-
-
-
             /** Mark mobile wizard step 1 "done" - bill-to address information has been entered.*/
             $scope.billToDone = function (billToFormValid, form) {
                 $scope.$broadcast('submitting:form', form);
@@ -254,11 +234,11 @@ angular.module('ds.checkout')
             var clearShipTo = function(){
                 selectedShippingAddress = {};
                 $scope.order.shipTo = {};
-                $scope.wiz.shipToSameAsBillTo = false;
+                $scope.shipToSameAsBillTo = false;
             };
 
             $scope.toggleShipToSameAsBillTo = function(){
-                if($scope.wiz.shipToSameAsBillTo){
+                if($scope.shipToSameAsBillTo){
                     setShipToSameAsBillTo();
                 } else {
                     clearShipTo();
@@ -317,14 +297,12 @@ angular.module('ds.checkout')
 
                 var msg = error.message;
                 if (error.type === 'card_error') {
-                    $scope.editPayment();
                     if (error.code && isFieldAttributableStripeError(error)) {
                         msg = 'PLEASE_CORRECT_ERRORS';
                         attributeStripeFieldError(error);
                     }
                 }
                 else if (error.type === 'payment_token_error') {
-                    $scope.editPayment();
                     msg = 'Server error - missing payment configuration key.  Please try again later.';
                 } else {
                     console.error('Stripe validation failed: ' + JSON.stringify(error));
@@ -379,7 +357,7 @@ angular.module('ds.checkout')
                     });
 
                     $scope.submitIsDisabled = true;
-                    if ($scope.wiz.shipToSameAsBillTo) {
+                    if ($scope.shipToSameAsBillTo) {
                         setShipToSameAsBillTo();
                     }
                     $scope.order.cart = $scope.cart;
@@ -414,23 +392,16 @@ angular.module('ds.checkout')
                 if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
                     setShipToSameAsBillTo();
                 }
-                $scope.wiz.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
+                $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
             };
 
             $scope.openAddressDialog = function(target) {
-                if (target === $scope.order.billTo) {
-                    decorateSelectedAddress(selectedBillingAddress);
-                }
-                else if (target === $scope.order.shipTo) {
-                    decorateSelectedAddress(selectedShippingAddress);
-                }
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
                     scope: $scope,
                     resolve: {
                         addresses: function(AccountSvc) {
-
                             return AccountSvc.getAddresses().then(function() {
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
