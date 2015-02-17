@@ -91,7 +91,6 @@ angular.module('ds.products')
                             if($scope.loadMorePages) {
                                 $timeout(function(){
 
-                                    //GlobalData.products.lastViewedProductId
                                     $scope.scrollTo('product_' + GlobalData.products.lastViewedProductId);
                                     $scope.pageSize = $scope.pageSize / $scope.loadedPages;
                                     $scope.pageNumber = $scope.loadedPages;
@@ -217,13 +216,17 @@ angular.module('ds.products')
             };
 
             $scope.scrollTo = function (id) {
+
+                // always scroll by 150 extra pixels (because of the navigation pane)
+                $anchorScroll.yOffset = 150;
+
                 var old = $location.hash();
                 $location.hash(id);
                 $anchorScroll();
                 $location.hash(old);
             };
 
-            //Check for query parameter that has number of pages
+            //Check for query parameter that has the number of pages
             if(!!$location.search().page){
                 $scope.loadedPages =  parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
