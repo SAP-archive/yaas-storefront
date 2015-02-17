@@ -80,11 +80,13 @@ angular.module('ds.checkout')
             var getAddresses = function() {
                 if(AuthSvc.isAuthenticated()) {
                     AccountSvc.getAddresses().then(function (response) {
-                        var defaultAddress = getDefaultAddress(response);
-                        $scope.addresses = response;
-                        selectedBillingAddress = defaultAddress;
-                        selectedShippingAddress = defaultAddress;
-                        populateBillTo(defaultAddress);
+                        if (response.length) {
+                            var defaultAddress = getDefaultAddress(response);
+                            $scope.addresses = response;
+                            selectedBillingAddress = defaultAddress;
+                            selectedShippingAddress = defaultAddress;
+                            populateBillTo(defaultAddress);
+                        }
                     });
                 }
             };
