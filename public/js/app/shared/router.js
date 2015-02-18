@@ -244,11 +244,10 @@ angular.module('ds.router', [])
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
-                var path = $location.path()
+                var path = $location.path();
                 // Note: misnomer. This returns a query object, not a search string
-                    , search = $location.search()
-                    , params
-                    ;
+                var search = $location.search();
+                var params;
 
                 // check to see if the path already ends in '/'
                 if (path[path.length - 1] === '/') {
