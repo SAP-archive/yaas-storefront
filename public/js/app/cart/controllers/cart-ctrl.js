@@ -67,6 +67,9 @@ angular.module('ds.cart')
                     }
                 );
             }
+            else {
+                $state.go('base.checkout.details');
+            }
         };
 
     }]);
