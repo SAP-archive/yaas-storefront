@@ -90,8 +90,7 @@ angular.module('ds.products')
 
                             if($scope.loadMorePages) {
                                 $timeout(function(){
-
-                                    $scope.scrollTo('product_' + GlobalData.products.lastViewedProductId);
+                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
                                     $scope.pageSize = $scope.pageSize / $scope.loadedPages;
                                     $scope.pageNumber = $scope.loadedPages;
 
