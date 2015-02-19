@@ -196,6 +196,7 @@
 .edit-cart{
 	position: fixed;
 	max-height: 100%;
+    min-height: 200px;
 	top: 0;
 	right: 0;
 	width: @offcanvas-right-width-m;
@@ -208,8 +209,30 @@
 
 	box-shadow: 0 0 5px #000;
 
+  .continue, .checkout, .checkout button{
+	 width:100%;
+   }
+
 	@media screen and (min-width: @screen-sm-max) {
 			width: @offcanvas-right-width-d;
 	}
 }
-
+.edit-cart-empty{
+  text-align: center;
+  font-weight: bold;
+  padding-top:50px;
+}
+.edit-cart-backdrop{
+  position:fixed;
+  z-index:@zIndex-4;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 768px) and (max-width: 991px) {
+ .edit-cart {
+   margin-top:75px;
+ }
+}

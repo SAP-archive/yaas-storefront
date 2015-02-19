@@ -33,17 +33,40 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc', 'cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
         function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $scope.order = order;
-            $scope.cart = cart;
+
+            //Resolve in the ui.router state returns cart object, problem is when the user is loged in
+            //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
+            //this method changes cart. That is the reason cart was empty on refresh
+            //With this implementation we are getting the cart object from service after it is loaded
+            cart = $scope.cart;
+
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.order.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
+
+            var Wiz = function () {
+                this.step1Done = false;
+                this.step2Done = false;
+                this.step3Done = false;
+                this.shipToSameAsBillTo = true;
+                // credit card expiration year drop-down - go 10 years out
+                this.years = [];
+                for (var year = new Date().getFullYear(), i = year, stop = year + 10; i < stop; i++) {
+                    this.years.push(i);
+                }
+                this.months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+            };
+
+            $scope.wiz = new Wiz();
+
             var selectedBillingAddress, selectedShippingAddress;
             var addressModalInstance;
 
@@ -142,6 +165,67 @@ angular.module('ds.checkout')
                         this.instance.dismiss('cancel');
                     }
                 };
+
+            /** Mark mobile wizard step 1 "done" - bill-to address information has been entered.*/
+            $scope.billToDone = function (billToFormValid, form) {
+                $scope.$broadcast('submitting:form', form);
+                if (billToFormValid) {
+                    $scope.wiz.step1Done = true;
+                    $scope.showPristineErrors = false;
+                    // guarantee correct scrolling for mobile
+                    $location.hash('step2');
+                    $anchorScroll();
+                } else {
+                    $scope.showPristineErrors = true;
+                }
+            };
+
+            /** Mark mobile wizard step 2 "done" - the ship-to address has been entered.*/
+            $scope.shipToDone = function (shipToFormValid, form) {
+                $scope.$broadcast('submitting:form', form);
+                // if the ship to form fields are hidden, angular considers them empty - work around that:
+                if (shipToFormValid || $scope.wiz.shipToSameAsBillTo) {
+                    $scope.wiz.step2Done = true;
+                    $scope.showPristineErrors = false;
+                    // guarantee correct scrolling for mobile
+                    $location.hash('step3');
+                    $anchorScroll();
+                } else {
+                    $scope.showPristineErrors = true;
+                }
+            };
+
+            /** Mark mobile wizard step 3 "done" - the payment information has been entered.*/
+            $scope.paymentDone = function (paymentFormValid, form) {
+                $scope.$broadcast('submitting:form', form);
+                if (paymentFormValid) {
+                    $scope.wiz.step3Done = true;
+                    // guarantee correct scrolling for mobile
+                    $location.hash('step4');
+                    $anchorScroll();
+                } else {
+                    $scope.showPristineErrors = true;
+                }
+
+            };
+
+            /** Mobile wizard - edit bill-do and mark subsequent steps as undone.*/
+            $scope.editBillTo = function () {
+                $scope.wiz.step1Done = false;
+                $scope.wiz.step2Done = false;
+                $scope.wiz.step3Done = false;
+            };
+
+            /** Mobile wizard - edit ship-to and mark subsequent steps as undone.*/
+            $scope.editShipTo = function () {
+                $scope.wiz.step2Done = false;
+                $scope.wiz.step3Done = false;
+            };
+
+            /** Mobile wizard - edit payment information.*/
+            $scope.editPayment = function () {
+                $scope.wiz.step3Done = false;
+            };
 
             /** Copy bill-to information to the ship-to properties.*/
             var setShipToSameAsBillTo = function () {
@@ -334,5 +418,15 @@ angular.module('ds.checkout')
             $scope.closeAddressDialog = function () {
                 addressModalInstance.close();
             };
+
+            $scope.$on('goToStep2', function(){
+                if( $scope.wiz.step1Done &&  $scope.wiz.step2Done){
+                    $scope.wiz.step2Done = false;
+                    $scope.wiz.step3Done = false;
+                    $location.hash('step2');
+                    $anchorScroll();
+                }
+            });
+
 
         }]);

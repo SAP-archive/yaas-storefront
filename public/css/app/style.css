@@ -7197,19 +7197,44 @@ a.signin {
 .edit-cart {
   position: fixed;
   max-height: 100%;
+  min-height: 200px;
   top: 0;
   right: 0;
   width: 85%;
-  z-index: 300;
+  z-index: 10001;
   overflow-x: auto;
   box-shadow: 0 0 5px #000;
 }
 .edit-cart#cart {
   padding-top: 0px;
 }
+.edit-cart .continue,
+.edit-cart .checkout,
+.edit-cart .checkout button {
+  width: 100%;
+}
 @media screen and (min-width: 991px) {
   .edit-cart {
     width: 500px;
+  }
+}
+.edit-cart-empty {
+  text-align: center;
+  font-weight: bold;
+  padding-top: 50px;
+}
+.edit-cart-backdrop {
+  position: fixed;
+  z-index: 400;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .edit-cart {
+    margin-top: 75px;
   }
 }
 section {

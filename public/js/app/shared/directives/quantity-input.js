@@ -22,7 +22,7 @@ angular.module('ds.shared')
         return {
             restrict: 'A',
             link: function(scope, element) {
-                element.bind('keydown keypress', function (event) {
+                element.bind('keydown', function (event) {
                     if (!(event.keyCode===13 || event.ctrlKey || event.altKey ||
                         (47<event.keyCode && event.keyCode<58 && event.shiftKey===false) ||
                         (95<event.keyCode && event.keyCode<106) ||
