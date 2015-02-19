@@ -20,6 +20,19 @@ angular.module('ds.shared')
 
             $scope.languages = [];
             var availableLanguages = GlobalData.getAvailableLanguages();
+            /*
+             if the admin has not yet configured languages, default to english
+             */
+            if (!availableLanguages.length) {
+                availableLanguages = [
+                    {
+                        default: true,
+                        id: 'en',
+                        label: 'English',
+                        required: true
+                    }
+                ];
+            }
             // Language translations (if we don't have them for current locale use values form config service - english versions)
             var translationPromises = availableLanguages
                 .map(function(lang) {
