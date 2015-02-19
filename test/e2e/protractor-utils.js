@@ -14,7 +14,7 @@ exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'ytvlw4f7ebox';
-exports.accountWithOrderEmail = 'order@test.com';
+exports.accountWithOrderEmail = 'order@hybristest.com';
 
 
 exports.waitForCart = function(){
