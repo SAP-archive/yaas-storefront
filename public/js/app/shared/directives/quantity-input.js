@@ -29,7 +29,7 @@ angular.module('ds.shared')
                         (event.keyCode===8) || (event.keyCode===9) ||
                         (event.keyCode>34 && event.keyCode<41) ||
                         (event.keyCode===46)))
-                    {   
+                    {
                         event.preventDefault();
                     }
                 });
