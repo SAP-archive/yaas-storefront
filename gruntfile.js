@@ -204,17 +204,18 @@ module.exports = function (grunt) {
             app: {  //compile html templates into angular min.js concatenation.
                 cwd:'./public/',
                 src: [
-                    'js/app/auth/templates/auth.html',
-                    'js/app/cart/templates/cart.html',
                     'js/app/home/templates/home.html',
-                    'js/app/auth/templates/signup.html',
-                    'js/app/auth/templates/signin.html',
                     'js/app/shared/templates/top-navigation.html',
-                    'js/app/shared/templates/language-selector.html',
-                    'js/app/shared/templates/currency-selector.html',
                     'js/app/shared/templates/sidebar-navigation.html'
-                ], //temporary output of the html concatenations.
-                dest: '.tmp/concat/js/template.js',
+                    //too many slows down time to render.
+                    //'js/app/auth/templates/auth.html',
+                    //'js/app/cart/templates/cart.html',
+                    //'js/app/auth/templates/signup.html',
+                    //'js/app/auth/templates/signin.html',
+                    //'js/app/shared/templates/language-selector.html',
+                    //'js/app/shared/templates/currency-selector.html',
+                ],
+                dest: '.tmp/concat/js/template.js', //temp concatenation location.
                 htmlmin: {  // minify html configuration.
                     collapseBooleanAttributes:      true,
                     collapseWhitespace:             true,
@@ -225,9 +226,9 @@ module.exports = function (grunt) {
                     removeScriptTypeAttributes:     true,
                     removeStyleLinkTypeAttributes:  true
                 },
-                options: {  // concat with usemin output.
-                    usemin: 'js/storefront.js'
-                    // ,prefix: './../'
+                options: {
+                    usemin: 'js/storefront.js', //concat temp with usemin output.
+                    module: 'ds.app'  //module to append templateCache code.
                 }
             }
         }

@@ -66,22 +66,18 @@ window.app = angular.module('ds.app', [
     }])
 
     .run(['$rootScope', '$injector','ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
         function ($rootScope, $injector, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
                  AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
 
-            //closeOffcanvas func for mask 
-
+            //closeOffcanvas func for mask
             $rootScope.closeOffcanvas = function(){
                 $rootScope.showMobileNav = false;
                 $rootScope.showCart = false;
             };
 
-
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
-
 
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);

@@ -242,7 +242,7 @@ angular.module('ds.router', [])
             $urlRouterProvider.otherwise('/home');
 
             /* Code from angular ui-router to make trailing slash conditional */
-            $urlRouterProvider.rule(function($injector, $location) {
+            $urlRouterProvider.rule(function($location) {
                 var path = $location.path();
                 // Note: misnomer. This returns a query object, not a search string
                 var search = $location.search();
