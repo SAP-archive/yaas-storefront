@@ -136,7 +136,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4000);
+            browser.sleep(4500);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
         });
@@ -189,7 +189,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4000);
+            browser.sleep(4500);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
@@ -325,7 +325,7 @@ describe("mobile checkout:", function () {
         it('should allow all fields to be editable on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4000);
+            browser.sleep(4500);
             browser.wait(function () {
                 return element(by.id('mobile-cart-btn')).isDisplayed();
             });
@@ -355,7 +355,7 @@ describe("mobile checkout:", function () {
         it('should have basic validation on mobile', function () {
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4000);
+            browser.sleep(4500);
             browser.wait(function () {
                 return element(by.id('mobile-cart-btn')).isDisplayed();
             });
