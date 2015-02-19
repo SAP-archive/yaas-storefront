@@ -1,6 +1,4 @@
-<div class="edit-cart-backdrop"></div>
-
-<div role="navigation" id="cart" class="edit-cart" ng-cloak><!--
+<!--
   ~ [y] hybris Platform
   ~
   ~ Copyright (c) 2000-2014 hybris AG
@@ -11,6 +9,10 @@
   ~ Information and shall use it only in accordance with the terms of the
   ~ license agreement you entered into with hybris.
   -->
+
+<div class="edit-cart-backdrop"></div>
+
+<div role="navigation" id="cart" class="edit-cart" ng-cloak>
 
 		<div class="btn-group continue" ng-hide="!!cart.items">
 			<button class="btn  btn-default continue " data-ui-sref="base.category"><span class="hyicon hyicon-chevron-thin-left"></span>{{'CONTINUE_SHOPPING' | translate}}</button>
@@ -58,16 +60,9 @@
 				<div class="clearfix">
 					<div class="input-group pull-left" ng-class="{error: item.error}">
 						<span class="input-group-addon">{{'QTY' | translate}}:</span>
-						<form ng-submit="updateCartItem(item, item.quantity,{opencartAfterEdit: false})">
-							<input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
-								   ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"
-								   onkeydown="return ( event.keyCode==13 || event.ctrlKey || event.altKey
-                                                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
-                                                    || (95<event.keyCode && event.keyCode<106)
-                                                    || (event.keyCode==8) || (event.keyCode==9)
-                                                    || (event.keyCode>34 && event.keyCode<40)
-                                                    || (event.keyCode==46) )" />
-						</form>
+
+                        <input type="number" quantity-input ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control" pattern="\d*" step="1" min="0">
+
 					</div>
 				</div>
 				<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.value || 0 | currency: currencySymbol}}</span></div>

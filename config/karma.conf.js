@@ -108,6 +108,7 @@ module.exports = function(config){
 
         'public/js/app/shared/controllers/currency-selector-ctrl.js',
         'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/directives/quantity-input.js',
         'public/js/app/shared/directives/popover.js',
 
         'public/js/app/orders/orders-index.js',

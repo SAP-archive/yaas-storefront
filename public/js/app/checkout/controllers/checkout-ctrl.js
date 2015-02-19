@@ -103,11 +103,13 @@ angular.module('ds.checkout')
             var getAddresses = function() {
                 if(AuthSvc.isAuthenticated()) {
                     AccountSvc.getAddresses().then(function (response) {
-                        var defaultAddress = getDefaultAddress(response);
-                        $scope.addresses = response;
-                        selectedBillingAddress = defaultAddress;
-                        selectedShippingAddress = defaultAddress;
-                        populateBillTo(defaultAddress);
+                        if (response.length) {
+                            var defaultAddress = getDefaultAddress(response);
+                            $scope.addresses = response;
+                            selectedBillingAddress = defaultAddress;
+                            selectedShippingAddress = defaultAddress;
+                            populateBillTo(defaultAddress);
+                        }
                     });
                 }
             };
@@ -420,6 +422,7 @@ angular.module('ds.checkout')
             $scope.$on('goToStep2', function(){
                 if( $scope.wiz.step1Done &&  $scope.wiz.step2Done){
                     $scope.wiz.step2Done = false;
+                    $scope.wiz.step3Done = false;
                     $location.hash('step2');
                     $anchorScroll();
                 }

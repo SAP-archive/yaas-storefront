@@ -1,50 +1,53 @@
-<h2>{{'ORDER_DETAILS' | translate}}</h2>
-<section class="excerpt‎" ng-cloak>
-    <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
-    <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-    <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value + shippingCost | currency: shippingCurrencySymbol}}</div>
-</section>
-<section ng-cloak>
-    <div ng-repeat="item in cart.items track by $index">
-        <div class="cart-item row">
-            <div class="col-xs-4 col-md-4 text-center img-col">
-                <a ui-sref="base.product.detail( {productId: item.product.id} )">
-                    <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
-                </a>
-            </div>
-            <div class="col-xs-8 col-md-8  detail-col">
-                <div class="name">{{item.product.name}}</div>
-                <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span></div>
-                <div class="variants row item-attr">
-                    <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
+<div class="CheckoutCartContainer">
+    <h2>{{'ORDER_DETAILS' | translate}}</h2>
+    <section class="excerpt" ng-cloak>
+        <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
+        <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value + shippingCost | currency: shippingCurrencySymbol}}</div>
+    </section>
+    <section class="cartItems" ng-cloak>
+        <div ng-repeat="item in cart.items track by $index">
+            <div class="cart-item row">
+                <div class="col-xs-4 col-md-4 text-center img-col">
+                    <a ui-sref="base.product.detail( {productId: item.product.id} )">
+                        <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
+                    </a>
                 </div>
-                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) | currency: currencySymbol}}</span>
+                <div class="col-xs-8 col-md-8  detail-col">
+                    <div class="name">{{item.product.name}}</div>
+                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span></div>
+                    <div class="variants row item-attr">
+                        <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
+                    </div>
+                    <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) | currency: currencySymbol}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section class="summary" ng-cloak>
-    <table class="table">
-        <tbody>
-            <tr>
-                <td>{{'SUBTOTAL' | translate}}</td>
-                <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
-            </tr>
-            <tr>
-                <td>{{'SHIPPING' | translate}}</td>
-                <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>{{'ORDER_TOTAL' | translate}}</td>
-                <td class="text-right">{{cart.totalPrice.value | currency: currencySymbol}}</td>
-            <tr>
-        </tfoot>
-    </table>
-</section>
-<section>
-    <button class="btn  btn-primary btn-lg btn-block" ng-click="showEditCart()"  ng-if="cart.items.length">{{'EDIT' | translate}}</button>
-</section>
-<div ui-view="editCart"></div>
+    </section>
+    <section class="summary" ng-cloak>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>{{'SUBTOTAL' | translate}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                </tr>
+                <tr>
+                    <td>{{'SHIPPING' | translate}}</td>
+                    <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>{{'ORDER_TOTAL' | translate}}</td>
+                    <td class="text-right">{{cart.totalPrice.value | currency: currencySymbol}}</td>
+                <tr>
+
+            </tfoot>
+        </table>
+    </section>
+    <section>
+        <button class="btn  btn-primary btn-lg btn-block" ng-click="showEditCart()"  ng-if="cart.items.length">{{'EDIT' | translate}}</button>
+    </section>
+    <div ui-view="editCart"></div>
+</div>

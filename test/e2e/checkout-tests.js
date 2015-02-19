@@ -34,9 +34,9 @@ function verifyOrderConfirmation(email, name, number, cityStateZip) {
 
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
-    expect(element(by.xpath('//div[2]/section[2]/div/div/div[2]/div[2]')).getText()).toContain(itemPrice); //item price
-    expect(element(by.xpath('//div[2]/section[3]/table/tfoot/tr/td[2]')).getText()).toContain(totalPrice);
-    expect(element(by.xpath("//div[2]/section[2]/div/div/div[2]/div[3]/div")).getText()).toContain(quantity);
+    expect(element(by.xpath('//div[2]/div/section[2]/div/div/div[2]/div[2]/span')).getText()).toContain(itemPrice); //item price
+    expect(element(by.xpath('//div[2]/div/section[3]/table/tfoot/tr/td[2]')).getText()).toContain(totalPrice);
+    expect(element(by.xpath("//div[2]/div/section[2]/div/div/div[2]/div[3]/div/span")).getText()).toContain(quantity);
 
 }
 
@@ -179,7 +179,7 @@ describe("checkout:", function () {
             tu.waitForCart();
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('Item Price: $10.67', '$23.92', '1');
+            verifyCartContents('$10.67', '$23.92', '1');
         });
 
         it('should allow all fields to be editable', function () {
@@ -271,7 +271,7 @@ describe("checkout:", function () {
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-            verifyCartContents('Item Price: $10.67', '$23.92', '1');
+            verifyCartContents('$10.67', '$23.92', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             browser.sleep(500)
             tu.clickElement('id', 'place-order-btn');

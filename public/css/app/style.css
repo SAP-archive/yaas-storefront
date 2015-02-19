@@ -8176,6 +8176,7 @@ section .hero-unit {
 }
 .checkout .steps {
   padding: 30px;
+  background-color: #fafafa;
   /* MOBILE SECTIONS */
 }
 .checkout .steps .input-group-addon {
@@ -8239,6 +8240,33 @@ section .hero-unit {
   .checkout .steps h1 {
     text-align: center;
   }
+}
+.checkout .checkout-cart .CheckoutCartContainer {
+  margin: 0 -15px;
+}
+@media (min-width: 768px) {
+  .checkout .checkout-cart .CheckoutCartContainer {
+    margin-top: 156px;
+  }
+}
+.checkout .checkout-cart .cart-item.row {
+  margin: 0 -30px;
+  padding: 20px 13px;
+}
+.checkout .checkout-cart .excerpt {
+  border-bottom: 1px solid #bebebe;
+  overflow: hidden;
+  padding-top: 4px;
+}
+.checkout .checkout-cart .price {
+  margin-bottom: 0;
+}
+.checkout .checkout-cart h2 {
+  margin-left: 30px;
+  margin-bottom: 0;
+}
+.checkout .checkout-cart .summary {
+  padding: 30px 20px;
 }
 .checkout .confirm .step-detail {
   padding: 15px;
