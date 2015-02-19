@@ -22,14 +22,14 @@ angular.module('ds.shared')
         return {
             restrict: 'A',
             link: function(scope, element) {
-                element.bind('keydown keypress', function (event) {
+                element.bind('keydown', function (event) {
                     if (!(event.keyCode===13 || event.ctrlKey || event.altKey ||
                         (47<event.keyCode && event.keyCode<58 && event.shiftKey===false) ||
                         (95<event.keyCode && event.keyCode<106) ||
                         (event.keyCode===8) || (event.keyCode===9) ||
                         (event.keyCode>34 && event.keyCode<41) ||
                         (event.keyCode===46)))
-                    {
+                    {   
                         event.preventDefault();
                     }
                 });
