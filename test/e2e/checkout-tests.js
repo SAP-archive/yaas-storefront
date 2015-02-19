@@ -148,6 +148,21 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$13.94', '1');
         });
 
+        it('should update cart quantity on checkout page', function () {
+            var backToCheckoutButton = "//div[@id='cart']/div[2]/button"
+            var editCartButton = "(//button[@id='checkout-cart-btn'])[2]"
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal()
+            verifyCartContents('$10.67', '$13.94', '1');
+            tu.clickElement('xpath', editCartButton);
+            browser.wait(function () {
+                return element(by.binding('BACK_TO_CHECKOUT')).isPresent();
+            });          
+            tu.sendKeysByXpath("//input[@type='number']", '5');
+            tu.clickElement('binding', 'BACK_TO_CHECKOUT');
+            verifyCartContents('$10.67', '$56.63', '5');
+        });
+
         it('should load 2 of one product into cart and move to checkout', function () {
             tu.sendKeysByXpath(tu.cartQuantity, '2');
             tu.clickElement('binding', 'CHECKOUT');         
