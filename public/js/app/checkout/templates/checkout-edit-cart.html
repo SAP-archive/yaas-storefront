@@ -13,15 +13,15 @@
   -->
 
 		<div class="btn-group continue" ng-hide="!!cart.items">
-			<button class="btn  btn-default continue " data-ui-sref="base.category"><span class="hyicon hyicon-chevron-thin-left"></span> Continue shopping</button>
+			<button class="btn  btn-default continue " data-ui-sref="base.category"><span class="hyicon hyicon-chevron-thin-left"></span>{{'CONTINUE_SHOPPING' | translate}}</button>
 		</div>
 		<div class="btn-group checkout" ng-hide="!cart.items.length">
-			<button class="btn  btn-primary " ng-click="hideEditCart()" ng-if="cart.items.length">Back To Checkout <span class="hyicon hyicon-chevron-thin-right"></span>
+			<button class="btn  btn-primary " ng-click="hideEditCart()" ng-if="cart.items.length">{{'BACK_TO_CHECKOUT' | translate}}<span class="hyicon hyicon-chevron-thin-right"></span>
 			</button>
 		</div>
 
 	<div  ng-hide="!!cart.items">
-		<p class="edit-cart-empty">There are no items in your cart.</p>
+		<p class="edit-cart-empty">{{'NO_ITEMS_IN_CART' | translate}}</p>
 	</div>
 
 	<section class="summary" ng-hide="!cart.items.length">
