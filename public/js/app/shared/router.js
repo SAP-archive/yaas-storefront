@@ -41,9 +41,9 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: function(ConfigSvc) {
+                        initialized: ['ConfigSvc', function(ConfigSvc) {
                             return ConfigSvc.initializeApp();
-                        }
+                        }]
                     }
                 })
                 .state('base.home', {
@@ -57,11 +57,11 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        dummy: function(initialized){// force initialization delay
+                        dummy: ['initialized', function(initialized){// force initialization delay
                             if(initialized) {
                                 return {};
                             }
-                        }
+                        }]
                     }
                 })
                 .state('base.product', {
@@ -78,12 +78,12 @@ angular.module('ds.router', [])
                     },
                     resolve: {
 
-                        category: function ($stateParams, CategorySvc, initialized) {
+                        category: ['$stateParams', 'CategorySvc', 'initialized', function ($stateParams, CategorySvc, initialized) {
                             if(initialized){
                                 return CategorySvc.getCategoryWithProducts($stateParams.catName);
                             }
 
-                        }
+                        }]
                     }
                 })
                 .state('base.product.detail', {
@@ -95,7 +95,7 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                        product: ['$stateParams', 'PriceProductREST', 'CategorySvc', 'initialized', function ($stateParams, PriceProductREST, CategorySvc, initialized) {
                             if(initialized){
                                 return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
                                     .then(function (prod) {
@@ -112,7 +112,7 @@ angular.module('ds.router', [])
                             }
 
 
-                        }
+                        }]
                     }
                 })
                 .state('base.checkout', {
@@ -123,17 +123,17 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        cart: function (CartSvc) {
+                        cart: ['CartSvc', function (CartSvc) {
                             return CartSvc.getLocalCart();
-                        },
-                        order: function (CheckoutSvc) {
+                        }],
+                        order: ['CheckoutSvc', function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
-                        },
-                        shippingCost: function (CheckoutSvc, initialized) {
+                        }],
+                        shippingCost: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return CheckoutSvc.getShippingCost();
                             }
-                        }
+                        }]
                     }
                 })
 
@@ -163,9 +163,9 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        isAuthenticated: function(AuthSvc){
+                        isAuthenticated: ['AuthSvc', function(AuthSvc){
                             return AuthSvc.isAuthenticated();
-                        }
+                        }]
                     }
                 })
                 .state('base.account', {
@@ -177,22 +177,22 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        account: function(AccountSvc) {
+                        account: ['AccountSvc', function(AccountSvc) {
                             return AccountSvc.account();
-                        },
-                        addresses: function(AccountSvc) {
+                        }],
+                        addresses: ['AccountSvc', function(AccountSvc) {
                             var query = {
                                 pageNumber: 1,
                                 pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
                             return AccountSvc.getAddresses(query);
-                        },
-                        orders: function(OrderListSvc) {
+                        }],
+                        orders: ['OrderListSvc', function(OrderListSvc) {
                             var parms = {
                                 pageSize: 10
                             };
                             return OrderListSvc.query(parms);
-                        }
+                        }]
                     },
                     data: {
                         auth: 'authenticated'
@@ -216,14 +216,14 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        order: function ($stateParams, OrdersREST) {
+                        order: ['$stateParams', 'OrdersREST', function ($stateParams, OrdersREST) {
                             return OrdersREST.Orders.one('orders', $stateParams.orderId).get()
                                 .then(function (result) {
                                     window.scrollTo(0, 0);
                                     result.id = $stateParams.id;
                                     return result;
                                 });
-                        }
+                        }]
                     },
                     data: {
                         auth: 'authenticated'
@@ -238,7 +238,6 @@ angular.module('ds.router', [])
                         }
                     }
                 });
-
 
             $urlRouterProvider.otherwise('/home');
 

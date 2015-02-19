@@ -20,6 +20,7 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-angular-templates');  //combines templates into cache
 
     // Project Configuration
     grunt.initConfig({
@@ -197,6 +198,38 @@ module.exports = function (grunt) {
                     to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
                 }]
             }
+        },
+
+        ngtemplates:  {
+            app: {  //compile html templates into angular min.js concatenation.
+                cwd:'./public/',
+                src: [
+                    'js/app/auth/templates/auth.html',
+                    'js/app/cart/templates/cart.html',
+                    'js/app/home/templates/home.html',
+                    'js/app/auth/templates/signup.html',
+                    'js/app/auth/templates/signin.html',
+                    'js/app/shared/templates/top-navigation.html',
+                    'js/app/shared/templates/language-selector.html',
+                    'js/app/shared/templates/currency-selector.html',
+                    'js/app/shared/templates/sidebar-navigation.html'
+                ], //temporary output of the html concatenations.
+                dest: '.tmp/concat/js/template.js',
+                htmlmin: {  // minify html configuration.
+                    collapseBooleanAttributes:      true,
+                    collapseWhitespace:             true,
+                    removeAttributeQuotes:          true,
+                    removeComments:                 true,
+                    removeEmptyAttributes:          true,
+                    removeRedundantAttributes:      true,
+                    removeScriptTypeAttributes:     true,
+                    removeStyleLinkTypeAttributes:  true
+                },
+                options: {  // concat with usemin output.
+                    usemin: 'js/storefront.js'
+                    // ,prefix: './../'
+                }
+            }
         }
 
     });
@@ -274,15 +307,14 @@ module.exports = function (grunt) {
 
     grunt.registerTask('optimizeCode', [
         'clean:dist',      //deletes contents in the dist folder and the .tmp folder
-        // 'concurrent:dist',
         'copy',            //moves dev files to dist
         'useminPrepare',   //starts usemin process
-        //'less:dist',
+        'ngtemplates',     //compile html templates into ng.
         //'rev',           //cachebusts css and js.
         'concat',
         'uglify',
         'cssmin',
-        'usemin'           //completes usemin process
+        'usemin'           //completes usemin process.
     ]);
 
 
