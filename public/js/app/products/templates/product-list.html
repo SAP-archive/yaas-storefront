@@ -6,18 +6,10 @@
         </blockquote>
 
     </div>
-    <div class="row productListingBreadCrumb" ng-cloak>
-        <div ng-if="category.name" class="col-xs-12 col-sm-6  title breadCrumbText">
 
-            <a ng-repeat="cat in category.path" ng-if="!$last" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
-                <span ng-if="!$first"> / </span>
-                {{cat.name}}
-            </a>
-            <span ng-if="category.path && category.path.length > 1"> / </span>
-            {{category.path[category.path.length -1].name}}
-          
-        </div>
-    </div>
+    <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
+
+
     <div class="refine-section" ng-cloak>
 
         <div class="row">

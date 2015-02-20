@@ -18,7 +18,7 @@
     var storeConfig = {};
 
     // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-    storeConfig.storeTenant =  /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
+    storeConfig.storeTenant =  /*StartProjectId*/ 'zfzq82gtrxlj' /*EndProjectId*/;
 
     try {
         var pathLength = window.location.pathname.length;
@@ -28,7 +28,7 @@
         angular.module('config', []).constant('storeConfig', storeConfig);
         angular.element(document).ready(function () {
             angular.bootstrap(document, [
-                'ds.router']);
+                'ds.app']);
         });
 
     } catch (exception) {
