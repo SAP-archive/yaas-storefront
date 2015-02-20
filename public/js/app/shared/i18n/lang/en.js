@@ -18,6 +18,7 @@ angular.module('ds.i18n')
         /*
             cart
          */
+        BACK_TO_CHECKOUT: 'Back to checkout',
         CHECKOUT: 'Checkout',
         CONTINUE_SHOPPING: 'Continue shopping',
         SHOP: 'Shop',
@@ -44,6 +45,7 @@ angular.module('ds.i18n')
         CVC_NUMBER: 'CVC Number',
         DELIVERY_METHOD: 'Delivery Method',
         EMAIL: 'Email',
+        EDIT: 'Edit',
         FIRST_NAME: 'First Name',
         FREE_STANDARD_SHIPPING: 'Free Standard Shipping',
         FLAT_RATE_SHPPING: 'Flat Rate',
@@ -55,6 +57,7 @@ angular.module('ds.i18n')
         MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
+        NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
         ORDER_PENDING: 'One moment... Placing your order',

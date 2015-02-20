@@ -34,7 +34,8 @@ window.app = angular.module('ds.app', [
     'config',
     'xeditable',
     'ngSanitize',
-    'ui.select'
+    'ui.select',
+    'ds.ybreadcrumb'
 ])
     .constant('_', window._)
 
