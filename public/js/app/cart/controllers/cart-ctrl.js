@@ -55,7 +55,7 @@ angular.module('ds.cart')
         $scope.toCheckoutDetails = function () {
             $scope.keepCartOpen();
             if (!AuthSvc.isAuthenticated()) {
-                var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, { required: true }, {}, true);
+                var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
 
                 dlg.then(function(){
                         if (AuthSvc.isAuthenticated()) {
@@ -63,7 +63,7 @@ angular.module('ds.cart')
                         }
                     },
                     function(){
-                        $state.go(settings.homeState);
+                        
                     }
                 );
             }
