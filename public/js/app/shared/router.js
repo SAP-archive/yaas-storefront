@@ -88,6 +88,9 @@ angular.module('ds.router', [])
                 })
                 .state('base.product.detail', {
                     url: ':productId/',
+                    params: {
+                        path: 'path'
+                    },
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-detail.html',
@@ -110,8 +113,14 @@ angular.module('ds.router', [])
                                         }
                                     });
                             }
-
-
+                        },
+                        path: function ($stateParams) {
+                            if($stateParams.path !== 'path') {
+                                return JSON.parse($stateParams.path);
+                            }
+                            else{
+                                return null;
+                            }
                         }
                     }
                 })

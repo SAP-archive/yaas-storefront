@@ -108,6 +108,20 @@ angular.module('ds.products')
                    setMainImage(product);
                 });
             }
+            function getCategoryPaths(category){
+                var paths = [];
+                _.forEach(category.path, function(cat){
+                    paths.push({
+                        'name': cat.name,
+                        'slug':cat.slug,
+                        'id':cat.id
+                    });
+                });
+                return JSON.stringify(paths);
+            }
+
+            $scope.categoryPath = getCategoryPaths($scope.category);
+
 
             // Primary Reason for categories to be updated is that the language change.
             //  We'll have to retrieve the current slug for the category (and thus this page)
