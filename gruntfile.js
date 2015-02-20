@@ -143,7 +143,7 @@ module.exports = function (grunt) {
 
         rev: {
             files: {
-                src: ['dist/**/*.{js,css}']
+                src: ['dist/public/**/*.{js,css}']
             }
         },
 
@@ -206,12 +206,12 @@ module.exports = function (grunt) {
                 src: [
                     'js/app/home/templates/home.html',
                     'js/app/shared/templates/top-navigation.html',
-                    'js/app/shared/templates/sidebar-navigation.html'
+                    'js/app/shared/templates/sidebar-navigation.html',
+                    'js/app/cart/templates/cart.html',
+                    'js/app/auth/templates/signup.html',
+                    'js/app/auth/templates/signin.html'
                     //too many slows down time to render.
                     //'js/app/auth/templates/auth.html',
-                    //'js/app/cart/templates/cart.html',
-                    //'js/app/auth/templates/signup.html',
-                    //'js/app/auth/templates/signin.html',
                     //'js/app/shared/templates/language-selector.html',
                     //'js/app/shared/templates/currency-selector.html',
                 ],
@@ -311,10 +311,10 @@ module.exports = function (grunt) {
         'copy',            //moves dev files to dist
         'useminPrepare',   //starts usemin process
         'ngtemplates',     //compile html templates into ng.
-        //'rev',           //cachebusts css and js.
         'concat',
         'uglify',
         'cssmin',
+        //'rev',             //cachebusts css and js.  //be careful was introducing first load latency.
         'usemin'           //completes usemin process.
     ]);
 
