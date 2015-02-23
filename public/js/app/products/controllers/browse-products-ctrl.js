@@ -110,13 +110,22 @@ angular.module('ds.products')
             }
             function getCategoryPaths(category){
                 var paths = [];
-                _.forEach(category.path, function(cat){
-                    paths.push({
-                        'name': cat.name,
-                        'slug':cat.slug,
-                        'id':cat.id
+                if(!!category.path) {
+                    _.forEach(category.path, function (cat) {
+                        paths.push({
+                            'name': cat.name,
+                            'slug': cat.slug,
+                            'id': cat.id
+                        });
                     });
-                });
+                }
+                else{
+                    paths.push({
+                        name:'All Products',
+                        slug:'',
+                        id:''
+                    });
+                }
                 return JSON.stringify(paths);
             }
 
