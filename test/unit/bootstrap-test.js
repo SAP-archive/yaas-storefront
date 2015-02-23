@@ -9,7 +9,7 @@
 
             angular.element(document).ready(function() {
                 angular.bootstrap(document, [
-                    'ds.router']);
+                    'ds.app']);
 
             });
 

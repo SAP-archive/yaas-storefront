@@ -48,6 +48,7 @@ module.exports = function(config){
         'public/js/app/shared/i18n/lang/en.js',
         'public/js/app/shared/i18n/lang/de.js',
         'public/js/app/shared/i18n/providers/translation-provider.js',
+        'public/js/app/shared/directives/y-breadcrumb.js',
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
@@ -62,20 +63,28 @@ module.exports = function(config){
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
+        'public/js/app/cart/directives/cart-auto-toggle.js',
         'public/js/app/cart/services/cart-service.js',
         'public/js/app/cart/services/cart-rest.js',
 
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
+        'public/js/app/checkout/controllers/checkout-base-ctrl.js',
+        'public/js/app/checkout/controllers/checkout-edit-cart-ctrl.js',
         'public/js/app/checkout/services/checkout-service.js',
+        'public/js/app/checkout/directives/address-decorator.js',
         'public/js/app/checkout/directives/inline-error-input.js',
+        'public/js/app/checkout/directives/mobile-checkout-wizard.js',
         'public/js/app/checkout/services/checkout-rest.js',
+        'public/js/app/checkout/services/checkout-service.js',
 
         'public/js/app/confirmation/confirmation-index.js',
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+        'public/js/app/errors/controllers/errors-ctrl.js',
+        'public/js/app/errors/backendStub.js',
 
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
@@ -95,6 +104,14 @@ module.exports = function(config){
         'public/js/app/auth/services/auth-dialog-manager.js',
         'public/js/app/auth/services/session-service.js',
 
+        'public/js/app/shared/router.js',
+        'public/js/app/shared/http-proxy.js',
+
+        'public/js/app/shared/controllers/currency-selector-ctrl.js',
+        'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/directives/quantity-input.js',
+        'public/js/app/shared/directives/popover.js',
+
         'public/js/app/orders/orders-index.js',
         'public/js/app/orders/services/order-list-service.js',
         'public/js/app/orders/services/orders-rest.js',
@@ -111,6 +128,7 @@ module.exports = function(config){
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
+        'test/unit/errors/*.js',
         'test/unit/home/*.js',
         'test/unit/orders/*.js',
         'test/unit/products/*.js',

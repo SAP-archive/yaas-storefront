@@ -201,7 +201,7 @@ describe('AuthSvc Test', function () {
             var payload = {
                     currentPassword: 'currentPassword',
                     newPassword: 'newPassword',
-                    email: 'test@test.com'
+                    email: 'test@hybristest.com'
                 };
             mockBackend.expectPOST(customersUrl + '/password/change').respond(200, {});
             AuthSvc.updatePassword(payload.oldPassword, payload.newPassword, payload.email);

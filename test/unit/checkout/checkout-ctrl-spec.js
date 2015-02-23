@@ -35,7 +35,7 @@ describe('CheckoutCtrl', function () {
     // - shared setup between constructor validation and method validation
     //***********************************************************************
 
-    beforeEach(module('restangular'));
+
     beforeEach(module('ds.checkout', function($provide) {
         order = {};
         order.shipTo = {};
@@ -58,10 +58,11 @@ describe('CheckoutCtrl', function () {
                 dismiss: jasmine.createSpy('dismiss')
             })
         };
-        isAuthenticated = false;
+        isAuthenticated = true;
         MockedAuthSvc = {
             isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
         };
+        GlobalData.user.isAuthenticated = true;
         $provide.value('cart', cart);
         $provide.value('order', order);
         $provide.value('shippingCost', shippingCost);
@@ -69,7 +70,7 @@ describe('CheckoutCtrl', function () {
         $provide.value('$modal', mockedModal);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_, _$httpBackend_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -82,6 +83,7 @@ describe('CheckoutCtrl', function () {
         $controller = _$controller_;
         $injector = _$injector_;
         $modal = _$modal_;
+        _$httpBackend_.whenGET(/^[A-Za-z-/]*\.html/).respond({});
     }));
 
     beforeEach(function () {
@@ -107,7 +109,7 @@ describe('CheckoutCtrl', function () {
             city: 'Boulder',
             state: 'CO',
             zipCode: '80302',
-            contractPhone: '555-555-5555',
+            contactPhone: '555-555-5555',
             isDefault: true
         };
 
@@ -117,15 +119,27 @@ describe('CheckoutCtrl', function () {
         accountDef = $q.defer();
         accountDef.resolve(returnAccount);
         addressDef = $q.defer();
-        addressDef.resolve(returnAddress);
+
         addressesDef = $q.defer();
         addressesDef.resolve(returnAddresses);
         MockedAccountSvc = {
             account: jasmine.createSpy('account').andReturn(accountDef.promise),
-            getDefaultAddress: jasmine.createSpy('getDefaultAddress').andReturn(addressDef.promise),
+            getDefaultAddress: jasmine.createSpy('getDefaultAddress').andCallFake(function(){
+                return addressDef.promise
+            }),
             getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
         };
-
+        $scope.cart = {
+            items : [],
+        totalUnitsCount: 0,
+        subTotalPrice : {
+            value: 0
+        },
+        totalPrice : {
+            value:0
+         },
+        id: null
+        };
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
     });
 
@@ -133,20 +147,15 @@ describe('CheckoutCtrl', function () {
         it('should create default instances', function () {
             expect(checkoutCtrl).toBeTruthy();
             expect($scope.order).toBeTruthy();
-            expect($scope.wiz).toBeTruthy();
         });
 
 
         it('should retrieve addresses for authenticated user', function(){
-            isAuthenticated = true;
-            MockedAuthSvc.isAuthenticated.reset();
-            MockedAuthSvc = {
-                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
-            };
-            GlobalData.user.isAuthenticated = true;
+
             checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            addressDef.resolve(returnAddress);
+
             $scope.$apply();
-            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
@@ -163,7 +172,6 @@ describe('CheckoutCtrl', function () {
             $rootScope.$broadcast('user:signedin');
             $scope.$apply();
             expect(MockedAccountSvc.account).toHaveBeenCalled();
-            expect(MockedAccountSvc.getDefaultAddress).toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
         });
 
@@ -182,106 +190,21 @@ describe('CheckoutCtrl', function () {
         });
     });
 
-    describe('Mobile Wizard Step completion', function () {
-        beforeEach(function () {
-            $scope.wiz.step1Done = false;
-            $scope.wiz.step2Done = false;
-            $scope.wiz.step3Done = false;
-            $scope.showPristineErrors = false;
-        });
-
-        it('should set Step 1 Done when Bill-To to entered', function(){
-            $scope.billToDone(true);
-            expect($scope.wiz.step1Done).toEqualData(true);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.showPristineErrors).toEqualData(false);
-        });
-
-        it('should leave Step 1 In Progress when invalid Bill-To entered', function(){
-            $scope.billToDone(false);
-            expect($scope.wiz.step1Done).toEqualData(false);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.showPristineErrors).toEqualData(true);
-        });
-
-        it('should remove PRISTINE_ERRORS upon valid re-edit of Bill-To', function(){
-            $scope.showPristineErrors = true;
-            $scope.billToDone(true);
-            expect($scope.showPristineErrors).toEqualData(false);
-        });
-
-        it('should set Step 2 Done when ship to to entered', function(){
-            $scope.wiz.step2Done = false;
-            $scope.shipToDone(true);
-            expect($scope.wiz.step2Done).toEqualData(true);
-            expect($scope.wiz.step3Done).toEqualData(false);
-
-        });
-
-        it('should leave Step 2 In Progress when invalid Ship-To entered', function(){
-            $scope.wiz.step2Done = false;
-            $scope.wiz.shipToSameAsBillTo = false;
-            $scope.shipToDone(false);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.wiz.step3Done).toEqualData(false);
-            expect($scope.showPristineErrors).toEqualData(true);
-        });
-
-        it('should set Step 3 Done when shipping entered', function(){
-            $scope.wiz.step3Done = false;
-            $scope.paymentDone(true, 'form');
-            expect($scope.wiz.step3Done).toEqualData(true);
-        });
-
-        it('should leave Step 3 In Progress when invalid Payment entered', function(){
-            $scope.wiz.step3Done = false;
-            $scope.paymentDone(false);
-            expect($scope.wiz.step3Done).toEqualData(false);
-            expect($scope.showPristineErrors).toEqualData(true);
-        });
-
-    });
-
-    describe('Wizard in Mobile - Editing Complete Information', function () {
-        beforeEach(function () {
-            $scope.wiz.step1Done = true;
-            $scope.wiz.step2Done = true;
-            $scope.wiz.step3Done = true;
-        });
-
-        it(' (Bill To) should set Steps 1,2, 3 undone', function () {
-
-            $scope.editBillTo();
-            expect($scope.wiz.step1Done).toEqualData(false);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.wiz.step3Done).toEqualData(false);
-        });
-
-        it(' (Ship To) should set Steps 2, 3 undone', function () {
-
-            $scope.editShipTo();
-            expect($scope.wiz.step1Done).toEqualData(true);
-            expect($scope.wiz.step2Done).toEqualData(false);
-            expect($scope.wiz.step3Done).toEqualData(false);
-        });
-
-        it(' (Shipping) should set Steps 3 undone', function () {
-            $scope.editPayment();
-            expect($scope.wiz.step1Done).toEqualData(true);
-            expect($scope.wiz.step2Done).toEqualData(true);
-            expect($scope.wiz.step3Done).toEqualData(false);
-        });
-
-    });
-
     describe('setShipToSameAsBillTo', function () {
 
-        it('should copy billing to shipping', function(){
+        it('should copy billing to shipping if true', function(){
+            $scope.shipToSameAsBillTo = true;
             $scope.order.billTo = mockBillTo;
-            $scope.setShipToSameAsBillTo();
+            $scope.toggleShipToSameAsBillTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
+        });
+
+        it('should blank out ship to if false', function(){
+            $scope.shipToSameAsBillTo = false;
+            $scope.order.billTo = mockBillTo;
+            $scope.order.shipTo = mockBillTo;
+            $scope.toggleShipToSameAsBillTo();
+            expect($scope.order.shipTo).toEqualData({});
         });
     });
 
@@ -313,7 +236,7 @@ describe('CheckoutCtrl', function () {
 
         it('should ensure ship to copy', function(){
             order.billTo = mockBillTo;
-            $scope.wiz.shipToSameAsBillTo = true;
+            $scope.shipToSameAsBillTo = true;
             $scope.placeOrder(true, formName);
             expect(order.shipTo).toEqualData(mockBillTo);
         });
@@ -344,9 +267,6 @@ describe('CheckoutCtrl', function () {
             stripeError.code = 'number';
             stripeError.type = 'card_error';
 
-            $scope.wiz.step1Done = true;
-            $scope.wiz.step2Done = true;
-            $scope.wiz.step3Done = true;
             $scope.message = false;
         }));
 
@@ -354,7 +274,6 @@ describe('CheckoutCtrl', function () {
             $scope.placeOrder(true, formName);
             checkoutDfd.reject({ type: ERROR_TYPES.stripe, error: stripeError });
             $scope.$digest();
-            expect($scope.wiz.step3Done).toEqualData(false);
         });
 
         it('should set error message', function(){
@@ -470,13 +389,27 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('select address', function(){
-        it(' should open the modal dialog and select the address', function(){
+        it('should open the modal dialog and select the address for shipTo', function(){
+            addressDef.resolve(returnAddress);
+            $scope.$apply();
             $scope.openAddressDialog();
-            $scope.selectAddress(returnAddress);
-            expect($scope.wiz.shipToSameAsBillTo).toEqualData(true);
+
+            $scope.selectAddress(returnAddress, $scope.order.shipTo);
+            expect($scope.shipToSameAsBillTo).toEqualData(true);
+
             expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
             $scope.openAddressDialog();
             $scope.closeAddressDialog();
+        });
+
+        it('should open the modal dialog and select the address for billTo', function(){
+            $scope.order.shipTo = {};
+            $scope.openAddressDialog();
+            $scope.selectAddress(returnAddress, $scope.order.billTo);
+            $scope.$apply();
+            expect($scope.shipToSameAsBillTo).toEqualData(true);
+            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
         });
     });
 

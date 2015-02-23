@@ -17,14 +17,17 @@
  */
 angular.module('ds.products')
 
-    .factory('CategorySvc', ['$rootScope', 'PriceProductREST', 'GlobalData', '$q', function($rootScope, PriceProductREST, GlobalData, $q){
+    .factory('CategorySvc', ['$rootScope', '$state', 'PriceProductREST', 'GlobalData', '$q',
+        function($rootScope, $state, PriceProductREST, GlobalData, $q){
 
         var categoryMap;
         var catList;
 
         function sluggify(name){
             // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
-            return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+            if(name){ //ensure categories without name are not created
+              return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
+            }
         }
 
         function loadCategory(cat, parent){
@@ -113,6 +116,7 @@ angular.module('ds.products')
                             cdef.resolve(category);
                         } else {
                             cdef.reject();
+                            $state.go('errors', { errorId : '404' });
                         }
                     } else {
                         this.getCategories().then(function () {

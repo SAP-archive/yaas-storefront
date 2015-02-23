@@ -6,18 +6,10 @@
         </blockquote>
 
     </div>
-    <div class="row productListingBreadCrumb" ng-cloak>
-        <div ng-if="category.name" class="col-xs-12 col-sm-6  title breadCrumbText">
 
-            <a ng-repeat="cat in category.path" ng-if="!$last" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
-                <span ng-if="!$first"> / </span>
-                {{cat.name}}
-            </a>
-            <span ng-if="category.path && category.path.length > 1"> / </span>
-            {{category.path[category.path.length -1].name}}
-          
-        </div>
-    </div>
+    <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
+
+
     <div class="refine-section" ng-cloak>
 
         <div class="row">
@@ -27,7 +19,7 @@
             <div class="col-sm-6 col-md-6">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
+                    <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
                 </div>
             </div>
         </div>
@@ -61,7 +53,7 @@
             <div class="col-xs-12">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
-                    <div class="page-indicator">{{productsFrom}}-{{productsTo}} {{'OF' | translate}} {{total}}</div>
+                    <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
 
                 </div>
             </div>
@@ -69,11 +61,15 @@
     </div>
 
     <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
-    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0" infinite-scroll-immediate-check="false" ng-cloak>
-        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products">
+    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
+         infinite-scroll-immediate-check="false"
+         infinite-scroll-data="pagination" ng-cloak
+         infinite-scroll-visible-items>
+        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
+             on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
             <a ui-sref="base.product.detail( {productId: product.id} )">
                 <div class="thumb">
-                    <img ng-src="{{ product && product.images[0].url || PLACEHOLDER_IMAGE}}" alt="">
+                    <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
                 <div class="productInfoContainer">

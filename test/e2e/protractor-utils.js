@@ -3,8 +3,8 @@ var fs = require('fs');
 exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/5436f9a25acee4d3c910c085/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
-var beerMugPath = "//a[contains(@href, '/products/5436f9f23cceb8a9381291a2/')]";
-exports.beerBug = beerMugPath;
+var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
+exports.beerBug = stressBallPath;
 exports.cartButtonId = 'full-cart-btn';
 exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
@@ -14,13 +14,15 @@ exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'ytvlw4f7ebox';
-exports.accountWithOrderEmail = 'order@test.com';
+exports.accountWithOrderEmail = 'order@hybristest.com';
 
 
 exports.waitForCart = function(){
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
+    //even after element is present, may not be clickable
+    browser.sleep(500);
 };
 
 exports.verifyCartAmount = function (amount) {
@@ -28,6 +30,9 @@ exports.verifyCartAmount = function (amount) {
 };
 
 exports.verifyCartTotal = function (total) {
+    browser.wait(function () {
+        return element(by.css("th.text-right.ng-binding")).isPresent();
+    });
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
 };
 
@@ -64,7 +69,8 @@ exports.scrollToBottomOfProducts = function (end) {
     while (count < maxCount) {
         browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
         count++;
-        if (element(by.xpath(beerMugPath)).isPresent()) {
+        // browser.pause(500);
+        if (element(by.xpath(stressBallPath)).isPresent()) {
             deferred.fulfill();
         } else if (count === maxCount) {
             deferred.reject();
@@ -107,8 +113,16 @@ exports.sendKeysById = function (pageElement, keys) {
 };
 
 exports.selectLanguage = function (language) {
-    clickElement('id', 'language-select');
-    clickElement('linkText', language);
+    var currentLanguage = element(by.binding('language.selected.value'));
+    browser.driver.actions().mouseMove(currentLanguage).perform();
+    currentLanguage.click();
+    var newLanguage = element(by.repeater('lang in languages').row(1));
+    browser.wait(function () {
+        return newLanguage.isPresent();
+    });
+    browser.driver.actions().mouseMove(newLanguage).perform();
+    expect(element(by.repeater('lang in languages').row(1)).getText()).toEqual(language);
+    newLanguage.click();
 };
 
 
@@ -133,18 +147,18 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-exports.selectCurrency = function (currency) {
-    clickElement('id', 'currency-select');
-    /* CURRENCY SELECTION DOES NOT WORK IN CHROME - elements not clickable.
-    if(currency === 'US Dollar'){
-        browser.driver.actions().mouseMove(element(by.linkText(currency))).perform();
-        browser.sleep(4000);
-    } else {
-       sendKeys('linkText', 'US Dollar', 40);
-        browser.sleep(4000);
-    }*/
-
-    clickElement('linkText', currency);
+var selectCurrency = exports.selectCurrency = function (currency) {
+    var currentCurrency = element(by.binding('currency.selected.id'));
+    browser.driver.actions().mouseMove(currentCurrency).perform();
+    currentCurrency.click();
+    var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+    browser.wait(function () {
+        return newCurrency.isPresent();
+    });
+    
+    browser.driver.actions().mouseMove(newCurrency).perform();
+    expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
+    newCurrency.click();
 }
 
 exports.loginHelper = function (userName, password) {
