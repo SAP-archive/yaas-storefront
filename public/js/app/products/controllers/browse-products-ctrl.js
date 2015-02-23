@@ -95,7 +95,7 @@ angular.module('ds.products')
                                     $scope.pageNumber = $scope.loadedPages;
 
                                     //Set page parameter
-                                    $location.search('page', $scope.pageNumber);
+                                    $location.search('page', $scope.pageNumber).replace();
 
                                     $scope.loadMorePages = false;
                                 },1);
@@ -201,7 +201,7 @@ angular.module('ds.products')
                                     assignMainImage(products);
 
                                     //Set page parameter
-                                    $location.search('page', $scope.pageNumber);
+                                    $location.search('page', $scope.pageNumber).replace();
                                 }
                             }, function () {
                                 $scope.requestInProgress = false;
