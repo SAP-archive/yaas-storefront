@@ -28,6 +28,7 @@
     "compression": "latest",
     "grunt": "latest",
     "grunt-cli": "latest",
+    "grunt-angular-templates": "latest",
     "grunt-concurrent": "~0.4.3",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-compass": "~0.7.2",
