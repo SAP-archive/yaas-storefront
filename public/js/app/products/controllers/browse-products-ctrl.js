@@ -90,9 +90,16 @@ angular.module('ds.products')
 
                             if($scope.loadMorePages) {
                                 $timeout(function(){
-                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
                                     $scope.pageSize = $scope.pageSize / $scope.loadedPages;
                                     $scope.pageNumber = $scope.loadedPages;
+
+                                    //Scroll to the page
+                                    if(!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]){
+                                        $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                                    }
+
+                                    //Try scrolling to the last element
+                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
 
                                     //Set page parameter
                                     $location.search('page', $scope.pageNumber).replace();
@@ -219,6 +226,7 @@ angular.module('ds.products')
                 // always scroll by 150 extra pixels (because of the navigation pane)
                 $anchorScroll.yOffset = 150;
 
+                //Then try scrolling to the element
                 var old = $location.hash();
                 $location.hash(id);
                 $anchorScroll();
