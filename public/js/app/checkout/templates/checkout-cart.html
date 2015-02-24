@@ -1,5 +1,8 @@
 <div class="CheckoutCartContainer">
-    <h2>{{'ORDER_DETAILS' | translate}}</h2>
+
+    <h2>{{'ORDER_DETAILS' | translate}}
+        <span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>
+    </h2>
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
@@ -45,9 +48,6 @@
 
             </tfoot>
         </table>
-    </section>
-    <section>
-        <button id="checkout-cart-btn" class="btn  btn-primary btn-lg btn-block" ng-click="showEditCart()"  ng-if="cart.items.length">{{'EDIT' | translate}}</button>
     </section>
     <div ui-view="editCart"></div>
 </div>
