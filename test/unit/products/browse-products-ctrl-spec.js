@@ -134,8 +134,8 @@ describe('BrowseProductsCtrl', function () {
 
         it('should set count properties to zero', function(){
             expect($scope.products).toEqualData([]);
-            expect($scope.productsFrom).toEqualData(0);
-            expect($scope.productsTo).toEqualData(0);
+            expect($scope.pagination.productsFrom).toEqualData(0);
+            expect($scope.pagination.productsTo).toEqualData(0);
             expect($scope.total).toEqualData(0);
         });
 
