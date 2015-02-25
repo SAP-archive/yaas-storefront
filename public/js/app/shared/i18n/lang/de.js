@@ -18,6 +18,7 @@ angular.module('ds.i18n')
         /*
          cart
          */
+        BACK_TO_CHECKOUT: 'zurück zur Kasse',
         CHECKOUT: 'Kasse',
         CONTINUE_SHOPPING: 'Weiter Einkaufen',
         SHOP: 'Geschäft',
@@ -44,6 +45,7 @@ angular.module('ds.i18n')
         CVC_NUMBER: 'CVC Nummer',
         DELIVERY_METHOD: 'Versandart',
         EMAIL: 'Email',
+        EDIT: 'Bearbeiten',
         FIRST_NAME: 'Vorname',
         FREE_STANDARD_SHIPPING: 'Kostenloser Standardversand',
         FLAT_RATE_SHPPING: 'Pauschale',
@@ -55,6 +57,7 @@ angular.module('ds.i18n')
         MIDDLE_NAME: 'Zweiter Vorname',
         MONTH: 'Monat',
         NAME: 'Name',
+        NO_ITEMS_IN_CART: 'Es sind keine Artikel im Warenkorb.',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
@@ -185,6 +188,7 @@ angular.module('ds.i18n')
          login, password, signup
          */
         PASSWORD: 'Passwort',
+        PASSWORD_MINCHAR: 'Min. 6 Zeichen',
         CONFIRM_PASSWORD: 'Passwort bestätigen',
         FORGOT_PW: 'Passwort vergessen?',
         RESET_PASSWORD: 'Neues Passwort',
