@@ -42,6 +42,10 @@ describe('product page', function () {
         });
 
         it('should get product detail page', function () {
+            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
+            browser.sleep(200);
+            element(by.repeater('category in categories').row(0).column('category.name')).click();
+            // browser.pause();
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.wait(function () {
                 return element(by.binding(tu.productDescriptionBind)).isPresent();
