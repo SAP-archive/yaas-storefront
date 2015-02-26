@@ -110,6 +110,22 @@ angular.module('ds.checkout')
                             selectedShippingAddress = defaultAddress;
                             populateBillTo(defaultAddress);
                         }
+                        /*
+                         populate name if the user has no default address but does have a name saved to the account
+                         */
+                        else if ($scope.order.account) {
+                            var fullName = '';
+                            if ($scope.order.account.firstName) {
+                                fullName = fullName + $scope.order.account.firstName + ' ';
+                            }
+                            if ($scope.order.account.middleName) {
+                                fullName = fullName + $scope.order.account.middleName + ' ';
+                            }
+                            if ($scope.order.account.lastName) {
+                                fullName = fullName + $scope.order.account.lastName;
+                            }
+                            $scope.order.billTo.contactName = fullName;
+                        }
                     });
                 }
             };

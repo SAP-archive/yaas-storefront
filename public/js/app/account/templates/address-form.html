@@ -14,7 +14,7 @@
       <input type="hidden" name="account" ng-model="address.account">
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
-        <span class="input-group-addon"><label class="control-label" for="contactName">{{'CONTACT_NAME' | translate}}</label></span>
+        <span class="input-group-addon"><label class="control-label" for="contactName">{{'FULL_NAME' | translate}}</label></span>
         <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
