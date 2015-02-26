@@ -27,7 +27,6 @@ angular.module('ds.appconfig', [])
         },
 
         storeTenant: function(){
-
 	        var tenantId = '';
 	        var pathLength = window.location.pathname.length;
 
@@ -40,7 +39,6 @@ angular.module('ds.appconfig', [])
 	        }
         	return tenantId;
         }
-
 
     });
 

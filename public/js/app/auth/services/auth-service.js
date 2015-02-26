@@ -19,8 +19,6 @@ angular.module('ds.auth')
     .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window',
         function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window) {
 
-            debugger;
-
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
                     return TokenSvc.setToken(response.accessToken, user ? user.email : null);

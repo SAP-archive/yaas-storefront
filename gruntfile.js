@@ -12,7 +12,6 @@ module.exports = function (grunt) {
         LESS_DIR = 'public/less',
         PROJECT_ID = 'defaultproj',
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
-        // PROJECT_ID_PATH = './public/js/bootstrap.js',
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         TEST_DOMAIN = 'yaas-test.apigee.net/test',

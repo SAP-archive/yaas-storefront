@@ -41,11 +41,9 @@ window.app = angular.module('ds.app', [
     .constant('_', window._)
 
     // Configure HTTP and Restangular Providers - default headers, CORS
-    .config(['$httpProvider', 'RestangularProvider', 'settings', 'appConfig', 'storeConfig',
-        function ($httpProvider, RestangularProvider, settings, appConfig, storeConfig) {
+    .config(['$httpProvider', 'RestangularProvider', 'settings', 'appConfig',
+        function ($httpProvider, RestangularProvider, settings, appConfig) {
         $httpProvider.interceptors.push('interceptor');
-
-        debugger;
 
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
@@ -55,7 +53,7 @@ window.app = angular.module('ds.app', [
             if(url.indexOf('yaas')<0) {
                 delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                oldHeaders [settings.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.headers.hybrisTenant] = appConfig.storeTenant();
                 oldHeaders [settings.headers.hybrisRoles] = settings.roleSeller;
                 oldHeaders [settings.headers.hybrisUser] = settings.hybrisUser;
                 oldHeaders [settings.headers.hybrisApp] = settings.hybrisApp;
