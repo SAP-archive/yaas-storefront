@@ -256,5 +256,14 @@ angular.module('ds.i18n')
         /*
          Order Details
          */
-        CREDIT_CARD: 'Kreditkarte'
+        CREDIT_CARD: 'Kreditkarte',
+
+
+        /*
+         Search
+         */
+        SEARCH: 'Suche',
+        SEARCH_RESULTS: 'Suchergebnisse'
+
+
     });

@@ -64,6 +64,27 @@ angular.module('ds.router', [])
                         }
                     }
                 })
+                .state('base.search', {
+                    url: '/search/:searchString',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/search/templates/search-list.html',
+                            controller: 'SearchListCtrl'
+                        }
+                    },
+                    resolve:{
+                        searchString: function ($stateParams) {
+                            return $stateParams.searchString;
+                        },
+                        category: function ($stateParams, CategorySvc, initialized) {
+                            if(initialized){
+                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                            }
+
+                        }
+                    }
+
+                })
                 .state('base.product', {
                     url: '/products/',
                     abstract: true
