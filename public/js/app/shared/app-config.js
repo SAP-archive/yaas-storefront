@@ -22,22 +22,22 @@ angular.module('ds.appconfig', [])
     .constant('appConfig', {
 
         dynamicDomain: function(){
-        	// Dynamic Domain is generated and replaced by build script, see gruntfile.
+            // Dynamic Domain is generated and replaced by build script, see gruntfile.
             return /*StartDynamicDomain*/ 'yaas-test.apigee.net/test' /*EndDynamicDomain*/;
         },
 
         storeTenant: function(){
-	        var tenantId = '';
-	        var pathLength = window.location.pathname.length;
+            var tenantId = '';
+            var pathLength = window.location.pathname.length;
 
-	        // Set tenant id from either single or multi tenant mode.
-	        if( pathLength > 1 ){
-	            tenantId = window.location.pathname.substring( 1, pathLength-1 );
-	        } else {
-	            // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-	            tenantId = /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
-	        }
-        	return tenantId;
+            // Set tenant id from either single or multi tenant mode.
+            if( pathLength > 1 ){
+                tenantId = window.location.pathname.substring( 1, pathLength-1 );
+            } else {
+                // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
+                tenantId = /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
+            }
+            return tenantId;
         }
 
     });
