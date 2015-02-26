@@ -7,6 +7,7 @@ public/css/vendor
 .tmp/
 *.iml
 public/css/app/style.css.map
+public/js/app/shared/app-config.js
 .idea
 coverage/
 config/config.js
