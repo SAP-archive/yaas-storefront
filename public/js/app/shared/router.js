@@ -89,7 +89,7 @@ angular.module('ds.router', [])
                 .state('base.product.detail', {
                     url: ':productId/',
                     params: {
-                        path: 'path'
+                        lastCatId: 'lastCatId'
                     },
                     views: {
                         'main@': {
@@ -115,8 +115,8 @@ angular.module('ds.router', [])
                             }
                         },
                         path: function ($stateParams) {
-                            if($stateParams.path !== 'path') {
-                                return JSON.parse($stateParams.path);
+                            if($stateParams.lastCatId !== 'lastCatId') {
+                                return JSON.parse($stateParams.lastCatId);
                             }
                             else{
                                 return null;

@@ -35,6 +35,8 @@ angular.module('ds.products')
             };
 
             $scope.category = category || {};
+            $scope.lastCatId = $scope.category.id;
+
 
             // ensure category path is localized
             var pathSegments = $location.path().split('/');
@@ -111,28 +113,7 @@ angular.module('ds.products')
                    setMainImage(product);
                 });
             }
-            function getCategoryPaths(category){
-                var paths = [];
-                if(!!category.path) {
-                    _.forEach(category.path, function (cat) {
-                        paths.push({
-                            'name': cat.name,
-                            'slug': cat.slug,
-                            'id': cat.id
-                        });
-                    });
-                }
-                else{
-                    paths.push({
-                        name:'All Products',
-                        slug:'',
-                        id:''
-                    });
-                }
-                return JSON.stringify(paths);
-            }
 
-            $scope.categoryPath = getCategoryPaths($scope.category);
 
 
             // Primary Reason for categories to be updated is that the language change.
