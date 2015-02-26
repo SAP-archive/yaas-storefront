@@ -16,6 +16,7 @@
 
                 <address>
                     <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
+                    <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
                     <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
                     <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
                     <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>

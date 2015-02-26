@@ -9,6 +9,7 @@
       <div class="">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
           <span>{{address.contactName}}</span> <em ng-if="address.isDefault && addresses.length > 1">(default)</em><br>
+          <span ng-if="address.companyName">{{address.companyName}}<br></span>
           <span>{{address.streetNumber}} {{address.street}}<span ng-if="address.streetAppendix">, {{address.streetAppendix}}</span></span><br>
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
           <span>{{address.country}}</span><br>
@@ -25,6 +26,7 @@
       <div class="">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
           <span>{{address.contactName}}</span> <em ng-if="address.isDefault">(default)</em><br>
+          <span ng-if="address.companyName">{{address.companyName}}<br></span>
           <span>{{address.streetNumber}} {{address.street}}<span ng-if="address.streetAppendix">, {{address.streetAppendix}}</span></span><br>
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
           <span>{{address.country}}</span><br>
