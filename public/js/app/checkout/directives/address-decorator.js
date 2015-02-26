@@ -24,11 +24,13 @@ angular.module('ds.checkout')
             restrict: 'A',
             link: function(scope) {
                 angular.forEach(scope.addresses, function (addr) {
-                    if (addr.id && addr.id === scope.target.id) {
-                        addr.selected = true;
-                    }
-                    else {
-                        addr.selected = false;
+                    if (scope.target && scope.target.id) {
+                        if (addr.id && addr.id === scope.target.id) {
+                            addr.selected = true;
+                        }
+                        else {
+                            addr.selected = false;
+                        }
                     }
                 });
             }
