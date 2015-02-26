@@ -20,7 +20,7 @@ angular.module('ds.auth')
             var authDialog;
 
             function closeDialog(){
-                if (authDialog ) {
+                if (authDialog) {
                     try {
                         authDialog.close();
                     } catch (err){
