@@ -31,18 +31,21 @@ window.app = angular.module('ds.app', [
     'ds.http-proxy',
     'ds.errors',
     'ds.backendMock',
-    'config',
+    'config',   //remove me
     'xeditable',
     'ngSanitize',
     'ui.select',
-    'ds.ybreadcrumb'
+    'ds.ybreadcrumb',
+    'ds.appconfig'
 ])
     .constant('_', window._)
 
     // Configure HTTP and Restangular Providers - default headers, CORS
-    .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig',
-        function ($httpProvider, RestangularProvider, settings, storeConfig) {
+    .config(['$httpProvider', 'RestangularProvider', 'settings', 'appConfig', 'storeConfig',
+        function ($httpProvider, RestangularProvider, settings, appConfig, storeConfig) {
         $httpProvider.interceptors.push('interceptor');
+
+        debugger;
 
         // enable CORS
         $httpProvider.defaults.useXDomain = true;
@@ -67,22 +70,18 @@ window.app = angular.module('ds.app', [
     }])
 
     .run(['$rootScope', '$injector','ConfigSvc', 'AuthDialogManager', '$location', 'settings', 'TokenSvc',
-
        'AuthSvc', 'GlobalData', '$state', 'httpQueue', 'editableOptions', 'editableThemes', 'CartSvc', 'EventSvc',
         function ($rootScope, $injector, ConfigSvc, AuthDialogManager, $location, settings, TokenSvc,
                  AuthSvc, GlobalData, $state, httpQueue, editableOptions, editableThemes, CartSvc, EventSvc) {
 
-            //closeOffcanvas func for mask 
-
+            //closeOffcanvas func for mask
             $rootScope.closeOffcanvas = function(){
                 $rootScope.showMobileNav = false;
                 $rootScope.showCart = false;
             };
 
-
             editableOptions.theme = 'bs3';
             editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-primary">{{\'SAVE\' | translate}}</button>';
-
 
             $rootScope.$on('authtoken:obtained', function(event, token){
                 httpQueue.retryAll(token);
@@ -93,16 +92,16 @@ window.app = angular.module('ds.app', [
                 var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
                 var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
                 toState.repeat = false;
-                // handle attempt to access protected resource - show login dialog if user is not authenticated
 
+                // handle attempt to access protected resource - show login dialog if user is not authenticated
                 if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
                     if(!fromState.name){
                         $state.go(settings.homeState);
                     }
-                    var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
 
+                    var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
                     dlg.then(function(){
                             if(toState.name === settings.checkoutState){
                                 toState.repeat = true;

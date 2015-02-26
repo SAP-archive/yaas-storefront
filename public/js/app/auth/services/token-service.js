@@ -16,7 +16,8 @@
  *  Encapsulates management of the OAuth token and user name, using cookies.
  */
 angular.module('ds.auth')
-    .factory('TokenSvc', ['settings', 'ipCookie', 'storeConfig', function(settings, ipCookie, storeConfig){
+    .factory('TokenSvc', ['settings', 'ipCookie', 'appConfig',
+        function(settings, ipCookie, appConfig){
 
         var defaultExpirySeconds = 3599;
 
@@ -44,7 +45,7 @@ angular.module('ds.auth')
 
             /** Sets an anonymous access token, only if there currently is no token. */
             setAnonymousToken: function(accessToken, expiresIn) {
-                if(!this.getToken().getAccessToken() || this.getToken().getTenant() !== storeConfig.storeTenant) {
+                if(!this.getToken().getAccessToken() || this.getToken().getTenant() !== appConfig.storeTenant) {
                    this.setToken(accessToken, null, expiresIn);
                 }
             },
@@ -58,7 +59,7 @@ angular.module('ds.auth')
             setToken: function(accessToken, userName, expiresIn) {
                 // TODO - REMOVE BEFORE GOING LIVE - TEST/DEBUG ONLY
                 console.log('token is '+accessToken);
-                var token = new Token(userName, accessToken, storeConfig.storeTenant);
+                var token = new Token(userName, accessToken, appConfig.storeTenant());
                 ipCookie(settings.accessCookie, JSON.stringify(token), {expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds});
             },
 
@@ -66,7 +67,7 @@ angular.module('ds.auth')
             getToken: function() {
                 var tokenCookie = ipCookie(settings.accessCookie);
                 if(tokenCookie ){
-                    if(tokenCookie.tenant === storeConfig.storeTenant){
+                    if(tokenCookie.tenant === appConfig.storeTenant()){
                         return new Token(tokenCookie.userName, tokenCookie.accessToken, tokenCookie.tenant);
                     } else { // existing cookie associated with different tenant - invalidate
                         this.unsetToken();
