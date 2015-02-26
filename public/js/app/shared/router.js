@@ -114,7 +114,7 @@ angular.module('ds.router', [])
                                     });
                             }
                         },
-                        path: function ($stateParams) {
+                        lastCatId: function ($stateParams) {
                             if($stateParams.lastCatId !== 'lastCatId') {
                                 return JSON.parse($stateParams.lastCatId);
                             }

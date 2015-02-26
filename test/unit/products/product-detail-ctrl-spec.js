@@ -35,12 +35,15 @@ describe('ProductDetailCtrl', function () {
         }
     };
 
-    var mockPath = {
-        id: '1234',
-        name: 'Path',
-        slug: 'path-1234'
+    var mockLastCatId = {
+        id: '1234'
     };
 
+    var mockCategorySvc = {
+        getCategoryById: jasmine.createSpy().andCallFake(function(){
+            return cartDef.promise;
+        })
+    };
 
     var dummyImg = 'dummy';
     var mockedSettings = {
@@ -75,7 +78,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
         });
 
        it('should set the category for the breadcrumb', function(){
@@ -91,7 +94,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
         });
 
         it('should add to cart from detail page', function () {
@@ -126,7 +129,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -146,7 +149,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
             $scope.error = 'error';
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
@@ -183,7 +186,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
         });
 
         it('should list main image first', function(){
@@ -209,7 +212,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'path': mockPath, 'settings': mockedSettings, 'GlobalData': mockedGlobalData});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
         });
 
         it('should list first image first', function(){
