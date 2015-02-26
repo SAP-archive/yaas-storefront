@@ -28,10 +28,9 @@ window.app = angular.module('ds.app', [
     'ds.orders',
     'ds.queue',
     'ds.router',
-    'ds.http-proxy',
+    'ds.httpproxy',
     'ds.errors',
     'ds.backendMock',
-    'config',   //remove me
     'xeditable',
     'ngSanitize',
     'ui.select',

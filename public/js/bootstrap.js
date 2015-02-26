@@ -12,10 +12,6 @@
 
 'use strict';
 
-// Bootstrap the application for single tenant mode
-/**
- *  .gitignored for non-persistent, dynamic build settings.
- */
 (function () {
 
     try {
