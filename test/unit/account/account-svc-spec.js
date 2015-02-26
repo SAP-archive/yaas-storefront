@@ -42,7 +42,7 @@ describe('AccountSvc Test', function () {
 
     beforeEach(function() {
         module('ds.shared', function ($provide) {
-            $provide.constant('storeConfig', {} );
+            $provide.constant('appConfig', {} );
         });
     });
 

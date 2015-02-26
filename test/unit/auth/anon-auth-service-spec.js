@@ -38,7 +38,7 @@ describe('AnonAuthSvc', function () {
 
     beforeEach(function() {
         module('ds.shared', function ($provide) {
-            $provide.constant('storeConfig', { storeTenant : '121212'} );
+            $provide.constant('appConfig', { storeTenant : '121212'} );
         });
     });
 

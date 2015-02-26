@@ -34,7 +34,7 @@ describe('ProductSvc Test', function () {
         });
 
         module('ds.cart', function($provide){
-            $provide.value('storeConfig', {});
+            $provide.value('appConfig', {});
         });
 
         inject(function (_$httpBackend_, _$rootScope_, _ProductSvc_, SiteConfigSvc) {

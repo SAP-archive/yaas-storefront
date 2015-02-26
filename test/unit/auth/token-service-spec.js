@@ -30,7 +30,7 @@ describe('TokenSvc', function () {
 
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('settings', mockedSettings);
-        $provide.value('storeConfig', storeConfig);
+        $provide.value('appConfig', appConfig);
     }));
 
     beforeEach(inject(function(_TokenSvc_, _ipCookie_) {

@@ -59,7 +59,7 @@ describe('CartSvc Test', function () {
         module('ds.cart', function($provide){
             $provide.value('AccountSvc', mockedAccountSvc);
             $provide.value('GlobalData', mockedGlobalData);
-            $provide.value('storeConfig', {});
+            $provide.value('appConfig', {});
             $provide.value('$state', mockedState);
             $provide.value('$stateParams', {});
         });
