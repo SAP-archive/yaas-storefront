@@ -18,10 +18,11 @@
             <div class="product-details">
                 <!-- <div class="category">Category</div> -->
                 <div class="page-headline">
-                    <small><a ng-repeat="cat in category.path" ui-sref="base.category({catName: cat.slug})" id="bc{{cat.id}}">
-                        <span ng-if="!$first">/</span> {{cat.name}}
-                    </a></small>
-                   </br>
+
+                    <ybreadcrumb yitem="category" size="'small'"></ybreadcrumb>
+
+
+                    </br>
                 </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
