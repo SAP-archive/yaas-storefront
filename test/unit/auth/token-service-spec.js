@@ -17,9 +17,11 @@ describe('TokenSvc', function () {
     var user = '123';
     var access = 'abc';
     var tenant = 'tenant';
-    var storeConfig = {
-        storeTenant: tenant
+    var appConfig = {
+        storeTenant: function() { return 'tenant'; },
+        dynamicDomain: function() {return 'dynDomain'}
     };
+
     mockedSettings = {
         accessCookie: cookieName
     };

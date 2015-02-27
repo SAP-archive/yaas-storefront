@@ -45,7 +45,7 @@ angular.module('ds.auth')
 
             /** Sets an anonymous access token, only if there currently is no token. */
             setAnonymousToken: function(accessToken, expiresIn) {
-                if(!this.getToken().getAccessToken() || this.getToken().getTenant() !== appConfig.storeTenant) {
+                if(!this.getToken().getAccessToken() || this.getToken().getTenant() !== appConfig.storeTenant()) {
                    this.setToken(accessToken, null, expiresIn);
                 }
             },
