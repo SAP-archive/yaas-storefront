@@ -116,7 +116,7 @@ angular.module('ds.router', [])
                         },
                         lastCatId: function ($stateParams) {
                             if($stateParams.lastCatId !== 'lastCatId') {
-                                return JSON.parse($stateParams.lastCatId);
+                                return $stateParams.lastCatId;
                             }
                             else{
                                 return null;

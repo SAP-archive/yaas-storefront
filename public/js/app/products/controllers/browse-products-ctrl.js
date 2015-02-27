@@ -35,7 +35,7 @@ angular.module('ds.products')
             };
 
             $scope.category = category || {};
-            $scope.lastCatId = $scope.category.id;
+            $scope.lastCatId = $scope.category.id || 'allProducts';
 
 
             $scope.loadedPages = 1;
