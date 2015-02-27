@@ -51,6 +51,8 @@ angular.module('ds.checkout')
             $scope.user = GlobalData.user;
             $scope.addresses = [];
 
+            var shouldAutoUpdateName = true;
+
             var Wiz = function () {
                 this.step1Done = false;
                 this.step2Done = false;
@@ -105,6 +107,7 @@ angular.module('ds.checkout')
                 if(AuthSvc.isAuthenticated()) {
                     AccountSvc.getAddresses().then(function (response) {
                         if (response.length) {
+                            shouldAutoUpdateName = false;
                             var defaultAddress = getDefaultAddress(response);
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
@@ -117,6 +120,7 @@ angular.module('ds.checkout')
                         else if ($scope.order.account) {
                             var fullName = '';
                             if ($scope.order.account.firstName) {
+                                shouldAutoUpdateName = false;
                                 fullName = fullName + $scope.order.account.firstName + ' ';
                             }
                             if ($scope.order.account.middleName) {
@@ -445,6 +449,23 @@ angular.module('ds.checkout')
                     $anchorScroll();
                 }
             });
+
+            $scope.updateAddressName = function () {
+                if (shouldAutoUpdateName) {
+                    var fullName = '';
+                    if ($scope.order.account.firstName) {
+                        fullName = fullName + $scope.order.account.firstName + ' ';
+                    }
+                    if ($scope.order.account.middleName) {
+                        fullName = fullName + $scope.order.account.middleName + ' ';
+                    }
+                    if ($scope.order.account.lastName) {
+                        fullName = fullName + $scope.order.account.lastName;
+                    }
+
+                    $scope.order.billTo.contactName = fullName;
+                }
+            };
 
 
         }]);

@@ -25,7 +25,7 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
                 <span class="input-group-addon"><label class="control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label></span>
-                <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
+                <input ng-change="updateAddressName()" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
                 ng-model="order.account.firstName" required autocomplete="on">
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
                 <span class="input-group-addon"><label class="control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label></span>
-                <input type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
+                <input ng-change="updateAddressName()" type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
                        ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
+                <input ng-change="updateAddressName()" type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
                 required autocomplete="on">
             </div>
         </div>
