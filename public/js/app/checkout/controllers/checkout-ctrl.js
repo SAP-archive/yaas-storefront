@@ -91,6 +91,7 @@ angular.module('ds.checkout')
             var populateBillTo = function(address){
                 $scope.order.billTo.id = address.id;
                 $scope.order.billTo.contactName = address.contactName;
+                $scope.order.billTo.companyName = address.companyName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
                 $scope.order.billTo.country = address.country;
@@ -399,6 +400,7 @@ angular.module('ds.checkout')
 
                 target.id = address.id;
                 target.contactName = address.contactName;
+                target.companyName = address.companyName;
                 target.address1 = address.street;
                 target.address2 = address.streetAppendix;
                 target.country = address.country;
