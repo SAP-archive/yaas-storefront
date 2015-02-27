@@ -18,20 +18,20 @@ angular.module('ds.ysearch', ['algoliasearch'])
     .run(['$templateCache', function ($templateCache) {
         $templateCache.put('template/ysearch.html',
             '<div class="y-search">' +
-            ' <div class="left-inner-addon"> ' +
-            '<i class="glyphicon glyphicon-search"></i>' +
-            '<input autocomplete="off" placeholder="{{\'SEARCH\' | translate}}" type="text" ng-model="search.text" ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" class="form-control input-lg" />' +
-            ' </div>' +
+                ' <div class="left-inner-addon"> ' +
+                    '<i class="glyphicon glyphicon-search"></i>' +
+                    '<input autocomplete="off" placeholder="{{\'SEARCH\' | translate}}" type="text" ng-model="search.text" ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" class="y-input form-control input-lg" />' +
+                ' </div>' +
 
-            '<div class="y-search-container" >' +
-            '<a class="form-control y-search-results" ng-click="hideSearchResults()" ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">' +
-            '<div class="attribute">' +
-            '<span class="y-search-result-name" ng-bind-html="result.name[0] | highlight: search.text"></span>' +
-            '<span class="y-search-result-description"  ng-bind-html="result.description[0] | highlight: search.text"></span>' +
-            '</div>' +
-            '</a>' +
-            '<a class="form-control y-search-count" ng-click="hideSearchResults()"  ui-sref="base.search({ searchString:search.text })" >See all {{search.numberOfHits}} results matching "{{search.text}}"</a>' +
-            '</div>' +
+                '<div class="y-search-container" >' +
+                    '<a class="form-control y-search-results" ng-click="hideSearchResults()" ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">' +
+                        '<div class="attribute">' +
+                            '<span class="y-search-result-name" ng-bind-html="result._highlightResult.name[0].value"></span>' +
+                            '<span class="y-search-result-description"  ng-bind-html="result._highlightResult.description[0].value"></span>' +
+                        '</div>' +
+                    '</a>' +
+                    '<a class="form-control y-search-count" ng-click="hideSearchResults()"  ui-sref="base.search({ searchString:search.text })" >See all {{search.numberOfHits}} results matching "{{search.text}}"</a>' +
+                '</div>' +
             '</div>'
         );
     }]);
@@ -124,7 +124,7 @@ angular.module('ds.ysearch')
     .filter('highlight', function ($sce) {
         return function (text, phrase) {
             if (phrase && phrase.length > 1) {
-                text = text.replace(new RegExp('(' + phrase + ')', 'gi'), '<span class="y-search-highlighted">$1</span>');
+                text = text.replace(new RegExp('(' + phrase + ')', 'gi'), '<em>$1</em>');
             }
 
             return $sce.trustAsHtml(text);
@@ -137,14 +137,8 @@ angular.module('ds.ysearch')
         var client, index;
 
         var init = function () {
-            getAlgoliaKey().then(function (key) {
-                client = algolia.Client('MSSYUK0R36', key.value, {method: 'https'});
-                index = client.initIndex(GlobalData.store.tenant);
-            });
-        };
-
-        var getAlgoliaKey = function(){
-            return ConfigurationREST.Config.one('configurations', 'algolia_key').get();
+            client = algolia.Client('MSSYUK0R36', GlobalData.search.algoliaKey, {method: 'https'});
+            index = client.initIndex(GlobalData.store.tenant);
         };
 
         var getResults = function (searchString, parameters) {

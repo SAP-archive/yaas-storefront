@@ -263,7 +263,9 @@ angular.module('ds.i18n')
          Search
          */
         SEARCH: 'Suche',
-        SEARCH_RESULTS: 'Suchergebnisse'
-
+        SEARCH_RESULTS: 'Suchergebnisse',
+        MOST_RELEVANT: 'Wichtigsten',
+        SEARCH_AGAIN: 'Neue Suche',
+        RESULTS: 'Ergebnisse'
 
     });

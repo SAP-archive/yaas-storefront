@@ -18,7 +18,7 @@
     var storeConfig = {};
 
     // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-    storeConfig.storeTenant =  /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
+    storeConfig.storeTenant =  /*StartProjectId*/ 'algoliatest2' /*EndProjectId*/;
 
     try {
         var pathLength = window.location.pathname.length;

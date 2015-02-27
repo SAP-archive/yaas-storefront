@@ -21,10 +21,12 @@ angular.module('ds.search')
             $scope.searchString = searchString;
 
             $scope.pageSize = GlobalData.products.pageSize;
+            //$scope.pageSize = 2;
+
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = '';
+            $scope.sort = 'mostRelevant';
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
@@ -158,7 +160,9 @@ angular.module('ds.search')
                     function (products) {
                         $scope.requestInProgress = false;
                         if (products) {
-                            GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                            //GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+
+
                             $scope.products = $scope.products.concat(products);
                             if ($scope.products.length === 0) {
                                 $scope.pagination.productsFrom = 0;
@@ -166,7 +170,11 @@ angular.module('ds.search')
                             else if ($scope.products.length > 0 && query.pageNumber === 1) {
                                 //Check for visible items in viewport
                             }
-                            $scope.total = GlobalData.products.meta.total;
+
+
+                            //$scope.total = GlobalData.products.meta.total;
+
+
                             getPrices(products);
                             assignMainImage(products);
 
@@ -201,6 +209,10 @@ angular.module('ds.search')
 
             $scope.$on('$destroy', unbindCat);
 
+            $scope.restartSearch = function () {
+                $rootScope.showMobileNav = true;
+                $('.y-input').focus();
+            };
 
             $scope.addMore = function () {
                 // category selected, but no products associated with category - leave blank for time being
@@ -242,6 +254,8 @@ angular.module('ds.search')
                         console.log($scope.searchString);
                         ysearchSvc.getResults($scope.searchString, {hitsPerPage: $scope.pageSize, page: page - 1})
                             .then(function (content) {
+
+                                GlobalData.products.meta.total = content.nbHits;
                                 $scope.total = content.nbHits;
 
                                 $scope.lastPageNumber = Math.ceil(content.nbHits / $scope.pageSize);

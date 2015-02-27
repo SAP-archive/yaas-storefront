@@ -52,7 +52,11 @@ angular.module('ds.shared')
                         } else if (key === settings.configKeys.googleClientId){
                             settings.googleClientId = value;
                         }
+                        else if (key === 'algolia_key'){
+                            GlobalData.search.algoliaKey = value;
+                        }
                     }
+
                     return result;
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
