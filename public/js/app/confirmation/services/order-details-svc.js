@@ -40,7 +40,7 @@ angular.module('ds.confirmation')
                         confirmationDetails.shippingAddressName = orderDetails.shippingAddress.contactName;
                     }
 
-                    else if (orderDetails.shippingAddress.companyName) {
+                    if (orderDetails.shippingAddress.companyName) {
                         confirmationDetails.shippingAddressCompanyName = orderDetails.shippingAddress.companyName;
                     }
 
