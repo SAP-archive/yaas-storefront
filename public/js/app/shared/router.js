@@ -88,6 +88,9 @@ angular.module('ds.router', [])
                 })
                 .state('base.product.detail', {
                     url: ':productId/',
+                    params: {
+                        lastCatId: 'lastCatId'
+                    },
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-detail.html',
@@ -110,8 +113,14 @@ angular.module('ds.router', [])
                                         }
                                     });
                             }
-
-
+                        },
+                        lastCatId: function ($stateParams) {
+                            if($stateParams.lastCatId !== 'lastCatId') {
+                                return $stateParams.lastCatId;
+                            }
+                            else{
+                                return null;
+                            }
                         }
                     }
                 })
