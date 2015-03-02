@@ -87,22 +87,17 @@ window.app = angular.module('ds.app', [
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 AuthDialogManager.close();
                 var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
-                var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
                 toState.repeat = false;
 
-                // handle attempt to access protected resource - show login dialog if user is not authenticated
-                if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
+                if ( needsAuthentication && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
                     if(!fromState.name){
                         $state.go(settings.homeState);
                     }
 
-                    var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
-                    dlg.then(function(){
-                            if(toState.name === settings.checkoutState){
-                                toState.repeat = true;
-                            }
+                   var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, {}, {}, false);
+                   dlg.then(function(){
                             $state.go(toState, toParams);
                         },
                         function(){

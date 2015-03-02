@@ -95,6 +95,15 @@ describe('languageSelectorController Test', function () {
             });
         });
 
+        describe('should still work if no languages are configured', function(){
+            it('should default to english if no language is configured', function(){
+                mockedGlobalData.getAvailableLanguages = function(){return []};
+                spyOn(mockedGlobalData, 'getAvailableLanguages').andCallThrough();
+                languageSelectorController = $controller('languageSelectorController', {$scope: $scope, $rootScope: $rootScope, 'GlobalData': mockedGlobalData});
+                expect($scope.languages).toBeDefined();
+            });
+        });
+
 
     });
 

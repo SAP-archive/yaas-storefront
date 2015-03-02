@@ -135,6 +135,10 @@ describe("login:", function () {
             browser.sleep(1000);
             expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             tu.clickElement('id', 'delete-address-btn');
+            browser.wait(function () {
+                return element(by.id('delete-address-btn')).isPresent();
+            });
+            tu.clickElement('id', 'delete-address-btn');
             expect(element(by.id('delete-address-btn')).isPresent()).toBe(false);
 
         });
