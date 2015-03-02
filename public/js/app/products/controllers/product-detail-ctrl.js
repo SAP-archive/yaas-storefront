@@ -46,10 +46,6 @@ angular.module('ds.products')
                         });
                 }
             }
-            else{
-                //When navigated directly from "All products" do not show path because we don't have category for All Products and because of that we don't have translation.
-                $scope.breadcrumbData = {};
-            }
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
