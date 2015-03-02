@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         TEST_DOMAIN = 'yaas-test.apigee.net/test',
-        API_DOMAIN_PATH = './public/js/app/shared/site-config.js',
+        API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
