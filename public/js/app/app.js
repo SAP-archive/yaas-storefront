@@ -28,20 +28,20 @@ window.app = angular.module('ds.app', [
     'ds.orders',
     'ds.queue',
     'ds.router',
-    'ds.http-proxy',
+    'ds.httpproxy',
     'ds.errors',
     'ds.backendMock',
-    'config',
     'xeditable',
     'ngSanitize',
     'ui.select',
-    'ds.ybreadcrumb'
+    'ds.ybreadcrumb',
+    'ds.appconfig'
 ])
     .constant('_', window._)
 
     // Configure HTTP and Restangular Providers - default headers, CORS
-    .config(['$httpProvider', 'RestangularProvider', 'settings', 'storeConfig',
-        function ($httpProvider, RestangularProvider, settings, storeConfig) {
+    .config(['$httpProvider', 'RestangularProvider', 'settings', 'appConfig',
+        function ($httpProvider, RestangularProvider, settings, appConfig) {
         $httpProvider.interceptors.push('interceptor');
 
         // enable CORS
@@ -52,7 +52,7 @@ window.app = angular.module('ds.app', [
             if(url.indexOf('yaas')<0) {
                 delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                oldHeaders [settings.headers.hybrisTenant] = storeConfig.storeTenant;
+                oldHeaders [settings.headers.hybrisTenant] = appConfig.storeTenant();
                 oldHeaders [settings.headers.hybrisRoles] = settings.roleSeller;
                 oldHeaders [settings.headers.hybrisUser] = settings.hybrisUser;
                 oldHeaders [settings.headers.hybrisApp] = settings.hybrisApp;
@@ -87,22 +87,17 @@ window.app = angular.module('ds.app', [
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState){
                 AuthDialogManager.close();
                 var needsAuthentication = toState.data && toState.data.auth && toState.data.auth === 'authenticated';
-                var freshCheckoutAttempt = toState.name === settings.checkoutState && !toState.repeat;
                 toState.repeat = false;
-                // handle attempt to access protected resource - show login dialog if user is not authenticated
 
-                if ( (freshCheckoutAttempt || needsAuthentication ) && !AuthSvc.isAuthenticated() ) {
+                if ( needsAuthentication && !AuthSvc.isAuthenticated() ) {
                     // block immediate state transition
                     event.preventDefault();
                     if(!fromState.name){
                         $state.go(settings.homeState);
                     }
-                    var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, toState.name === settings.checkoutState?{ required: true } : {}, {}, toState.name === settings.checkoutState);
 
-                    dlg.then(function(){
-                            if(toState.name === settings.checkoutState){
-                                toState.repeat = true;
-                            }
+                   var dlg = $injector.get('AuthDialogManager').open({windowClass:'mobileLoginModal'}, {}, {}, false);
+                   dlg.then(function(){
                             $state.go(toState, toParams);
                         },
                         function(){

@@ -99,10 +99,13 @@ The project has been structured into domain modules under public/js/app.  Within
 Third party dependencies are copied to public/js/vendor via the bower-installer command as part of the npm postinstall target
 (see package.json file).
 
-The angular bootstrapping takes places in file public/js/bootstrap.js.  This is where the project ID is provided for your app.
+The angular bootstrapping takes places in file public/js/bootstrap.js.
 
-From here, angular will load the "ds.route" module which comprises file public/js/app/app.js. It is here that the application
-if further configured before it can be launched.
+From here, angular will load the "ds.app" module which comprises file public/js/app/app.js. It is here that the application
+is further configured before it is loaded.
+
+The app-config.js file provides dynamic configuration for the application which allows you to set application variables without persisting 
+them in your get repository. For example, if you are running with multiple project id's changing between these environments will cause git to indicate an update. This scenario is avoided in app-config as it is included in .gitignore. Another example of non-persisted dynamic configuration is in the URL path to the API. Should this need to change, you will not need to persist it in git.
 
 
 ## Application Events
@@ -169,6 +172,7 @@ See [OWASP Click-Jacking] (https://www.owasp.org/index.php/Clickjacking).
 
 Performance optimizations are included in the gruntfile to improve the initial load time of the site. There is an 'optimizeCode' grunt task which concatenates and minifies JavaScript and CSS to reduce HTTP requests and the overall page size of the application. It works by pulling all the code from the development files into the .tmp directory, where it then concatenates and minifies before moving it to a final destination in the /dist directory. The 'optimizeCode' build task conducts all operations required with producing an optimized run-time, including: cleaning of /dist, copying of dependencies, and the replacement of the concatenated and minified resources. The code within the /dist directory then contains everything needed to run an optimized store front. To deploy those optimized resources, first run a build command that will populate the /dist directory with the optimized files (like **grunt build** for example) then deploy /dist to your server of choice and run **grunt startServer**. The startServer build task gives you the choice to run either a multi-project site or a single-project site with the flags --single or --multiple. It will start the server with only the minimum build steps necessary (including server-side optimizations),  excluding unecessary build tasks like linting.
 
+A short list of the performance optimizations available are: JS & CSS minification, file revisioning, http template caching, and GZip in the NodeJS server.
 
 # Resources
 

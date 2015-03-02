@@ -5996,6 +5996,9 @@ html.disable-scroll {
     margin-top: 75px;
   }
 }
+.main-on-top {
+  z-index: 399;
+}
 /* CONTENT AREA & MOBILE NAV */
 .top-navigation,
 .mainContent {
@@ -7225,7 +7228,7 @@ a.signin {
 }
 .edit-cart-backdrop {
   position: fixed;
-  z-index: 400;
+  z-index: 401;
   top: 0;
   left: 0;
   bottom: 0;
@@ -8314,6 +8317,13 @@ section .hero-unit {
 }
 .addressBookModal .modal-dialog {
   width: 85% !important;
+}
+#checkout-cart-btn {
+  margin-right: 30px;
+  display: inline-block !important;
+}
+.step-4 #checkout-cart-btn {
+  margin-right: 0;
 }
 .confirm {
   text-align: center;

@@ -12,7 +12,7 @@
 
 'use strict';
 
-angular.module('ds.http-proxy', [])
+angular.module('ds.httpproxy', [])
 
        /** Defines the HTTP interceptors. */
     .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
