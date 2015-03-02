@@ -260,7 +260,7 @@ angular.module('ds.search')
 
                                 $scope.lastPageNumber = Math.ceil(content.nbHits / $scope.pageSize);
 
-                                if (content.hits) {
+                                if (content.hits.length > 0) {
                                     var ids = getProductIdsFromElements(content.hits);
 
                                     console.log(ids);

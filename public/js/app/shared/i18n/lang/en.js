@@ -261,11 +261,12 @@ angular.module('ds.i18n')
         /*
          Search
          */
-        SEARCH: 'Search',
+        SEARCH: 'SEARCH',
         SEARCH_RESULTS: 'Search results',
         MOST_RELEVANT: 'Most Relevant',
         SEARCH_AGAIN: 'Search again',
-        RESULTS: 'Results'
+        RESULTS: 'Results',
+        SEE_ALL: 'See All'
 
 
 

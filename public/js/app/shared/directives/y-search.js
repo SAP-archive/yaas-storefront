@@ -18,19 +18,19 @@ angular.module('ds.ysearch', ['algoliasearch'])
     .run(['$templateCache', function ($templateCache) {
         $templateCache.put('template/ysearch.html',
             '<div class="y-search">' +
-                ' <div class="left-inner-addon"> ' +
+                ' <div class="right-inner-addon"> ' +
                     '<i class="glyphicon glyphicon-search"></i>' +
-                    '<input autocomplete="off" placeholder="{{\'SEARCH\' | translate}}" type="text" ng-model="search.text" ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" class="y-input form-control input-lg" />' +
+                    '<input autocomplete="off" placeholder="{{\'SEARCH\' | translate}}" type="text" ng-model="search.text" ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" class="y-input form-control input-md" />' +
                 ' </div>' +
 
                 '<div class="y-search-container" >' +
                     '<a class="form-control y-search-results" ng-click="hideSearchResults()" ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">' +
                         '<div class="attribute">' +
-                            '<span class="y-search-result-name" ng-bind-html="result._highlightResult.name[0].value"></span>' +
-                            '<span class="y-search-result-description"  ng-bind-html="result._highlightResult.description[0].value"></span>' +
+                            '<span class="y-search-result-name text-left" ng-bind-html="result._highlightResult.name[0].value"></span>' +
+                            //'<span class="y-search-result-description"  ng-bind-html="result._highlightResult.description[0].value"></span>' +
                         '</div>' +
                     '</a>' +
-                    '<a class="form-control y-search-count" ng-click="hideSearchResults()"  ui-sref="base.search({ searchString:search.text })" >See all {{search.numberOfHits}} results matching "{{search.text}}"</a>' +
+                    '<a class=" y-search-count text-center" ng-click="hideSearchResults()"  ui-sref="base.search({ searchString:search.text })" >{{\'SEE_ALL\' | translate}} {{search.numberOfHits}} {{\'RESULTS\' | translate}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>' +
                 '</div>' +
             '</div>'
         );
