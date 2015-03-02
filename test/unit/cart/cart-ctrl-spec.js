@@ -12,7 +12,7 @@
 
 describe('CartCtrl Test', function () {
 
-    var $scope, $rootScope, $controller;
+    var $scope, $rootScope, $controller, $injector;
 
     //***********************************************************************
     // Common Setup
@@ -34,7 +34,7 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData;
+    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData, mockedSettings, mockedAuthSvc, mockedAuthDialogManager, mockedState;
 
     beforeEach(function () {
         cart = {};
@@ -54,11 +54,31 @@ describe('CartCtrl Test', function () {
             getLocalCart: jasmine.createSpy().andReturn(cart)
         };
 
+        mockedState = {
+            go: jasmine.createSpy()
+        };
+
         mockedGlobalData = {
             getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$')
         };
 
-        cartCtrl = $controller('CartCtrl', {$scope: $scope, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc, 'GlobalData': mockedGlobalData});
+        mockedSettings = {
+            homeState: 'base.home'
+        };
+
+        mockedAuthSvc = {
+            isAuthenticated: jasmine.createSpy().andReturn(false)
+        };
+
+        mockedAuthDialogManager = {
+            open: jasmine.createSpy().andReturn({
+                then: jasmine.createSpy()
+            }),
+            close: jasmine.createSpy()
+        };
+
+        cartCtrl = $controller('CartCtrl', {$scope: $scope, $state: mockedState, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc,
+            'GlobalData': mockedGlobalData, 'settings': mockedSettings, 'AuthSvc': mockedAuthSvc, 'AuthDialogManager': mockedAuthDialogManager});
 
         $rootScope.cart = products;
     });
@@ -106,6 +126,14 @@ describe('CartCtrl Test', function () {
         $rootScope.showCart = true;
         $scope.toggleCart();
         expect($rootScope.showCart).toEqualData(false);
+    });
+
+    it('should go to the checkout details page', function () {
+        /*
+         the keepCartOpen function is now in the cart auto toggle directive so we must mock it
+         */
+        $scope.keepCartOpen = function () {};
+        $scope.toCheckoutDetails();
     });
 
 });
