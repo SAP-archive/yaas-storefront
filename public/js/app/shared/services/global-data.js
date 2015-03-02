@@ -18,8 +18,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['storeConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
-        function (storeConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
+    .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
+        function (appConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
 
             var languageCode;
             var defaultLang;
@@ -120,7 +120,7 @@ angular.module('ds.shared')
                 },
 
                 store: {
-                    tenant: storeConfig.storeTenant,
+                    tenant: appConfig.storeTenant(),
                     name: '',
                     logo: null
                 },
