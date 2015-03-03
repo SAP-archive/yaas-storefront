@@ -163,7 +163,7 @@ angular.module('ds.checkout')
 
                 //when "my details" name changes, validate bill to contact name field
                 var nch = scope.$on('myDetails:change', function(){
-                    if (ngModel.$name === 'contactNameBill') {
+                    if (ngModel.$name === 'contactName') {
                         elementClone.hide();
                         elementClone.attr('value', '');
                         element.show();
