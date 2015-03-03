@@ -425,14 +425,14 @@ angular.module('ds.checkout')
                     windowClass: 'addressBookModal',
                     scope: $scope,
                     resolve: {
-                        addresses: function(AccountSvc) {
+                        addresses: ['AccountSvc', function(AccountSvc) {
                             return AccountSvc.getAddresses().then(function() {
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;
                                 $scope.target = target;
                             });
-                        }
+                        }]
                     }
                   });
             };

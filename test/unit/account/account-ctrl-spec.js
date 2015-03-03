@@ -61,11 +61,11 @@ describe('AccountCtrl Test', function () {
     ];
     var mockedModal = {};
     var defaultLang = 'en';
-    var mockedStoreConfig = {};
+    var mockedAppConfig = {};
     var storeTenant = '121212';
     var address = {};
-    mockedStoreConfig.defaultLanguage = defaultLang;
-    mockedStoreConfig.storeTenant = storeTenant;
+    mockedAppConfig.defaultLanguage = defaultLang;
+    mockedAppConfig.storeTenant = storeTenant;
     var translateReturn = {
         then: jasmine.createSpy()
     };

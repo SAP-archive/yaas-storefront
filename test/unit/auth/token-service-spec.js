@@ -17,9 +17,11 @@ describe('TokenSvc', function () {
     var user = '123';
     var access = 'abc';
     var tenant = 'tenant';
-    var storeConfig = {
-        storeTenant: tenant
+    var appConfig = {
+        storeTenant: function() { return 'tenant'; },
+        dynamicDomain: function() {return 'dynDomain'}
     };
+
     mockedSettings = {
         accessCookie: cookieName
     };
@@ -30,7 +32,7 @@ describe('TokenSvc', function () {
 
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('settings', mockedSettings);
-        $provide.value('storeConfig', storeConfig);
+        $provide.value('appConfig', appConfig);
     }));
 
     beforeEach(inject(function(_TokenSvc_, _ipCookie_) {

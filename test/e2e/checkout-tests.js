@@ -150,7 +150,7 @@ describe("checkout:", function () {
 
         it('should update cart quantity on checkout page', function () {
             var backToCheckoutButton = "//div[@id='cart']/div[2]/button"
-            var editCartButton = "(//button[@id='checkout-cart-btn'])[2]"
+            var editCartButton = "(//span[@id='checkout-cart-btn'])[2]"
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
             verifyCartContents('$10.67', '$13.94', '1');

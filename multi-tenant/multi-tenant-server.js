@@ -1,12 +1,16 @@
 
 var http = require('http');
 var express = require('express');
+var compression = require('compression');
 
 // **************************************************************************
 
 // Build the server
 var app = express();
 var helmet = require('helmet');
+
+// compress all requests
+app.use(compression({level:6}));
 
 // Don't allow anyone to put content in a frame.
 app.use(helmet.frameguard('deny'));

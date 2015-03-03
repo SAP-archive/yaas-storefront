@@ -21,8 +21,9 @@ describe('AuthSvc Test', function () {
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 123;
     var username = 'some.user@hybris.com';
-    var storeConfig = {
-        storeTenant: storeTenant
+    var appConfig = {
+        storeTenant: function() { return storeTenant; },
+        dynamicDomain: function() {return 'dynDomain'}
     };
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn(accessToken);
     var getUsernameSpy = jasmine.createSpy('getUsernameSpy').andReturn(username);
@@ -62,7 +63,7 @@ describe('AuthSvc Test', function () {
         $provide.value('TokenSvc', mockedTokenSvc);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
-        $provide.value('storeConfig', storeConfig);
+        $provide.value('appConfig', appConfig);
         $provide.value('SessionSvc', mockedSessionSvc);
     }));
 

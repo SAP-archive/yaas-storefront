@@ -46,7 +46,7 @@ describe('OrderDetailSvc Test', function () {
     });
 
     beforeEach(module('ds.shared', function($provide) {
-        $provide.value('storeConfig', {});
+        $provide.value('appConfig', {});
     }));
 
     beforeEach(function () {

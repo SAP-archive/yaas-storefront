@@ -64,7 +64,7 @@ describe('CategorySvc', function () {
         });
 
         module('ds.shared', function($provide){
-            $provide.value('storeConfig', {});
+            $provide.value('appConfig', {});
         });
 
         inject(function (_$httpBackend_, _$rootScope_, _CategorySvc_, SiteConfigSvc) {

@@ -16,8 +16,8 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'storeConfig', '$state', '$q', 'SessionSvc', '$window',
-        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, storeConfig, $state, $q, SessionSvc, $window) {
+    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window',
+        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window) {
 
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
@@ -204,7 +204,7 @@ angular.module('ds.auth')
                 /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/
                 isAuthenticated: function () {
                     var token = TokenSvc.getToken();
-                    return !!token.getAccessToken() && !!token.getUsername() && token.getTenant() === storeConfig.storeTenant;
+                    return !!token.getAccessToken() && !!token.getUsername() && token.getTenant() === appConfig.storeTenant();
                 },
 
                 /** Issues a 'reset password' request. Returns the promise of the completed action.*/
