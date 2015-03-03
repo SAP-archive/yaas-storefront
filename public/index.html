@@ -34,7 +34,21 @@
 
 
     </div>
-</body>
+
+   <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://nemanjapopovic.piwikpro.com/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src='https://cdnjs.cloudflare.com/ajax/libs/piwik/2.8.0/piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <!--<div  ytracking ytracking-enabled="true" ></div>-->
+</body >
 
 <!-- dynamic optimized script resources -->
 <!-- build:js js/storefront.js -->
@@ -67,6 +81,7 @@
 <script src="js/app/shared/directives/infinite-scrolling-visible-items.js"></script>
 <script src="js/app/shared/directives/ngRepeat-rendering-finished.js"></script>
 <script src="js/app/shared/directives/y-breadcrumb.js"></script>
+<script src="js/app/shared/directives/y-tracking.js"></script>
 <script src="js/app/shared/services/cookie-svc.js"></script>
 <script src="js/app/shared/services/global-data.js"></script>
 <script src="js/app/shared/services/configuration-service.js"></script>
@@ -134,6 +149,9 @@
 <script src="js/app/auth/services/auth-dialog-manager.js"></script>
 <script src="js/app/errors/backendStub.js"></script>
 <script src="js/vendor-static/bootstrap.min.js"></script>
+
+<!--<script src="js/vendor-static/piwik.js"></script>-->
+
 <script src="js/vendor/bootstrap/js/popover.js"></script>
 <script src="js/app/shared/directives/popover.js"></script>
 <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
