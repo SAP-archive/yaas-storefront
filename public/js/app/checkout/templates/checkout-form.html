@@ -76,7 +76,7 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
                 <span class="input-group-addon"><label class="control-label" for="contactNameBill">{{'NAME' | translate}}</label></span>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactNameBill" name="contactNameBill" ng-model="order.billTo.contactName"
                        required autocomplete="on" >
             </div>
         </div>
@@ -232,7 +232,7 @@
                 <div class="form-group input-group"
                      ng-class="{'has-error': !shipToSameAsBillTo && shipToForm.contactName.$invalid && (shipToForm.contactName.$dirty || showPristineErrors) }">
                     <span class="input-group-addon"><label class="control-label" for="contactNameShip">{{'NAME' | translate}}</label></span>
-                    <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="contactNameShip" name="contactNameShip" ng-model="order.shipTo.contactName"
                            ng-required="!shipToSameAsBillTo" autocomplete="on">
                 </div>
             </div>
