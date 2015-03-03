@@ -17,6 +17,7 @@ exports.config = {
         'screen-resolution': '1280x1024',
         'record-video': false,
         'max-duration': 2700,
+        'time-zone': 'Berlin',
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
         'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
