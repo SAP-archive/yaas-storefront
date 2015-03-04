@@ -15,54 +15,151 @@
 
 angular.module('ds.ytacking', [])
     .constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
-    .directive('ytracking',['yTrackingURL' ,'$rootScope' ,'GlobalData', function(yTrackingURL, $rootScope, GlobalData) {
+    //.constant('yTrackingURL', 'https://api.yaas.io/piwik/events')
+    .directive('ytracking',['yTrackingURL', 'ytrackingSvc' ,'$rootScope' ,'GlobalData', '$window', 'TokenSvc',function(yTrackingURL, ytrackingSvc, $rootScope, GlobalData, $window, TokenSvc) {
         return {
-            scope:{
-                enabled: '@ytrackingEnabled'
-            },
             restrict: 'A',
-            link: function (scope) {
+            compile: function (scope) {
 
-                angular.element(document).ready(function () {
 
-                    if (scope.enabled) {
-                        var _paq = _paq || [];
+                (function(open) {
+                    XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+                        alert();
+                        console.log(this);
+                        console.log(method);
+                        // Do some magic
+                        open.call(this, method, url, async, user, pass);
+                        var token = TokenSvc.getToken().getAccessToken();
+                        if (token) {
+                            this.setRequestHeader('Authorization', 'Bearer ' + token);
+                        }
+                    };
+                })(XMLHttpRequest.prototype.open);
 
-                        scope.init = function () {
+                scope.processRequest = function (e) {
+                    console.log('before request event');
+                    console.log(e);
+                };
 
-                            _paq.push(['trackPageView']);
-                            _paq.push(['enableLinkTracking']);
-                            (function () {
-                                _paq.push(['setTrackerUrl', yTrackingURL]);
-                                _paq.push(['setSiteId', 1]);
-                                var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-                                g.type = 'text/javascript';
-                                g.async = true;
-                                g.defer = true;
-                                g.src = 'https://cdnjs.cloudflare.com/ajax/libs/piwik/2.8.0/piwik.js';
-                                s.parentNode.insertBefore(g, s);
-                            })();
-                        };
+                $window._paq = $window._paq || [];
 
-                        scope.trackUrlChange = function () {
-                            $rootScope.$on('$stateChangeSuccess',
-                                function (event, toState, toParams, fromState) {
-                                    console.log(toState);
 
-                                    _paq.push(['setCustomVariable', 1, toState.name, fromState.name, 'page']);
-                                    _paq.push(['trackLink', toState.name]);
-                                    _paq.push(['trackPageView', toState.name]);
-                                });
-                        };
+                $window._paq.push(['setRequestMethod', 'POST']);
+                $window._paq.push(['setCustomRequestProcessing',scope.processRequest]);
 
-                        //Start tracking
-                        scope.url = yTrackingURL;
 
-                        scope.init();
-                        scope.trackUrlChange();
+                //Set document title
+                console.log( document.title.toString());
+                $window._paq.push(['setDocumentTitle', document.title.toString()]);
+                //Set user id to equal the user token
+                console.log(TokenSvc.getToken().getAccessToken().toString());
+                $window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
-                    }
-                });
+
+                $window._paq.push(['setTrackerUrl', yTrackingURL]);
+                $window._paq.push(['setSiteId', 1]);
+
+
+
+
+                $window._paq.push(['trackPageView']);
+                $window._paq.push(['enableLinkTracking']);
+
+
+                //Look for route change events
+                $rootScope.$on('$stateChangeSuccess',
+                        function (event, toState, toParams, fromState) {
+
+
+                            //$window._paq.push(['setTrackerUrl', document.URL]);
+
+                            if(toState.name === 'base.product.detail'){
+                                console.log(fromState);
+                                console.log(toState);
+
+                            }
+
+                            if(toState.name === 'base.category'){
+
+                                console.log(toState);
+                                //ytrackingSvc.setCategoryViewed(toState.name);
+                            }
+                        });
             }
+        };
+    }])
+    .factory('ytrackingSvc', ['$window', function ($window) {
+
+
+        var productOrdered = function (sku, name, categoryName, unitPrice, amount) {
+            if(!!$window._paq) {
+                $window._paq.push(['addEcommerceItem',
+                    sku, // (required) SKU: Product unique identifier
+                    name, // (optional) Product name
+                    categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
+                    unitPrice, // (recommended) Product price
+                    amount // (optional, default to 1) Product quantity
+                ]);
+            }
+        };
+
+        var orderPlaced = function (orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered) {
+            if(!!$window._paq) {
+                $window._paq.push(['trackEcommerceOrder',
+                    orderId, // (required) Unique Order ID
+                    orderGrandTotal, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+                    orderSubTotal, // (optional) Order sub total (excludes shipping)
+                    taxAmount, // (optional) Tax amount
+                    shippingAmount, // (optional) Shipping amount
+                    isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
+                ]);
+
+
+                $window._paq.push(['trackPageView']);
+            }
+        };
+
+        var setProductViewed = function (sku, name, category, price) {
+            if(!!$window._paq) {
+                $window._paq.push(['setEcommerceView',
+                    sku, // (required) SKU: Product unique identifier
+                    name, // (optional) Product name
+                    category, // (optional) Product category, or array of up to 5 categories
+                    price // (optional) Product Price as displayed on the page
+                ]);
+                $window._paq.push(['trackPageView', name]);
+            }
+        };
+
+        var setCategoryViewed = function (categoryPage) {
+            if(!!$window._paq) {
+                $window._paq.push(['setEcommerceView',
+                    false, // No product on Category page
+                    false, // No product on Category page
+                    categoryPage // Category Page, or array of up to 5 categories
+                ]);
+                $window._paq.push(['trackPageView', categoryPage]);
+            }
+        };
+
+        //trackEvent(category, action, [name], [value])
+        var trackEvent = function (category, action, name, value) {
+            if(!!$window._paq) {
+                $window._paq.push(['trackEvent',
+                    'category',
+                    'action',
+                    'name',
+                    'value'
+                ]);
+                $window._paq.push(['trackPageView', 'trackEvent']);
+            }
+        };
+
+        return{
+            trackEvent: trackEvent,
+            productOrdered: productOrdered,
+            orderPlaced: orderPlaced,
+            setProductViewed: setProductViewed,
+            setCategoryViewed: setCategoryViewed
         };
     }]);

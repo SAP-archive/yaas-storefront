@@ -15,8 +15,8 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated' ,'ytrackingSvc', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated,ytrackingSvc) {
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
@@ -60,9 +60,13 @@ angular.module('ds.confirmation')
                         if (product.sku === entry.product.sku) {
                             $scope.confirmationDetails.products[key].price = entry.unitPrice;
                             $scope.confirmationDetails.products[key].amount = entry.amount;
+
+                            ytrackingSvc.productOrdered(product.sku, product.name, 'CATEGORY_NAME', entry.unitPrice, entry.amount);
                         }
                     });
                 });
+
+                ytrackingSvc.orderPlaced($scope.orderInfo.orderId, 100, 80, 10, 10, false);
             });
         });
 

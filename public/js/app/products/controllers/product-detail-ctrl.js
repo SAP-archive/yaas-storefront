@@ -17,13 +17,17 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData',
-        function($scope, $rootScope, CartSvc, product, settings, GlobalData) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData', 'ytrackingSvc',
+        function($scope, $rootScope, CartSvc, product, settings, GlobalData, ytrackingSvc) {
 
             $scope.product = product;
 
             // used by breadcrumb directive
             $scope.category = product.richCategory;
+
+            //Send data to PIWIK
+            ytrackingSvc.setProductViewed(product.sku, product.name, product.richCategory.name, product.defaultPrice.value);
+
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
