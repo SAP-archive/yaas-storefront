@@ -84,8 +84,8 @@ angular.module('ds.ytacking', [])
             }
         };
     }])
-    .factory('ytrackingSvc', ['yTrackingURL', 'yTrackingLocalStorageKey','GlobalData', '$http', 'localStorage','$window',
-        function (yTrackingURL, yTrackingLocalStorageKey, GlobalData, $http, localStorage, $window) {
+    .factory('ytrackingSvc', ['yTrackingURL', 'yTrackingLocalStorageKey','GlobalData', '$http', 'localStorage','$window','$timeout',
+        function (yTrackingURL, yTrackingLocalStorageKey, GlobalData, $http, localStorage, $window, $timeout) {
 
         //Private methods
         var getQueryParameters = function(hash) {
@@ -179,10 +179,16 @@ angular.module('ds.ytacking', [])
 
             $window._paq.push(['trackPageView']);
             $window._paq.push(['enableLinkTracking']);
+
+
+
+
         };
 
         var setCustomUrl = function (){
-            $window._paq.push(['setCustomUrl', $window.document.URL]);
+            if(!!$window._paq) {
+                $window._paq.push(['setCustomUrl', $window.document.URL]);
+            }
         };
 
         var productOrdered = function (sku, name, categoryName, unitPrice, amount) {
@@ -215,30 +221,35 @@ angular.module('ds.ytacking', [])
 
         var setProductViewed = function (sku, name, category, price) {
             if(!!$window._paq) {
+                //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
+                $timeout(function () {
+                    setCustomUrl();
 
-                this.setCustomUrl();
+                    $window._paq.push(['setEcommerceView',
+                        sku, // (required) SKU: Product unique identifier
+                        name, // (optional) Product name
+                        category, // (optional) Product category, or array of up to 5 categories
+                        price // (optional) Product Price as displayed on the page
+                    ]);
+                    $window._paq.push(['trackPageView', name]);
 
-                $window._paq.push(['setEcommerceView',
-                    sku, // (required) SKU: Product unique identifier
-                    name, // (optional) Product name
-                    category, // (optional) Product category, or array of up to 5 categories
-                    price // (optional) Product Price as displayed on the page
-                ]);
-                $window._paq.push(['trackPageView', name]);
+                });
             }
         };
 
         var setCategoryViewed = function (categoryPage, name) {
             if(!!$window._paq) {
+                //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
+                $timeout(function () {
+                    setCustomUrl();
 
-                this.setCustomUrl();
-
-                $window._paq.push(['setEcommerceView',
-                    false, // No product on Category page
-                    false, // No product on Category page
-                    categoryPage // Category Page, or array of up to 5 categories
-                ]);
-                $window._paq.push(['trackPageView', name]);
+                    $window._paq.push(['setEcommerceView',
+                        false, // No product on Category page
+                        false, // No product on Category page
+                        categoryPage // Category Page, or array of up to 5 categories
+                    ]);
+                    $window._paq.push(['trackPageView', name]);
+                });
             }
         };
 
