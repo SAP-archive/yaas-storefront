@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll', 'ytrackingSvc',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll,ytrackingSvc) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -36,9 +36,7 @@ angular.module('ds.products')
 
             $scope.category = category || {};
             if(!!category){
-                console.log(category);
-                //PIWIK tracking
-                ytrackingSvc.setCategoryViewed(category.name);
+                $scope.$emit('categoryLoaded', category);
             }
 
 
