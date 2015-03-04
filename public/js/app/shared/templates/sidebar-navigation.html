@@ -17,7 +17,7 @@
     <div ng-if="!user.isAuthenticated">
 
         <div class="signinContainer">
-            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over  data-placement="auto"  popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="./js/app/auth/templates/auth.html">
+            <a ng-if="!user.isAuthenticated" id="login-btn" class="signin btn btn-link hidden-xs hidden-sm" pop-over  data-placement="auto"  popover-Class="loginPopover" popover-Controller="AuthModalDialogCtrl" template-Url="js/app/auth/templates/auth.html">
 
                 <img src="./img/user-icon_small.png" class="user-avatar">
                 {{'SIGN_IN' | translate}}
@@ -71,12 +71,12 @@
 
 <div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak >
     <div class="configSelector" ng-controller="languageSelectorController">
-        <div data-placement="auto" popover-Class="languageSelectorContainer" pop-over popover-Controller="languageSelectorController" template-Url="./js/app/shared/templates/language-selector.html">
+        <div data-placement="auto" popover-Class="languageSelectorContainer" pop-over popover-Controller="languageSelectorController" template-Url="js/app/shared/templates/language-selector.html">
             <p class="languageSelector" ng-if="languages.length > 1" >{{language.selected.value | translate}}</p>
         </div>
     </div>
     <div class="configSelector" ng-controller="currencySelectorController">
-        <div data-placement="auto" popover-Class="currencySelectorContainer" pop-over popover-Controller="currencySelectorController" template-Url="./js/app/shared/templates/currency-selector.html">
+        <div data-placement="auto" popover-Class="currencySelectorContainer" pop-over popover-Controller="currencySelectorController" template-Url="js/app/shared/templates/currency-selector.html">
             <p class="currencySelector" ng-if="currencies.length > 1">{{currency.selected.id | translate}}</p>
         </div>
     </div>

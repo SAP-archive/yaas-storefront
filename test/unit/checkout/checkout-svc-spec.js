@@ -78,7 +78,7 @@ describe('CheckoutSvc', function () {
     mockedCartSvc = {};
 
     beforeEach(module('ds.shared', function($provide) {
-        $provide.value('storeConfig', {});
+        $provide.value('appConfig', {});
     }));
 
     beforeEach(function(){

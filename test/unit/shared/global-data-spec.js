@@ -12,6 +12,10 @@ describe('GlobalData', function () {
     var GlobalData = null;
     var defaultLang = 'en';
     var $rootScope,  $translate, translateSettings;
+    var appConfig = {
+        storeTenant: function() { return '121212'; },
+        dynamicDomain: function() {return 'dynDomain'}
+    };
 
     beforeEach( function() {
 
@@ -26,7 +30,7 @@ describe('GlobalData', function () {
         module(function ($provide) {
             $provide.value('CookieSvc', mockedCookieSvc);
 
-            $provide.constant('storeConfig', {});
+            $provide.constant('appConfig', appConfig);
 
         });
 

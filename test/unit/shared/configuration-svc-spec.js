@@ -13,7 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl,siteConfig,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig,
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
@@ -25,6 +25,10 @@ describe('ConfigurationSvc Test', function () {
         "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"},
         {"key":"project_lang", "value":"[{\"id\":\"en\",\"label\":\"English\"}]"}];
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={}, mockedCategorySvc = {};
+    var appConfig = {
+        storeTenant: function() { return '121212/'; },
+        dynamicDomain: function() {return 'dynDomain'}
+    };
 
     beforeEach(function() {
         module('restangular');
@@ -32,6 +36,7 @@ describe('ConfigurationSvc Test', function () {
 
     beforeEach(module('ds.shared', function ($provide) {
         $provide.constant('storeConfig', mockedStoreConfig);
+        $provide.constant('appConfig', appConfig);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('AuthSvc', mockedAuthSvc);
         $provide.value('AccountSvc', mockedAccountSvc);

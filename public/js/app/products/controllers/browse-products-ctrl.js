@@ -14,10 +14,10 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll) {
 
-            $scope.pageSize = 8;
+            $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
@@ -35,6 +35,11 @@ angular.module('ds.products')
             };
 
             $scope.category = category || {};
+            $scope.lastCatId = $scope.category.id || 'allProducts';
+
+
+            $scope.loadedPages = 1;
+            $scope.loadMorePages = false;
 
             // ensure category path is localized
             var pathSegments = $location.path().split('/');
@@ -88,6 +93,26 @@ angular.module('ds.products')
                             initRefineAffix();
                             /* jshint ignore:end */
 
+                            if($scope.loadMorePages) {
+                                $timeout(function(){
+                                    $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                                    $scope.pageNumber = $scope.loadedPages;
+
+                                    //Scroll to the page
+                                    if(!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]){
+                                        $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                                    }
+
+                                    //Try scrolling to the last element
+                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
+
+                                    //Set page parameter
+                                    $location.search('page', $scope.pageNumber).replace();
+
+                                    $scope.loadMorePages = false;
+                                },1);
+                            }
+
                         }
                     }
                 );
@@ -111,6 +136,8 @@ angular.module('ds.products')
                    setMainImage(product);
                 });
             }
+
+
 
             // Primary Reason for categories to be updated is that the language change.
             //  We'll have to retrieve the current slug for the category (and thus this page)
@@ -159,6 +186,8 @@ angular.module('ds.products')
                 if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                     if (!$scope.requestInProgress) {
                         $scope.pageNumber = $scope.pageNumber + 1;
+
+
                         var qSpec = 'published:true';
                         if ($scope.category.elements && $scope.category.elements.length > 0) {
                             qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
@@ -191,6 +220,9 @@ angular.module('ds.products')
                                     $scope.total = GlobalData.products.meta.total;
                                     getPrices(products);
                                     assignMainImage(products);
+
+                                    //Set page parameter
+                                    $location.search('page', $scope.pageNumber).replace();
                                 }
                             }, function () {
                                 $scope.requestInProgress = false;
@@ -199,11 +231,37 @@ angular.module('ds.products')
                 }
             };
 
+            $scope.backToTop = function () {
+                window.scrollTo(0, 0);
+            };
+
+            $scope.scrollTo = function (id) {
+
+                // always scroll by 150 extra pixels (because of the navigation pane)
+                $anchorScroll.yOffset = 150;
+
+                //Then try scrolling to the element
+                var old = $location.hash();
+                $location.hash(id);
+                $anchorScroll();
+                $location.hash(old);
+            };
+
+            //Check for query parameter that has the number of pages
+            if(!!$location.search().page){
+                $scope.loadedPages =  parseInt($location.search().page);
+                $scope.pageSize = $scope.pageSize * $scope.loadedPages;
+                $scope.sort = GlobalData.products.lastSort;
+                $scope.loadMorePages = true;
+            }
+
             // trigger initial load of items
             $scope.addMore();
 
-            $scope.backToTop = function () {
-                window.scrollTo(0, 0);
+            //Save id of the last viewed element, last viewed page and current sort
+            $scope.openProductDetails = function (productId) {
+                GlobalData.products.lastViewedProductId = productId;
+                GlobalData.products.lastSort = $scope.sort;
             };
 
             $scope.setSortedPage = function () {

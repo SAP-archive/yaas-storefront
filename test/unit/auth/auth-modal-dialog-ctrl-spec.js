@@ -17,6 +17,11 @@ describe('AuthModalDialogCtrl Test', function () {
 
         deferredSignIn, deferredSignUp, deferredSocialLogin;
     var mockedForm = {};
+
+    var mockedState = {
+        go: jasmine.createSpy()
+    };
+
     // global variable to mimic FB API
     FB = {
         getLoginStatus: function(callback){
@@ -108,7 +113,7 @@ describe('AuthModalDialogCtrl Test', function () {
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, AuthSvc: MockedAuthSvc,
-                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false}
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false, $state: mockedState}
        );
     });
 
