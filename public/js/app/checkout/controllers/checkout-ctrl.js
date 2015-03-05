@@ -451,6 +451,7 @@ angular.module('ds.checkout')
             });
 
             $scope.updateAddressName = function () {
+                $scope.$broadcast('myDetails:change', $scope.billToForm);
                 if (shouldAutoUpdateName) {
                     var fullName = '';
                     if ($scope.order.account.firstName) {
