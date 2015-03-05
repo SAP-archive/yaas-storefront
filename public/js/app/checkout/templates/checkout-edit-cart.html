@@ -40,11 +40,30 @@
 			<tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-				<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-			</tr>
+				<tr>
+					<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
+					<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
+				</tr>
+                <tr>
+                    <td >{{'SUBTOTAL' | translate}}</td>
+                    <td class="text-right">
+                        {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{'DISCOUNT' | translate}}</td>
+                    <td class="text-right">
+                        {{order.shipping.total.amount | currency: currencySymbol}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{'SHIPPING' | translate}}</td>
+                    <td class="text-right">
+                        {{order.shipping.total.amount | currency: currencySymbol}}
+                    </td>
+                </tr>
 			</tbody>
+
 		</table>
 	</section>
 	<section>

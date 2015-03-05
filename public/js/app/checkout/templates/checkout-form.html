@@ -361,6 +361,13 @@
     ng-click="editPayment()"></span></h2>
 </a>
 <div class="row step-detail">
+    <div class="col-lg-8">
+        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
+        <input type="text" class="form-control">
+        <button id="add-address-btn" class="btn btn-primary btn-lg pull-right ng-binding" ng-click="openAddressModal()">
+        Apply
+        </button>
+    </div>
     <div class="col-lg-12">
         <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
     </div>

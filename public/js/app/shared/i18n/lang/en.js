@@ -84,6 +84,8 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: 'Step 3. Payment',
         STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
+        DISCOUNT: 'Discount',
+        COUPON_CODE: 'Coupon Code',
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',

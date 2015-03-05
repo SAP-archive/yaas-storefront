@@ -39,11 +39,15 @@
                     <td>{{'SHIPPING' | translate}}</td>
                     <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
                 </tr>
+                <tr>
+                    <td>{{'DISCOUNT' | translate}}</td>
+                    <td class="text-right text-danger">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.totalPrice.value | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>
