@@ -14,10 +14,10 @@
 
 
 angular.module('ds.ytacking', [])
-    .constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
+    //.constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
     //.constant('yTrackingURL', 'https://api.yaas.io/piwik/events')
-    //.constant('yTrackingURL', 'https://piwik-service-v1-green.stage.cf.hybris.com')
-    //.constant('yTrackingURL', 'http://piwik-service-v1-green.stage.cf.hybris.com/events')
+    //.constant('yTrackingURL', 'https://piwik-service-v1-green.stage.cf.hybris.com/events')
+    .constant('yTrackingURL', 'https://piwik-service-v1.stage.cf.hybris.com/events')
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking',['ytrackingSvc' ,'$rootScope' ,
         function(ytrackingSvc, $rootScope) {
@@ -115,9 +115,9 @@ angular.module('ds.ytacking', [])
                 method: 'POST',
                 url: yTrackingURL,
                 headers: {
-                    'Content-Type': 'application/json, text/plain'
+                    'Content-Type': 'application/json'
                 },
-                data: obj
+                data: JSON.stringify(obj)
             };
 
             //var req = {
@@ -133,24 +133,23 @@ angular.module('ds.ytacking', [])
             $.ajax({
                 type: 'POST',
                 url: yTrackingURL,
-                data: obj,
-                //dataType: 'application/json'
-                dataType: 'application/json'
+                data: JSON.stringify(obj),
+                contentType: "application/json"
             });
 
-            $http(req).
-                success(function() {
-                    //Get all items that failed before and resend them to PIWIK server
-                    var items = localStorage.getAllItems(yTrackingLocalStorageKey);
-                    for(var i = 0; i < items.length; i++){
-                        makeRequest(params);
-                    }
-                }).
-                error(function() {
-                    //Store request to localstorage so it can be sent again when possible
-                    //console.log(params);
-                    localStorage.addItemToArray(yTrackingLocalStorageKey, params);
-                });
+            //$http(req).
+            //    success(function() {
+            //        //Get all items that failed before and resend them to PIWIK server
+            //        var items = localStorage.getAllItems(yTrackingLocalStorageKey);
+            //        for(var i = 0; i < items.length; i++){
+            //            makeRequest(params);
+            //        }
+            //    }).
+            //    error(function() {
+            //        //Store request to localstorage so it can be sent again when possible
+            //        //console.log(params);
+            //        localStorage.addItemToArray(yTrackingLocalStorageKey, params);
+            //    });
         };
 
 
