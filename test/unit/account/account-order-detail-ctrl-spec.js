@@ -65,21 +65,23 @@ describe('AccountOrderDetailCtrl Test', function () {
                 entries: [
                     {
                         product: {
-                            id: 'product1'
+                            name: 'product1'
                         },
                         sku: 'product1',
                         amount: 1,
                         unitPrice: 50.00,
-                        totalPrice: 50.00
+                        totalPrice: 50.00,
+                        id: 'product1'
                     },
                     {
                         product: {
-                            id: 'product2'
+                            name: 'product2'
                         },
                         sku: 'product2',
                         amount: 2,
                         unitPrice: 25.00,
-                        totalPrice: 50.00
+                        totalPrice: 50.00,
+                        id: 'product1'
                     }
                 ]
             };
