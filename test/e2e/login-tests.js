@@ -98,7 +98,7 @@ describe("login:", function () {
 
         });
 
-        it('should allow existing user to manage addresses', function () {
+        iit('should allow existing user to manage addresses', function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
             tu.clickElement('id', "login-btn");
@@ -221,7 +221,7 @@ describe("login:", function () {
         });
 
         it('should allow user to access order confirmation', function (){
-            browser.get(tu.tenant + '/#!/confirmation/CYFEF3PN/');
+            browser.get(tu.tenant + '/#!/confirmation/UI7CFZH7/');
             browser.wait(function () {
                 return element(by.binding('SIGN_IN')).isPresent();
             });
@@ -229,7 +229,7 @@ describe("login:", function () {
             tu.sendKeys('id', 'passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
-            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is CYFEF3PN');
+            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is UI7CFZH7');
         });
 
     });
