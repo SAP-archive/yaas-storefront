@@ -135,6 +135,7 @@ angular.module('ds.checkout')
                 newOrder.addresses = [];
                 var billTo = {};
                 billTo.contactName = order.billTo.contactName;
+                billTo.companyName = order.billTo.companyName;
                 billTo.street = order.billTo.address1;
                 // TODO - what about 2nd street line?
                 //billTo.streetAppendix = order.billTo.address2;
@@ -149,6 +150,7 @@ angular.module('ds.checkout')
 
                 var shipTo = {};
                 shipTo.contactName = order.shipTo.contactName;
+                shipTo.companyName = order.shipTo.companyName;
                 shipTo.street = order.shipTo.address1;
                 //shipTo.streetAppendix = order.shipTo.address2;
                 // TODO - what about 2nd street line?

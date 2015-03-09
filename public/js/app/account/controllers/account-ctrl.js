@@ -120,8 +120,19 @@ angular.module('ds.account')
             };
 
             $scope.openAddressModal = function (address) {
+                var fullName = '';
+                if ($scope.account.firstName) {
+                    fullName = fullName + $scope.account.firstName + ' ';
+                }
+                if ($scope.account.middleName) {
+                    fullName = fullName + $scope.account.middleName + ' ';
+                }
+                if ($scope.account.lastName) {
+                    fullName = fullName + $scope.account.lastName;
+                }
                 $scope.address = angular.copy(address || {
-                    account: customerNumber
+                    account: customerNumber,
+                    contactName: fullName
                 });
                 $scope.showPristineErrors = false;
                 $scope.errors = [];
