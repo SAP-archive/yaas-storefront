@@ -72,7 +72,7 @@ angular.module('ds.httpproxy', [])
 
                     } else if(response.status === 403){
                         // if 403 during login, should already be handled by auth dialog controller
-                        if(response.config.url.indexOf('login')<0) {
+                        if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('coupon') < 0) {
                             // using injector lookup to prevent circular dependency
                             var AuthSvc = $injector.get('AuthSvc');
                             if (AuthSvc.isAuthenticated()) {
@@ -89,7 +89,7 @@ angular.module('ds.httpproxy', [])
                                 });
                             }
                         }
-                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0 ){
+                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0 && response.config.url.indexOf('coupon') < 0){
                         $injector.get('$state').go('errors', { errorId : '404' });
                     } else if(response.status === 500){
                         //show error view with default message.

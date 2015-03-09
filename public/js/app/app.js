@@ -23,6 +23,7 @@ window.app = angular.module('ds.app', [
     'ds.cart',
     'ds.checkout',
     'ds.confirmation',
+    'ds.coupon',
     'ds.account',
     'ds.auth',
     'ds.orders',

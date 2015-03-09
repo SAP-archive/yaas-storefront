@@ -16,13 +16,10 @@ angular.module('ds.coupon')
     .factory('CouponREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
 
         return {
-            /** Endpoint for Main Cart.*/
-            Cart: Restangular.withConfig(function (RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(siteConfig.apis.cart.baseUrl);
+            /** Endpoint for Coupon.*/
+            Coupon: Restangular.withConfig(function (RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.coupon.baseUrl);
             })
         };
 
-
     }]);
-
-    //is user member : "https://yaas-test.apigee.net/loyaltymemberships?q=userId:C6919494319"

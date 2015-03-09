@@ -59,12 +59,15 @@
 		                    </td>
 		                </tr>
 		                <tr>
-					    <div class="col-lg-10">
+					    <div class="col-lg-10" ng-controller="CouponCtrl">
 					        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
-					        <input type="text" class="form-control">
-					        <button id="add-address-btn" class="btn btn-primary btn-lg pull-right ng-binding" ng-click="openAddressModal()">
+					        <input type="text" class="form-control" ng-model='coupon.couponCode'>
+					        <button class="btn btn-primary btn-lg pull-right" ng-click="applyCoupon(coupon.couponCode)">
 					        Apply
 					        </button>
+					        <div ng-if="coupon.error">
+					        Error: {{couponErrorMessage}}
+					        </div>
 					    </div>
 		                </tr>
 					</tbody>

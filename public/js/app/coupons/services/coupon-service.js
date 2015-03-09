@@ -16,103 +16,58 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['AuthREST', 'settings', 'GlobalData', '$q', function(AuthREST, settings, GlobalData, $q){
+    .factory('CouponSvc', ['$q', '$http', 'SiteConfigSvc', 'CouponREST',
+        function($q, $http, siteConfig, CouponREST){
 
 
-
-        var AccountSvc = {
+        return {
 
             /**
-             * Retrieves the account details of logged-in customer and stores the result in the GlobalData service.
+             * Make sure that the coupon code entered by the client can be actually used for the order.
+             * Returns a promise of the service result for upstream error handling.
+             */
+             applyCoupon: function( couponCode ) {
+debugger;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/validation
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST('validation').then(function () {
+                            debugger;
+                            deferred.resolve();
+                        }, function () {
+                            debugger;
+                            deferred.reject();
+                        });
+                } else {
+                    debugger;
+                    deferred.reject();
+                }
+                return deferred.promise;
+             },
+
+            /**
+             * Retrieves coupon data for customer coupon application request.
              * Returns a promise of the result.
              */
-            account: function() {
-                var promise = AuthREST.Customers.all('me').customGET();
-                promise.then(function(success){
-                   GlobalData.customerAccount = success.plain();
-                });
-                return promise;
-            },
-
-            updateAccount: function(account) {
-                return AuthREST.Customers.all('me').customPUT(account, '');
-            },
-
-            /**
-             * Retrieve addresses of logged in customer.
-             */
-            getAddresses: function(query) {
-                var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList(query);
-                addressesPromise.then(function(response) {
-                    GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
-                });
-                return addressesPromise;
-            },
-
-            /**
-             * Retrieve specified address of logged in customer.
-             */
-            getAddress: function(id) {
-                return AuthREST.Customers.all('me').one('addresses', id).get();
-            },
-
-            /**
-             * Retrieve default address of logged in customer.
-             */
-            getDefaultAddress: function() {
-                var addresses = this.getAddresses(),
-                    deferred = $q.defer();
-
-                addresses.then(
-                    function(addresses) {
-                        deferred.resolve(_.find(addresses, function(adr) { return adr.isDefault; }));
-                    }, function() {
-                        deferred.reject();
-                    });
-
-                return deferred.promise;
-            },
-
-            /**
-             * Save addresses within logged in customer's address book.
-             */
-            saveAddress: function(address) {
-                var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
-                return promise;
-            },
-
-            /**
-             * Remove specified address from logged in customer's address book.
-             */
-            removeAddress: function(address) {
-                return AuthREST.Customers.all('me').one('addresses', address.id).customDELETE();
-            },
-
-            /**
-             * Returns a promise to the customer account in the local scope, or retrieves and sets the data if needed.
-             * If the current customer is anonymous and no local scope account has been created yet, it will create
-             * said account with a fake ID.
-             */
-            getCurrentAccount: function() {
-                var defAccount = $q.defer();
-
-                if(GlobalData.customerAccount){
-                    defAccount.resolve(GlobalData.customerAccount);
-                } else if(GlobalData.user.isAuthenticated) {
-                    this.account().then(function(success){
-                        defAccount.resolve(success);
-                    }, function(failure){
-                        defAccount.reject(failure);
-                    });
+             redeemCoupon: function( couponCode ) {
+debugger;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    //https://{domain}/coupon/v1/{tenant}/coupons/{code}/redemptions
+                    CouponREST.Coupon.one('coupons', couponCode).customGET('redemptions').then(function () {
+                            debugger;
+                            deferred.resolve();
+                        }, function () {
+                            debugger;
+                            deferred.reject();
+                        });
                 } else {
-                   defAccount.reject();
+                    debugger;
+                    deferred.reject();
                 }
-                return defAccount.promise;
-
-            }
+                return deferred.promise;
+             }
 
         };
-
-        return AccountSvc;
 
     }]);

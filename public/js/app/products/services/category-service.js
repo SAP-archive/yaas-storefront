@@ -80,27 +80,6 @@ angular.module('ds.products')
                 return catDef.promise;
             },
 
-            // getCoupons: function (source) {
-            //     debugger;
-            //     var catDef = $q.defer();
-            //     PriceProductREST.Coupons.all('couponss').then(function (result) {
-            //         debugger;
-            //         categoryMap = {};
-            //         catList = [];
-            //         angular.forEach(result.plain(), function (category) {
-            //             if(category.name){
-            //                 catList.push(category);
-            //                 loadCategory(category);
-            //             }
-            //         });
-            //         $rootScope.$emit('categories:updated', {categories: catList, source: source});
-            //         catDef.resolve(catList);
-            //     }, function (error) {
-            //         catDef.reject(error);
-            //     });
-            //     return catDef.promise;
-            // },
-
             /** Returns categories from cache.*/
             getCategoriesFromCache: function(){
                 return catList;
@@ -131,7 +110,6 @@ angular.module('ds.products')
                     compositeDef.resolve(null);
                 } else {
                     var cdef = $q.defer();
-                    var couponPromise = $q.defer();
                     if (categoryMap) {
                         var category = getCategory(categorySlug);
                         if(category){
@@ -142,10 +120,6 @@ angular.module('ds.products')
                             $state.go('errors', { errorId : '404' });
                         }
                     } else {
-                        // debugger;
-                        // this.getCoupons().then(function () {
-                        //     debugger;
-                        // });
                         this.getCategories().then(function () {
                             var category = getCategory(categorySlug);
                             if(category){
@@ -155,24 +129,6 @@ angular.module('ds.products')
                             }
                         });
                     }
-                    debugger;
-                    couponPromise.promise.then(function (category) {
-                        PriceProductREST.Coupons.all('couponss').then(function (result) {
-                            debugger;
-                            categoryMap = {};
-                            catList = [];
-                            angular.forEach(result.plain(), function (category) {
-                                if(category.name){
-                                    catList.push(category);
-                                    loadCategory(category);
-                                }
-                            });
-                            $rootScope.$emit('categories:updated', {categories: catList, source: source});
-                            catDef.resolve(catList);
-                        }, function (error) {
-                            catDef.reject(error);
-                        });
-                    });
                     cdef.promise.then(function (category) {
                         PriceProductREST.Categories.all('categories').one(category.id).all('elements').getList({recursive: true}).then(
                             function(elements){
