@@ -32,7 +32,7 @@
     <div ng-if="cart.error" class="error text-center">
         {{'CART_UNAVAILABLE' | translate}}
     </div>
-	<div ng-if="cart.items.length">
+	<div ng-if="cart.items.length" ng-controller="CouponCtrl">
 			<section class="summary">
 				<table class="table">
 					<thead>
@@ -55,20 +55,30 @@
 		                <tr>
 		                    <td>{{'DISCOUNT' | translate}}</td>
 		                    <td class="text-right">
-		                        {{order.shipping.total.amount | currency: currencySymbol}}
+		                        {{coupon.amounts.discountAmount | currency: currencySymbol}}
 		                    </td>
 		                </tr>
 		                <tr>
-					    <div class="col-lg-10" ng-controller="CouponCtrl">
-					        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
-					        <input type="text" class="form-control" ng-model='coupon.couponCode'>
-					        <button class="btn btn-primary btn-lg pull-right" ng-click="applyCoupon(coupon.couponCode)">
-					        Apply
-					        </button>
-					        <div ng-if="coupon.error">
-					        Error: {{couponErrorMessage}}
-					        </div>
-					    </div>
+		                	<td>
+						        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
+						        <input type="text" class="form-control" ng-model='coupon.code'>
+						    </td>
+						    <td>
+						        <button class="btn btn-primary btn-lg pull-right" ng-click="applyCoupon(coupon.code)">
+						        Apply
+						        </button>
+						    </td>
+		                <tr>
+		                	<td>
+		                		<div ng-if="coupon.applied">
+						        	Accepted: {{coupon.message.success}}
+						        </div>
+						        <div ng-if="!coupon.valid">
+						        	Error: {{coupon.message.error}}
+						        </div>
+		                	</td>
+		                	<td></td>
+		                </tr>
 		                </tr>
 					</tbody>
 				</table>

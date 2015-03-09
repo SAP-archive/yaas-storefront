@@ -18,27 +18,59 @@ angular.module('ds.coupon', [])
     .controller('CouponCtrl', ['$scope', 'CouponSvc',
 		function( $scope, CouponSvc ) {
 
-			$scope.couponErrorMessage = "could not apply coupon."
+			// $scope.couponErrorMessage = "could not apply coupon."
+			// $scope.couponAppliedMessage = "coupon applied."
+
+
+            $scope.coupon = {
+                code: '',
+                applied: false,
+                valid: true
+            };
+
+			$scope.coupon.message = {
+				error: "could not apply coupon.",
+				success: "coupon applied."
+			}
+
+            $scope.coupon.amounts = {
+                // shippingAmount: 0,
+                originalAmount: 0,
+                originalTotalAmount: 0,
+                redeemDiscount: 0,
+                couponDiscount: 0,
+                discountAmount: 0,
+                newAmount: 0
+            };
+
 
 			$scope.applyCoupon = function(couponCode) {
-				console.log('APPLYING COUPON',couponCode);
 
-				//call coupon service to see if it exists.
-                CouponSvc.applyCoupon(couponCode).then(function (couponData) {
+				//call coupon service to get discount.
+                CouponSvc.getDiscount(couponCode).then(function (couponData) {
                 	debugger;
-                    return couponData;
+                	$scope.coupon = angular.extend($scope.coupon, couponData);
+                	$scope.coupon.applied = true;
+
+                    if ( couponData.discountType === 'ABSOLUTE' ) {
+                        $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
+                    }
+                    else if ( couponData.discountType === 'PERCENT' ) {
+                    	debugger;
+                        $scope.coupon.amounts.discountAmount = ( 0.01 * $scope.coupon.amounts.originalAmount * couponData.discountPercentage.amount);
+                    }
+
                 }, function (resp) {
                     debugger;
                     try{
-                    	$scope.couponErrorMessage = resp.data.message;
-                    } catch (exception) {
-
-                    }
+                    	$scope.coupon.message.error = resp.data.message;
+                    } catch (exception) { }
                     //Upstream error handling.
-                    $scope.coupon.error = true;
-                }).finally(function (data) {
-                	debugger;
+                    $scope.coupon.valid = false;
                 });
+                // .finally(function (data) {
+                // 	debugger;
+                // });
 
 			};
     }]);

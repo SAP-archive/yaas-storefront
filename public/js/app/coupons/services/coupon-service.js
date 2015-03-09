@@ -32,9 +32,47 @@ debugger;
                 if (couponCode) {
                     //https://api.yaas.io/coupon/v1/bsdtestproject/coupons/QWERT/validation
                     //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/validation
-                    CouponREST.Coupon.one('coupons', couponCode).customPOST({}, "validation").then(function () {
+                    // var couponRequest = {
+                    //     "orderCode": "ZXCV",
+                    //     "orderTotal": {
+                    //         "currency": "USD",
+                    //         "amount": 49.99
+                    //     },
+                    //     "discount": {
+                    //         "currency": "USD",
+                    //         "amount": 10
+                    //     }
+                    // };
+                    var couponRequest = this.buildCouponRequest(couponCode);
+
+
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, "validation").then(function (resp) {
                             debugger;
                             deferred.resolve();
+                        }, function (resp) {
+                            debugger;
+                            deferred.reject(resp);
+                        });
+                } else {
+                    debugger;
+                    deferred.reject();
+                }
+                return deferred.promise;
+             },
+
+            /**
+             * Retrieves coupon data for customer coupon application request.
+             * Returns a promise of the result.
+             */
+             getDiscount: function( couponCode ) {
+debugger;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    //https://{domain}/coupon/v1/{tenant}/coupons/{code}
+                    CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
+                            debugger;
+                            var couponData = resp.plain()
+                            deferred.resolve(couponData);
                         }, function (resp) {
                             debugger;
                             deferred.reject(resp);
@@ -67,6 +105,20 @@ debugger;
                     deferred.reject();
                 }
                 return deferred.promise;
+             },
+
+             buildCouponRequest: function( couponCode ){
+                return {
+                        "orderCode": couponCode,
+                        "orderTotal": {
+                            "currency": "USD",
+                            "amount": 49.99
+                        },
+                        "discount": {
+                            "currency": "USD",
+                            "amount": 10
+                        }
+                    };
              }
 
         };
