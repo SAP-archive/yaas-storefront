@@ -27,8 +27,13 @@ angular.module('ds.coupon', [])
                 CouponSvc.applyCoupon(couponCode).then(function (couponData) {
                 	debugger;
                     return couponData;
-                }, function (error) {
+                }, function (resp) {
                     debugger;
+                    try{
+                    	$scope.couponErrorMessage = resp.data.message;
+                    } catch (exception) {
+
+                    }
                     //Upstream error handling.
                     $scope.coupon.error = true;
                 }).finally(function (data) {

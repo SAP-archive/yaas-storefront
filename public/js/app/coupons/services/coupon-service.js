@@ -30,13 +30,14 @@ angular.module('ds.coupon')
 debugger;
                 var deferred = $q.defer();
                 if (couponCode) {
+                    //https://api.yaas.io/coupon/v1/bsdtestproject/coupons/QWERT/validation
                     //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/validation
-                    CouponREST.Coupon.one('coupons', couponCode).customPOST('validation').then(function () {
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST({}, "validation").then(function () {
                             debugger;
                             deferred.resolve();
-                        }, function () {
+                        }, function (resp) {
                             debugger;
-                            deferred.reject();
+                            deferred.reject(resp);
                         });
                 } else {
                     debugger;
