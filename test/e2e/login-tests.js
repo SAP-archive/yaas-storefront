@@ -98,7 +98,7 @@ describe("login:", function () {
 
         });
 
-        iit('should allow existing user to manage addresses', function () {
+        it('should allow existing user to manage addresses', function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
             tu.clickElement('id', "login-btn");
