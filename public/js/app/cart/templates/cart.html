@@ -34,53 +34,9 @@
     </div>
 	<div ng-if="cart.items.length">
 			<section class="summary" ng-controller="CouponCtrl">
-				<table class="table">
-					<thead>
-					<tr>
-						<th>{{'TOTAL' | translate}}</th>
-						<th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
-					<tr>
-					</thead>
-					<tbody>
-		                <tr>
-		                    <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )</td>
-		                    <td class="text-right">
-		                        {{cart.subTotalPrice.value - coupon.amounts.discountAmount| currency: currencySymbol}}
-		                    </td>
-		                </tr>
-
-		                <tr>
-		                    <td>{{'DISCOUNT' | translate}}</td>
-		                    <td class="text-right" style="color:red">
-		                        -{{coupon.amounts.discountAmount | currency: currencySymbol}}
-		                    </td>
-		                </tr>
-
-					</tbody>
-				</table>
-
-
+				<!-- Apply Coupon -->
 				<div ng-include="'./js/app/coupons/templates/coupon-discount.html'"></div>
 				<div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
-
-				<!-- Apply Coupon >
-				<div>
-
-			        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
-			        <div ng-if="!coupon.valid" style="color:red">
-			        	{{coupon.message.error}}
-			        </div>
-			        <input type="text" class="form-control pull-left" ng-model='coupon.code' style="width:350px">
-			        <button class="btn btn-primary btn-lg pull-right" ng-click="applyCoupon(coupon.code)">Apply</button>
-
-            		<div ng-if="coupon.applied">
-			        	<div class="col-xs-8 col-md-8 text-center img-col">
-			        		{{coupon.code}} : {{coupon.message.success}}
-							<button ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-						</div>
-			        </div>
-				</div>
-				<!-- Apply Coupon -->
 			</section>
 			<section>
 				<!-- Cart Item -->

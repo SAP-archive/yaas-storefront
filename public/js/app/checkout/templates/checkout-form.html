@@ -361,13 +361,14 @@
     ng-click="editPayment()"></span></h2>
 </a>
 <div class="row step-detail">
-    <div class="col-lg-8" ng-controller="CouponCtrl">
-        <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
-        <input type="text" class="form-control" ng-model="coupon.couponCode">
-        <button class="btn btn-primary btn-lg pull-right" ng-click="applyCoupon(coupon.couponCode)">
-            Apply
-        </button>
-    </div>
+
+
+    <section class="summary" ng-controller="CouponCtrl">
+        <!-- Apply Coupon -->
+        <div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
+    </section>
+
+
     <div class="col-lg-12">
         <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
     </div>

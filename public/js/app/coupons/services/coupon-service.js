@@ -26,25 +26,19 @@ angular.module('ds.coupon')
              * Make sure that the coupon code entered by the client can be actually used for the order.
              * Returns a promise of the service result for upstream error handling.
              */
+             getCoupon: function( ) {
+                debugger;
+                return this.Coupon || {};
+             },
+            /**
+             * Make sure that the coupon code entered by the client can be actually used for the order.
+             * Returns a promise of the service result for upstream error handling.
+             */
              applyCoupon: function( couponCode ) {
 debugger;
                 var deferred = $q.defer();
                 if (couponCode) {
-                    //https://api.yaas.io/coupon/v1/bsdtestproject/coupons/QWERT/validation
-                    //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/validation
-                    // var couponRequest = {
-                    //     "orderCode": "ZXCV",
-                    //     "orderTotal": {
-                    //         "currency": "USD",
-                    //         "amount": 49.99
-                    //     },
-                    //     "discount": {
-                    //         "currency": "USD",
-                    //         "amount": 10
-                    //     }
-                    // };
                     var couponRequest = this.buildCouponRequest(couponCode);
-
 
                     CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, "validation").then(function (resp) {
                             debugger;
