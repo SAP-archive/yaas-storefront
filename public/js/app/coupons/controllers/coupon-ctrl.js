@@ -49,7 +49,7 @@ angular.module('ds.coupon', [])
 	                applied: false,
 	                valid: true,
 					message : {
-						error: "could not apply coupon.",
+						error: "Code not valid",
 						success: "Applied"
 					},
 					amounts : {
@@ -76,6 +76,7 @@ angular.module('ds.coupon', [])
                 	debugger;
                 	$scope.coupon = angular.extend($scope.coupon, couponData);
                 	$scope.coupon.applied = true;
+                	$scope.coupon.valid = true;
 
                     if ( couponData.discountType === 'ABSOLUTE' ) {
                         $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
@@ -87,9 +88,6 @@ angular.module('ds.coupon', [])
 
                 }, function (resp) {
                     debugger;
-                    try{
-                    	$scope.coupon.message.error = resp.data.message;
-                    } catch (exception) { }
                     //Upstream error handling.
                     $scope.coupon.valid = false;
                 });
