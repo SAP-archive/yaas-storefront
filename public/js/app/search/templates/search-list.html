@@ -41,6 +41,12 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-12">
+                    <div class="y-search-message">{{total}} results matching "{{searchString}}"<span ng-click="restartSearch()" class="y-search-again pull-right">{{'SEARCH_AGAIN' | translate}}</span></div>
+                </div>
+            </div>
+            
+            <div class="row">
                 <div class="clearfix visible-sm"></div>
                 <div class="col-sm-7 col-md-6 col-lg-3">
                     <div class="sortContainer">
@@ -62,7 +68,7 @@
         </div>
 
 
-        <div class="y-search-message">{{total}} results matching "{{searchString}}"<span ng-click="restartSearch()" class="y-search-again pull-right">{{'SEARCH_AGAIN' | translate}}</span></div>
+       
 
 
 
