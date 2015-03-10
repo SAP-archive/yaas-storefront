@@ -22,27 +22,52 @@ angular.module('ds.coupon', [])
 			// $scope.couponAppliedMessage = "coupon applied."
 
 
-            $scope.coupon = {
-                code: '',
-                applied: false,
-                valid: true
-            };
+   //          $scope.coupon = {
+   //              code: '',
+   //              applied: false,
+   //              valid: true
+   //          };
 
-			$scope.coupon.message = {
-				error: "could not apply coupon.",
-				success: "coupon applied."
-			}
+			// $scope.coupon.message = {
+			// 	error: "could not apply coupon.",
+			// 	success: "coupon applied."
+			// }
 
-            $scope.coupon.amounts = {
-                // shippingAmount: 0,
-                originalAmount: 0,
-                originalTotalAmount: 0,
-                redeemDiscount: 0,
-                couponDiscount: 0,
-                discountAmount: 0,
-                newAmount: 0
-            };
+   //          $scope.coupon.amounts = {
+   //              // shippingAmount: 0,
+   //              originalAmount: 0,
+   //              originalTotalAmount: 0,
+   //              redeemDiscount: 0,
+   //              couponDiscount: 0,
+   //              discountAmount: 0,
+   //              newAmount: 0
+   //          };
 
+
+			$scope.blankCoupon = {
+	                code: '',
+	                applied: false,
+	                valid: true,
+					message : {
+						error: "could not apply coupon.",
+						success: "Applied"
+					},
+					amounts : {
+		                // shippingAmount: 0,
+		                originalAmount: 0,
+		                // originalTotalAmount: 0,
+		                // redeemDiscount: 0,
+		                // couponDiscount: 0,
+		                discountAmount: 0//,
+		                // newAmount: 0
+		            }
+	            };
+   			$scope.coupon = angular.copy($scope.blankCoupon);
+
+			$scope.removeCoupon = function(couponCode) {
+				debugger;
+				$scope.coupon = angular.copy(this.blankCoupon);
+			};
 
 			$scope.applyCoupon = function(couponCode) {
 
