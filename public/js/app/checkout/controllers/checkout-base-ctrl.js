@@ -20,15 +20,17 @@ angular.module('ds.checkout')
             $scope.cart = CartSvc.getLocalCart();
             $scope.updatedCartItems = [];
 
+            //Make background not scrollable when the user opens edit cart
+            $rootScope.checkoutCartEditVisible = false;
+
             var totalPrice = 0;
-            $scope.checkoutCartEditVisible = false;
 
             $scope.showEditCart = function(){
                 totalPrice = $scope.cart.totalPrice.value;
-                $scope.checkoutCartEditVisible = true;
+                $rootScope.checkoutCartEditVisible = true;
             };
             $scope.hideEditCart = function(){
-                $scope.checkoutCartEditVisible = false;
+                $rootScope.checkoutCartEditVisible = false;
 
                 $q.all($scope.updatedCartItems).then(function () {
                     //If the mobile navigation is shown that means there are steps in checkout process

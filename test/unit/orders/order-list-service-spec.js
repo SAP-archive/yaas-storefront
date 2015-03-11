@@ -14,11 +14,12 @@ describe('OrderListSvc Test', function () {
 
     var orderUrl = 'http://order-service.dprod.cf.hybris.com';
     var orderRoute = '/orders';
-    var $scope, $rootScope, $httpBackend, orderSvc, mockedStoreConfig, mockedSettings, mockedCookiesStorage;
+    var $scope, $rootScope, $httpBackend, orderSvc, mockedAppConfig, mockedSettings, mockedCookiesStorage;
 
-    mockedStoreConfig = {};
-    mockedStoreConfig.defaultLanguage = 'en';
-    mockedStoreConfig.storeTenant = '01010101';
+    mockedAppConfig = {};
+    mockedAppConfig.defaultLanguage = 'en';
+    mockedAppConfig.storeTenant = function(){ return '01010101'};
+    mockedAppConfig.dynamicDomain = function(){ return 'dynDomain'};
 
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn('123');
 
@@ -47,7 +48,7 @@ describe('OrderListSvc Test', function () {
     beforeEach(module('ds.auth', function($provide) {
         $provide.value('CookiesStorage', mockedCookiesStorage);
         $provide.value('settings', mockedSettings);
-        $provide.value('storeConfig', mockedStoreConfig);
+        $provide.value('appConfig', mockedAppConfig);
     }));
 
     var orderList = [

@@ -15,7 +15,8 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData', function($scope, $rootScope, CartSvc, GlobalData) {
+    .controller('CartCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
+            function($scope, $state, $rootScope, CartSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
@@ -48,6 +49,26 @@ angular.module('ds.cart')
             }
             else if (!itemQty || itemQty === 0) {
                 CartSvc.removeProductFromCart(item.id);
+            }
+        };
+
+        $scope.toCheckoutDetails = function () {
+            $scope.keepCartOpen();
+            if (!AuthSvc.isAuthenticated()) {
+                var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
+
+                dlg.then(function(){
+                        if (AuthSvc.isAuthenticated()) {
+                            $state.go('base.checkout.details');
+                        }
+                    },
+                    function(){
+                        
+                    }
+                );
+            }
+            else {
+                $state.go('base.checkout.details');
             }
         };
 

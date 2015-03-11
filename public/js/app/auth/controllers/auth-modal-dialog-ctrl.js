@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state) {
 
             $scope.user = {
                 signup: {},
@@ -83,6 +83,7 @@ angular.module('ds.auth')
             /** Closes the dialog. */
             $scope.continueAsGuest = function () {
                 $scope.closeDialog();
+                $state.go('base.checkout.details');
             };
 
             /** Shows the "request password reset" dialog.*/

@@ -12,23 +12,11 @@
 
 'use strict';
 
-// Bootstrap the application for single tenant mode
 (function () {
 
-    var storeConfig = {};
-
-    // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-    storeConfig.storeTenant =  /*StartProjectId*/ 'algoliatest2' /*EndProjectId*/;
-
     try {
-        var pathLength = window.location.pathname.length;
-        if(pathLength > 1){
-            storeConfig.storeTenant = window.location.pathname.substring(1, pathLength-1);
-        }
-        angular.module('config', []).constant('storeConfig', storeConfig);
-        angular.element(document).ready(function () {
-            angular.bootstrap(document, [
-                'ds.app']);
+        angular.element( document ).ready( function () {
+            angular.bootstrap( document, ['ds.app'] );
         });
 
     } catch (exception) {

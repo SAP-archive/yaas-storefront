@@ -251,7 +251,6 @@ angular.module('ds.search')
 
                         var page = $scope.pageNumber;
 
-                        console.log($scope.searchString);
                         ysearchSvc.getResults($scope.searchString, {hitsPerPage: $scope.pageSize, page: page - 1})
                             .then(function (content) {
 
@@ -263,15 +262,12 @@ angular.module('ds.search')
                                 if (content.hits.length > 0) {
                                     var ids = getProductIdsFromElements(content.hits);
 
-                                    console.log(ids);
-                                    console.log(ids.length);
+
 
                                     getProducts(ids);
                                 }
 
-                                console.log(content);
                             }, function (content) {
-                                console.log('Error: ' + content.message);
                                 $scope.requestInProgress = false;
                             });
 

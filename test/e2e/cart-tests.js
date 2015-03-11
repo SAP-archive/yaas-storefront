@@ -108,6 +108,7 @@ describe("cart:", function () {
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
+            browser.sleep(200);
             tu.verifyCartTotal("$20.65");
         });
 
@@ -177,7 +178,7 @@ describe("cart:", function () {
         });
 
         it('should retrieve previous cart', function () {
-            tu.loginHelper('cart@test.com', 'password');
+            tu.loginHelper('cart@hybristest.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(250);
             tu.verifyCartTotal('$7.99');

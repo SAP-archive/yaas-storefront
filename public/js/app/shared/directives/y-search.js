@@ -120,10 +120,8 @@ angular.module('ds.ysearch')
                                 scope.search.numberOfHits = content.nbHits;
                                 scope.search.results = content.hits;
 
-
-                                console.log(content);
                             }, function (content) {
-                                console.log('Error: ' + content.message);
+//                                console.log('Error: ' + content.message);
                             });
                     }
                 };

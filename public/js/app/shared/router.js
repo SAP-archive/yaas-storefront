@@ -41,9 +41,9 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: function(ConfigSvc) {
+                        initialized: ['ConfigSvc', function(ConfigSvc) {
                             return ConfigSvc.initializeApp();
-                        }
+                        }]
                     }
                 })
                 .state('base.home', {
@@ -57,11 +57,11 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        dummy: function(initialized){// force initialization delay
+                        dummy: ['initialized', function(initialized){// force initialization delay
                             if(initialized) {
                                 return {};
                             }
-                        }
+                        }]
                     }
                 })
                 .state('base.search', {
@@ -99,16 +99,19 @@ angular.module('ds.router', [])
                     },
                     resolve: {
 
-                        category: function ($stateParams, CategorySvc, initialized) {
+                        category: ['$stateParams', 'CategorySvc', 'initialized', function ($stateParams, CategorySvc, initialized) {
                             if(initialized){
                                 return CategorySvc.getCategoryWithProducts($stateParams.catName);
                             }
 
-                        }
+                        }]
                     }
                 })
                 .state('base.product.detail', {
                     url: ':productId/',
+                    params: {
+                        lastCatId: 'lastCatId'
+                    },
                     views: {
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-detail.html',
@@ -116,7 +119,7 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        product: function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                        product: ['$stateParams', 'PriceProductREST', 'CategorySvc', 'initialized', function ($stateParams, PriceProductREST, CategorySvc, initialized) {
                             if(initialized){
                                 return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
                                     .then(function (prod) {
@@ -132,8 +135,17 @@ angular.module('ds.router', [])
                                     });
                             }
 
+                        }],
 
+                        lastCatId: function ($stateParams) {
+                            if($stateParams.lastCatId !== 'lastCatId') {
+                                return $stateParams.lastCatId;
+                            }
+                            else{
+                                return null;
+                            }
                         }
+
                     }
                 })
                 .state('base.checkout', {
@@ -145,17 +157,17 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        cart: function (CartSvc) {
+                        cart: ['CartSvc', function (CartSvc) {
                             return CartSvc.getLocalCart();
-                        },
-                        order: function (CheckoutSvc) {
+                        }],
+                        order: ['CheckoutSvc', function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
-                        },
-                        shippingCost: function (CheckoutSvc, initialized) {
+                        }],
+                        shippingCost: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return CheckoutSvc.getShippingCost();
                             }
-                        }
+                        }]
                     }
                 })
 
@@ -189,9 +201,9 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        isAuthenticated: function(AuthSvc){
+                        isAuthenticated: ['AuthSvc', function(AuthSvc){
                             return AuthSvc.isAuthenticated();
-                        }
+                        }]
                     }
                 })
                 .state('base.account', {
@@ -203,22 +215,22 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        account: function(AccountSvc) {
+                        account: ['AccountSvc', function(AccountSvc) {
                             return AccountSvc.account();
-                        },
-                        addresses: function(AccountSvc) {
+                        }],
+                        addresses: ['AccountSvc', function(AccountSvc) {
                             var query = {
                                 pageNumber: 1,
                                 pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
                             return AccountSvc.getAddresses(query);
-                        },
-                        orders: function(OrderListSvc) {
+                        }],
+                        orders: ['OrderListSvc', function(OrderListSvc) {
                             var parms = {
                                 pageSize: 10
                             };
                             return OrderListSvc.query(parms);
-                        }
+                        }]
                     },
                     data: {
                         auth: 'authenticated'
@@ -242,14 +254,14 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        order: function ($stateParams, OrdersREST) {
+                        order: ['$stateParams', 'OrdersREST', function ($stateParams, OrdersREST) {
                             return OrdersREST.Orders.one('orders', $stateParams.orderId).get()
                                 .then(function (result) {
                                     window.scrollTo(0, 0);
                                     result.id = $stateParams.id;
                                     return result;
                                 });
-                        }
+                        }]
                     },
                     data: {
                         auth: 'authenticated'
@@ -265,16 +277,14 @@ angular.module('ds.router', [])
                     }
                 });
 
-
             $urlRouterProvider.otherwise('/home');
 
             /* Code from angular ui-router to make trailing slash conditional */
             $urlRouterProvider.rule(function($injector, $location) {
-                var path = $location.path()
+                var path = $location.path();
                 // Note: misnomer. This returns a query object, not a search string
-                    , search = $location.search()
-                    , params
-                    ;
+                var search = $location.search();
+                var params;
 
                 // check to see if the path already ends in '/'
                 if (path[path.length - 1] === '/') {
