@@ -108,7 +108,7 @@ describe("cart:", function () {
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
-            browser.sleep(200);
+            browser.sleep(500);
             tu.verifyCartTotal("$20.65");
         });
 
