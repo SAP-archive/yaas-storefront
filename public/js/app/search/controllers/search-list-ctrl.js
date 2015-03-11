@@ -210,7 +210,7 @@ angular.module('ds.search')
             $scope.$on('$destroy', unbindCat);
 
             $scope.restartSearch = function () {
-                $rootScope.showMobileNav = true;
+//                $rootScope.showMobileNav = true;
                 $('.y-input').focus();
             };
 

@@ -69,7 +69,7 @@ angular.module('ds.ysearch')
 
                 scope.showSearchResults = function () {
                     $('.js-glyphicon').addClass('active');
-                    $rootScope.showMobileNav = true;
+//                    $rootScope.showMobileNav = true;
                     if (scope.search.text !== '') {
                         if(scope.search.results.length === 0){
                             scope.doSearch(scope.search.text, 0);
@@ -85,7 +85,7 @@ angular.module('ds.ysearch')
                     $rootScope.closeOffcanvas();
                     $('.y-search-container').hide();
                     $('.js-glyphicon').removeClass('active');
-                    $rootScope.showMobileNav = false;
+//                    $rootScope.showMobileNav = false;
                 };
 
                 //Used for checking if the user left te search field
@@ -94,7 +94,7 @@ angular.module('ds.ysearch')
                     if (!container.is(e.target) && container.has(e.target).length === 0) {
                         $('.y-search-container').hide();
                         $('.js-glyphicon').removeClass('active');
-                        $rootScope.showMobileNav = false;
+//                        $rootScope.showMobileNav = false;
                     }
                 });
 
@@ -102,11 +102,11 @@ angular.module('ds.ysearch')
 
                     $('.y-search-container').show();
                     $('.js-glyphicon').addClass('active');
-                    $rootScope.showMobileNav = true;
+//                    $rootScope.showMobileNav = true;
                     if (scope.search.text === '') {
                         $('.y-search-container').hide();
                         $('.js-glyphicon').removeClass('active');
-                        $rootScope.showMobileNav = false;
+//                        $rootScope.showMobileNav = false;
                         scope.search.results = [];
                         scope.search.numberOfHits = 0;
                     }

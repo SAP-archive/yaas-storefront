@@ -8581,6 +8581,7 @@ address {
   cursor: pointer;
   border: 1px solid #8d8d8e;
   border-top: none;
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
 }
 .y-search .y-search-container em {
   font-style: normal;
@@ -8614,7 +8615,6 @@ address {
   color: #0079ff;
 }
 .y-search-message {
-  background-color: #FAF6AE;
   padding: 5px;
   margin-bottom: 20px;
 }
@@ -8637,6 +8637,9 @@ address {
 }
 .right-inner-addon i.active {
   color: #0079ff;
+}
+.continueShoppingBtn {
+  margin-top: 40px;
 }
 /* BTN */
 .btn {

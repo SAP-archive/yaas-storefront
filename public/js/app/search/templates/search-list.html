@@ -13,14 +13,14 @@
     <div ng-if="total === 0">
         <div class="refine-section" ng-cloak>
             <div class="row">
-                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'RESULTS' | translate }}</div>
+                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{total}} {{ 'RESULTS' | translate }}</div>
             </div>
             <div class="row">
                 <div class="text-center">
                     <strong>0</strong> found for <strong>{{searchString}}</strong>
                 </div>
             </div>
-            <div class="row">
+            <div class="row continueShoppingBtn">
                 <a ui-sref="base.category" class="btn btn-primary btn-large btn-block">{{'CONTINUE_SHOPPING' | translate}}</a>
             </div>
         </div>
@@ -32,7 +32,7 @@
 
             <div class="row">
 
-                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'RESULTS' | translate }}</div>
+                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{total}} {{ 'RESULTS' | translate }}</div>
                 <div class="col-sm-6 col-md-6">
                     <div class="viewingContainer">
                         <div class="name">{{'VIEWING' | translate}}:</div>
@@ -40,11 +40,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="y-search-message">{{total}} results matching "{{searchString}}"<span ng-click="restartSearch()" class="y-search-again pull-right">{{'SEARCH_AGAIN' | translate}}</span></div>
-                </div>
-            </div>
+            <!--<div class="row">-->
+                <!--<div class="col-sm-12">-->
+                    <!--<div class="y-search-message">{{total}} results matching "{{searchString}}"&lt;!&ndash;<span ng-click="restartSearch()" class="y-search-again pull-right">{{'SEARCH_AGAIN' | translate}}</span>&ndash;&gt;</div>-->
+                <!--</div>-->
+            <!--</div>-->
             
             <div class="row">
                 <div class="clearfix visible-sm"></div>
