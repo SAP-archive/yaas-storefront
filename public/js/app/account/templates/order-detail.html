@@ -132,12 +132,13 @@
         </div>
         <div class="summary row">
             <div class="col-md-offset-7 col-lg-offset-7 col-xs-12 col-sm-12 col-md-5 col-lg-5">
+            ORDER-DETAIL
                 <table class="table">
                     <tbody>
                     <tr>
                         <td >{{'SUBTOTAL' | translate}}</td>
                         <td class="text-right">
-                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount - coupon.amounts.discountAmount| currency: currencySymbol}}
                         </td>
                     </tr>
                     <tr>
@@ -146,10 +147,10 @@
                             {{order.shipping.total.amount | currency: currencySymbol}}
                         </td>
                     </tr>
-                    <tr>
+                    <tr ng-controller="CouponCtrl">
                         <td>{{'DISCOUNT' | translate}}</td>
-                        <td class="text-right">
-                            {{order.shipping.total.amount | currency: currencySymbol}}
+                        <td class="text-right" style="color:red">
+                            -{{coupon.amounts.discountAmount | currency: currencySymbol}}
                         </td>
                     </tr>
                     </tbody>

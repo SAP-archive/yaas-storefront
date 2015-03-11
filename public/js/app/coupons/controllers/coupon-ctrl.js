@@ -18,68 +18,9 @@ angular.module('ds.coupon', [])
     .controller('CouponCtrl', ['$scope', 'CouponSvc', 'UserCoupon',
 		function( $scope, CouponSvc, UserCoupon ) {
 
-			// $scope.couponErrorMessage = "could not apply coupon."
-			// $scope.couponAppliedMessage = "coupon applied."
-
-
-   //          $scope.coupon = {
-   //              code: '',
-   //              applied: false,
-   //              valid: true
-   //          };
-
-			// $scope.coupon.message = {
-			// 	error: "could not apply coupon.",
-			// 	success: "coupon applied."
-			// }
-
-   //          $scope.coupon.amounts = {
-   //              // shippingAmount: 0,
-   //              originalAmount: 0,
-   //              originalTotalAmount: 0,
-   //              redeemDiscount: 0,
-   //              couponDiscount: 0,
-   //              discountAmount: 0,
-   //              newAmount: 0
-   //          };
-
-
-			// $scope.blankCoupon = {
-   //              code: '',
-   //              applied: false,
-   //              valid: true,
-			// 	message : {
-			// 		error: "Code not valid",
-			// 		success: "Applied"
-			// 	},
-			// 	amounts : {
-	  //               // shippingAmount: 0,
-	  //               originalAmount: 0,
-	  //               // originalTotalAmount: 0,
-	  //               // redeemDiscount: 0,
-	  //               // couponDiscount: 0,
-	  //               discountAmount: 0//,
-	  //               // newAmount: 0
-	  //           }
-	  //       };
-
-	      //   debugger;
-	      //   //  coupon singleton
-	      //   if (!UserCoupon.code){
-	      //   	$scope.coupon = UserCoupon.setCoupon($scope.blankCoupon);
-   				// //$scope.coupon = angular.copy($scope.blankCoupon);
-   				// //angular.extend(UserCoupon, $scope.coupon);
-	      //   } else {
-	      //   	$scope.coupon = UserCoupon.getCoupon();
-	      //   }
 
 	      	debugger;
 	      	$scope.coupon = UserCoupon.getCoupon();
-	      	// if(!tempcoupon.code){
-	      	// 	$scope.coupon = UserCoupon.setCoupon($scope.blankCoupon);
-	       //  } else {
-	       //  	$scope.coupon = UserCoupon.getCoupon();
-	       //  }
 
 			$scope.$on('couponUpdated', function(e, userCoupon) {
 				debugger;
@@ -89,8 +30,7 @@ angular.module('ds.coupon', [])
 
 			$scope.removeCoupon = function(couponCode) {
 				debugger;
-				$scope.coupon = UserCoupon.setBlankCoupon();
-				// $scope.coupon = angular.copy(this.blankCoupon);
+				UserCoupon.setBlankCoupon();
 			};
 
 			$scope.applyCoupon = function(couponCode) {
@@ -119,9 +59,6 @@ angular.module('ds.coupon', [])
                     //Upstream error handling.
                     $scope.coupon.valid = false;
                 });
-                // .finally(function (data) {
-                // 	debugger;
-                // });
 
 			};
     }]);

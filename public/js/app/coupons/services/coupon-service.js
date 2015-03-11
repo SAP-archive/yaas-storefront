@@ -26,14 +26,6 @@ angular.module('ds.coupon')
              * Make sure that the coupon code entered by the client can be actually used for the order.
              * Returns a promise of the service result for upstream error handling.
              */
-             getCoupon: function( ) {
-                debugger;
-                return this.Coupon || {};
-             },
-            /**
-             * Make sure that the coupon code entered by the client can be actually used for the order.
-             * Returns a promise of the service result for upstream error handling.
-             */
              applyCoupon: function( couponCode ) {
 debugger;
                 var deferred = $q.defer();
@@ -82,12 +74,62 @@ debugger;
              * Retrieves coupon data for customer coupon application request.
              * Returns a promise of the result.
              */
-             redeemCoupon: function( couponCode ) {
+             getRedeemedCoupon: function( couponCode ) {
 debugger;
                 var deferred = $q.defer();
                 if (couponCode) {
                     //https://{domain}/coupon/v1/{tenant}/coupons/{code}/redemptions
-                    CouponREST.Coupon.one('coupons', couponCode).customGET('redemptions').then(function () {
+                    CouponREST.Coupon.one('coupons', couponCode).customGET('redemptions').then(function (resp) {
+                            var coupId = resp.plain();
+                            debugger;
+                            deferred.resolve(resp);
+                        }, function () {
+                            debugger;
+                            deferred.reject();
+                        });
+                } else {
+                    debugger;
+                    deferred.reject();
+                }
+                return deferred.promise;
+             },
+
+            /**
+             * Retrieves coupon data for customer coupon application request.
+             * Returns a promise of the result.
+             */
+             redeemCoupon: function( couponCode ) {
+debugger;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    var couponRequest = this.buildCouponRequest(couponCode);
+                    https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function () {
+                            debugger;
+                            deferred.resolve();
+                        }, function () {
+                            debugger;
+                            deferred.reject();
+                        });
+                } else {
+                    debugger;
+                    deferred.reject();
+                }
+                return deferred.promise;
+             },
+
+            /**
+             * Retrieves coupon data for customer coupon application request.
+             * Returns a promise of the result.
+             */
+             redeemCouponCart: function( couponCode, orderId ) {
+debugger;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    var couponRequest = this.buildCouponRequest(orderId);
+                    https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
+                            var response = resp.plain();
                             debugger;
                             deferred.resolve();
                         }, function () {
@@ -112,6 +154,7 @@ debugger;
                             "currency": "USD",
                             "amount": 10
                         }
+                        //! check out removing this dis
                     };
              }
 

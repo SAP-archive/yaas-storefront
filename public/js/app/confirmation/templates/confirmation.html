@@ -61,6 +61,35 @@
                 </div>
 			</section>
 
+            <section class="summary" ng-cloak>
+            CONFIRMATION-PAGE
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>{{'SUBTOTAL' | translate}}</td>
+                            <td class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount | currency: currencySymbol}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'SHIPPING' | translate}}</td>
+                            <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
+                        </tr>
+                        <tr ng-controller="CouponCtrl">
+                            <td>{{'DISCOUNT' | translate}}</td>
+                            <td class="text-right" style="color:red">
+                                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>{{'ORDER_TOTAL' | translate}}</td>
+                            <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                        <tr>
+
+                    </tfoot>
+                </table>
+            </section>
+
 		</div>
 
 	</div>

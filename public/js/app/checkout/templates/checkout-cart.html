@@ -28,26 +28,29 @@
             </div>
         </div>
     </section>
-    <section class="summary" ng-cloak>
+    <section class="summary" ng-cloak ng-controller="CouponCtrl">
+    CHECKOUT-CART
         <table class="table">
             <tbody>
                 <tr>
                     <td>{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount | currency: currencySymbol}}</td>
+                </tr>
+                <tr>
+                    <td>{{'DISCOUNT' | translate}}</td>
+                    <td class="text-right" style="color:red">
+                        -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+                    </td>
                 </tr>
                 <tr>
                     <td>{{'SHIPPING' | translate}}</td>
                     <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
                 </tr>
-                <tr>
-                    <td>{{'DISCOUNT' | translate}}</td>
-                    <td class="text-right text-danger">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
-                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount + shippingCost | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>

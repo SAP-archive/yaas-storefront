@@ -31,35 +31,32 @@
 		<p class="edit-cart-empty">{{'NO_ITEMS_IN_CART' | translate}}</p>
 	</div>
 
-	<section class="summary" ng-hide="!cart.items.length">
+	<section class="summary" ng-hide="!cart.items.length" ng-controller="CouponCtrl">
 		<table class="table">
 			<thead>
 			<tr>
 				<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-				<th class="text-right">{{cart.totalPrice.value || 0 | currency: currencySymbol}}</th>
+				<th class="text-right">{{cart.totalPrice.value - coupon.amounts.discountAmount || 0 | currency: currencySymbol}}</th>
 			<tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-					<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-				</tr>
-                <tr>
-                    <td >{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">
-                        {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
-                    </td>
+		            <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
+		            </td>
+		            <td class="text-right">
+		                {{cart.subTotalPrice.value - coupon.amounts.discountAmount| currency: currencySymbol}}
+		            </td>
                 </tr>
                 <tr>
                     <td>{{'DISCOUNT' | translate}}</td>
-                    <td class="text-right">
-                        {{order.shipping.total.amount | currency: currencySymbol}}
-                    </td>
+		            <td class="text-right" style="color:red">
+		                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+		            </td>
                 </tr>
-                <tr>
+            	<tr>
                     <td>{{'SHIPPING' | translate}}</td>
                     <td class="text-right">
-                        {{order.shipping.total.amount | currency: currencySymbol}}
+                        {{cart.shippingCost.value | currency: currencySymbol}}
                     </td>
                 </tr>
 			</tbody>

@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData', 'CouponSvc', 'UserCoupon',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData, CouponSvc, UserCoupon) {
 
             $scope.order = order;
 
@@ -329,6 +329,13 @@ angular.module('ds.checkout')
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
+
+                debugger;
+                if(UserCoupon && UserCoupon.getCoupon().applied){
+                    /* Redeem Coupon */
+                    CouponSvc.redeemCouponCart(UserCoupon.getCoupon().code, order.plain().orderId);
+                }
+
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
@@ -363,6 +370,12 @@ angular.module('ds.checkout')
                         setShipToSameAsBillTo();
                     }
                     $scope.order.cart = $scope.cart;
+
+                    // debugger;
+                    // if(UserCoupon && UserCoupon.getCoupon().applied){
+                    //     /* Redeem Coupon */
+                    //     CouponSvc.redeemCoupon(UserCoupon.getCoupon().code);
+                    // }
 
                     CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
 
