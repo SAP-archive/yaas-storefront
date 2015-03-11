@@ -1,0 +1,25 @@
+<table class="table">
+	<thead>
+	<tr>
+		<th>{{'EST_ORDER_TOTAL' | translate}}</th>
+		<th class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount || 0 | currency: currencySymbol}}</th>
+	<tr>
+	</thead>
+	<tbody>
+        <tr>
+            <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
+            </td>
+            <td class="text-right">
+                {{cart.subTotalPrice.value - coupon.amounts.discountAmount| currency: currencySymbol}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{'DISCOUNT' | translate}}</td>
+            <td class="text-right" style="color:red">
+                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+            </td>
+        </tr>
+
+	</tbody>
+</table>

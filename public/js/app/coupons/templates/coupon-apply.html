@@ -1,0 +1,15 @@
+<div>
+    <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
+    <div ng-if="!coupon.valid" style="color:red">
+    	{{coupon.message.error}}
+    </div>
+    <input type="text" class="form-control pull-left" ng-model='coupon.code' ng-disabled="coupon.applied" style="width:350px">
+    <button class="btn btn-primary btn-sm pull-right" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">Apply</button>
+
+	<div ng-if="coupon.applied">
+    	<div class="col-xs-8 col-md-8 img-col">
+    		{{coupon.code}} : {{coupon.message.success}}
+			<button ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+		</div>
+    </div>
+</div>
