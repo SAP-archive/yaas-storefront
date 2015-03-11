@@ -267,7 +267,7 @@ angular.module('ds.search')
                                     getProducts(ids);
                                 }
 
-                            }, function (content) {
+                            }, function () {
                                 $scope.requestInProgress = false;
                             });
 
