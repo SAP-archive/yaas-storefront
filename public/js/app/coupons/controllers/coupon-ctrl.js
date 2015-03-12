@@ -15,11 +15,13 @@ angular.module('ds.coupon', [])
     /**
      *  Coupon Module contoller.
      */
-    .controller('CouponCtrl', ['$scope', 'CouponSvc', 'UserCoupon',
-		function( $scope, CouponSvc, UserCoupon ) {
+    .controller('CouponCtrl', ['$scope', 'AuthSvc', 'AuthDialogManager', 'CouponSvc', 'UserCoupon',
+		function( $scope, AuthSvc, AuthDialogManager, CouponSvc, UserCoupon ) {
 
 
 	      	debugger;
+
+	      	$scope.couponCollapsed = true;
 	      	$scope.coupon = UserCoupon.getCoupon();
 
 			$scope.$on('couponUpdated', function(e, userCoupon) {
@@ -35,14 +37,23 @@ angular.module('ds.coupon', [])
 
 			$scope.applyCoupon = function(couponCode) {
 				debugger;
+		        if (!AuthSvc.isAuthenticated()) {
+		            var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
+		            dlg.then(function(){
+		                    if (AuthSvc.isAuthenticated()) {
+		                    	debugger;
+		                    	$scope.applyCoupon(couponCode);
+		                    }
+		                }
+		            );
+		            return;
+		        }
+
 
 				//call coupon service to get discount.
                 CouponSvc.getDiscount(couponCode).then(function (couponData) {
                 	debugger;
-                	//$scope.coupon = angular.extend($scope.coupon, couponData);
-
 					$scope.coupon = UserCoupon.setCoupon(couponData);
-
                 	$scope.coupon.applied = true;
                 	$scope.coupon.valid = true;
 

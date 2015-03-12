@@ -463,12 +463,11 @@
     
 <div class="row step-detail" ng-class="{'has-error': message }">
     <div class="hidden-lg" ui-view="checkoutcartmobile"></div>
-    <!--<div class="hidden-lg" ng-include="'./js/app/checkout/templates/checkout-cart.html'"></div>-->
     <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
-    <div class="col-xs-6 text-right hidden-sm hidden-xs">
-        <span class="value">{{cart.totalPrice.value | currency: currencySymbol}}</span>
+    <div class="col-xs-6 text-right hidden-sm hidden-xs" ng-controller="CouponCtrl">
+        <span class="value">{{cart.totalPrice.value - coupon.amounts.discountAmount | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"

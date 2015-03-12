@@ -1,5 +1,5 @@
-<div>
-    <span class="form-block-headline">{{'COUPON_CODE' | translate}}</span>
+<a class="highlight" ng-click="couponCollapsed = !couponCollapsed">{{'COUPON_CODE' | translate}}</a>
+<div ng-show="!couponCollapsed || coupon.applied">
     <div ng-if="!coupon.valid" style="color:red">
     	{{coupon.message.error}}
     </div>

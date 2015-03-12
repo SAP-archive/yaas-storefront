@@ -20,17 +20,6 @@ angular.module('ds.coupon')
             Coupon: Restangular.withConfig(function (RestangularConfigurer) {
                 RestangularConfigurer.setBaseUrl(siteConfig.apis.coupon.baseUrl);
 
-                // RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
-                // 	debugger;
-                // 	params.customerId "C7991006606"
-                //     return {
-                //         element: element,
-                //         params: params,
-                //         headers: _.extend(headers, {'hybris-roles': 'customer', 'hybris-app':'orders', 'hybris-user':'C0123456789'}),
-                //         httpConfig: httpConfig
-                //     };
-                // });
-
             })
         };
 
