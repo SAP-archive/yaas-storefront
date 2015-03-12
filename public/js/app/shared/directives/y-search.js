@@ -12,33 +12,7 @@
 
 'use strict';
 
-/* jshint ignore:start */
-
 angular.module('ds.ysearch', ['algoliasearch'])
-    .run(['$templateCache', function ($templateCache) {
-        $templateCache.put('template/ysearch.html',
-            '<div class="y-search">' +
-                ' <div class="right-inner-addon"> ' +
-                    '<i class="glyphicon glyphicon-search js-glyphicon"></i>' +
-                    '<input autocomplete="off" placeholder="{{\'SEARCH\' | translate}}" type="text" ng-model="search.text" ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" class="y-input form-control input-md" />' +
-                ' </div>' +
-
-                '<div class="y-search-container" >' +
-                    '<a class="form-control y-search-results" ng-click="hideSearchResults()" ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">' +
-                        '<div class="attribute">' +
-                            '<span class="y-search-result-name text-left" ng-bind-html="result._highlightResult.name[0].value"></span>' +
-                            //'<span class="y-search-result-description"  ng-bind-html="result._highlightResult.description[0].value"></span>' +
-                        '</div>' +
-                    '</a>' +
-                    '<a class=" y-search-count text-center" ng-click="hideSearchResults()"  ui-sref="base.search({ searchString:search.text })" >{{\'SEE_ALL\' | translate}} {{search.numberOfHits}} {{\'RESULTS\' | translate}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>' +
-                '</div>' +
-            '</div>'
-        );
-    }]);
-
-/* jshint ignore:end */
-
-angular.module('ds.ysearch')
     .directive('ysearch', ['ysearchSvc','$rootScope', function (ysearchSvc, $rootScope) {
         return {
             restrict: 'E',
@@ -48,70 +22,64 @@ angular.module('ds.ysearch')
                 searchString: '=?searchString'
             },
             replace: true,
-            templateUrl: 'template/ysearch.html',
+            templateUrl: 'js/app/shared/templates/ysearch.html',
             link: function (scope) {
 
-                if(!scope.page){
+                if (!scope.page) {
                     scope.page = 0;
                 }
-                if(!scope.searchString){
+                if (!scope.searchString) {
                     scope.searchString = '';
                 }
-
-                //Init of algolia search service
-                ysearchSvc.init();
-
                 scope.search = {
                     text: scope.searchString,
                     results: [],
-                    numberOfHits: 0
+                    numberOfHits: 0,
+                    showSearchResults: false,
+                    searchAvailable: true
                 };
 
+                scope.yglyphiconVisible = false;
+
+                //Init of algolia search service
+                scope.search.searchAvailable = ysearchSvc.init();
+
+
                 scope.showSearchResults = function () {
-                    $('.js-glyphicon').addClass('active');
-//                    $rootScope.showMobileNav = true;
+
+                    scope.search.showSearchResults = true;
                     if (scope.search.text !== '') {
-                        if(scope.search.results.length === 0){
+                        if (scope.search.results.length === 0) {
                             scope.doSearch(scope.search.text, 0);
-                        }
-                        else {
-                            $('.y-search-container').show();
-                            
                         }
                     }
                 };
 
                 scope.hideSearchResults = function () {
                     $rootScope.closeOffcanvas();
-                    $('.y-search-container').hide();
-                    $('.js-glyphicon').removeClass('active');
-//                    $rootScope.showMobileNav = false;
+                    scope.search.showSearchResults = false;
                 };
 
                 //Used for checking if the user left te search field
                 $(document).mouseup(function (e) {
                     var container = $('.y-search');
                     if (!container.is(e.target) && container.has(e.target).length === 0) {
-                        $('.y-search-container').hide();
-                        $('.js-glyphicon').removeClass('active');
-//                        $rootScope.showMobileNav = false;
+                        scope.search.showSearchResults = false;
+                        //Used to apply changes for showSearchResults
+                        scope.$digest();
                     }
                 });
 
                 scope.doSearch = function () {
 
-                    $('.y-search-container').show();
-                    $('.js-glyphicon').addClass('active');
-//                    $rootScope.showMobileNav = true;
+                    scope.search.showSearchResults = true;
                     if (scope.search.text === '') {
-                        $('.y-search-container').hide();
-                        $('.js-glyphicon').removeClass('active');
-//                        $rootScope.showMobileNav = false;
+                        scope.search.showSearchResults = false;
                         scope.search.results = [];
                         scope.search.numberOfHits = 0;
                     }
                     else {
-                        ysearchSvc.getResults(scope.search.text, {hitsPerPage: 5, page: 0 })
+                        ysearchSvc.getResults(scope.search.text, {hitsPerPage: 5, page: 0})
                             .then(function (content) {
                                 if (content.query !== scope.search.text) {
                                     // do not take out-dated answers into account
@@ -119,9 +87,8 @@ angular.module('ds.ysearch')
                                 }
                                 scope.search.numberOfHits = content.nbHits;
                                 scope.search.results = content.hits;
-
+                                console.log(content.hits);
                             }, function () {
-//                                console.log('Error: ' + content.message);
                             });
                     }
                 };
@@ -146,8 +113,15 @@ angular.module('ds.ysearch')
         var client, index;
 
         var init = function () {
-            client = algolia.Client('MSSYUK0R36', GlobalData.search.algoliaKey, {method: 'https'});
-            index = client.initIndex(GlobalData.store.tenant);
+            if(GlobalData.search.algoliaKey !== '') {
+                //Search available for this project
+                client = algolia.Client(GlobalData.search.algoliaProject, GlobalData.search.algoliaKey, {method: 'https'});
+                index = client.initIndex(GlobalData.store.tenant);
+                return true;
+            }
+            else{
+                return false;
+            }
         };
 
         var getResults = function (searchString, parameters) {

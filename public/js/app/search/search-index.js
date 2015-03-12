@@ -12,7 +12,7 @@
 
 'use strict';
 
-angular.module('ds.search', [
+angular.module('ds.searchlist', [
     'ds.shared',
     'ds.products'
 ]);

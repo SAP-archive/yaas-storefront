@@ -131,7 +131,8 @@ angular.module('ds.shared')
                 },
 
                 search:{
-                    algoliaKey:''
+                    algoliaKey:'',
+                    algoliaProject: 'MSSYUK0R36'
                 },
 
                 /** Returns the currency symbol of the active currency.*/

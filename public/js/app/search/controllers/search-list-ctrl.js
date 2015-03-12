@@ -14,14 +14,13 @@
 
 'use strict';
 
-angular.module('ds.search')
+angular.module('ds.searchlist')
     .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
         function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
 
             $scope.searchString = searchString;
 
             $scope.pageSize = GlobalData.products.pageSize;
-            //$scope.pageSize = 2;
 
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
@@ -145,7 +144,6 @@ angular.module('ds.search')
 
             function getProducts(ids) {
 
-
                 var query = {
                     expand: 'media',
                     sort: $scope.sort
@@ -170,10 +168,6 @@ angular.module('ds.search')
                             else if ($scope.products.length > 0 && query.pageNumber === 1) {
                                 //Check for visible items in viewport
                             }
-
-
-                            //$scope.total = GlobalData.products.meta.total;
-
 
                             getPrices(products);
                             assignMainImage(products);
@@ -210,7 +204,6 @@ angular.module('ds.search')
             $scope.$on('$destroy', unbindCat);
 
             $scope.restartSearch = function () {
-//                $rootScope.showMobileNav = true;
                 $('.y-input').focus();
             };
 
@@ -261,8 +254,6 @@ angular.module('ds.search')
 
                                 if (content.hits.length > 0) {
                                     var ids = getProductIdsFromElements(content.hits);
-
-
 
                                     getProducts(ids);
                                 }
