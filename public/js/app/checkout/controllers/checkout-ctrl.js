@@ -327,6 +327,12 @@ angular.module('ds.checkout')
                 modal.close();
             }
 
+            var couponSuccessHandler = function goToConfirmationPage(order) {
+                // clear coupon object.
+                UserCoupon.setBlankCoupon();
+                this.checkoutSuccessHandler(order);
+            }
+
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
 
@@ -377,10 +383,10 @@ angular.module('ds.checkout')
                         CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id).then(function (couponData) {
                             debugger;
                             // proceed with checkout now that coupon is applied.
-                            CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
-                        }, function (resp) {  //Upstream error handling. 
+                            CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);
+                        }, function (resp) {  //Upstream error handling.
                             debugger;
-                            //Stop Loading Indicator.
+                            // stop loading indicator.
                             modal.close();
                         });
                     } else {

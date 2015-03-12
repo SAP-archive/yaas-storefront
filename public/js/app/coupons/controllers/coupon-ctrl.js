@@ -18,14 +18,10 @@ angular.module('ds.coupon', [])
     .controller('CouponCtrl', ['$scope', 'AuthSvc', 'AuthDialogManager', 'CouponSvc', 'UserCoupon',
 		function( $scope, AuthSvc, AuthDialogManager, CouponSvc, UserCoupon ) {
 
-
-	      	debugger;
-
 	      	$scope.couponCollapsed = true;
 	      	$scope.coupon = UserCoupon.getCoupon();
 
 			$scope.$on('couponUpdated', function(e, userCoupon) {
-				debugger;
 				$scope.coupon = userCoupon;
 			});
 
