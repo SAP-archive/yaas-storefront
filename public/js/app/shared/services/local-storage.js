@@ -23,7 +23,7 @@ angular.module('ds.localstorage', [])
         };
         var addItemToArray = function (key, value) {
             if(localStorageSupported()){
-                if($window.localStorage[key] === undefined || $window.localStorage[key] === ''){
+                if($window.localStorage[key] === 'undefined' || $window.localStorage[key] === ''){
                     $window.localStorage[key] = JSON.stringify([value]);
                 }
                 else {
@@ -36,7 +36,7 @@ angular.module('ds.localstorage', [])
 
         var getItem = function (key) {
             if(localStorageSupported()){
-                if($window.localStorage[key] !== undefined) {
+                if($window.localStorage[key] !== 'undefined') {
                     return $window.localStorage[key];
                 }
                 else{
@@ -48,9 +48,9 @@ angular.module('ds.localstorage', [])
         var getAllItems = function (key) {
 
             if(localStorageSupported()){
-                if($window.localStorage[key] !== undefined){
+                if($window.localStorage[key] !== 'undefined'){
                     var data = JSON.parse($window.localStorage[key]);
-                    $window.localStorage[key] = undefined;
+                    $window.localStorage[key] = 'undefined';
                     return data;
                 }
             }

@@ -329,6 +329,18 @@ angular.module('ds.checkout')
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
+
+
+                var piwikOrderDetails = {
+                    orderId: order.orderId,
+                    cart: $scope.cart
+                };
+                //Send data to piwik
+                $rootScope.$emit('orderPlaced', piwikOrderDetails);
+
+                //Reset cart
+                CheckoutSvc.resetCart();
+
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };

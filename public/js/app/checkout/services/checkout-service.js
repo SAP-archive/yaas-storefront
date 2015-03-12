@@ -81,7 +81,7 @@ angular.module('ds.checkout')
                             self.createOrder(order, response.id).then(
                                 // success handler
                                 function (order) {
-                                    CartSvc.resetCart();
+
                                     deferred.resolve(order);
                                 },
                                 // error handler
@@ -201,6 +201,10 @@ angular.module('ds.checkout')
                 });
 
                 return deferred.promise;
+            },
+
+            resetCart: function () {
+                CartSvc.resetCart();
             }
 
         };
