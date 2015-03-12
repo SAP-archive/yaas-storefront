@@ -61,14 +61,17 @@ angular.module('ds.ysearch', ['algoliasearch'])
                 };
 
                 //Used for checking if the user left te search field
-                $(document).mouseup(function (e) {
-                    var container = $('.y-search');
-                    if (!container.is(e.target) && container.has(e.target).length === 0) {
-                        scope.search.showSearchResults = false;
-                        //Used to apply changes for showSearchResults
-                        scope.$digest();
-                    }
-                });
+
+                angular.element(document)
+                    .bind('mouseup', function (e) {
+                        var container = angular.element('.y-search');
+                        if (!container.is(e.target) && container.has(e.target).length === 0) {
+                            scope.search.showSearchResults = false;
+                            //Used to apply changes for showSearchResults
+                            scope.$digest();
+                        }
+                    });
+
 
                 scope.doSearch = function () {
 

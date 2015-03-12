@@ -162,7 +162,7 @@ angular.module('ds.searchlist')
                             if ($scope.products.length === 0) {
                                 $scope.pagination.productsFrom = 0;
                             }
-                            
+
                             getPrices(products);
                             assignMainImage(products);
 
@@ -196,10 +196,6 @@ angular.module('ds.searchlist')
             });
 
             $scope.$on('$destroy', unbindCat);
-
-            $scope.restartSearch = function () {
-                $('.y-input').focus();
-            };
 
             $scope.addMore = function () {
                 // category selected, but no products associated with category - leave blank for time being
