@@ -331,7 +331,7 @@ angular.module('ds.checkout')
                 // clear coupon object.
                 UserCoupon.setBlankCoupon();
                 this.checkoutSuccessHandler(order);
-            }
+            };
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
@@ -380,11 +380,11 @@ angular.module('ds.checkout')
                     debugger;
                     if(UserCoupon && UserCoupon.getCoupon().applied){
                         /* Redeem Coupon */
-                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id).then(function (couponData) {
+                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id).then(function () {
                             debugger;
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);
-                        }, function (resp) {  //Upstream error handling.
+                        }, function () {  //Upstream error handling.
                             debugger;
                             // stop loading indicator.
                             modal.close();

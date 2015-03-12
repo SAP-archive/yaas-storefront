@@ -18,16 +18,16 @@
 angular.module('ds.coupon')
     .factory('UserCoupon', [ '$rootScope', function( $rootScope ){
 
-    	var userCoupon = {};
-		var blankCoupon = {
+        var userCoupon = {};
+        var blankCoupon = {
             code: '',
             applied: false,
             valid: true,
-			message : {
-				error: "Code not valid",
-				success: "Applied"
-			},
-			amounts : {
+            message : {
+                error: 'Code not valid',
+                success: 'Applied'
+            },
+            amounts : {
                 // shippingAmount: 0,
                 originalAmount: 0,
                 // originalTotalAmount: 0,
@@ -40,24 +40,21 @@ angular.module('ds.coupon')
         userCoupon = angular.copy(blankCoupon);
 
         function updateCoupons() {
-        	debugger;
-			$rootScope.$broadcast("couponUpdated", userCoupon);
-  		};
+            $rootScope.$broadcast('couponUpdated', userCoupon);
+        }
 
-
-
-    	return {
-    		getCoupon:function(){
-    			return userCoupon;
-    		},
-    		setCoupon:function(couponData){
-    			updateCoupons();
-    			return angular.extend(userCoupon, couponData);
-    		},
-    		setBlankCoupon:function(){
-    			userCoupon = angular.copy(blankCoupon);
-    			updateCoupons();
-    		}
-   		 };
+        return {
+            getCoupon:function(){
+                return userCoupon;
+            },
+            setCoupon:function(couponData){
+                updateCoupons();
+                return angular.extend(userCoupon, couponData);
+            },
+            setBlankCoupon:function(){
+                userCoupon = angular.copy(blankCoupon);
+                updateCoupons();
+            }
+        };
 
     }]);

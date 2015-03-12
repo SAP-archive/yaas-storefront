@@ -114,7 +114,6 @@ angular.module('ds.products')
                         var category = getCategory(categorySlug);
                         if(category){
                             cdef.resolve(category);
-                            couponPromise.resolve();
                         } else {
                             cdef.reject();
                             $state.go('errors', { errorId : '404' });

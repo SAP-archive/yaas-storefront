@@ -32,7 +32,7 @@ debugger;
                 if (couponCode) {
                     var couponRequest = this.buildCouponRequest(couponCode);
 
-                    CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, "validation").then(function (resp) {
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
                             debugger;
                             deferred.resolve();
                         }, function (resp) {
@@ -57,7 +57,7 @@ debugger;
                     //https://{domain}/coupon/v1/{tenant}/coupons/{code}
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             debugger;
-                            var couponData = resp.plain()
+                            var couponData = resp.plain();
                             deferred.resolve(couponData);
                         }, function (resp) {
                             debugger;
@@ -80,7 +80,6 @@ debugger;
                 if (couponCode) {
                     //https://{domain}/coupon/v1/{tenant}/coupons/{code}/redemptions
                     CouponREST.Coupon.one('coupons', couponCode).customGET('redemptions').then(function (resp) {
-                            var coupId = resp.plain();
                             debugger;
                             deferred.resolve(resp);
                         }, function () {
@@ -171,17 +170,17 @@ debugger;
                             // }
 
 
-    "id": couponId,
-    "code": "ZXCV",
-    "amount": "1.99",
-    "currency": "USD",
-    "name": "zxcv",
-    "sequenceId": "1",
-    "calculationType": "ApplyDiscountBeforeTax",
-    "link": [{
-        "id": couponId,
-        "type": "COUPON",
-        "url": "http://localhost/coupons/"+couponId
+    'id': couponId,
+    'code': 'ZXCV',
+    'amount': '1.99',
+    'currency': 'USD',
+    'name': 'zxcv',
+    'sequenceId': '1',
+    'calculationType': 'ApplyDiscountBeforeTax',
+    'link': [{
+        'id': couponId,
+        'type': 'COUPON',
+        'url': 'http://localhost/coupons/'+couponId
     }]
 
 
@@ -211,12 +210,12 @@ debugger;
              * Retrieves coupon data for customer coupon application request.
              * Returns a promise of the result.
              */
-             redeemCouponAtomic: function( couponCode, cartId ) {
+             redeemCouponAtomic: function( couponCode ) {
 debugger;
                 var deferred = $q.defer();
                 if (couponCode) {
                     var couponRequest = this.buildCouponRequest(couponCode);
-                    https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
+                    //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function () {
                             debugger;
                             deferred.resolve();
@@ -258,14 +257,14 @@ debugger;
 
              buildCouponRequest: function( couponCode ){
                 return {
-                        "orderCode": couponCode,
-                        "orderTotal": {
-                            "currency": "USD",
-                            "amount": 49.99
+                        'orderCode': couponCode,
+                        'orderTotal': {
+                            'currency': 'USD',
+                            'amount': 49.99
                         },
-                        "discount": {
-                            "currency": "USD",
-                            "amount": 10
+                        'discount': {
+                            'currency': 'USD',
+                            'amount': 10
                         }
                         //! check out removing this dis
                     };
