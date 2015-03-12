@@ -31,21 +31,25 @@ angular.module('ds.coupon', [])
                 UserCoupon.setBlankCoupon();
             };
 
-            $scope.applyCoupon = function(couponCode) {
-                debugger;
-                //! checkAuthentication() ? ok : return;
+            $scope.checkAuthentication = function(couponCode){
                 if (!AuthSvc.isAuthenticated()) {
                     var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
                     dlg.then(function(){
                             if (AuthSvc.isAuthenticated()) {
-                                debugger;
                                 $scope.applyCoupon(couponCode);
                             }
                         }
                     );
-                    return;
-            }
+                    return false;
+	            }
+	            return true;
+            };
 
+            $scope.applyCoupon = function(couponCode) {
+                debugger;
+                if(!$scope.checkAuthentication(couponCode)){
+                	return;
+                }
 
                 //call coupon service to get discount.
                 CouponSvc.getDiscount(couponCode).then(function (couponData) {
