@@ -37,6 +37,7 @@ angular.module('ds.coupon', [])
 
 			$scope.applyCoupon = function(couponCode) {
 				debugger;
+				//! checkAuthentication() ? ok : return;
 		        if (!AuthSvc.isAuthenticated()) {
 		            var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
 		            dlg.then(function(){

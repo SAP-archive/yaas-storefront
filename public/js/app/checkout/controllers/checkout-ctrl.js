@@ -330,11 +330,11 @@ angular.module('ds.checkout')
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
 
-                debugger;
-                if(UserCoupon && UserCoupon.getCoupon().applied){
-                    /* Redeem Coupon */
-                    CouponSvc.redeemCouponCart(UserCoupon.getCoupon().code, order.plain().orderId);
-                }
+                // debugger;
+                // if(UserCoupon && UserCoupon.getCoupon().applied){
+                //      Redeem Coupon 
+                //     CouponSvc.redeemCouponCart(UserCoupon.getCoupon().code, order.plain().orderId);
+                // }
 
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
@@ -371,13 +371,21 @@ angular.module('ds.checkout')
                     }
                     $scope.order.cart = $scope.cart;
 
-                    // debugger;
-                    // if(UserCoupon && UserCoupon.getCoupon().applied){
-                    //     /* Redeem Coupon */
-                    //     CouponSvc.redeemCoupon(UserCoupon.getCoupon().code);
-                    // }
-
-                    CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
+                    debugger;
+                    if(UserCoupon && UserCoupon.getCoupon().applied){
+                        /* Redeem Coupon */
+                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id).then(function (couponData) {
+                            debugger;
+                            // proceed with checkout now that coupon is applied.
+                            CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
+                        }, function (resp) {  //Upstream error handling. 
+                            debugger;
+                            //Stop Loading Indicator.
+                            modal.close();
+                        });
+                    } else {
+                        CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
+                    }
 
                 } else {
                     $scope.showPristineErrors = true;
