@@ -158,9 +158,6 @@ angular.module('ds.searchlist')
                     function (products) {
                         $scope.requestInProgress = false;
                         if (products) {
-                            //GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
-
-
                             $scope.products = $scope.products.concat(products);
                             if ($scope.products.length === 0) {
                                 $scope.pagination.productsFrom = 0;
