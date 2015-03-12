@@ -92,6 +92,7 @@ angular.module('ds.i18n')
 
         /*  coupons   */
         COUPON_CODE: 'Add Coupon Code',
+        APPLY: 'Apply',
 
         /*
             confirmation

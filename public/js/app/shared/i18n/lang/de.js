@@ -90,6 +90,7 @@ angular.module('ds.i18n')
 
         /*  coupons   */
         COUPON_CODE: 'Gutscheincode hinzufügen',
+        APPLY: 'Sich Bewerben',
 
         /*
          confirmation

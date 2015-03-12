@@ -4,7 +4,7 @@
     	{{coupon.message.error}}
     </div>
     <input type="text" class="form-control pull-left" ng-model='coupon.code' ng-disabled="coupon.applied" style="width:350px">
-    <button class="btn btn-primary btn-sm pull-right" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">Apply</button>
+    <button class="btn btn-primary btn-sm pull-right" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">{{'APPLY' | translate}}</button>
 
 	<div ng-if="coupon.applied">
     	<div class="col-xs-8 col-md-8 img-col">
