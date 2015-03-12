@@ -27,7 +27,6 @@ angular.module('ds.coupon', [])
 
 
             $scope.removeCoupon = function() {
-                debugger;
                 UserCoupon.setBlankCoupon();
             };
 

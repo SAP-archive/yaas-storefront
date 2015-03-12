@@ -88,6 +88,8 @@ angular.module('ds.i18n')
         YEAR: 'Jahr',
         ZIP: 'PLZ',
 
+        /*  coupons   */
+        COUPON_CODE: 'Gutscheincode hinzufügen',
 
         /*
          confirmation
