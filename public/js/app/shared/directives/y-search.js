@@ -100,6 +100,8 @@ angular.module('ds.ysearch')
     .filter('highlight', function ($sce) {
         return function (text, phrase) {
             if (phrase && phrase.length > 1) {
+                //Find search string in text, g means look globally, i means make search case-insensitive,
+                // <em>$1</em> is the first found result inside <em> that replaces found phrase
                 text = text.replace(new RegExp('(' + phrase + ')', 'gi'), '<em>$1</em>');
             }
 
