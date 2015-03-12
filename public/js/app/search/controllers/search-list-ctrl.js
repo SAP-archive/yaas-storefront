@@ -162,10 +162,7 @@ angular.module('ds.searchlist')
                             if ($scope.products.length === 0) {
                                 $scope.pagination.productsFrom = 0;
                             }
-                            else if ($scope.products.length > 0 && query.pageNumber === 1) {
-                                //Check for visible items in viewport
-                            }
-
+                            
                             getPrices(products);
                             assignMainImage(products);
 
