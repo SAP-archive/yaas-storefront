@@ -15,55 +15,16 @@
 
 angular.module('ds.ytacking', [])
     //.constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
-    .constant('yTrackingURL', ' https://api.yaas.io/piwik-service/defaultproj/events')
+    //.constant('yTrackingURL', ' https://api.yaas.io/piwik-service/defaultproj/events')
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking',['ytrackingSvc' ,'$rootScope' ,
         function(ytrackingSvc, $rootScope) {
         return {
             restrict: 'A',
             compile: function () {
-                /*(function(open) {
-                    XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
 
-                        if(url === yTrackingURL){
-
-//                            open.call(this, method, url, async, user, pass);
-                            $http.post(yTrackingURL,
-                                {
-
-                                }).
-                                success(function() { //data, status, headers, config
-                                    // this callback will be called asynchronously
-                                    // when the response is available
-                                }).
-                                error(function() {
-                                    // called asynchronously if an error occurs
-                                    // or server returns response with an error status.
-                                });
-
-                            console.log(this);
-                            console.log(method);
-                            console.log(url);
-                            console.log(async);
-                            console.log(user);
-                            console.log(pass);
-
-                        }
-                        else{
-                            open.call(this, method, url, async, user, pass);
-                        }
-                    };
-                })(XMLHttpRequest.prototype.open);*/
-
-
+                //Init tracking
                 ytrackingSvc.init();
-
-
-                //Look for route change events
-                $rootScope.$on('$stateChangeSuccess',
-                        function () {//event, toState, toParams, fromState
-                        });
-
 
                 //Handlers for events
                 $rootScope.$on('productLoaded', function (arg, obj) {
@@ -78,7 +39,6 @@ angular.module('ds.ytacking', [])
                 });
 
                 $rootScope.$on('orderPlaced', function (arg, obj) {
-                    console.log(obj);
                     //Send ordered cart items to piwik
                     for(var i = 0; i < obj.cart.items.length; i++){
                         //sku, name, categoryName, unitPrice, amount
@@ -87,19 +47,19 @@ angular.module('ds.ytacking', [])
                     }
 
                     //Send order details to piwik
-                    //(orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered)
                     ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
                 });
 
                 $rootScope.$on('cart:updated', function (arg, obj) {
-                    console.log(obj);
                     ytrackingSvc.cartUpdated(obj.cart);
                 });
             }
         };
     }])
-    .factory('ytrackingSvc', ['yTrackingURL', 'yTrackingLocalStorageKey','GlobalData', '$http', 'localStorage','$window','$timeout',
-        function (yTrackingURL, yTrackingLocalStorageKey, GlobalData, $http, localStorage, $window, $timeout) {
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey','GlobalData', '$http', 'localStorage','$window','$timeout',
+        function (siteConfig, yTrackingLocalStorageKey, GlobalData, $http, localStorage, $window, $timeout) {
+
+            var url = siteConfig.apis.products.baseUrl;
 
             //Private methods
             var getQueryParameters = function (hash) {
@@ -121,13 +81,12 @@ angular.module('ds.ytacking', [])
 
             var makeRequest = function (params) {
 
-                ////get object from query parameters
+                //get object from query parameters
                 var obj = getQueryParameters(params);
-                console.log(JSON.stringify(obj));
 
                 var req = {
                     method: 'POST',
-                    url: yTrackingURL,
+                    url: url,
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -163,11 +122,10 @@ angular.module('ds.ytacking', [])
                 $window._paq.push(['setDocumentTitle', $window.document.title.toString()]);
 
                 //Set user id to equal the user token
-                //console.log(TokenSvc.getToken().getAccessToken());
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
 
-                $window._paq.push(['setTrackerUrl', yTrackingURL]);
+                $window._paq.push(['setTrackerUrl', url]);
                 $window._paq.push(['setSiteId', 1]);
 
 
