@@ -56,13 +56,6 @@ angular.module('ds.products')
                     RestangularConfigurer.setBaseUrl(siteConfig.apis.categories.baseUrl);
                     applyLanguageHeader(RestangularConfigurer);
                 })
-                // ,
-                // /** Endpoint for Coupons API.*/
-                // Coupons: Restangular.withConfig(function(RestangularConfigurer) {
-                //     debugger;
-                //     RestangularConfigurer.setBaseUrl('https://yaas-test.apigee.net/loyaltymemberships?q=userId:C1950926299');
-                //     applyLanguageHeader(RestangularConfigurer);
-                // })
             };
 
 
