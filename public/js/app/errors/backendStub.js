@@ -279,24 +279,6 @@
 					); //end mock.
 
 
-
-				//Coupon-Service: Use to mock coupon services.
-				// $httpBackend.whenPOST('https://yaas-test.apigee.net/test/account/v1/auth/anonymous/login?hybris-tenant=8bwhetym79cq')
-				$httpBackend.whenPOST('https://yaas-test.apigee.net/loyaltymemberships?q=userId:C1950926299')
-					.respond(
-						//MOCK-ERROR-STATUS-CODE
-						401 //500 //404  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
-						//MOCK-DATA-RESPONSE
-						// {
-						//   'status' : 403,
-						//   'message' : 'Project BAD8bwhetym79cq does not exist',
-						//   'type' : 'insufficient_permissions'
-						// }
-					); //end mock.
-
-
-
-
 					/** MOCK-PASSTHROUGHS
 					  * - These are required for anything that is not mocked. The HTTPBackendProxy passes them through to the server.
 					  * - When the site is fully mocked, these can be removed.
