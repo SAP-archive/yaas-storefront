@@ -161,6 +161,15 @@ angular.module('ds.checkout')
                     }
                 });
 
+                //when "my details" name changes, validate bill to contact name field
+                if (ngModel.$name === 'contactName') {
+                    var nch = scope.$on('myDetails:change', function(){
+                            elementClone.hide();
+                            elementClone.attr('value', '');
+                            element.show();
+                    });
+                }
+
                 scope.$watch(function() { return GlobalData.getLanguageCode(); }, function (currentLang, previousLang) {
                     if (currentLang && previousLang && currentLang !== previousLang) {
                         onInputChanged();
@@ -171,6 +180,7 @@ angular.module('ds.checkout')
                     elementClone.off('focus', onInputFocus);
                     element.off('blur', onInputBlur);
                     sfh();
+                    nch();
                 });
             }
         };
