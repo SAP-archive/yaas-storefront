@@ -16,8 +16,8 @@
  *  Encapsulates access to the "authorization" service.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['$q', '$http', 'SiteConfigSvc', 'CouponREST', 'CartREST',
-        function($q, $http, siteConfig, CouponREST, CartREST){
+    .factory('CouponSvc', ['$q', 'SiteConfigSvc', 'CouponREST', 'CartREST',
+        function($q, siteConfig, CouponREST, CartREST){
 
 
         return {
