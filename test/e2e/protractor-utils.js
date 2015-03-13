@@ -1,8 +1,8 @@
 var fs = require('fs');
 
-exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
-exports.blackCoffeeMug = "//a[contains(@href, '/products/5436f9a25acee4d3c910c085/')]";
-exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
+exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
+exports.blackCoffeeMug = "//a[contains(@href, '/products/550214eca4ae283d1df57cd9/')]";
+exports.whiteThermos = "//a[contains(@href, '/products/550214f84d6ea5a71b0cf025/')]";
 var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
 exports.beerBug = stressBallPath;
 exports.cartButtonId = 'full-cart-btn';
@@ -13,7 +13,7 @@ exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
-exports.tenant = 'ytvlw4f7ebox';
+exports.tenant = 'bsdqaproject';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
 

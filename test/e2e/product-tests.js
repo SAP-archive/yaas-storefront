@@ -37,7 +37,7 @@ describe('product page', function () {
             tu.scrollToBottomOfProducts()
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
-            expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toContain('-37 of 37'); //should be # of 31, but won't work in phantomjs
+            expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
 
         });
 
@@ -45,7 +45,6 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
             browser.sleep(200);
             element(by.repeater('category in categories').row(0).column('category.name')).click();
-            // browser.pause();
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.wait(function () {
                 return element(by.binding(tu.productDescriptionBind)).isPresent();
@@ -62,7 +61,7 @@ describe('product page', function () {
             expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
             expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Tassen');
             // verify refreshing grabs correct config (STOR-1183)
-            browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
             expect(element(by.binding('product.defaultPrice.value')).getText()).toEqual('€7.99');
         });
@@ -111,11 +110,11 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('created:desc', 'PENHOLDER', '$1.99');
-            browser.get(tu.tenant + '/#!/ct/mugs~85248');
+            tu.sortAndVerifyPagination('created:desc', 'MOUSEPAD', '$1.99');
+            browser.get(tu.tenant + '/#!/ct/mugs~269735936');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
-            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
+            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - BLACK');
             tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
