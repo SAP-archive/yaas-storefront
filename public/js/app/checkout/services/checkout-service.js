@@ -60,7 +60,7 @@ angular.module('ds.checkout')
 
                 // the promise handle to the result of the transaction
                 var deferred = $q.defer();
-
+debugger;
                 var stripeData = {};
                 /* jshint ignore:start */
                 var creditCard = order.creditCard;

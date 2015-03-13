@@ -101,95 +101,48 @@ debugger;
 debugger;
                 var deferred = $q.defer();
                 var couponCode = couponObj.code;
-                var couponType = couponObj.discountType;
                 if (couponCode) {
+                    var self = this;
                     var couponRequest = this.buildCouponRequest(couponCode);
                     //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
                             debugger;
+                            // console.log(couponObj.code);
+                            // console.log(couponObj.discontType);
+                            // console.log();
+                            // console.log();
+                            // console.log();
+                            // console.log();
                         var couponId = resp.plain().id;
-                        var cartRequest = {
+                        var couponCartRequest = self.buildCouponCartRequest(couponObj, couponId);
+                        // var cartRequest = {
 
-        // "id": {
-        //     "required": false,
-        //     "type": "string"
-        // },
-        // "code": {
-        //     "type": "string",
-        //     "description":"The discount code.",
-        //     "required": true,
-        //     "maxLength" : "150"
-        // },
-        // "amount": {
-        //     "type": "number",
-        //     "description":"The fixed price of the discount.",
-        //     "minimum" : 0
-        // },
-        // "currency": {
-        //     "description": "The currency code following the ISO 4217 standard.",
-        //     "type": "string",
-        //     "required": true,
-        //     "pattern" : "[A-Z]{3}"
-        // },
-        // "name": {
-        //     "type": "string",
-        //     "description":"The discount display name.",
-        //     "maxLength" : "150"
-        // },
-        // "discountRate": {
-        //     "type": "number",
-        //     "description":"The percentage value of the discount.",
-        //     "minimum" : 0
-        // },
-        // "sequenceId": {
-        //     "type": "integer",
-        //     "description":"The sequence of this discount to be applied to cart.",
-        //     "default":1,
-        //     "minimum" : 0
-        // },
-        // "calculationType": {
-        //     "type": "string",
-        //     "description":"Possible Values are ApplyDiscountBeforeTax, ApplyDiscountAfterTax. The calculation type to be applied while calculating the discounts.",
-        //     "maxLength" : "30",
-        //     "default": "ApplyDiscountBeforeTax"
-        // },
-        // "links": {
-        //     "type": "array",
-        //     "items": {
-        //         "$ref": "link"
-        //     },
-        //     "minItems" : "1"
-        // }
+                        //     // if ( couponData.discountType === 'ABSOLUTE' ) {
+                        //     //     $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
+                        //     // }
+                        //     // else if ( couponData.discountType === 'PERCENT' ) {
+                        //     //     debugger;
+                        //     //     $scope.coupon.amounts.discountAmount = ( 0.01 * $scope.coupon.amounts.originalAmount * couponData.discountPercentage.amount);
+                        //     // }
 
-                            // if ( couponData.discountType === 'ABSOLUTE' ) {
-                            //     $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
-                            // }
-                            // else if ( couponData.discountType === 'PERCENT' ) {
-                            //     debugger;
-                            //     $scope.coupon.amounts.discountAmount = ( 0.01 * $scope.coupon.amounts.originalAmount * couponData.discountPercentage.amount);
-                            // }
+                        //     'id': couponId,
+                        //     'code': couponCode,
+                        //     'amount': '1.99',
+                        //     'currency': 'USD',
+                        //     'name': 'zxcv',
+                        //     'sequenceId': '1',
+                        //     'calculationType': 'ApplyDiscountBeforeTax',
+                        //     'link': {
+                        //         'id': couponId,
+                        //         'type': 'COUPON',
+                        //         'url': 'http://localhost/coupons/'+couponId
+                        //     }
 
-
-    'id': couponId,
-    'code': 'ZXCV',
-    'amount': '1.99',
-    'currency': 'USD',
-    'name': 'zxcv',
-    'sequenceId': '1',
-    'calculationType': 'ApplyDiscountBeforeTax',
-    'link': [{
-        'id': couponId,
-        'type': 'COUPON',
-        'url': 'http://localhost/coupons/'+couponId
-    }]
-
-
-
-                        };
+                        // };
                         //  post coupon redemption to cart
                         // https://api.yaas.io/cart/v5/bsdtestproject/cart/5501e7264d6ea5a71b0ceef9/discounts
                         // https://api.yaas.io/cart/v5 /tenantId/carts /cartId/discounts
-                        CartREST.Cart.one('cart', cartId).customPOST( cartRequest, 'discounts').then(function () {
+                        CartREST.Cart.one('carts', cartId).customPOST( couponCartRequest, 'discounts').then(function () {
                                 debugger;
                                 deferred.resolve();
                             }, function () {
@@ -255,7 +208,26 @@ debugger;
 //                 return deferred.promise;
 //              },
 
-             buildCouponRequest: function( couponCode ){
+            
+
+            buildCouponCartRequest: function( couponObj, couponId ){
+                return {
+                            'id': couponId,
+                            'code': couponObj.code,
+                            'amount': couponObj.amounts.discountAmount,
+                            'name': couponObj.name,
+                            'currency': 'USD',
+                            'sequenceId': '1', //increment for multiple coupons.
+                            'calculationType': 'ApplyDiscountBeforeTax',
+                            'link': {
+                                'id': couponId,
+                                'type': 'COUPON',
+                                'url': 'http://localhost/coupons/'+couponId
+                            }
+                    };
+            },
+
+            buildCouponRequest: function( couponCode ){
                 return {
                         'orderCode': couponCode,
                         'orderTotal': {
@@ -268,7 +240,7 @@ debugger;
                         }
                         //! check out removing this dis
                     };
-             }
+            }
 
         };
 

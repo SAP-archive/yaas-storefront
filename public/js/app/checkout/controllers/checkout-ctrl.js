@@ -335,13 +335,6 @@ angular.module('ds.checkout')
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
-
-                // debugger;
-                // if(UserCoupon && UserCoupon.getCoupon().applied){
-                //      Redeem Coupon 
-                //     CouponSvc.redeemCouponCart(UserCoupon.getCoupon().code, order.plain().orderId);
-                // }
-
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
@@ -386,8 +379,9 @@ angular.module('ds.checkout')
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);
                         }, function () {  //Upstream error handling.
                             debugger;
-                            // stop loading indicator.
-                            modal.close();
+                            $scope.message = 'COUPON_ERROR';
+                            $scope.submitIsDisabled = false;
+                            modal.close(); // stop loading indicator.
                         });
                     } else {
                         CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
