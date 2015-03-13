@@ -15,12 +15,13 @@
 'use strict';
 
 angular.module('ds.searchlist')
-    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
+    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
 
             $scope.searchString = searchString;
 
-            $scope.pageSize = GlobalData.products.pageSize;
+            //$scope.pageSize = GlobalData.products.pageSize;
+            $scope.pageSize = 3;
 
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
@@ -41,19 +42,10 @@ angular.module('ds.searchlist')
             //Initialization of algolia
             ysearchSvc.init();
 
-            $scope.category = category || {};
 
             $scope.loadedPages = 1;
             $scope.loadMorePages = false;
 
-            // ensure category path is localized
-            var pathSegments = $location.path().split('/');
-            if ($scope.category.slug && pathSegments[pathSegments.length - 1] !== $scope.category.slug) {
-                pathSegments[pathSegments.length - 1] = $scope.category.slug;
-                $location.path(pathSegments.join('/'));
-            }
-
-            $rootScope.$emit('category:selected', {category: category});
 
             function getProductIdsFromElements(elements) {
                 return elements.map(function (element) {
@@ -174,61 +166,14 @@ angular.module('ds.searchlist')
                     });
             }
 
-            // Primary Reason for categories to be updated is that the language change.
-            //  We'll have to retrieve the current slug for the category (and thus this page)
-            //  and reload to ensure the breadcrumbs and slug reflect the latest setting.
-            var unbindCat = $rootScope.$on('categories:updated', function (eve, obj) {
-                if (obj.source === settings.eventSource.languageUpdate) {
-                    CategorySvc.getCategoryById($scope.category.id).then(function (cat) {
-                        var parms = {};
-                        if (cat && cat.slug) {
-                            parms.catName = cat.slug;
-                        }
-                        $state.transitionTo('base.category', parms, {
-                            reload: true,
-                            inherit: true,
-                            notify: true
-                        });
-
-                    });
-                }
-
-            });
-
-            $scope.$on('$destroy', unbindCat);
 
             $scope.addMore = function () {
-                // category selected, but no products associated with category - leave blank for time being
-                if ($scope.category.elements && $scope.category.elements.length === 0) {
-                    $scope.products = [];
-                    $scope.pagination = {
-                        productsFrom: 0,
-                        productsTo: 0
-                    };
-                    $scope.total = 0;
-                    return;
-                }
 
                 // prevent additional API calls if all products are retrieved
                 // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
                 if (!GlobalData.products.meta.total || $scope.products.length < GlobalData.products.meta.total) {
                     if (!$scope.requestInProgress) {
                         $scope.pageNumber = $scope.pageNumber + 1;
-
-
-                        var qSpec = 'published:true';
-                        if ($scope.category.elements && $scope.category.elements.length > 0) {
-                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
-                        } // If no category elements (rather than length = 0), we're showing "all" products
-                        var query = {
-                            expand: 'media',
-                            // we only want to show published products on this list
-                            q: qSpec
-                        };
-
-                        if ($scope.sort) {
-                            query.sort = $scope.sort;
-                        }
 
                         $scope.requestInProgress = true;
 

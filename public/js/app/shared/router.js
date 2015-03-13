@@ -75,12 +75,6 @@ angular.module('ds.router', [])
                     resolve:{
                         searchString: function ($stateParams) {
                             return $stateParams.searchString;
-                        },
-                        category: function ($stateParams, CategorySvc, initialized) {
-                            if(initialized){
-                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
-                            }
-
                         }
                     }
 
