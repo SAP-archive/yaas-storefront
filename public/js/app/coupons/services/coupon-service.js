@@ -19,23 +19,20 @@ angular.module('ds.coupon')
     .factory('CouponSvc', ['$q', 'SiteConfigSvc', 'CouponREST', 'CartREST', 'GlobalData',
         function($q, siteConfig, CouponREST, CartREST, GlobalData){
 
-
         return {
-
             /**
              * Gets a coupon object as a response to user coupon entry code.
              * then validates that coupon, to either apply it to cart or invalidate it.
              */
-             validateCoupon: function( couponCode ) {
+             validateCoupon: function( couponCode, totalPrice ) {
                 var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            debugger;
-                            var discountAmount = (couponData.discountType === "ABSOLUTE") ? couponData.discountAbsolute.amount : 0;
-                            var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), 1000, discountAmount);
+                            var discountAmount = (couponData.discountType === "ABSOLUTE") ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice; //TODO: need api design change here
+                            var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), 1000, discountAmount); //TODO: need api design change here
                             // validate coupon
                             CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
                                     deferred.resolve(couponData);
@@ -61,9 +58,7 @@ angular.module('ds.coupon')
                 var couponCode = couponObj.code;
                 if (couponCode) {
                     var self = this;
-                    debugger;
-                    var discountAmount = (couponObj.discountType === "ABSOLUTE") ? couponObj.discountAbsolute.amount : 0;
-                    var couponRequest = this.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), cartTotal, discountAmount);
+                    var couponRequest = this.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), cartTotal, couponObj.amounts.discountAmount);
 
                     // redeem the currently valid coupon.
                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
@@ -87,7 +82,6 @@ angular.module('ds.coupon')
              },
 
             buildCouponCartRequest: function( couponObj, couponId, currencyType ){
-                debugger;
                 return {
                             'id': couponId,
                             'code': couponObj.code,
@@ -105,7 +99,6 @@ angular.module('ds.coupon')
             },
 
             buildCouponRequest: function( couponCode, currencyType, totalAmount, discountAmount ){
-                debugger;
                 return {
                         'orderCode': couponCode,
                         'orderTotal': {
