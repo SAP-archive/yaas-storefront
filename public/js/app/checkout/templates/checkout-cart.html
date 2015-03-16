@@ -1,4 +1,4 @@
-<div class="CheckoutCartContainer">
+<div class="CheckoutCartContainer" ng-controller="CouponCtrl">
 
     <h2>{{'ORDER_DETAILS' | translate}}
         <span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>
@@ -6,7 +6,7 @@
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value + shippingCost | currency: shippingCurrencySymbol}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value - coupon.amounts.discountAmount + shippingCost | currency: shippingCurrencySymbol}}</div>
     </section>
     <section class="cartItems" ng-cloak>
         <div ng-repeat="item in cart.items track by $index">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </section>
-    <section class="summary" ng-cloak ng-controller="CouponCtrl">
+    <section class="summary" ng-cloak>
         <!-- CHECKOUT-CART -->
         <table class="table">
             <tbody>
