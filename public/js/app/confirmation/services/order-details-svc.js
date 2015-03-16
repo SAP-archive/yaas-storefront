@@ -61,6 +61,8 @@ angular.module('ds.confirmation')
 
                     if (orderDetails.discounts) {
                         confirmationDetails.discounts = orderDetails.discounts;
+                    } else {
+                        confirmationDetails.discounts = [{amount:0}];
                     }
 
                     confirmationDetails.shippingAddressCityStateZip = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
