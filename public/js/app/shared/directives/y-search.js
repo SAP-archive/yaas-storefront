@@ -13,8 +13,9 @@
 'use strict';
 
 angular.module('ds.ysearch', ['algoliasearch'])
-    .directive('ysearch', ['ysearchSvc','$rootScope', function (ysearchSvc, $rootScope) {
+    .directive('ysearch', function () {
         return {
+            controller: 'ysearchController',
             restrict: 'E',
             scope: {
                 parametersToReturn: '=?returnParameters',
@@ -22,78 +23,76 @@ angular.module('ds.ysearch', ['algoliasearch'])
                 searchString: '=?searchString'
             },
             replace: true,
-            templateUrl: 'js/app/shared/templates/ysearch.html',
-            link: function (scope) {
+            templateUrl: 'js/app/shared/templates/ysearch.html'
+        };
+    });
 
-                if (!scope.page) {
-                    scope.page = 0;
+angular.module('ds.ysearch')
+    .controller('ysearchController', ['$scope', '$rootScope','ysearchSvc',function (scope,$rootScope,ysearchSvc) {
+
+        if (!scope.page) {
+            scope.page = 0;
+        }
+        if (!scope.searchString) {
+            scope.searchString = '';
+        }
+        scope.search = {
+            text: scope.searchString,
+            results: [],
+            numberOfHits: 0,
+            showSearchResults: false,
+            searchAvailable: true
+        };
+
+        scope.yglyphiconVisible = false;
+
+        //Init of algolia search service
+        scope.search.searchAvailable = ysearchSvc.init();
+
+        scope.showSearchResults = function () {
+
+            scope.search.showSearchResults = true;
+            if (scope.search.text !== '') {
+                if (scope.search.results.length === 0) {
+                    scope.doSearch(scope.search.text, 0);
                 }
-                if (!scope.searchString) {
-                    scope.searchString = '';
-                }
-                scope.search = {
-                    text: scope.searchString,
-                    results: [],
-                    numberOfHits: 0,
-                    showSearchResults: false,
-                    searchAvailable: true
-                };
+            }
+        };
 
-                scope.yglyphiconVisible = false;
+        scope.hideSearchResults = function () {
+            $rootScope.closeOffcanvas();
+            scope.search.showSearchResults = false;
+        };
 
-                //Init of algolia search service
-                scope.search.searchAvailable = ysearchSvc.init();
-
-
-                scope.showSearchResults = function () {
-
-                    scope.search.showSearchResults = true;
-                    if (scope.search.text !== '') {
-                        if (scope.search.results.length === 0) {
-                            scope.doSearch(scope.search.text, 0);
-                        }
-                    }
-                };
-
-                scope.hideSearchResults = function () {
-                    $rootScope.closeOffcanvas();
+        //Used for checking if the user left te search field
+        angular.element(document)
+            .bind('mouseup', function (e) {
+                var container = angular.element('.y-search');
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
                     scope.search.showSearchResults = false;
-                };
+                    //Used to apply changes for showSearchResults
+                    scope.$digest();
+                }
+            });
 
-                //Used for checking if the user left te search field
-
-                angular.element(document)
-                    .bind('mouseup', function (e) {
-                        var container = angular.element('.y-search');
-                        if (!container.is(e.target) && container.has(e.target).length === 0) {
-                            scope.search.showSearchResults = false;
-                            //Used to apply changes for showSearchResults
-                            scope.$digest();
+        scope.doSearch = function () {
+            scope.search.showSearchResults = true;
+            if (scope.search.text === '') {
+                scope.search.showSearchResults = false;
+                scope.search.results = [];
+                scope.search.numberOfHits = 0;
+            }
+            else {
+                ysearchSvc.getResults(scope.search.text, {hitsPerPage: 5, page: 0})
+                    .then(function (content) {
+                        if (content.query !== scope.search.text) {
+                            // do not take out-dated answers into account
+                            return;
                         }
+                        scope.search.numberOfHits = content.nbHits;
+                        scope.search.results = content.hits;
+                    }, function () {
                     });
-
-
-                scope.doSearch = function () {
-                    scope.search.showSearchResults = true;
-                    if (scope.search.text === '') {
-                        scope.search.showSearchResults = false;
-                        scope.search.results = [];
-                        scope.search.numberOfHits = 0;
-                    }
-                    else {
-                        ysearchSvc.getResults(scope.search.text, {hitsPerPage: 5, page: 0})
-                            .then(function (content) {
-                                if (content.query !== scope.search.text) {
-                                    // do not take out-dated answers into account
-                                    return;
-                                }
-                                scope.search.numberOfHits = content.nbHits;
-                                scope.search.results = content.hits;
-                                console.log(content.hits);
-                            }, function () {
-                            });
-                    }
-                };
             }
         };
     }]);

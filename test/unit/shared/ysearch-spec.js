@@ -12,22 +12,17 @@
 
 describe('ySearch Test', function () {
 
-    var $scope, $compile, $rootScope, $q, mockedYSearchService, searchResults, mockedGlobalData;
+    var $scope, $compile, $controller, $rootScope, $q;
     var $httpBackend;
-    mockedYSearchService = {
-
-    };
-    mockedGlobalData = {
-        search:{
-            algoliaKey:'simpleKey',
-            algoliaProject:'simpleProject'
-        },
-        store:{
-            tenant:'simpleTenant'
-        }
-    };
-
+    var mockedYSearchService = {};
     var templateHtml = '<div></div>';
+    var mockedGlobalData = {};
+    mockedGlobalData.store = {
+        tenant: 'tenant'
+    };
+    mockedGlobalData.search = {
+        algoliaKey: 'key'
+    };
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.ysearch'));
@@ -36,28 +31,23 @@ describe('ySearch Test', function () {
         $provide.value('GlobalData', mockedGlobalData);
     }));
 
-    beforeEach(inject(function($injector) {
+    beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
         $httpBackend.whenGET('js/app/shared/templates/ysearch.html').respond(200, templateHtml);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$compile_, _$q_){
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $compile = _$compile_;
-        $q = _$q_;
+        $controller = _$controller_('ysearchController', {
+            $scope: $scope
+        });
 
-        searchResults = {
-            hits: [
-                {'id': 'product1'},
-                {'id': 'product2'}]
+        mockedYSearchService.getResults = function () {
+
         };
-        deferredSearchResults = $q.defer();
-        deferredSearchResults.resolve(searchResults);
-
-        mockedYSearchService.getResults = jasmine.createSpy('getResults').andReturn(deferredSearchResults.promise);
-
-        mockedYSearchService.init = jasmine.createSpy('init').andReturn(true);
+        spyOn(mockedYSearchService, "getResults");
 
     }));
 
@@ -68,17 +58,34 @@ describe('ySearch Test', function () {
         $scope.$digest();
 
         $httpBackend.flush();
+        $controller = elem.controller;
+        $scope = elem.isolateScope();
 
         return compiledElem;
     }
 
-    it('should init algolia when element created', function () {
-
+    it("should not call ySearchSvc.doSearch when there is no search term provided", function () {
         var el = createYSearch();
         $scope.$digest();
 
-        expect(mockedYSearchService.init).toHaveBeenCalled();
+        $scope.search.text = '';
+        $scope.doSearch();
+        $scope.$digest();
+        expect(mockedYSearchService.getResults).not.toHaveBeenCalled();
     });
 
+    it("should show search results when there is search term", function () {
+        $scope.search.text = 'text';
+        $scope.doSearch();
+
+        expect($scope.search.showSearchResults).toEqual(true);
+    });
+
+    it("shouldn't show search results when there is no search term", function () {
+        $scope.search.text = '';
+        $scope.doSearch();
+
+        expect($scope.search.showSearchResults).toEqual(false);
+    });
 
 });
