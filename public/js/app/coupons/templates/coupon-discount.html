@@ -10,7 +10,7 @@
             <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
             </td>
             <td class="text-right">
-                {{cart.subTotalPrice.value - coupon.amounts.discountAmount| currency: currencySymbol}}
+                {{cart.subTotalPrice.value | currency: currencySymbol}}
             </td>
         </tr>
 

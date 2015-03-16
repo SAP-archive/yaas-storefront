@@ -29,12 +29,12 @@
         </div>
     </section>
     <section class="summary" ng-cloak ng-controller="CouponCtrl">
-    CHECKOUT-CART
+        <!-- CHECKOUT-CART -->
         <table class="table">
             <tbody>
                 <tr>
                     <td>{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
                 </tr>
                 <tr>
                     <td>{{'DISCOUNT' | translate}}</td>

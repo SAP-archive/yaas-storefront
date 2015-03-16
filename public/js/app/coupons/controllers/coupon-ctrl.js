@@ -27,14 +27,12 @@ angular.module('ds.coupon', [])
 
 
             $scope.applyCoupon = function(couponCode) {
-                debugger;
                 if(!$scope.checkAuthentication(couponCode)){
-                	return;
+                    return;
                 }
 
                 //call coupon service to get discount.
                 CouponSvc.getDiscount(couponCode).then(function (couponData) {
-                    debugger;
                     $scope.coupon = UserCoupon.setCoupon(couponData);
                     $scope.coupon.applied = true;
                     $scope.coupon.valid = true;
@@ -43,13 +41,11 @@ angular.module('ds.coupon', [])
                         $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
                     }
                     else if ( couponData.discountType === 'PERCENT' ) {
-                        debugger;
                         $scope.coupon.amounts.discountAmount = ( 0.01 * $scope.coupon.amounts.originalAmount * couponData.discountPercentage.amount);
                     }
 
                 }, function () {
-                    debugger;
-                    //Upstream error handling.
+                    //upstream error handling.
                     $scope.coupon.valid = false;
                 });
 

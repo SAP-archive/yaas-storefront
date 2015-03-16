@@ -32,6 +32,7 @@
 	</div>
 
 	<section class="summary" ng-hide="!cart.items.length" ng-controller="CouponCtrl">
+		<!-- CHECKOUT-EDIT-CART -->
 		<table class="table">
 			<thead>
 			<tr>
@@ -44,7 +45,7 @@
 		            <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
 		            </td>
 		            <td class="text-right">
-		                {{cart.subTotalPrice.value - coupon.amounts.discountAmount| currency: currencySymbol}}
+		                {{cart.subTotalPrice.value | currency: currencySymbol}}
 		            </td>
                 </tr>
                 <tr>
