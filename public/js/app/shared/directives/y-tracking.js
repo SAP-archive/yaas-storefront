@@ -15,7 +15,6 @@
 
 angular.module('ds.ytacking', [])
     //.constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
-    //.constant('yTrackingURL', ' https://api.yaas.io/piwik-service/defaultproj/events')
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking',['ytrackingSvc' ,'$rootScope' ,
         function(ytrackingSvc, $rootScope) {
@@ -38,30 +37,30 @@ angular.module('ds.ytacking', [])
                     ytrackingSvc.setCategoryViewed(path, obj.name);
                 });
 
-                $rootScope.$on('orderPlaced', function (arg, obj) {
-                    //Send ordered cart items to piwik
-                    for(var i = 0; i < obj.cart.items.length; i++){
-                        //sku, name, categoryName, unitPrice, amount
-                        var item = obj.cart.items[i];
-                        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
-                    }
+                ////For now we are just tracking "user viewed category/product"
+                //$rootScope.$on('orderPlaced', function (arg, obj) {
+                //    //Send ordered cart items to piwik
+                //    for(var i = 0; i < obj.cart.items.length; i++){
+                //        //sku, name, categoryName, unitPrice, amount
+                //        var item = obj.cart.items[i];
+                //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                //    }
+                //    //Send order details to piwik
+                //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                //});
 
-                    //Send order details to piwik
-                    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
-                });
-
-                $rootScope.$on('cart:updated', function (arg, obj) {
-                    ytrackingSvc.cartUpdated(obj.cart);
-                });
+                ///$rootScope.$on('cart:updated', function (arg, obj) {
+                ///    ytrackingSvc.cartUpdated(obj.cart);
+                ///});
             }
         };
     }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey','GlobalData', '$http', 'localStorage','$window','$timeout',
-        function (siteConfig, yTrackingLocalStorageKey, GlobalData, $http, localStorage, $window, $timeout) {
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage','$window','$timeout',
+        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout) {
 
             var url = siteConfig.apis.products.baseUrl;
 
-            //Private methods
+            //Create object from piwik GET request
             var getQueryParameters = function (hash) {
                 var split = hash.split('&');
 
@@ -73,7 +72,7 @@ angular.module('ds.ytacking', [])
                 return obj;
             };
 
-
+            //Function that process piwik requests
             var processRequest = function (e) {
                 //Make post request to service
                 makeRequest(e);
@@ -81,7 +80,7 @@ angular.module('ds.ytacking', [])
 
             var makeRequest = function (params) {
 
-                //get object from query parameters
+                //Get object from query parameters
                 var obj = getQueryParameters(params);
 
                 var req = {
@@ -108,9 +107,7 @@ angular.module('ds.ytacking', [])
                     });
             };
 
-
-            //Public methods
-
+            //Initialization of piwik
             var init = function () {
                 $window._paq = $window._paq || [];
 
@@ -124,16 +121,15 @@ angular.module('ds.ytacking', [])
                 //Set user id to equal the user token
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
-
                 $window._paq.push(['setTrackerUrl', url]);
                 $window._paq.push(['setSiteId', 1]);
-
 
                 $window._paq.push(['trackPageView']);
                 $window._paq.push(['enableLinkTracking']);
 
             };
 
+            //Method that is setting current url
             var setCustomUrl = function () {
                 if (!!$window._paq) {
                     $window._paq.push(['setCustomUrl', $window.document.URL]);
@@ -142,12 +138,12 @@ angular.module('ds.ytacking', [])
 
 
             var cartUpdated = function (cart) {
-
-                // add products to the order
+                //Add products to the order
                 if(!!cart.items) {
                     for (var i = 0; i < cart.items.length; i++) {
                         //sku, name, categoryName, unitPrice, amount
                         var item = cart.items[i];
+                        //Instead of id it should be sku of the product
                         addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
                     }
                 }
