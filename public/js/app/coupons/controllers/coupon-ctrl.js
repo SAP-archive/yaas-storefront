@@ -32,7 +32,7 @@ angular.module('ds.coupon', [])
                 }
 
                 //call coupon service to get discount.
-                CouponSvc.getDiscount(couponCode).then(function (couponData) {
+                CouponSvc.validateCoupon(couponCode).then(function (couponData) {
                     $scope.coupon = UserCoupon.setCoupon(couponData);
                     $scope.coupon.applied = true;
                     $scope.coupon.valid = true;

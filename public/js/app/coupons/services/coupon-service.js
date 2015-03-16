@@ -23,37 +23,23 @@ angular.module('ds.coupon')
         return {
 
             /**
-             * Make sure that the coupon code entered by the client can be actually used for the order.
-             * Returns a promise of the service result for upstream error handling.
+             * Gets a coupon object as a response to user coupon entry code.
+             * then validates that coupon, to either apply it to cart or invalidate it.
              */
              validateCoupon: function( couponCode ) {
+                var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
-                    var couponRequest = this.buildCouponRequest(couponCode);
-
-                    CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
-                            deferred.resolve();
-                        }, function (resp) {
-                            deferred.reject(resp);
-                        });
-                } else {
-                    deferred.reject();
-                }
-                return deferred.promise;
-             },
-
-            /**
-             * Retrieves coupon data for customer coupon application request.
-             * Returns a promise of the result.
-             */
-             getDiscount: function( couponCode ) {
-
-                var deferred = $q.defer();
-                if (couponCode) {
-                    //https://{domain}/coupon/v1/{tenant}/coupons/{code}
+                    // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            deferred.resolve(couponData);
+                            var couponRequest = self.buildCouponRequest(couponCode);
+                            // validate coupon
+                            CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
+                                    deferred.resolve(couponData);
+                                }, function (resp) {
+                                    deferred.reject(resp);
+                                });
                         }, function (resp) {
                             deferred.reject(resp);
                         });
@@ -64,27 +50,8 @@ angular.module('ds.coupon')
              },
 
             /**
-             * Retrieves coupon data for customer coupon application request.
-             * Returns a promise of the result.
-             */
-             getRedeemedCoupon: function( couponCode ) {
-                var deferred = $q.defer();
-                if (couponCode) {
-                    //https://{domain}/coupon/v1/{tenant}/coupons/{code}/redemptions
-                    CouponREST.Coupon.one('coupons', couponCode).customGET('redemptions').then(function (resp) {
-                            deferred.resolve(resp);
-                        }, function () {
-                            deferred.reject();
-                        });
-                } else {
-                    deferred.reject();
-                }
-                return deferred.promise;
-             },
-
-            /**
-             * Retrieves coupon data for customer coupon application request.
-             * Returns a promise of the result.
+             * Redeems a valid customer coupon, then posts it to the current cart, before final checkout.
+             * Checkout will fail if posted total and checkout total do not match.
              */
              redeemCoupon: function( couponObj, cartId ) {
 
@@ -94,11 +61,10 @@ angular.module('ds.coupon')
                     var self = this;
                     var couponRequest = this.buildCouponRequest(couponCode);
 
+                    // redeem the currently valid coupon.
                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
-
                         var couponId = resp.plain().id;
                         var couponCartRequest = self.buildCouponCartRequest(couponObj, couponId);
-
                         //  post coupon redemption to cart
                         CartREST.Cart.one('carts', cartId).customPOST( couponCartRequest, 'discounts').then(function () {
                                 deferred.resolve();
@@ -115,52 +81,6 @@ angular.module('ds.coupon')
                 }
                 return deferred.promise;
              },
-            /**
-             * Retrieves coupon data for customer coupon application request.
-             * Returns a promise of the result.
-             */
-             redeemCouponAtomic: function( couponCode ) {
-
-                var deferred = $q.defer();
-                if (couponCode) {
-                    var couponRequest = this.buildCouponRequest(couponCode);
-                    //https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
-                    CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function () {
-                            deferred.resolve();
-                        }, function () {
-                            deferred.reject();
-                        });
-                } else {
-                    deferred.reject();
-                }
-                return deferred.promise;
-             },
-
-            /**
-             * Retrieves coupon data for customer coupon application request.
-             * Returns a promise of the result.
-             */
-//              redeemCouponCart: function( couponCode, orderId ) {
-
-//                 var deferred = $q.defer();
-//                 if (couponCode) {
-//                     var couponRequest = this.buildCouponRequest(orderId);
-//                     https://api.yaas.io/coupon/v1/{tenant}/coupons/{code}/redemptions
-//                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
-//                             var response = resp.plain();
-//                             debugger;
-//                             deferred.resolve();
-//                         }, function () {
-//                             debugger;
-//                             deferred.reject();
-//                         });
-//                 } else {
-//                     debugger;
-//                     deferred.reject();
-//                 }
-//                 return deferred.promise;
-//              },
-
 
             buildCouponCartRequest: function( couponObj, couponId ){
                 return {
