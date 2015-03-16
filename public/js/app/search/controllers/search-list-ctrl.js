@@ -20,8 +20,7 @@ angular.module('ds.searchlist')
 
             $scope.searchString = searchString;
 
-            //$scope.pageSize = GlobalData.products.pageSize;
-            $scope.pageSize = 3;
+            $scope.pageSize = GlobalData.products.pageSize;
 
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;

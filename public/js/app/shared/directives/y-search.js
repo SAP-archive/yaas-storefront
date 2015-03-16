@@ -74,7 +74,6 @@ angular.module('ds.ysearch', ['algoliasearch'])
 
 
                 scope.doSearch = function () {
-
                     scope.search.showSearchResults = true;
                     if (scope.search.text === '') {
                         scope.search.showSearchResults = false;
@@ -100,20 +99,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     }]);
 
 angular.module('ds.ysearch')
-    .filter('highlight', function ($sce) {
-        return function (text, phrase) {
-            if (phrase && phrase.length > 1) {
-                //Find search string in text, g means look globally, i means make search case-insensitive,
-                // <em>$1</em> is the first found result inside <em> that replaces found phrase
-                text = text.replace(new RegExp('(' + phrase + ')', 'gi'), '<em>$1</em>');
-            }
-
-            return $sce.trustAsHtml(text);
-        };
-    });
-
-angular.module('ds.ysearch')
-    .factory('ysearchSvc', ['ConfigurationREST','algolia', 'SiteConfigSvc', 'GlobalData', function (ConfigurationREST, algolia, siteConfig, GlobalData) {
+    .factory('ysearchSvc', ['algolia', 'GlobalData', function (algolia, GlobalData) {
 
         var client, index;
 
