@@ -371,8 +371,8 @@ angular.module('ds.checkout')
                     $scope.order.cart = $scope.cart;
 
                     if(UserCoupon && UserCoupon.getCoupon().applied){
-                        /* Redeem Coupon */
-                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id).then(function () {
+                        // redeem coupon mashup
+                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
 
                             // update total with coupon applied.
                             $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
@@ -380,7 +380,7 @@ angular.module('ds.checkout')
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);
 
-                        }, function () {  //Upstream error handling.
+                        }, function () {  // upstream error handling.
                             $scope.message = 'COUPON_ERROR';
                             $scope.submitIsDisabled = false;
                             modal.close(); // stop loading indicator.
