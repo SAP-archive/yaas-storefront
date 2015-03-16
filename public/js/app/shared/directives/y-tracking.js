@@ -12,9 +12,17 @@
 
 'use strict';
 
+/*
+* In order to test this with PIWIK:
+* 1. Comment var url = siteConfig.apis.tracking.baseUrl; and comment out //var url = 'https://nemanjapopovic.piwikpro.com/piwik.php';
+* 2. Comment out  //$window._paq.push(['setRequestMethod', 'POST']); and comment $window._paq.push(['setCustomRequestProcessing', processRequest]);
+* 3. go to: https://nemanjapopovic.piwik.pro/index.php,
+* log in as nemanja.popovic01@sap.com
+* go to visitors, visitor log
+* 4. Navigate over store (categories and products)
+* 5. Check piwik visitor log if the events are logged there*/
 
 angular.module('ds.ytacking', [])
-    //.constant('yTrackingURL', 'https://nemanjapopovic.piwikpro.com/piwik.php')
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking',['ytrackingSvc' ,'$rootScope' ,
         function(ytrackingSvc, $rootScope) {
@@ -58,7 +66,10 @@ angular.module('ds.ytacking', [])
     .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage','$window','$timeout',
         function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout) {
 
-            var url = siteConfig.apis.products.baseUrl;
+            //Storks
+            var url = siteConfig.apis.tracking.baseUrl;
+            //Demo piwik
+            //var url = 'https://nemanjapopovic.piwikpro.com/piwik.php';
 
             //Create object from piwik GET request
             var getQueryParameters = function (hash) {
@@ -111,7 +122,9 @@ angular.module('ds.ytacking', [])
             var init = function () {
                 $window._paq = $window._paq || [];
 
+                //Demo piwik
                 //$window._paq.push(['setRequestMethod', 'POST']);
+                //Storks
                 $window._paq.push(['setCustomRequestProcessing', processRequest]);
 
 
@@ -215,7 +228,6 @@ angular.module('ds.ytacking', [])
                 }
             };
 
-            //trackEvent(category, action, [name], [value])
             var trackEvent = function (category, action, name, value) {
                 if (!!$window._paq) {
                     $window._paq.push(['trackEvent',
