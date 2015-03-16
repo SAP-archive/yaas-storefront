@@ -150,7 +150,7 @@
                     <tr ng-controller="CouponCtrl">
                         <td>{{'DISCOUNT' | translate}}</td>
                         <td class="text-right" style="color:red">
-                            -{{ order.discounts[0].amount | currency: currencySymbol}}
+                            -{{ order.discounts[0].amount || 0 | currency: currencySymbol}}
                         </td>
                     </tr>
                     </tbody>
