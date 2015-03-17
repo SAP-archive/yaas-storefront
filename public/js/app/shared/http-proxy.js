@@ -49,11 +49,12 @@ angular.module('ds.http-proxy', [])
                     document.body.style.cursor = 'auto';
 
                     if (response.status === 401) {
-                        // 401 on login means wrong password - requires user action
+                        //Check if project is subscribed to piwik service
                         if (response.config.url.indexOf('piwik-service') > -1) {
                             GlobalData.piwik.enabled = false;
                         }
                         else {
+                            // 401 on login means wrong password - requires user action
                             if (response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0) {
                                 // remove any existing token, as it appears to be invalid
                                 TokenSvc.unsetToken();

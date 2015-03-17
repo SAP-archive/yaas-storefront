@@ -12,16 +12,6 @@
 
 'use strict';
 
-/*
-* In order to test this with PIWIK:
-* 1. Comment var url = siteConfig.apis.tracking.baseUrl; and comment out //var url = 'https://nemanjapopovic.piwikpro.com/piwik.php';
-* 2. Comment out  //$window._paq.push(['setRequestMethod', 'POST']); and comment $window._paq.push(['setCustomRequestProcessing', processRequest]);
-* 3. go to: https://nemanjapopovic.piwik.pro/index.php,
-* log in as nemanja.popovic01@sap.com
-* go to visitors, visitor log
-* 4. Navigate over store (categories and products)
-* 5. Check piwik visitor log if the events are logged there*/
-
 angular.module('ds.ytacking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking', ['ytrackingSvc', '$rootScope',
@@ -35,14 +25,14 @@ angular.module('ds.ytacking', [])
 
                     //Handlers for events
                     $rootScope.$on('productLoaded', function (arg, obj) {
-                        ytrackingSvc.setProductViewed(obj.sku, obj.name, !!obj.richCategory ? obj.richCategory.name : '', obj.defaultPrice.value);
+                        ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.id : '', obj.defaultPrice.value);
                     });
                     $rootScope.$on('categoryLoaded', function (arg, obj) {
                         var path = [];
                         for (var i = 0; i < obj.path.length; i++) {
-                            path.push(obj.path[i].name);
+                            path.push(obj.path[i].id);
                         }
-                        ytrackingSvc.setCategoryViewed(path, obj.name);
+                        ytrackingSvc.setCategoryViewed(path);
                     });
 
                     ////For now we are just tracking "user viewed category/product"
@@ -57,19 +47,17 @@ angular.module('ds.ytacking', [])
                     //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
                     //});
 
-                    ///$rootScope.$on('cart:updated', function (arg, obj) {
-                    ///    ytrackingSvc.cartUpdated(obj.cart);
-                    ///});
+                    //$rootScope.$on('cart:updated', function (arg, obj) {
+                    //    ytrackingSvc.cartUpdated(obj.cart);
+                    //});
                 }
             };
         }])
     .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
         function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
 
-            //Storks
+            //Url for piwik service
             var url = siteConfig.apis.tracking.baseUrl;
-            //Demo piwik
-            //var url = 'https://nemanjapopovic.piwikpro.com/piwik.php';
 
             //Create object from piwik GET request
             var getQueryParameters = function (hash) {
@@ -128,11 +116,8 @@ angular.module('ds.ytacking', [])
             var init = function () {
                 $window._paq = $window._paq || [];
 
-                //Demo piwik
-                //$window._paq.push(['setRequestMethod', 'POST']);
-                //Storks
+                //Make requests to service custom
                 $window._paq.push(['setCustomRequestProcessing', processRequest]);
-
 
                 //Set document title
                 $window._paq.push(['setDocumentTitle', $window.document.title.toString()]);
@@ -162,12 +147,11 @@ angular.module('ds.ytacking', [])
                     for (var i = 0; i < cart.items.length; i++) {
                         //sku, name, categoryName, unitPrice, amount
                         var item = cart.items[i];
-                        //Instead of id it should be sku of the product
                         addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
                     }
                 }
 
-                // Records the cart for this visit
+                //Records the cart for this visit
                 $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
                 $window._paq.push(['trackPageView', 'CartUpdated']);
             };
@@ -195,7 +179,6 @@ angular.module('ds.ytacking', [])
                         isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
                     ]);
 
-
                     $window._paq.push(['trackPageView', 'OrderPlaced']);
                 }
             };
@@ -207,13 +190,13 @@ angular.module('ds.ytacking', [])
                         setCustomUrl();
 
                         $window._paq.push(['setEcommerceView',
-                            sku, // (required) SKU: Product unique identifier
-                            name, // (optional) Product name
-                            category, // (optional) Product category, or array of up to 5 categories
-                            price // (optional) Product Price as displayed on the page
+                            sku, //(required) SKU: Product unique identifier
+                            name, //(optional) Product name
+                            category, //(optional) Product category, or array of up to 5 categories
+                            price //(optional) Product Price as displayed on the page
                         ]);
-                        $window._paq.push(['trackPageView', 'ViewProduct']);
 
+                        $window._paq.push(['trackPageView', 'ViewProduct']);
                     });
                 }
             };
@@ -225,10 +208,11 @@ angular.module('ds.ytacking', [])
                         setCustomUrl();
 
                         $window._paq.push(['setEcommerceView',
-                            false, // No product on Category page
-                            false, // No product on Category page
+                            false, //No product on Category page
+                            false, //No product on Category page
                             categoryPage // Category Page, or array of up to 5 categories
                         ]);
+
                         $window._paq.push(['trackPageView', 'ViewCategory']);
                     });
                 }
@@ -242,10 +226,10 @@ angular.module('ds.ytacking', [])
                         name,
                         value
                     ]);
+
                     $window._paq.push(['trackPageView', 'trackEvent']);
                 }
             };
-
 
             return {
                 cartUpdated: cartUpdated,
