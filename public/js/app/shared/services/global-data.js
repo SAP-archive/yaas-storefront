@@ -130,6 +130,10 @@ angular.module('ds.shared')
                     username: null
                 },
 
+                piwik:{
+                    enabled: true
+                },
+
                 /** Returns the currency symbol of the active currency.*/
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;

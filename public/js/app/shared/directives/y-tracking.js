@@ -24,47 +24,47 @@
 
 angular.module('ds.ytacking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
-    .directive('ytracking',['ytrackingSvc' ,'$rootScope' ,
-        function(ytrackingSvc, $rootScope) {
-        return {
-            restrict: 'A',
-            compile: function () {
+    .directive('ytracking', ['ytrackingSvc', '$rootScope',
+        function (ytrackingSvc, $rootScope) {
+            return {
+                restrict: 'A',
+                compile: function () {
 
-                //Init tracking
-                ytrackingSvc.init();
+                    //Init tracking
+                    ytrackingSvc.init();
 
-                //Handlers for events
-                $rootScope.$on('productLoaded', function (arg, obj) {
-                    ytrackingSvc.setProductViewed(obj.sku, obj.name, !!obj.richCategory ? obj.richCategory.name : '', obj.defaultPrice.value);
-                });
-                $rootScope.$on('categoryLoaded', function (arg, obj) {
-                    var path = [];
-                    for(var i = 0; i < obj.path.length; i++){
-                        path.push(obj.path[i].name);
-                    }
-                    ytrackingSvc.setCategoryViewed(path, obj.name);
-                });
+                    //Handlers for events
+                    $rootScope.$on('productLoaded', function (arg, obj) {
+                        ytrackingSvc.setProductViewed(obj.sku, obj.name, !!obj.richCategory ? obj.richCategory.name : '', obj.defaultPrice.value);
+                    });
+                    $rootScope.$on('categoryLoaded', function (arg, obj) {
+                        var path = [];
+                        for (var i = 0; i < obj.path.length; i++) {
+                            path.push(obj.path[i].name);
+                        }
+                        ytrackingSvc.setCategoryViewed(path, obj.name);
+                    });
 
-                ////For now we are just tracking "user viewed category/product"
-                //$rootScope.$on('orderPlaced', function (arg, obj) {
-                //    //Send ordered cart items to piwik
-                //    for(var i = 0; i < obj.cart.items.length; i++){
-                //        //sku, name, categoryName, unitPrice, amount
-                //        var item = obj.cart.items[i];
-                //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
-                //    }
-                //    //Send order details to piwik
-                //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
-                //});
+                    ////For now we are just tracking "user viewed category/product"
+                    //$rootScope.$on('orderPlaced', function (arg, obj) {
+                    //    //Send ordered cart items to piwik
+                    //    for(var i = 0; i < obj.cart.items.length; i++){
+                    //        //sku, name, categoryName, unitPrice, amount
+                    //        var item = obj.cart.items[i];
+                    //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                    //    }
+                    //    //Send order details to piwik
+                    //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                    //});
 
-                ///$rootScope.$on('cart:updated', function (arg, obj) {
-                ///    ytrackingSvc.cartUpdated(obj.cart);
-                ///});
-            }
-        };
-    }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage','$window','$timeout',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout) {
+                    ///$rootScope.$on('cart:updated', function (arg, obj) {
+                    ///    ytrackingSvc.cartUpdated(obj.cart);
+                    ///});
+                }
+            };
+        }])
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
+        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
 
             //Storks
             var url = siteConfig.apis.tracking.baseUrl;
@@ -86,7 +86,13 @@ angular.module('ds.ytacking', [])
             //Function that process piwik requests
             var processRequest = function (e) {
                 //Make post request to service
-                makeRequest(e);
+                if (GlobalData.piwik.enabled) {
+                    makeRequest(e);
+                }
+                else {
+                    //Save to localstorage for later
+                    localStorage.addItemToArray(yTrackingLocalStorageKey, e);
+                }
             };
 
             var makeRequest = function (params) {
@@ -152,7 +158,7 @@ angular.module('ds.ytacking', [])
 
             var cartUpdated = function (cart) {
                 //Add products to the order
-                if(!!cart.items) {
+                if (!!cart.items) {
                     for (var i = 0; i < cart.items.length; i++) {
                         //sku, name, categoryName, unitPrice, amount
                         var item = cart.items[i];

@@ -15,8 +15,8 @@
 angular.module('ds.http-proxy', [])
 
        /** Defines the HTTP interceptors. */
-    .factory('interceptor', ['$q', '$injector', 'settings','TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
-        function ($q, $injector, settings,  TokenSvc, httpQueue, GlobalData, siteConfig) {
+    .factory('interceptor', ['$q', '$injector', 'settings', 'TokenSvc', 'httpQueue', 'GlobalData', 'SiteConfigSvc',
+        function ($q, $injector, settings, TokenSvc, httpQueue, GlobalData, siteConfig) {
 
             return {
                 request: function (config) {
@@ -37,7 +37,7 @@ angular.module('ds.http-proxy', [])
                     }
                     return config || $q.when(config);
                 },
-                requestError: function(request){
+                requestError: function (request) {
                     document.body.style.cursor = 'auto';
                     return $q.reject(request);
                 },
@@ -50,29 +50,34 @@ angular.module('ds.http-proxy', [])
 
                     if (response.status === 401) {
                         // 401 on login means wrong password - requires user action
-                        if(response.config.url.indexOf('login')<0 && response.config.url.indexOf('password/change')<0) {
-                            // remove any existing token, as it appears to be invalid
-                            TokenSvc.unsetToken();
-                            var $state = $injector.get('$state');
-                            // if current state requires authentication, prompt user to sign in and reload state
-                            if ($state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated') {
-                                $injector.get('AuthDialogManager').open({}, {}, {});
-                            } else {
-                                // else, retry http request - new anonymous token will be triggered automatically
-                                // issue request to get token (async) and "save" http request
-                                $injector.get('AnonAuthSvc').getToken();
-                                var deferred = $q.defer();
-                                httpQueue.appendRejected(response.config, deferred);
-                                return deferred.promise;
+                        if (response.config.url.indexOf('piwik-service') > -1) {
+                            GlobalData.piwik.enabled = false;
+                        }
+                        else {
+                            if (response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0) {
+                                // remove any existing token, as it appears to be invalid
+                                TokenSvc.unsetToken();
+                                var $state = $injector.get('$state');
+                                // if current state requires authentication, prompt user to sign in and reload state
+                                if ($state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated') {
+                                    $injector.get('AuthDialogManager').open({}, {}, {});
+                                } else {
+                                    // else, retry http request - new anonymous token will be triggered automatically
+                                    // issue request to get token (async) and "save" http request
+                                    $injector.get('AnonAuthSvc').getToken();
+                                    var deferred = $q.defer();
+                                    httpQueue.appendRejected(response.config, deferred);
+                                    return deferred.promise;
+                                }
+                            } else if (response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0) {
+                                // show error view
+                                $injector.get('$state').go('errors', { errorId: '401' });
                             }
-                        } else if ( response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0){
-                            // show error view
-                            $injector.get('$state').go('errors', { errorId : '401' });
                         }
 
-                    } else if(response.status === 403){
+                    } else if (response.status === 403) {
                         // if 403 during login, should already be handled by auth dialog controller
-                        if(response.config.url.indexOf('login')<0) {
+                        if (response.config.url.indexOf('login') < 0) {
                             // using injector lookup to prevent circular dependency
                             var AuthSvc = $injector.get('AuthSvc');
                             if (AuthSvc.isAuthenticated()) {
@@ -83,15 +88,15 @@ angular.module('ds.http-proxy', [])
                                 // User is not authenticated - make them log in and reload the current state
                                 $injector.get('AuthDialogManager').open({}, {}, {}).then(
                                     // success scenario handled as part of "logged in" workflow
-                                    function(){},
-                                function(){ // on dismiss, re-route to home page
+                                    function () { },
+                                function () { // on dismiss, re-route to home page
                                     $injector.get('$state').go(settings.homeState);
                                 });
                             }
                         }
-                    } else if(response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0 ){
-                        $injector.get('$state').go('errors', { errorId : '404' });
-                    } else if(response.status === 500){
+                    } else if (response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0) {
+                        $injector.get('$state').go('errors', { errorId: '404' });
+                    } else if (response.status === 500) {
                         //show error view with default message.
                         $injector.get('$state').go('errors');
                     }
