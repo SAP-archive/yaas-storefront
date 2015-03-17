@@ -31,20 +31,36 @@ describe('Coupon Service Test:', function () {
             }
         };
     var UserCoupon = {};
+    var storeTenant = '121212';
+    var eng = 'English';
+    var usd = 'US Dollar';
+    var mockedGlobalData = {
+        store: {tenant: storeTenant},
+        setLanguage: jasmine.createSpy('setLanguage'),
+        setCurrency: jasmine.createSpy('setCurrency'),
+        getLanguageCode: function(){ return null},
+        getCurrencyId: function() { return null},
+        getCurrencySymbol: function () {return '$'},
+        getAvailableLanguages: function() { return [{id:'en', label:eng}]},
+        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]},
+        getCurrency: function() { return null},
+        addresses:  {
+            meta: {
+                total: 0
+            }
+        }
+    };
 
     beforeEach(module('ds.cart', function ($provide) {
-        // $provide.value('$translate', mockedTranslate);
-        // $provide.value('$state', mockedState);
     }));
 
     beforeEach(module('ds.coupon', function ($provide) {
-        // $provide.value('$translate', mockedTranslate);
-        // $provide.value('$state', mockedState);
     }));
 
     beforeEach(function() {
         module('ds.shared', function ($provide) {
             $provide.constant('appConfig', {} );
+            $provide.value('GlobalData', mockedGlobalData);
         });
     });
 

@@ -93,8 +93,8 @@ describe('OrderDetailSvc Test', function () {
         });
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressName: 'Acme, Inc.', shippingAddressStreetLine1: '1 Marienplatz a',
-            shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
+            shippingAddressStreetLine2: 'Apt 1', discounts : [ { amount : 0 } ], shippingAddressCityStateZip: 'Munich, Bavaria 80538',
+            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ], currency : undefined});
 
         /*
          test with name instead of company
@@ -111,7 +111,7 @@ describe('OrderDetailSvc Test', function () {
         });
         $httpBackend.flush();
         expect(result).toEqualData({shippingAddressName: 'Michael Jordan', shippingAddressStreetLine1: '1 Marienplatz a',
-            shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
+            shippingAddressStreetLine2: 'Apt 1', discounts : [ { amount : 0 } ], shippingAddressCityStateZip: 'Munich, Bavaria 80538',
+            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ], currency : undefined});
     });
 });
