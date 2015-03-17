@@ -30,7 +30,7 @@ angular.module('ds.shared')
                     var key = null;
                     var value = null;
 
-                    ConfigurationREST.Config.one('configurations/algolia_key').get().then(function (result) {
+                    ConfigurationREST.Config.one('configurations', 'algolia_key').get().then(function (result) {
                         GlobalData.search.algoliaKey = result.value;
                     });
 
