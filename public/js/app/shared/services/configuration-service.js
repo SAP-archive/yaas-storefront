@@ -26,20 +26,17 @@ angular.module('ds.shared')
              * Returns promise once done.
              */
             function loadConfiguration() {
-                var configPromise = ConfigurationREST.Config.one('configurations').get().then(function (result) {
+
+                //Temporary solution to get all configurations, before the page size was 16 so sometimes we were missing algolia_key for example
+                var configPromise = ConfigurationREST.Config.one('configurations').get({ pageSize: 100 }).then(function (result) {
                     var key = null;
                     var value = null;
 
-                    ConfigurationREST.Config.one('configurations', 'algolia_key').get().then(function (result) {
-                        GlobalData.search.algoliaKey = result.value;
-                    });
-
-
-                    for (var i=0,  tot=result.length; i < tot; i++) {
+                    for (var i = 0, tot = result.length; i < tot; i++) {
                         var entry = result[i];
-                        key =  entry.key;
+                        key = entry.key;
                         value = entry.value;
-                        if(key === settings.configKeys.stripeKey) {
+                        if (key === settings.configKeys.stripeKey) {
                             /* jshint ignore:start */
                             Stripe.setPublishableKey(value);
                             /* jshint ignore:end */
@@ -50,12 +47,15 @@ angular.module('ds.shared')
                             GlobalData.store.logo = value;
                         } else if (key === settings.configKeys.storeCurrencies) {
                             GlobalData.setAvailableCurrencies(JSON.parse(value));
-                        } else if (key === settings.configKeys.storeLanguages){
+                        } else if (key === settings.configKeys.storeLanguages) {
                             GlobalData.setAvailableLanguages(JSON.parse(value));
                         } else if (key === settings.configKeys.fbAppIdKey) {
                             settings.facebookAppId = value;
-                        } else if (key === settings.configKeys.googleClientId){
+                        } else if (key === settings.configKeys.googleClientId) {
                             settings.googleClientId = value;
+                        }
+                        else if (key === 'algolia_key') {
+                            GlobalData.search.algoliaKey = value;
                         }
                     }
 
@@ -100,19 +100,19 @@ angular.module('ds.shared')
                                     if (!currencySet) {
                                         GlobalData.loadInitialCurrency();
                                     }
-                                    CategorySvc.getCategories().then(function(){
+                                    CategorySvc.getCategories().then(function () {
                                         def.resolve({});
                                     });
 
                                     return account;
-                                }).then(function(account){
+                                }).then(function (account) {
                                     CartSvc.refreshCartAfterLogin(account.id);
                                 });
                             } else {
                                 GlobalData.loadInitialLanguage();
                                 GlobalData.loadInitialCurrency();
 
-                                CategorySvc.getCategories().then(function(){
+                                CategorySvc.getCategories().then(function () {
                                     def.resolve({});
                                 });
                                 CartSvc.getCart(); // no need to wait for cart promise to resolve

@@ -17,8 +17,7 @@ describe('ConfigurationSvc Test', function () {
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
-            setAvailableLanguages: jasmine.createSpy(),
-            search:{}
+            setAvailableLanguages: jasmine.createSpy()
         };
     var storeName = 'Sushi Store';
     var logoUrl = 'http://media/logo.jpg';
@@ -67,7 +66,7 @@ describe('ConfigurationSvc Test', function () {
             $httpBackend = _$httpBackend_;
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
-            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations';
+            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
             $q = _$q_;
             settings = _settings_;
         });
@@ -79,7 +78,6 @@ describe('ConfigurationSvc Test', function () {
 
         beforeEach(function(){
             $httpBackend.expectGET(configurationsUrl).respond(200, mockedStoreConfig);
-            $httpBackend.expectGET(configurationsUrl + '/algolia_key').respond(200, { key: 'algolia_key', value: '123' });
             catDef = $q.defer();
             mockedCategorySvc.getCategories = jasmine.createSpy('getCategories').andCallFake(function(){
                 return catDef.promise;
