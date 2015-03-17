@@ -48,7 +48,7 @@ angular.module('ds.shared')
                 },
 
                 categories: {
-                    baseUrl: 'https://' + apiPath + '/category/v2/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/category/v3/' + tenantId
                 },
 
                 checkout: {
