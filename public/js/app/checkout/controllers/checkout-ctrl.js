@@ -327,10 +327,17 @@ angular.module('ds.checkout')
                 modal.close();
             }
 
+            /* handles successful coupon checkout */
             var couponSuccessHandler = function goToConfirmationPage(order) {
                 // clear coupon object.
                 UserCoupon.setBlankCoupon();
                 checkoutSuccessHandler(order);
+            };
+
+            /** handles a failed coupon checkout. */
+            var couponErrorHandler = function handleCheckoutError(error) {
+                $scope.order.cart.totalPrice.value += UserCoupon.getCoupon().amounts.discountAmount;
+                checkoutErrorHandler(error);
             };
 
             /** Advances the application state to the confirmation page. */
@@ -380,7 +387,7 @@ angular.module('ds.checkout')
                             console.log('New total value: ', $scope.order.cart.totalPrice.value);
 
                             // proceed with checkout now that coupon is applied.
-                            CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);
+                            CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 
                         }, function () {  // upstream error handling.
                             $scope.message = 'COUPON_ERROR';
