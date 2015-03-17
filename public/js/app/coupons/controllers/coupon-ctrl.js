@@ -30,9 +30,10 @@ angular.module('ds.coupon', [])
                 if(!$scope.checkAuthentication(couponCode)){
                     return;
                 }
-
+                console.log('Applying totalPrice: ',$scope.cart.totalPrice.value);
+                var totalPrice = $scope.cart.totalPrice.value;
                 //call coupon service to get discount.
-                CouponSvc.validateCoupon(couponCode, $scope.cart.totalPrice.value).then(function (couponData) {
+                CouponSvc.validateCoupon(couponCode, totalPrice).then(function (couponData) {
                     $scope.coupon = UserCoupon.setCoupon(couponData);
                     $scope.coupon.applied = true;
                     $scope.coupon.valid = true;
@@ -41,15 +42,14 @@ angular.module('ds.coupon', [])
                         $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
                     }
                     else if ( couponData.discountType === 'PERCENT' ) {
-                        // have to round percentage here in order to match service api discount comparison validation.
+                        // must round percentage here in order to match service api discount comparison validation.
                         $scope.coupon.amounts.discountAmount = parseFloat( 0.01 * couponData.discountPercentage * $scope.cart.totalPrice.value).toFixed(2);
                     }
-
+                    console.log('Applied totalPrice: ',$scope.cart.totalPrice.value);
                 }, function () {
                     //upstream error handling.
                     $scope.coupon.valid = false;
                 });
-
             };
 
             $scope.removeCoupon = function() {

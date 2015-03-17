@@ -375,7 +375,9 @@ angular.module('ds.checkout')
                         CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
 
                             // update total with coupon applied.
+                            console.log('Applying coupon: ',UserCoupon.getCoupon().amounts.discountAmount, ', to: ',$scope.order.cart.totalPrice.value );
                             $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
+                            console.log('New total value: ', $scope.order.cart.totalPrice.value);
 
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, checkoutErrorHandler);

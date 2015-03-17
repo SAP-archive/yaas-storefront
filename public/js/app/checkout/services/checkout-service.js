@@ -131,6 +131,7 @@ angular.module('ds.checkout')
                 newOrder.shippingCost = order.shippingCost;
 
                 newOrder.totalPrice =  order.cart.totalPrice.value;
+                debugger;
                 newOrder.addresses = [];
                 var billTo = {};
                 billTo.contactName = order.billTo.contactName;

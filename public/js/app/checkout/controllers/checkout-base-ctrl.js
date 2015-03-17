@@ -37,6 +37,7 @@ angular.module('ds.checkout')
                     //Check if the subtotal value when opened edit cart is the different when closed
                     // (there are changes to cart)
                     CartSvc.getCart().then(function (cart){
+                        debugger;
                         if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
                             //call method that will check if needed to redirect to step2 in mobile
 
