@@ -8282,6 +8282,9 @@ section .hero-unit {
   font-size: 16px;
   text-transform: uppercase;
 }
+.checkout .confirm .step-detail .couponWrap {
+  padding: 15px;
+}
 #place-order-btn {
   background-color: #20c909;
   border-color: #20c909;
@@ -8324,6 +8327,15 @@ section .hero-unit {
 }
 .step-4 #checkout-cart-btn {
   margin-right: 0;
+}
+.couponApplyContainer {
+  padding: 15px 0 40px 15px;
+}
+.couponApplyContainer input {
+  width: 350px;
+}
+.couponApplyContainer .couponInputBtn {
+  height: 34px;
 }
 .confirm {
   text-align: center;
@@ -8840,6 +8852,11 @@ body {
 }
 body.fixedLayout {
   overflow-y: hidden !important;
+}
+table .error {
+  background-color: transparent;
+  padding: 0;
+  font-weight: normal;
 }
 input[type='number'] {
   -moz-appearance: textfield;

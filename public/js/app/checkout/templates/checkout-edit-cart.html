@@ -67,8 +67,8 @@
 	<section>
 				<!-- Cart Item -->
 	<div ng-repeat="item in cart.items">
-		<div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
-			{{'CART_ITEM_UPDATE_ERROR' | translate}}
+		<div ng-if="item.error" class="error col-xs-12 col-md-12" >
+			<span class="error">{{'CART_ITEM_UPDATE_ERROR' | translate}}</span>
 		</div>
 		<div class="cart-item row">
 			<div class="col-xs-4 col-md-4 text-center img-col">

@@ -1,20 +1,22 @@
-<a class="highlight" ng-click="couponCollapsed = !couponCollapsed">{{'COUPON_CODE' | translate}}</a>
-<div ng-show="!couponCollapsed || coupon.applied">
-    <div ng-if="!coupon.valid" style="color:red">
-    	{{coupon.message.error}}
-    </div>
-    <input type="text" class="form-control pull-left" ng-model='coupon.code' ng-disabled="coupon.applied" style="width:350px">
-    <button class="btn btn-primary btn-sm pull-right" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
-    {{'APPLY' | translate}}
-    </button>
-</div>
-<div ng-if="coupon.applied">
-	<div class="col-xs-8 col-md-8 img-col">
-		{{coupon.code}} : {{coupon.message.success}}
-		<button ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-	</div>
-</div>
+<div class="couponApplyContainer">
 
-<br/>
-<br/>
-<br/>
+        <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!coupon.applied">{{'COUPON_CODE' | translate}}</a>
+
+    <div ng-show="!couponCollapsed && !coupon.applied">
+        <div ng-if="!coupon.valid" class="error">
+            {{coupon.message.error}}
+        </div>
+        <input type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="coupon.applied">
+        <button class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
+        {{'APPLY' | translate}}
+        </button>
+    </div>
+    <div ng-if="coupon.applied" class="row">
+        
+        <div class="col-xs-8 col-md-8 img-col">
+            {{coupon.code}} : {{coupon.message.success}}
+            <button ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+        </div>
+    </div>
+
+</div>
