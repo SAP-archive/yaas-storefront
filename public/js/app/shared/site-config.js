@@ -22,75 +22,76 @@ angular.module('ds.shared')
 /** Acts as URL provider for service API's. */
     .provider('SiteConfigSvc', [
 
-        function SiteConfigSvcProvider(storeConfig) {
+        function SiteConfigSvcProvider(appConfig) {
 
-            // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            var dynamicDomain = /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
-
-            var tenantId = '';
+            var apiPath, tenantId = '';
 
             // handle dynamic tenant data.
-            if(!_.isEmpty(storeConfig) && !_.isEmpty(storeConfig.storeTenant)) {
-                tenantId = storeConfig.storeTenant;
+            if (!_.isEmpty(appConfig) && !_.isEmpty(appConfig.storeTenant())) {
+                tenantId = appConfig.storeTenant();
+            }
+            // handle dynamic domain data.
+            if (!_.isEmpty(appConfig) && !_.isEmpty(appConfig.dynamicDomain())) {
+                apiPath = appConfig.dynamicDomain();
             }
 
             this.apis = {
                 account: {
-                    baseUrl: 'https://' + dynamicDomain + '/account/v1',
+                    baseUrl: 'https://' + apiPath + '/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
                 },
 
                 cart: {
-                    baseUrl: 'https://' + dynamicDomain + '/cart/v5/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/cart/v5/' + tenantId
                 },
 
                 categories: {
-                    baseUrl: 'https://' + dynamicDomain + '/category/v2/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/category/v2/' + tenantId
                 },
 
                 checkout: {
-                    baseUrl: 'https://' + dynamicDomain + '/checkout-mashup/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/checkout-mashup/v4/' + tenantId
                 },
 
                 configuration: {
-                    baseUrl: 'https://' + dynamicDomain + '/configuration/v4/' + tenantId
-                } ,
+                    baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
+                },
 
                 customers: {
-                    baseUrl: 'https://' + dynamicDomain + '/customer/v6/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/customer/v6/' + tenantId
                 },
 
                 orders: {
-                    baseUrl: 'https://' + dynamicDomain + '/order/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/order/v4/' + tenantId
                 },
 
                 prices: {
-                    baseUrl: 'https://' + dynamicDomain + '/price/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/price/v4/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://' + dynamicDomain + '/product/v3/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/product/v3/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + dynamicDomain + '/product-details/v3/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/product-details/v3/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + dynamicDomain + '/shipping-cost/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/shipping-cost/v4/' + tenantId
                 },
 
-                tracking:{
+                tracking: {
                     baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
                 }
             };
 
-            this.$get = ['storeConfig',
-                function(storeConfig) {
-                    return new SiteConfigSvcProvider(storeConfig);
+            this.$get = ['appConfig',
+                function (appConfig) {
+                    return new SiteConfigSvcProvider(appConfig);
                 }
             ];
 

@@ -20,7 +20,7 @@ angular.module('ds.auth')
             var authDialog;
 
             function closeDialog(){
-                if (authDialog ) {
+                if (authDialog) {
                     try {
                         authDialog.close();
                     } catch (err){
@@ -51,7 +51,7 @@ angular.module('ds.auth')
                 open: function(dialogConfig, dialogOptions, loginOptions, showContinueAsGuest) {
 
                     var modalOpts = angular.extend({
-                            templateUrl: './js/app/auth/templates/auth.html',
+                            templateUrl: 'js/app/auth/templates/auth.html',
                             controller: 'AuthModalDialogCtrl',
                             resolve: {
                                 loginOpts: function() {

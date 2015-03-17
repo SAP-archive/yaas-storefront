@@ -31,7 +31,7 @@ describe('PricesService Test', function(){
 
     beforeEach(angular.mock.module('ds.products',function($provide) {
        $provide.value('GlobalData', {});
-       $provide.value('storeConfig', {});
+       $provide.value('appConfig', {});
 
     }));
 

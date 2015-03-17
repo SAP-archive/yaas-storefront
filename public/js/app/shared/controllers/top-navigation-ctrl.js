@@ -34,6 +34,9 @@ angular.module('ds.shared')
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */
             $scope.toggleCart = function () {
+                if (!$rootScope.showCart) {
+                    AuthDialogManager.close();
+                }
                 $rootScope.showCart = !$rootScope.showCart;
             };
 

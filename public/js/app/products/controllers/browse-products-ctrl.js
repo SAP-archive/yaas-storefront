@@ -35,9 +35,13 @@ angular.module('ds.products')
             };
 
             $scope.category = category || {};
+
             if(!!category){
                 $scope.$emit('categoryLoaded', category);
             }
+
+            $scope.lastCatId = $scope.category.id || 'allProducts';
+
 
 
             $scope.loadedPages = 1;
@@ -138,6 +142,8 @@ angular.module('ds.products')
                    setMainImage(product);
                 });
             }
+
+
 
             // Primary Reason for categories to be updated is that the language change.
             //  We'll have to retrieve the current slug for the category (and thus this page)

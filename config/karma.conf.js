@@ -33,6 +33,7 @@ module.exports = function(config){
 
         'public/js/app/shared/shared-index.js',
         'public/js/app/shared/settings.js',
+        'public/js/app/shared/app-config.js',
         'public/js/app/shared/site-config.js',
         'public/js/app/shared/services/cookie-svc.js',
         'public/js/app/shared/filters/filters.js',

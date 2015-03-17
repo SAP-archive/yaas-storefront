@@ -5,7 +5,7 @@
 (function() {
     var initInjector = angular.injector(['ng']);
 
-            angular.module('config', []).constant('storeConfig', {'storeTenant':'testTenant', defaultLanguage: 'en', defaultCurrency: 'USD'});
+            angular.module('config', []).constant('appConfig', {'storeTenant':'testTenant', defaultLanguage: 'en', defaultCurrency: 'USD'});
 
             angular.element(document).ready(function() {
                 angular.bootstrap(document, [

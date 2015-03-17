@@ -17,13 +17,35 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'settings', 'GlobalData',
-        function($scope, $rootScope, CartSvc, product, settings, GlobalData) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter) {
 
             $scope.product = product;
 
             // used by breadcrumb directive
             $scope.category = product.richCategory;
+            $scope.breadcrumbData = angular.copy($scope.category);
+
+            if(!!lastCatId) {
+                if(lastCatId === 'allProducts'){
+                    var allProductsName = $filter('translate')('ALL_PRODUCTS');
+                    $scope.breadcrumbData = {
+                        path: [{
+                            id: '',
+                            name: allProductsName,
+                            slug: ''
+                        }]
+                    };
+                }
+                else
+                {
+                    CategorySvc.getCategoryById(lastCatId)
+                        .then(function (cat) {
+                            $scope.breadcrumbData = {};
+                            $scope.breadcrumbData = cat;
+                        });
+                }
+            }
 
             //Event that product is loaded
             $scope.$emit('productLoaded', product);

@@ -46,7 +46,7 @@ describe('OrderDetailSvc Test', function () {
     });
 
     beforeEach(module('ds.shared', function($provide) {
-        $provide.value('storeConfig', {});
+        $provide.value('appConfig', {});
     }));
 
     beforeEach(function () {
@@ -88,30 +88,15 @@ describe('OrderDetailSvc Test', function () {
         $httpBackend.expectGET(ordersUrl+'/'+orderId).respond(orderDetails);
 
         var result = null;
-        orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){
-            result = details;
-        });
-        $httpBackend.flush();
-        expect(result).toEqualData({shippingAddressName: 'Acme, Inc.', shippingAddressStreetLine1: '1 Marienplatz a',
-            shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
-
-        /*
-         test with name instead of company
-         */
-
-        var orderId = 123;
-        $httpBackend.expectGET(ordersUrl+'/'+orderId).respond(orderDetails);
-
-        var result = null;
         shippingAddress.contactName = 'Michael Jordan';
         orderDetails.shippingAddress = shippingAddress;
         orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){
             result = details;
         });
         $httpBackend.flush();
-        expect(result).toEqualData({shippingAddressName: 'Michael Jordan', shippingAddressStreetLine1: '1 Marienplatz a',
-            shippingAddressStreetLine2: 'Apt 1', shippingAddressCityStateZip: 'Munich, Bavaria 80538',
-            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ]});
+        expect(result).toEqualData({shippingAddressName: 'Michael Jordan', shippingAddressCompanyName: 'Acme, Inc.',
+            shippingAddressStreetLine1: '1 Marienplatz a', shippingAddressStreetLine2: 'Apt 1',
+            shippingAddressCityStateZip: 'Munich, Bavaria 80538', shippingAddressCountry: 'Germany',
+            emailAddress: 'your.name@email.com', entries: [ ]});
     });
 });
