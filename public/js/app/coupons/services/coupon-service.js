@@ -33,8 +33,8 @@ angular.module('ds.coupon')
                     // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            debugger;
-                            var discountAmount = (couponData.discountType === "ABSOLUTE") ? couponData.discountAbsolute.amount : 0;
+                             
+                            var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : 0;
                             var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), 1000, discountAmount);
                             // validate coupon
                             CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
@@ -61,8 +61,8 @@ angular.module('ds.coupon')
                 var couponCode = couponObj.code;
                 if (couponCode) {
                     var self = this;
-                    debugger;
-                    var discountAmount = (couponObj.discountType === "ABSOLUTE") ? couponObj.discountAbsolute.amount : 0;
+                     
+                    var discountAmount = (couponObj.discountType === 'ABSOLUTE') ? couponObj.discountAbsolute.amount : 0;
                     var couponRequest = this.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), cartTotal, discountAmount);
 
                     // redeem the currently valid coupon.
@@ -87,25 +87,25 @@ angular.module('ds.coupon')
              },
 
             buildCouponCartRequest: function( couponObj, couponId, currencyType ){
-                debugger;
+                 
                 return {
-                            'id': couponId,
-                            'code': couponObj.code,
-                            'amount': couponObj.amounts.discountAmount,
-                            'name': couponObj.name,
-                            'currency': currencyType,
-                            'sequenceId': '1', //increment for multiple coupons.
-                            'calculationType': 'ApplyDiscountBeforeTax', // TODO with tax.
-                            'link': {
-                                'id': couponId,
-                                'type': 'COUPON',
-                                'url': 'http://localhost/coupons/'+couponId
-                            }
-                    };
+                    id: couponId,
+                    code: couponObj.code,
+                    amount: couponObj.amounts.discountAmount,
+                    name: couponObj.name,
+                    currency: currencyType,
+                    sequenceId: '1', //increment for multiple coupons.
+                    calculationType: 'ApplyDiscountBeforeTax',
+                    link: {
+                        id: couponId,
+                        type: 'COUPON',
+                        url: 'http://localhost/coupons/'+couponId
+                    }
+                };
             },
 
             buildCouponRequest: function( couponCode, currencyType, totalAmount, discountAmount ){
-                debugger;
+                 
                 return {
                         'orderCode': couponCode,
                         'orderTotal': {

@@ -38,8 +38,8 @@
                 </tr>
                 <tr>
                     <td>{{'DISCOUNT' | translate}}</td>
-                    <td class="text-right" style="color:red">
-                        -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+                    <td class="text-right" >
+                        <span class="error">-{{coupon.amounts.discountAmount | currency: currencySymbol}}</span>
                     </td>
                 </tr>
                 <tr>

@@ -7040,6 +7040,12 @@ a.signin {
     padding: 15px 0;
   }
 }
+#cart .couponApplyContainer {
+  padding: 15px 0 40px 15px;
+}
+#cart .couponApplyContainer input {
+  width: 350px;
+}
 /* CART ITEM */
 .cart-item {
   border-bottom: 1px solid #bebebe;
@@ -8840,6 +8846,9 @@ body {
 }
 body.fixedLayout {
   overflow-y: hidden !important;
+}
+table .error {
+  background-color: transparent;
 }
 input[type='number'] {
   -moz-appearance: textfield;
