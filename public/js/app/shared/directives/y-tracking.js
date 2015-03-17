@@ -25,13 +25,19 @@ angular.module('ds.ytacking', [])
 
                     //Handlers for events
                     $rootScope.$on('productLoaded', function (arg, obj) {
-                        ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.id : '', obj.defaultPrice.value);
+                        ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.name : '', obj.defaultPrice.value);
                     });
                     $rootScope.$on('categoryLoaded', function (arg, obj) {
-                        var path = [];
+                        var path = '';
                         for (var i = 0; i < obj.path.length; i++) {
-                            path.push(obj.path[i].id);
+                            console.log(obj.path[i].name);
+                            path = obj.path[i].name;
                         }
+                        //var path = [];
+                        //for (var i = 0; i < obj.path.length; i++) {
+                        //    console.log(obj.path[i]);
+                        //    path.push(obj.path[i].name);
+                        //}
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
@@ -97,6 +103,7 @@ angular.module('ds.ytacking', [])
                     },
                     data: JSON.stringify(obj)
                 };
+
 
                 $http(req).
                     success(function () {
