@@ -6,12 +6,13 @@
         <div ng-if="!coupon.valid" class="error">
             {{coupon.message.error}}
         </div>
-        <input type="text" class="form-control pull-left" ng-model='coupon.code' ng-disabled="coupon.applied" class="couponInput">
-        <button class="btn btn-primary btn-sm pull-right" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
+        <input type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="coupon.applied">
+        <button class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
         {{'APPLY' | translate}}
         </button>
     </div>
     <div ng-if="coupon.applied" class="row">
+        
         <div class="col-xs-8 col-md-8 img-col">
             {{coupon.code}} : {{coupon.message.success}}
             <button ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>

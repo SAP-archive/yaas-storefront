@@ -361,12 +361,10 @@
     ng-click="editPayment()"></span></h2>
 </a>
 <div class="row step-detail">
-
-
-    <section class="summary" ng-controller="CouponCtrl">
+    <div class="couponWrap" ng-controller="CouponCtrl">
         <!-- Apply Coupon -->
         <div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
-    </section>
+    </div>
 
 
     <div class="col-lg-12">
