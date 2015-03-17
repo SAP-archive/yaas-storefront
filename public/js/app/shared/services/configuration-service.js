@@ -30,6 +30,11 @@ angular.module('ds.shared')
                     var key = null;
                     var value = null;
 
+                    ConfigurationREST.Config.one('configurations/algolia_key').get().then(function (result) {
+                        GlobalData.search.algoliaKey = result.value;
+                    });
+
+
                     for (var i=0,  tot=result.length; i < tot; i++) {
                         var entry = result[i];
                         key =  entry.key;
@@ -51,9 +56,6 @@ angular.module('ds.shared')
                             settings.facebookAppId = value;
                         } else if (key === settings.configKeys.googleClientId){
                             settings.googleClientId = value;
-                        }
-                        else if (key === 'algolia_key'){
-                            GlobalData.search.algoliaKey = value;
                         }
                     }
 
