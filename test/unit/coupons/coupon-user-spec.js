@@ -38,8 +38,6 @@ describe('Coupon User Test:', function () {
         $scope = _$rootScope_.$new();
         UserCoupon = _UserCoupon_;
 
-
-
     }));
 
     describe('Coupon User ', function () {
@@ -48,6 +46,24 @@ describe('Coupon User Test:', function () {
             expect(UserCoupon.getCoupon).toBeDefined();
             expect(UserCoupon.setCoupon).toBeDefined();
             expect(UserCoupon.setBlankCoupon).toBeDefined();
+        });
+
+        it('should get coupon', function () {
+            var response = UserCoupon.getCoupon();
+            expect(response).toBeDefined();
+            expect(response.code).toBe(mockCoupon.code);
+        });
+
+        it('should set a blank coupon', function () {
+            var response = UserCoupon.getCoupon();
+            response.applied = true;
+            response.valid = true;
+            response.code = 'XYZ';
+            UserCoupon.setBlankCoupon();
+            response = UserCoupon.getCoupon();
+            expect(response.code).toBe(mockCoupon.code);
+            expect(response.applied).toBe(mockCoupon.applied);
+            expect(response.valid).toBe(mockCoupon.valid);
         });
 
     });

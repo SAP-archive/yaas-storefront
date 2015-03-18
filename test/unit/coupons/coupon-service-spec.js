@@ -12,7 +12,7 @@
 
 describe('Coupon Service Test:', function () {
 
-    var $scope, $rootScope;
+    var $scope, $rootScope, couponUrl, cartUrl, mockBackend;
     var CartREST = {
     };
     var CouponSvc = {
@@ -50,13 +50,18 @@ describe('Coupon Service Test:', function () {
             }
         }
     };
-    var mockCouponValidation = function(){};
-    var mockCouponRedemption = function(){};
+
+    var mockedGlobalData = {
+        getCurrencyId: function(){
+            return 'USD'
+        }
+    };
 
     beforeEach(module('ds.cart', function ($provide) {
     }));
 
     beforeEach(module('ds.coupon', function ($provide) {
+        $provide.value('GlobalData', mockedGlobalData);
     }));
 
     beforeEach(function() {
@@ -70,13 +75,15 @@ describe('Coupon Service Test:', function () {
         module('restangular');
     });
 
-    beforeEach(inject(function(_SiteConfigSvc_, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _CouponSvc_) {
+    beforeEach(inject(function( SiteConfigSvc, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _CouponSvc_, _$httpBackend_) {
         $scope = _$rootScope_.$new();
         UserCoupon = _UserCoupon_;
         CouponREST = _CouponREST_;
         CouponSvc = _CouponSvc_;
 
-        spyOn(mockCouponValidation, "CouponREST.Coupon");
+        mockBackend = _$httpBackend_;
+        couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
+        cartUrl = SiteConfigSvc.apis.cart.baseUrl;
     }));
 
     describe('Coupon Service ', function () {
@@ -89,8 +96,61 @@ describe('Coupon Service Test:', function () {
         });
 
         it("should validate a coupon", function() {
-            CouponSvc.validateCoupon();
-            expect(CouponREST.Coupon).toHaveBeenCalled();
+
+            var getPayload = {"Accept":"application/json, text/plain, */*"},
+            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
+            response = {},
+            successSpy = jasmine.createSpy('success'),
+            errorSpy = jasmine.createSpy('error');
+
+            mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
+            mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
+            var promise = CouponSvc.validateCoupon('CouponCode', 9.99);
+             promise.then(successSpy, errorSpy);
+
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).toHaveBeenCalled();
+            expect(errorSpy).not.toHaveBeenCalled();
+
+        });
+
+        it("should redeem a coupon", function() {
+
+            var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
+            var couponCartRequest = {"code":"1234","amount":1.99,"name":"something","currency":"USD","sequenceId":"1","calculationType":"ApplyDiscountBeforeTax","link":{"type":"COUPON","url":"http://localhost/coupons/undefined"}},
+            couponRequest = CouponSvc.buildCouponRequest( '1234', 'USD', 9.99, 1.99 ),
+            response = {},
+            successSpy = jasmine.createSpy('success'),
+            errorSpy = jasmine.createSpy('error');
+
+            mockBackend.expectPOST(couponUrl +'coupons/1234/redemptions', couponRequest).respond(200, response);
+            mockBackend.expectPOST(cartUrl +'carts/12345/discounts', couponCartRequest).respond(200, response);
+            var promise = CouponSvc.redeemCoupon( couponObj, '12345', 9.99 );
+            promise.then(successSpy, errorSpy);
+
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).toHaveBeenCalled();
+            expect(errorSpy).not.toHaveBeenCalled();
+
+        });
+
+        it("should build request objects", function() {
+            var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
+            var couponRequest = CouponSvc.buildCouponRequest( '1234', 'USD', 9.99, 1.99 );
+            var couponCartRequest = CouponSvc.buildCouponCartRequest( couponObj, '12345', 'USD' );
+
+            expect(couponRequest.orderCode).toBe('1234');
+            expect(couponRequest.discount.currency).toBe('USD');
+            expect(couponRequest.orderTotal.amount).toBe(9.99);
+            expect(couponRequest.discount.amount).toBe(1.99);
+            expect(couponCartRequest.code).toBe('1234');
+            expect(couponCartRequest.id).toBe('12345');
+            expect(couponCartRequest.currency).toBe('USD');
+
         });
 
     });

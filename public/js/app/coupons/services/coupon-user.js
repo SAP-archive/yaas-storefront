@@ -28,13 +28,8 @@ angular.module('ds.coupon')
                 success: 'Applied'
             },
             amounts : {
-                // shippingAmount: 0,
                 originalAmount: 0,
-                // originalTotalAmount: 0,
-                // redeemDiscount: 0,
-                // couponDiscount: 0,
-                discountAmount: 0//,
-                // newAmount: 0
+                discountAmount: 0
             }
         };
         userCoupon = angular.copy(blankCoupon);
