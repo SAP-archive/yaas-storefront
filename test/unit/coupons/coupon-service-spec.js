@@ -16,7 +16,7 @@ describe('Coupon Service Test:', function () {
     var CartREST = {
     };
     var CouponSvc = {
-    };  
+    };
     var mockCoupon = {
             code: '',
             applied: false,
@@ -50,6 +50,8 @@ describe('Coupon Service Test:', function () {
             }
         }
     };
+    var mockCouponValidation = function(){};
+    var mockCouponRedemption = function(){};
 
     beforeEach(module('ds.cart', function ($provide) {
     }));
@@ -68,17 +70,27 @@ describe('Coupon Service Test:', function () {
         module('restangular');
     });
 
-    beforeEach(inject(function(_SiteConfigSvc_, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST) {
+    beforeEach(inject(function(_SiteConfigSvc_, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _CouponSvc_) {
         $scope = _$rootScope_.$new();
         UserCoupon = _UserCoupon_;
         CouponREST = _CouponREST_;
-        // CartREST = _CartREST_;
+        CouponSvc = _CouponSvc_;
+
+        spyOn(mockCouponValidation, "CouponREST.Coupon");
     }));
 
     describe('Coupon Service ', function () {
 
         it('should exist', function () {
-            // expect(UserCoupon.getCoupon).toBeDefined();
+            expect(CouponSvc.validateCoupon).toBeDefined();
+            expect(CouponSvc.redeemCoupon).toBeDefined();
+            expect(CouponSvc.buildCouponCartRequest).toBeDefined();
+            expect(CouponSvc.buildCouponRequest).toBeDefined();
+        });
+
+        it("should validate a coupon", function() {
+            CouponSvc.validateCoupon();
+            expect(CouponREST.Coupon).toHaveBeenCalled();
         });
 
     });

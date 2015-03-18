@@ -30,20 +30,24 @@ describe('Coupon User Test:', function () {
         };
     var UserCoupon = {};
 
+
     beforeEach(module('ds.coupon', function ($provide) {
-        // $provide.value('$translate', mockedTranslate);
-        // $provide.value('$state', mockedState);
     }));
 
     beforeEach(inject(function(_UserCoupon_, _$rootScope_) {
         $scope = _$rootScope_.$new();
         UserCoupon = _UserCoupon_;
+
+
+
     }));
 
     describe('Coupon User ', function () {
 
         it('should exist', function () {
             expect(UserCoupon.getCoupon).toBeDefined();
+            expect(UserCoupon.setCoupon).toBeDefined();
+            expect(UserCoupon.setBlankCoupon).toBeDefined();
         });
 
     });

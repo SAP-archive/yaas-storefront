@@ -13,7 +13,7 @@
 describe('Coupon Ctrl Test: ', function () {
 
     var $scope, $rootScope, $controller;
-    var CouponSvc = {
+    var mockedCouponSvc = {
     };
     var mockCoupon = {
             code: '',
@@ -31,43 +31,73 @@ describe('Coupon Ctrl Test: ', function () {
     var UserCoupon = {
         getCoupon:function(){
             return mockCoupon;
-        }
+        },
+        setBlankCoupon: jasmine.createSpy('setBlankCoupon').andReturn(mockCoupon)
     };
     var AuthDialogManager = {
         isOpened: jasmine.createSpy('then'),
-        open: jasmine.createSpy('then').andReturn({
+        open: jasmine.createSpy('open').andReturn({
             result: {
                 then: jasmine.createSpy('then')
             }
         }),
         close: jasmine.createSpy('dismiss')
     };
+
     var isAuthenticated = true;
     var AuthSvc = {
         isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
     };
 
     beforeEach(module('ds.coupon', function ($provide) {
-        // $provide.value('$translate', mockedTranslate);
-        // $provide.value('$state', mockedState);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
+        $q =  _$q_;
+
+        var couponDeferred = $q.defer();
+        mockedCouponSvc.validateCoupon = jasmine.createSpy('validateCoupon').andCallFake(function() {
+            return couponDeferred.promise;
+        });
+
+
     }));
 
     describe('Coupon Ctrl ', function () {
 
         beforeEach(function () {
-            couponCtrl = $controller('CouponCtrl', {$scope: $scope, AuthSvc:AuthSvc, AuthDialogManager:AuthDialogManager, CouponSvc:CouponSvc, UserCoupon:UserCoupon });
+            couponCtrl = $controller('CouponCtrl', {$scope: $scope, AuthSvc:AuthSvc, AuthDialogManager:AuthDialogManager, CouponSvc:mockedCouponSvc, UserCoupon:UserCoupon });
         });
 
         it('should exist', function () {
             expect($scope.applyCoupon).toBeDefined();
             expect($scope.removeCoupon).toBeDefined();
             expect($scope.checkAuthentication).toBeDefined();
+            expect(mockedCouponSvc.validateCoupon).toBeDefined();
         });
+
+        it('should apply a coupon', function () {
+            $scope.cart = {
+                totalPrice : {
+                    value: 9.99
+                }
+            };
+            $scope.applyCoupon('CouponCode');
+            expect(mockedCouponSvc.validateCoupon).toHaveBeenCalled();
+        });
+
+        it('should remove a coupon', function () {
+            $scope.removeCoupon();
+            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
+        });
+
+        it('should show a login to unauthenticated user', function () {
+            var response = $scope.checkAuthentication('CouponCode');
+            expect(response).toBe(true);
+        });
+
 
     });
 
