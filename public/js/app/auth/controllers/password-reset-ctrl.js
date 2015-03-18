@@ -21,6 +21,10 @@ angular.module('ds.auth')
         $scope.title = title || 'FORGOT_PW' ;
         $scope.instructions = instructions || 'FORGOT_PW_INSTRUCT';
 
+        $scope.closeDialog = function(){
+            AuthDialogManager.close();
+        };
+
         $scope.requestPasswordReset = function(email){
            AuthSvc.requestPasswordReset(email).then(function() {
                 AuthDialogManager.close();
@@ -38,4 +42,6 @@ angular.module('ds.auth')
         $scope.clearErrors = function(){
             $scope.message = '';
         };
+
+
     }]);
