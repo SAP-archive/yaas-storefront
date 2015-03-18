@@ -311,7 +311,8 @@ angular.module('ds.products')
                             getPrices(products);
                             assignMainImage(products);
                         }
-                    }   
+                    }
+                    
                     else {
                         $scope.requestInProgress = false;
                     }
