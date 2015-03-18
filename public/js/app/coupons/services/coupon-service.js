@@ -31,7 +31,7 @@ angular.module('ds.coupon')
                     // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            var discountAmount = (couponData.discountType === "ABSOLUTE") ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
+                            var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
                             var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
                             // validate coupon
                             CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
