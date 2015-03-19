@@ -26,6 +26,7 @@ describe('ytracking', function () {
         }
     };
     var mockedLocalStorage = {};
+
     var openedCategory = {
         path: [{ name: 'cat1' }, { name: 'cat2' }]
     };
@@ -77,7 +78,7 @@ describe('ytracking', function () {
             expect($window._paq).toBeDefined();
         });
 
-        it('should start using custom request processing for piwik', function () {
+        it('should use custom request processing for piwik', function () {
             var containsCustomProcessing = false;
             for (var i = 0; i < $window._paq.length; i++) {
                 if ($window._paq[i][0] == 'setCustomRequestProcessing') {
@@ -89,11 +90,6 @@ describe('ytracking', function () {
     });
 
     describe('yTracking events', function () {
-        var setCategoryViewed;
-
-        beforeEach(function () {
-
-        });
 
         it('should call setCategoryViewed when user navigated to category page', function () {
             mockedYtrackingSvc.setCategoryViewed = jasmine.createSpy('setCategoryViewed');
@@ -102,9 +98,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
 
             $scope.$emit('categoryLoaded', openedCategory);
-            //$rootScope.$apply();
 
-            //run code to test
             expect($scope.$emit).toHaveBeenCalledWith("categoryLoaded", openedCategory);
             expect(mockedYtrackingSvc.setCategoryViewed).toHaveBeenCalled();
         });
@@ -134,9 +128,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
 
             $scope.$emit('productLoaded', openedProduct);
-            //$rootScope.$apply();
 
-            //run code to test
             expect($scope.$emit).toHaveBeenCalledWith("productLoaded", openedProduct);
             expect(mockedYtrackingSvc.setProductViewed).toHaveBeenCalled();
         });

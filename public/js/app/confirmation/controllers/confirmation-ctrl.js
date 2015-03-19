@@ -15,7 +15,7 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated' , function
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', function
         ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated) {
 
         $scope.orderInfo = {};
