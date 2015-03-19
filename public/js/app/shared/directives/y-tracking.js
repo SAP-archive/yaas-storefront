@@ -30,14 +30,8 @@ angular.module('ds.ytacking', [])
                     $rootScope.$on('categoryLoaded', function (arg, obj) {
                         var path = '';
                         for (var i = 0; i < obj.path.length; i++) {
-                            console.log(obj.path[i].name);
                             path = obj.path[i].name;
                         }
-                        //var path = [];
-                        //for (var i = 0; i < obj.path.length; i++) {
-                        //    console.log(obj.path[i]);
-                        //    path.push(obj.path[i].name);
-                        //}
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
@@ -83,13 +77,11 @@ angular.module('ds.ytacking', [])
                 if (GlobalData.piwik.enabled) {
                     makeRequest(e);
                 }
-                else {
-                    //Save to localstorage for later
-                    localStorage.addItemToArray(yTrackingLocalStorageKey, e);
-                }
             };
 
             var makeRequest = function (params) {
+
+                console.log('MAKE REQUEST');
 
                 //Get object from query parameters
                 var obj = getQueryParameters(params);
