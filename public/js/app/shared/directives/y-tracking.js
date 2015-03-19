@@ -29,6 +29,7 @@ angular.module('ds.ytacking', [])
                     });
                     $rootScope.$on('categoryLoaded', function (arg, obj) {
                         var path = '';
+                        //For now we are only sending last category name, in future we will send array of categories
                         for (var i = 0; i < obj.path.length; i++) {
                             path = obj.path[i].name;
                         }
@@ -80,8 +81,6 @@ angular.module('ds.ytacking', [])
             };
 
             var makeRequest = function (params) {
-
-                console.log('MAKE REQUEST');
 
                 //Get object from query parameters
                 var obj = getQueryParameters(params);

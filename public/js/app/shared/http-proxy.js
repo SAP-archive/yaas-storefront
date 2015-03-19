@@ -48,12 +48,12 @@ angular.module('ds.httpproxy', [])
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.status === 401) {
-                        //Check if project is subscribed to piwik service
-                        if (response.config.url.indexOf('piwik-service') > -1) {
-                            GlobalData.piwik.enabled = false;
-                        }
-                        else {
+                    if (response.config.url.indexOf('piwik-service') > -1) {
+                        GlobalData.piwik.enabled = false;
+                    }
+                    else {
+                        //Normal process of other responses
+                        if (response.status === 401) {
                             // 401 on login means wrong password - requires user action
                             if (response.config.url.indexOf('login') < 0 && response.config.url.indexOf('password/change') < 0) {
                                 // remove any existing token, as it appears to be invalid
@@ -74,32 +74,32 @@ angular.module('ds.httpproxy', [])
                                 // show error view
                                 $injector.get('$state').go('errors', { errorId: '401' });
                             }
-                        }
 
-                    } else if (response.status === 403) {
-                        // if 403 during login, should already be handled by auth dialog controller
-                        if (response.config.url.indexOf('login') < 0) {
-                            // using injector lookup to prevent circular dependency
-                            var AuthSvc = $injector.get('AuthSvc');
-                            if (AuthSvc.isAuthenticated()) {
-                                // User is authenticated but is not allowed to access resource
-                                // this scenario shouldn't happen, but if it does, don't fail silently
-                                window.alert('You are not authorized to access this resource!');
-                            } else {
-                                // User is not authenticated - make them log in and reload the current state
-                                $injector.get('AuthDialogManager').open({}, {}, {}).then(
-                                    // success scenario handled as part of "logged in" workflow
-                                    function () { },
-                                function () { // on dismiss, re-route to home page
-                                    $injector.get('$state').go(settings.homeState);
-                                });
+                        } else if (response.status === 403) {
+                            // if 403 during login, should already be handled by auth dialog controller
+                            if (response.config.url.indexOf('login') < 0) {
+                                // using injector lookup to prevent circular dependency
+                                var AuthSvc = $injector.get('AuthSvc');
+                                if (AuthSvc.isAuthenticated()) {
+                                    // User is authenticated but is not allowed to access resource
+                                    // this scenario shouldn't happen, but if it does, don't fail silently
+                                    window.alert('You are not authorized to access this resource!');
+                                } else {
+                                    // User is not authenticated - make them log in and reload the current state
+                                    $injector.get('AuthDialogManager').open({}, {}, {}).then(
+                                        // success scenario handled as part of "logged in" workflow
+                                        function () { },
+                                    function () { // on dismiss, re-route to home page
+                                        $injector.get('$state').go(settings.homeState);
+                                    });
+                                }
                             }
+                        } else if (response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0) {
+                            $injector.get('$state').go('errors', { errorId: '404' });
+                        } else if (response.status === 500) {
+                            //show error view with default message.
+                            $injector.get('$state').go('errors');
                         }
-                    } else if (response.status === 404 && response.config.url.indexOf('cart') < 0 && response.config.url.indexOf('login') < 0) {
-                        $injector.get('$state').go('errors', { errorId: '404' });
-                    } else if (response.status === 500) {
-                        //show error view with default message.
-                        $injector.get('$state').go('errors');
                     }
                     return $q.reject(response);
                 }
