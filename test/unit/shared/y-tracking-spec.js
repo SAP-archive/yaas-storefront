@@ -49,7 +49,7 @@ describe('ytracking', function () {
     }
 
 
-    beforeEach(angular.mock.module('ds.ytacking', function ($provide) {
+    beforeEach(angular.mock.module('ds.ytracking', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('SiteConfigSvc', mockedSiteConfig);
         $provide.value('localStorage', mockedLocalStorage);

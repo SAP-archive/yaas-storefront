@@ -35,7 +35,7 @@ window.app = angular.module('ds.app', [
     'ngSanitize',
     'ui.select',
     'ds.ybreadcrumb',
-    'ds.ytacking',
+    'ds.ytracking',
     'ds.localstorage',
     'ds.appconfig'
 ])

@@ -12,7 +12,7 @@
 
 'use strict';
 
-angular.module('ds.ytacking', [])
+angular.module('ds.ytracking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
     .directive('ytracking', ['ytrackingSvc', '$rootScope',
         function (ytrackingSvc, $rootScope) {
