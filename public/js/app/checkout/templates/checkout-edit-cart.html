@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                     <td>{{'DISCOUNT' | translate}}</td>
-		            <td class="text-right" style="color:red">
+		            <td class="text-right" style="color:red" ng-if="coupon.amounts.discountAmount != 0">
 		                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
 		            </td>
                 </tr>

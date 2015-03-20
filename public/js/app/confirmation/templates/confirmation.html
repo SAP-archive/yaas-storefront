@@ -75,7 +75,7 @@
                         </tr>
                         <tr ng-controller="CouponCtrl">
                             <td>{{'DISCOUNT' | translate}}</td>
-                            <td class="text-right">
+                            <td class="text-right" ng-if="confirmationDetails.discounts[0].amount != 0">
                                 <span class="error">-{{confirmationDetails.discounts[0].amount | currency: currencySymbol}}</span>
                             </td>
                         </tr>
