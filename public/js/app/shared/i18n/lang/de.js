@@ -60,6 +60,7 @@ angular.module('ds.i18n')
         NO_ITEMS_IN_CART: 'Es sind keine Artikel im Warenkorb.',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
+        ORDER_DATE: 'Bestelldatum',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
