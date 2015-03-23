@@ -48,9 +48,9 @@
 		                {{cart.subTotalPrice.value | currency: currencySymbol}}
 		            </td>
                 </tr>
-                <tr>
+                <tr ng-if="coupon.amounts.discountAmount != 0">
                     <td>{{'DISCOUNT' | translate}}</td>
-		            <td class="text-right" style="color:red" ng-if="coupon.amounts.discountAmount != 0">
+		            <td class="text-right" style="color:red">
 		                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
 		            </td>
                 </tr>
