@@ -8486,6 +8486,9 @@ section .hero-unit {
 .account .orderItemsContainer .table-responsive {
   font-size: 13px;
 }
+.account .orderItemsContainer .table-responsive table {
+  width: 100%;
+}
 .account .orderItemsContainer .img-col {
   padding: 0;
 }
