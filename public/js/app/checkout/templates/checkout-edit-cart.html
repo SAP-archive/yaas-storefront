@@ -37,7 +37,7 @@
 			<thead>
 			<tr>
 				<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-				<th class="text-right">{{cart.totalPrice.value - coupon.amounts.discountAmount || 0 | currency: currencySymbol}}</th>
+				<th class="text-right">{{(cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0 || 0 | currency: currencySymbol}}</th>
 			<tr>
 			</thead>
 			<tbody>

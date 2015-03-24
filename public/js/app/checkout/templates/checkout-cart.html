@@ -6,7 +6,7 @@
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.subTotalPrice.value - coupon.amounts.discountAmount + shippingCost | currency: shippingCurrencySymbol}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{(cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0 + shippingCost | currency: shippingCurrencySymbol}}</div>
     </section>
     <section class="cartItems" ng-cloak>
         <div ng-repeat="item in cart.items track by $index">
@@ -50,7 +50,7 @@
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value - coupon.amounts.discountAmount + shippingCost | currency: currencySymbol}}</td>
+                    <td class="text-right">{{(cart.subTotalPrice.value-coupon.amounts.discountAmount>0)?cart.subTotalPrice.value-coupon.amounts.discountAmount : 0 + shippingCost | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>

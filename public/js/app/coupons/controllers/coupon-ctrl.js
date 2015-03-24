@@ -27,9 +27,11 @@ angular.module('ds.coupon', [])
 
 
             $scope.applyCoupon = function(couponCode) {
+
                 if(!$scope.checkAuthentication(couponCode)){
                     return;
                 }
+
                 var totalPrice = $scope.cart.totalPrice.value;
                 //call coupon service to get discount.
                 CouponSvc.validateCoupon(couponCode, totalPrice).then(function (couponData) {
@@ -44,9 +46,11 @@ angular.module('ds.coupon', [])
                         // must round percentage here in order to match service api discount comparison validation.
                         $scope.coupon.amounts.discountAmount = parseFloat( 0.01 * couponData.discountPercentage * $scope.cart.totalPrice.value).toFixed(2);
                     }
-                }, function () {
-                    //upstream error handling.
+                }, function (e) {
+                    debugger;
+                    //upstream error handler.
                     $scope.coupon.valid = false;
+                    $scope.coupon.message.error = e.data.message;
                 });
             };
 

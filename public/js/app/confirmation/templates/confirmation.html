@@ -67,7 +67,8 @@
                     <tbody>
                         <tr>
                             <td>{{'SUBTOTAL' | translate}}</td>
-                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discounts[0].amount | currency: currencySymbol}}</td>
+                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount  | currency: currencySymbol}}</td><!-- error on zeroed total
+                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discounts[0].amount | currency: currencySymbol}}</td> -->
                         </tr>
                         <tr>
                             <td>{{'SHIPPING' | translate}}</td>
