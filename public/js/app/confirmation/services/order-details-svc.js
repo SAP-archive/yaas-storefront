@@ -56,7 +56,6 @@ angular.module('ds.confirmation')
                     }
 
                     if (orderDetails.totalPrice) {
-                        console.log('Resetting totalPrice, from: ', confirmationDetails.totalPrice, ', to: ', orderDetails.totalPrice);
                         confirmationDetails.totalPrice = orderDetails.totalPrice;
                     }
 

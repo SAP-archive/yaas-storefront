@@ -28,11 +28,11 @@ angular.module('ds.coupon', [])
 
             $scope.applyCoupon = function(couponCode) {
 
-                if(!$scope.checkAuthentication(couponCode)){
+                var totalPrice = $scope.cart.totalPrice.value;
+                if(!checkAuthentication(couponCode)){
                     return;
                 }
 
-                var totalPrice = $scope.cart.totalPrice.value;
                 //call coupon service to get discount.
                 CouponSvc.validateCoupon(couponCode, totalPrice).then(function (couponData) {
                     $scope.coupon = UserCoupon.setCoupon(couponData);
@@ -40,15 +40,18 @@ angular.module('ds.coupon', [])
                     $scope.coupon.valid = true;
 
                     if ( couponData.discountType === 'ABSOLUTE' ) {
-                        $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
+                        // set discount to subtotal if it is greater than subtotal
+                        if (couponData.discountAbsolute.amount > $scope.cart.subTotalPrice.value){
+                            $scope.coupon.amounts.discountAmount = $scope.cart.subTotalPrice.value;
+                        } else {
+                            $scope.coupon.amounts.discountAmount = couponData.discountAbsolute.amount;
+                        }
                     }
                     else if ( couponData.discountType === 'PERCENT' ) {
                         // must round percentage here in order to match service api discount comparison validation.
                         $scope.coupon.amounts.discountAmount = parseFloat( 0.01 * couponData.discountPercentage * $scope.cart.totalPrice.value).toFixed(2);
                     }
-                }, function (e) {
-                    debugger;
-                    //upstream error handler.
+                }, function (e) {  //upstream error handler.
                     $scope.coupon.valid = false;
                     $scope.coupon.message.error = e.data.message;
                 });
@@ -58,7 +61,7 @@ angular.module('ds.coupon', [])
                 UserCoupon.setBlankCoupon();
             };
 
-            $scope.checkAuthentication = function(couponCode){
+            function checkAuthentication(couponCode){
                 if (!AuthSvc.isAuthenticated()) {
                     var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
                     dlg.then(function(){
@@ -70,6 +73,14 @@ angular.module('ds.coupon', [])
                     return false;
 	            }
 	            return true;
+            };
+
+            function smartDiscount(discountAmount){
+                // if discount is greater than cart subtotal, discount is subtotal.
+                if(discountAmount > $scope.cart.subTotalPrice.value ){
+                    return angular.copy($scope.cart.subTotalPrice.value);
+                }
+                return discountAmount;
             };
 
     }]);

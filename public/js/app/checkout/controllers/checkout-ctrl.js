@@ -380,17 +380,10 @@ angular.module('ds.checkout')
                     if(UserCoupon && UserCoupon.getCoupon().applied){
                         // redeem coupon mashup
                         CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
-
                             // Apply Coupon: update total with coupon applied. This is required for API validation.
-                            console.log('Applying coupon: ',UserCoupon.getCoupon().amounts.discountAmount, ', to: ',$scope.order.cart.totalPrice.value );
-                            debugger;
                             $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
-                            if( $scope.order.cart.totalPrice.value < 0){
-                                // required for coupon api validation
-                                $scope.order.cart.totalPrice.value = $scope.order.shippingCost;
-                            }
-                            console.log('New total value: ', $scope.order.cart.totalPrice.value);
-
+                            // clean total of any float precision, required by cart coupon validation.
+                            $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toPrecision(3));
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 
