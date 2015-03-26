@@ -385,7 +385,7 @@ angular.module('ds.checkout')
                             // check if we need to clean out float precision
                             if(($scope.order.cart.totalPrice.value.toString().split('.')[1] || []).length > 2){
                                 // clean total of any float precision, required by cart coupon validation.
-                                $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toPrecision(3));
+                                $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toFixed(2));
                             }
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);

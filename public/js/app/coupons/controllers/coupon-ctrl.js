@@ -49,7 +49,7 @@ angular.module('ds.coupon', [])
                     }
                     else if ( couponData.discountType === 'PERCENT' ) {
                         // must round percentage here in order to match service api discount comparison validation.
-                        $scope.coupon.amounts.discountAmount = parseFloat( 0.01 * couponData.discountPercentage * $scope.cart.totalPrice.value).toFixed(2);
+                        $scope.coupon.amounts.discountAmount = parseFloat( 0.01 * couponData.discountPercentage * $scope.cart.subTotalPrice.value).toFixed(2);
                     }
                 }, function (e) {  //upstream error handler.
                     $scope.coupon.valid = false;
