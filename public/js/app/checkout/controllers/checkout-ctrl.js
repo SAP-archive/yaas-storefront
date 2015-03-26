@@ -382,8 +382,11 @@ angular.module('ds.checkout')
                         CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
                             // Apply Coupon: update total with coupon applied. This is required for API validation.
                             $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
-                            // clean total of any float precision, required by cart coupon validation.
-                            $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toPrecision(3));
+                            // check if we need to clean out float precision
+                            if(($scope.order.cart.totalPrice.value.toString().split('.')[1] || []).length > 2){
+                                // clean total of any float precision, required by cart coupon validation.
+                                $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toPrecision(3));
+                            }
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 

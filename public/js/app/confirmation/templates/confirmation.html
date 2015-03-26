@@ -67,17 +67,17 @@
                     <tbody>
                         <tr>
                             <td>{{'SUBTOTAL' | translate}}</td>
-                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount  | currency: currencySymbol}}</td><!-- error on zeroed total
-                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discounts[0].amount | currency: currencySymbol}}</td> -->
+
+                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount | currency: currencySymbol}}</td>
                         </tr>
                         <tr>
                             <td>{{'SHIPPING' | translate}}</td>
                             <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
                         </tr>
-                        <tr ng-controller="CouponCtrl" ng-if="confirmationDetails.discounts[0].amount != 0">
+                        <tr ng-controller="CouponCtrl" ng-if="confirmationDetails.discountAmount != 0">
                             <td>{{'DISCOUNT' | translate}}</td>
                             <td class="text-right">
-                                <span class="error">-{{confirmationDetails.discounts[0].amount | currency: currencySymbol}}</span>
+                                <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                             </td>
                         </tr>
                     </tbody>

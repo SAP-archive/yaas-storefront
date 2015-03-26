@@ -58,11 +58,10 @@ angular.module('ds.confirmation')
                     if (orderDetails.totalPrice) {
                         confirmationDetails.totalPrice = orderDetails.totalPrice;
                     }
-
                     if (orderDetails.discounts) {
-                        confirmationDetails.discounts = orderDetails.discounts;
+                        confirmationDetails.discountAmount = orderDetails.discounts[0].amount;
                     } else {
-                        confirmationDetails.discounts = [{amount:0}];
+                        confirmationDetails.discountAmount = 0;
                     }
 
                     confirmationDetails.shippingAddressCityStateZip = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +
