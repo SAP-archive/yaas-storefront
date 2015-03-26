@@ -73,15 +73,8 @@ angular.module('ds.coupon', [])
                     return false;
 	            }
 	            return true;
-            };
+            }
 
-            function smartDiscount(discountAmount){
-                // if discount is greater than cart subtotal, discount is subtotal.
-                if(discountAmount > $scope.cart.subTotalPrice.value ){
-                    return angular.copy($scope.cart.subTotalPrice.value);
-                }
-                return discountAmount;
-            };
 
     }]);
 
