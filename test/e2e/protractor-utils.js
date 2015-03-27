@@ -26,6 +26,9 @@ exports.waitForCart = function(){
 };
 
 exports.verifyCartAmount = function (amount) {
+    browser.wait(function () {
+        return element(by.binding('CHECKOUT')).isPresent();
+    });
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
 };
 
