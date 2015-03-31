@@ -329,14 +329,14 @@ angular.module('ds.checkout')
 
             /* handles successful coupon checkout */
             var couponSuccessHandler = function goToConfirmationPage(order) {
-                // clear coupon object.
-                UserCoupon.setBlankCoupon();
+                UserCoupon.setBlankCoupon();    // clear coupon object.
                 checkoutSuccessHandler(order);
             };
 
             /** handles a failed coupon checkout. */
             var couponErrorHandler = function handleCheckoutError(error) {
                 $scope.order.cart.totalPrice.value += UserCoupon.getCoupon().amounts.discountAmount;
+                UserCoupon.setBlankCoupon();    // clear coupon object.
                 checkoutErrorHandler(error);
             };
 
