@@ -21,7 +21,8 @@ describe('product page', function () {
             );
         });
 
-        it('should scroll to load more products', function () {
+        //crashes browser. to be address in STOR-1567
+        xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
             tu.getTextByRepeaterRow(0);
             tu.scrollToBottomOfProducts().then(function () {

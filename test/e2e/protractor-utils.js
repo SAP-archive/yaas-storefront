@@ -71,8 +71,8 @@ exports.scrollToBottomOfProducts = function (end) {
     var count = 0;
     while (count < maxCount) {
         browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
+        browser.sleep(500);
         count++;
-        // browser.pause(500);
         if (element(by.xpath(stressBallPath)).isPresent()) {
             deferred.fulfill();
         } else if (count === maxCount) {

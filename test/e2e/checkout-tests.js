@@ -300,7 +300,6 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$23.92', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
-            browser.pause();
             tu.clickElement('id', 'place-order-btn');
             //browser.sleep(20000);
             verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800');
