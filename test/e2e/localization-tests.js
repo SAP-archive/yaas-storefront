@@ -80,13 +80,16 @@ describe("Localization", function () {
             clickWhiteMug();
             tu.clickElement('id', 'buy-button');
             //wait for cart to close
-            browser.sleep(5000);
+            browser.sleep(5500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             tu.clickElement('id', tu.cartButtonId); 
             tu.waitForCart();
-            browser.sleep(1000);           
+            browser.sleep(2000);
+            browser.wait(function () {
+                return element(by.binding("CONTINUE_SHOPPING")).isDisplayed();
+            });           
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
             assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
             assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
@@ -99,13 +102,16 @@ describe("Localization", function () {
             tu.selectLanguage('GERMAN');
             tu.clickElement('id', 'buy-button');
             //wait for cart to close
-            browser.sleep(5000);
+            browser.sleep(5500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
-            browser.sleep(1000);
+            browser.sleep(2000);
+            browser.wait(function () {
+                return element(by.binding("CONTINUE_SHOPPING")).isDisplayed();
+            });
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
             assertTextByElement('binding', "CHECKOUT", 'KASSE');
             assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');

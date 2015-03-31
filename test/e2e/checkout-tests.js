@@ -140,14 +140,14 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4500);
+            browser.sleep(5500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             browser.sleep(1000);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
-            browser.sleep(1000);
+            browser.sleep(2000);
         });
 
 
@@ -197,7 +197,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4500);
+            browser.sleep(5000);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(1000);
@@ -297,7 +297,7 @@ describe("checkout:", function () {
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-            verifyCartContents('$10.67', '$23.92', '1');
+            verifyCartContents('$10.67', '$28.93', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
@@ -334,6 +334,7 @@ describe("mobile checkout:", function () {
 
 
         it('should allow all fields to be editable on mobile', function () {
+            browser.sleep(1000);
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
             browser.sleep(5000);

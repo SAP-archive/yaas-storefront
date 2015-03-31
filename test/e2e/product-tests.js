@@ -121,7 +121,7 @@ describe('product page', function () {
             tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
             browser.sleep(750);
             tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
-            browser.get(tu.tenant + '/#!/ct/cosmetics');
+            browser.get(tu.tenant + '/#!/ct/cosmetics~273954304');
         });
 
     });

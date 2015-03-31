@@ -40,12 +40,6 @@ describe("cart:", function () {
             browser.get(tu.tenant + '/#!/ct/');
         });
 
-    afterEach(function() {
-        browser.manage().logs().get('browser').then(function(browserLog) {
-          console.log('log: ' + require('util').inspect(browserLog));
-        });
-    });
-
 
     describe("verify cart functionality", function () {
 
