@@ -22,7 +22,6 @@ angular.module('ds.coupon')
         return {
             /**
              * Gets a coupon object as a response to user coupon entry code.
-             * then validates that coupon, to either apply it to cart or invalidate it.
              */
              getCoupon: function( couponCode) {
                 var self = this;
@@ -46,15 +45,13 @@ angular.module('ds.coupon')
              },
 
             /**
-             * Gets a coupon object as a response to user coupon entry code.
-             * then validates that coupon, to either apply it to cart or invalidate it.
+             * validates or invalidates coupon by coupon code and cart total price
              */
              validateCoupon: function( couponCode, totalPrice ) {
                 var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
-                    // CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                     var couponData = resp.plain();
                     var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
                     var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
@@ -89,12 +86,12 @@ angular.module('ds.coupon')
                         //  post coupon redemption to cart
                         CartREST.Cart.one('carts', cartId).customPOST( couponCartRequest, 'discounts').then(function () {
                                 deferred.resolve();
-                            }, function () {
-                                deferred.reject();
+                            }, function (resp) {
+                                deferred.reject(resp);
                             });
 
-                        }, function () {
-                            deferred.reject();
+                        }, function (resp) {
+                            deferred.reject(resp);
                         });
 
                 } else {

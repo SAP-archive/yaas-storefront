@@ -321,33 +321,33 @@ angular.module('ds.checkout')
 
             /** Show error message after failed checkout, re-enable the submit button and reset any wait cursor/splash screen.
              * @param error message*/
-            function onCheckoutFailure(error) {
+            function onCheckoutFailure (error) {
                 $scope.message = error;
                 $scope.submitIsDisabled = false;
                 modal.close();
             }
 
             /* handles successful coupon checkout */
-            var couponSuccessHandler = function goToConfirmationPage(order) {
+            var couponSuccessHandler = function (order) {
                 UserCoupon.setBlankCoupon();    // clear coupon object.
                 checkoutSuccessHandler(order);
             };
 
             /** handles a failed coupon checkout. */
-            var couponErrorHandler = function handleCheckoutError(error) {
+            var couponErrorHandler = function (error) {
                 $scope.order.cart.totalPrice.value += UserCoupon.getCoupon().amounts.discountAmount;
                 UserCoupon.setBlankCoupon();    // clear coupon object.
                 checkoutErrorHandler(error);
             };
 
             /** Advances the application state to the confirmation page. */
-            var checkoutSuccessHandler = function goToConfirmationPage(order) {
+            var checkoutSuccessHandler = function (order) {
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
 
             /** Handles a failed "checkout"/order submission event. */
-            var checkoutErrorHandler = function handleCheckoutError(error) {
+            var checkoutErrorHandler = function (error) {
                 if (error.type === CheckoutSvc.ERROR_TYPES.order) {
                     onCheckoutFailure(error.error);
                 } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
@@ -390,8 +390,8 @@ angular.module('ds.checkout')
                             // proceed with checkout now that coupon is applied.
                             CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 
-                        }, function () {  // upstream error handler.
-                            $scope.message = 'COUPON_ERROR';
+                        }, function (resp) {  // upstream error handler.
+                            $scope.message = resp.data.message; //'COUPON_ERROR';
                             $scope.submitIsDisabled = false;
                             modal.close(); // stop loading indicator.
                         });
