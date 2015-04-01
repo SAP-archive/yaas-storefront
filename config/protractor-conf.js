@@ -1,7 +1,7 @@
 var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
-    allScriptsTimeout: 35000,
+    allScriptsTimeout: 30000,
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 

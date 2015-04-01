@@ -140,7 +140,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(5500);
+            browser.sleep(6500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
@@ -326,6 +326,24 @@ describe("mobile checkout:", function () {
             function (alert) { alert.accept(); },
             function (err) { }
             );
+            browser.sleep(500);
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(6000);
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
+            tu.waitForCart();
+            browser.sleep(2000);
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal();
+            tu.sendKeysById('email', 'mike@hybristest.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            fillCheckoutFormExceptEmail('Bill');
+
         });
 
         var continueButton1 = '//div[16]/button'
@@ -334,23 +352,6 @@ describe("mobile checkout:", function () {
 
 
         it('should allow all fields to be editable on mobile', function () {
-            browser.sleep(1000);
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(5000);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            browser.sleep(1000);
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Bill');
             tu.clickElement('xpath', continueButton1);
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
@@ -365,22 +366,6 @@ describe("mobile checkout:", function () {
         });
 
         it('should have basic validation on mobile', function () {
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(5000);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            browser.sleep(1000);
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Bill');
             verifyValidationForEachField('Bill', 'xpath', continueButton1);
             validateField('email', '', 'mike@hybristest.com', 'xpath', continueButton1);
             tu.clickElement('xpath', continueButton1);
