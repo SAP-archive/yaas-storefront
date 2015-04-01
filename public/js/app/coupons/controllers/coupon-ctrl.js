@@ -15,8 +15,8 @@ angular.module('ds.coupon', [])
     /**
      *  Coupon Module contoller.
      */
-    .controller('CouponCtrl', ['$scope', 'AuthSvc', 'AuthDialogManager', 'CouponSvc', 'UserCoupon',
-        function( $scope, AuthSvc, AuthDialogManager, CouponSvc, UserCoupon ) {
+    .controller('CouponCtrl', ['$scope', '$rootScope', 'AuthSvc', 'AuthDialogManager', 'CouponSvc', 'UserCoupon',
+        function( $scope, $rootScope, AuthSvc, AuthDialogManager, CouponSvc, UserCoupon ) {
 
             $scope.couponCollapsed = true;
             $scope.coupon = UserCoupon.getCoupon();
@@ -24,6 +24,13 @@ angular.module('ds.coupon', [])
             $scope.$on('couponUpdated', function(e, userCoupon) {
                 $scope.coupon = userCoupon;
             });
+
+            // var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
+            //     debugger;
+            //     // $scope.cart = eveObj.cart;
+            //     // $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            // });
+            // $scope.$on('$destroy', unbind);
 
 
             $scope.applyCoupon = function(couponCode) {
@@ -34,7 +41,7 @@ angular.module('ds.coupon', [])
                 }
 
                 //call coupon service to get discount.
-                CouponSvc.validateCoupon(couponCode, totalPrice).then(function (couponData) {
+                CouponSvc.getCoupon(couponCode).then(function (couponData) {
                     $scope.coupon = UserCoupon.setCoupon(couponData);
                     $scope.coupon.applied = true;
                     $scope.coupon.valid = true;
@@ -53,7 +60,7 @@ angular.module('ds.coupon', [])
                     }
                 }, function (e) {  //upstream error handler.
                     $scope.coupon.valid = false;
-                    $scope.coupon.message.error = e.data.message;
+                    $scope.coupon.message.error = e.status;
                 });
             };
 

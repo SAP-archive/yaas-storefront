@@ -24,21 +24,43 @@ angular.module('ds.coupon')
              * Gets a coupon object as a response to user coupon entry code.
              * then validates that coupon, to either apply it to cart or invalidate it.
              */
-             validateCoupon: function( couponCode, totalPrice ) {
+             getCoupon: function( couponCode) {
                 var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
-                            var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
-                            // validate coupon
-                            CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
-                                    deferred.resolve(couponData);
-                                }, function (resp) {
-                                    deferred.reject(resp);
-                                });
+                            if(resp.status === "VALID"){
+                                deferred.resolve(couponData);
+                            } else {
+                                deferred.reject(resp);
+                            }
+                        }, function (resp) {
+                            deferred.reject(resp);
+                        });
+                } else {
+                    deferred.reject();
+                }
+                return deferred.promise;
+             },
+
+            /**
+             * Gets a coupon object as a response to user coupon entry code.
+             * then validates that coupon, to either apply it to cart or invalidate it.
+             */
+             validateCoupon: function( couponCode, totalPrice ) {
+                var self = this;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    // get coupon from code
+                    // CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
+                    var couponData = resp.plain();
+                    var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
+                    var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
+                    // validate coupon
+                    CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
+                            deferred.resolve(couponData);
                         }, function (resp) {
                             deferred.reject(resp);
                         });
