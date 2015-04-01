@@ -28,14 +28,13 @@ angular.module('ds.coupon')
                 success: 'Applied'
             },
             amounts : {
-                originalAmount: 0,
                 discountAmount: 0
             }
         };
         userCoupon = angular.copy(blankCoupon);
 
         function updateCoupons() {
-            $rootScope.$broadcast('couponUpdated', userCoupon);
+            $rootScope.$broadcast('coupon:updated', userCoupon);
         }
 
         return {

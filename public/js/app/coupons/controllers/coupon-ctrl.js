@@ -21,17 +21,16 @@ angular.module('ds.coupon', [])
             $scope.couponCollapsed = true;
             $scope.coupon = UserCoupon.getCoupon();
 
-            $scope.$on('couponUpdated', function(e, userCoupon) {
+            /** load new coupon into view */
+            $scope.$on('coupon:updated', function(e, userCoupon) {
                 $scope.coupon = userCoupon;
             });
 
-            // var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
-            //     debugger;
-            //     // $scope.cart = eveObj.cart;
-            //     // $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
-            // });
-            // $scope.$on('$destroy', unbind);
-
+            /** revalidate coupon on cart change */
+            var unbind = $rootScope.$on('coupon:cartupdate', function(){
+                $scope.applyCoupon($scope.coupon.code);
+            });
+            $scope.$on('$destroy', unbind);
 
             $scope.applyCoupon = function(couponCode) {
 
