@@ -227,6 +227,7 @@ describe('AuthModalDialogCtrl Test', function () {
         });
     });
 
+
     describe('onGoogleLogin', function(){
        it('should invoke social login for non-auto login', function(){
            var token = 'token';
