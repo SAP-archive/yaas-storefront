@@ -57,9 +57,13 @@ describe('Coupon Ctrl Test: ', function () {
         $controller = _$controller_;
         $q =  _$q_;
 
-        var couponDeferred = $q.defer();
+        var couponDeferredValidate = $q.defer();
+        var couponDeferredGetCoupon = $q.defer();
         mockedCouponSvc.validateCoupon = jasmine.createSpy('validateCoupon').andCallFake(function() {
-            return couponDeferred.promise;
+            return couponDeferredValidate.promise;
+        });
+        mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
+            return couponDeferredGetCoupon.promise;
         });
 
 
@@ -75,6 +79,7 @@ describe('Coupon Ctrl Test: ', function () {
             expect($scope.applyCoupon).toBeDefined();
             expect($scope.removeCoupon).toBeDefined();
             expect($scope.checkAuthentication).toBeDefined();
+            expect(mockedCouponSvc.getCoupon).toBeDefined();
             expect(mockedCouponSvc.validateCoupon).toBeDefined();
         });
 
@@ -85,7 +90,7 @@ describe('Coupon Ctrl Test: ', function () {
                 }
             };
             $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.validateCoupon).toHaveBeenCalled();
+            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
         });
 
         it('should remove a coupon', function () {

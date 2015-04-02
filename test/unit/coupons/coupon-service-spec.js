@@ -103,9 +103,11 @@ describe('Coupon Service Test:', function () {
             successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
 
-            mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
+            // mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
             mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
-            var promise = CouponSvc.validateCoupon('CouponCode', 9.99);
+
+            var couponData = {discountType: 'ABSOLUTE', discountAbsolute: {amount:null} }
+            var promise = CouponSvc.validateCoupon('CouponCode', 9.99, couponData);
              promise.then(successSpy, errorSpy);
 
             mockBackend.flush();

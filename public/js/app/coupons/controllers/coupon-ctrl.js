@@ -36,7 +36,7 @@ angular.module('ds.coupon')
             /** apply user coupon into cart */
             $scope.applyCoupon = function(couponCode) {
 
-                if(!checkAuthentication(couponCode)){
+                if(!$scope.checkAuthentication(couponCode)){
                     return;
                 }
 
@@ -68,7 +68,7 @@ angular.module('ds.coupon')
                 UserCoupon.setBlankCoupon();
             };
 
-            function checkAuthentication(couponCode){
+            $scope.checkAuthentication = function(couponCode){
                 if (!AuthSvc.isAuthenticated()) {
                     var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
                     dlg.then(function(){
