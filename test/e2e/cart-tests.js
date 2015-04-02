@@ -30,6 +30,12 @@ function loadProductIntoCart(cartAmount, cartTotal) {
     tu.verifyCartTotal(cartTotal);
 }
 
+        afterEach(function () {
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
+        });
 
 describe("cart:", function () {
 

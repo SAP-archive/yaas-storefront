@@ -73,10 +73,13 @@ describe("login:", function () {
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
             updateAccountField('first-name-edit', 'first');
+            browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST C COOL");
             updateAccountField('middle-name-edit', 'middle');
+            browser.sleep(1000);            
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE COOL");
             updateAccountField('last-name-edit', 'last');
+            browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE LAST");
             updateTitleField('title', 'Dr.');
             updateAccountField('email-edit', 'cool@cool.com');
