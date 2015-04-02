@@ -83,6 +83,7 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: '3. Zahlung',
         STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
+        DISCOUNT: 'Rabatt',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
         YEAR: 'Jahr',
