@@ -5075,7 +5075,12 @@ button.close {
   overflow: hidden;
 }
 .popoverCloseBtn {
-  margin: 10px 10px 0 0;
+  margin: 10px;
+  cursor: pointer;
+  cursor: hand;
+}
+.popover-content > section > .closeModalButton {
+  display: none;
 }
 .modal {
   display: none;
@@ -6889,7 +6894,7 @@ a.signin {
   right: 500px;
 }
 .socialMediaSigninContainer {
-  margin: 0 0 75px 0;
+  margin: 0 0 30px 0;
 }
 .socialMediaSigninContainer .googlePlusLogin {
   padding-right: 0 !important;
@@ -7000,7 +7005,16 @@ a.signin {
   background: #0068b3;
 }
 .mobileLoginModal section {
-  padding: 20px 14px;
+  padding: 10px 14px 20px 10px;
+}
+.resetPasswordModal {
+  padding-top: 10px;
+}
+.resetPasswordModal .glyphicon {
+  padding-top: 5px;
+}
+.resetPasswordModal h3 {
+  margin-top: 0;
 }
 #cart {
   background: #eeeeee;

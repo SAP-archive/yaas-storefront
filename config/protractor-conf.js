@@ -1,7 +1,7 @@
 var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
-    allScriptsTimeout: 30000,
+    allScriptsTimeout: 45000,
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
@@ -44,7 +44,7 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://shops.dev.cf.hybris.com',
+    baseUrl: 'http://storefront-demo.yaas.io/',
 
 
     framework: 'jasmine',
