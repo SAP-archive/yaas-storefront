@@ -23,11 +23,11 @@ angular.module('ds.coupon')
             /**
              * Gets a coupon object as a response to user coupon entry code.
              */
-             getCoupon: function( couponCode) {
+             getCoupon: function( couponCode ) {
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
-                    CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
+                    CouponREST.Coupon.one('coupons', couponCode).get().then(function ( resp ) {
                             var couponData = resp.plain();
                             if(resp.status === 'VALID'){
                                 deferred.resolve(couponData);

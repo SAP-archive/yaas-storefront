@@ -95,7 +95,7 @@ describe('Coupon Service Test:', function () {
             expect(CouponSvc.buildCouponRequest).toBeDefined();
         });
 
-        it("should validate a coupon", function() {
+        it("should get a coupon", function() {
 
             var getPayload = {"Accept":"application/json, text/plain, */*"},
             postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
@@ -103,10 +103,52 @@ describe('Coupon Service Test:', function () {
             successSpy = jasmine.createSpy('success'),
             errorSpy = jasmine.createSpy('error');
 
-            // mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
+            mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
+
+            var promise = CouponSvc.getCoupon('CouponCode');
+             promise.then(successSpy, errorSpy);
+
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).not.toHaveBeenCalled();
+            expect(errorSpy).toHaveBeenCalled();
+
+        });
+
+        it("should validate a fixed rate coupon", function() {
+
+            var getPayload = {"Accept":"application/json, text/plain, */*"},
+            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
+            response = {},
+            successSpy = jasmine.createSpy('success'),
+            errorSpy = jasmine.createSpy('error');
+
             mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
 
             var couponData = {discountType: 'ABSOLUTE', discountAbsolute: {amount:null} }
+            var promise = CouponSvc.validateCoupon('CouponCode', 9.99, couponData);
+             promise.then(successSpy, errorSpy);
+
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).toHaveBeenCalled();
+            expect(errorSpy).not.toHaveBeenCalled();
+
+        });
+
+        it("should validate a percentage coupon", function() {
+
+            var getPayload = {"Accept":"application/json, text/plain, */*"},
+            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
+            response = {},
+            successSpy = jasmine.createSpy('success'),
+            errorSpy = jasmine.createSpy('error');
+
+            mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
+
+            var couponData = {discountType: 'PERCENTAGE', discountAbsolute: {amount:null} }
             var promise = CouponSvc.validateCoupon('CouponCode', 9.99, couponData);
              promise.then(successSpy, errorSpy);
 
