@@ -5,7 +5,7 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("//input[@type='text']", text);
+    tu.sendKeysByXpath("(//input[@type='text'])[2]", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
@@ -228,6 +228,7 @@ describe("login:", function () {
         });
 
         it('should allow user to access order confirmation', function (){
+            browser.sleep(1000);
             browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
             browser.wait(function () {
                 return element(by.binding('SIGN_IN')).isPresent();
