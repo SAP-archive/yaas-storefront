@@ -32,7 +32,7 @@ describe('product page', function () {
             });
         });
 
-        it('should show the user how many products loaded', function () {
+        iit('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
             expect(element(by.css('div.page-indicator.ng-binding')).getText()).toContain('1-');
             tu.scrollToBottomOfProducts()
