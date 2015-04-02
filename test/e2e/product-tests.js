@@ -32,7 +32,7 @@ describe('product page', function () {
             });
         });
 
-        iit('should show the user how many products loaded', function () {
+        it('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
             expect(element(by.css('div.page-indicator.ng-binding')).getText()).toContain('1-');
             tu.scrollToBottomOfProducts()
@@ -122,6 +122,29 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/cosmetics~273954304');
+        });
+
+        it('should search', function () {
+            tu.sendKeysById('search', 'beer');
+            expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
+            expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
+            expect(element(by.repeater('result in search.results').row(2)).getText()).toEqual('Water Bottle');
+            element(by.repeater('result in search.results').row(1)).click();
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("DESCRIPTION:\nTraditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
+        });
+
+        it('not return search results', function () {
+            tu.sendKeysById('search', 'test1');
+            expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
+        });
+
+        it('should take user to search results page', function () {
+            tu.sendKeysById('search', 'beer');
+            expect(element(by.binding('search.numberOfHits')).getText()).toEqual('See All 3 Results');
+            tu.clickElement('binding', 'search.numberOfHits');
+            tu.assertProductByRepeaterRow('0', 'BEER MUG');
+            tu.assertProductByRepeaterRow('1', 'WATER BOTTLE');
+            tu.assertProductByRepeaterRow('2', 'BEER MUG W/HELLES');
         });
 
     });
