@@ -16,7 +16,7 @@
  *  Users singleton Coupon object.
  */
 angular.module('ds.coupon')
-    .factory('UserCoupon', [ '$rootScope', '$translate', function( $rootScope, $translate ){
+    .factory('UserCoupon', [ '$rootScope', function( $rootScope ){
 
         var userCoupon = {};
         var blankCoupon = {

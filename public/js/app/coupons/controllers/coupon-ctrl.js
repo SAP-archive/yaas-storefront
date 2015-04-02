@@ -36,7 +36,6 @@ angular.module('ds.coupon')
             /** apply user coupon into cart */
             $scope.applyCoupon = function(couponCode) {
 
-                var totalPrice = $scope.cart.totalPrice.value;
                 if(!checkAuthentication(couponCode)){
                     return;
                 }

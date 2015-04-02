@@ -24,13 +24,12 @@ angular.module('ds.coupon')
              * Gets a coupon object as a response to user coupon entry code.
              */
              getCoupon: function( couponCode) {
-                var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
                     CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
                             var couponData = resp.plain();
-                            if(resp.status === "VALID"){
+                            if(resp.status === 'VALID'){
                                 deferred.resolve(couponData);
                             } else {
                                 deferred.reject(resp);
@@ -47,12 +46,11 @@ angular.module('ds.coupon')
             /**
              * validates or invalidates coupon by coupon code and cart total price validation
              */
-             validateCoupon: function( couponCode, totalPrice ) {
+             validateCoupon: function( couponCode, totalPrice, couponData ) {
                 var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
-                    var couponData = resp.plain();
                     var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : couponData.discountPercentage * 0.01 * totalPrice;
                     var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
                     // validate coupon
