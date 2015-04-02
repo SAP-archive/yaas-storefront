@@ -378,23 +378,7 @@ angular.module('ds.checkout')
                     $scope.order.cart = $scope.cart;
 
                     if(UserCoupon && UserCoupon.getCoupon().applied){
-                        // redeem coupon mashup
-                        CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
-                            // Apply Coupon: update total with coupon applied. This is required for API validation.
-                            $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
-                            // check if we need to clean out float precision
-                            if(($scope.order.cart.totalPrice.value.toString().split('.')[1] || []).length > 2){
-                                // clean total of any float precision, required by cart coupon validation.
-                                $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toFixed(2));
-                            }
-                            // proceed with checkout now that coupon is applied.
-                            CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
-
-                        }, function (resp) {  // upstream error handler.
-                            $scope.message = resp.data.message; //'COUPON_ERROR';
-                            $scope.submitIsDisabled = false;
-                            modal.close(); // stop loading indicator.
-                        });
+                        $scope.validateCouponCheckout();
                     } else {
                         CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
                     }
@@ -403,6 +387,26 @@ angular.module('ds.checkout')
                     $scope.showPristineErrors = true;
                     $scope.message = 'PLEASE_CORRECT_ERRORS';
                 }
+            };
+
+            /** redeem coupon mashup */
+            $scope.validateCouponCheckout = function(address, target) {
+                CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
+                    // Apply Coupon: update total with coupon applied. This is required for API validation.
+                    $scope.order.cart.totalPrice.value -= UserCoupon.getCoupon().amounts.discountAmount;
+                    // check if we need to clean out float precision
+                    if(($scope.order.cart.totalPrice.value.toString().split('.')[1] || []).length > 2){
+                        // clean total of any float precision, required by cart coupon validation.
+                        $scope.order.cart.totalPrice.value = parseFloat(($scope.order.cart.totalPrice.value).toFixed(2));
+                    }
+                    // proceed with checkout now that coupon is applied.
+                    CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
+
+                }, function (resp) {  // upstream error handler.
+                    $scope.message = resp.data.message; //'COUPON_ERROR';
+                    $scope.submitIsDisabled = false;
+                    modal.close(); // stop loading indicator.
+                });
             };
 
             $scope.selectAddress = function(address, target) {

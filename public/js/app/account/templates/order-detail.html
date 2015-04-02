@@ -150,8 +150,8 @@
                     </tr>
                     <tr ng-controller="CouponCtrl" ng-if="order.discounts && order.discounts[0].amount != 0">
                         <td>{{'DISCOUNT' | translate}}</td>
-                        <td class="text-right" style="color:red" >
-                            -{{ order.discounts[0].amount || 0 | currency: currencySymbol}}
+                        <td class="text-right">
+                            <span class="error">-{{ order.discounts[0].amount || 0 | currency: currencySymbol}}</span>
                         </td>
                     </tr>
                     </tbody>

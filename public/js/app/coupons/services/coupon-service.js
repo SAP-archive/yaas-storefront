@@ -45,7 +45,7 @@ angular.module('ds.coupon')
              },
 
             /**
-             * validates or invalidates coupon by coupon code and cart total price
+             * validates or invalidates coupon by coupon code and cart total price validation
              */
              validateCoupon: function( couponCode, totalPrice ) {
                 var self = this;
@@ -83,6 +83,7 @@ angular.module('ds.coupon')
                     CouponREST.Coupon.one('coupons', couponCode).customPOST( couponRequest, 'redemptions').then(function (resp) {
                         var couponId = resp.plain().id;
                         var couponCartRequest = self.buildCouponCartRequest(couponObj, couponId, GlobalData.getCurrencyId());
+
                         //  post coupon redemption to cart
                         CartREST.Cart.one('carts', cartId).customPOST( couponCartRequest, 'discounts').then(function () {
                                 deferred.resolve();

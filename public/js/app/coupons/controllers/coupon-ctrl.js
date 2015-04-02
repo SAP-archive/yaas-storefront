@@ -11,7 +11,7 @@
  */
 'use strict';
 
-angular.module('ds.coupon', [])
+angular.module('ds.coupon')
     /**
      *  Coupon Module contoller.
      */
@@ -22,16 +22,18 @@ angular.module('ds.coupon', [])
             $scope.coupon = UserCoupon.getCoupon();
 
             /** load new coupon into view */
-            $scope.$on('coupon:updated', function(e, userCoupon) {
+            var couponupdate = $scope.$on('coupon:updated', function(e, userCoupon) {
                 $scope.coupon = userCoupon;
             });
+            $scope.$on('$destroy', couponupdate);
 
             /** revalidate coupon on cart change */
-            var unbind = $rootScope.$on('coupon:cartupdate', function(){
+            var couponcartupdate = $rootScope.$on('coupon:cartupdate', function(){
                 $scope.applyCoupon($scope.coupon.code);
             });
-            $scope.$on('$destroy', unbind);
+            $scope.$on('$destroy', couponcartupdate);
 
+            /** apply user coupon into cart */
             $scope.applyCoupon = function(couponCode) {
 
                 var totalPrice = $scope.cart.totalPrice.value;
@@ -59,7 +61,7 @@ angular.module('ds.coupon', [])
                     }
                 }, function (e) {  //upstream error handler.
                     $scope.coupon.valid = false;
-                    $scope.coupon.message.error = e.status;
+                    $scope.coupon.message.error = e.status; //show api error.
                 });
             };
 

@@ -93,7 +93,7 @@ angular.module('ds.i18n')
         /*  coupons   */
         COUPON_CODE: 'Add Coupon Code',
         COUPON_ERROR: 'Could not redeem coupon.',
-        APPLY: 'Apply',
+        COUPON_APPLY: 'Apply',
 
         /*
             confirmation

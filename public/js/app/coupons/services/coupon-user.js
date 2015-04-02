@@ -16,14 +16,15 @@
  *  Users singleton Coupon object.
  */
 angular.module('ds.coupon')
-    .factory('UserCoupon', [ '$rootScope', function( $rootScope ){
+    .factory('UserCoupon', [ '$rootScope', '$translate', function( $rootScope, $translate ){
 
         var userCoupon = {};
         var blankCoupon = {
             code: '',
             applied: false,
             valid: true,
-            message : {
+            message : {  // generic coupon state messages
+                //TODO: api pending generic error ids,
                 error: 'Code not valid',
                 success: 'Applied'
             },

@@ -8,7 +8,7 @@
         </div>
         <input type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="coupon.applied">
         <button class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
-        {{'APPLY' | translate}}
+        {{'COUPON_APPLY' | translate}}
         </button>
     </div>
     <div ng-if="coupon.applied" class="row">
