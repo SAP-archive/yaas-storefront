@@ -42,6 +42,10 @@ describe("login:", function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1000, 1100);
             browser.get(tu.tenant + '/#!/ct');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
 
         });
 

@@ -32,6 +32,10 @@ describe("Localization", function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1200, 1100);
             browser.get(tu.tenant + '/#!/ct');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
         });
 
         it('should load product-list in english', function () {

@@ -135,6 +135,10 @@ describe("checkout:", function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1200, 1200);
             browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
