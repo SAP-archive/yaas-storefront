@@ -1,0 +1,11 @@
+---
+applications:
+- name: teststore
+  command: npm run-script multiProd
+  buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
+  memory: 1024M
+  host: storefront-demo
+  domain: yaas.io
+  instances: 1
+  url: storefront-demo.yaas.io
+  path: .
