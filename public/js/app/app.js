@@ -35,7 +35,9 @@ window.app = angular.module('ds.app', [
     'ngSanitize',
     'ui.select',
     'ds.ybreadcrumb',
-    'ds.appconfig'
+    'ds.appconfig',
+    'ds.searchlist',
+    'ds.ysearch'
 ])
     .constant('_', window._)
 
