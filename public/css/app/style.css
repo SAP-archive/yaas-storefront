@@ -6140,6 +6140,11 @@ html.disable-scroll {
 }
 #sidebar {
   background: #eeeeee;
+  /* mobile menu styles */
+  /* http://davidwalsh.name/translate3d */
+  /* #### - corrects 'unfixing' bug in Safari - uncomment if you have position:fixed elements inside .container - #### */
+  /* @media screen and (-webkit-min-device-pixel-ratio:0) { .container { -webkit-transform:none !important } } */
+  /* #### - define ids of animated container, menu and sub-menus here - #### */
 }
 #sidebar .currencySelector,
 #sidebar .languageSelector {
@@ -6418,14 +6423,11 @@ html.disable-scroll {
   }
   #sidebar .navi > li {
     padding: 0;
-    padding-left: 18px;
-    padding-right: 18px;
   }
   #sidebar .navi > li > a {
     display: block;
     text-decoration: none;
     padding: 0;
-    line-height: 51px;
     color: #202122;
     border-bottom: 1px solid #dedede;
   }
@@ -6460,7 +6462,6 @@ html.disable-scroll {
   #sidebar .sub-navi ul.sub-navi-list > li {
     padding: 0;
     display: block;
-    line-height: 51px;
     color: #202122;
     padding-left: 30px;
   }
@@ -6594,6 +6595,110 @@ html.disable-scroll {
 }
 #sidebar .store-settings .configSelector .popover {
   top: -170px !important;
+}
+#sidebar #menu label {
+  padding: 0 0.25em;
+  font: 3.125em/1.375em Arial;
+}
+#sidebar #menu .sub-nav .toggle {
+  padding: 0 0.3125em;
+  font: 2em/2em Arial;
+  top: 0;
+}
+#sidebar #header label:hover,
+#sidebar #menu label:hover {
+  color: #ccc;
+}
+#sidebar #main-nav-check,
+#sidebar #menu .sub-nav-check {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+#sidebar .toggle {
+  position: absolute;
+  right: 0.15em;
+  cursor: pointer;
+}
+#sidebar .container {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+#sidebar #menu .sub-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: -13.75em;
+  z-index: 9999;
+  left: -13.75em;
+  background-color: #eeeeee;
+}
+#sidebar .container,
+#sidebar #menu,
+#sidebar #menu .sub-nav {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+  -webkit-transition: -webkit-transform 0.25s ease;
+  transition: transform 0.25s ease;
+}
+#sidebar #menu ul {
+  line-height: 2.75em;
+  text-decoration: none;
+  padding: 0;
+  list-style: none;
+  margin-top: 4.0625em;
+  border-top: 1px solid #444444;
+}
+#sidebar #menu li {
+  border-bottom: 1px solid #444444;
+}
+#sidebar #menu li a {
+  display: block;
+  font-size: 0.875em;
+  padding-left: 1.5em;
+  text-decoration: none;
+}
+#sidebar #menu li a:hover,
+#sidebar #menu .toggle-sub:hover {
+  background: #333;
+  color: #fff;
+}
+#sidebar #menu .sub-nav {
+  margin-top: -1px;
+}
+#sidebar #menu .sub-heading {
+  margin-top: 4.0625em;
+  padding-left: 1.3125em;
+}
+#sidebar #menu .sub-heading:before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 13.75em;
+  margin-left: -1.3125em;
+}
+#sidebar #menu .toggle-sub {
+  font: bold 1em/2.75em Arial;
+  float: right;
+  margin-top: -2.75em;
+  width: 2.25em;
+  border-left: 1px solid #444;
+  cursor: pointer;
+  text-align: center;
+}
+#sidebar .container,
+#sidebar #menu,
+#sidebar #menu .sub-nav {
+  -webkit-transform: translate3d(0, 0, 0);
+}
+#sidebar #main-nav-check:checked ~ .container,
+#sidebar #main-nav-check:checked ~ #menu,
+#sidebar #menu .sub-nav-check:checked ~ [id$="-sub"] {
+  -webkit-transform: translate(13.75em, 0);
+  -ms-transform: translate(13.75em, 0);
+  transform: translate(13.75em, 0);
 }
 #full-cart-btn {
   outline: none;
