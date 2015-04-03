@@ -547,13 +547,12 @@
 	}
 
   /* mobile menu styles */
-  #menu label { padding:0 0.25em; font:3.125em/1.375em Arial }
-  #menu .sub-nav .toggle { padding:0 0.3125em; font:2em/2em Arial; top:0 }
+  #menu .sub-nav .toggle { padding-left: 14px; font-weight: bold; }
   #header label:hover, #menu label:hover { color:#ccc; }
   #main-nav-check, #menu .sub-nav-check { position:absolute; top:-9999px; left:-9999px }
-  .toggle { position:absolute; right:0.15em; cursor:pointer; }
+  .toggle { cursor:pointer; }
   .container { min-height:100%; padding:0; margin:0 }
-  #menu .sub-nav { position:absolute; top:0; bottom:0; width:-13.75em;  z-index:9999; left:-13.75em; background-color: @lightergrey; }
+  #menu .sub-nav { position:absolute; top:0; bottom:0; width:100%;  z-index:9999; left:-100%; background-color: @lightergrey; }
   .container, #menu, #menu .sub-nav {
     -webkit-transform:translate(0,0); -ms-transform:translate(0,0); transform:translate(0,0);
     -webkit-transition:-webkit-transform .25s ease; transition:transform .25s ease
@@ -563,9 +562,8 @@
   #menu li a { display:block; font-size:0.875em; padding-left:1.5em;  text-decoration:none }
   #menu li a:hover, #menu .toggle-sub:hover { background:#333; color: #fff; }
   #menu .sub-nav { margin-top:-1px }
-  #menu .sub-heading { margin-top:4.0625em; padding-left:1.3125em;  }
   #menu .sub-heading:before { content:""; display:block; height:1px; width:13.75em; margin-left:-1.3125em; }
-  #menu .toggle-sub { font:bold 1em/2.75em Arial; float:right; margin-top:-2.75em; width:2.25em; border-left:1px solid #444; cursor:pointer; text-align:center }
+  #menu .toggle-sub { font:bold 1em/2.75em Arial; float:right; margin-top:-2.75em; width:2.25em;  cursor:pointer; text-align:center }
   .container, #menu, #menu .sub-nav { -webkit-transform:translate3d(0,0,0) } /* http://davidwalsh.name/translate3d */
 
   /* #### - corrects 'unfixing' bug in Safari - uncomment if you have position:fixed elements inside .container - #### */
@@ -575,7 +573,7 @@
   #main-nav-check:checked ~ .container,
   #main-nav-check:checked ~ #menu,
   #menu .sub-nav-check:checked ~ [id$="-sub"] /* matches all elements with id ending "-sub" */ {
-    -webkit-transform:translate(13.75em,0); -ms-transform:translate(13.75em,0); transform:translate(13.75em,0)
+    -webkit-transform:translate(100%,0); -ms-transform:translate(100%,0); transform:translate(100%,0)
   }
   
   
