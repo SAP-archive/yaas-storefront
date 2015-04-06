@@ -346,20 +346,16 @@
 				left: -200%;
 			}
 
-			& > li:first-child > a{
-				border-top:1px solid #dedede;
-
-			}
-
-			& > li{
+			&  li{
 				padding: 0;
-				
+                border-bottom:1px solid #dedede;
+                border-top:1px solid #dedede;
 				& > a{
 					display: block;
                     text-decoration: none;
                     padding: 0;
 					color:#202122;
-					border-bottom:1px solid #dedede;
+					
 
 					&.mactive + .sub-navi{
 						display: block;
@@ -369,143 +365,138 @@
 			}
 
 
-			.has-sub{
-				a{
-					position: relative;
-					width: 100%;
-					.hyicon{
-						color: #c0c0c0;
-						position: absolute;
-						right: 33px;
-						top: 50%;
-						font-size: 16px;
-						margin: -8px 0 0 0 ;
-						left: auto;
-					}
-				}
-			}
+//			.has-sub{
+//				a{
+//					position: relative;
+//					width: 100%;
+//					.hyicon{
+//						color: #c0c0c0;
+//						position: absolute;
+//						right: 33px;
+//						top: 50%;
+//						font-size: 16px;
+//						margin: -8px 0 0 0 ;
+//						left: auto;
+//					}
+//				}
+//			}
 		}
-
-
-		.sub-navi{
-			display: none;
-			position: absolute;
-			left: 100%;
-			top: 0;
-			width: 100%;
-			background: #e2e2e2;
-			ul.sub-navi-list{
-				.list-unstyled;
-
-				& > li{
-					padding: 0;
-
-					display: block;
-					color:#202122;
-					padding-left: 30px;
-
-
-					&.back {
-						border-bottom:1px solid #d9d9d9;
-						padding-left: 0;
-						a{
-							padding-left: 30px;
-							color: #0068b3;
-							font-weight: bold;
-							border-bottom:0;
-							font-family: @font-family-sans-serif;
-							font-style: normal;
-							text-transform: uppercase;
-
-							.hyicon{
-								position: static;
-								color: #0068b3;
-							}
-						}
-					}
-
-
-
-					ul{
-						display: none;
-					}
-
-
-					& > a{
-						border-bottom:1px solid #d9d9d9;	
-						display: block;
-						color:#6a6b6b;
-                        padding-bottom: 10px;
-                        text-decoration: none;
-						font-family: @font-family-serif;
-						font-style: italic;
-
-						&:hover{
-							text-decoration: none;
-							color: @lightblue;
-						}
-
-						&.mactive{
-							position: relative;
-						}
-						&.mactive + ul{
-							display: block;
-							background: #e2e2e2;
-							position: absolute;
-							left: 100%;
-							top: 0;
-							width: 100%;
-							.list-unstyled;
-							margin: 0;
-
-							li{
-								padding-left: 30px;
-								&.back {
-									border-bottom:1px solid #d9d9d9;
-									padding-left: 0;
-									a{
-										padding-left: 30px;
-										color: #0068b3;
-										font-weight: bold;
-										border-bottom:0;
-										font-family: @font-family-sans-serif;
-										font-style: normal;
-										text-transform: uppercase;
-
-										.hyicon{
-											position: static;
-											color: #0068b3;
-										}
-									}
-								}
-								a{
-									border-bottom:1px solid #d9d9d9;
-									display: block;
-									color:#141b25;
-									font-weight: bold;
-
-									&:hover{
-										text-decoration: none;
-										color: @lightblue;
-									}
-
-								}
-							}
-						}
-	
-					}
-				}
-
-			}
-			
-		}
-
+//
+//
+//		.sub-navi{
+//			display: none;
+//			position: absolute;
+//			left: 100%;
+//			top: 0;
+//			width: 100%;
+//			background: #e2e2e2;
+//			ul.sub-navi-list{
+//				.list-unstyled;
+//
+//				& > li{
+//					padding: 0;
+//
+//					display: block;
+//					color:#202122;
+//					padding-left: 30px;
+//
+//
+//					&.back {
+//						border-bottom:1px solid #d9d9d9;
+//						padding-left: 0;
+//						a{
+//							padding-left: 30px;
+//							color: #0068b3;
+//							font-weight: bold;
+//							border-bottom:0;
+//							font-family: @font-family-sans-serif;
+//							font-style: normal;
+//							text-transform: uppercase;
+//
+//							.hyicon{
+//								position: static;
+//								color: #0068b3;
+//							}
+//						}
+//					}
+//
+//
+//
+//					ul{
+//						display: none;
+//					}
+//
+//
+//					& > a{
+//						border-bottom:1px solid #d9d9d9;
+//						display: block;
+//						color:#6a6b6b;
+//                        padding-bottom: 10px;
+//                        text-decoration: none;
+//						font-family: @font-family-serif;
+//						font-style: italic;
+//
+//						&:hover{
+//							text-decoration: none;
+//							color: @lightblue;
+//						}
+//
+//						&.mactive{
+//							position: relative;
+//						}
+//						&.mactive + ul{
+//							display: block;
+//							background: #e2e2e2;
+//							position: absolute;
+//							left: 100%;
+//							top: 0;
+//							width: 100%;
+//							.list-unstyled;
+//							margin: 0;
+//
+//							li{
+//								padding-left: 30px;
+//								&.back {
+//									border-bottom:1px solid #d9d9d9;
+//									padding-left: 0;
+//									a{
+//										padding-left: 30px;
+//										color: #0068b3;
+//										font-weight: bold;
+//										border-bottom:0;
+//										font-family: @font-family-sans-serif;
+//										font-style: normal;
+//										text-transform: uppercase;
+//
+//										.hyicon{
+//											position: static;
+//											color: #0068b3;
+//										}
+//									}
+//								}
+//								a{
+//									border-bottom:1px solid #d9d9d9;
+//									display: block;
+//									color:#141b25;
+//									font-weight: bold;
+//
+//									&:hover{
+//										text-decoration: none;
+//										color: @lightblue;
+//									}
+//
+//								}
+//							}
+//						}
+//
+//					}
+//				}
+//
+//			}
+//
+//		}
 
 	}
-
-
-
-
 
 	.social-icons{
 		.clearfix;
@@ -547,24 +538,128 @@
 	}
 
   /* mobile menu styles */
-  #menu .sub-nav .toggle { padding-left: 14px; font-weight: bold; }
-  #header label:hover, #menu label:hover { color:#ccc; }
-  #main-nav-check, #menu .sub-nav-check { position:absolute; top:-9999px; left:-9999px }
-  .toggle { cursor:pointer; }
-  .container { min-height:100%; padding:0; margin:0 }
-  #menu .sub-nav { position:absolute; top:0; bottom:0; width:100%;  z-index:9999; left:-100%; background-color: @lightergrey; }
-  .container, #menu, #menu .sub-nav {
-    -webkit-transform:translate(0,0); -ms-transform:translate(0,0); transform:translate(0,0);
-    -webkit-transition:-webkit-transform .25s ease; transition:transform .25s ease
+  #menu .sub-nav .toggle { 
+    padding-left: 25px;
+    font-weight: bold;
+    font-size: 21px;
+    padding-right: 10px;
+    &:hover{
+      color: @lightblue;
+    }
   }
-  #menu ul {  line-height:2.75em; text-decoration:none; padding:0; list-style:none; margin-top:4.0625em; border-top:1px solid #444 }
-  #menu li { border-bottom:1px solid #444 }
-  #menu li a { display:block; font-size:0.875em; padding-left:1.5em;  text-decoration:none }
-  #menu li a:hover, #menu .toggle-sub:hover { background:#333; color: #fff; }
-  #menu .sub-nav { margin-top:-1px }
-  #menu .sub-heading:before { content:""; display:block; height:1px; width:13.75em; margin-left:-1.3125em; }
-  #menu .toggle-sub { font:bold 1em/2.75em Arial; float:right; margin-top:-2.75em; width:2.25em;  cursor:pointer; text-align:center }
-  .container, #menu, #menu .sub-nav { -webkit-transform:translate3d(0,0,0) } /* http://davidwalsh.name/translate3d */
+  
+  #header label:hover,
+  #menu label:hover { 
+    color:#ccc; 
+  }
+  
+  #main-nav-check,
+  #menu .sub-nav-check {
+    position:absolute; 
+    top:-9999px; 
+    left:-9999px 
+  }
+  
+  .toggle { 
+    cursor:pointer; 
+  }
+  
+  .container { 
+    min-height:100%; 
+    padding:0; 
+    margin:0 
+  }
+  
+  #menu{
+    margin-bottom: 75px;
+    font-size: 21px;
+  }
+  
+  #menu .sub-nav { 
+    position:absolute; 
+    top:0; 
+    bottom:0; 
+    width:100%;  
+    z-index:9999; 
+    left:-100%; 
+    background-color: @lightergrey; 
+  }
+  
+  .container, 
+  #menu, 
+  #menu .sub-nav {
+    -webkit-transform:translate(0,0); 
+    -ms-transform:translate(0,0); 
+    transform:translate(0,0);
+    -webkit-transition:-webkit-transform .25s ease; 
+    transition:transform .25s ease
+  }
+  #menu ul {  
+    line-height:2.75em; 
+    text-decoration:none; 
+    padding:0; 
+    list-style:none; 
+    margin-top:4.0625em;
+  }
+
+  #menu li{
+    overflow: hidden;
+    
+    + li{
+      border-top: none;
+    }
+    
+  }
+  
+  #menu li a { 
+    display:block; 
+    font-size:21px;
+    padding: 18px 30px;
+    text-decoration:none;
+    float: left;
+    width: 90%;
+  }
+  
+  #menu li a:hover,
+  #menu .toggle-sub:hover {
+    color: @lightblue;
+  }
+  
+  #menu .sub-nav {
+    margin-top: -1px;
+    border-right: 1px solid #dedede;
+  }
+ 
+  #menu .sub-heading{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    
+    &:hover{
+      color: @lightblue;
+    }
+  }
+  
+  #menu .sub-heading:before { 
+    content:""; 
+    display:block; 
+    height:1px; 
+//    width:13.75em;
+//    margin-left:-1.3125em;
+  }
+  
+  #menu .toggle-sub { 
+    font-size: 21px;
+    padding: 18px 28px 0 0;
+    cursor:pointer; 
+    text-align:center;
+    float: right;
+  }
+  
+  .container, 
+  #menu, 
+  #menu .sub-nav { 
+    -webkit-transform:translate3d(0,0,0) 
+  } /* http://davidwalsh.name/translate3d */
 
   /* #### - corrects 'unfixing' bug in Safari - uncomment if you have position:fixed elements inside .container - #### */
   /* @media screen and (-webkit-min-device-pixel-ratio:0) { .container { -webkit-transform:none !important } } */
@@ -573,7 +668,9 @@
   #main-nav-check:checked ~ .container,
   #main-nav-check:checked ~ #menu,
   #menu .sub-nav-check:checked ~ [id$="-sub"] /* matches all elements with id ending "-sub" */ {
-    -webkit-transform:translate(100%,0); -ms-transform:translate(100%,0); transform:translate(100%,0)
+    -webkit-transform:translate(100%,0); 
+    -ms-transform:translate(100%,0); 
+    transform:translate(100%,0)
   }
   
   
