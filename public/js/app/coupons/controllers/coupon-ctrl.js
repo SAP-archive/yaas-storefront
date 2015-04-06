@@ -80,7 +80,7 @@ angular.module('ds.coupon')
                     return false;
 	            }
 	            return true;
-            }
+            };
 
 
     }]);
