@@ -4,22 +4,43 @@
 @border-radius-large:       0px;
 @border-radius-small:       0px;
 
-.btn{
-	text-transform: uppercase;
-}
-
-.btn-link{
-	&,&:active, &.active{
-		.box-shadow("none !important");
-	}
-}
-
 @btn-default-color:              #fff;
 @btn-default-bg:                 @darkgrey;
 @btn-default-border:           	 @btn-default-bg;
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @defaultblue;
+
+@state-success-text:             #fff;
+@state-success-bg:               @defaultgreen;
+
+/*WELL */
+@well-bg:                     @lightgrey;
+@well-border:                 @lightgrey;
+
+//== Pagination
+@pagination-color:                     @darkestgrey;
+@pagination-bg:                        #fff;
+@pagination-border:                    @lightgrey;
+@pagination-hover-color:               @link-hover-color;
+@pagination-hover-bg:                  @gray-lighter;
+@pagination-hover-border:              #ddd;
+@pagination-active-color:              @lightblue;
+@pagination-active-bg:                 @pagination-bg;
+@pagination-active-border:             @pagination-border;
+@pagination-disabled-color:            @gray-light;
+@pagination-disabled-bg:               #fff;
+@pagination-disabled-border:           #ddd;
+
+.btn{
+  ext-transform: uppercase;
+}
+
+.btn-link{
+  &,&:active, &.active{
+    .box-shadow("none !important");
+  }
+}
 
 /* ALERTS */
 .alert{
@@ -30,14 +51,6 @@
 	font-weight: bold;
 	padding: 7px;
 }
-
-@state-success-text:             #fff;
-@state-success-bg:               @defaultgreen;
-
-
-/*WELL */
-@well-bg:                     @lightgrey;
-@well-border:                 @lightgrey;
 
 .well{
 	box-shadow: none;
@@ -113,19 +126,6 @@
   	} // Safari and Chrome
 }
 
-//== Pagination
-@pagination-color:                     @darkestgrey;
-@pagination-bg:                        #fff;
-@pagination-border:                    @lightgrey;
-@pagination-hover-color:               @link-hover-color;
-@pagination-hover-bg:                  @gray-lighter;
-@pagination-hover-border:              #ddd;
-@pagination-active-color:              @lightblue;
-@pagination-active-bg:                 @pagination-bg;
-@pagination-active-border:             @pagination-border;
-@pagination-disabled-color:            @gray-light;
-@pagination-disabled-bg:               #fff;
-@pagination-disabled-border:           #ddd;
 
 
 .pagination {
