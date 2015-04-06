@@ -28,6 +28,8 @@ angular.module('ds.checkout')
                 var fieldRequired = '';
                 var fieldTooShort = '';
                 var fieldsNotMatching = '';
+                var detailChange = null;
+
                 $translate('FIELD_REQUIRED').then(function (translatedValue) {
                     fieldRequired = translatedValue;
                 });
@@ -163,7 +165,7 @@ angular.module('ds.checkout')
 
                 //when "my details" name changes, validate bill to contact name field
                 if (ngModel.$name === 'contactName') {
-                    var nch = scope.$on('myDetails:change', function(){
+                    detailChange = scope.$on('myDetails:change', function(){
                             elementClone.hide();
                             elementClone.attr('value', '');
                             element.show();
@@ -180,7 +182,9 @@ angular.module('ds.checkout')
                     elementClone.off('focus', onInputFocus);
                     element.off('blur', onInputBlur);
                     sfh();
-                    nch();
+                    if(detailChange){
+                        detailChange();
+                    }
                 });
             }
         };

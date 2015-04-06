@@ -66,7 +66,7 @@ describe('ConfigurationSvc Test', function () {
             $httpBackend = _$httpBackend_;
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
-            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations';
+            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
             $q = _$q_;
             settings = _settings_;
         });
