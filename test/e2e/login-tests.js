@@ -5,7 +5,7 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("//input[@type='text']", text);
+    tu.sendKeysByXpath("(//input[@type='text'])[2]", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
@@ -42,6 +42,10 @@ describe("login:", function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1000, 1100);
             browser.get(tu.tenant + '/#!/ct');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
 
         });
 
@@ -69,10 +73,13 @@ describe("login:", function () {
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
             updateAccountField('first-name-edit', 'first');
+            browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST C COOL");
             updateAccountField('middle-name-edit', 'middle');
+            browser.sleep(1000);            
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE COOL");
             updateAccountField('last-name-edit', 'last');
+            browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE LAST");
             updateTitleField('title', 'Dr.');
             updateAccountField('email-edit', 'cool@cool.com');
@@ -221,15 +228,16 @@ describe("login:", function () {
         });
 
         it('should allow user to access order confirmation', function (){
-            browser.get(tu.tenant + '/#!/confirmation/CYFEF3PN/');
+            browser.sleep(1000);
+            browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
             browser.wait(function () {
                 return element(by.binding('SIGN_IN')).isPresent();
             });
-            tu.sendKeys('id', 'usernameInput', 'mike.nightingale@hybris.com');
+            tu.sendKeys('id', 'usernameInput', 'order@hybristest.com');
             tu.sendKeys('id', 'passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
-            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is CYFEF3PN');
+            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your order # is P0T7S1A7');
         });
 
     });

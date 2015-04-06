@@ -162,8 +162,9 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CLOSE: 'Close',
+        COMPANY_NAME: 'Company Name',
         CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
-        CONTACT_NAME: 'Contact Name',
+        FULL_NAME: 'Full Name',
         CONTACT_PHONE: 'Contact Phone',
         CURRENCY: 'Currency',
         SELECT_CURRENCY: 'Select a currency',
@@ -260,7 +261,19 @@ angular.module('ds.i18n')
         /*
         Order Details
         */
-        CREDIT_CARD: 'Credit Card'
+        CREDIT_CARD: 'Credit Card',
+
+
+        /*
+         Search
+         */
+        SEARCH: 'SEARCH',
+        SEARCH_RESULTS: 'Search results',
+        MOST_RELEVANT: 'Most Relevant',
+        SEARCH_AGAIN: 'Search again',
+        RESULTS: 'Results',
+        SEE_ALL: 'See All'
+
 
 
 	});

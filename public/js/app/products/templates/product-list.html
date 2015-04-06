@@ -1,10 +1,8 @@
 <section class="gray" match-background>
-    <div class="hero-unit">
-        <blockquote style="background-image: url('{{category.image}}' );background-position:0 0;">
+    <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
+        <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
-
         </blockquote>
-
     </div>
 
     <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>

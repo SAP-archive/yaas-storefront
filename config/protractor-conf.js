@@ -1,7 +1,7 @@
 var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
-    allScriptsTimeout: 30000,
+    allScriptsTimeout: 45000,
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
@@ -16,7 +16,8 @@ exports.config = {
         'platform': 'OS X 10.8',
         'screen-resolution': '1280x1024',
         'record-video': false,
-        'max-duration': 2700,
+        'max-duration': 10800,
+        'time-zone': 'Berlin',
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
         'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
@@ -43,7 +44,7 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://shops.dev.cf.hybris.com',
+    baseUrl: 'http://storefront-demo.yaas.io/',
 
 
     framework: 'jasmine',

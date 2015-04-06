@@ -5075,7 +5075,12 @@ button.close {
   overflow: hidden;
 }
 .popoverCloseBtn {
-  margin: 10px 10px 0 0;
+  margin: 10px;
+  cursor: pointer;
+  cursor: hand;
+}
+.popover-content > section > .closeModalButton {
+  display: none;
 }
 .modal {
   display: none;
@@ -6889,7 +6894,7 @@ a.signin {
   right: 500px;
 }
 .socialMediaSigninContainer {
-  margin: 0 0 75px 0;
+  margin: 0 0 30px 0;
 }
 .socialMediaSigninContainer .googlePlusLogin {
   padding-right: 0 !important;
@@ -7000,7 +7005,16 @@ a.signin {
   background: #0068b3;
 }
 .mobileLoginModal section {
-  padding: 20px 14px;
+  padding: 10px 14px 20px 10px;
+}
+.resetPasswordModal {
+  padding-top: 10px;
+}
+.resetPasswordModal .glyphicon {
+  padding-top: 5px;
+}
+.resetPasswordModal h3 {
+  margin-top: 0;
 }
 #cart {
   background: #eeeeee;
@@ -8566,6 +8580,101 @@ address {
 }
 .editable-controls .editable-error {
   color: #a94442 !important;
+}
+.y-search {
+  position: relative;
+  margin: 10px 14px;
+}
+.y-search .y-input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #0079ff;
+}
+.y-search .y-input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #0079ff;
+  opacity: 1;
+}
+.y-search .y-input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #0079ff;
+  opacity: 1;
+}
+.y-search .y-input:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #0079ff;
+}
+.y-search .y-input:focus {
+  background-color: #fff;
+  border: 1px solid #8d8d8e;
+  color: #8d8d8e;
+}
+.y-search .y-search-container {
+  width: 100%;
+  background-color: #ffffff;
+  position: absolute;
+  z-index: 2000;
+  cursor: pointer;
+  border: 1px solid #8d8d8e;
+  border-top: none;
+  box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.2);
+}
+.y-search .y-search-container em {
+  font-style: normal;
+  font-weight: 800;
+}
+.y-search .y-search-container .y-search-results {
+  height: auto;
+  padding: 10px;
+  border: none;
+  box-shadow: none;
+  display: block;
+  line-height: 1;
+  font-size: 12px;
+}
+.y-search .y-search-container .y-search-results .y-search-result-name {
+  display: block;
+  font-size: medium;
+}
+.y-search .y-search-container .y-search-results .y-search-result-description {
+  font-size: smaller;
+}
+.y-search .y-search-container .y-search-count {
+  padding: 10px 15px 10px 0;
+  border-top: 1px solid #8d8d8e;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  width: 85%;
+  margin: 0 auto;
+  display: block;
+  color: #0079ff;
+}
+.y-search-message {
+  padding: 5px;
+  margin-bottom: 20px;
+}
+.y-search-again {
+  color: #0079ff;
+  cursor: pointer;
+}
+.right-inner-addon {
+  position: relative;
+}
+.right-inner-addon input {
+  padding-right: 30px;
+  background-color: transparent;
+}
+.right-inner-addon i {
+  position: absolute;
+  padding: 9px 12px;
+  pointer-events: none;
+  right: 0;
+}
+.right-inner-addon i.active {
+  color: #0079ff;
+}
+.continueShoppingBtn {
+  margin-top: 40px;
 }
 /* BTN */
 .btn {
