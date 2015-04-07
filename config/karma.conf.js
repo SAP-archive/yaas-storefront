@@ -151,7 +151,8 @@ module.exports = function(config){
     ],
 
     preprocessors : {
-        'public/js/app/**/*.js': 'coverage'
+        //'public/js/app/**/*.js': 'coverage'
+        'public/js/app/**/!(backendStub).js': 'coverage'
     },
 
     reporters : ['coverage','progress'],

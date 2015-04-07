@@ -98,7 +98,7 @@ describe("Localization", function () {
             assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
             assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
             assertTextByElement('css', 'td.ng-binding', '1 ITEM');
-            assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Qty:');
+            assertTextByElement('css', 'div.input-group.pull-left > label.input-group-addon.ng-binding', 'Qty:');
         });
 
         it('should load cart in german', function () {
@@ -120,7 +120,7 @@ describe("Localization", function () {
             assertTextByElement('binding', "CHECKOUT", 'KASSE');
             assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
             assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
-            assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Menge:');
+            assertTextByElement('css', 'div.input-group.pull-left > label.input-group-addon.ng-binding', 'Menge:');
         });
 
         it('should load checkout in german', function () {
