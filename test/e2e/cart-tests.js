@@ -30,6 +30,12 @@ function loadProductIntoCart(cartAmount, cartTotal) {
     tu.verifyCartTotal(cartTotal);
 }
 
+        afterEach(function () {
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
+        });
 
 describe("cart:", function () {
 
@@ -38,6 +44,10 @@ describe("cart:", function () {
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
             browser.driver.manage().window().setSize(1200, 1100);
             browser.get(tu.tenant + '/#!/ct/');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
         });
 
 

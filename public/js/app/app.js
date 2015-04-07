@@ -37,7 +37,9 @@ window.app = angular.module('ds.app', [
     'ds.ybreadcrumb',
     'ds.ytracking',
     'ds.localstorage',
-    'ds.appconfig'
+    'ds.appconfig',
+    'ds.searchlist',
+    'ds.ysearch'
 ])
     .constant('_', window._)
 
