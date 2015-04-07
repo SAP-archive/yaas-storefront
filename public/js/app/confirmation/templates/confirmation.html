@@ -7,6 +7,34 @@
 			</h1>
 			<p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
             <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
+
+
+            <div ng-if="!isAuthenticated">
+
+            {{'ONE_MORE_STEP' | translate}} <br>
+            {{'ONE_MORE_STEP_MESSAGE' | translate}} <br>
+
+                <!-- Nav tabs -->
+                <div  ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer row">
+                    <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
+                        <div class="fbLoginButton">
+                            <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="googleClientId"  class="googlePlusLogin col-sm-6 col-xs-12">
+                        <div class="googleSignIn">
+                            <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
+                            <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                        </div>
+                    </div>
+                </div>
+
+              <div class="tab-pane" id="signup" >
+                <div ng-include="'js/app/auth/templates/signup.html'"></div>
+              </div>
+
+            </div>
+
             <div>
                 <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>

@@ -15,8 +15,11 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', 'settings', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated, settings) {
+
+        $scope.fbAppId = settings.facebookAppId;
+        $scope.googleClientId = settings.googleClientId;
 
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
