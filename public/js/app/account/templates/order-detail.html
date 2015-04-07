@@ -18,13 +18,14 @@
             </div>
             <h1>{{'ORDER' | translate}} {{order.id}}</h1>
         </div>
-        <div class="section-headline">
+        <div class="section-headline orderdetailsheader">
             <h2>{{'ORDER_DETAILS' | translate}}</h2>
-        </div>
-        <div class="row">
             <span class="area-headline">
                 {{'ORDER_DATE' | translate}} {{order.created | date : dateFormat}}
             </span>
+        </div>
+        <div class="row">
+            {{'SHIPPING_DETAILS' | translate }}
         </div>
         <div class="row">
             <!-- AREA -->
