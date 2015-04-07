@@ -175,6 +175,7 @@ angular.module('ds.i18n')
         ORDER_HISTORY: 'Order History',
         ORDER_NUMBER: 'Order Number',
         ORDER_STATUS: 'Order Status',
+        SHIPPING_DETAILS: 'SHIPPING DETAILS',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
