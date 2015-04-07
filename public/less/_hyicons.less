@@ -1,0 +1,49 @@
+@hyicon-font-name:"hyicon";
+
+// Import the fonts
+@font-face {
+	font-family: 'HybrisIcons'; 
+	src: ~"url('@{icon-font-path}@{hyicon-font-name}.eot')";
+	src: ~"url('@{icon-font-path}@{hyicon-font-name}.eot?#iefix') format('embedded-opentype')",
+		~"url('@{icon-font-path}@{hyicon-font-name}.woff') format('woff')",
+		~"url('@{icon-font-path}@{hyicon-font-name}.ttf') format('truetype')",
+		~"url('@{icon-font-path}@{hyicon-font-name}.svg#@{icon-font-svg-id}') format('svg')";
+}
+
+// Catchall baseclass
+.hyicon {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'HybrisIcons';
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.hyicon-arrow-thin-down{ &:before { content: '\e800'; }} /* '' */
+.hyicon-remove{ &:before { content: '\e813'; }} /* '' */
+.hyicon-arrow-thin-right{ &:before { content: '\e801'; }} /* '' */
+.hyicon-arrow-thin-up{ &:before { content: '\e802'; }} /* '' */
+.hyicon-chevron-bold-down{ &:before { content: '\e804'; }} /* '' */
+.hyicon-chevron-bold-left{ &:before { content: '\e807'; }} /* '' */
+.hyicon-chevron-bold-right{ &:before { content: '\e805'; }} /* '' */
+.hyicon-chevron-bold-up{ &:before { content: '\e806'; }} /* '' */
+.hyicon-chevron-thin-down{ &:before { content: '\e808'; }} /* '' */
+.hyicon-chevron-thin-left{ &:before { content: '\e80b'; }} /* '' */
+.hyicon-chevron-thin-right{ &:before { content: '\e809'; }} /* '' */
+.hyicon-star{ &:before { content: '\e811'; }} /* '' */
+.hyicon-cart{ &:before { content: '\e810'; }} /* '' */
+.hyicon-grid-three{ &:before { content: '\e80d'; }} /* '' */
+.hyicon-grid-two{ &:before { content: '\e80e'; }} /* '' */
+.hyicon-menu{ &:before { content: '\e80f'; }} /* '' */
+.hyicon-plus{ &:before { content: '\e812'; }} /* '' */
+.hyicon-search{ &:before { content: '\e814'; }} /* '' */
+.hyicon-social-facebook{ &:before { content: '\e815'; }} /* '' */
+.hyicon-social-pinterest{ &:before { content: '\e816'; }} /* '' */
+.hyicon-social-twitter{ &:before { content: '\e817'; }} /* '' */
+.hyicon-chevron-thin-up{ &:before { content: '\e80a'; }} /* '' */
+.hyicon-arrow-thin-left{ &:before { content: '\e803'; }} /* '' */
+.hyicon-grid-four{ &:before { content: '\e80c'; }} /* '' */
