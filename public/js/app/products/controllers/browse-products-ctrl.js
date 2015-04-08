@@ -224,8 +224,10 @@ angular.module('ds.products')
                                         //Check for visible items in viewport
                                     }
                                     $scope.total = GlobalData.products.meta.total;
-                                    getPrices(products);
-                                    assignMainImage(products);
+                                    if (products.length) {
+                                        getPrices(products);
+                                        assignMainImage(products);
+                                    }
 
                                     //Set page parameter
                                     $location.search('page', $scope.pageNumber).replace();
@@ -311,9 +313,12 @@ angular.module('ds.products')
                             //Check for visible items in viewport
                        }
                         $scope.total = GlobalData.products.meta.total;
-                        getPrices(products);
-                        assignMainImage(products);
+                        if (products.length) {
+                            getPrices(products);
+                            assignMainImage(products);
+                        }
                     }
+                    
                     else {
                         $scope.requestInProgress = false;
                     }

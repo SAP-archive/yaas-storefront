@@ -40,7 +40,7 @@ describe("Localization", function () {
 
         it('should load product-list in english', function () {
             // tu.selectLanguage('English');
-            assertTextByElement('binding', 'category.name', 'MUGS');
+            assertTextByElement('binding', 'category.name', 'BOTTLES');
             assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
             //price is not currently supported
@@ -54,7 +54,7 @@ describe("Localization", function () {
 
         it('should load product-list in german', function () {
             tu.selectLanguage('GERMAN');
-            assertTextByElement('binding', 'category.name', 'TASSEN');
+            assertTextByElement('binding', 'category.name', 'FLASCHEN');
             assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
             //price is not currently supported

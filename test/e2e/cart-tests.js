@@ -100,12 +100,11 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        //TODO: fix test to pass on bamboo. Always passes locally
-        xit('should load multiple products into cart', function () {
+        it('should load multiple products into cart', function () {
             loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('category in categories').row(1).column('category.name'))
+            var category =  element(by.repeater('category in categories').row(0).column('category.name'))
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -113,6 +112,12 @@ describe("cart:", function () {
             tu.clickElement('xpath', tu.whiteThermos);
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);
+            browser.sleep(5500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(500);
             tu.verifyCartTotal("$25.66");
