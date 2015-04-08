@@ -15,8 +15,6 @@
 angular.module('ds.auth')
 .directive('createAccount', ['AuthSvc', 'settings', function (AuthSvc, settings) {
     return {
-        scope: false,
-        transclude: false,
         link: function ($scope) {
 
             $scope.fbAppId = settings.facebookAppId;
