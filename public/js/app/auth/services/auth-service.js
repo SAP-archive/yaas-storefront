@@ -178,6 +178,7 @@ angular.module('ds.auth')
                 },
 
                 signup: function (user, context) {
+                    debugger;
                     var def = $q.defer();
                     AuthREST.Customers.all('signup').customPOST(user).then(function () {
                         loginAndSetToken(user).then(function () {
