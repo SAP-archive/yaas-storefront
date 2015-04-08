@@ -27,11 +27,11 @@ angular.module('ds.shared')
             var apiPath, tenantId = '';
 
             // handle dynamic tenant data.
-            if(!_.isEmpty(appConfig) && !_.isEmpty(appConfig.storeTenant())) {
+            if (!_.isEmpty(appConfig) && !_.isEmpty(appConfig.storeTenant())) {
                 tenantId = appConfig.storeTenant();
             }
             // handle dynamic domain data.
-            if(!_.isEmpty(appConfig) && !_.isEmpty(appConfig.dynamicDomain())) {
+            if (!_.isEmpty(appConfig) && !_.isEmpty(appConfig.dynamicDomain())) {
                 apiPath = appConfig.dynamicDomain();
             }
 
@@ -57,7 +57,7 @@ angular.module('ds.shared')
 
                 configuration: {
                     baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
-                } ,
+                },
 
                 customers: {
                     baseUrl: 'https://' + apiPath + '/customer/v6/' + tenantId
@@ -82,11 +82,15 @@ angular.module('ds.shared')
 
                 shippingCosts: {
                     baseUrl: 'https://' + apiPath + '/shipping-cost/v4/' + tenantId
+                },
+
+                tracking: {
+                    baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
                 }
             };
 
             this.$get = ['appConfig',
-                function(appConfig) {
+                function (appConfig) {
                     return new SiteConfigSvcProvider(appConfig);
                 }
             ];
