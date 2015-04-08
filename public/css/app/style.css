@@ -8014,7 +8014,7 @@ section .hero-unit {
 .productDetailsContainer .product-details .buyButton {
   margin: 22px 0 0 0;
 }
-.productDetailsContainer .product-details .buyButton button {
+.productDetailsContainer .product-details .buyButton span {
   padding: 16px 0;
 }
 .productDetailsContainer .product-details .checkout-form {
