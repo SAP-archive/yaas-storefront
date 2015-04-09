@@ -189,9 +189,9 @@ describe("checkout:", function () {
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.wait(function () {
-                return element(by.repeater('category in categories').row(1).column('category.name')).isPresent();
+                return element(by.repeater('category in categories').row(0).column('category.name')).isPresent();
             });
-            element(by.repeater('category in categories').row(1).column('category.name')).click();
+            element(by.repeater('category in categories').row(0).column('category.name')).click();
             browser.wait(function () {
                 return element(by.xpath(tu.whiteThermos)).isPresent();
             });
@@ -293,9 +293,9 @@ describe("checkout:", function () {
         it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@hybristest.com', 'password');
-            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(1).column('category.name'))).perform();
+            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
             browser.sleep(200);
-            element(by.repeater('category in categories').row(1).column('category.name')).click();
+            element(by.repeater('category in categories').row(0).column('category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
