@@ -6,18 +6,25 @@ exports.config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: [
-        '../test/e2e/*-tests.js'
+        '../test/e2e/cart-tests.js',
+        '../test/e2e/checkout-tests.js',
+        '../test/e2e/localization-tests.js',
+        '../test/e2e/login-tests.js',
+        '../test/e2e/product-tests.js'
     ],
 
 
     capabilities: {
         'browserName': 'chrome',
+        'maxInstances': 5,
+        'shardTestFiles': true,
         //comment out the following capabilities to run locally
         'platform': 'OS X 10.8',
         'screen-resolution': '1280x1024',
         'record-video': false,
         'max-duration': 10800,
         'time-zone': 'Berlin',
+        
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
         'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
@@ -50,6 +57,6 @@ exports.config = {
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 180000
+        defaultTimeoutInterval: 120000
     }
 };

@@ -130,6 +130,9 @@ angular.module('ds.shared')
                     username: null
                 },
 
+                piwik:{
+                    enabled: true
+                },
                 search:{
                     algoliaKey:'',
                     algoliaProject: 'MSSYUK0R36'
