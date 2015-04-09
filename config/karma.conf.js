@@ -27,6 +27,7 @@ module.exports = function(config){
         'public/js/vendor/angular-sanitize/angular-sanitize.js',
         'public/js/vendor/angular-ui-select/dist/select.min.js',
         'public/js/vendor/angular-directive.g-signin/google-plus-signin.js',
+        'public/js/vendor/algoliasearch/dist/algoliasearch.angular.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',
@@ -42,6 +43,7 @@ module.exports = function(config){
         'public/js/app/shared/services/configuration-rest.js',
         'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/services/event-service.js',
+        'public/js/app/shared/services/local-storage.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -49,10 +51,16 @@ module.exports = function(config){
         'public/js/app/shared/i18n/lang/en.js',
         'public/js/app/shared/i18n/lang/de.js',
         'public/js/app/shared/i18n/providers/translation-provider.js',
+
         'public/js/app/shared/directives/y-breadcrumb.js',
+        'public/js/app/shared/directives/y-tracking.js',
+        'public/js/app/shared/directives/y-search.js',
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
+
+        'public/js/app/search/search-index.js',
+        'public/js/app/search/controllers/search-list-ctrl.js',
 
         'public/js/app/products/products-index.js',
         'public/js/app/products/controllers/browse-products-ctrl.js',
@@ -133,6 +141,7 @@ module.exports = function(config){
         'test/unit/home/*.js',
         'test/unit/orders/*.js',
         'test/unit/products/*.js',
+        'test/unit/search/*.js',
         'test/unit/shared/*.js'
 
     ],
@@ -142,7 +151,8 @@ module.exports = function(config){
     ],
 
     preprocessors : {
-        'public/js/app/**/*.js': 'coverage'
+        //'public/js/app/**/*.js': 'coverage'
+        'public/js/app/**/!(backendStub).js': 'coverage'
     },
 
     reporters : ['coverage','progress'],

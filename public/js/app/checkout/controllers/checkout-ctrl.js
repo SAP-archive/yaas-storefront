@@ -51,6 +51,8 @@ angular.module('ds.checkout')
             $scope.user = GlobalData.user;
             $scope.addresses = [];
 
+            var shouldAutoUpdateName = true;
+
             var Wiz = function () {
                 this.step1Done = false;
                 this.step2Done = false;
@@ -91,6 +93,7 @@ angular.module('ds.checkout')
             var populateBillTo = function(address){
                 $scope.order.billTo.id = address.id;
                 $scope.order.billTo.contactName = address.contactName;
+                $scope.order.billTo.companyName = address.companyName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
                 $scope.order.billTo.country = address.country;
@@ -104,11 +107,29 @@ angular.module('ds.checkout')
                 if(AuthSvc.isAuthenticated()) {
                     AccountSvc.getAddresses().then(function (response) {
                         if (response.length) {
+                            shouldAutoUpdateName = false;
                             var defaultAddress = getDefaultAddress(response);
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
                             populateBillTo(defaultAddress);
+                        }
+                        /*
+                         populate name if the user has no default address but does have a name saved to the account
+                         */
+                        else if ($scope.order.account) {
+                            var fullName = '';
+                            if ($scope.order.account.firstName) {
+                                shouldAutoUpdateName = false;
+                                fullName = fullName + $scope.order.account.firstName + ' ';
+                            }
+                            if ($scope.order.account.middleName) {
+                                fullName = fullName + $scope.order.account.middleName + ' ';
+                            }
+                            if ($scope.order.account.lastName) {
+                                fullName = fullName + $scope.order.account.lastName;
+                            }
+                            $scope.order.billTo.contactName = fullName;
                         }
                     });
                 }
@@ -329,6 +350,18 @@ angular.module('ds.checkout')
 
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
+
+
+                var piwikOrderDetails = {
+                    orderId: order.orderId,
+                    cart: $scope.cart
+                };
+                //Send data to piwik
+                $rootScope.$emit('orderPlaced', piwikOrderDetails);
+
+                //Reset cart
+                CheckoutSvc.resetCart();
+
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
             };
@@ -383,6 +416,7 @@ angular.module('ds.checkout')
 
                 target.id = address.id;
                 target.contactName = address.contactName;
+                target.companyName = address.companyName;
                 target.address1 = address.street;
                 target.address2 = address.streetAppendix;
                 target.country = address.country;
@@ -427,6 +461,24 @@ angular.module('ds.checkout')
                     $anchorScroll();
                 }
             });
+
+            $scope.updateAddressName = function () {
+                $scope.$broadcast('myDetails:change', $scope.billToForm);
+                if (shouldAutoUpdateName) {
+                    var fullName = '';
+                    if ($scope.order.account.firstName) {
+                        fullName = fullName + $scope.order.account.firstName + ' ';
+                    }
+                    if ($scope.order.account.middleName) {
+                        fullName = fullName + $scope.order.account.middleName + ' ';
+                    }
+                    if ($scope.order.account.lastName) {
+                        fullName = fullName + $scope.order.account.lastName;
+                    }
+
+                    $scope.order.billTo.contactName = fullName;
+                }
+            };
 
 
         }]);

@@ -188,6 +188,34 @@ describe('CheckoutCtrl', function () {
             expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
         });
+
+        it('should generate billing address name if user has account name but no addresses', function () {
+            returnAddresses = [];
+            addressDef = $q.defer();
+
+            addressesDef = $q.defer();
+            addressesDef.resolve(returnAddresses);
+            MockedAccountSvc = {
+                account: jasmine.createSpy('account').andReturn(accountDef.promise),
+                getDefaultAddress: jasmine.createSpy('getDefaultAddress').andCallFake(function(){
+                    return addressDef.promise
+                }),
+                getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
+            };
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+
+            $scope.$digest();
+
+            expect($scope.order.billTo.contactName).toEqualData('Mike R ODonnell');
+        });
+
+        it('should update address name', function () {
+            $scope.order.account.firstName = 'Mike';
+            $scope.order.account.middleName = 'R';
+            $scope.order.account.lastName = 'ODonnell';
+            $scope.updateAddressName();
+            expect($scope.order.billTo.contactName).toEqualData('Mike R ODonnell');
+        });
     });
 
     describe('setShipToSameAsBillTo', function () {
