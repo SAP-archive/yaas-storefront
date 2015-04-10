@@ -56,18 +56,16 @@
 		<div class="cart-item row">
 			<div class="col-xs-4 col-md-4 text-center img-col">
 				<img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
-				<button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-			</div>
+                <button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link hidden-lg hidden-md"><span class="hyicon hyicon-remove"></span></button>
+            </div>
 			<div class="col-xs-8 col-md-8  detail-col">
-				<button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+				<button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link pull-right hidden-xs  hidden-sm"><span class="hyicon hyicon-remove"></span></button>
 				<div class="name">{{item.product.name}}</div>
 				<div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span> </div>
 				<div class="clearfix">
 					<div class="input-group pull-left" ng-class="{error: item.error}">
 						<span class="input-group-addon">{{'QTY' | translate}}:</span>
-
                         <input type="number" quantity-input ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control" pattern="\d*" step="1" min="0">
-
 					</div>
 				</div>
 				<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.value || 0 | currency: currencySymbol}}</span></div>
