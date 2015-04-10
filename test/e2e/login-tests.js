@@ -228,7 +228,7 @@ describe("login:", function () {
         });
 
         it('should allow user to access order confirmation', function (){
-            browser.sleep(1000);
+            browser.sleep(5000);
             browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
             browser.wait(function () {
                 return element(by.binding('SIGN_IN')).isPresent();

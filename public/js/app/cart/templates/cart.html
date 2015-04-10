@@ -55,9 +55,9 @@
 							<div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span> </div>
 							<div class="clearfix">
 								<div class="input-group pull-left" ng-class="{error: item.error}">
-									<span class="input-group-addon">{{'QTY' | translate}}:</span>
+									<label class="input-group-addon" for="qtyCart">{{'QTY' | translate}}:</label>
                                     <form ng-submit="updateCartItem(item, item.quantity,{opencartAfterEdit: false})">
-                                        <input quantity-input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
+                                        <input quantity-input type="number" min="0" step="1" pattern="\d*" class="form-control" id="qtyCart" ng-model="item.quantity"
                                             ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"/>
                                     </form>
 								</div>
