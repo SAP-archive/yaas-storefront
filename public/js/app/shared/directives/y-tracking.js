@@ -25,7 +25,7 @@ angular.module('ds.ytracking', [])
 
                     //Handlers for events
                     $rootScope.$on('productLoaded', function (arg, obj) {
-                        ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.name : '', obj.defaultPrice.value);
+                        ytrackingSvc.setProductViewed(obj.product.id, obj.product.name, !!obj.categories[0] ? obj.categories[0].id : '', obj.prices[0].effectiveAmount);
                     });
                     $rootScope.$on('categoryLoaded', function (arg, obj) {
                         var path = '';

@@ -3,12 +3,12 @@
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
                 <div class="image">
-                    <div ng-repeat="image in product.media">
+                    <div ng-repeat="image in product.product.media">
                         <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
                     </div>
                 </div>
-                <div class=" thumbnails" ng-if="product.media && product.media.length > 1">
-                    <a ng-repeat="image in product.media" class="item" href="#">
+                <div class=" thumbnails" ng-if="product.product.media && product.product.media.length > 1">
+                    <a ng-repeat="image in product.product.media" class="item" href="#">
                         <img class="lazyOwl" data-src="{{image.url}}" alt="">
                     </a>
                 </div>
@@ -24,8 +24,8 @@
 
                     </br>
                 </div>
-                <div class="name">{{product.name}}</div>
-                <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
+                <div class="name">{{product.product.name}}</div>
+                <div class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
 
                 <form action="" class="cartPanel">
                     <div class="row" >
@@ -47,15 +47,15 @@
                             </div>
                         </div>
                         <div  class="col-md-12 col-lg-12 buyButton">
-                            <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                            <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
+                            <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                            <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
                         </div>
                     </div>
                 </form>
     
                 <div class="description">
                     <div class="headline">{{'DESCRIPTION' | translate}}:</div>
-                        {{product.description}}
+                        {{product.product.description}}
                 </div>
             </div> 
         </div>

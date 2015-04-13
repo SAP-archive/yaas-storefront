@@ -191,14 +191,14 @@ angular.module('ds.cart')
             /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
              * cart is created first.
              */
-            function createCartItem(product, qty, config) {
+            function createCartItem(product, prices, qty, config) {
 
                 var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
                 var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
 
                 var createItemDef = $q.defer();
                 getOrCreateCart().then(function (cartResult) {
-                    var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
+                    var price = { 'value': prices[0].effectiveAmount, 'currency': prices[0].currency };
                     var item = new Item(product, price, qty);
                     CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function () {
                         refreshCart(cartResult.cartId, cartUpdateMode, closeCartAfterTimeout);
@@ -333,7 +333,7 @@ angular.module('ds.cart')
                  *   @param closeCartAfterTimeout if the
                  *   @return promise over success/failure
                  */
-                addProductToCart: function (product, productDetailQty, config) {
+                addProductToCart: function (product, prices, productDetailQty, config) {
                     if (productDetailQty > 0) {
                         var item = null;
                         for (var i = 0; cart.items && i < cart.items.length; i++) {
@@ -343,7 +343,7 @@ angular.module('ds.cart')
                                 return this.updateCartItem(item, qty, config);
                             }
                         }
-                        return createCartItem(product, productDetailQty, config);
+                        return createCartItem(product, prices, productDetailQty, config);
                     } else {
                         return $q.when({});
                     }

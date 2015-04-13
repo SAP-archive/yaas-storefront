@@ -72,12 +72,12 @@ angular.module('ds.shared')
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/product/v3/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/product/v4/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/product-details/v3/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/product-details/v5/' + tenantId
                 },
 
                 shippingCosts: {
