@@ -15,7 +15,23 @@ describe('CartSvc Test', function () {
     var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData={};
     var cartId = 'cartId456';
     var prodId = '123';
-    var prod1 = {'name': 'Electric Guitar', 'id': prodId, 'defaultPrice': {value: 5.00, currency: 'USD'}};
+    var prod1 = {
+        product:{
+            name: 'Electric Guitar',
+            id: prodId
+        },
+        categories: [
+            {
+                id: 12345,
+                name: 'fakeCat',
+                slug: 'fake-cat'
+            }
+        ],
+        prices: [{
+            effectiveAmount:  5.00,
+            currency: 'USD'
+        }]
+    };
     var itemId = '0';
     var productIdFromCart = '540751ee394edbc101ff20f5';
     var mockedAccountSvc = {};
@@ -115,7 +131,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
+            var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             var successSpy = jasmine.createSpy();
             cartPromise.then(successSpy);
 
@@ -129,7 +145,7 @@ describe('CartSvc Test', function () {
         it('should return failing promise if cart POST fails', function(){
             mockBackend.expectPOST(cartUrl).respond(500, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
+            var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             var failureSpy = jasmine.createSpy();
             cartPromise.then(function(){}, failureSpy);
 
@@ -144,7 +160,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(500, {});
 
-            var cartPromise = cartSvc.addProductToCart(prod1, 2, {});
+            var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             var failureSpy = jasmine.createSpy();
             cartPromise.then(function(){}, failureSpy);
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
@@ -164,7 +180,7 @@ describe('CartSvc Test', function () {
             });
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {"product":{"id":prodId},"unitPrice":{"value":5,"currency":"USD"},"quantity":2})
                 .respond(201, {});
-            cartSvc.addProductToCart(prod1, 2, {});
+            cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
                 {
                     "currency": "USD",
@@ -217,7 +233,7 @@ describe('CartSvc Test', function () {
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl+'?q=id:('+productIdFromCart+')').respond(200, [{id: prodId, images: ['myurl']}]);
-                var promise = cartSvc.addProductToCart(prod1, 1, {});
+                var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 1, {});
                 var successSpy = jasmine.createSpy();
                 promise.then(successSpy);
                 mockBackend.flush();
@@ -227,7 +243,7 @@ describe('CartSvc Test', function () {
             it('should return rejected promise if update fails', function(){
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, {"product": {"id": prodId}, "unitPrice": {"currency": "USD", "value": 5}, "quantity": 3})
                     .respond(500, {});
-                var promise = cartSvc.addProductToCart(prod1, 1, {});
+                var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 1, {});
                 var failureSpy = jasmine.createSpy();
                 promise.then(function(){}, failureSpy);
                 mockBackend.flush();
@@ -235,7 +251,7 @@ describe('CartSvc Test', function () {
             });
 
             it('should return promise if attempting update with qty = 0', function(){
-                var promise = cartSvc.addProductToCart(prod1, 0, {});
+                var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 0, {});
                 $scope.$apply();
                 expect(promise).toBeTruthy();
                 expect(promise.then).toBeTruthy();
