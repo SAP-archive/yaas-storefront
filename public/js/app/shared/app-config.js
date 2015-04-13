@@ -35,10 +35,20 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
+                tenantId = /*StartProjectId*/ 'klausv2' /*EndProjectId*/;
             }
             return tenantId;
+        },
+
+        clientId: function() {
+            var clientId = 'xXhMRih3AJNa5aKJVurPvsbDqDwdH8Kk'; // edit me
+            return clientId;
+        },
+        redirectUri: function() {
+            var redirectUri = 'https://yaas.io'; // edit me
+            return redirectUri;
         }
+
 
     });
 
