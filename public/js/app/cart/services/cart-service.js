@@ -79,13 +79,14 @@ angular.module('ds.cart')
                         return item.product.id;
                     });
                     var productParms = {
-                        q: 'id:(' + productIds + ')'
+                        q: 'id:(' + productIds + ')',
+                        expand: 'media'
                     };
                     ProductSvc.query(productParms).then(function (productResults) {
                         angular.forEach(cart.items, function (item) {
                             angular.forEach(productResults, function (product) {
                                 if (product.id === item.product.id) {
-                                    item.images = product.images;
+                                    item.images = product.media;
                                     item.product.name = product.name;
                                 }
                             });
@@ -293,6 +294,7 @@ angular.module('ds.cart')
                     var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
                     var updateDef = $q.defer();
                     if (qty > 0) {
+                        console.log(item.product);
                         var cartItem = new Item(item.product, item.unitPrice, qty);
                         CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
