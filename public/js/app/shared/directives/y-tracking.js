@@ -36,8 +36,8 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
-                    // //For now we are just tracking "user viewed category/product"
-                    // $rootScope.$on('orderPlaced', function (arg, obj) {
+                    ////For now we are just tracking "user viewed category/product"
+                    //$rootScope.$on('orderPlaced', function (arg, obj) {
                     //    //Send ordered cart items to piwik
                     //    for(var i = 0; i < obj.cart.items.length; i++){
                     //        //sku, name, categoryName, unitPrice, amount
@@ -46,11 +46,11 @@ angular.module('ds.ytracking', [])
                     //    }
                     //    //Send order details to piwik
                     //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
-                    // });
+                    //});
 
-                    // $rootScope.$on('cart:updated', function (arg, obj) {
+                    //$rootScope.$on('cart:updated', function (arg, obj) {
                     //    ytrackingSvc.cartUpdated(obj.cart);
-                    // });
+                    //});
                 }
             };
         }])
