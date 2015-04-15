@@ -60,7 +60,7 @@ angular.module('ds.shared')
                 },
 
                 customers: {
-                    baseUrl: 'https://' + apiPath + '/customer/v6/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/customer/v7/' + tenantId
                 },
 
                 orders: {

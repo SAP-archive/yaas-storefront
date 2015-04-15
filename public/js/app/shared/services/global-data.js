@@ -122,7 +122,7 @@ angular.module('ds.shared')
                 store: {
                     tenant: appConfig.storeTenant(),
                     clientId: appConfig.clientId(),
-                    redirectUri: appConfig.redirectUri(),
+                    redirectURI: appConfig.redirectURI(),
                     name: '',
                     logo: null
                 },

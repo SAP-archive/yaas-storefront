@@ -36,21 +36,21 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
-                    ////For now we are just tracking "user viewed category/product"
-                    //$rootScope.$on('orderPlaced', function (arg, obj) {
-                    //    //Send ordered cart items to piwik
-                    //    for(var i = 0; i < obj.cart.items.length; i++){
-                    //        //sku, name, categoryName, unitPrice, amount
-                    //        var item = obj.cart.items[i];
-                    //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
-                    //    }
-                    //    //Send order details to piwik
-                    //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
-                    //});
+                    //For now we are just tracking "user viewed category/product"
+                    $rootScope.$on('orderPlaced', function (arg, obj) {
+                       //Send ordered cart items to piwik
+                       for(var i = 0; i < obj.cart.items.length; i++){
+                           //sku, name, categoryName, unitPrice, amount
+                           var item = obj.cart.items[i];
+                           ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                       }
+                       //Send order details to piwik
+                       ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                    });
 
-                    //$rootScope.$on('cart:updated', function (arg, obj) {
-                    //    ytrackingSvc.cartUpdated(obj.cart);
-                    //});
+                    $rootScope.$on('cart:updated', function (arg, obj) {
+                       ytrackingSvc.cartUpdated(obj.cart);
+                    });
                 }
             };
         }])
@@ -94,7 +94,6 @@ angular.module('ds.ytracking', [])
                     },
                     data: JSON.stringify(obj)
                 };
-
 
                 $http(req).
                     success(function () {

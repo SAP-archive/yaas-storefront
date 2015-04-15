@@ -10,7 +10,11 @@ module.exports = function (grunt) {
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
+
         PROJECT_ID = 'defaultproj',
+        CLIENT_ID = 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
+        REDIRECT_URI = 'http://google.com',
+
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
@@ -197,6 +201,22 @@ module.exports = function (grunt) {
                     from: /StartProjectId(.*)EndProjectId/g,
                     to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
                 }]
+            },
+            clientId: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartClientId(.*)EndClientId/g,
+                    to: 'StartClientId*/ \''+ CLIENT_ID +'\' /*EndClientId'
+                }]
+            },
+            redirectURI: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartRedirectURI(.*)EndRedirectURI/g,
+                    to: 'StartRedirectURI*/ \''+ REDIRECT_URI +'\' /*EndRedirectURI'
+                }]
             }
         },
 
@@ -249,6 +269,8 @@ module.exports = function (grunt) {
       function(domainParam){
         runDomainReplace(domainParam);
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
         grunt.task.run('jshint');
         grunt.task.run('less:dev');
         grunt.task.run('optimizeCode');
@@ -260,6 +282,8 @@ module.exports = function (grunt) {
       function(domainParam){
         runDomainReplace(domainParam);
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
         grunt.task.run('singleProjectTask');
     });
 
@@ -268,6 +292,8 @@ module.exports = function (grunt) {
       function(domainParam){
         runDomainReplace(domainParam);
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
         grunt.task.run('multiProjectTask');
     });
 
@@ -276,6 +302,8 @@ module.exports = function (grunt) {
       function(domainParam){
         runDomainReplace(domainParam);
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
         grunt.task.run('optimizeCode');
     });
 
