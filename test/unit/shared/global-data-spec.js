@@ -14,7 +14,9 @@ describe('GlobalData', function () {
     var $rootScope,  $translate, translateSettings;
     var appConfig = {
         storeTenant: function() { return '121212'; },
-        dynamicDomain: function() {return 'dynDomain'}
+        dynamicDomain: function() {return 'dynDomain'},
+        clientId: function() {return '1234ABC'},
+        redirectURI: function() {return 'http://google.com'}
     };
 
     beforeEach( function() {
