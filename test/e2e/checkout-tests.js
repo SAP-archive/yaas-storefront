@@ -14,6 +14,9 @@ function continueAsGuest(){
 
 function fillCheckoutFormExceptEmail(form) {
     // tu.sendKeysById('contactName' + form, 'Mike Night');
+    browser.wait(function () {
+        return element(by.id('address1' + form)).isPresent();
+    });
     tu.sendKeysById('address1' + form, '123');
     tu.sendKeysById('address2' + form, '321');
     tu.sendKeysById('city' + form, 'Boulder');
@@ -26,6 +29,7 @@ function verifyOrderConfirmation(email, name, number, cityStateZip) {
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
     });
+    browser.sleep(1000);
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
@@ -130,15 +134,24 @@ describe("checkout:", function () {
         beforeEach(function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1200, 1200);
-            browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            browser.switchTo().alert().then(
+                function (alert) { alert.dismiss(); },
+                function (err) { }
+            );
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4500);
+            browser.sleep(6500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
+            browser.sleep(2000);
         });
 
 
@@ -160,7 +173,7 @@ describe("checkout:", function () {
             });          
             tu.sendKeysByXpath("//input[@type='number']", '5');
             tu.clickElement('binding', 'BACK_TO_CHECKOUT');
-            verifyCartContents('$10.67', '$56.63', '5');
+            verifyCartContents('$10.67', '$56.62', '5');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
@@ -176,9 +189,9 @@ describe("checkout:", function () {
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.wait(function () {
-                return element(by.repeater('category in categories').row(1).column('category.name')).isPresent();
+                return element(by.repeater('category in categories').row(0).column('category.name')).isPresent();
             });
-            element(by.repeater('category in categories').row(1).column('category.name')).click();
+            element(by.repeater('category in categories').row(0).column('category.name')).click();
             browser.wait(function () {
                 return element(by.xpath(tu.whiteThermos)).isPresent();
             });
@@ -188,12 +201,13 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(4500);
+            browser.sleep(5000);
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
+            browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$23.92', '1');
+            verifyCartContents('$10.67', '$28.93', '1');
         });
 
         it('should allow all fields to be editable', function () {
@@ -279,15 +293,15 @@ describe("checkout:", function () {
         it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@hybristest.com', 'password');
-            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(1).column('category.name'))).perform();
+            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
             browser.sleep(200);
-            element(by.repeater('category in categories').row(1).column('category.name')).click();
+            element(by.repeater('category in categories').row(0).column('category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-            verifyCartContents('$10.67', '$23.92', '1');
+            verifyCartContents('$10.67', '$28.93', '1');
             fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
@@ -311,11 +325,29 @@ describe("mobile checkout:", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.get(tu.tenant + '/#!/products/5436f99f5acee4d3c910c082/');
+            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
             browser.switchTo().alert().then(
             function (alert) { alert.accept(); },
             function (err) { }
             );
+            browser.sleep(500);
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(6000);
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
+            tu.waitForCart();
+            browser.sleep(2000);
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal();
+            tu.sendKeysById('email', 'mike@hybristest.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            fillCheckoutFormExceptEmail('Bill');
+
         });
 
         var continueButton1 = '//div[16]/button'
@@ -324,21 +356,6 @@ describe("mobile checkout:", function () {
 
 
         it('should allow all fields to be editable on mobile', function () {
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(4500);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Bill');
             tu.clickElement('xpath', continueButton1);
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
@@ -349,26 +366,10 @@ describe("mobile checkout:", function () {
             fillCreditCardForm('5555555555554444', '06', '2015', '000')
             tu.clickElement('xpath', paymentButton);
             tu.clickElement('id', "place-order-btn");
-            //browser.sleep(20000);
             verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
         it('should have basic validation on mobile', function () {
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(4500);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal()
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Bill');
             verifyValidationForEachField('Bill', 'xpath', continueButton1);
             validateField('email', '', 'mike@hybristest.com', 'xpath', continueButton1);
             tu.clickElement('xpath', continueButton1);
