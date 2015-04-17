@@ -71,11 +71,20 @@ Preparing project for deployment (concatenation/minification/revisioning):
 
     $ grunt build
 
+
 The :prod parameter specifies which dynamic domain to connect with the api services.  If this domain is not specified with the parameter, a warning will appear in the build output and the default setting will be applied for the api url's, which is also set to the prod api domain in the gruntfile.
 
 **npm start** is configured to run **grunt build:prod**. Other options are **:stage** and **:test** and can be configured in the gruntfile.
 
+Credential parameters also exist for automated build environments. With NPM 2.0, it is possible to pass in a Client_Id and Project_Id from npm run-script command line. For example, we can further automate the build system with these parameters (pid and cid) like this: 
+
+$ npm run-script singleProd -- --pid=abc --cid=123
+
+This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be always be set by default to the variable values that are configured at the top of the gruntfile.
+
+
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
+
 
 ### 6.  Deploy application to server
 
