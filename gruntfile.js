@@ -279,7 +279,15 @@ module.exports = function (grunt) {
     //--Tasks-With-Environment-Parameters----------------------------------------------
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
-      function(domainParam){
+      function(domainParam, b, c){
+
+        console.log('hellooooo',arguments);
+        console.log('b',b);
+        console.log('c',c);
+        var target = grunt.option('foo') || 'blnk';
+        console.log('d',target);
+
+
         runDomainReplace(domainParam);
         grunt.task.run('replace:projectId');
         grunt.task.run('replace:clientId');
