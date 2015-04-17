@@ -22,14 +22,10 @@
             </a>
         </div>
     </div>
-
-    <div>
-        <ysearch></ysearch>
-    </div>
 </div>
 
-
 <div class="hy-flexibleHeightNav" ng-cloak>
+    <div class="seperator"></div>
     <ul ds-menu-aim class="navi hy-scrollingNav">
         <li ng-repeat="category in categories" class="js-listRoot"> <!-- class="has-sub" -->
             <a ui-sref="base.category( {catName: category.slug} )" class="mainCategory categoryLevel" ng-click="hideMobileNav()">
@@ -53,6 +49,7 @@
             </div>
         </li>
     </ul>
+    <div class="seperator"></div>
 </div>
 
 <div class="store-settings hidden-md hidden-lg" >

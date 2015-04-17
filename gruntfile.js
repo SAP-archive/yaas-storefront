@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                     sourceMapURL: 'http://localhost/css/style.css.map'
                 },
                 files : {
-                    'public/css/app/style.css' : 'public/less/main.less'
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
                 }
             },
             dist : {
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
                     sourceMap: false
                 },
                 files : {
-                    'public/css/app/style.css' : 'public/less/main.less'
+                    'public/css/app/style.css' : 'public/less/theme1/style.less'
                 }
             }
         },

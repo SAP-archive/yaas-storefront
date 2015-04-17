@@ -1,8 +1,8 @@
 var fs = require('fs');
 
-exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
-exports.blackCoffeeMug = "//a[contains(@href, '/products/550214eca4ae283d1df57cd9/')]";
-exports.whiteThermos = "//a[contains(@href, '/products/550214f84d6ea5a71b0cf025/')]";
+exports.whiteCoffeeMug = "//a[contains(@href, '/products/5436f99f5acee4d3c910c082/')]";
+exports.blackCoffeeMug = "//a[contains(@href, '/products/5436f9a25acee4d3c910c085/')]";
+exports.whiteThermos = "//a[contains(@href, '/products/5436f9a43cceb8a938129170/')]";
 var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
 exports.beerBug = stressBallPath;
 exports.cartButtonId = 'full-cart-btn';
@@ -13,7 +13,7 @@ exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
-exports.tenant = 'bsdqaproject';
+exports.tenant = 'ytvlw4f7ebox';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
 
@@ -26,9 +26,6 @@ exports.waitForCart = function(){
 };
 
 exports.verifyCartAmount = function (amount) {
-    browser.wait(function () {
-        return element(by.binding('CHECKOUT')).isPresent();
-    });
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
 };
 
@@ -71,8 +68,8 @@ exports.scrollToBottomOfProducts = function (end) {
     var count = 0;
     while (count < maxCount) {
         browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
-        browser.sleep(500);
         count++;
+        // browser.pause(500);
         if (element(by.xpath(stressBallPath)).isPresent()) {
             deferred.fulfill();
         } else if (count === maxCount) {

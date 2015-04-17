@@ -18,29 +18,17 @@ describe("Localization", function () {
 
     };
 
-    function clickWhiteMug() {
-        browser.wait(function () {
-            return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
-        });
-        browser.sleep(500);
-        tu.clickElement('xpath', tu.whiteCoffeeMug);
-    };
-
     describe("verify localized properties", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1200, 1100);
+            browser.driver.manage().window().setSize(1000, 1000);
             browser.get(tu.tenant + '/#!/ct');
-            browser.switchTo().alert().then(
-                function (alert) { alert.dismiss(); },
-                function (err) { }
-            );
         });
 
         it('should load product-list in english', function () {
             // tu.selectLanguage('English');
-            assertTextByElement('binding', 'category.name', 'BOTTLES');
+            assertTextByElement('binding', 'category.name', 'MUGS');
             assertTextByElement('css', 'div.name.ng-binding', 'Viewing:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sort by:');
             //price is not currently supported
@@ -54,7 +42,7 @@ describe("Localization", function () {
 
         it('should load product-list in german', function () {
             tu.selectLanguage('GERMAN');
-            assertTextByElement('binding', 'category.name', 'FLASCHEN');
+            assertTextByElement('binding', 'category.name', 'TASSEN');
             assertTextByElement('css', 'div.name.ng-binding', 'Anzeige:');
             assertTextByElement('css', 'div.sortContainer > div.name.ng-binding', 'Sortieren:');
             //price is not currently supported
@@ -66,14 +54,14 @@ describe("Localization", function () {
         });
 
         it('should load product-detail in english', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             assertTextByElement('css', 'label.ng-binding', 'Qty:');
             assertTextByElement('id', 'buy-button', 'ADD TO CART');
             assertTextByElement('css', 'div.headline.ng-binding', 'DESCRIPTION:');
         });
 
         it('should load product-detail in german', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             tu.selectLanguage('GERMAN');
             assertTextByElement('css', 'label.ng-binding', 'Menge:');
             assertTextByElement('id', 'buy-button', 'IN DEN WARENKORB');
@@ -81,50 +69,42 @@ describe("Localization", function () {
         });
 
         it('should load cart in english', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
             //wait for cart to close
-            browser.sleep(5500);
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             tu.clickElement('id', tu.cartButtonId); 
-            tu.waitForCart();
-            browser.sleep(2000);
-            browser.wait(function () {
-                return element(by.binding("CONTINUE_SHOPPING")).isDisplayed();
-            });           
+            tu.waitForCart();           
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'CONTINUE SHOPPING');
             assertTextByElement('binding', "CHECKOUT", 'CHECKOUT');
             assertTextByElement('css', 'th.ng-binding', 'EST. ORDER TOTAL');
             assertTextByElement('css', 'td.ng-binding', '1 ITEM');
-            assertTextByElement('css', 'div.input-group.pull-left > label.input-group-addon.ng-binding', 'Qty:');
+            assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Qty:');
         });
 
         it('should load cart in german', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             tu.selectLanguage('GERMAN');
             tu.clickElement('id', 'buy-button');
             //wait for cart to close
-            browser.sleep(5500);
+            browser.sleep(4000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
-            browser.sleep(2000);
-            browser.wait(function () {
-                return element(by.binding("CONTINUE_SHOPPING")).isDisplayed();
-            });
             assertTextByElement('binding', "CONTINUE_SHOPPING", 'WEITER EINKAUFEN');
             assertTextByElement('binding', "CHECKOUT", 'KASSE');
             assertTextByElement('css', 'th.ng-binding', 'ZWISCHENSUMME');
             assertTextByElement('css', 'td.ng-binding', '1 ARTIKEL');
-            assertTextByElement('css', 'div.input-group.pull-left > label.input-group-addon.ng-binding', 'Menge:');
+            assertTextByElement('css', 'span.input-group-addon.ng-binding', 'Menge:');
         });
 
         it('should load checkout in german', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             tu.selectLanguage('GERMAN');
             tu.clickElement('id', 'buy-button');
             browser.wait(function () {
@@ -161,7 +141,7 @@ describe("Localization", function () {
         });
 
         it('should load checkout in english', function () {
-            clickWhiteMug();
+            tu.clickElement('css', 'div.thumb');
             tu.clickElement('id', 'buy-button');
 
             browser.wait(function () {

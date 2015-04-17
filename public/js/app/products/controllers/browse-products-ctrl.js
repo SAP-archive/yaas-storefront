@@ -35,13 +35,7 @@ angular.module('ds.products')
             };
 
             $scope.category = category || {};
-
-            if(!!category){
-                $scope.$emit('categoryLoaded', category);
-            }
-
             $scope.lastCatId = $scope.category.id || 'allProducts';
-
 
 
             $scope.loadedPages = 1;
@@ -224,10 +218,8 @@ angular.module('ds.products')
                                         //Check for visible items in viewport
                                     }
                                     $scope.total = GlobalData.products.meta.total;
-                                    if (products.length) {
-                                        getPrices(products);
-                                        assignMainImage(products);
-                                    }
+                                    getPrices(products);
+                                    assignMainImage(products);
 
                                     //Set page parameter
                                     $location.search('page', $scope.pageNumber).replace();
@@ -313,12 +305,9 @@ angular.module('ds.products')
                             //Check for visible items in viewport
                        }
                         $scope.total = GlobalData.products.meta.total;
-                        if (products.length) {
-                            getPrices(products);
-                            assignMainImage(products);
-                        }
+                        getPrices(products);
+                        assignMainImage(products);
                     }
-                    
                     else {
                         $scope.requestInProgress = false;
                     }

@@ -1,4 +1,7 @@
-<div class="selectorListContainer">
+<div class="selectorListContainer" ng-style="{ width: languages.length <= 3 ? (languages.length * 207) + 'px' : (3*207) + 'px' }">
+    <div class="row popoverHeader">
+        {{'LOCALE' | translate}}
+    </div>
     <div class="entities">
             <div ng-repeat="lang in languages" class="pull-left entityWrapper">
             

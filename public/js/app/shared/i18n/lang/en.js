@@ -257,19 +257,7 @@ angular.module('ds.i18n')
         /*
         Order Details
         */
-        CREDIT_CARD: 'Credit Card',
-
-
-        /*
-         Search
-         */
-        SEARCH: 'SEARCH',
-        SEARCH_RESULTS: 'Search results',
-        MOST_RELEVANT: 'Most Relevant',
-        SEARCH_AGAIN: 'Search again',
-        RESULTS: 'Results',
-        SEE_ALL: 'See All'
-
+        CREDIT_CARD: 'Credit Card'
 
 
 	});

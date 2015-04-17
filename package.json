@@ -69,7 +69,7 @@
     "karma-script-launcher": "~0.1.0",
     "phantomcss": "^0.4.5",
     "phantomjs": "^1.9.15",
-    "protractor": "^1.8.0",
+    "protractor": "^1.6.1",
     "protractor-screenshot-reporter": "0.0.5",
     "resemblejs": "^1.0.1"
   },

@@ -154,7 +154,6 @@ describe('CheckoutSvc', function () {
                 checkoutSvc.checkout(order);
                 $httpBackend.flush();
                 $rootScope.$digest();
-                checkoutSvc.resetCart();
                 expect(mockedCartSvc.resetCart).toHaveBeenCalled();
             });
 

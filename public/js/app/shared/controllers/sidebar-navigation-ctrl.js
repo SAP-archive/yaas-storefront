@@ -22,7 +22,6 @@ angular.module('ds.shared')
         function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
                   AuthSvc, AuthDialogManager, CategorySvc, $translate, $q, settings) {
 
-            $scope.tenantId = GlobalData.store.tenant;
 
             // determines "sign-in" link in sidebar
             $scope.isAuthenticated = AuthSvc.isAuthenticated;

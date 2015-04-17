@@ -1,0 +1,42 @@
+.product-gallery{
+//	max-width: 500px;
+	.image{
+		margin: 0 0 18px 0;
+		position: relative;
+
+		button.zoom{
+			position: absolute;
+			right: 0;
+			top: 0;
+			color:#999;
+		}
+		img{
+			width: 100%;
+			height:auto;
+		}
+	}
+
+	.thumbnails{
+      padding: 0;
+//      .hidden-md;
+      .hidden-sm;
+      .hidden-xs;
+      @media (min-width: @screen-md-max) {
+        &{
+          height: 84px;
+
+          a>img{
+            height: 84px;
+            width: auto;
+//            margin: 0 auto;
+          }
+        }
+
+      }
+
+//		.visible-md;
+//		.visible-lg;
+	}
+	
+	
+}
