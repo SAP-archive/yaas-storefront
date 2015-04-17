@@ -267,10 +267,11 @@ module.exports = function (grunt) {
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('build', 'Build parameters for build',
       function(domainParam){
+
+        runCredentialInput();
+
         runDomainReplace(domainParam);
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
+
         grunt.task.run('jshint');
         grunt.task.run('less:dev');
         grunt.task.run('optimizeCode');
@@ -279,39 +280,34 @@ module.exports = function (grunt) {
     //--Tasks-With-Environment-Parameters----------------------------------------------
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
-      function(domainParam, b, c){
+      function(domainParam){
 
-        console.log('hellooooo',arguments);
-        console.log('b',b);
-        console.log('c',c);
-        var target = grunt.option('foo') || 'blnk';
-        console.log('d',target);
-
+        runCredentialInput();
 
         runDomainReplace(domainParam);
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
+
         grunt.task.run('singleProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
+
+        runCredentialInput();
+
         runDomainReplace(domainParam);
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
+
         grunt.task.run('multiProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
       function(domainParam){
+
+        runCredentialInput();
+
         runDomainReplace(domainParam);
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
+
         grunt.task.run('optimizeCode');
     });
 
@@ -354,6 +350,30 @@ module.exports = function (grunt) {
         'usemin'           //completes usemin process.
     ]);
 
+
+    //--Set Parameters for Server Configuration----------------------------------------------------
+    // Read npm argument and set the dynamic server environment.
+    // Syntax: $ npm run-script singleProd -- --pid=xxx --cid=123
+    function runCredentialInput(){
+        var cId = grunt.option('cid') || '';
+        var pId = grunt.option('pid') || '';
+
+        // Replace npm arguments
+        if (cId !== ''){
+            CLIENT_ID = cId;
+        }
+        if (pId !== ''){
+            PROJECT_ID = pId;
+        }
+
+        console.log('CLIENT_ID set to: ',CLIENT_ID);
+        console.log('PROJECT_ID set to: ',PROJECT_ID);
+
+        grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+    }
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
