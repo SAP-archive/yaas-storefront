@@ -43,9 +43,9 @@ describe('product page', function () {
         });
 
         it('should get product detail page', function () {
-            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
+            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(3).column('category.name'))).perform();
             browser.sleep(200);
-            element(by.repeater('category in categories').row(0).column('category.name')).click();
+            element(by.repeater('category in categories').row(3).column('category.name')).click();
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             browser.wait(function () {
                 return element(by.binding(tu.productDescriptionBind)).isPresent();

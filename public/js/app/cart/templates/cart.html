@@ -33,53 +33,51 @@
         {{'CART_UNAVAILABLE' | translate}}
     </div>
 	<div ng-if="cart.items.length">
-        <section class="summary">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>{{'EST_ORDER_TOTAL' | translate}}</th>
-                    <th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
-                <tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-        <section>
-            <!-- Cart Item -->
-            <div ng-repeat="item in cart.items">
-                <div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
-                    {{'CART_ITEM_UPDATE_ERROR' | translate}}
-                </div>
-                <div class="cart-item row">
-                    <div class="col-xs-4 col-md-4 text-center img-col">
-                        <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
+			<section class="summary">
+				<table class="table">
+					<thead>
+					<tr>
+						<th>{{'EST_ORDER_TOTAL' | translate}}</th>
+						<th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
+					<tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
+						<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
+					</tr>
+					</tbody>
+				</table>
+			</section>
+			<section>
+				<!-- Cart Item -->
+				<div ng-repeat="item in cart.items">
+                    <div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
+                        {{'CART_ITEM_UPDATE_ERROR' | translate}}
                     </div>
-                    <div class="col-xs-8 col-md-8  detail-col">
-                        <div class="name">{{item.product.name}}
-                            <button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link pull-right">
-                                <span class="hyicon hyicon-remove"></span>
-                            </button>
-                        </div>
-                        <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span> </div>
-                        <div class="clearfix">
-                            <div class="input-group pull-left" ng-class="{error: item.error}">
-                                <span class="input-group-addon">{{'QTY' | translate}}:</span>
-                                <form ng-submit="updateCartItem(item, item.quantity,{opencartAfterEdit: false})">
-                                    <input quantity-input type="number" min="0" step="1" pattern="\d*" class="form-control" ng-model="item.quantity"
-                                        ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"/>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.value || 0 | currency: currencySymbol}}</span></div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Cart Item -->
-        </section>
+					<div class="cart-item row">
+						<div class="col-xs-4 col-md-4 text-center img-col">
+							<img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
+							<button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+						</div>
+						<div class="col-xs-8 col-md-8  detail-col">
+							<button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+							<div class="name">{{item.product.name}}</div>
+							<div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span> </div>
+							<div class="clearfix">
+								<div class="input-group pull-left" ng-class="{error: item.error}">
+									<label class="input-group-addon" for="qtyCart">{{'QTY' | translate}}:</label>
+                                    <form ng-submit="updateCartItem(item, item.quantity,{opencartAfterEdit: false})">
+                                        <input quantity-input type="number" min="0" step="1" pattern="\d*" class="form-control" id="qtyCart" ng-model="item.quantity"
+                                            ng-blur="updateCartItem(item, item.quantity,{opencartAfterEdit: false})"/>
+                                    </form>
+								</div>
+							</div>
+							<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.value || 0 | currency: currencySymbol}}</span></div>
+						</div>
+					</div>
+				</div>
+				<!-- /Cart Item -->
+			</section>
 	</div>
 </div>

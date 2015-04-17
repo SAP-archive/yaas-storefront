@@ -21,8 +21,6 @@
 
                     <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
 
-
-                    </br>
                 </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
@@ -31,10 +29,8 @@
                     <div class="row" >
                         <div class="col-md-10 col-lg-8">
                             <div class="form-group input-group qty">
-                                <span class="input-group-addon">
-                                    <label for="" >{{'QTY' | translate}}: </label>
-                                </span>
-                                <input quantity-input type="number" min="1" step="1" pattern="\d*" class="form-control quantity"
+                                <label class="input-group-addon control-label" for="qty" >{{'QTY' | translate}}: </label>
+                                <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity"
                                     ng-model="productDetailQty" ng-change="changeQty(event)">
                             </div>
                         </div>
@@ -49,8 +45,8 @@
                             </div>
                         </div>
                         <div  class="col-md-12 col-lg-12 buyButton">
-                            <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                            <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</button>
+                            <span id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</span>
+                            <span id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</span>
                         </div>
                     </div>
                 </form>
