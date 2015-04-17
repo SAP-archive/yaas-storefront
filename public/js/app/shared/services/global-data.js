@@ -130,6 +130,14 @@ angular.module('ds.shared')
                     username: null
                 },
 
+                piwik:{
+                    enabled: true
+                },
+                search:{
+                    algoliaKey:'',
+                    algoliaProject: 'MSSYUK0R36'
+                },
+
                 /** Returns the currency symbol of the active currency.*/
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;
