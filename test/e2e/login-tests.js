@@ -120,6 +120,7 @@ describe("login:", function () {
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             tu.clickElement('id', "add-address-btn");
+            browser.sleep(1000);
             populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             tu.clickElement('id', 'save-address-btn');
             browser.sleep(500);
@@ -198,7 +199,7 @@ describe("login:", function () {
         });
 
         it('should allow user to update their password', function () {
-            tu.loginHelper('password@test.com', 'password');
+            tu.loginHelper('password@hybristest.com', 'password');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             waitForAccountPage();
