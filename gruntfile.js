@@ -10,7 +10,14 @@ module.exports = function (grunt) {
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
-        PROJECT_ID = 'defaultproj',
+
+        //--Set Parameters for Server Configuration----------------------------------------------------
+        // Read npm argument and set the dynamic server environment or use default configuration.
+        // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123
+        PROJECT_ID = grunt.option('pid') || 'defaultproj',
+        CLIENT_ID = grunt.option('cid') || 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
+        REDIRECT_URI = 'http://google.com',
+
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
@@ -197,6 +204,22 @@ module.exports = function (grunt) {
                     from: /StartProjectId(.*)EndProjectId/g,
                     to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
                 }]
+            },
+            clientId: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartClientId(.*)EndClientId/g,
+                    to: 'StartClientId*/ \''+ CLIENT_ID +'\' /*EndClientId'
+                }]
+            },
+            redirectURI: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartRedirectURI(.*)EndRedirectURI/g,
+                    to: 'StartRedirectURI*/ \''+ REDIRECT_URI +'\' /*EndRedirectURI'
+                }]
             }
         },
 
@@ -247,8 +270,13 @@ module.exports = function (grunt) {
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('build', 'Build parameters for build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('jshint');
         grunt.task.run('less:dev');
         grunt.task.run('optimizeCode');
@@ -258,24 +286,39 @@ module.exports = function (grunt) {
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('singleProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('multiProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('optimizeCode');
     });
 
@@ -317,7 +360,6 @@ module.exports = function (grunt) {
         //'rev',             //cachebusts css and js.  //be careful was introducing first load latency.
         'usemin'           //completes usemin process.
     ]);
-
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
