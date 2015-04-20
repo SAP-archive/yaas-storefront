@@ -1,42 +1,50 @@
-<nav class="top-navigation" ng-cloak>
-<!-- mobile "hamburger" menu button-->
-<button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
-    <span class="hyicon hyicon-menu"></span>
-</button>
-<!-- mobile cart icon -->
-<button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
-        ng-click="toggleCart()">
-    <span class="hyicon hyicon-cart"></span>
-    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-</button>
-
-<a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn pull-right signin" ng-click="login({windowClass:'mobileLoginModal'})">
-  <img src="./img/user-icon_small.png" class="user-avatar">
-</a>
-
-<div class="dropdown pull-right">
-  <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
-    <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
-  </a>
-  <ul class="dropdown-menu" class="pull-right">
-    <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
-    <li class="divider"></li>
-    <li><a href="" class="my-profile" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
-  </ul>
+<div class="mobileNav hidden-lg visible-md visible-sm visible-xs">
+    <nav class="top-navigation" ng-cloak>
+    <!-- mobile "hamburger" menu button-->
+    <button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
+        <span class="hyicon hyicon-menu"></span>
+    </button>
+    <!-- mobile cart icon -->
+    <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
+            ng-click="toggleCart()">
+        <span class="hyicon hyicon-cart"></span>
+        <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+    </button>
+    
+    <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn pull-right signin" ng-click="login({windowClass:'mobileLoginModal'})">
+      <img src="./img/user-icon_small.png" class="user-avatar">
+    </a>
+    
+    <div class="dropdown pull-right">
+      <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
+        <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
+      </a>
+      <ul class="dropdown-menu" class="pull-right">
+        <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+        <li class="divider"></li>
+        <li><a href="" class="my-profile" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+      </ul>
+    </div>
+    
+    
+    <!-- mobile search button -->
+    <!-- <button type="button" class="btn btn-link navbar-btn pull-right search">
+        <span class="hyicon hyicon-search"></span>
+    </button>-->
+    <!-- mobile logo -->
+    <div class="logo pull-left">
+        <a href=""><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+    </div>
+    
+    </nav>
 </div>
-
-
-<!-- mobile search button -->
-<!-- <button type="button" class="btn btn-link navbar-btn pull-right search">
-    <span class="hyicon hyicon-search"></span>
-</button>-->
-<!-- mobile logo -->
-<div class="logo pull-left">
-    <a href=""><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+        
+        
+        
+<div class="desktopNav hidden-xs hidden-md hidden-sm visible-lg">
+    <h1>DESKTOP NAVIGATION</h1>
+    <!-- full size cart icon -->
+    <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+        <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+    </button>
 </div>
-
-</nav>
-<!-- full size cart icon -->
-<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-</button>

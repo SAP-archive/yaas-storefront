@@ -22,7 +22,7 @@
 </head>
 <body ng-class="{'fixedLayout': showCart }">
     <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-        <div ui-view="sidebarNavigation" class="sidebar-offcanvas" id="sidebar" role="navigation" sticky-navigation></div>
+        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation" sticky-navigation></div>
         <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }" >
             <div ui-view="topNavigation"></div>
             <div class="main">
