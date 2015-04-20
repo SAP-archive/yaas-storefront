@@ -80,7 +80,7 @@ Credential parameters also exist for automated build environments. With NPM 2.0,
 
 $ npm run-script singleProd -- --pid=abc --cid=123
 
-This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be always be set by default to the variable values that are configured at the top of the gruntfile.
+This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be set by default to the variable values in the gruntfile.
 
 
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.

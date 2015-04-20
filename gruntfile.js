@@ -11,8 +11,11 @@ module.exports = function (grunt) {
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
 
-        PROJECT_ID = 'defaultproj',
-        CLIENT_ID = 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
+        //--Set Parameters for Server Configuration----------------------------------------------------
+        // Read npm argument and set the dynamic server environment or use default configuration.
+        // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123
+        PROJECT_ID = grunt.option('pid') || 'defaultproj',
+        CLIENT_ID = grunt.option('cid') || 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
         REDIRECT_URI = 'http://google.com',
 
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
@@ -268,7 +271,9 @@ module.exports = function (grunt) {
     grunt.registerTask('build', 'Build parameters for build',
       function(domainParam){
 
-        runCredentialInput();
+        grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
 
         runDomainReplace(domainParam);
 
@@ -282,7 +287,9 @@ module.exports = function (grunt) {
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
 
-        runCredentialInput();
+        grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
 
         runDomainReplace(domainParam);
 
@@ -293,7 +300,9 @@ module.exports = function (grunt) {
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
 
-        runCredentialInput();
+        grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
 
         runDomainReplace(domainParam);
 
@@ -304,7 +313,9 @@ module.exports = function (grunt) {
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
       function(domainParam){
 
-        runCredentialInput();
+        grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
 
         runDomainReplace(domainParam);
 
@@ -349,31 +360,6 @@ module.exports = function (grunt) {
         //'rev',             //cachebusts css and js.  //be careful was introducing first load latency.
         'usemin'           //completes usemin process.
     ]);
-
-
-    //--Set Parameters for Server Configuration----------------------------------------------------
-    // Read npm argument and set the dynamic server environment.
-    // Syntax: $ npm run-script singleProd -- --pid=xxx --cid=123
-    function runCredentialInput(){
-        var cId = grunt.option('cid') || '';
-        var pId = grunt.option('pid') || '';
-
-        // Replace npm arguments
-        if (cId !== ''){
-            CLIENT_ID = cId;
-        }
-        if (pId !== ''){
-            PROJECT_ID = pId;
-        }
-
-        console.log('CLIENT_ID set to: ',CLIENT_ID);
-        console.log('PROJECT_ID set to: ',PROJECT_ID);
-
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
-
-    }
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.
