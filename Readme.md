@@ -53,7 +53,7 @@ If you haven't done so already, create a new storefront project and obtain subsc
 Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
 
 ### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
-In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the CLIENT_ID and REDIRECT_URI gruntfile variables with the values set in your Builder instance.
+In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the CLIENT_ID and REDIRECT_URI gruntfile variables with the values set in the application associated with your project.
 
 ### 3.  Launch a new session 
 Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
