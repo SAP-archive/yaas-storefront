@@ -95,7 +95,6 @@ angular.module('ds.ytracking', [])
                     data: JSON.stringify(obj)
                 };
 
-
                 $http(req).
                     success(function () {
                         //Get all items that failed before and resend them to PIWIK server
