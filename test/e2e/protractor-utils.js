@@ -13,7 +13,7 @@ exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
-exports.tenant = 'bsdqaproject';
+exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
 

@@ -33,7 +33,7 @@
 
 			.run(function($httpBackend) {
 
-				// MOCK-RUNNER-CONFIGURATION-.
+				// MOCK-RUNNER-CONFIGURATION-. TODO - update or remove.
 				var BUILD_DOMAIN = 'yaas-test.apigee.net/test',
 				    BUILD_TENANT = '8bwhetym79cq',
 				    MOCK_PRODUCT =  '5436899a3cceb8a9381288d9',
