@@ -7,7 +7,7 @@
             {{coupon.message.error}}
         </div>
         <input type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="coupon.applied">
-        <button class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCouponCode(coupon.code)" ng-disabled="coupon.applied">
+        <button class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
         {{'COUPON_APPLY' | translate}}
         </button>
     </div>
