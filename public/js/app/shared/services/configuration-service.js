@@ -26,7 +26,6 @@ angular.module('ds.shared')
              * Returns promise once done.
              */
             function loadConfiguration() {
-
                 //Temporary solution to get all configurations, before the page size was 16 so sometimes we were missing algolia_key for example
                 var configPromise = ConfigurationREST.Config.one('configurations').get({ pageSize: 100 }).then(function (result) {
                     var key = null;
