@@ -82,7 +82,6 @@ describe('Coupon Ctrl Test: ', function () {
             });
             expect($scope.applyCoupon).toBeDefined();
             expect($scope.removeCoupon).toBeDefined();
-            expect($scope.checkAuthentication).toBeDefined();
             expect(mockedCouponSvc.getCoupon).toBeDefined();
             expect(mockedCouponSvc.validateCoupon).toBeDefined();
         });
@@ -180,11 +179,6 @@ describe('Coupon Ctrl Test: ', function () {
             expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
         });
 
-        it('should not show a login to authenticated user', function () {
-            var response = $scope.checkAuthentication('CouponCode');
-            expect(response).toBe(true);
-        });
-
 
     });
 
@@ -198,22 +192,6 @@ describe('Coupon Ctrl Test: ', function () {
 
             couponCtrl = $controller('CouponCtrl', {$scope: $scope, AuthSvc:AuthSvc, AuthDialogManager:mockAuthDialogManager, CouponSvc:mockedCouponSvc, UserCoupon:UserCoupon });
         });
-
-
-        it('should check for failed authentication', function () {
-            var response = $scope.checkAuthentication('CouponCode');
-            expect(response).toBe(false);
-        });
-
-        it('should show a login to unauthenticated user', function () {
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
-            $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).not.toHaveBeenCalled();
-        });
-
 
 
     });
