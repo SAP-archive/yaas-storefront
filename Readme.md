@@ -53,7 +53,7 @@ If you haven't done so already, create a new storefront project and obtain subsc
 Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
 
 ### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
-In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id.
+In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the CLIENT_ID and REDIRECT_URI gruntfile variables with the values set in the application associated with your project.
 
 ### 3.  Launch a new session 
 Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
@@ -71,11 +71,20 @@ Preparing project for deployment (concatenation/minification/revisioning):
 
     $ grunt build
 
+
 The :prod parameter specifies which dynamic domain to connect with the api services.  If this domain is not specified with the parameter, a warning will appear in the build output and the default setting will be applied for the api url's, which is also set to the prod api domain in the gruntfile.
 
 **npm start** is configured to run **grunt build:prod**. Other options are **:stage** and **:test** and can be configured in the gruntfile.
 
+Credential parameters also exist for automated build environments. With NPM 2.0, it is possible to pass in a Client_Id and Project_Id from npm run-script command line. For example, we can further automate the build system with these parameters (pid and cid) like this: 
+
+$ npm run-script singleProd -- --pid=abc --cid=123
+
+This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be set by default to the variable values in the gruntfile.
+
+
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
+
 
 ### 6.  Deploy application to server
 

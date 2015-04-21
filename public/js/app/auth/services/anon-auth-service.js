@@ -26,8 +26,6 @@ angular.module('ds.auth')
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
-
-
         var inProgress = false;
         return {
 
@@ -38,7 +36,8 @@ angular.module('ds.auth')
 
                 if(!inProgress) {
                     inProgress = true;
-                    $http.post(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?hybris-tenant=' + GlobalData.store.tenant, '').then( function(data){
+
+                    $http.post(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?client_id=' + GlobalData.store.clientId + '&redirect_uri=' + encodeURIComponent(GlobalData.store.redirectURI), '').then( function(data){
                         var token = getParameterByName('access_token', data.headers('Location'));
                         var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
                         TokenSvc.setAnonymousToken(token, expiresIn);

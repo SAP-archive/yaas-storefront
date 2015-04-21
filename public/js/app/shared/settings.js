@@ -36,9 +36,9 @@ angular.module('ds.shared')
             // "final" headers for CaaS auth.
             // will be replaced by full oauth flow.
             hybrisTenant: 'hybris-tenant',
-            hybrisRoles: 'hybris-roles',
             hybrisUser: 'hybris-user',
-            hybrisApp: 'hybris-app',
+            hybrisRoles: 'hybris-roles',   //TODO deprecated, can refactor out.
+            hybrisApp: 'hybris-app',       //TODO deprecated, can refactor out.
             language: 'accept-language',
             hybrisAuthorization: 'Authorization',
             paging: {
