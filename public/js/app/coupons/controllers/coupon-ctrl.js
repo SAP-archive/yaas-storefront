@@ -33,6 +33,12 @@ angular.module('ds.coupon')
             });
             $scope.$on('$destroy', couponcartupdate);
 
+            $scope.applyCouponCode = function(couponCode) {
+                if($scope.checkAuthentication(couponCode)){
+                    $scope.applyCoupon(couponCode);
+                }
+            };
+
             /** apply user coupon into cart */
             $scope.applyCoupon = function(couponCode) {
 
@@ -63,6 +69,21 @@ angular.module('ds.coupon')
             $scope.removeCoupon = function() {
                 UserCoupon.setBlankCoupon();
             };
+
+            $scope.checkAuthentication = function(couponCode){
+                if (!AuthSvc.isAuthenticated()) {
+                    var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
+                    dlg.then(function(){
+                            if (AuthSvc.isAuthenticated()) {
+                                $scope.applyCoupon(couponCode);
+                            }
+                        }
+                    );
+                    return false;
+	            }
+	            return true;
+            };
+
 
     }]);
 
