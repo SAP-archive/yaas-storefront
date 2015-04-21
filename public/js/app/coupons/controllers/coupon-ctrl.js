@@ -36,10 +36,6 @@ angular.module('ds.coupon')
             /** apply user coupon into cart */
             $scope.applyCoupon = function(couponCode) {
 
-                if(!$scope.checkAuthentication(couponCode)){
-                    return;
-                }
-
                 //call coupon service to get discount.
                 CouponSvc.getCoupon(couponCode).then(function (couponData) {
                     $scope.coupon = UserCoupon.setCoupon(couponData);
@@ -67,21 +63,6 @@ angular.module('ds.coupon')
             $scope.removeCoupon = function() {
                 UserCoupon.setBlankCoupon();
             };
-
-            $scope.checkAuthentication = function(couponCode){
-                if (!AuthSvc.isAuthenticated()) {
-                    var dlg = AuthDialogManager.open({windowClass:'mobileLoginModal'}, {}, {}, true);
-                    dlg.then(function(){
-                            if (AuthSvc.isAuthenticated()) {
-                                $scope.applyCoupon(couponCode);
-                            }
-                        }
-                    );
-                    return false;
-	            }
-	            return true;
-            };
-
 
     }]);
 
