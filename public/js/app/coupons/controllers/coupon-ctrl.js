@@ -57,6 +57,11 @@ angular.module('ds.coupon')
                 }, function (e) {  //upstream error handler.
                     $scope.coupon.valid = false;
                     $scope.coupon.message.error = e.status; //show api error.
+
+                    //special case until unique error type identifiers are provided.
+                    if (e.status === 403){
+                        $scope.coupon.message.error = "Sign in to use coupon code";
+                    }
                 });
             };
 
