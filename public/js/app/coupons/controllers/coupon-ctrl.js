@@ -60,7 +60,7 @@ angular.module('ds.coupon')
 
                     //special case until unique error type identifiers are provided.
                     if (e.status === 403){
-                        $scope.coupon.message.error = "Sign in to use coupon code";
+                        $scope.coupon.message.error = 'Sign in to use coupon code';
                     }
                 });
             };
