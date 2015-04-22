@@ -34,8 +34,19 @@ angular.module('ds.coupon')
         };
         userCoupon = angular.copy(blankCoupon);
 
+        //reset coupon state
+        var couponlogout = $rootScope.$on('coupon:logout', function() {
+            resetCoupon();
+        });
+        $rootScope.$on('$destroy', couponlogout);
+
         function updateCoupons() {
             $rootScope.$broadcast('coupon:updated', userCoupon);
+        }
+
+        function resetCoupon() {
+            userCoupon = angular.copy(blankCoupon);
+            updateCoupons();
         }
 
         return {
@@ -47,8 +58,7 @@ angular.module('ds.coupon')
                 return angular.extend(userCoupon, couponData);
             },
             setBlankCoupon:function(){
-                userCoupon = angular.copy(blankCoupon);
-                updateCoupons();
+                resetCoupon();
             }
         };
 
