@@ -85,7 +85,9 @@ describe("login:", function () {
             updateAccountField('email-edit', 'cool@cool.com');
             updateAccountField('first-name-edit', 'Joe');
             updateAccountField('middle-name-edit', 'C');
+            browser.sleep(1000);
             updateAccountField('last-name-edit', 'Cool');
+            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
 
         });
 
