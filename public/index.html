@@ -21,15 +21,14 @@
     <![endif]-->
 </head>
 <body ng-class="{'fixedLayout': showCart }">
-    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation" sticky-navigation></div>
-        <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }" >
-            <div ui-view="topNavigation"></div>
-            <div class="main">
+    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas"  >
+        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation" ></div>
+        <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
+            <div ui-view="topNavigation" ></div>
+            <div class="main" >
                 <div ui-view="main"></div>
                 <div class="content-mask" ng-click="closeOffcanvas()"></div>
             </div>
-
         </div>
         <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 
