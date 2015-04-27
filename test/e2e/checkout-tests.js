@@ -228,7 +228,7 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
-        it('should have basic validation on all fields', function () {
+        iit('should have basic validation on all fields', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');

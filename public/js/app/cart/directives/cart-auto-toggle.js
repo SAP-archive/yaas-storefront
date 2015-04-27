@@ -22,7 +22,7 @@ angular.module('ds.cart')
         return {
             restrict: 'A',
             link: function(scope) {
-                scope.cartAutoTimeoutLength = 3000;
+                scope.cartAutoTimeoutLength = 1000;
                 scope.cartShouldCloseAfterTimeout = false;
                 scope.cartTimeOut = void 0;
 

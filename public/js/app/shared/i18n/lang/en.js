@@ -225,6 +225,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
         ENTER_EMAIL: 'Enter Email',
+        ENTER_EXISTING_EMAIL: 'Enter the email address of an existing account',
         LOGIN_FAILED: 'Login failed',
 
         /*
