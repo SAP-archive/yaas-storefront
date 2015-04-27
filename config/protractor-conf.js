@@ -6,12 +6,12 @@ exports.config = {
     // sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: [
-        // '../test/e2e/cart-tests.js',
-        // '../test/e2e/checkout-tests.js',
+        '../test/e2e/cart-tests.js',
+        '../test/e2e/checkout-tests.js',
         '../test/e2e/coupon-tests.js'
-        // '../test/e2e/localization-tests.js',
-        // '../test/e2e/login-tests.js',
-        // '../test/e2e/product-tests.js'
+        '../test/e2e/localization-tests.js',
+        '../test/e2e/login-tests.js',
+        '../test/e2e/product-tests.js'
     ],
 
 
@@ -20,11 +20,11 @@ exports.config = {
         'maxInstances': 6,
         'shardTestFiles': true,
         //comment out the following capabilities to run locally
-        // 'platform': 'OS X 10.8',
-        // 'screen-resolution': '1280x1024',
-        // 'record-video': false,
-        // 'max-duration': 10800,
-        // 'time-zone': 'Berlin',
+        'platform': 'OS X 10.8',
+        'screen-resolution': '1280x1024',
+        'record-video': false,
+        'max-duration': 10800,
+        'time-zone': 'Berlin',
         
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
@@ -52,7 +52,7 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://localhost:9000/',
+    baseUrl: 'http://storefront-demo.yaas.io/',
 
 
     framework: 'jasmine',
