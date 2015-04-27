@@ -228,7 +228,7 @@ describe("checkout:", function () {
             verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301');
         });
 
-        iit('should have basic validation on all fields', function () {
+        it('should have basic validation on all fields', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
@@ -248,7 +248,7 @@ describe("checkout:", function () {
             browser.sleep(200);
             validateField('cvc', '', '00', 'id', 'place-order-btn');
             tu.clickElement('id', 'place-order-btn');
-            expect(element(by.xpath('//div[2]/div[5]/div/small')).getText()).toContain('Please enter a valid code');
+            expect(element(by.binding('PLEASE_ENTER_VALID_CODE')).getText()).toContain('Please enter a valid code');
             browser.executeScript("document.getElementById('cvc').style.display='block';");
             validateField('cvc', '', '123', 'id', 'place-order-btn');
             validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
