@@ -42,9 +42,30 @@
         
         
 <div class="desktopNav hidden-xs hidden-sm visible-md visible-lg">
-    <span>DESKTOP NAVIGATION</span>
+    <div class="row">
+        <div class="col-xs-2">
+            <a ui-sref="base.home" class="logo hy-stickyComponent">
+                <img ng-src="{{store.logo || 'img/logo.png'}}" alt=""/>
+            </a>
+        </div>
+        <div class="col-xs-8">
+            <ysearch></ysearch>
+        </div>
+        <div class="col-xs-2">
+
+            <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+                <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+            </button>
+            <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                <img src="./img/user-icon_small.png" class="user-avatar"/>
+            </a>
+        </div>
+       
+    </div>
+    <div class="row">
+
+
+    </div>
     <!-- full size cart icon -->
-    <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-        <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-    </button>
+    
 </div>
