@@ -61,7 +61,7 @@ describe("login:", function () {
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
-            tu.clickElement('id', "logout-btn");
+            tu.clickElement('id', 'logout-btn');
 
         });
 
@@ -213,6 +213,7 @@ describe("login:", function () {
             tu.clickElement('id', "logout-btn");
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
+            browser.sleep(1000);
             tu.loginHelper('password@hybristest.com', 'password2');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');

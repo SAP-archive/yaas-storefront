@@ -1,12 +1,12 @@
 var fs = require('fs');
 
-exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
+var whiteCoffeeMug = exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/550214eca4ae283d1df57cd9/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/550214f84d6ea5a71b0cf025/')]";
 var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
 exports.beerBug = stressBallPath;
-exports.cartButtonId = 'full-cart-btn';
-exports.buyButton = "buy-button";
+var cartButtonId = exports.cartButtonId = 'full-cart-btn';
+var buyButton = exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
 exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
@@ -17,7 +17,7 @@ exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
 
-exports.waitForCart = function(){
+var waitForCart = exports.waitForCart = function(){
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
@@ -25,18 +25,25 @@ exports.waitForCart = function(){
     browser.sleep(500);
 };
 
-exports.verifyCartAmount = function (amount) {
+var verifyCartAmount = exports.verifyCartAmount = function (amount) {
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
 };
 
-exports.verifyCartTotal = function (total) {
+var verifyCartTotal = exports.verifyCartTotal = function (total) {
     browser.wait(function () {
         return element(by.css("th.text-right.ng-binding")).isPresent();
     });
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
+};
+
+var verifyCartDiscount = exports.verifyCartDiscount = function (amount) {
+    browser.wait(function () {
+        return element(by.css('span.error.ng-binding')).isPresent();
+    });
+    expect(element(by.css('span.error.ng-binding')).getText()).toEqual(amount);
 };
 
 exports.waitForAccountPage = function(){
@@ -178,3 +185,29 @@ exports.loginHelper = function (userName, password) {
     browser.sleep(1000);
 }
 
+exports.loadProductIntoCart = function (cartAmount, cartTotal) {
+    clickElement('id', cartButtonId);
+    waitForCart();
+    expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+    clickElement('binding', 'CONTINUE_SHOPPING');
+    browser.wait(function () {
+        return element(by.xpath(whiteCoffeeMug)).isPresent();
+    });
+    browser.sleep(500);
+    clickElement('xpath', whiteCoffeeMug);
+    browser.wait(function () {
+        return element(by.id(buyButton)).isPresent();
+    });
+    clickElement('id', buyButton);
+    //wait for cart to close
+    browser.sleep(5500);
+    browser.wait(function () {
+        return element(by.id(cartButtonId)).isDisplayed();
+    });
+    browser.sleep(1000);
+    clickElement('id', cartButtonId);
+    waitForCart();
+    browser.sleep(2000);
+    verifyCartAmount(cartAmount);
+    verifyCartTotal(cartTotal);
+}

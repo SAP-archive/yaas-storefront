@@ -274,11 +274,11 @@ describe("checkout:", function () {
             expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Dine in');
         });
 
-        it('should populate with existing address for logged in user', function () {
+        iit('should populate with existing address for logged in user', function () {
             checkoutAsLoggedInUserTest('order@hybristest.com', 'ORDER@HYBRISTEST.COM');
         });
 
-        it('should create order on account page', function () {
+        iit('should create order on account page', function () {
             verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$24.61');
         });
 
