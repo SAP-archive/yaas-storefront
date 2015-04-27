@@ -36,16 +36,33 @@
 			<section class="summary">
 				<table class="table">
 					<thead>
-					<tr>
-						<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-						<th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
-					<tr>
+                        <tr>
+                            <th>{{'EST_ORDER_TOTAL' | translate}}</th>
+                            <th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
+                        <tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-						<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-					</tr>
+                        <tr>
+                            <td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
+                            <td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
+                        </tr>
+                        <tr>
+                            <td class="estimate-tax-link">
+                                <a href="" ng-click="showZipInput=!showZipInput">Estimate Tax
+                                <span ng-show="!showZipInput" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                                <span ng-show="showZipInput" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td class="text-right">$</td>
+                        </tr>
+                        <tr class="zip-inputs" ng-show="showZipInput">
+                            <td>
+                                <input type="text" class="zip-input form-control" placeholder="Zip/Postal Code"/>
+                            </td>
+                            <td>
+                                <button class="apply-tax btn btn-primary pull-right">Apply</button>
+                            </td>
+                        </tr>
 					</tbody>
 				</table>
 			</section>

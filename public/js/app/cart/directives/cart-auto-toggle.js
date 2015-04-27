@@ -80,6 +80,10 @@ angular.module('ds.cart')
                     }
 
                 };
+
+                //toggle input field for ZIP/Postal Code and button "Apply" on Estimate Tax click
+                scope.showZipInput = false;
+
             }
         };
     }]);
