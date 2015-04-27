@@ -18,26 +18,16 @@
             </div>
             <h1>{{'ORDER' | translate}} {{order.id}}</h1>
         </div>
-        <div class="section-headline orderdetailsheader">
+        <div class="section-headline">
             <h2>{{'ORDER_DETAILS' | translate}}</h2>
-            <span class="area-headline">
-                {{'ORDER_DATE' | translate}} {{order.created | date : dateFormat}}
-            </span>
-        </div>
-        <div class="row shippingdetails">
-            <div class="col-xs-12">
-                <span class="area-headline">
-                    {{'SHIPPING_DETAILS' | translate }}
-                </span>
-            </div>
         </div>
         <div class="row">
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
-                    <span class="area-headline">
-                        {{'SHIPPING_ADDRESS' | translate}}
-                    </span>
+  		<span class="area-headline">
+  			{{'SHIPPING_ADDRESS' | translate}}
+  		</span>
                     <address>
                         {{order.shippingAddress.contactName}}<br>
                         <div ng-if="order.shippingAddress.companyName">{{order.shippingAddress.companyName}}<br></div>
@@ -51,9 +41,9 @@
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
-                    <span class="area-headline">
-                        {{'BILLING_ADDRESS' | translate}}
-                    </span>
+  		<span class="area-headline">
+  			{{'BILLING_ADDRESS' | translate}}
+  		</span>
                     <address>
                         {{order.billingAddress.contactName}}<br>
                         <div ng-if="order.billingAddress.companyName">{{order.billingAddress.companyName}}<br></div>
@@ -67,9 +57,9 @@
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
-                    <span class="area-headline">
-                        {{'PAYMENT' | translate}}
-                    </span>
+  		<span class="area-headline">
+  			{{'PAYMENT' | translate}}
+  		</span>
                     <p>{{'CREDIT_CARD' | translate}}, {{payment.paidAmount}} {{payment.currency}}, {{payment.status | translate}}</p>
                 </div>
             </div>
@@ -88,16 +78,15 @@
         <div class="table-responsive order-tabel hidden-xs hidden-sm hidden-md">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>{{'ITEM' | translate}}</th>
-                        <th>{{'ITEM_PRICE' | translate}}</th>
-                        <th>{{'QUANTITY' | translate}}</th>
-                        <th class="priceColumn">{{'TOTAL_PRICE' | translate}}</th>
-                    </tr>
+                <tr>
+                    <th>{{'ITEM' | translate}}</th>
+                    <th>{{'ITEM_PRICE' | translate}}</th>
+                    <th>{{'QUANTITY' | translate}}</th>
+                    <th class="priceColumn">{{'TOTAL_PRICE' | translate}}</th>
+                </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="entry in order.entries">
-
                         <td class="col-lg-7 col-md-7 col-sm-5 col-xs-5">
                             <div class="cart-item row">
                                 <div class="img-col col-xs-4 col-sm-4 col-lg-4">
@@ -135,8 +124,7 @@
                         <div class="variants row item-attr">
                             <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
                         </div>
-                        <div class="price-total item-attr">
-                            {{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice | currency: currencySymbol}}</span>
+                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice | currency: currencySymbol}}</span>
                         </div>
                     </div>
                 </div>
@@ -147,24 +135,24 @@
             <div class="col-md-offset-7 col-lg-offset-7 col-xs-12 col-sm-12 col-md-5 col-lg-5">
                 <table class="table">
                     <tbody>
-                        <tr>
-                            <td>{{'SUBTOTAL' | translate}}</td>
-                            <td class="text-right">
-                                {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{'SHIPPING' | translate}}</td>
-                            <td class="text-right">
-                                {{order.shipping.total.amount | currency: currencySymbol}}
-                            </td>
-                        </tr>
+                    <tr>
+                        <td >{{'SUBTOTAL' | translate}}</td>
+                        <td class="text-right">
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{'SHIPPING' | translate}}</td>
+                        <td class="text-right">
+                            {{order.shipping.total.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td>{{'ORDER_TOTAL' | translate}}</td>
-                            <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
-                        </tr>
+                    <tr>
+                        <td>{{'ORDER_TOTAL' | translate}}</td>
+                        <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
+                    </tr>
                     </tfoot>
                 </table>
             </div>

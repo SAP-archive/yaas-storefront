@@ -222,6 +222,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Passwort vergessen?',
         EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
         ENTER_EMAIL: 'Emailadresse angeben',
+        ENTER_EXISTING_EMAIL: 'Geben Sie die E-Mail-Adresse eines vorhandenen Kontos',
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
         /*
