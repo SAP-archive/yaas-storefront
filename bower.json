@@ -33,7 +33,8 @@
     "angular-ui-select": "~0.8.2",
     "angular-sanitize": "~1.3.0",
     "angular-touch": "~1.3.0",
-    "algoliasearch": "2.9.2"
+    "algoliasearch": "2.9.2",
+    "yamm3": "1.1.0"
   },
   "install": {
     "path": {

@@ -67,8 +67,27 @@
        
     </div>
     <div class="row">
-
-
+        <nav class="navbar yamm navbar-default" role="navigation">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
+                    <a ui-sref="base.category( {catName: category.slug} )" class="dropdown-toggle mainCategory categoryLevel" ng-click="hideMobileNav()">
+                        {{ category.name  }}
+                    </a>
+                    <ul class="dropdown-menu" ng-if="category.subcategories">
+                        <li ng-repeat="sub2 in category.subcategories" class="dropdown yamm-fw {'has-sub': sub2.subcategories}">
+                            <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}<span class="hyicon hyicon-chevron-bold-right"></span></a>
+                            <div class="tertiaryCategory">
+                                <ul >
+                                    <div class="row" ng-repeat="sub3 in sub2.subcategories">
+                                        <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" >{{ sub3.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </div>
     <!-- full size cart icon -->
     
