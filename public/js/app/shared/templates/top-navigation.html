@@ -52,13 +52,17 @@
             <ysearch></ysearch>
         </div>
         <div class="col-xs-2">
-
-            <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+            <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn cart pull-right" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
                 <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
             </button>
-            <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
+            <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-right" ng-click="login({windowClass:'mobileLoginModal'})">
+                {{'SIGN_IN' | translate}}
+            </a>
+            <a ng-if="user.isAuthenticated" class="btn btn-link navbar-btn signin pull-right">
                 <img src="./img/user-icon_small.png" class="user-avatar"/>
             </a>
+            
+
         </div>
        
     </div>
