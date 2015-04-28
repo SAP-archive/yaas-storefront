@@ -190,13 +190,6 @@
 
         }
 
-        .secondaryCategory{
-          &:hover{
-            color: @lightblue;
-          }
-
-        }
-
         &.active > a{
           color: @lightblue;
 
@@ -867,5 +860,51 @@ a.signin{display:block;}
 }
 
 .desktopNav{
-  height: 125px;
+  .row.info{
+    border-bottom: 1px solid #d4d5d5;
+  }
+
+}
+
+.yamm .dropdown.yamm-fw .dropdown-menu{
+  background-color: #d6dbde;
+  margin-left: -45px;
+  margin-right: -45px;
+  margin-top: 14px;
+  padding: 45px 58px;
+  border: none;
+  box-shadow: none;
+
+  .secondaryCategory{
+    color: @black;
+    font-size: 14px;
+    font-weight: bold;
+    &:hover{
+      color: @lightblue;
+    }
+
+  }
+}
+
+
+.yamm.navbar-default{
+  background-color: transparent;
+  border: none;
+  margin-bottom: 0;
+  min-height: 30px;
+  
+  a.mainCategory{
+    padding-top: 0;
+    padding-bottom: 4px;
+    background-color: transparent;
+    color: @black;
+    font-weight: 500;
+    
+    &.mactive,
+    &:hover{
+      background-color: transparent !important;
+      border-bottom: 4px solid #d4d5d5;
+      
+    }
+  }
 }

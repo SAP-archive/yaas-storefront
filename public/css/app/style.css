@@ -7048,9 +7048,6 @@ html.disable-scroll {
     text-decoration: none;
     color: #0079ff;
   }
-  #sidebar .navi > li .secondaryCategory:hover {
-    color: #0079ff;
-  }
   #sidebar .navi > li.active > a {
     color: #0079ff;
   }
@@ -7742,8 +7739,43 @@ fieldset[disabled] .top-navigation .btn-link:focus {
 .resetPasswordModal h3 {
   margin-top: 0;
 }
-.desktopNav {
-  height: 125px;
+.desktopNav .row.info {
+  border-bottom: 1px solid #d4d5d5;
+}
+.yamm .dropdown.yamm-fw .dropdown-menu {
+  background-color: #d6dbde;
+  margin-left: -45px;
+  margin-right: -45px;
+  margin-top: 14px;
+  padding: 45px 58px;
+  border: none;
+  box-shadow: none;
+}
+.yamm .dropdown.yamm-fw .dropdown-menu .secondaryCategory {
+  color: #000000;
+  font-size: 14px;
+  font-weight: bold;
+}
+.yamm .dropdown.yamm-fw .dropdown-menu .secondaryCategory:hover {
+  color: #0079ff;
+}
+.yamm.navbar-default {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 0;
+  min-height: 30px;
+}
+.yamm.navbar-default a.mainCategory {
+  padding-top: 0;
+  padding-bottom: 4px;
+  background-color: transparent;
+  color: #000000;
+  font-weight: 500;
+}
+.yamm.navbar-default a.mainCategory.mactive,
+.yamm.navbar-default a.mainCategory:hover {
+  background-color: transparent !important;
+  border-bottom: 4px solid #d4d5d5;
 }
 #cart {
   background: #eeeeee;
@@ -9749,10 +9781,16 @@ body.disable-scroll .main {
   max-height: 100%;
 }
 body {
-  background: #f5f5f5;
+  background: #ffffff;
 }
 body.fixedLayout {
   overflow-y: hidden !important;
+}
+.clr {
+  clear: both;
+}
+.content-container {
+  padding: 15px 58px;
 }
 input[type='number'] {
   -moz-appearance: textfield;

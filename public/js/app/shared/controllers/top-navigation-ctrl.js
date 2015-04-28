@@ -14,9 +14,9 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
 
             $scope.GlobalData = GlobalData;
             $scope.categories = CategorySvc.getCategoriesFromCache();
