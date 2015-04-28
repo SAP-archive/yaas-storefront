@@ -86,25 +86,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="entry in order.entries">
-
-                    <td class="col-lg-7 col-md-7 col-sm-5 col-xs-5">
-                        <div class="cart-item row">
-                            <div class="img-col col-xs-4 col-sm-4 col-lg-4">
-                                <a ui-sref="base.product.detail( {productId: entry.id} )">
-                                    <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
-                                </a>
+                    <tr ng-repeat="entry in order.entries">
+                        <td class="col-lg-7 col-md-7 col-sm-5 col-xs-5">
+                            <div class="cart-item row">
+                                <div class="img-col col-xs-4 col-sm-4 col-lg-4">
+                                    <a ui-sref="base.product.detail( {productId: entry.id} )">
+                                        <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
+                                    </a>
+                                </div>
+                                <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
+                                    <div class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
+                                    <div class="price item-attr ">SKU: <span> {{entry.product.sku}}</span></div>
+                                </div>
                             </div>
-                            <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
-                                <div class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
-                                <div class="price item-attr ">SKU: <span> {{entry.product.sku}}</span></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-lg-2 col-md-2 col-sm-3 col-xs-3">{{entry.unitPrice | currency: currencySymbol}}</td>
-                    <td class="col-lg-1 col-md-1 col-sm-2 col-xs-3">{{entry.amount}}</td>
-                    <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 priceColumn">{{entry.totalPrice | currency: currencySymbol}}</td>
-                </tr>
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-3 col-xs-3">{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-2 col-xs-3">{{entry.amount}}</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 priceColumn">{{entry.totalPrice | currency: currencySymbol}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

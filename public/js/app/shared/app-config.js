@@ -38,7 +38,18 @@ angular.module('ds.appconfig', [])
                 tenantId = /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
             }
             return tenantId;
+        },
+
+        clientId: function() {
+            // Dynamic ClientId is configured and replaced by build script, see gruntfile.
+            return /*StartClientId*/ 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9' /*EndClientId*/;
+        },
+
+        redirectURI: function() {
+            // Dynamic RedirectURI is configured and replaced by build script, see gruntfile.
+            return /*StartRedirectURI*/ 'http://google.com' /*EndRedirectURI*/;
         }
+
 
     });
 

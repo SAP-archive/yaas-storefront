@@ -1,3 +1,4 @@
+
 *[pop-over]{
   position: relative;
 
@@ -11,8 +12,13 @@
   position: absolute;
 }
 
+
+
+
 #sidebar{
   background: @lightergrey;
+
+
   .currencySelector, .languageSelector{
     text-transform: uppercase;
     padding: 0  0 20px 0;
@@ -36,7 +42,10 @@
 
     .arrow{
       display: none;
+
     }
+
+
   }
 
   .selectorListContainer{
@@ -66,13 +75,13 @@
       width: 160px;
       display: block;
       line-height: 17px;
-      background-image: url('/img/language_select_inactive.png');
+      background-image: url('../../img/language_select_inactive.png');
       color: #7d7e7f !important;
 
       &:hover,
       &.active{
         color: #000 !important;
-        background-image: url('/img/language_select_active.png');
+        background-image: url('../../img/language_select_active.png');
       }
 
       &.active{cursor: default;}
@@ -195,8 +204,17 @@
             display: block;
           }
         }
+
+
       }
+
     }
+
+
+
+
+
+
 
     .sub-navi{
       display: none;
@@ -267,6 +285,10 @@
           &.noSubCategories:after{
             background: transparent;
           }
+
+
+
+
         }
 
         div.tertiaryCategory{
@@ -404,6 +426,8 @@
             }
           }
 
+
+
           ul{
             display: none;
           }
@@ -481,6 +505,10 @@
 
   }
 
+
+
+
+
   .social-icons{
     .clearfix;
     margin: 0 auto;
@@ -511,13 +539,18 @@
       select{width: 100%; height:30px; margin: 20px 0 0; padding-left: 10px; }
     }
 
+
     .configSelector{
       position: relative;
       .popover{
-        top: -70px !important;
+        top: -170px !important;
       }
     }
   }
+}
+
+#full-cart-btn{
+  outline: none;
 }
 
 a.signin{display:block;}
@@ -537,9 +570,11 @@ a.signin{display:block;}
   position: fixed;
   z-index: @zIndex-topnavigation;
 
-  .loginPopover.popover-title{
-    display: none;
+  .loginPopover{
+    .popover-title{display: none;}
+
   }
+
 
   @media (max-width: @screen-md-min) {
     z-index:10000;
@@ -588,13 +623,17 @@ a.signin{display:block;}
 
 
   .off-canvas.left &{
+
     background: none;
+
     .btn.menu{
       color:#0079ff;
     }
   }
 
   .off-canvas.right &{
+
+
     .btn.cart{
       color:#0079ff;
       background:transparent;
@@ -618,9 +657,14 @@ a.signin{display:block;}
         left: -150px !important;
         width:320px;
       }
+
     }
+
+
+
   }
 }
+
 
 /* NOT Mobile Cart Button */
 
@@ -639,16 +683,20 @@ a.signin{display:block;}
 
   .visible-md;
   .visible-lg;
+
+
   .quantity{
     font: italic 13px @font-family-serif, sans-serif;
     position: absolute;
     top: 15px;
     left: 48%;
   }
+
 }
 
 .right {
   .navbar-btn.cart{
+    //			background: @defaultblue;
     color: #fff;
     right: @offcanvas-right-width-d;
   }
@@ -656,13 +704,23 @@ a.signin{display:block;}
 
 .socialMediaSigninContainer{
   margin:0 0 30px 0;
+
+
+
   .googlePlusLogin{
     padding-right: 0 !important;
+
+  }
+
+  @media (max-width: @screen-sm-max){
+    .googlePlusLogin{
+      padding: 0 !important;
+    }
   }
 
   .googleSignIn{
     height: 43px;
-    background: #de5543 url('/img/g+_signInLogo.png') top left no-repeat;
+    background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
 
     .googleSignInLabel{
       color: #f2f3f8;
@@ -679,7 +737,7 @@ a.signin{display:block;}
     padding-left: 0 !important;
     .fbLoginButton{
       height: 43px;
-      background: #006699 url('/img/fb_signInLogo.png') top left no-repeat;
+      background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
     }
     .fbsignInLabel{
       color: #f2f3f8;
@@ -692,12 +750,6 @@ a.signin{display:block;}
 
   }
 
-  @media (max-width: @screen-sm-max){
-    .googlePlusLogin{
-      padding: 0 !important;
-    }
-  }
-
   @media(max-width: @screen-xs-max) {
     .fbLogin {
       padding: 0 !important;
@@ -705,9 +757,15 @@ a.signin{display:block;}
     }
   }
 
-  .fb_iframe_widget>span{
-    width: 100% !important;
-    height: 100% !important;
+
+
+  .fb_iframe_widget{
+
+
+    >span{
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
 
   iframe{
@@ -740,6 +798,7 @@ a.signin{display:block;}
   font-size: 13px;
 }
 
+
 .signInTabs{
   &.nav-tabs > li.active > a,
   &.nav-tabs > li.active > a:hover,
@@ -767,6 +826,7 @@ a.signin{display:block;}
   }
 }
 
+
 #place-order-btn{
   background-color: #20c909;
   border-color:  #20c909;
@@ -793,10 +853,9 @@ a.signin{display:block;}
 
 .mobileLoginModal{
   section{
-    padding: 25px 14px 25px 10px;
+    padding: 10px 14px 20px 10px;
   }
 }
-
 .resetPasswordModal{
   padding-top: 10px;
   .glyphicon{

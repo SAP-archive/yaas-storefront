@@ -85,7 +85,9 @@ describe("login:", function () {
             updateAccountField('email-edit', 'cool@cool.com');
             updateAccountField('first-name-edit', 'Joe');
             updateAccountField('middle-name-edit', 'C');
+            browser.sleep(1000);
             updateAccountField('last-name-edit', 'Cool');
+            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
 
         });
 
@@ -163,7 +165,7 @@ describe("login:", function () {
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(500);
             expect(element(by.binding("error.message")).getText()).toEqual("Please provide correct current password!");
-            tu.clickElement('css', "button.close");
+            tu.clickElement('css', "a.close > span");
 
         });
 
@@ -178,7 +180,7 @@ describe("login:", function () {
             tu.sendKeysById('confirmNewPassword', '123');
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
-            tu.clickElement('css', "button.close");
+            tu.clickElement('css', "a.close > span");
 
         });
 
@@ -193,7 +195,7 @@ describe("login:", function () {
             tu.sendKeysById('confirmNewPassword', 'incorrect2');
             browser.sleep(500);
             expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
-            tu.clickElement('css', "button.close");
+            tu.clickElement('css', "a.close > span");
         });
 
         it('should allow user to update their password', function () {
@@ -211,11 +213,7 @@ describe("login:", function () {
             tu.clickElement('id', "logout-btn");
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
-            tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.sendKeysById('usernameInput', 'password@test.com');
-            tu.sendKeysById('passwordInput', 'password2');
-            tu.clickElement('id', 'sign-in-button');
+            tu.loginHelper('password@hybristest.com', 'password2');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
@@ -225,7 +223,7 @@ describe("login:", function () {
             tu.sendKeysById('confirmNewPassword', 'password');
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
-            browser.sleep(500);
+            browser.sleep(1500);
         });
 
         it('should allow user to access order confirmation', function (){

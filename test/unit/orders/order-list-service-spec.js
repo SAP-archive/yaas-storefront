@@ -20,6 +20,8 @@ describe('OrderListSvc Test', function () {
     mockedAppConfig.defaultLanguage = 'en';
     mockedAppConfig.storeTenant = function(){ return '01010101'};
     mockedAppConfig.dynamicDomain = function(){ return 'dynDomain'};
+    mockedAppConfig.clientId = function(){ return '1234ABC'};
+    mockedAppConfig.redirectURI = function(){ return 'http://google.com'};
 
     var getAccessTokenSpy = jasmine.createSpy('getAccessToken').andReturn('123');
 
