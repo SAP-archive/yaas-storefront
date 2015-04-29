@@ -5,10 +5,11 @@
         <span class="hyicon hyicon-menu"></span>
     </button>
     <!-- mobile cart icon -->
-    <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
+    <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right"
             ng-click="toggleCart()">
-        <span class="hyicon hyicon-cart"></span>
-        <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+        <span class="shopping-bag">
+            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+        </span>
     </button>
     
     <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn pull-right signin" ng-click="login({windowClass:'mobileLoginModal'})">
@@ -53,15 +54,23 @@
                 <ysearch></ysearch>
             </div>
             <div class="col-xs-2 cart">
-                <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-                    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-                </button>
-                <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-right" ng-click="login({windowClass:'mobileLoginModal'})">
-                    {{'SIGN_IN' | translate}}
-                </a>
-                <a ng-if="user.isAuthenticated" class="btn btn-link navbar-btn signin pull-right">
-                    <img src="./img/user-icon_small.png" class="user-avatar"/>
-                </a>
+                <div class="cart-and-account-container">
+                    <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-left" ng-click="login({windowClass:'mobileLoginModal'})">
+                        {{'SIGN_IN' | translate}}
+                    </a>
+                    <div ng-if="user.isAuthenticated" class="pull-left accountSignIn">
+                        <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
+                            <img src="./img/user-icon_small_active.png" class="user-avatar">
+                        </a>
+                        <!--<a ng-click="logout()" id="logout-btn" class="signout btn">{{'SIGN_OUT' | translate}}</a>-->
+                    </div>
+                    <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-left" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+                        <span class="shopping-bag">
+                            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                        </span>
+                    </button>
+                    <div class="clr"></div>
+                </div>
             </div>
             <div class="clr"></div>
         </div>
@@ -80,7 +89,7 @@
                                 <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}</a>
                                 <div class="tertiaryCategory">
                                     <ul>
-                                        <li class="row" ng-repeat="sub3 in sub2.subcategories">
+                                        <li ng-repeat="sub3 in sub2.subcategories">
                                             <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" >{{ sub3.name }}</a>
                                         </li>
                                     </ul>

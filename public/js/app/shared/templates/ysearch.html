@@ -1,7 +1,7 @@
 <div class="y-search" ng-show="search.searchAvailable">
     <div class="right-inner-addon">
         <i ng-class="{'active': search.showSearchResults}" class="glyphicon glyphicon-search js-glyphicon"></i>
-        <input id="search" autocomplete="off" placeholder="{{'SEARCH' | translate}}" type="text" ng-model="search.text"
+        <input id="search" autocomplete="off" placeholder="" type="text" ng-model="search.text"
                ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()"
                class="y-input form-control input-md"/>
     </div>
