@@ -63,7 +63,7 @@ angular.module('ds.cart')
                         }
                     },
                     function(){
-                        
+
                     }
                 );
             }

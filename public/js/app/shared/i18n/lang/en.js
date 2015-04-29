@@ -84,11 +84,16 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: 'Step 3. Payment',
         STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
+        DISCOUNT: 'Discount',
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
 
+        /*  coupons   */
+        COUPON_CODE: 'Add Coupon Code',
+        COUPON_ERROR: 'Could not redeem coupon.',
+        COUPON_APPLY: 'Apply',
 
         /*
             confirmation

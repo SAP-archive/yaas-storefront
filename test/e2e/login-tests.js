@@ -14,17 +14,6 @@ function updateTitleField(fieldName, text) {
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 
-function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
-    tu.sendKeysById('contactName', contact);
-    tu.sendKeysById('street', street);
-    tu.sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="USA"]')).click()
-    tu.sendKeysById('city', city);
-    element(by.css('select option[value="' + state + '"]')).click()
-    tu.sendKeysById('zipCode', zip);
-    tu.sendKeysById('contactPhone', phone);
-}
-
 function waitForAccountPage() {
     browser.wait(function () {
         return element(by.binding('MY_ACCOUNT')).isPresent();
@@ -61,7 +50,7 @@ describe("login:", function () {
             tu.clickElement('css', 'img.user-avatar');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
-            tu.clickElement('id', "logout-btn");
+            tu.clickElement('id', 'logout-btn');
 
         });
 
@@ -110,19 +99,8 @@ describe("login:", function () {
         it('should allow existing user to manage addresses', function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
-            tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.clickElement('linkText', 'Create Account');
-            tu.sendKeysById('emailInput', 'address@cool' + timestamp + '.com');
-            tu.sendKeysById('newPasswordInput', 'password');
-            tu.clickElement('id', 'create-acct-btn');
-            browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(1000);
-            tu.clickElement('id', "add-address-btn");
-            browser.sleep(1000);
-            populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            tu.clickElement('id', 'save-address-btn');
+            tu.createAccount('addresstest');
+            tu.populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             expect(element(by.binding("defaultAddress.city")).getText()).toEqual("Boulder");
@@ -130,9 +108,7 @@ describe("login:", function () {
             expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
             expect(element(by.binding("defaultAddress.country")).getText()).toEqual("USA");
             expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
-            tu.clickElement('id', "add-address-btn");
-            populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
-            tu.clickElement('id', 'save-address-btn');
+            tu.populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual("321 phony street, apt 420");
             expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Denver, CO 90210");
@@ -213,6 +189,7 @@ describe("login:", function () {
             tu.clickElement('id', "logout-btn");
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
+            browser.sleep(1000);
             tu.loginHelper('password@hybristest.com', 'password2');
             browser.sleep(1000);
             tu.clickElement('css', 'img.user-avatar');

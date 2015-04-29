@@ -31,6 +31,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
+
             var productSkus = details.entries.map(function (entry) {
                 return entry.product.sku;
             });
