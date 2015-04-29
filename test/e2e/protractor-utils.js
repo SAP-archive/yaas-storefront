@@ -117,7 +117,7 @@ exports.sendKeysByXpath = function (pageElement, keys) {
     element(by.xpath(pageElement)).sendKeys(keys);
 };
 
-exports.sendKeysById = function (pageElement, keys) {
+var sendKeysById = exports.sendKeysById = function (pageElement, keys) {
     element(by.id(pageElement)).clear();
     element(by.id(pageElement)).sendKeys(keys);
 };
@@ -210,4 +210,52 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal) {
     browser.sleep(2000);
     verifyCartAmount(cartAmount);
     verifyCartTotal(cartTotal);
+}
+
+exports.populateAddress = function(contact, street, aptNumber, city, state, zip, phone) {
+    clickElement('id', "add-address-btn");
+    browser.sleep(1000);
+    sendKeysById('contactName', contact);
+    sendKeysById('street', street);
+    sendKeysById('streetAppendix', aptNumber);
+    element(by.css('select option[value="USA"]')).click()
+    sendKeysById('city', city);
+    element(by.css('select option[value="' + state + '"]')).click()
+    sendKeysById('zipCode', zip);
+    sendKeysById('contactPhone', phone);
+    clickElement('id', 'save-address-btn');
+}
+
+var timestamp = Number(new Date());
+
+exports.createAccount = function(emailAddress) {
+    clickElement('id', "login-btn");
+    browser.sleep(1000);
+    clickElement('linkText', 'Create Account');
+    sendKeysById('emailInput', emailAddress + timestamp + '.com');
+    sendKeysById('newPasswordInput', 'password');
+    clickElement('id', 'create-acct-btn');
+    browser.sleep(1000);
+    clickElement('css', 'img.user-avatar');
+    browser.sleep(1000);
+}
+
+var fillCreditCardForm = exports.fillCreditCardForm = function(ccNumber, ccMonth, ccYear, cvcNumber) {
+    sendKeysById('ccNumber', ccNumber);
+    element(by.id('expMonth')).sendKeys(ccMonth);
+    element(by.id('expYear')).sendKeys(ccYear);
+    sendKeysById('cvc', cvcNumber);
+}
+
+var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
+    var email = account.toUpperCase();
+    browser.wait(function () {
+        return element(by.css('address > span.ng-binding')).isPresent();
+    });
+    browser.sleep(1000);
+    expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
+    expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
+    expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
+    expect(element(by.xpath('//address[2]/span[3]')).getText()).toContain(cityStateZip);
+    expect(element(by.binding('product.price')).getText()).toEqual(price);
 }
