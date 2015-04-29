@@ -99,7 +99,7 @@ describe("login:", function () {
         it('should allow existing user to manage addresses', function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
-            tu.createAccount('addresstest@hybristest.com');
+            tu.createAccount('addresstest');
             tu.populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");

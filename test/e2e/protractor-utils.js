@@ -232,7 +232,7 @@ exports.createAccount = function(emailAddress) {
     clickElement('id', "login-btn");
     browser.sleep(1000);
     clickElement('linkText', 'Create Account');
-    sendKeysById('emailInput', emailAddress + timestamp + '.com');
+    sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
     sendKeysById('newPasswordInput', 'password');
     clickElement('id', 'create-acct-btn');
     browser.sleep(1000);

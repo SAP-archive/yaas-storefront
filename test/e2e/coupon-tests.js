@@ -26,7 +26,7 @@ describe('product page', function () {
     };
 
     function couponCheckoutTest(couponCode) {
-            tu.createAccount('coupontest@hybristest.com');
+            tu.createAccount('coupontest');
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             var category =  element(by.repeater('category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
