@@ -79,6 +79,55 @@ describe('product page', function () {
             removeFromCart();
         });
 
+        it('update coupon totals when item is added and removed from cart', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            addProductandApplyCoupon('10PERCENT');
+            verifyCartDetails('1', '$9.60', '-$1.07');
+            tu.clickElement('id', 'continue-shopping');
+            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            browser.sleep(250);
+            tu.clickElement('xpath', tu.whiteThermos);
+            browser.sleep(200);
+            tu.clickElement('id', tu.buyButton);
+            browser.sleep(5500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
+            browser.sleep(500);
+            verifyCartDetails('1', '$23.09', '-$2.57');
+            tu.clickElement('id', tu.removeFromCart);
+            verifyCartDetails('1', '$13.49', '-$1.50');
+            removeFromCart();
+
+        });
+
+        it('should update coupon totals when quantity is changed', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            addProductandApplyCoupon('10PERCENT');
+            verifyCartDetails('1', '$9.60', '-$1.07');
+            tu.sendKeysByXpath(tu.cartQuantity, '5');
+            tu.clickElement('binding', 'EST_ORDER_TOTAL');
+            browser.sleep(1000);
+            verifyCartDetails('5', '$48.01', '-$5.34');
+            removeFromCart();
+        });
+    
+        it('should remove coupon on cart', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            addProductandApplyCoupon('10PERCENT');
+            verifyCartDetails('1', '$9.60', '-$1.07');
+            tu.clickElement('id', 'remove-coupon')
+            tu.verifyCartAmount('1');
+            tu.verifyCartTotal('$10.67');
+            removeFromCart();
+        });
+
         it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED');
@@ -96,6 +145,12 @@ describe('product page', function () {
             couponCheckoutTest('MINIMUM');
             tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
+        });
+
+        it('should allow coupon larger than purchase price', function () {
+            couponCheckoutTest('20DOLLAR');
+            tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
 
         it('should allow percentage off on checkout', function () {
