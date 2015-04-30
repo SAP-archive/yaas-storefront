@@ -8,12 +8,12 @@
             <a href="" class="logo"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
         <div class="col-xs-3 col-sm-offset-7 col-sm-1">
-            <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
+            <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-right" ng-click="login({windowClass:'mobileLoginModal'})">
                 <img src="./img/user-icon_small.png" class="user-avatar">
             </a>
 
             <div class="dropdown ">
-                <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
+                <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn signin pull-right" ng-if="user.isAuthenticated" >
                     <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
                 </a>
                 <ul class="dropdown-menu" class="pull-right">
