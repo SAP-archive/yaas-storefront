@@ -16,7 +16,9 @@ describe('TopNavigationCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector;
     var mockedGlobalData = {};
-    var mockedState = {};
+    var mockedState = {
+        go: jasmine.createSpy('go')
+    };
     var mockedCartSvc = {};
     var navCtrl, cart;
     cart = {};
@@ -27,10 +29,10 @@ describe('TopNavigationCtrl', function () {
         }
     };
     var mockedAuthSvc = {
-        signout: jasmine.createSpy('signout'),
+        signOut: jasmine.createSpy('signout'),
         getToken: jasmine.createSpy('getToken').andReturn(mockedToken)
     };
-    var AuthDialogManager = {
+    var mockAuthDialogManager = {
         isOpened: jasmine.createSpy('isOpened'),
         open: jasmine.createSpy('open'),
         close: jasmine.createSpy('close')
@@ -39,10 +41,11 @@ describe('TopNavigationCtrl', function () {
     var mockedCartSvc = {
         getCart: jasmine.createSpy('getCart').andReturn(cart),
         getLocalCart: jasmine.createSpy('getLocalCart').andReturn(cart)
-    }
+    };
 
-
-
+    var mockedCategorySvc = {
+        getCategoriesFromCache: jasmine.createSpy().andReturn({then: function(){}})
+    };
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(module('ui.router'));
@@ -66,7 +69,9 @@ describe('TopNavigationCtrl', function () {
 
 
     beforeEach(function () {
-        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc, GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:AuthDialogManager});
+        navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc,
+            GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:mockAuthDialogManager,
+            CategorySvc: mockedCategorySvc});
     });
 
     describe('initialization', function(){
@@ -110,7 +115,27 @@ describe('TopNavigationCtrl', function () {
         });
     });
 
+    describe('auth functions', function () {
+        it('should log out', function () {
+            $scope.logout();
 
+            expect(mockedAuthSvc.signOut).toHaveBeenCalled();
+        });
 
+        it('should log in', function () {
+            $scope.login({}, {});
+
+            expect(mockAuthDialogManager.open).toHaveBeenCalledWith({}, {});
+        });
+    });
+
+    describe('state changes', function () {
+        it('should go to my account', function () {
+            $scope.myAccount();
+
+            expect(mockedState.go).toHaveBeenCalled();
+        });
+    });
+    
 });
 
