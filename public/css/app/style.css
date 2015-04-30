@@ -7539,19 +7539,14 @@ fieldset[disabled] .top-navigation .btn-link:focus {
     display: table-cell !important;
   }
 }
-.top-navigation .logo {
+.top-navigation a.logo {
   text-align: center;
-  float: left;
-  height: 75px;
   padding: 4px;
-}
-.top-navigation .logo a {
   display: inline-block;
   height: 100%;
 }
-.top-navigation .logo a img {
-  max-height: 100%;
-  max-width: 58px;
+.top-navigation a.logo img {
+  width: 65px;
 }
 .off-canvas.left .top-navigation {
   background: none;
@@ -7756,7 +7751,7 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   margin: 10px 0;
 }
 .desktopNav .y-search #search {
-  margin-top: -22px;
+  margin-top: -24px;
   height: 79px;
   margin-bottom: -22px;
   margin-left: 0px;
@@ -7764,6 +7759,7 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   width: 100%;
   padding-left: 32px;
   font-size: 24px;
+  border-bottom: none;
 }
 .desktopNav .y-search .right-inner-addon i {
   position: absolute;
