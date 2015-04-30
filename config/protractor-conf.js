@@ -8,6 +8,7 @@ exports.config = {
     specs: [
         '../test/e2e/cart-tests.js',
         '../test/e2e/checkout-tests.js',
+        '../test/e2e/coupon-tests.js'
         '../test/e2e/localization-tests.js',
         '../test/e2e/login-tests.js',
         '../test/e2e/product-tests.js'
@@ -16,7 +17,7 @@ exports.config = {
 
     capabilities: {
         'browserName': 'chrome',
-        'maxInstances': 5,
+        'maxInstances': 6,
         'shardTestFiles': true,
         //comment out the following capabilities to run locally
         'platform': 'OS X 10.8',

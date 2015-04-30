@@ -4,11 +4,6 @@ var tu = require('./protractor-utils.js');
 
 describe('product page', function () {
 
-    beforeEach(function () {
-        browser.manage().deleteAllCookies();
-        browser.driver.manage().window().setSize(1000, 1000);
-    });
-
     describe('verify product pages', function () {
 
         beforeEach(function () {

@@ -88,15 +88,32 @@ describe('OrderDetailSvc Test', function () {
         $httpBackend.expectGET(ordersUrl+'/'+orderId).respond(orderDetails);
 
         var result = null;
+        orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){
+            result = details;
+        });
+        $httpBackend.flush();
+        expect(result).toEqualData({shippingAddressCompanyName: 'Acme, Inc.', shippingAddressStreetLine1: '1 Marienplatz a',
+            shippingAddressStreetLine2: 'Apt 1', discountAmount : 0, shippingAddressCityStateZip: 'Munich, Bavaria 80538',
+            shippingAddressCountry: 'Germany', emailAddress: 'your.name@email.com', entries: [ ], currency : undefined});
+
+        /*
+         test with name instead of company
+         */
+
+        var orderId = 123;
+        $httpBackend.expectGET(ordersUrl+'/'+orderId).respond(orderDetails);
+
+        var result = null;
         shippingAddress.contactName = 'Michael Jordan';
         orderDetails.shippingAddress = shippingAddress;
         orderDetailSvc.getFormattedConfirmationDetails(orderId).then(function(details){
             result = details;
         });
         $httpBackend.flush();
+
         expect(result).toEqualData({shippingAddressName: 'Michael Jordan', shippingAddressCompanyName: 'Acme, Inc.',
-            shippingAddressStreetLine1: '1 Marienplatz a', shippingAddressStreetLine2: 'Apt 1',
+            shippingAddressStreetLine1: '1 Marienplatz a', shippingAddressStreetLine2: 'Apt 1', discountAmount : 0,
             shippingAddressCityStateZip: 'Munich, Bavaria 80538', shippingAddressCountry: 'Germany',
-            emailAddress: 'your.name@email.com', entries: [ ]});
+            emailAddress: 'your.name@email.com', entries: [ ], currency : undefined});
     });
 });

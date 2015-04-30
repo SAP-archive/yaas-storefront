@@ -60,6 +60,7 @@ angular.module('ds.i18n')
         NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
+        ORDER_DATE: 'Order Date',
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
@@ -84,11 +85,16 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: 'Step 3. Payment',
         STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
+        DISCOUNT: 'Discount',
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
 
+        /*  coupons   */
+        COUPON_CODE: 'Add Coupon Code',
+        COUPON_ERROR: 'Could not redeem coupon.',
+        COUPON_APPLY: 'Apply',
 
         /*
             confirmation
@@ -176,6 +182,7 @@ angular.module('ds.i18n')
         ORDER_HISTORY: 'Order History',
         ORDER_NUMBER: 'Order Number',
         ORDER_STATUS: 'Order Status',
+        SHIPPING_DETAILS: 'SHIPPING DETAILS',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
@@ -222,6 +229,7 @@ angular.module('ds.i18n')
         FORGOT_PASSWORD: 'Forgot password?',
         EMAIL_NOT_FOUND: 'There is no account associated with that email address.',
         ENTER_EMAIL: 'Enter Email',
+        ENTER_EXISTING_EMAIL: 'Enter the email address of an existing account',
         LOGIN_FAILED: 'Login failed',
 
         /*

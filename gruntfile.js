@@ -351,6 +351,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('optimizeCode', [
         'clean:dist',      //deletes contents in the dist folder and the .tmp folder
+        'less:dev',        //generate style.css
         'copy',            //moves dev files to dist
         'useminPrepare',   //starts usemin process
         'ngtemplates',     //compile html templates into ng.

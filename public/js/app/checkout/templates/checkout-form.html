@@ -50,7 +50,7 @@
         <div class="col-lg-12">
             <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
                 <small class="help-inline has-error">
-                {{'PLEASE_ENTER_VALID_EMAIL' | translate}}
+                <span class="error">{{'PLEASE_ENTER_VALID_EMAIL' | translate}}</span>
                 </small>
             </div>
             <div class="form-group input-group"
@@ -375,6 +375,12 @@
     ng-click="editPayment()"></span></h2>
 </a>
 <div class="row step-detail">
+    <div class="couponWrap" ng-controller="CouponCtrl">
+        <!-- Apply Coupon -->
+        <div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
+    </div>
+
+
     <div class="col-lg-12">
         <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
     </div>
@@ -386,9 +392,9 @@
         </div>
         <div class="col-lg-12">
             <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
-                || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" style="color:red">
+                || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" >
                 <small class="help-inline has-error">
-                {{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}
+                <span class="error">{{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}</span>
                 </small>
             </div>
             <!--<input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="postal" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo">-->
@@ -405,9 +411,9 @@
             </div>
         </div>
         <div class="col-lg-12" ng-if="paymentForm.expDateMsg">
-            <div class="error" ng-show="paymentForm.expDateMsg" style="color:red">
+            <div class="error" ng-show="paymentForm.expDateMsg" >
                 <small class="help-inline has-error">
-                {{paymentForm.expDateMsg}}
+                <span class="error">{{paymentForm.expDateMsg}}</span>
                 </small>
             </div>
         </div>
@@ -431,9 +437,9 @@
         </div>
         <div class="col-xs-9">
             <div class="error" ng-show="!paymentForm.cvc.focused && (paymentForm.cvc.msg
-                || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))" style="color:red">
+                || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))">
                 <small class="help-inline has-error">
-                {{paymentForm.cvc.msg ? paymentForm.cvc.msg : 'PLEASE_ENTER_VALID_CODE' | translate}}
+                <span class="error">{{paymentForm.cvc.msg ? paymentForm.cvc.msg : 'PLEASE_ENTER_VALID_CODE' | translate}}</span>
                 </small>
             </div>
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
@@ -460,21 +466,19 @@
 <a id="step4">
     <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
 </a>
-<div class="error" ng-if="message" style="color:red">
+<div class="error" ng-if="message" >
     <small class="help-inline has-error">
-    {{message | translate}}
+    <span class="error">{{message | translate}}</span>
     </small>
 </div>
 
-    
 <div class="row step-detail" ng-class="{'has-error': message }">
     <div class="hidden-lg" ui-view="checkoutcartmobile"></div>
-    <!--<div class="hidden-lg" ng-include="'./js/app/checkout/templates/checkout-cart.html'"></div>-->
     <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
-    <div class="col-xs-6 text-right hidden-sm hidden-xs">
-        <span class="value">{{cart.totalPrice.value | currency: currencySymbol}}</span>
+    <div class="col-xs-6 text-right hidden-sm hidden-xs" ng-controller="CouponCtrl">
+        <span class="value">{{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + order.shippingCost | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"

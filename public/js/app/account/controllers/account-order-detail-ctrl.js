@@ -18,6 +18,7 @@ angular.module('ds.account')
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.order.currency);
+        $scope.dateFormat = 'dd/MM/yy';
 
         var getPaymentInfo = function () {
             return $scope.order.payments[0];
