@@ -110,6 +110,8 @@ angular.module('ds.i18n')
         THANK_YOU: 'Vielen Dank',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
         YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
+        ONE_MORE_STEP: 'Ein weiterer Schritt , um ein Konto zu erstellen',
+        ONE_MORE_STEP_MESSAGE: 'für eine Schnellauswahl und einfachen Zugang zu Vorherige Bestellungen',
         SKU: 'SKU',
 
         /*
