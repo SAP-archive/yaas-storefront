@@ -2,7 +2,7 @@ var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
 
-describe('product page', function () {
+describe('coupons:', function () {
 
 	function addProductandApplyCoupon(couponCode) {
             tu.loadProductIntoCart('1', '$10.67');
@@ -26,7 +26,6 @@ describe('product page', function () {
     };
 
     function couponCheckoutTest(couponCode) {
-            tu.createAccount('coupontest');
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             var category =  element(by.repeater('category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
@@ -137,31 +136,36 @@ describe('product page', function () {
 
 
         it('should not allow purchase under minimum', function () {
+            tu.createAccount('coupontestmin');
             couponCheckoutTest('20MINIMUM');
             expect(element(by.css('div.error.ng-scope > small.help-inline.has-error > span.error.ng-binding')).getText()).toEqual('The order value is too low for this coupon.');
         });
 
         it('should allow purchase over minimum', function () {
+            tu.createAccount('coupontestmin2');
             couponCheckoutTest('MINIMUM');
-            tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
         });
 
         it('should allow coupon larger than purchase price', function () {
+            tu.createAccount('coupontestmax');
             couponCheckoutTest('20DOLLAR');
-            tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
 
         it('should allow percentage off on checkout', function () {
+            tu.createAccount('coupontestpercent');
             couponCheckoutTest('10PERCENT');
-            tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
         });
 
         it('should allow dollar off on checkout', function () {
+            tu.createAccount('coupontestdollar');
             couponCheckoutTest('10DOLLAR');
-            tu.verifyOrderConfirmation('COUPONTEST@HYBRISTEST.COM', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
     });

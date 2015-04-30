@@ -301,7 +301,7 @@ describe("checkout:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
             //browser.sleep(20000);
-            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$10.67');
+            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$14.99');
             tu.clickElement('binding', 'orderInfo.orderId');
             expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
             // tu.clickElement('id', "logout-btn");
