@@ -48,7 +48,15 @@ module.exports = function (grunt) {
                 port: port,
                 hostname: host
             },
-            livereload: {
+            singleProdServer: {
+                options: {
+                    server: path.resolve('./server/singleProdServer.js'),
+                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
+                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
+                    bases: [path.resolve('./server/singleProdServer.js')]
+                }
+            },
+            singleTenant: {
                 options: {
                     server: path.resolve('./server.js'),
                     livereload: 35730, // use different port to avoid collision with client 'watch' operation
@@ -109,13 +117,19 @@ module.exports = function (grunt) {
 
         concurrent: {
             singleProject: {
-                tasks: ['express:livereload', 'watch'],  //server.js
+                tasks: ['express:singleTenant', 'watch'],  //server.js
                 options: {
                     logConcurrentOutput: true
                 }
             },
             multiProject: {
                 tasks: ['express:multiTenant', 'watch'], //multi-tenant-server.js
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            singleProdServer: {
+                tasks: ['express:singleProdServer', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -143,7 +157,7 @@ module.exports = function (grunt) {
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
                     '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
                     '../gruntfile.js', '../License.md', '../package.json', '../products.json',
-                    '../multi-tenant/**', '../server.js'],
+                    '../multi-tenant/**', '../server/**', '../server.js'],
                 dest: 'dist/public/'
             }
         },
@@ -326,7 +340,8 @@ module.exports = function (grunt) {
     grunt.registerTask('startServer', 'Start server within deploy environment',
       function(){
         if (grunt.option('single')){
-            grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
+            // grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
+            grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
 
         } else if (grunt.option('multiple')){
             grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
