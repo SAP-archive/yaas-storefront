@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.auth')
-.directive('createAccount', ['AuthSvc', 'settings', function (AuthSvc, settings) {
+.directive('createAccount', ['AuthSvc', 'settings', '$rootScope', function (AuthSvc, settings, $rootScope) {
     return {
         link: function ($scope) {
 
@@ -34,6 +34,7 @@ angular.module('ds.auth')
                 if (signUpForm.$valid) {
                     AuthSvc.signup(authModel).then( function () {
                             $scope.isAuthenticated = true;
+                            $rootScope.$broadcast('confirmation:account');
                         }, function (response) {
                             $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
                         }
