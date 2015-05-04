@@ -233,6 +233,8 @@ angular.module('ds.i18n')
         ENTER_EXISTING_EMAIL: 'Geben Sie die E-Mail-Adresse eines vorhandenen Kontos',
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
 
+        ACCOUNT_EMAIL: 'Konto Email',
+
         /*
             error display
         */
