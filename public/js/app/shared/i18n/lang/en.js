@@ -223,6 +223,8 @@ angular.module('ds.i18n')
         ENTER_EXISTING_EMAIL: 'Enter the email address of an existing account',
         LOGIN_FAILED: 'Login failed',
 
+	    ACCOUNT_EMAIL: 'Account Email',
+
         /*
             dynamic error displays
         */
