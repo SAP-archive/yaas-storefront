@@ -60,6 +60,7 @@ angular.module('ds.i18n')
         NO_ITEMS_IN_CART: 'Es sind keine Artikel im Warenkorb.',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
+        ORDER_DATE: 'Bestelldatum',
         ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
         ORDER_TOTAL: 'Gesamtsumme',
         PAYMENT: 'Zahlung',
@@ -83,11 +84,16 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: '3. Zahlung',
         STEP_4_REVIEW_ORDER: '4. Bestätigung',
         SUBTOTAL: 'Zwischensumme',
+        DISCOUNT: 'Rabatt',
         TAX: 'MwSt',
         TOTAL: 'gesamt',
         YEAR: 'Jahr',
         ZIP: 'PLZ',
 
+        /*  coupons   */
+        COUPON_CODE: 'Gutscheincode hinzufügen',
+        COUPON_ERROR: 'Gutschein nicht einlösen',
+        APPLY: 'Sich Bewerben',
 
         /*
          confirmation
@@ -104,6 +110,8 @@ angular.module('ds.i18n')
         THANK_YOU: 'Vielen Dank',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
         YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
+        ONE_MORE_STEP: 'Ein weiterer Schritt , um ein Konto zu erstellen',
+        ONE_MORE_STEP_MESSAGE: 'für eine Schnellauswahl und einfachen Zugang zu Vorherige Bestellungen',
         SKU: 'SKU',
 
         /*
@@ -174,6 +182,7 @@ angular.module('ds.i18n')
         ORDER_HISTORY: 'Bestellverlauf',
         ORDER_NUMBER: 'Bestellnummer',
         ORDER_STATUS: 'Auftragsstatus',
+        SHIPPING_DETAILS: 'SHIPPING DETAILS',
         STREET_NUMBER: 'Nummer',
         UPDATE_PASSWORD: 'Passwort aktualisieren',
         CURRENT_PASSWORD: 'Aktuelles Passwort',

@@ -13,8 +13,8 @@
 'use strict';
 angular.module('ds.auth')
     /** Encapsulates the logic for what needs to happen once a user is logged in or logged out.*/
-    .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings',
-        function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings) {
+    .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings', '$rootScope',
+        function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings, $rootScope) {
 
             function navigateAfterLogin(context){
                 if(context && context.targetState){
@@ -65,6 +65,9 @@ angular.module('ds.auth')
             afterLogOut: function(){
                 GlobalData.customerAccount = null;
                 CartSvc.resetCart();
+
+                $rootScope.$broadcast('coupon:logout');
+
                 if ( $state.is('base.checkout.details') || ( $state.current.data && $state.current.data.auth && $state.current.data.auth === 'authenticated')) {
                     $state.go(settings.homeState);
                 }

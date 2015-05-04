@@ -39,7 +39,6 @@ angular.module('ds.checkout')
                     CartSvc.getCart().then(function (cart){
                         if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
                             //call method that will check if needed to redirect to step2 in mobile
-
                             $scope.$broadcast('goToStep2');
                         }
                     });

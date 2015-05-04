@@ -60,6 +60,7 @@ angular.module('ds.i18n')
         NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
+        ORDER_DATE: 'Order Date',
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
@@ -84,11 +85,16 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: 'Step 3. Payment',
         STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
+        DISCOUNT: 'Discount',
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
 
+        /*  coupons   */
+        COUPON_CODE: 'Add Coupon Code',
+        COUPON_ERROR: 'Could not redeem coupon.',
+        COUPON_APPLY: 'Apply',
 
         /*
             confirmation
@@ -105,6 +111,8 @@ angular.module('ds.i18n')
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
         YOUR_ORDER_IS: 'Your order # is ',
+        ONE_MORE_STEP: 'One More Step to Create an Account',
+        ONE_MORE_STEP_MESSAGE: 'for a Fast Checkout and Easy Access to Previous Orders',
         SKU: 'SKU',
 
         /*
@@ -174,6 +182,7 @@ angular.module('ds.i18n')
         ORDER_HISTORY: 'Order History',
         ORDER_NUMBER: 'Order Number',
         ORDER_STATUS: 'Order Status',
+        SHIPPING_DETAILS: 'SHIPPING DETAILS',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',

@@ -12,6 +12,26 @@ describe('CheckoutCtrl', function () {
         getCurrencyId: jasmine.createSpy().andReturn('USD'),
         getCurrencySymbol: jasmine.createSpy().andReturn('$')
     };
+    var CouponSvc = {
+    };
+    var mockCoupon = {
+            code: '',
+            applied: false,
+            valid: true,
+            message : {
+                error: 'Code not valid',
+                success: 'Applied'
+            },
+            amounts : {
+                originalAmount: 0,
+                discountAmount: 0
+            }
+        };
+    var UserCoupon = {
+        getCoupon:function(){
+            return mockCoupon;
+        }
+    };
     var AuthDialogManager = {
         isOpened: jasmine.createSpy('then'),
         open: jasmine.createSpy('then').andReturn({
@@ -140,7 +160,7 @@ describe('CheckoutCtrl', function () {
          },
         id: null
         };
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
     });
 
     describe('initialization', function () {
@@ -152,7 +172,7 @@ describe('CheckoutCtrl', function () {
 
         it('should retrieve addresses for authenticated user', function(){
 
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
             addressDef.resolve(returnAddress);
 
             $scope.$apply();
@@ -168,7 +188,7 @@ describe('CheckoutCtrl', function () {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
             GlobalData.user.isAuthenticated = true;
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
             $rootScope.$broadcast('user:signedin');
             $scope.$apply();
             expect(MockedAccountSvc.account).toHaveBeenCalled();
@@ -183,7 +203,7 @@ describe('CheckoutCtrl', function () {
             MockedAuthSvc = {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
 
             expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
@@ -202,7 +222,7 @@ describe('CheckoutCtrl', function () {
                 }),
                 getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
 
             $scope.$digest();
 

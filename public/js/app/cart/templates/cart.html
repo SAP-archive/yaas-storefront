@@ -33,27 +33,16 @@
         {{'CART_UNAVAILABLE' | translate}}
     </div>
 	<div ng-if="cart.items.length">
-			<section class="summary">
-				<table class="table">
-					<thead>
-					<tr>
-						<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-						<th class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</th>
-					<tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-						<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-					</tr>
-					</tbody>
-				</table>
+			<section class="summary" ng-controller="CouponCtrl">
+				<!-- Apply Coupon -->
+				<div ng-include="'./js/app/coupons/templates/coupon-discount.html'"></div>
+				<div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
 			</section>
 			<section>
 				<!-- Cart Item -->
 				<div ng-repeat="item in cart.items">
-                    <div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
-                        {{'CART_ITEM_UPDATE_ERROR' | translate}}
+                    <div ng-if="item.error" class="error col-xs-12 col-md-12">
+                        <span class="error">{{'CART_ITEM_UPDATE_ERROR' | translate}}</span>
                     </div>
 					<div class="cart-item row">
 						<div class="col-xs-4 col-md-4 text-center img-col">
