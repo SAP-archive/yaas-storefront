@@ -92,6 +92,12 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+        'public/js/app/coupons/coupon-index.js',
+        'public/js/app/coupons/controllers/coupon-ctrl.js',
+        'public/js/app/coupons/services/coupon-service.js',
+        'public/js/app/coupons/services/coupon-rest.js',
+        'public/js/app/coupons/services/coupon-user.js',
+
         'public/js/app/errors/controllers/errors-ctrl.js',
         'public/js/app/errors/backendStub.js',
 
@@ -106,6 +112,7 @@ module.exports = function(config){
         'public/js/app/auth/controllers/password-update-ctrl.js',
         'public/js/app/auth/controllers/password-reset-update-ctrl.js',
         'public/js/app/auth/directives/confirm-input.js',
+        'public/js/app/auth/directives/create-account.js',
         'public/js/app/auth/services/auth-rest.js',
         'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
@@ -137,6 +144,7 @@ module.exports = function(config){
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
+        'test/unit/coupons/*.js',
         'test/unit/errors/*.js',
         'test/unit/home/*.js',
         'test/unit/orders/*.js',

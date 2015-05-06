@@ -145,6 +145,7 @@ angular.module('ds.cart')
                 });
                 defCart.promise.then(function () {
                     $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
+                    $rootScope.$emit('coupon:cartupdate');
                 });
                 return defCart.promise;
             }

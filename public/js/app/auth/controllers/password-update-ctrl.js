@@ -28,7 +28,7 @@ angular.module('ds.auth')
                 return true;
             };
 
-            $scope.updatePassword = function(oldPassword, newPassword) {
+            $scope.updatePassword = function (oldPassword, newPassword) {
                 $scope.submitDisabled = true;
                 $scope.errors = [];
 
@@ -46,13 +46,6 @@ angular.module('ds.auth')
                         }
                     }
                 );
-            };
-
-            $scope.updatePasswordOnEnter = function($event, oldPassword, newPassword) {
-                if ($event.keyCode === 13) {
-                    $event.preventDefault();
-                    $scope.updatePassword(oldPassword, newPassword);
-                }
             };
 
             $scope.close = function() {

@@ -31,35 +31,52 @@
 		<p class="edit-cart-empty">{{'NO_ITEMS_IN_CART' | translate}}</p>
 	</div>
 
-	<section class="summary" ng-hide="!cart.items.length">
+	<section class="summary" ng-hide="!cart.items.length" ng-controller="CouponCtrl">
+		<!-- CHECKOUT-EDIT-CART -->
 		<table class="table">
 			<thead>
 			<tr>
 				<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-				<th class="text-right">{{cart.totalPrice.value || 0 | currency: currencySymbol}}</th>
+				<th class="text-right">{{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + cart.shippingCost.value || 0 | currency: currencySymbol}}</th>
 			<tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>{{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}}</td>
-				<td class="text-right">{{cart.subTotalPrice.value || 0 | currency: currencySymbol}}</td>
-			</tr>
+				<tr>
+		            <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
+		            </td>
+		            <td class="text-right">
+		                {{cart.subTotalPrice.value | currency: currencySymbol}}
+		            </td>
+                </tr>
+                <tr ng-if="coupon.amounts.discountAmount != 0">
+                    <td>{{'DISCOUNT' | translate}}</td>
+		            <td class="text-right" style="color:red">
+		                -{{coupon.amounts.discountAmount | currency: currencySymbol}}
+		            </td>
+                </tr>
+            	<tr>
+                    <td>{{'SHIPPING' | translate}}</td>
+                    <td class="text-right">
+                        {{cart.shippingCost.value | currency: currencySymbol}}
+                    </td>
+                </tr>
 			</tbody>
+
 		</table>
 	</section>
 	<section>
 				<!-- Cart Item -->
 	<div ng-repeat="item in cart.items">
-		<div ng-if="item.error" class="error col-xs-12 col-md-12" style="color:red">
-			{{'CART_ITEM_UPDATE_ERROR' | translate}}
+		<div ng-if="item.error" class="error col-xs-12 col-md-12" >
+			<span class="error">{{'CART_ITEM_UPDATE_ERROR' | translate}}</span>
 		</div>
 		<div class="cart-item row">
 			<div class="col-xs-4 col-md-4 text-center img-col">
 				<img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
-				<button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-			</div>
+                <button ng-click="removeProductFromCart(item.id)" class="btn delete btn-link hidden-lg hidden-md"><span class="hyicon hyicon-remove"></span></button>
+            </div>
 			<div class="col-xs-8 col-md-8  detail-col">
-				<button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+				<button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn delete btn-link pull-right hidden-xs  hidden-sm"><span class="hyicon hyicon-remove"></span></button>
 				<div class="name">{{item.product.name}}</div>
 				<div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span> </div>
 				<div class="clearfix">
