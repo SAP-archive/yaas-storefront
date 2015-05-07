@@ -15,9 +15,10 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', '$rootScope', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated, $rootScope) {
 
+        $scope.accountSuccess = false;
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
         $scope.isAuthenticated = isAuthenticated;
@@ -31,6 +32,7 @@ angular.module('ds.confirmation')
         */
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
+
             var productSkus = details.entries.map(function (entry) {
                 return entry.product.sku;
             });
@@ -64,6 +66,14 @@ angular.module('ds.confirmation')
                     });
                 });
             });
+
+            var unbindConfirmAccount = $rootScope.$on('confirmation:account', function(){
+                // show success panel
+                $scope.accountSuccess = true;
+            });
+            $scope.$on('$destroy', unbindConfirmAccount);
+
+
         });
 
     }]);

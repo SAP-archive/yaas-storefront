@@ -50,7 +50,6 @@ describe('SessionSvc', function () {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$state', mockedState);
         $provide.value('$stateParams', mockedStateParams);
-        //$provide.value('settings', mockedSettings);
     }));
 
     beforeEach(inject(function(_SessionSvc_,  _$q_, _$rootScope_, _settings_) {
