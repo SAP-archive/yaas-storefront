@@ -20,14 +20,15 @@
         </div>
         <div class="section-headline">
             <h2>{{'ORDER_DETAILS' | translate}}</h2>
+            <span class="area-headline date">{{'ORDER_DATE' | translate}} <span class="orderDate">{{orderDate}}</span></span>
         </div>
         <div class="row">
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="area">
-  		<span class="area-headline">
-  			{{'SHIPPING_ADDRESS' | translate}}
-  		</span>
+                    <span class="area-headline">
+                        {{'SHIPPING_ADDRESS' | translate}}
+                    </span>
                     <address>
                         {{order.shippingAddress.contactName}}<br>
                         <div ng-if="order.shippingAddress.companyName">{{order.shippingAddress.companyName}}<br></div>
