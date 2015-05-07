@@ -29,7 +29,9 @@ angular.module('ds.coupon')
 
             /** revalidate coupon on cart change */
             var couponcartupdate = $rootScope.$on('coupon:cartupdate', function(){
-                $scope.applyCoupon($scope.coupon.code);
+                if($scope.coupon.code){
+                    $scope.applyCoupon($scope.coupon.code);
+                }
             });
             $scope.$on('$destroy', couponcartupdate);
 
