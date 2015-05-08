@@ -170,9 +170,6 @@ module.exports = function (grunt) {
 
         karma: {
             unit: { configFile: 'config/karma.conf.js', keepalive: true }
-            // TODO: get protractor working with grunt
-            // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
-            // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
         },
 
         useminPrepare: {
@@ -340,7 +337,6 @@ module.exports = function (grunt) {
     grunt.registerTask('startServer', 'Start server within deploy environment',
       function(){
         if (grunt.option('single')){
-            // grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
             grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
 
         } else if (grunt.option('multiple')){
