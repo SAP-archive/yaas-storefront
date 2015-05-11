@@ -72,12 +72,12 @@
             <div class="clr"></div>
         </div>
     </div>
-    <div class="row nav">
+    <div class="row nav js-mainNav">
         <div class="content-container">
             <div class="navbar yamm navbar-default">
                 <ul class="nav navbar-nav">
                     <li ng-repeat="category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
-                        <a ui-sref="base.category( {catName: category.slug} )" class="dropdown-toggle mainCategory categoryLevel" ng-click="hideMobileNav()">
+                        <a ui-sref="base.category( {catName: category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
                             {{ category.name  }}
                         </a>
                         <ul class="dropdown-menu" ng-if="category.subcategories">

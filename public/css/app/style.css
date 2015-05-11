@@ -7757,7 +7757,7 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   margin-left: 0px;
   margin-right: 0px;
   width: 100%;
-  padding-left: 32px;
+  padding-left: 46px;
   font-size: 24px;
   border-bottom: none;
 }
@@ -7773,6 +7773,7 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   left: 0;
   top: 23px;
   right: auto;
+  font-size: 21px;
 }
 .desktopNav .row.info,
 .desktopNav .row.nav {
