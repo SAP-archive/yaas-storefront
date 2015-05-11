@@ -7761,6 +7761,12 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   font-size: 24px;
   border-bottom: none;
 }
+.desktopNav .y-search #search:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  transition: none;
+}
 .desktopNav .y-search .right-inner-addon i {
   position: absolute;
   padding: 9px 12px;
@@ -9317,6 +9323,15 @@ section .hero-unit {
 .step-4 #checkout-cart-btn {
   margin-right: 0;
 }
+.couponApplyContainer {
+  padding: 15px 0 40px 15px;
+}
+.couponApplyContainer input {
+  width: 75%;
+}
+.couponApplyContainer .couponInputBtn {
+  height: 34px;
+}
 .confirm {
   text-align: center;
 }
@@ -9345,6 +9360,14 @@ section .hero-unit {
   border-color: #d2d2d2;
   width: 46px;
   text-align: left;
+}
+.confirm .success-box {
+  background-color: green;
+  height: 44px;
+  font-size: 16px;
+  padding-top: 8px;
+  padding-left: 20px;
+  color: #FFFFFF;
 }
 .confirm .support-box {
   padding-top: 20px;
@@ -9435,6 +9458,15 @@ section .hero-unit {
   margin-bottom: 0;
   min-height: 1px;
 }
+.account .orderHeaderContainer .orderdetailsheader {
+  margin-bottom: 25px;
+}
+.account .orderHeaderContainer .orderdetailsheader h2 {
+  margin-bottom: 10px;
+}
+.account .orderHeaderContainer .shippingdetails {
+  margin-bottom: 20px;
+}
 .account .orderStatusContainer h2 {
   padding: 0;
   margin: 0;
@@ -9517,7 +9549,9 @@ section .hero-unit {
     padding: 15px !important;
   }
   .account section .area {
-    padding-bottom: 50px;
+    padding-bottom: 20px;
+    padding-left: 0;
+    border-left: none;
   }
   .account section .page-headline {
     margin-top: 0;
@@ -9846,6 +9880,11 @@ body.fixedLayout {
 }
 .clr {
   clear: both;
+}
+table .error {
+  background-color: transparent;
+  padding: 0;
+  font-weight: normal;
 }
 .content-container {
   padding: 10px 58px;
