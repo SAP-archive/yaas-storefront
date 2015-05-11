@@ -48,7 +48,7 @@ angular.module('ds.shared')
                 },
 
                 categories: {
-                    baseUrl: 'https://' + apiPath + '/category/v3/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/category/b1/' + tenantId
                 },
 
                 checkout: {
@@ -60,7 +60,7 @@ angular.module('ds.shared')
                 },
 
                 coupon: {
-                    baseUrl: 'https://' + apiPath + '/coupon/v1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
                 } ,
 
                 customers: {
