@@ -1,4 +1,7 @@
 <div class="checkout confirm">
+    <div class="row section success-box" ng-if="accountSuccess">
+        {{'ACCOUNT_SUCCESS' | translate}}
+    </div>
 	<div class="row section">
 		<div class="col-sm-7 col-md-7 order-summary" ng-cloak>
 			<h1>
@@ -7,6 +10,10 @@
 			</h1>
 			<p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
             <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
+
+            <!-- need to fix google plus login on checkout before release -->
+            <!-- div ng-include="'js/app/auth/templates/create-account.html'" create-account ></div -->
+
             <div>
                 <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
                 <address>

@@ -107,9 +107,12 @@ angular.module('ds.i18n')
         ORDER: 'Bestellung',
         RETURN_TO_SHOPPING: 'Weiter einkaufen',
         SUCCESS: 'Erfolg!',
+        ACCOUNT_SUCCESS: 'Dein Konto wurde erfolgreich erstellt!',
         THANK_YOU: 'Vielen Dank',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
         YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
+        ONE_MORE_STEP: 'Ein weiterer Schritt , um ein Konto zu erstellen',
+        ONE_MORE_STEP_MESSAGE: 'für eine Schnellauswahl und einfachen Zugang zu Vorherige Bestellungen',
         SKU: 'SKU',
 
         /*
@@ -229,6 +232,8 @@ angular.module('ds.i18n')
         ENTER_EMAIL: 'Emailadresse angeben',
         ENTER_EXISTING_EMAIL: 'Geben Sie die E-Mail-Adresse eines vorhandenen Kontos',
         LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
+
+        ACCOUNT_EMAIL: 'Konto Email',
 
         /*
             error display

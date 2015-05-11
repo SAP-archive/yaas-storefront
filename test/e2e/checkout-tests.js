@@ -7,6 +7,7 @@ var d = new Date();
 var curr_date = d.getDate();
 var curr_year = d.getFullYear();
 var currentDate = month + " " + curr_date + ", " + curr_year;
+var timestamp = Number(new Date())
 
 function continueAsGuest(){
     tu.clickElement('binding', 'CONTINUE_AS_GUEST');
@@ -209,6 +210,30 @@ describe("checkout:", function () {
             tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
             tu.clickElement('id', 'place-order-btn');
             tu.verifyOrderConfirmation('mike@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
+        });
+
+
+        xit('should allow user to create account after checkout', function (){
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal();
+            fillCheckoutFormExceptEmail('Bill');
+            tu.sendKeysById('email', 'checkoutacct' + timestamp + '@hybristest.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            browser.sleep(500);
+            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+            tu.clickElement('id', 'shipTo');
+            tu.sendKeysById('contactNameShip', 'Mike Night');
+            fillCheckoutFormExceptEmail('Ship');
+            tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
+            tu.clickElement('id', 'place-order-btn');
+            tu.verifyOrderConfirmation('checkoutacct', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.sendKeysById('newPasswordInput', 'password');
+            tu.clickElement('id', 'create-acct-btn');
+            browser.sleep(1000);
+            tu.clickElement('css', 'img.user-avatar');
+            expect(element(by.binding("account.contactEmail")).getText()).toContain('checkoutacct');           
         });
 
         it('should have basic validation on all fields', function () {
