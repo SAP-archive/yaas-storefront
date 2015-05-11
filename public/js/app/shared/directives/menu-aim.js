@@ -21,11 +21,11 @@ $(document).on('mouseover', '.js-megamenutoggle', function(e) {
     //show the current drop down menu if there is one
     var subMenu = $(this).siblings('.dropdown-menu');
     if(subMenu.size() > 0){
-        subMenu.show()
+        subMenu.show();
     }
 });
 
-$(document).on('click', 'body', function(e) {
+$(document).on('click', 'body', function() {
     $('.dropdown-menu').hide();
 });
 

@@ -9418,6 +9418,15 @@ section .hero-unit {
   padding-bottom: 0;
   margin-bottom: 36px;
 }
+.account .area-headline.date {
+  margin-bottom: 20px;
+}
+.account .area-headline .orderDate {
+  font-weight: normal;
+  font-size: 13px;
+  color: #000;
+  padding-left: 14px;
+}
 .account .orderHistoryCard {
   margin: 0 20px 20px 0;
   -moz-border-radius: 5px;
