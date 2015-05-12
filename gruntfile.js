@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123
         PROJECT_ID = grunt.option('pid') || 'defaultproj',
         CLIENT_ID = grunt.option('cid') || 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
-        REDIRECT_URI = 'http://google.com',
+        REDIRECT_URI = 'http://example.com',
 
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         PROD_DOMAIN = 'api.yaas.io',
