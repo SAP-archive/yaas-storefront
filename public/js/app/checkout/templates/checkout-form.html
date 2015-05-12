@@ -375,7 +375,7 @@
     ng-click="editPayment()"></span></h2>
 </a>
 <div class="row step-detail">
-    <div class="couponWrap" ng-controller="CouponCtrl">
+    <div class="couponWrap">
         <!-- Apply Coupon -->
         <div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
     </div>
@@ -477,7 +477,9 @@
     <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
-    <div class="col-xs-6 text-right hidden-sm hidden-xs" ng-controller="CouponCtrl">
+    CHECKOUT-FORM:
+    {{coupon.amounts.discountAmount}}
+    <div class="col-xs-6 text-right hidden-sm hidden-xs">
         <span class="value">{{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + order.shippingCost | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
