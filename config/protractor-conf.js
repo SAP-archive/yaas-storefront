@@ -52,7 +52,7 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://storefront-demo.yaas.io/',
+    baseUrl: 'https://storefront-demo.yaas.io/',
 
 
     framework: 'jasmine',
