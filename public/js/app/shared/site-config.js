@@ -89,7 +89,7 @@ angular.module('ds.shared')
                 },
 
                 tracking: {
-                    baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
+                    baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }
             };
 

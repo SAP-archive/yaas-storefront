@@ -48,7 +48,7 @@ angular.module('ds.httpproxy', [])
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.config.url.indexOf('piwik-service') > -1) {
+                    if (response.config.url.indexOf('/stork/piwik') > -1) {
                         GlobalData.piwik.enabled = false;
                     }
                     else {
