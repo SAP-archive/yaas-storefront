@@ -37,9 +37,9 @@ angular.module('ds.auth')
                 if(!inProgress) {
                     inProgress = true;
 
-                    $http.post(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?client_id=' + GlobalData.store.clientId + '&redirect_uri=' + encodeURIComponent(GlobalData.store.redirectURI), '').then( function(data){
-                        var token = getParameterByName('access_token', data.headers('Location'));
-                        var expiresIn = parseInt(getParameterByName('expires_in', data.headers('Location')));
+                    $http.get(siteConfig.apis.account.baseUrl + '/auth/anonymous/login?client_id=' + GlobalData.store.clientId + '&redirect_uri=' + encodeURIComponent(GlobalData.store.redirectURI), '').then( function(response){
+                        var token = response.data.access_token;
+                        var expiresIn = response.data.expires_in;
                         TokenSvc.setAnonymousToken(token, expiresIn);
                         inProgress = false;
                         $rootScope.$emit('authtoken:obtained', token);
