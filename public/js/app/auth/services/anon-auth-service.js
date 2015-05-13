@@ -19,13 +19,6 @@ angular.module('ds.auth')
     .factory('AnonAuthSvc', ['TokenSvc', '$http', '$state', '$rootScope', '$translate', 'GlobalData', 'SiteConfigSvc',
         function (TokenSvc, $http, $state, $rootScope, $translate, GlobalData, siteConfig) {
 
-        function getParameterByName(name, url) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?#&]' + name + '=([^&#]*)'),
-                results = regex.exec(url);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
         var inProgress = false;
         return {
 
