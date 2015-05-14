@@ -52,10 +52,10 @@
             </div>
             <div class="col-xs-2 cart">
                 <div class="cart-and-account-container">
-                    <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-left" ng-click="login({windowClass:'mobileLoginModal'})">
+                    <a id="login-btn" ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-left" ng-click="login({windowClass:'mobileLoginModal'})">
                         {{'SIGN_IN' | translate}}
                     </a>
-                    <div ng-if="user.isAuthenticated" class="pull-left accountSignIn">
+                    <div id="user-avatar" ng-if="user.isAuthenticated" class="pull-left accountSignIn">
                         <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
                             <img src="./img/user-icon_small_active.png" class="user-avatar">
                         </a>
@@ -76,12 +76,12 @@
         <div class="content-container">
             <div class="navbar yamm navbar-default">
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
-                        <a ui-sref="base.category( {catName: category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
-                            {{ category.name  }}
+                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
+                        <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
+                            {{ top_category.name  }}
                         </a>
-                        <ul class="dropdown-menu" ng-if="category.subcategories">
-                            <div ng-repeat="sub2 in category.subcategories" class="col-xs-2">
+                        <ul class="dropdown-menu" ng-if="top_category.subcategories">
+                            <div ng-repeat="sub2 in top_category.subcategories" class="col-xs-2">
 
                                 <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}</a>
                                 <div class="tertiaryCategory">

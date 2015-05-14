@@ -27,7 +27,7 @@ describe('coupons:', function () {
 
     function couponCheckoutTest(couponCode) {
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -83,7 +83,7 @@ describe('coupons:', function () {
             addProductandApplyCoupon('10PERCENT');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
-            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
