@@ -213,7 +213,7 @@ describe("checkout:", function () {
         });
 
 
-        xit('should allow user to create account after checkout', function (){
+        it('should allow user to create account after checkout', function (){
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
