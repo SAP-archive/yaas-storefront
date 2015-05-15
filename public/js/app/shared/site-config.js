@@ -37,7 +37,7 @@ angular.module('ds.shared')
 
             this.apis = {
                 account: {
-                    baseUrl: 'https://' + apiPath + '/account/v1',
+                    baseUrl: 'https://' + apiPath + '/hybris/account/v2',
                     addresses: {
                         initialPageSize: 6
                     }
@@ -48,7 +48,7 @@ angular.module('ds.shared')
                 },
 
                 categories: {
-                    baseUrl: 'https://' + apiPath + '/category/v2/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/category/v3/' + tenantId
                 },
 
                 checkout: {
@@ -59,8 +59,12 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
                 },
 
+                coupon: {
+                    baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
+                } ,
+
                 customers: {
-                    baseUrl: 'https://' + apiPath + '/customer/v6/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/customer/v7/' + tenantId
                 },
 
                 orders: {

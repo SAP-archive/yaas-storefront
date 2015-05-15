@@ -3,7 +3,6 @@ var initRefineAffix = function()
     $('#refineAffix').affix({
         offset: {
             top: function () {
-//                debugger;
                 return (this.top = $('.product-grid').offset().top)
             }
         }

@@ -1,34 +1,18 @@
 var fs = require('fs');
 var tu = require('./protractor-utils.js');
 
+describe("cart:", function () {
 
-
-function loadProductIntoCart(cartAmount, cartTotal) {
-    tu.clickElement('id', tu.cartButtonId);
-    tu.waitForCart();
-    expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-    tu.clickElement('binding', 'CONTINUE_SHOPPING');
-    browser.wait(function () {
-        return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
-    });
-    browser.sleep(500);
-    tu.clickElement('xpath', tu.whiteCoffeeMug);
-    browser.wait(function () {
-        return element(by.id(tu.buyButton)).isPresent();
-    });
-    tu.clickElement('id', tu.buyButton);
-    //wait for cart to close
-    browser.sleep(5500);
-    browser.wait(function () {
-        return element(by.id(tu.cartButtonId)).isDisplayed();
-    });
-    browser.sleep(1000);
-    tu.clickElement('id', tu.cartButtonId);
-    tu.waitForCart();
-    browser.sleep(2000);
-    tu.verifyCartAmount(cartAmount);
-    tu.verifyCartTotal(cartTotal);
-}
+        beforeEach(function () {
+            browser.manage().deleteAllCookies();
+            // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
+            browser.driver.manage().window().setSize(1200, 1100);
+            browser.get(tu.tenant + '/#!/ct/');
+            // browser.switchTo().alert().then(
+            //     function (alert) { alert.dismiss(); },
+            //     function (err) { }
+            // );
+        });
 
         afterEach(function () {
             browser.switchTo().alert().then(
@@ -37,26 +21,12 @@ function loadProductIntoCart(cartAmount, cartTotal) {
             );
         });
 
-describe("cart:", function () {
-
-        beforeEach(function () {
-            browser.manage().deleteAllCookies();
-            // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
-            browser.driver.manage().window().setSize(1200, 1100);
-            browser.get(tu.tenant + '/#!/ct/');
-            browser.switchTo().alert().then(
-                function (alert) { alert.dismiss(); },
-                function (err) { }
-            );
-        });
-
-
     describe("verify cart functionality", function () {
 
 
 
         it('should load one product into cart', function () {
-            loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
@@ -66,7 +36,7 @@ describe("cart:", function () {
 
         it('should load one product into cart in Euros', function () {
             tu.selectCurrency('EURO');
-            loadProductIntoCart('1', '€7.99');
+            tu.loadProductIntoCart('1', '€7.99');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
@@ -75,7 +45,7 @@ describe("cart:", function () {
         });
 
         it('should load one product into cart in USD and change to Euros', function () {
-            loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             tu.selectCurrency('EURO');
             tu.clickElement('id', tu.cartButtonId);
@@ -85,7 +55,7 @@ describe("cart:", function () {
         });
 
         it('should load one product into cart in USD and change to Euros while logged in', function () {
-            loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             tu.loginHelper('currtest@hybristest.com', 'password');
             browser.sleep(1000);
@@ -100,12 +70,11 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        //TODO: fix test to pass on bamboo. Always passes locally
-        xit('should load multiple products into cart', function () {
-            loadProductIntoCart('1', '$10.67');
+        it('should load multiple products into cart', function () {
+            tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('category in categories').row(1).column('category.name'))
+            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -113,6 +82,12 @@ describe("cart:", function () {
             tu.clickElement('xpath', tu.whiteThermos);
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);
+            browser.sleep(5500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(500);
             tu.verifyCartTotal("$25.66");
@@ -120,7 +95,7 @@ describe("cart:", function () {
 
 
         it('should update quantity', function () {
-            loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('id', tu.buyButton);
@@ -177,7 +152,7 @@ describe("cart:", function () {
         });
 
         xit('should automatically close when mousing off', function () {
-            loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
             // wait over 3 seconds 
             browser.sleep(4500);

@@ -10,7 +10,14 @@ module.exports = function (grunt) {
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
-        PROJECT_ID = 'defaultproj',
+
+        //--Set Parameters for Server Configuration----------------------------------------------------
+        // Read npm argument and set the dynamic server environment or use default configuration.
+        // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123
+        PROJECT_ID = grunt.option('pid') || 'defaultproj',
+        CLIENT_ID = grunt.option('cid') || 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9',
+        REDIRECT_URI = 'http://example.com',
+
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
@@ -41,7 +48,15 @@ module.exports = function (grunt) {
                 port: port,
                 hostname: host
             },
-            livereload: {
+            singleProdServer: {
+                options: {
+                    server: path.resolve('./server/singleProdServer.js'),
+                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
+                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
+                    bases: [path.resolve('./server/singleProdServer.js')]
+                }
+            },
+            singleTenant: {
                 options: {
                     server: path.resolve('./server.js'),
                     livereload: 35730, // use different port to avoid collision with client 'watch' operation
@@ -85,7 +100,7 @@ module.exports = function (grunt) {
                     sourceMapURL: 'http://localhost/css/style.css.map'
                 },
                 files : {
-                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                    'public/css/app/style.css' : 'public/less/main.less'
                 }
             },
             dist : {
@@ -95,20 +110,26 @@ module.exports = function (grunt) {
                     sourceMap: false
                 },
                 files : {
-                    'public/css/app/style.css' : 'public/less/theme1/style.less'
+                    'public/css/app/style.css' : 'public/less/main.less'
                 }
             }
         },
 
         concurrent: {
             singleProject: {
-                tasks: ['express:livereload', 'watch'],  //server.js
+                tasks: ['express:singleTenant', 'watch'],  //server.js
                 options: {
                     logConcurrentOutput: true
                 }
             },
             multiProject: {
                 tasks: ['express:multiTenant', 'watch'], //multi-tenant-server.js
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            singleProdServer: {
+                tasks: ['express:singleProdServer', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -136,7 +157,7 @@ module.exports = function (grunt) {
                     '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
                     '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
                     '../gruntfile.js', '../License.md', '../package.json', '../products.json',
-                    '../multi-tenant/**', '../server.js'],
+                    '../multi-tenant/**', '../server/**', '../server.js'],
                 dest: 'dist/public/'
             }
         },
@@ -149,9 +170,6 @@ module.exports = function (grunt) {
 
         karma: {
             unit: { configFile: 'config/karma.conf.js', keepalive: true }
-            // TODO: get protractor working with grunt
-            // e2e: { configFile: 'config/protractor-conf.js', keepalive: true },
-            // watch: { configFile: 'test/config/unit.js', singleRun:false, autoWatch: true, keepalive: true }
         },
 
         useminPrepare: {
@@ -196,6 +214,22 @@ module.exports = function (grunt) {
                 replacements: [{
                     from: /StartProjectId(.*)EndProjectId/g,
                     to: 'StartProjectId*/ \''+ PROJECT_ID +'\' /*EndProjectId'
+                }]
+            },
+            clientId: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartClientId(.*)EndClientId/g,
+                    to: 'StartClientId*/ \''+ CLIENT_ID +'\' /*EndClientId'
+                }]
+            },
+            redirectURI: {
+                src: [ PROJECT_ID_PATH ],
+                overwrite: true,
+                replacements: [{
+                    from: /StartRedirectURI(.*)EndRedirectURI/g,
+                    to: 'StartRedirectURI*/ \''+ REDIRECT_URI +'\' /*EndRedirectURI'
                 }]
             }
         },
@@ -247,8 +281,13 @@ module.exports = function (grunt) {
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('build', 'Build parameters for build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('jshint');
         grunt.task.run('less:dev');
         grunt.task.run('optimizeCode');
@@ -258,24 +297,39 @@ module.exports = function (grunt) {
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('singleProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('multiProjectTask');
     });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
       function(domainParam){
-        runDomainReplace(domainParam);
+
         grunt.task.run('replace:projectId');
+        grunt.task.run('replace:clientId');
+        grunt.task.run('replace:redirectURI');
+
+        runDomainReplace(domainParam);
+
         grunt.task.run('optimizeCode');
     });
 
@@ -283,7 +337,7 @@ module.exports = function (grunt) {
     grunt.registerTask('startServer', 'Start server within deploy environment',
       function(){
         if (grunt.option('single')){
-            grunt.task.run('concurrent:singleProject');  // start a single server in deployed environment.
+            grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
 
         } else if (grunt.option('multiple')){
             grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
@@ -308,6 +362,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('optimizeCode', [
         'clean:dist',      //deletes contents in the dist folder and the .tmp folder
+        'less:dev',        //generate style.css
         'copy',            //moves dev files to dist
         'useminPrepare',   //starts usemin process
         'ngtemplates',     //compile html templates into ng.
@@ -317,7 +372,6 @@ module.exports = function (grunt) {
         //'rev',             //cachebusts css and js.  //be careful was introducing first load latency.
         'usemin'           //completes usemin process.
     ]);
-
 
     //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
     // Read build parameter and set the dynamic domain for environment or give warning message.

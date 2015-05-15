@@ -15,6 +15,9 @@ describe('AnonAuthSvc', function () {
     var AnonAuthSvc, mockedTokenSvc, mockBackend, $rootScope, accountUrl;
     var storeTenant = function() { return '121212'};
     var dynamicDomain = function() { return 'dynDomain'};
+    var clientId = function() { return '1234ABC'};
+    var redirectURI = function() { return 'http://google.com'};
+
     var mockedGlobalData = {store: {tenant: storeTenant}};
     var accessToken = 'abc123';
     var expiresIn = 700;
@@ -39,7 +42,7 @@ describe('AnonAuthSvc', function () {
 
     beforeEach(function() {
         module('ds.shared', function ($provide) {
-            $provide.constant('appConfig', { storeTenant : storeTenant, dynamicDomain: dynamicDomain} );
+            $provide.constant('appConfig', { storeTenant : storeTenant, dynamicDomain: dynamicDomain, clientId: clientId, redirectURI: redirectURI } );
         });
     });
 
@@ -59,7 +62,7 @@ describe('AnonAuthSvc', function () {
 
         describe('happy path', function(){
             beforeEach(function(){
-                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant())
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()))
                     .respond(200, {}, {'Location': location});
             });
 
@@ -88,7 +91,7 @@ describe('AnonAuthSvc', function () {
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant()).respond(200, {}, {'Location': location});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
@@ -103,14 +106,14 @@ describe('AnonAuthSvc', function () {
 
         describe('failure path', function(){
             beforeEach(function(){
-                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant()).respond(500, {});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(500, {});
             });
 
             it('should re-enable new login attempt on failure', function(){
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?hybris-tenant=' + storeTenant()).respond(200, {}, {'Location': location});
+                mockBackend.expectPOST(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
