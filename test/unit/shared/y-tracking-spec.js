@@ -33,7 +33,9 @@ describe('ytracking', function () {
     var openedProduct = {
         product: {
             id: 1,
-            name: 'prod1'
+            name: {
+                en: 'prod1'
+            }
         },
         categories: [{
             id: "62256128"
