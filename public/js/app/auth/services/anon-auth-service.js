@@ -15,6 +15,7 @@
 /**
  *  Encapsulates access to the account service for anonymous login/OAuth token retrieval.
  */
+/* jshint ignore:start */
 angular.module('ds.auth')
     .factory('AnonAuthSvc', ['TokenSvc', '$http', '$state', '$rootScope', '$translate', 'GlobalData', 'SiteConfigSvc',
         function (TokenSvc, $http, $state, $rootScope, $translate, GlobalData, siteConfig) {
@@ -47,3 +48,4 @@ angular.module('ds.auth')
 
 
     }]);
+/* jshint ignore:end */
