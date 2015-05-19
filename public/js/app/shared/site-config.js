@@ -56,7 +56,7 @@ angular.module('ds.shared')
                 },
 
                 configuration: {
-                    baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/configuration/b1/' + tenantId
                 },
 
                 coupon: {
