@@ -44,7 +44,7 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-                    baseUrl: 'https://' + apiPath + '/cart/v5/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/cart/b1/' + tenantId
                 },
 
                 categories: {
@@ -52,7 +52,7 @@ angular.module('ds.shared')
                 },
 
                 checkout: {
-                    baseUrl: 'https://' + apiPath + '/checkout-mashup/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/checkout-mashup/b1/' + tenantId
                 },
 
                 configuration: {
@@ -72,16 +72,16 @@ angular.module('ds.shared')
                 },
 
                 prices: {
-                    baseUrl: 'https://' + apiPath + '/price/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/price/b1/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/product/v4/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/hybris/product/b1/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/hybris/product-details/v5/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/product-details/b1/' + tenantId
                 },
 
                 shippingCosts: {
@@ -89,7 +89,7 @@ angular.module('ds.shared')
                 },
 
                 tracking: {
-                    baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
+                    baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }
             };
 
