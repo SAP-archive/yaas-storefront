@@ -56,7 +56,7 @@ angular.module('ds.shared')
                 },
 
                 configuration: {
-                    baseUrl: 'https://' + apiPath + '/hybris/configuration/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
                 },
 
                 coupon: {
@@ -68,7 +68,7 @@ angular.module('ds.shared')
                 },
 
                 orders: {
-                    baseUrl: 'https://' + apiPath + '/order/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/order/b1/' + tenantId
                 },
 
                 prices: {
@@ -85,7 +85,7 @@ angular.module('ds.shared')
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + apiPath + '/shipping-cost/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/shipping-cost/b1/' + tenantId
                 },
 
                 tracking: {

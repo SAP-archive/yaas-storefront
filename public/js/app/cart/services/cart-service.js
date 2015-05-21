@@ -22,7 +22,7 @@ angular.module('ds.cart')
                 this.product = {
                     id: product.id
                 };
-                this.unitPrice = price;
+                this.price = price;
                 this.quantity = qty;
             };
 
@@ -200,8 +200,11 @@ angular.module('ds.cart')
 
                 var createItemDef = $q.defer();
                 getOrCreateCart().then(function (cartResult) {
-                    var price = { 'value': prices[0].effectiveAmount, 'currency': prices[0].currency };
+
+                    var price = { 'priceId': prices[0].priceId, 'effectiveAmount': prices[0].effectiveAmount, 'originalAmount': prices[0].originalAmount, 'currency': prices[0].currency };
+
                     var item = new Item(product, price, qty);
+
                     CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function () {
                         refreshCart(cartResult.cartId, cartUpdateMode, closeCartAfterTimeout);
                         createItemDef.resolve();

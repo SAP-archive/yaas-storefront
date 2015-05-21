@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'PriceProductREST',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, PriceProductREST) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -139,11 +139,51 @@ angular.module('ds.products')
 
             function assignMainImage(products){
                 _.forEach(products, function(product){
-                   setMainImage(product);
+                   setMainImage(product.product);
                 });
             }
 
+            function assignPrices(products) {
+                var pricesMap = {};
+                var currentCurrency = GlobalData.getCurrencyId();
+                _.forEach(products, function (product) {
+                    product.prices.forEach(function (price) {
+                        if (price.currency === currentCurrency) {
+                            pricesMap[product.product.id] = price;
+                        }
+                    });
+                });
 
+                $scope.prices = angular.extend($scope.prices, pricesMap);
+
+                //initialize the viewing bar promixity script
+                /* jshint ignore:start */
+                initRefineAffix();
+                /* jshint ignore:end */
+
+                if ($scope.loadMorePages) {
+                    $timeout(function () {
+                        $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                        $scope.pageNumber = $scope.loadedPages;
+
+                        //Scroll to the page
+                        if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
+                            $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                        }
+
+                        //Try scrolling to the last element
+                        $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
+
+                        //Set page parameter
+                        $location.search('page', $scope.pageNumber).replace();
+
+                        $scope.loadMorePages = false;
+                    }, 1);
+                }
+
+
+
+            }
 
             // Primary Reason for categories to be updated is that the language change.
             //  We'll have to retrieve the current slug for the category (and thus this page)
@@ -211,7 +251,9 @@ angular.module('ds.products')
                         }
 
                         $scope.requestInProgress = true;
-                        ProductSvc.query(query).then(
+                        
+                        PriceProductREST.ProductDetails.all('productdetails').getList(query).then(
+                        //ProductSvc.query(query).then(
                             function (products) {
                                 $scope.requestInProgress = false;
                                 if (products) {
@@ -225,8 +267,9 @@ angular.module('ds.products')
                                     }
                                     $scope.total = GlobalData.products.meta.total;
                                     if (products.length) {
-                                        getPrices(products);
+                                        //getPrices(products);
                                         assignMainImage(products);
+                                        assignPrices(products);
                                     }
 
                                     //Set page parameter
