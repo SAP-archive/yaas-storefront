@@ -99,18 +99,19 @@ angular.module('ds.coupon')
 
             }, function (e) {  //upstream error handler.
                 debugger;
-                var coupon = {};
                 // $scope.coupon.valid = false;
-                coupon.valid = false;
+                userCoupon.valid = false;
                 // $scope.coupon.message.error = e.status; //show api error.
-                coupon.message = { error : e.status }; //show api error.
+                userCoupon.message = { error : e.status }; //show api error.
 
                 //special case until unique error type identifiers are provided.
                 if (e.status === 403){
                     // $scope.coupon.message.error = 'Sign in to use coupon code';
-                    coupon.message.error = 'Sign in to use coupon code';
+                    userCoupon.message.error = 'Sign in to use coupon code';
                 }
-                return coupon;
+
+                updateCoupons();
+
             });
         }
 

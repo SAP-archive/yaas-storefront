@@ -33,11 +33,10 @@ angular.module('ds.coupon')
 
                 debugger;
                 var cartData = {};
-
                 if(angular.isObject($scope.cart) && angular.isObject($scope.cart.subTotalPrice) && angular.isDefined($scope.cart.subTotalPrice.value)){
                     cartData = { subTotalPrice: $scope.cart.subTotalPrice.value };
                     //$scope.coupon.applyCoupon(couponCode);
-                    $scope.coupon = UserCoupon.applyCoupon(couponCode, cartData);
+                    UserCoupon.applyCoupon(couponCode, cartData);
                 }
 
                 // //call coupon service to get discount.
