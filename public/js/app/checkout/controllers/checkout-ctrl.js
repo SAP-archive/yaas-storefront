@@ -436,7 +436,7 @@ angular.module('ds.checkout')
                     CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 
                 }, function (resp) {  // upstream error handler.
-                    $scope.message = resp.data.message; //'COUPON_ERROR';
+                    $scope.message = resp.data.message; // display service message.
                     $scope.submitIsDisabled = false;
                     modal.close(); // stop loading indicator.
                 });

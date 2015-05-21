@@ -57,8 +57,6 @@ angular.module('ds.auth')
              * @param {String} expiresIn [# of seconds the token will expire in; may be null]
              */
             setToken: function(accessToken, userName, expiresIn) {
-                // TODO - REMOVE BEFORE GOING LIVE - TEST/DEBUG ONLY
-                console.log('token is '+accessToken);
                 var token = new Token(userName, accessToken, appConfig.storeTenant());
                 ipCookie(settings.accessCookie, JSON.stringify(token), {expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds});
             },

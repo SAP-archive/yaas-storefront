@@ -92,9 +92,13 @@ angular.module('ds.i18n')
         ZIP: 'Zip Code',
 
         /*  coupons   */
-        COUPON_CODE: 'Add Coupon Code',
-        COUPON_ERROR: 'Could not redeem coupon.',
         COUPON_APPLY: 'Apply',
+        COUPON_APPLIED: 'Applied',
+        COUPON_CODE: 'Add Coupon Code',
+        COUPON_ERROR: 'Coupon not valid.',
+        COUPON_ERR_CURRENCY: 'Currency invalid with coupon',
+        COUPON_ERR_ANONYMOUS: 'Sign in to use coupon code',
+        COUPON_ERR_UNAVAILABLE: 'Coupon no longer available',
 
         /*
             confirmation

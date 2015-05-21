@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- *  Encapsulates access to the "authorization" service.
+ *  Provides a variety of coupon: access, validation, and redemptions services.
  */
 angular.module('ds.coupon')
     .factory('CouponSvc', ['$q', 'SiteConfigSvc', 'CouponREST', 'CartREST', 'GlobalData',
@@ -23,7 +23,7 @@ angular.module('ds.coupon')
             /**
              * Gets a coupon object as a response to user coupon entry code.
              */
-             getCoupon: function( couponCode ) {
+            getCoupon: function( couponCode ) {
                 var deferred = $q.defer();
                 if (couponCode) {
                     // get coupon from code
@@ -41,12 +41,47 @@ angular.module('ds.coupon')
                     deferred.reject();
                 }
                 return deferred.promise;
-             },
+            },
+
+
+             /**
+             * Gets a coupon object from entry code and validates it.
+             */
+            getValidateCoupon: function( couponCode, totalPrice ) {
+                var self = this;
+                var deferred = $q.defer();
+                if (couponCode) {
+                    // get coupon from code
+                    CouponREST.Coupon.one('coupons', couponCode).get().then(function (resp) {
+                            var couponData = resp.plain();
+                            var discountAmount = (couponData.discountType === 'ABSOLUTE') ? couponData.discountAbsolute.amount : parseFloat(couponData.discountPercentage) * 0.01 * parseFloat(totalPrice);
+                            var couponRequest = self.buildCouponRequest(couponCode, GlobalData.getCurrencyId(), totalPrice, discountAmount);
+
+                            //Remove on successful service validation of currency mismatch.
+                            if(!self.validateCurrency(couponData)){
+                                resp.status = 'CURR';
+                                deferred.reject(resp);
+                                return deferred.promise;
+                            }
+                            // validate coupon
+                            CouponREST.Coupon.one('coupons', couponCode).customPOST(couponRequest, 'validation').then(function () {
+                                    deferred.resolve(couponData);
+                                }, function (resp) {
+                                    deferred.reject(resp);
+                                });
+                        }, function (resp) {
+                            deferred.reject(resp);
+                        });
+                } else {
+                    deferred.reject();
+                }
+                return deferred.promise;
+            },
 
             /**
              * validates or invalidates coupon by coupon code and cart total price validation
              */
-             validateCoupon: function( couponCode, totalPrice, couponData ) {
+            validateCoupon: function( couponCode, totalPrice, couponData ) {
                 var self = this;
                 var deferred = $q.defer();
                 if (couponCode) {
@@ -63,13 +98,13 @@ angular.module('ds.coupon')
                     deferred.reject();
                 }
                 return deferred.promise;
-             },
+            },
 
             /**
              * Redeems a valid customer coupon, then posts it to the current cart, before final checkout.
              * Checkout will fail if posted total and checkout total do not match.
              */
-             redeemCoupon: function( couponObj, cartId, cartTotal ) {
+            redeemCoupon: function( couponObj, cartId, cartTotal ) {
 
                 var deferred = $q.defer();
                 var couponCode = couponObj.code;
@@ -97,7 +132,16 @@ angular.module('ds.coupon')
                     deferred.reject();
                 }
                 return deferred.promise;
-             },
+            },
+
+            validateCurrency: function(couponData){
+                if (angular.isDefined(couponData.restrictions) && angular.isDefined(couponData.restrictions.minOrderValue) && angular.isDefined(couponData.restrictions.minOrderValue.currency)) {
+                    if (couponData.restrictions.minOrderValue.currency === GlobalData.getCurrencyId()) {
+                        return true;
+                    }
+                }
+                return false;
+            },
 
             buildCouponCartRequest: function( couponObj, couponId, currencyType ){
                 return {
@@ -107,7 +151,7 @@ angular.module('ds.coupon')
                             'name': couponObj.name,
                             'currency': currencyType,
                             'sequenceId': '1', //increment for multiple coupons.
-                            'calculationType': 'ApplyDiscountBeforeTax', // TODO with tax.
+                            'calculationType': 'ApplyDiscountBeforeTax',
                             'link': {
                                 'id': couponId,
                                 'type': 'COUPON',
