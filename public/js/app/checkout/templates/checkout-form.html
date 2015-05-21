@@ -477,8 +477,6 @@
     <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
-    CHECKOUT-FORM:
-    {{coupon.amounts.discountAmount}}
     <div class="col-xs-6 text-right hidden-sm hidden-xs">
         <span class="value">{{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + order.shippingCost | currency: currencySymbol}}</span>
     </div>

@@ -1,11 +1,5 @@
 <div class="couponApplyContainer">
 
-
-      coupon.Applied {{coupon.applied}}<BR><BR>
-      couponCollapsed {{couponCollapsed}}<BR><BR>
-      coupon.Valid {{coupon.valid}}<BR><BR>
-
-
         <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!coupon.applied">{{'COUPON_CODE' | translate}}</a>
 
     <div ng-show="!couponCollapsed && !coupon.applied">

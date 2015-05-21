@@ -146,7 +146,6 @@ angular.module('ds.cart')
                 defCart.promise.then(function () {
                     $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
 
-                    debugger;
                     //update coupon
                     if(angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.value)){
                         $rootScope.$emit('coupon:cartupdate', {cartData:{ subTotalPrice: cart.subTotalPrice.value}});
