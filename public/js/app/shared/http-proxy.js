@@ -49,7 +49,10 @@ angular.module('ds.httpproxy', [])
                     document.body.style.cursor = 'auto';
 
                     if (response.config.url.indexOf('/stork/piwik') > -1) {
-                        GlobalData.piwik.enabled = false;
+                        if (GlobalData.piwik.firstCall) {
+                            GlobalData.piwik.enabled = false;
+                            GlobalData.piwik.firstCall = false;
+                        }
                     }
                     else {
                         //Normal process of other responses
