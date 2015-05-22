@@ -13,9 +13,10 @@
 describe('Coupon Service Test:', function () {
 
     var $scope, $rootScope, couponUrl, cartUrl, mockBackend;
-    var CartREST = {
-    };
-    var CouponSvc = {
+    var CartREST = {};
+    var CouponSvc = {};
+    var AuthSvc = {
+        isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
     };
     var mockCoupon = {
             code: '',
@@ -68,6 +69,7 @@ describe('Coupon Service Test:', function () {
         module('ds.shared', function ($provide) {
             $provide.constant('appConfig', {} );
             $provide.value('GlobalData', mockedGlobalData);
+            $provide.value('AuthSvc', AuthSvc);
         });
     });
 
@@ -75,7 +77,7 @@ describe('Coupon Service Test:', function () {
         module('restangular');
     });
 
-    beforeEach(inject(function( SiteConfigSvc, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _CouponSvc_, _$httpBackend_) {
+    beforeEach(inject(function( SiteConfigSvc, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _$httpBackend_) {
         $scope = _$rootScope_.$new();
         UserCoupon = _UserCoupon_;
         CouponREST = _CouponREST_;
@@ -89,6 +91,7 @@ describe('Coupon Service Test:', function () {
     describe('Coupon Service ', function () {
 
         it('should exist', function () {
+            expect(CouponSvc.getValidateCoupon).toBeDefined();
             expect(CouponSvc.validateCoupon).toBeDefined();
             expect(CouponSvc.redeemCoupon).toBeDefined();
             expect(CouponSvc.buildCouponCartRequest).toBeDefined();
@@ -160,6 +163,27 @@ describe('Coupon Service Test:', function () {
 
         });
 
+        it("should getvalidate a fixed rate coupon", function() {
+
+            var getPayload = {"Accept":"application/json, text/plain, */*"},
+            response = {},
+            successSpy = jasmine.createSpy('success'),
+            errorSpy = jasmine.createSpy('error');
+
+            mockBackend.expectGET(couponUrl +'coupons/CouponCode').respond(200, response);
+
+            var promise = CouponSvc.getValidateCoupon('CouponCode', 19.99);
+             promise.then(successSpy, errorSpy);
+
+            mockBackend.flush();
+
+            expect(promise.then).toBeDefined();
+            expect(successSpy).not.toHaveBeenCalled();
+            expect(errorSpy).toHaveBeenCalled();
+
+        });
+
+
         it("should redeem a coupon", function() {
 
             var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
@@ -196,6 +220,18 @@ describe('Coupon Service Test:', function () {
             expect(couponCartRequest.currency).toBe('USD');
 
         });
+
+        it("should validate currency", function() {
+            var couponData = {restrictions:{minOrderValue:{currency:'USD'}}};
+            var validation = CouponSvc.validateCurrency( couponData );
+            expect(validation).toBe(true);
+            couponData = {restrictions:{minOrderValue:{currency:'EUR'}}};
+            validation = CouponSvc.validateCurrency( couponData );
+            expect(validation).toBe(false);
+
+
+        });
+
 
     });
 

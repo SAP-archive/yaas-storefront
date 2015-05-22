@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-ddescribe('Coupon Ctrl Test: ', function () {
+describe('Coupon Ctrl Test: ', function () {
 
     var $scope, $rootScope, $controller, AuthSvc;
 
@@ -31,6 +31,7 @@ ddescribe('Coupon Ctrl Test: ', function () {
             }
         };
     var UserCoupon = {
+        applyCoupon:jasmine.createSpy('applyCoupon').andReturn(mockCoupon),
         getCoupon:function(){
             return mockCoupon;
         },
@@ -102,6 +103,12 @@ ddescribe('Coupon Ctrl Test: ', function () {
             $rootScope.$emit('coupon:cartupdate');
         });
 
+        it('should remove a coupon', function () {
+            $scope.removeCoupon();
+            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
+        });
+
+
         it('should apply a PERCENT coupon', function () {
             $scope.cart = {
                 totalPrice : {
@@ -118,12 +125,8 @@ ddescribe('Coupon Ctrl Test: ', function () {
                 discountType: 'PERCENT'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
             $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
         });
 
         it('should apply a ABSOLUTE coupon', function () {
@@ -142,12 +145,8 @@ ddescribe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
             $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
         });
 
         it('should apply an ABSOLUTE ZERO coupon, with a larger discount than subtotal', function () {
@@ -166,18 +165,10 @@ ddescribe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
             $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
         });
 
-        it('should remove a coupon', function () {
-            $scope.removeCoupon();
-            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
-        });
 
 
     });
