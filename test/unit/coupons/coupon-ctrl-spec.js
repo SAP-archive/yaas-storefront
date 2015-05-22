@@ -126,7 +126,7 @@ describe('Coupon Ctrl Test: ', function () {
             }
 
             $scope.applyCoupon('CouponCode');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('CouponCode', { subTotalPrice : 11.99 });
         });
 
         it('should apply a ABSOLUTE coupon', function () {
@@ -135,7 +135,7 @@ describe('Coupon Ctrl Test: ', function () {
                     value: 9.99
                 },
                 subTotalPrice: {
-                    value: 11.99
+                    value: 44.99
                 }
             };
             var couponData = {
@@ -145,8 +145,8 @@ describe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            $scope.applyCoupon('CouponCode');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
+            $scope.applyCoupon('TEST8');
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('TEST8', { subTotalPrice : 44.99 });
         });
 
         it('should apply an ABSOLUTE ZERO coupon, with a larger discount than subtotal', function () {
@@ -155,7 +155,7 @@ describe('Coupon Ctrl Test: ', function () {
                     value: 9.99
                 },
                 subTotalPrice: {
-                    value: 11.99
+                    value: 1.99
                 }
             };
             var couponData = {
@@ -165,8 +165,8 @@ describe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            $scope.applyCoupon('CouponCode');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalled();
+            $scope.applyCoupon('TEST9');
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith( 'TEST9', { subTotalPrice : 1.99 });
         });
 
 
