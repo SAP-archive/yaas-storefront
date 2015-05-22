@@ -15,8 +15,8 @@ angular.module('ds.coupon')
     /**
      *  Coupon Module contoller.
      */
-    .controller('CouponCtrl', ['$scope', '$rootScope', 'AuthSvc', 'AuthDialogManager', 'CouponSvc', 'UserCoupon',
-        function( $scope, $rootScope, AuthSvc, AuthDialogManager, CouponSvc, UserCoupon ) {
+    .controller('CouponCtrl', ['$scope','UserCoupon',
+        function( $scope, UserCoupon ) {
 
             $scope.couponCollapsed = true;
             $scope.coupon = UserCoupon.getCoupon();

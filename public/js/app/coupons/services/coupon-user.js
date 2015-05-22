@@ -121,7 +121,7 @@ angular.module('ds.coupon')
         var couponcartupdate = $rootScope.$on('coupon:cartupdate', function(e, cartData){
             // revalidate coupon on cart change
             if(!!userCoupon.code){
-                applyCoupon(userCoupon.code, cartData)
+                applyCoupon(userCoupon.code, cartData);
             }
         });
         $rootScope.$on('$destroy', couponcartupdate);

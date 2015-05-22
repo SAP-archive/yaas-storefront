@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Coupon Ctrl Test: ', function () {
+ddescribe('Coupon Ctrl Test: ', function () {
 
     var $scope, $rootScope, $controller, AuthSvc;
 

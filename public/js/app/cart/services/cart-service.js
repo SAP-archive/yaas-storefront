@@ -148,7 +148,7 @@ angular.module('ds.cart')
 
                     //update coupon
                     if(angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.value)){
-                        $rootScope.$emit('coupon:cartupdate', {cartData:{ subTotalPrice: cart.subTotalPrice.value}});
+                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.value});
                     }
                 });
                 return defCart.promise;
