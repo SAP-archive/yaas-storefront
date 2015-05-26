@@ -97,7 +97,7 @@ angular.module('ds.coupon')
 
         function setCouponError(e) {
             // set message recieved from server as default
-            if(angular.isDefined(e.data) && angular.isDefined(e.data.message)){
+            if(angular.isDefined(e) && angular.isDefined(e.data) && angular.isDefined(e.data.message)){
                 userCoupon.message.error = e.data.message;
             }
 
