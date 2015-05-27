@@ -64,6 +64,17 @@ describe('coupons:', function () {
             expect(element(by.binding('coupon.message.error')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
+        it('should not allow user to add coupon below minimum on cart', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            tu.loadProductIntoCart('1', '$10.67');
+            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.sendKeysById('coupon-code', '20MINIMUM');
+            tu.clickElement('id', 'apply-coupon');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
+            browser.sleep(500);
+            removeFromCart();
+        });
+
         it('should add percentage off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT');
@@ -71,7 +82,7 @@ describe('coupons:', function () {
             removeFromCart();
         });
 
-        it('should add dollar coupon on cart', function () {
+        it('should add dollar off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10DOLLAR');
             verifyCartDetails('1', '$0.67', '-$10.00');
@@ -129,16 +140,35 @@ describe('coupons:', function () {
 
         it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('EXPIRED');
+            addProductandApplyCoupon('COUPON HAS EXPIRED.');
             expect(element(by.binding('coupon.message.error')).getText()).toEqual('EXPIRED');
             removeFromCart();
         });
 
 
-        it('should not allow purchase under minimum', function () {
+        it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin');
-            couponCheckoutTest('20MINIMUM');
-            expect(element(by.css('div.error.ng-scope > small.help-inline.has-error > span.error.ng-binding')).getText()).toEqual('The order value is too low for this coupon.');
+            tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCart('1', '$10.67');
+            tu.clickElement('binding', 'CHECKOUT');
+            browser.wait(function () {
+                return element(by.id("ccNumber")).isPresent();
+            });
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            tu.clickElement('linkText', 'Add Coupon Code');
+            tu.sendKeysById('coupon-code', '20MINIMUM');
+            tu.clickElement('id', 'apply-coupon');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('The order value is too low for this coupon.');
+            tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
+            browser.sleep(500);
+            tu.clickElement('id', 'place-order-btn');
+            
         });
 
         it('should allow purchase over minimum', function () {
