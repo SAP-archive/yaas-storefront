@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-xdescribe('Coupon User Test:', function () {
+describe('Coupon User Test:', function () {
 
     var $scope, $rootScope, $filter, $translate, $q, mockBackend;
     var AuthSvc = {
