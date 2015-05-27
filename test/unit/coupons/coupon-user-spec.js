@@ -12,7 +12,7 @@
 
 describe('Coupon User Test:', function () {
 
-    var $scope, $rootScope, $filter, $translate, mockBackend;
+    var $scope, $rootScope, $filter, $translate, $q, mockBackend;
     var AuthSvc = {
         isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
     };
@@ -49,13 +49,14 @@ describe('Coupon User Test:', function () {
         });
     });
 
-    beforeEach(inject(function(SiteConfigSvc, _$rootScope_, _UserCoupon_, _$httpBackend_, CouponSvc) {
+    beforeEach(inject(function(SiteConfigSvc, _$rootScope_, _UserCoupon_, _$httpBackend_, CouponSvc, _$q_) {
         $scope = _$rootScope_.$new();
         $rootScope = _$rootScope_;
         UserCoupon = _UserCoupon_;
         mockBackend = _$httpBackend_;
         mockCouponSvc = CouponSvc;
         couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
+        $q = _$q_;
     }));
 
    describe('Coupon User', function () {
@@ -105,31 +106,6 @@ describe('Coupon User Test:', function () {
             expect(blankCoupon.code).toBe('');
         });
 
-
-        xit('event - should update the coupon when cart changes', function () {
-            var diffCoupon, tstCoupon = mockCoupon;
-            tstCoupon.code = "TEST5";
-            tstCoupon.valid = false;
-            tstCoupon.applied = false;
-            UserCoupon.setCoupon(tstCoupon);
-
-
-            //Mock coupon Svc
-            mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon');
-
-            $rootScope.$emit('coupon:cartupdate', { subTotalPrice: 10});
-
-            expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith({});
-            expect(true).toBe(false);
-
-            diffCoupon = UserCoupon.getCoupon();
-
-            console.log('TESTCPN', tstCoupon);
-            console.log('DIFFCPN', diffCoupon);
-            expect(blankCoupon.code).toBe('');
-        });
-
-
    });
 
     describe('Coupon Interactions', function(){
@@ -140,7 +116,6 @@ describe('Coupon User Test:', function () {
         });
 
         it('should apply a FIXED coupon', function () {
-
             var cartData = {subTotalPrice:11.99};
             var mockResponse = {
                 discountType : 'ABSOLUTE',
@@ -151,13 +126,26 @@ describe('Coupon User Test:', function () {
             });
             var response = UserCoupon.applyCoupon('TEST4', cartData);
 
-
             expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST4', 11.99);
 
         });
 
-        it('should apply a PERCENTAGE coupon', function () {
+        it('should apply a FIXED coupon with greater discount than subtotal', function () {
+            var cartData = {subTotalPrice:1.99};
+            var mockResponse = {
+                discountType : 'ABSOLUTE',
+                discountAbsolute: {amount:10}
+            };
+            mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon').andCallFake(function() {
+                return {then: function(callback) { return callback(mockResponse); } }
+            });
+            var response = UserCoupon.applyCoupon('TEST4', cartData);
 
+            expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST4', 1.99);
+
+        });
+
+        it('should apply a PERCENTAGE coupon', function () {
             var cartData = {subTotalPrice:9.99};
             var mockResponse = {
                 discountType : 'PERCENT',
@@ -166,7 +154,7 @@ describe('Coupon User Test:', function () {
             var promise = mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon').andCallFake(function() {
                 return {then: function(callback) { return callback(mockResponse); } }
             });
-            //mockBackend.expectGET(couponUrl +'coupons/CouponCode').respond(200, response);
+
             var response = UserCoupon.applyCoupon('TEST1', cartData);
 
             expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST1', 9.99);
@@ -174,7 +162,6 @@ describe('Coupon User Test:', function () {
         });
 
         it('should zero out when fixed is less than total', function () {
-
             var cartData = {subTotalPrice:10};
             var mockResponse = {
                 discountType : 'ABSOLUTE',
@@ -185,8 +172,6 @@ describe('Coupon User Test:', function () {
             });
             var response = UserCoupon.applyCoupon('TEST1', cartData);
 
-            //mockBackend.expectGET('coupons/CouponCode').respond(200, response);
-
             expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST1', 10 );
 
         });
@@ -194,22 +179,45 @@ describe('Coupon User Test:', function () {
     });
 
 
-    describe('Coupon Fail', function(){
+    ddescribe('Coupon Fail', function(){
 
-        xit('should fail on a bad coupon', function () {
-            var response = {data:{message:'error'}};
-            var cartData = {subTotalPrice:10};
-            var mockResponse = {
-                discountType : 'PERCENT',
-                discountPercent: {amount:10}
+        beforeEach(function(){
+            var defCoupon = $q.defer();
+            defCoupon.reject('Validation Error');
+            var mockedCouponSvc = {
+                getValidateCoupon: jasmine.createSpy('CouponSvc.getValidateCoupon').andReturn(defCoupon.promise) //then undefined
+
+                // getValidateCoupon: jasmine.createSpy('getValidateCoupon').andCallFake(function() {
+                //     return {then: function(callback) { return defCoupon.promise } }
+                // })
+                // getValidateCoupon: jasmine.createSpy('getValidateCoupon').andCallFake(function() {
+                //     return {then: function(callback) { return defCoupon.promise } }
+                // })
+                // getValidateCoupon: jasmine.createSpy('getValidateCoupon')
+                //,
+
             };
 
-            mockBackend.expectGET(couponUrl + 'coupons/CouponCode/validate').respond(500, response);
-            UserCoupon.applyCoupon('TEST3', cartData);
-            expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalled();
+        });
+
+        it('should fail coupon validation', function(){
+            var cartData = {subTotalPrice:11.99};
+            // var mockResponse = {
+            //     discountType : 'ABSOLUTE',
+            //     discountAbsolute: {amount:10}
+            // };
+            // mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon').andCallFake(function() {
+            //     return {then: function(callback) { return callback(mockResponse); } }
+            // });
+            var response = UserCoupon.applyCoupon('TEST4', cartData);
+
+            expect(true).toBe(false);
+            //expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST4', 11.99);
 
         });
 
     });
+
+
 
 });
