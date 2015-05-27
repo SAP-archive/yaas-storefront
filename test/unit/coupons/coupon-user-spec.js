@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Coupon User Test:', function () {
+xdescribe('Coupon User Test:', function () {
 
     var $scope, $rootScope, $filter, $translate, $q, mockBackend;
     var AuthSvc = {
@@ -177,47 +177,72 @@ describe('Coupon User Test:', function () {
         });
 
     });
+});
 
 
-    ddescribe('Coupon Fail', function(){
+describe('Coupon Fail', function(){
 
-        beforeEach(function(){
-            var defCoupon = $q.defer();
-            defCoupon.reject('Validation Error');
-            var mockedCouponSvc = {
-                getValidateCoupon: jasmine.createSpy('CouponSvc.getValidateCoupon').andReturn(defCoupon.promise) //then undefined
+    var $scope, $rootScope, $filter, $translate, $q, mockBackend;
+    var AuthSvc = {
+        isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
+    };
+    var mockCoupon = {
+            code: '',
+            applied: false,
+            valid: true,
+            message : {
+                error: 'Code not valid',
+                success: 'Applied'
+            },
+            amounts : {
+                originalAmount: 0,
+                discountAmount: 0
+            }
+    };
+    var mockedCouponSvc = {
+        getValidateCoupon:function(){}
+    };
+    function mockedTranslate(title) {
+        return { then: function(callback){callback(title)}};
+    }
+    var UserCoupon = {};
+    var defCoupon;
 
-                // getValidateCoupon: jasmine.createSpy('getValidateCoupon').andCallFake(function() {
-                //     return {then: function(callback) { return defCoupon.promise } }
-                // })
-                // getValidateCoupon: jasmine.createSpy('getValidateCoupon').andCallFake(function() {
-                //     return {then: function(callback) { return defCoupon.promise } }
-                // })
-                // getValidateCoupon: jasmine.createSpy('getValidateCoupon')
-                //,
-
-            };
-
+    beforeEach(function() {
+        module('ds.shared', function ($provide) {
+            $provide.constant('appConfig', {} );
+            $provide.constant('siteConfig', {} );
+            $provide.value('AuthSvc', AuthSvc);
         });
+    });
 
-        it('should fail coupon validation', function(){
-            var cartData = {subTotalPrice:11.99};
-            // var mockResponse = {
-            //     discountType : 'ABSOLUTE',
-            //     discountAbsolute: {amount:10}
-            // };
-            // mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon').andCallFake(function() {
-            //     return {then: function(callback) { return callback(mockResponse); } }
-            // });
-            var response = UserCoupon.applyCoupon('TEST4', cartData);
+    beforeEach(module('ds.coupon', function ($provide) {
+       $provide.value('CouponSvc', mockedCouponSvc);
+    }));
 
-            expect(true).toBe(false);
-            //expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST4', 11.99);
+    beforeEach(inject(function(_$rootScope_, _$httpBackend_, _$q_, _UserCoupon_, CouponSvc) {
+        $scope = _$rootScope_.$new();
+        $rootScope = _$rootScope_;
+        mockBackend = _$httpBackend_;
+        UserCoupon = _UserCoupon_;
+        mockCouponSvc = CouponSvc;
+        $q = _$q_;
 
-        });
+        defCoupon = $q.defer();
+        defCoupon.reject('Validation Error');
+
+        mockedCouponSvc.getValidateCoupon = jasmine.createSpy('getValidateCoupon').andCallFake(function(){ return defCoupon.promise});
+    }));
+
+    it('should fail coupon validation', function(){
+        var cartData = {subTotalPrice:11.99};
+        var response = UserCoupon.applyCoupon('TEST4', cartData);
+
+        expect(mockedCouponSvc.getValidateCoupon).toHaveBeenCalledWith( 'TEST4', 11.99);
 
     });
 
-
-
 });
+
+
+
