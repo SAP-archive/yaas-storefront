@@ -135,10 +135,13 @@ angular.module('ds.coupon')
             },
 
             validateCurrency: function(couponData){
-                if (angular.isDefined(couponData.restrictions) && angular.isDefined(couponData.restrictions.minOrderValue) && angular.isDefined(couponData.restrictions.minOrderValue.currency)) {
-                    if (couponData.restrictions.minOrderValue.currency === GlobalData.getCurrencyId()) {
-                        return true;
-                    }
+                //Remove on successful service validation of currency mismatch.
+                if (angular.isDefined(couponData.restrictions) && angular.isDefined(couponData.restrictions.minOrderValue) && angular.isDefined(couponData.restrictions.minOrderValue.currency) && couponData.restrictions.minOrderValue.currency === GlobalData.getCurrencyId()) {
+                    return true;
+                } else if ( couponData.discountType === 'ABSOLUTE' && couponData.discountAbsolute.currency === GlobalData.getCurrencyId()){
+                    return true;
+                } else if ( couponData.discountType === 'PERCENT'){
+                    return true;
                 }
                 return false;
             },
