@@ -1,4 +1,5 @@
 #sidebar{
+  background-color: #fff;
   border-right: 1px solid #cecece;
 
   .currencySelector, .languageSelector{
@@ -6,8 +7,6 @@
     padding: 0  0 20px 0;
     text-align: center;
   }
-  
-  .user-avatar{margin: 0 15px 0 0;}
 
   .y-search{
     margin: 0;
@@ -18,11 +17,11 @@
       height: 60px;
       box-shadow: none;
       outline: none;
-      font-size: 25px;
+      font-size: 23px;
     }
 
     .right-inner-addon{
-      height: 70px;
+      height: 75px;
     }
     
     .right-inner-addon i{
@@ -137,9 +136,10 @@
   }
 
   #menu{
-    margin-bottom: 75px;
+    margin-bottom: 5px;
     font-size: 21px;
   }
+
 
   #menu .sub-nav {
     position:absolute;
@@ -179,7 +179,7 @@
   #menu li a {
     display:block;
     font-size:21px;
-    padding: 18px 0;
+    padding: 5px 0;
     text-decoration:none;
     float: left;
     width: 90%
@@ -196,9 +196,6 @@
   }
 
   #menu .sub-heading{
-    padding-top: 15px;
-    padding-bottom: 15px;
-
     &:hover{
       color: @lightblue;
     }
@@ -214,7 +211,7 @@
 
   #menu .toggle-sub {
     font-size: 21px;
-    padding: 18px 0 0 0;
+    padding: 0;
     cursor:pointer;
     text-align:center;
     float: right;
@@ -253,9 +250,7 @@
 }
 
 #full-cart-btn{
-  width: 50%;
   outline: none;
-  border-left: 1px solid #d4d5d5;
   padding: 0;
   margin: 0;
   position: relative;
@@ -271,23 +266,20 @@
 }
 
 a.signin{
-  width: 50%;
-  display:block;
-  text-align: center;
   padding-left: 0;
   padding-top: 4px;
-  padding-right: 0;
+  padding-right: 7px;
   color: @black;
 }
 
-.accountSignIn{
-  width: 50%;
-  a{
-    display:block;
-    width:38px;
-    margin: 0 auto;
-    
-  }
+a.my-profile{
+  margin-right: 3px;
+}
+
+a.signout{
+  color: @black;
+  font-size: 11px;
+  
 }
 
 .top-navigation{
@@ -313,27 +305,21 @@ a.signin{
     margin-top: 0px;
     color: #636465;
     font-size: 32px;
-    padding: 9px 20px;
+    padding: 9px 0;
+    margin-right: 20px;
     outline: none;
     box-shadow: none;
 
-    &.cart{
-      color: #fff;
-      background: @darkergrey;
-      position: relative;
-      top: 0;
-      .visible-xs;
-      .visible-sm;
+    &.cart-button{
+      margin:0;
     }
   }
     
   a.logo{
-    text-align: center;
-    padding: 4px;
+    padding: 10px;
     display: inline-block;
-    height: 100%;
     img{
-      width: 65px;
+      height: 55px;
     }
   }
 
@@ -524,6 +510,10 @@ a.signin{
 
 .desktopNav{
   
+  .logo{
+    margin-top: 3px;
+  }
+  
   .y-search{
     margin: 10px 0;
     
@@ -560,6 +550,11 @@ a.signin{
   .row.nav{
     border-bottom: 1px solid #d4d5d5;
   }
+  
+  .signin-container{
+    margin: 0 auto;
+    
+  }
  
 
 }
@@ -584,10 +579,10 @@ a.signin{
   }
 }
 
-.cart-and-account-container{
-  padding-top: 6px;
+.cart{
+  margin-top: 7px;
+  
 }
-
 
 .yamm.navbar-default{
   background-color: transparent;
@@ -659,3 +654,119 @@ a.signin{
   background: transparent url('../../img/shopping_bag.png') top left no-repeat;
   display: block;
 }
+
+.checkout-btn-container{
+  border-left: 1px solid #d4d5d5;
+  
+}
+
+.mobileNav .top-navigation{
+  border-bottom: 1px solid #d4d5d5;
+  
+  
+}
+
+.breadcrumb-container{
+  background-color: #f6f6f7;
+  height: 38px;
+  padding: 10px 58px 0 58px;
+  
+  a{
+    color: #7d7e7f;
+    
+  }
+
+  .breadCrumbText{
+    font:13px @font-family-serif;
+    color: #7d7e7f;
+    margin: 0 0 15px 0;
+  }
+  
+  .last{
+    color: #000;
+    
+  }
+}
+
+.pageFooter{
+  background-color: #5b5b5b;
+  padding: 40px 58px;
+  color: #fff;
+  
+  .socialIcons{
+    font-size: 25px;
+    
+  }
+  
+  .socialIcons > a{
+    color: #fff;
+    margin-right: 45px;
+  }
+  
+  .links{
+    padding-top: 8px;
+    
+  }
+  
+  a{
+    color: #fff;
+  }
+  
+  .regionControls a{
+    text-decoration: underline;
+    
+    margin: 0 20px;
+  }
+  
+}
+
+@media (max-width: @screen-md-min) {
+  
+  .pageFooter{
+    padding: 0;
+    
+    .regionControls{
+      padding: 38px 0;
+      border-bottom: 1px solid #fff;
+      margin-bottom: 20px;
+    }
+    
+    .socialIcons,.links{
+      padding: 25px 0;
+    }
+    
+    
+  }
+}
+
+.authentication-cnt{
+  border-top: 1px solid #dedede;
+  padding-top: 20px;
+}
+
+.my-account-link{
+  height: 60px;
+  border-bottom: 1px solid #dedede;
+  padding-top: 10px;
+  
+  a{
+    color: #000;
+  }
+}
+
+.logout-link{
+  padding-top: 25px;
+  
+  a.signout{
+    font-size: 14px;
+    text-transform: none;
+    color: #000;
+  }
+  
+}
+//
+//.signinContainer{
+//  border-bottom: 1px solid #dedede;
+//
+//}
+  

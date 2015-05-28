@@ -275,7 +275,7 @@ angular.module('ds.i18n')
         /*
          Search
          */
-        SEARCH: 'SEARCH',
+        SEARCH: 'Search',
         SEARCH_RESULTS: 'Search results',
         MOST_RELEVANT: 'Most Relevant',
         SEARCH_AGAIN: 'Search again',

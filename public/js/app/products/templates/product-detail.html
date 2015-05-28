@@ -1,4 +1,5 @@
-<section class="white productDetailsContainer" match-background ng-cloak>
+<ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
+<section class="white productDetailsContainer" ng-cloak>
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             <div class="gallery product-gallery"> 
@@ -16,12 +17,7 @@
         </div>
         <div class="col-md-4 col-md-pull-8">
             <div class="product-details">
-                <!-- <div class="category">Category</div> -->
-                <div class="page-headline">
 
-                    <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
-
-                </div>
                 <div class="name">{{product.name}}</div>
                 <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
 

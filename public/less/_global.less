@@ -28,6 +28,12 @@ table .error{
   padding: 10px 58px;
 }
 
+@media (max-width: @screen-sm-max){
+  .content-container,.mainContent section{
+    padding: 0 10px 10px 10px;
+  }
+}
+
 
 
 // GET RID OF THE SPINNER IN INPUT TYPE NUMBER
@@ -119,30 +125,6 @@ input[type='number']{
 	font-weight: bold;
 }
 
-//
-//.content-mask {
-//    background-color: rgba(0, 0, 0, 0.5);
-//    height: 100%;
-//    left: 0;
-//    opacity: 0.1;
-//    position: fixed;
-//    top: 0;
-//    transform: translateZ(0px);
-//    visibility: hidden;
-//    width: 100%;
-//    z-index: @zIndex-offcanvas-mask;
-//
-//    transition: opacity 0.25s ease-out 0.3s;
-//
-//
-//    .right &,
-//    .left &,
-//    .mask &{
-//        overflow-y: hidden;
-//    	opacity: 1;
-//    	visibility: visible;
-//    }
-//}
 
 .errorPageContainer{
   text-align: center;
@@ -196,6 +178,15 @@ section{
     }
   }
 }
+
+.pageTitle{
+  font-size: 49px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #202122;
+  
+}
+
 .popoverCloseBtn{
   margin: 10px;
 }

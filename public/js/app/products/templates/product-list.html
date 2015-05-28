@@ -1,3 +1,4 @@
+<ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
 <section class="white" match-background>
     <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
         <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
@@ -5,16 +6,15 @@
         </blockquote>
     </div>
 
-    <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
-
+   
 
     <div class="refine-section" ng-cloak>
 
         <div class="row">
-
-            <div ng-if="category.name" class="col-xs-12 col-sm-6  title">{{ category.name }}</div>
-            <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'ALL_PRODUCTS' | translate }}</div>
-            <div class="col-sm-6 col-md-6">
+            <div class="col-xs-12 text-center">
+                <h1 class="pageTitle"><span ng-if="category.name">{{ category.name }}</span><span ng-if="!category.name">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
+            </div>
+            <div class="col-sm-offset-6 col-md-offset-6 col-sm-6 col-md-6">
                 <div class="viewingContainer">
                     <div class="name">{{'VIEWING' | translate}}:</div>
                     <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
@@ -73,7 +73,7 @@
                     <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
-                <div class="productInfoContainer">
+                <div class="productInfoContainer text-center">
                     <div class="name">{{ product.name }}</div>
                     <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
                 </div>
