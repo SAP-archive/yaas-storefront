@@ -4,8 +4,8 @@ var tu = require('./protractor-utils.js');
 
 describe('coupons:', function () {
 
-	function addProductandApplyCoupon(couponCode) {
-            tu.loadProductIntoCart('1', '$10.67');
+	function addProductandApplyCoupon(couponCode, price) {
+            tu.loadProductIntoCart('1', price);
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeysById('coupon-code', couponCode);
             tu.clickElement('id', 'apply-coupon');
@@ -25,13 +25,13 @@ describe('coupons:', function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
     };
 
-    function couponCheckoutTest(couponCode) {
+    function couponCheckoutTest(couponCode, price) {
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             var category =  element(by.repeater('category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            addProductandApplyCoupon(couponCode);
+            addProductandApplyCoupon(couponCode, price);
             tu.clickElement('binding', 'CHECKOUT');
             browser.wait(function () {
                 return element(by.id("ccNumber")).isPresent();
@@ -71,27 +71,42 @@ describe('coupons:', function () {
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('coupon.message.error')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
-            browser.sleep(500);
+            browser.sleep(1000);
             removeFromCart();
+            browser.sleep(500);
         });
 
-        it('should add percentage off coupon on cart', function () {
+        it('should not allow user to add coupon with incorrect currency', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('10PERCENT');
+            tu.selectCurrency('EURO');
+            tu.loadProductIntoCart('1', '€7.99');
+            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.sendKeysById('coupon-code', '10DOLLAR');
+            tu.clickElement('id', 'apply-coupon');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('CURRENCY INVALID WITH COUPON');
+            browser.sleep(1000);
+            removeFromCart();
+            browser.sleep(500);
+        });
+
+
+        iit('should add percentage off coupon on cart', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             removeFromCart();
         });
 
         it('should add dollar off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('10DOLLAR');
+            addProductandApplyCoupon('10DOLLAR', '$10.67');
             verifyCartDetails('1', '$0.67', '-$10.00');
             removeFromCart();
         });
 
         it('update coupon totals when item is added and removed from cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('10PERCENT');
+            addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
             var category =  element(by.repeater('category in categories').row(0).column('category.name'));
@@ -113,13 +128,15 @@ describe('coupons:', function () {
             verifyCartDetails('1', '$23.09', '-$2.57');
             tu.clickElement('id', tu.removeFromCart);
             verifyCartDetails('1', '$13.49', '-$1.50');
+            browser.sleep(1000);
             removeFromCart();
+            browser.sleep(500);
 
         });
 
         it('should update coupon totals when quantity is changed', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('10PERCENT');
+            addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.sendKeysByXpath(tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
@@ -130,7 +147,7 @@ describe('coupons:', function () {
     
         it('should remove coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('10PERCENT');
+            addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.clickElement('id', 'remove-coupon')
             tu.verifyCartAmount('1');
@@ -140,8 +157,8 @@ describe('coupons:', function () {
 
         it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('COUPON HAS EXPIRED.');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('EXPIRED');
+            addProductandApplyCoupon('EXPIRED', '$10.67');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON HAS EXPIRED.');
             removeFromCart();
         });
 
@@ -173,30 +190,38 @@ describe('coupons:', function () {
 
         it('should allow purchase over minimum', function () {
             tu.createAccount('coupontestmin2');
-            couponCheckoutTest('MINIMUM');
+            couponCheckoutTest('MINIMUM', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
         });
 
         it('should allow coupon larger than purchase price', function () {
             tu.createAccount('coupontestmax');
-            couponCheckoutTest('20DOLLAR');
+            couponCheckoutTest('20DOLLAR', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
 
         it('should allow percentage off on checkout', function () {
             tu.createAccount('coupontestpercent');
-            couponCheckoutTest('10PERCENT');
+            couponCheckoutTest('10PERCENT', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
         });
 
         it('should allow dollar off on checkout', function () {
             tu.createAccount('coupontestdollar');
-            couponCheckoutTest('10DOLLAR');
+            couponCheckoutTest('10DOLLAR', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
+        });
+
+        it('should allow euro off on checkout', function () {
+            tu.createAccount('coupontesteuro');
+            tu.selectCurrency('EURO');
+            couponCheckoutTest('5EURO', '€7.99');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '€7.99');
+            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-€5.00');
         });
     });
 }); 
