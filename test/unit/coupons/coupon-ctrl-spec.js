@@ -31,6 +31,7 @@ describe('Coupon Ctrl Test: ', function () {
             }
         };
     var UserCoupon = {
+        applyCoupon:jasmine.createSpy('applyCoupon').andReturn(mockCoupon),
         getCoupon:function(){
             return mockCoupon;
         },
@@ -102,6 +103,12 @@ describe('Coupon Ctrl Test: ', function () {
             $rootScope.$emit('coupon:cartupdate');
         });
 
+        it('should remove a coupon', function () {
+            $scope.removeCoupon();
+            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
+        });
+
+
         it('should apply a PERCENT coupon', function () {
             $scope.cart = {
                 totalPrice : {
@@ -118,12 +125,8 @@ describe('Coupon Ctrl Test: ', function () {
                 discountType: 'PERCENT'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
             $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('CouponCode', { subTotalPrice : 11.99 });
         });
 
         it('should apply a ABSOLUTE coupon', function () {
@@ -132,7 +135,7 @@ describe('Coupon Ctrl Test: ', function () {
                     value: 9.99
                 },
                 subTotalPrice: {
-                    value: 11.99
+                    value: 44.99
                 }
             };
             var couponData = {
@@ -142,12 +145,8 @@ describe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
-            $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            $scope.applyCoupon('TEST8');
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('TEST8', { subTotalPrice : 44.99 });
         });
 
         it('should apply an ABSOLUTE ZERO coupon, with a larger discount than subtotal', function () {
@@ -156,7 +155,7 @@ describe('Coupon Ctrl Test: ', function () {
                     value: 9.99
                 },
                 subTotalPrice: {
-                    value: 11.99
+                    value: 1.99
                 }
             };
             var couponData = {
@@ -166,18 +165,10 @@ describe('Coupon Ctrl Test: ', function () {
                 discountType: 'ABSOLUTE'
             }
 
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback(couponData); } }
-            });
-
-            $scope.applyCoupon('CouponCode');
-            expect(mockedCouponSvc.getCoupon).toHaveBeenCalled();
+            $scope.applyCoupon('TEST9');
+            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith( 'TEST9', { subTotalPrice : 1.99 });
         });
 
-        it('should remove a coupon', function () {
-            $scope.removeCoupon();
-            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
-        });
 
 
     });
