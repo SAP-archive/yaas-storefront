@@ -25,6 +25,11 @@ $(document).on('mouseover', '.js-megamenutoggle', function() {
     }
 });
 
+$(document).on('mouseleave', '.js-mainNav', function(){
+    $('.dropdown-menu').hide();
+    
+});
+
 $(document).on('click', 'body', function() {
     $('.dropdown-menu').hide();
 });

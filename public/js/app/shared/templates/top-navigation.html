@@ -74,7 +74,7 @@
                     <li ng-repeat="category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
                         <a ui-sref="base.category( {catName: category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
                             {{ category.name  }}
-                            <ul class="dropdown-menu" ng-if="category.subcategories">
+                            <ul class="dropdown-menu js-flyoutMenu" ng-if="category.subcategories">
                                 <div ng-repeat="sub2 in category.subcategories" class="col-xs-2">
 
                                     <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}

@@ -127,7 +127,7 @@ angular.module('ds.i18n')
          */
         BUY: 'Buy',
         ADD_TO_CART:'Add to Cart',
-        DESCRIPTION: 'Description',
+        PRODUCT_DESCRIPTION: 'Product Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
         ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
