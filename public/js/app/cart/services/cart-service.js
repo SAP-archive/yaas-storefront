@@ -145,7 +145,11 @@ angular.module('ds.cart')
                 });
                 defCart.promise.then(function () {
                     $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
-                    $rootScope.$emit('coupon:cartupdate');
+
+                    //update coupon
+                    if(angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.value)){
+                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.value});
+                    }
                 });
                 return defCart.promise;
             }

@@ -17,6 +17,7 @@ window.app = angular.module('ds.app', [
     'restangular',
     'ui.router',
     'ds.shared',
+    'ds.security',
     'ds.i18n',
     'ds.home',
     'ds.products',
