@@ -13,7 +13,7 @@
 'use strict';
 
 
-$(document).on('mouseover', '.js-megamenutoggle', function(e) {
+$(document).on('mouseover', '.js-megamenutoggle', function() {
     
     //close all other dropdown menus
     $('.dropdown-menu').hide();

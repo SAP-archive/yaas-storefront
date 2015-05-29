@@ -74,7 +74,7 @@ describe("cart:", function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();

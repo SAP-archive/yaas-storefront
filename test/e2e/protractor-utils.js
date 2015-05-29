@@ -122,6 +122,11 @@ var sendKeysById = exports.sendKeysById = function (pageElement, keys) {
     element(by.id(pageElement)).sendKeys(keys);
 };
 
+var sendKeysByCss = exports.sendKeysByCss = function (pageElement, keys) {
+    element(by.css(pageElement)).clear();
+    element(by.css(pageElement)).sendKeys(keys);
+};
+
 exports.selectLanguage = function (language) {
     var currentLanguage = element(by.binding('language.selected.value'));
     browser.driver.actions().mouseMove(currentLanguage).perform();
@@ -175,7 +180,7 @@ exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
     browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
     browser.sleep(200);
-    clickElement('id', "login-btn");
+    clickElement('css', 'div.cart-and-account-container > #login-btn');
     browser.wait(function () {
         return element(by.binding('SIGN_IN')).isPresent();
     });
@@ -229,14 +234,14 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
 var timestamp = Number(new Date());
 
 exports.createAccount = function(emailAddress) {
-    clickElement('id', "login-btn");
+    clickElement('css', 'div.cart-and-account-container > #login-btn');
     browser.sleep(1000);
     clickElement('linkText', 'Create Account');
     sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
     sendKeysById('newPasswordInput', 'password');
     clickElement('id', 'create-acct-btn');
     browser.sleep(1000);
-    clickElement('css', 'img.user-avatar');
+    clickElement('css', '#user-avatar > a.my-profile > img.user-avatar');
     browser.sleep(1000);
 }
 

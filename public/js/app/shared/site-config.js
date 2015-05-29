@@ -60,7 +60,7 @@ angular.module('ds.shared')
                 },
 
                 coupon: {
-                    baseUrl: 'https://' + apiPath + '/coupon/v1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
                 } ,
 
                 customers: {

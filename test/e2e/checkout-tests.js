@@ -84,7 +84,7 @@ function verifyOrderOnAccountPageMobile(account, total) {
 function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.clickElement('id', tu.contineShopping);
     tu.loginHelper(account, 'password');
-    tu.clickElement('css', 'img.user-avatar');
+    tu.clickElement('css', '#user-avatar > a.my-profile > img.user-avatar');
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
@@ -173,9 +173,9 @@ describe("checkout:", function () {
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.wait(function () {
-                return element(by.repeater('category in categories').row(0).column('category.name')).isPresent();
+                return element(by.repeater('top_categorycategory in categories').row(0).column('top_category.name')).isPresent();
             });
-            element(by.repeater('category in categories').row(0).column('category.name')).click();
+            element(by.repeater('top_category in top_categories').row(0).column('top_category.name')).click();
             browser.wait(function () {
                 return element(by.xpath(tu.whiteThermos)).isPresent();
             });
@@ -213,7 +213,7 @@ describe("checkout:", function () {
         });
 
 
-        xit('should allow user to create account after checkout', function (){
+        it('should allow user to create account after checkout', function (){
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
@@ -232,7 +232,7 @@ describe("checkout:", function () {
             tu.sendKeysById('newPasswordInput', 'password');
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('css', '#user-avatar > a.my-profile > img.user-avatar');
             expect(element(by.binding("account.contactEmail")).getText()).toContain('checkoutacct');           
         });
 
@@ -313,9 +313,9 @@ describe("checkout:", function () {
         it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@hybristest.com', 'password');
-            browser.driver.actions().mouseMove(element(by.repeater('category in categories').row(0).column('category.name'))).perform();
+            browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(0).column('top_category.name'))).perform();
             browser.sleep(200);
-            element(by.repeater('category in categories').row(0).column('category.name')).click();
+            element(by.repeater('top_category in categories').row(0).column('top_category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
             tu.clickElement('id', tu.buyButton);
             tu.waitForCart();
