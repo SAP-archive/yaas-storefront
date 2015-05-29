@@ -1,8 +1,8 @@
 <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
 <section class="white productDetailsContainer" ng-cloak>
     <div class="row">
-        <div class="col-md-8 col-md-push-4">
-            <div class="gallery product-gallery"> 
+        <div class="col-md-6">
+            <div class="gallery product-gallery">
                 <div class="image">
                     <div ng-repeat="image in product.media">
                         <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-md-pull-8">
+        <div class="col-md-6">
             <div class="product-details">
 
                 <div class="name">{{product.name}}</div>
