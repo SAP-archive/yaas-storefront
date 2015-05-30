@@ -156,7 +156,7 @@ describe('BrowseProductsCtrl', function () {
                 $scope.products = [];
                 $scope.addMore();
                 // validate that "add more" added products returned by query to the scope
-                expect(mockedProductSvc.query).toHaveBeenCalled();
+                expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
                 // expect($scope.products).toEqualData(products);
             });
 

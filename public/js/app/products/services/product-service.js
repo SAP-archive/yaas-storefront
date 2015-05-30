@@ -26,7 +26,7 @@ angular.module('ds.products')
         };
 
         var getProductDetailsList = function (parms) {
-            PriceProductREST.ProductDetails.all('productdetails').getList(parms);
+            return PriceProductREST.ProductDetails.all('productdetails').getList(parms);
         };
 
         return {
