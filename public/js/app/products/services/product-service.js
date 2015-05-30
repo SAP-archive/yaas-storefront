@@ -25,6 +25,10 @@ angular.module('ds.products')
             return PriceProductREST.Products.all('products').getList(parms);
         };
 
+        var getProductDetailsList = function (parms) {
+            PriceProductREST.ProductDetails.all('productdetails').getList(parms);
+        };
+
         return {
             /**
              * Issues a query request on the product resource.
@@ -33,6 +37,10 @@ angular.module('ds.products')
              */
             query: function(parms) {
                return getProducts(parms);
+            },
+
+            queryProductDetailsList: function(parms) {
+               return getProductDetailsList(parms);
             }
 
         };

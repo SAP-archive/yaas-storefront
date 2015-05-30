@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'PriceProductREST',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, PriceProductREST) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -252,7 +252,7 @@ angular.module('ds.products')
 
                         $scope.requestInProgress = true;
                         
-                        PriceProductREST.ProductDetails.all('productdetails').getList(query).then(
+                        ProductSvc.queryProductDetailsList(query).then(
                         //ProductSvc.query(query).then(
                             function (products) {
                                 $scope.requestInProgress = false;

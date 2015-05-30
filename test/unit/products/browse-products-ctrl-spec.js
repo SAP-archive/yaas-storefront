@@ -62,6 +62,7 @@ describe('BrowseProductsCtrl', function () {
         deferredProducts = $q.defer();
         deferredProducts.resolve(productResult);
         mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
+        mockedProductSvc.queryProductDetailsList = jasmine.createSpy('queryProductDetailsList').andReturn(deferredProducts.promise);
 
         priceResult = [
             {
