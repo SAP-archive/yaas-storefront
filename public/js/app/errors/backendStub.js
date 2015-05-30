@@ -195,7 +195,7 @@
 						  'status' : 'CREATED',
 						  'entries' : [ {
 						    'amount' : 4,
-						    'unitPrice' : 9.99,
+						    'price' : 9.99,
 						    'totalPrice' : 39.96,
 						    'id' : '5436899a3cceb8a9381288d9',
 						    'product' : {

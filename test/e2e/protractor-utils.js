@@ -109,7 +109,7 @@ exports.sortAndVerifyPagination = function (sort, product1, price1) {
     selectOption(sort);
     browser.sleep(250);
     assertTextByRepeaterRow(0, product1);
-    expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
+    expect(element(by.repeater('product in products').row(0).column('prices[product.id].amount')).getText()).toEqual(price1);
 };
 
 exports.sendKeysByXpath = function (pageElement, keys) {

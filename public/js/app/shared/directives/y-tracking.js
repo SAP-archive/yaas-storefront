@@ -46,10 +46,10 @@ angular.module('ds.ytracking', [])
                     //    for(var i = 0; i < obj.cart.items.length; i++){
                     //        //sku, name, categoryName, unitPrice, amount
                     //        var item = obj.cart.items[i];
-                    //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                    //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.amount, item.quantity);
                     //    }
                     //    //Send order details to piwik
-                    //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                    //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.amount, obj.cart.subTotalPrice.amount, 0, obj.cart.shippingCost.amount, false);
                     //});
 
                     //$rootScope.$on('cart:updated', function (arg, obj) {
@@ -148,22 +148,22 @@ angular.module('ds.ytracking', [])
                     for (var i = 0; i < cart.items.length; i++) {
                         //sku, name, categoryName, unitPrice, amount
                         var item = cart.items[i];
-                        addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
+                        addEcommerceItem(item.product.id, item.product.name, '', item.price.amount, item.quantity);
                     }
                 }
 
                 //Records the cart for this visit
-                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
+                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.amount : 0]); // (required) Cart amount
                 $window._paq.push(['trackPageView', 'CartUpdated']);
             };
 
-            var addEcommerceItem = function (sku, name, categoryName, unitPrice, amount) {
+            var addEcommerceItem = function (sku, name, categoryName, price, amount) {
                 if (!!$window._paq) {
                     $window._paq.push(['addEcommerceItem',
                         sku, // (required) SKU: Product unique identifier
                         name, // (optional) Product name
                         categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
-                        unitPrice, // (recommended) Product price
+                        price, // (recommended) Product price
                         amount // (optional, default to 1) Product quantity
                     ]);
                 }

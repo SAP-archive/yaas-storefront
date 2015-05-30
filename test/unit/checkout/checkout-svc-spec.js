@@ -59,7 +59,7 @@ describe('CheckoutSvc', function () {
     cart.subtotal = 2.99;
     cart.estTax = 0.3;
     var totalPrice = {};
-    totalPrice.value = 7.79;
+    totalPrice.amount = 7.79;
     cart.totalPrice = totalPrice;
     cart.currency = 'USD';
     order.cart = cart;

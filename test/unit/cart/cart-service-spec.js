@@ -51,9 +51,9 @@ describe('CartSvc Test', function () {
     var cartResponse = {
         "items": [{
             "id": "0",
-            "unitPrice": {
+            "price": {
                 "currency": "USD",
-                "value": 10.67
+                "effectiveAmount": 10.67
             },
             "product": {
                 "id": productIdFromCart,
@@ -61,7 +61,7 @@ describe('CartSvc Test', function () {
             },
             "totalItemPrice": {
                 "currency": "USD",
-                "value": 10.67
+                "amount": 10.67
             },
             "quantity": 1.0
         }],
@@ -134,7 +134,7 @@ describe('CartSvc Test', function () {
             });
 
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {
-                "product": { "id": prodId }, "unitPrice": { "value": 5, "currency": "USD" }, "quantity": 2
+                "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2
             })
                 .respond(201, {});
 
@@ -164,7 +164,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "unitPrice": { "value": 5, "currency": "USD" }, "quantity": 2 })
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
                 .respond(500, {});
 
             var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
@@ -185,7 +185,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "unitPrice": { "value": 5, "currency": "USD" }, "quantity": 2 })
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
                 .respond(201, {});
             cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
@@ -193,7 +193,7 @@ describe('CartSvc Test', function () {
                     "currency": "USD",
                     "subTotalPrice": {
                         "currency": "USD",
-                        "value": 10.00
+                        "amount": 10.00
                     },
                     "totalUnitsCount": 1.0,
                     "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
@@ -206,9 +206,9 @@ describe('CartSvc Test', function () {
                                 "name": "Electric Guitar",
                                 "inStock": false
                             },
-                            "unitPrice": {
+                            "price": {
                                 "currency": "USD",
-                                "value": 5.00
+                                "effectiveAmount": 5.00
                             },
                             "id": itemId,
                             "quantity": 2.0
@@ -216,12 +216,12 @@ describe('CartSvc Test', function () {
                     ],
                     "totalPrice": {
                         "currency": "USD",
-                        "value": 13.24
+                        "amount": 13.24
                     },
                     "id": cartId,
                     "shippingCost": {
                         "currency": "USD",
-                        "value": 3.24
+                        "amount": 3.24
                     }
                 });
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
@@ -236,7 +236,7 @@ describe('CartSvc Test', function () {
             it('should update qty of existing cart item if already in cart', function () {
                 var updatedCart = cartSvc.getLocalCart();
                 expect(updatedCart.items.length).toEqualData(1);
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "unitPrice": { "currency": "USD", "value": 5 }, "quantity": 3 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
@@ -251,7 +251,7 @@ describe('CartSvc Test', function () {
             });
 
             it('should return rejected promise if update fails', function () {
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "unitPrice": { "currency": "USD", "value": 5 }, "quantity": 3 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
                     .respond(500, {});
                 var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 1, {});
                 var failureSpy = jasmine.createSpy();
@@ -288,7 +288,7 @@ describe('CartSvc Test', function () {
         describe('updateCartItem()', function () {
             it('should update cart item if qty > 0', function () {
                 var item = cartSvc.getLocalCart().items[0];
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "unitPrice": { "currency": "USD", "value": 5 }, "quantity": 5 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, cartResponse);
                 mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
@@ -304,7 +304,7 @@ describe('CartSvc Test', function () {
 
             it('should set item error if update fails', function () {
                 var item = cartSvc.getLocalCart().items[0];
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "unitPrice": { "currency": "USD", "value": 5 }, "quantity": 5 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
                     .respond(500, {});
                 cartSvc.updateCartItem(item, 5, {});
                 mockBackend.flush();
@@ -340,9 +340,9 @@ describe('CartSvc Test', function () {
 
                                     "id": prodId
                                 },
-                                "unitPrice": {
+                                "price": {
                                     "currency": "USD",
-                                    "value": 5.00
+                                    "effectiveAmount": 5.00
                                 },
                                 "id": itemId
                             }
@@ -353,7 +353,7 @@ describe('CartSvc Test', function () {
                 cartSvc.switchCurrency('EUR');
                 mockBackend.flush();
                 var closeAfterTimeout;
-                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, unitPrice: { currency: 'USD', value: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
+                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, price: { currency: 'USD', effectiveAmount: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
             });
 
             it('should signal cart error on currency switch failure', function () {
@@ -394,9 +394,9 @@ describe('CartSvc Test', function () {
                     "product": {
                         "id": prodId
                     },
-                    "unitPrice": {
+                    "price": {
                         "currency": "USD",
-                        "value": 5.00
+                        "effectiveAmount": 5.00
                     },
                     "id": itemId,
                     "quantity": 2.0
@@ -420,9 +420,9 @@ describe('CartSvc Test', function () {
                         "product": {
                             "id": prodId2
                         },
-                        "unitPrice": {
+                        "price": {
                             "currency": "USD",
-                            "value": 5.00
+                            "effectiveAmount": 5.00
                         },
                         "id": 'zsd458',
                         "quantity": 2.0
@@ -446,9 +446,9 @@ describe('CartSvc Test', function () {
                         "product": {
                             "id": prodId
                         },
-                        "unitPrice": {
+                        "price": {
                             "currency": "USD",
-                            "value": 5.00
+                            "effectiveAmount": 5.00
                         },
                         "id": itemId,
                         "quantity": 2.0
@@ -481,9 +481,9 @@ describe('CartSvc Test', function () {
                         "product": {
                             "id": prodId
                         },
-                        "unitPrice": {
+                        "price": {
                             "currency": "USD",
-                            "value": 5.00
+                            "effectiveAmount": 5.00
                         },
                         "id": itemId,
                         "quantity": 2.0
@@ -519,9 +519,9 @@ describe('CartSvc Test', function () {
                         "product": {
                             "id": prodId
                         },
-                        "unitPrice": {
+                        "price": {
                             "currency": "USD",
-                            "value": 5.00
+                            "effectiveAmount": 5.00
                         },
                         "id": itemId,
                         "quantity": 2.0
@@ -556,7 +556,7 @@ describe('CartSvc Test', function () {
                     "currency": "USD",
                     "subTotalPrice": {
                         "currency": "USD",
-                        "value": 10.00
+                        "amount": 10.00
                     },
                     "totalUnitsCount": 1.0,
                     "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
@@ -569,9 +569,9 @@ describe('CartSvc Test', function () {
                                 "id": prodId,
                                 "name": "Electric Guitar"
                             },
-                            "unitPrice": {
+                            "price": {
                                 "currency": "USD",
-                                "value": 5.00
+                                "effectiveAmount": 5.00
                             },
                             "id": itemId,
                             "quantity": 2.0
@@ -579,12 +579,12 @@ describe('CartSvc Test', function () {
                     ],
                     "totalPrice": {
                         "currency": "USD",
-                        "value": 13.24
+                        "amount": 13.24
                     },
                     "id": cartId,
                     "shippingCost": {
                         "currency": "USD",
-                        "value": 3.24
+                        "amount": 3.24
                     }
                 });
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
@@ -605,18 +605,18 @@ describe('CartSvc Test', function () {
                     "currency": "USD",
                     "subTotalPrice": {
                         "currency": "USD",
-                        "value": 10.00
+                        "amount": 10.00
                     },
                     "totalUnitsCount": 1.0,
                     "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
                     "totalPrice": {
                         "currency": "USD",
-                        "value": 13.24
+                        "amount": 13.24
                     },
                     "id": cartId,
                     "shippingCost": {
                         "currency": "USD",
-                        "value": 3.24
+                        "amount": 3.24
                     }
                 });
 
@@ -626,7 +626,7 @@ describe('CartSvc Test', function () {
             });
             mockBackend.flush();
             expect(cart).toBeTruthy();
-            expect(cart.totalPrice.value).toEqualData(13.24);
+            expect(cart.totalPrice.amount).toEqualData(13.24);
         });
 
         it('should set cart error if GET results in non-404 error', function () {

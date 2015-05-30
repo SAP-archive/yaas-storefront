@@ -31,9 +31,9 @@ angular.module('ds.cart')
                 this.items = [];
                 this.totalUnitsCount = 0;
                 this.subTotalPrice = {};
-                this.subTotalPrice.value = 0;
+                this.subTotalPrice.amount = 0;
                 this.totalPrice = {};
-                this.totalPrice.value = 0;
+                this.totalPrice.amount = 0;
                 this.id = null;
             };
 
@@ -148,8 +148,8 @@ angular.module('ds.cart')
                     $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
 
                     //update coupon
-                    if(angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.value)){
-                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.value});
+                    if(angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.amount)){
+                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.amount});
                     }
                 });
                 return defCart.promise;
@@ -303,7 +303,7 @@ angular.module('ds.cart')
                     var updateDef = $q.defer();
                     if (qty > 0) {
                         console.log(item.product);
-                        var cartItem = new Item(item.product, item.unitPrice, qty);
+                        var cartItem = new Item(item.product, item.price, qty);
                         CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
                             updateDef.resolve();
