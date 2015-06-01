@@ -20,6 +20,23 @@ angular.module('ds.shared')
         function ($rootScope, $q, settings, GlobalData, ConfigurationREST, AuthSvc, AccountSvc, CartSvc, CategorySvc, SiteSettingsREST) {
             var initialized = false;
 
+
+            /**
+            * Used for getting the language object from language id.
+            */
+            function getLanguageById(id) {
+                switch (id) {
+                    case 'en':
+                        return { id: id, label: 'English' };
+                    case 'de':
+                        return { id: id, label: 'German' };
+                    default:
+                        return { id: id, label: id };
+                }
+            }
+
+
+
             /**
              * Loads the store configuration settings - the public Stripe key, store name and logo.
              * These settings are then stored in the GlobalData service.
@@ -27,9 +44,6 @@ angular.module('ds.shared')
              */
             function loadConfiguration() {
                 var params = { expand: 'payment:active,mixin:*' };
-
-                //SiteSettingsREST.SiteSettings.all('sites').getList(params)
-                //SiteSettingsREST.SiteSettings.one('sites', code).get(params);
 
                 //Get default site
                 var configPromise = SiteSettingsREST.SiteSettings.one('sites', 'default').get(params).then(function (result) {
@@ -56,10 +70,14 @@ angular.module('ds.shared')
 
 
                     //Set default language
-                    GlobalData.setDefaultLanguage(result.defaultLanguage);
+                    GlobalData.setDefaultLanguage(getLanguageById(result.defaultLanguage));
 
                     //Set languages
-                    GlobalData.setAvailableLanguages(result.languages);
+                    var languages = [];
+                    for (var i = 0; i < result.languages.length; i++) {
+                        languages.push(getLanguageById(result.languages[i]));
+                    }
+                    GlobalData.setAvailableLanguages(languages);
 
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));

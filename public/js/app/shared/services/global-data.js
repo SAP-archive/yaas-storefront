@@ -71,9 +71,11 @@ angular.module('ds.shared')
             function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource) {
                 if (!_.isEmpty(languageMap)) {
                     if (newLangCode && newLangCode in languageMap) {
+
                         if (setCookie) {
                             CookieSvc.setLanguageCookie(newLangCode);
                         }
+
                         if (languageCode !== newLangCode) {
                             languageCode = newLangCode;
                             acceptLanguages = (languageCode === defaultLang ? languageCode : languageCode + ';q=1,' + defaultLang + ';q=0.5');
@@ -98,18 +100,6 @@ angular.module('ds.shared')
                 }
 
             }
-
-            function getLanguageById(id) {
-                switch (id) {
-                    case 'en':
-                        return { id: id, label: 'English' };
-                    case 'de':
-                        return { id: id, label: 'German' };
-                    default:
-                        return { id: id, label: id };
-                }
-            }
-
 
             return {
                 orders: {
@@ -255,9 +245,9 @@ angular.module('ds.shared')
                         availableCurrencies = currencies;
                         angular.forEach(currencies, function (currency) {
                             currencyMap[currency.id] = currency;
-                            //if (currency.default) {
+
+                            //One site has only one currency defined
                             storeDefaultCurrency = currency.id;
-                            //}
                         });
                     }
                     if (!storeDefaultCurrency) {
@@ -275,17 +265,10 @@ angular.module('ds.shared')
                     if (languages) {
                         availableLanguages = [];
                         angular.forEach(languages, function (language) {
-                            var lang = getLanguageById(language);
-                            languageMap[language] = lang;
-                            //if (language.default) {
-                            //    defaultLang = language;
-                            //    languageCode = defaultLang;
-                            //    acceptLanguages = defaultLang;
-                            //}
+                            languageMap[language.id] = language;
 
-                            availableLanguages.push(lang);
+                            availableLanguages.push(language);
                         });
-
                     }
                     if (!defaultLang) {
                         console.error('No default language has been defined!');
@@ -293,9 +276,8 @@ angular.module('ds.shared')
                 },
 
                 setDefaultLanguage: function (lang) {
-                    lang = getLanguageById(lang);
-                    defaultLang = lang;
-                    languageCode = defaultLang;
+                    defaultLang = lang.id;
+                    languageCode = defaultLang.id;
                     acceptLanguages = defaultLang;
                 },
 
