@@ -87,6 +87,10 @@ angular.module('ds.shared')
                 shippingCosts: {
                     baseUrl: 'https://' + apiPath + '/shipping-cost/v4/' + tenantId
                 },
+                
+                siteSettings: {
+                    baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
+                },
 
                 tracking: {
                     baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
