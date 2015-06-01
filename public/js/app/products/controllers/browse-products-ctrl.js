@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -68,61 +68,6 @@ angular.module('ds.products')
             }
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
-
-
-            /** Retrieves pricing information for the list of products.
-             * @param products JSON product list response
-             */
-            function getPrices(products) {
-                var productIds = products.map(function (product) {
-                    return product.id;
-                });
-                var queryPrices = {
-                    q: 'productId:(' + productIds + ')'
-                };
-
-                PriceSvc.query(queryPrices).then(
-                    function (pricesResponse) {
-                        if (pricesResponse) {
-                            var pricesMap = {};
-
-                            pricesResponse.forEach(function (price) {
-                                if (price.currency === GlobalData.getCurrencyId()) {
-                                    pricesMap[price.productId] = price;
-                                }
-                            });
-
-                            $scope.prices = angular.extend($scope.prices, pricesMap);
-
-                            //initialize the viewing bar promixity script
-                            /* jshint ignore:start */
-                            initRefineAffix();
-                            /* jshint ignore:end */
-
-                            if($scope.loadMorePages) {
-                                $timeout(function(){
-                                    $scope.pageSize = $scope.pageSize / $scope.loadedPages;
-                                    $scope.pageNumber = $scope.loadedPages;
-
-                                    //Scroll to the page
-                                    if(!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]){
-                                        $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
-                                    }
-
-                                    //Try scrolling to the last element
-                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
-
-                                    //Set page parameter
-                                    $location.search('page', $scope.pageNumber).replace();
-
-                                    $scope.loadMorePages = false;
-                                },1);
-                            }
-
-                        }
-                    }
-                );
-            }
 
             function setMainImage(product){
                 if(product.media && product.media.length ){
@@ -267,7 +212,6 @@ angular.module('ds.products')
                                     }
                                     $scope.total = GlobalData.products.meta.total;
                                     if (products.length) {
-                                        //getPrices(products);
                                         assignMainImage(products);
                                         assignPrices(products);
                                     }
@@ -357,7 +301,6 @@ angular.module('ds.products')
                        }
                         $scope.total = GlobalData.products.meta.total;
                         if (products.length) {
-                            getPrices(products);
                             assignMainImage(products);
                         }
                     }
