@@ -101,10 +101,12 @@ angular.module('ds.ytracking', [])
 
                 $http(req).
                     success(function () {
+                        GlobalData.piwik.firstCall = false;
+
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
-                            makeRequest(params);
+                            makeRequest(items[i]);
                         }
                     }).
                     error(function () {
