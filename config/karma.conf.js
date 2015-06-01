@@ -37,6 +37,7 @@ module.exports = function(config){
         'public/js/app/shared/app-config.js',
         'public/js/app/shared/site-config.js',
         'public/js/app/shared/services/cookie-svc.js',
+        'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',

@@ -17,13 +17,50 @@ describe('ConfigurationSvc Test', function () {
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
-            setAvailableLanguages: jasmine.createSpy()
+            setAvailableLanguages: jasmine.createSpy(),
+            setDefaultLanguage: jasmine.createSpy()
         };
-    var storeName = 'Sushi Store';
-    var logoUrl = 'http://media/logo.jpg';
-    var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
-        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"},
-        {"key":"project_lang", "value":"[{\"id\":\"en\",\"label\":\"English\"}]"}];
+    var storeName = 'Default Store';
+    var logoUrl = 'https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463';
+    var mockedStoreConfig = {
+        code: "europe123",
+        name: "Default Store",
+        active: true,
+        "default": true,
+        defaultLanguage: "en",
+        languages: ["de", "en"],
+        currency: "USD",
+        homeBase: {
+            address: {
+                zipCode: "18000",
+                country: "IT"
+            }
+        },
+        payment: [{
+            id: "stripe",
+            name: "Stripe Payment Service",
+            serviceType: "urn:x-yaas:service:payment",
+            serviceUrl: "https://api.yaas.io/payment-stripe/v1",
+            active: true,
+            configuration: {
+                "public": {
+                    publicKey: "public"
+                }
+            }
+        }],
+        tax: [{
+            id: "AVALARA",
+            name: "Avalara Tax Service",
+            serviceType: "urn:x-yaas:service:tax",
+            serviceUrl: "http://avalara-b1.prod.cf.hybris.com/",
+            active: true
+        }],
+        mixins: {
+            storeLogoImageKey: {
+                value: "https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463"
+            }
+        }
+    };
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={}, mockedCategorySvc = {};
     var appConfig = {
         storeTenant: function() { return '121212/'; },
@@ -66,7 +103,10 @@ describe('ConfigurationSvc Test', function () {
             $httpBackend = _$httpBackend_;
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
-            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
+
+            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites/default?expand=payment:active,mixin:*';
+            //configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
+
             $q = _$q_;
             settings = _settings_;
         });
