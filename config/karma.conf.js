@@ -39,6 +39,8 @@ module.exports = function(config){
         'public/js/app/shared/services/cookie-svc.js',
         'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
+        'public/js/app/shared/services/site-settings-rest.js',
+        'public/js/app/shared/services/site-settings-service.js',
         'public/js/app/shared/services/configuration-service.js',
         'public/js/app/shared/services/configuration-rest.js',
         'public/js/app/shared/services/http-queue.js',
