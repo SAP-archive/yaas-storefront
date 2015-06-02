@@ -35,14 +35,14 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
+                tenantId = /*StartProjectId*/ 'june2app' /*EndProjectId*/;
             }
             return tenantId;
         },
 
         clientId: function() {
             // Dynamic ClientId is configured and replaced by build script, see gruntfile.
-            return /*StartClientId*/ 'i9nUtOWlGwALS2oERqRFPZznDKShF2B9' /*EndClientId*/;
+            return /*StartClientId*/ 'Bbn7rWzlhQgpi2A4ubI64lkvIS76pI3k' /*EndClientId*/;
         },
 
         redirectURI: function() {
