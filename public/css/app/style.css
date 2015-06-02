@@ -7132,7 +7132,11 @@ a.signin {
   color: #000000;
 }
 a.my-profile {
-  margin-right: 3px;
+  height: 47px;
+  display: inline-block;
+}
+a.my-profile:hover {
+  border-bottom: 3px solid #0079ff;
 }
 a.signout {
   color: #000000;
@@ -7482,6 +7486,12 @@ fieldset[disabled] .top-navigation .btn-link:focus {
 .desktopNav .signin-container {
   margin: 0 auto;
 }
+.desktopNav .signin-container .open > .dropdown-menu {
+  left: -31px;
+  top: 55px;
+  border-color: #d4d5d5;
+  z-index: 9999;
+}
 .yamm .dropdown.yamm-fw .dropdown-menu {
   background-color: #d6dbde;
   margin-left: -45px;
@@ -7615,7 +7625,8 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   top: auto;
   left: -100%;
   padding: 15px;
-  color: #333;
+  color: #b3b8bb;
+  background-color: #d6dbde;
 }
 @media (max-width: 992px) {
   .pageFooter {
@@ -7650,6 +7661,9 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   font-size: 14px;
   text-transform: none;
   color: #000;
+}
+.regionControlList {
+  border-right: 1px solid #b3b8bb;
 }
 #cart {
   background: #eeeeee;
@@ -9814,4 +9828,7 @@ section footer button {
 }
 .popoverCloseBtn {
   margin: 10px;
+}
+.open > .dropdown-menu {
+  display: block !important;
 }

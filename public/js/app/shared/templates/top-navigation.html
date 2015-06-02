@@ -40,17 +40,23 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="text-center">
-                            <a ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                            <a ng-if="user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
                                 <img src="./img/user-icon_small_active.png" class="user-avatar">
                                 {{'SIGN_IN' | translate}}
                             </a>
                         </div>
-                        <div ng-if="user.isAuthenticated" class="">
-                            <div class="signin-container">
-                                <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
-                                    <img src="./img/user-icon_small_active.png" class="user-avatar">
-                                </a>
-                                <a ng-click="logout()" id="logout-btn" class="signout  inline">{{'SIGN_OUT' | translate}}</a>
+                        <div ng-if="!user.isAuthenticated">
+                            <div class="signin-container ">
+                                <div class="text-center dropdown">
+                                    <a class="my-profile dropdown-toggle"  title="{{'MY_ACCOUNT' | translate}}">
+                                        <img src="./img/user-icon_small_active.png" class="user-avatar">
+                                    </a>
+                                    <ul class="dropdown-menu" >
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">My Account</a></li>
+                                        <li class="divider"></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div> 

@@ -274,7 +274,12 @@ a.signin{
 }
 
 a.my-profile{
-  margin-right: 3px;
+  height: 47px;
+  display: inline-block;
+  
+  &:hover{
+    border-bottom: 3px solid #0079ff;
+  }
 }
 
 a.signout{
@@ -554,6 +559,13 @@ a.signout{
   .signin-container{
     margin: 0 auto;
     
+    .open > .dropdown-menu{
+      left: -31px;
+      top: 55px;
+      border-color: #d4d5d5;
+      z-index: 9999;
+    }
+    
   }
  
 
@@ -737,7 +749,8 @@ a.signout{
     top: auto;
     left: -100%;
     padding: 15px;
-    color: #333;
+    color: #b3b8bb;
+    background-color: #d6dbde;
   }
   
 }
@@ -786,9 +799,7 @@ a.signout{
   }
   
 }
-//
-//.signinContainer{
-//  border-bottom: 1px solid #dedede;
-//
-//}
-  
+
+.regionControlList{
+  border-right: 1px solid #b3b8bb;
+}
