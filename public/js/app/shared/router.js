@@ -92,6 +92,9 @@ angular.module('ds.router', [])
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
+                        },
+                        'footer@': {
+                            template:''
                         }
                     },
                     resolve: {

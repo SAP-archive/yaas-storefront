@@ -16,8 +16,8 @@ angular.module('ds.ybreadcrumb', [])
     .run(['$templateCache', function($templateCache) {
         $templateCache.put('template/y-breadcrumb.html',
             '<div class="breadcrumb-container" ng-if="items.path.length > 1">' +
-                '<div ng-show=\"size !== \'small\'\" class=\"row productListingBreadCrumb\" ng-cloak>' +
-                    '<div ng-if=\"items.name\" class=\"col-xs-12 col-sm-6  title breadCrumbText\">' +
+                '<div ng-if=\"size !== \'small\'\" class=\"row productListingBreadCrumb\" ng-cloak>' +
+                    '<div  class=\"col-xs-12 col-sm-6  title breadCrumbText\">' +
                         '<a ng-repeat=\"item in items.path\" ng-if=\"!$last\" ui-sref=\"base.category({catName: item.slug})\" id=\"bc{{item.id}}\">' +
                             '<span ng-if=\"!$first\"> / </span> {{item.name}}' +
                         '</a>' +
@@ -25,7 +25,7 @@ angular.module('ds.ybreadcrumb', [])
                         '<span class="last">{{items.path[items.path.length -1].name}}</span>' +
                     '</div>' +
                 '</div>' +
-                '<small  ng-show=\"size === \'small\'\"><a ng-repeat=\"item in items.path\" ui-sref=\"base.category({catName: item.slug})\" id=\"bc{{item.id}}\">' +
+                '<small  ng-if=\"size === \'small\'\"><a ng-repeat=\"item in items.path\" ui-sref=\"base.category({catName: item.slug})\" id=\"bc{{item.id}}\">' +
                     '<span ng-if=\"!$first\">/</span> {{item.name}}' +
                 '</a></small>' +
             '</div>'

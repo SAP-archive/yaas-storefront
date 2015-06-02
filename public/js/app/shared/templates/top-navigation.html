@@ -39,9 +39,12 @@
             <div class="col-xs-3 cart">
                 <div class="row">
                     <div class="col-xs-6">
-                        <a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn signin pull-left" ng-click="login({windowClass:'mobileLoginModal'})">
-                            {{'SIGN_IN' | translate}}
-                        </a>
+                        <div class="text-center">
+                            <a ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                                <img src="./img/user-icon_small_active.png" class="user-avatar">
+                                {{'SIGN_IN' | translate}}
+                            </a>
+                        </div>
                         <div ng-if="user.isAuthenticated" class="">
                             <div class="signin-container">
                                 <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
