@@ -34,7 +34,6 @@ angular.module('ds.products')
               productsTo:  1
             };
 
-            console.log('cate da', category)
             $scope.category = category || {};
 
             if(!!category){
