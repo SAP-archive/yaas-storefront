@@ -66,7 +66,11 @@
                        ng-blur="billToForm.email.focused=false">
             </div>
         </div>
-        <div class="col-lg-12">
+
+        <H1>ADDRESSESTEST</H1>
+        <localized-addresses></localized-addresses>
+        <!-- <div ng-include="'./js/app/addresses/templates/localized-addresses.html'"></div> -->
+        <!--div class="col-lg-12">
             <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
         </div>
         <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
@@ -199,7 +203,7 @@
                 <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
                        autocomplete="on" placeholder="(Optional)">
             </div>
-        </div>
+        </div-->
         <div class="col-lg-12">
             <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
             ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
