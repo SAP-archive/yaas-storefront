@@ -25,6 +25,11 @@ $(document).on('mouseover', '.js-megamenutoggle', function() {
     }
 });
 
+$(document).on('click', '.js-megamenutoggle', function() {
+    $('.js-megamenutoggle').removeClass('mactive');
+    $(this).addClass('mactive');
+});
+
 $(document).on('mouseleave', '.js-mainNav', function(){
     $('.dropdown-menu').hide();
     

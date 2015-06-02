@@ -40,7 +40,7 @@
 
 <div class="authentication-cnt">
     <div ng-if="user.isAuthenticated" >
-        <div class="signinContainer row">
+        <div class="signinContainer">
             <div class="col-xs-3 text-right">
                 <a ><img src="./img/user-icon_small_active.png" class="user-avatar" ng-click="myAccount()"></a>
             </div>
@@ -58,7 +58,7 @@
     </div>
 
     <div ng-if="!user.isAuthenticated">
-        <div class="signinContainer row">
+        <div class="signinContainer">
             <div class="col-xs-3 text-right">
 
             </div>
@@ -85,19 +85,4 @@
     </div>
 </div>
         
-   
-
-<div class="store-settings" >
-    <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
-        <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
-            <!--<option value="">{{'SELECT_LANGUAGE' | translate}}</option>-->
-        </select>
-    </div>
-    <div ng-controller="currencySelectorController" ng-cloak class="selectContainer">
-        <select ng-model="currency.selected" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1" ng-options="curr.label for curr in currencies">
-            <!--<option value="">{{'SELECT_CURRENCY' | translate}}</option>-->
-        </select>
-    </div>
-</div>
-
 

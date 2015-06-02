@@ -36,6 +36,9 @@ angular.module('ds.router', [])
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        },
+                        'footer@':{
+                            templateUrl: 'js/app/shared/templates/footer.html'
                         }
                     },
                     resolve:{

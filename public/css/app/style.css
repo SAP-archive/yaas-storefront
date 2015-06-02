@@ -6878,6 +6878,7 @@ html.disable-scroll {
   border-color: #0068b3;
 }
 #sidebar {
+  padding-bottom: 60px;
   background-color: #fff;
   border-right: 1px solid #cecece;
   /* mobile menu styles */
@@ -7594,9 +7595,26 @@ fieldset[disabled] .top-navigation .btn-link:focus {
 .pageFooter a {
   color: #fff;
 }
+.pageFooter .regionControls {
+  position: relative;
+}
 .pageFooter .regionControls a {
   text-decoration: underline;
   margin: 0 20px;
+}
+.pageFooter .controlcontainer {
+  display: inline-block;
+  position: relative;
+}
+.pageFooter .regionMenu {
+  min-width: 260px;
+  bottom: 20px;
+  max-height: 260px;
+  overflow-y: scroll;
+  top: auto;
+  left: -100%;
+  padding: 15px;
+  color: #333;
 }
 @media (max-width: 992px) {
   .pageFooter {
