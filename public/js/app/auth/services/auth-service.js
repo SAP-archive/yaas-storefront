@@ -53,6 +53,9 @@ angular.module('ds.auth')
 
             var AuthenticationService = {
 
+                getFBAndGoogleLoginKeys: function () {
+                    return AuthREST.Customers.all('loginconfig').get('');
+                },
 
                 /** Calls the Facebook API to validate that the user is logged into FB - if yes,
                  * the existing FB token will be used to log the user into the store.  Note that this

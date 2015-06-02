@@ -286,8 +286,6 @@ angular.module('ds.shared')
                     return availableLanguages;
                 }
 
-
-
             };
 
         }]);

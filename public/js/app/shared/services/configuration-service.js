@@ -35,8 +35,6 @@ angular.module('ds.shared')
                 }
             }
 
-
-
             /**
              * Loads the store configuration settings - the public Stripe key, store name and logo.
              * These settings are then stored in the GlobalData service.
@@ -45,15 +43,18 @@ angular.module('ds.shared')
             function loadConfiguration() {
                 var params = { expand: 'payment:active,mixin:*' };
 
-                //Get default site
-                var configPromise = SiteSettingsREST.SiteSettings.one('sites', 'default').get(params).then(function (result) {
+                /**
+                * Get default site for the moment
+                */
+                var configPromise = SiteSettingsREST.SiteSettings.one('sites', 'default').get(params);
+                configPromise.then(function (result) {
 
                     //Set name
                     GlobalData.store.name = result.name;
                     $rootScope.titleConfig = result.name;
 
                     //Set stripe key if defined
-                    if (!!result.payment[0] && !!result.payment[0].configuration && !!result.payment[0].configuration.public && !!result.payment[0].configuration.public.publicKey) {
+                    if (!!result.payment && !!result.payment && !!result.payment[0].configuration && !!result.payment[0].configuration.public && !!result.payment[0].configuration.public.publicKey) {
                         /* jshint ignore:start */
                         Stripe.setPublishableKey(result.payment[0].configuration.public.publicKey);
                         /* jshint ignore:end */
@@ -74,10 +75,20 @@ angular.module('ds.shared')
 
                     //Set languages
                     var languages = [];
-                    for (var i = 0; i < result.languages.length; i++) {
-                        languages.push(getLanguageById(result.languages[i]));
+                    if (!!result.languages) {
+                        for (var i = 0; i < result.languages.length; i++) {
+                            languages.push(getLanguageById(result.languages[i]));
+                        }
                     }
                     GlobalData.setAvailableLanguages(languages);
+
+
+
+
+                    ////Missing implementation for Algolia key
+                    //GlobalData.search.algoliaKey = value;
+
+
 
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
@@ -85,47 +96,26 @@ angular.module('ds.shared')
                     window.alert('Unable to load store configuration.  Please refresh!');
                 });
 
-                return configPromise;
 
-                ////Temporary solution to get all configurations, before the page size was 16 so sometimes we were missing algolia_key for example
-                //var configPromise = ConfigurationREST.Config.one('configurations').get({ pageSize: 100 }).then(function (result) {
-                //    var key = null;
-                //    var value = null;
+                /**
+                * Get login config (Facebook and Google)
+                */
+                var loginConfigPromise = AuthSvc.getFBAndGoogleLoginKeys();
+                loginConfigPromise.then(function (result) {
 
-                //    for (var i = 0, tot = result.length; i < tot; i++) {
-                //        var entry = result[i];
-                //        key = entry.key;
-                //        value = entry.value;
-                //        if (key === settings.configKeys.stripeKey) {
-                //            /* jshint ignore:start */
-                //            Stripe.setPublishableKey(value);
-                //            /* jshint ignore:end */
-                //        } else if (key === settings.configKeys.storeName) {
-                //            GlobalData.store.name = value;
-                //            $rootScope.titleConfig = value;
-                //        } else if (key === settings.configKeys.storeLogo) {
-                //            GlobalData.store.logo = value;
-                //        } else if (key === settings.configKeys.storeCurrencies) {
-                //            GlobalData.setAvailableCurrencies(JSON.parse(value));
-                //        } else if (key === settings.configKeys.storeLanguages) {
-                //            GlobalData.setAvailableLanguages(JSON.parse(value));
-                //        } else if (key === settings.configKeys.fbAppIdKey) {
-                //            settings.facebookAppId = value;
-                //        } else if (key === settings.configKeys.googleClientId) {
-                //            settings.googleClientId = value;
-                //        }
-                //        else if (key === 'algolia_key') {
-                //            GlobalData.search.algoliaKey = value;
-                //        }
-                //    }
+                    if (!!result.facebookAppId) {
+                        settings.facebookAppId = result.facebookAppId;
+                    }
+                    if (!!result.googleClientId) {
+                        settings.googleClientId = result.googleClientId;
+                    }
+                }, function (error) {
+                    console.error('Facebook and Google key retrieval failed: ' + JSON.stringify(error));
+                });
 
-                //    return result;
-                //}, function (error) {
-                //    console.error('Store settings retrieval failed: ' + JSON.stringify(error));
-                //    // no point trying to localize, since we couldn't load language preferences
-                //    window.alert('Unable to load store configuration.  Please refresh!');
-                //});
-                //return configPromise;
+
+                //return $q.all([configPromise]);
+                return $q.all([configPromise, loginConfigPromise]);
             }
 
 

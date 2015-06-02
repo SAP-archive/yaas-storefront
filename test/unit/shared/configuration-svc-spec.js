@@ -13,7 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig, fbGoogleDef,
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
@@ -60,6 +60,10 @@ describe('ConfigurationSvc Test', function () {
                 value: "https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463"
             }
         }
+    };
+    var mockedFBAndGoogleKeys = {
+        facebookAppId: 'fbKey',
+        googleClientId: 'googleKey'
     };
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={}, mockedCategorySvc = {};
     var appConfig = {
@@ -122,6 +126,10 @@ describe('ConfigurationSvc Test', function () {
             mockedCategorySvc.getCategories = jasmine.createSpy('getCategories').andCallFake(function(){
                 return catDef.promise;
             });
+
+            fbGoogleDef = $q.defer();
+            mockedAuthSvc.getFBAndGoogleLoginKeys = jasmine.createSpy().andReturn(fbGoogleDef.promise);
+            fbGoogleDef.resolve(mockedFBAndGoogleKeys);
         });
 
         it('should GET settings and update store config', function () {

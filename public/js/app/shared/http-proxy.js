@@ -51,6 +51,8 @@ angular.module('ds.httpproxy', [])
                     if (response.config.url.indexOf('piwik-service') > -1) {
                         GlobalData.piwik.enabled = false;
                     }
+                    else if (response.config.url.indexOf('loginconfig') > -1) {
+                    }
                     else {
                         //Normal process of other responses
                         if (response.status === 401) {
