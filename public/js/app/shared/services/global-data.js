@@ -135,7 +135,8 @@ angular.module('ds.shared')
                 },
 
                 piwik: {
-                    enabled: true
+                    enabled: true,
+                    firstCall: true
                 },
                 search: {
                     algoliaKey: '',
@@ -264,6 +265,7 @@ angular.module('ds.shared')
                 setAvailableLanguages: function (languages) {
                     if (languages) {
                         availableLanguages = [];
+
                         angular.forEach(languages, function (language) {
                             languageMap[language.id] = language;
 

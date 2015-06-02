@@ -48,8 +48,11 @@ angular.module('ds.httpproxy', [])
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.config.url.indexOf('piwik-service') > -1) {
-                        GlobalData.piwik.enabled = false;
+                    if (response.config.url.indexOf('/stork/piwik') > -1) {
+                        if (GlobalData.piwik.firstCall) {
+                            GlobalData.piwik.enabled = false;
+                            GlobalData.piwik.firstCall = false;
+                        }
                     }
                     else if (response.config.url.indexOf('loginconfig') > -1) {
                     }
