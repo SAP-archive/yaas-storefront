@@ -55,6 +55,7 @@ module.exports = function(config){
         'public/js/app/shared/directives/y-breadcrumb.js',
         'public/js/app/shared/directives/y-tracking.js',
         'public/js/app/shared/directives/y-search.js',
+        'public/js/app/shared/directives/y-inputs-dir.js',
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',

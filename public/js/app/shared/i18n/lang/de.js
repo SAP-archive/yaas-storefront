@@ -91,9 +91,13 @@ angular.module('ds.i18n')
         ZIP: 'PLZ',
 
         /*  coupons   */
+        COUPON_APPLY: 'Anwenden',
+        COUPON_APPLIED: 'Angewandt',
         COUPON_CODE: 'Gutscheincode hinzufügen',
-        COUPON_ERROR: 'Gutschein nicht einlösen',
-        APPLY: 'Sich Bewerben',
+        COUPON_ERROR: 'Coupon nicht gültig',
+        COUPON_ERR_CURRENCY: 'Währungs ungültige Gutschein',
+        COUPON_ERR_ANONYMOUS: 'Melden Sie sich an , um Gutscheincode zu nutzen',
+        COUPON_ERR_UNAVAILABLE: 'Coupon nicht mehr verfügbar',
 
         /*
          confirmation

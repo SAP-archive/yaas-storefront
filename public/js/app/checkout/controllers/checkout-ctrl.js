@@ -364,7 +364,6 @@ angular.module('ds.checkout')
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
 
-
                 var piwikOrderDetails = {
                     orderId: order.orderId,
                     cart: $scope.cart
@@ -374,6 +373,11 @@ angular.module('ds.checkout')
 
                 //Reset cart
                 CheckoutSvc.resetCart();
+
+                //Reset coupon
+                if(angular.isDefined(UserCoupon)){
+                    UserCoupon.setBlankCoupon();
+                }
 
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
@@ -436,7 +440,7 @@ angular.module('ds.checkout')
                     CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
 
                 }, function (resp) {  // upstream error handler.
-                    $scope.message = resp.data.message; //'COUPON_ERROR';
+                    $scope.message = resp.data.message; // display service message.
                     $scope.submitIsDisabled = false;
                     modal.close(); // stop loading indicator.
                 });
