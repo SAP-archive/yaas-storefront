@@ -41,9 +41,17 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: ['ConfigSvc', function(ConfigSvc) {
+                        /* jshint ignore:start */
+                        initialized: ['ConfigSvc', 'SiteSettingsSvc', function(ConfigSvc, SiteSettingsSvc) {
+                            SiteSettingsSvc.getStripeKey().then(function(response) {
+                                if (response.configuration && response.configuration.public && response.configuration.public.option1) {
+                                    Stripe.setPublishableKey(response.configuration.public.option1);
+                                }
+                            });
                             return ConfigSvc.initializeApp();
                         }]
+                        /* jshint ignore:end */
+
                     }
                 })
                 .state('base.home', {

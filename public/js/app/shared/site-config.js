@@ -88,6 +88,10 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/shipping-cost/b1/' + tenantId
                 },
 
+                siteSettings: {
+                    baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
+                },
+
                 tracking: {
                     baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }

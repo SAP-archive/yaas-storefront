@@ -21,7 +21,7 @@ angular.module('ds.shared')
             var initialized = false;
 
             /**
-             * Loads the store configuration settings - the public Stripe key, store name and logo.
+             * Loads the store configuration settings - store name and logo.
              * These settings are then stored in the GlobalData service.
              * Returns promise once done.
              */
@@ -35,11 +35,7 @@ angular.module('ds.shared')
                         var entry = result[i];
                         key = entry.key;
                         value = entry.value;
-                        if (key === settings.configKeys.stripeKey) {
-                            /* jshint ignore:start */
-                            Stripe.setPublishableKey(value);
-                            /* jshint ignore:end */
-                        } else if (key === settings.configKeys.storeName) {
+                        if (key === settings.configKeys.storeName) {
                             GlobalData.store.name = value;
                             $rootScope.titleConfig = value;
                         } else if (key === settings.configKeys.storeLogo) {
