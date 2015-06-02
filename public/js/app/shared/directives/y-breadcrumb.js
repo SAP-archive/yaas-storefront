@@ -17,7 +17,7 @@ angular.module('ds.ybreadcrumb', [])
         $templateCache.put('template/y-breadcrumb.html',
             '<div class="breadcrumb-container" ng-if="items.path.length > 1">' +
                 '<div ng-if=\"size !== \'small\'\" class=\"row productListingBreadCrumb\" ng-cloak>' +
-                    '<div  class=\"col-xs-12 col-sm-6  title breadCrumbText\">' +
+                    '<div ng-if=\"items.name\" class=\"col-xs-12 col-sm-6  title breadCrumbText\">' +
                         '<a ng-repeat=\"item in items.path\" ng-if=\"!$last\" ui-sref=\"base.category({catName: item.slug})\" id=\"bc{{item.id}}\">' +
                             '<span ng-if=\"!$first\"> / </span> {{item.name}}' +
                         '</a>' +
