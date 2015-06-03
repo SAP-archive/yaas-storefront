@@ -41,7 +41,6 @@ module.exports = function(config){
         'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/configuration-service.js',
-        'public/js/app/shared/services/configuration-rest.js',
         'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/services/event-service.js',
         'public/js/app/shared/services/local-storage.js',
