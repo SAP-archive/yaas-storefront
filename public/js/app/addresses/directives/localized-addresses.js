@@ -1,5 +1,3 @@
-
-
 /*
  * [y] hybris Platform
  *
@@ -43,7 +41,10 @@ angular.module('ds.addresses').
             templateMap = {
             	USA : 'address-USA.html',
             	CAN : 'address-CAN.html',
+            	UK  : 'address-UK.html',
+            	JPN : 'address-JPN.html',
             	CHI : 'address-CHI.html',
+            	GER : 'address-GER.html',
             	def : 'address-default.html'
             },
             templateUrl = baseUrl + templateMap[contentType];
@@ -55,7 +56,7 @@ angular.module('ds.addresses').
         var templateLinker = function(scope, element, attrs) {
         	var currentElement = element;
 			scope.localeSelection;
-			scope.localeSelections = [{name:'USA'}, {name:'CAN'}, {name:'CHI'}]; //TODO
+			scope.localeSelections = [{name:'USA'}, {name:'CAN'}, {name:'CHI'}, {name:'JPN'}, {name:'UK'}, {name:'GER'}]; //TODO
 
 			//localization selection handler
 			scope.changeLocale = function(viewType){
@@ -65,10 +66,19 @@ angular.module('ds.addresses').
 		                locale = 'USA';
 		                break;
 		            case 'CAN':
-		                locale = 'def';
+		                locale = 'CAN';
 		                break;
 		            case 'CHI':
-		                locale = 'def';
+		                locale = 'CHI';
+		                break;
+		            case 'JPN':
+		                locale = 'JPN';
+		                break;
+		            case 'UK':
+		                locale = 'UK';
+		                break;
+		            case 'GER':
+		                locale = 'GER';
 		                break;
 		            default:
 		            	locale = 'def'
