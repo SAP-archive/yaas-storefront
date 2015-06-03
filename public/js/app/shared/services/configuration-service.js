@@ -54,7 +54,7 @@ angular.module('ds.shared')
                     $rootScope.titleConfig = result.name;
 
                     //Set stripe key if defined
-                    if (!!result.payment && !!result.payment && !!result.payment[0].configuration && !!result.payment[0].configuration.public && !!result.payment[0].configuration.public.publicKey) {
+                    if (!!result.payment && result.payment.length > 0 && !!result.payment[0].configuration && !!result.payment[0].configuration.public && !!result.payment[0].configuration.public.publicKey) {
                         /* jshint ignore:start */
                         Stripe.setPublishableKey(result.payment[0].configuration.public.publicKey);
                         /* jshint ignore:end */
