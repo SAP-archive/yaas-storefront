@@ -96,6 +96,13 @@ angular.module('ds.checkout')
                 $scope.order.billTo.companyName = address.companyName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
+                /*
+                 TODO:
+                 checkout now requires 2 character country codes: existing address with 'USA' for the country will fail
+                 */
+                if (address.country === 'USA') {
+                    address.country = 'US';
+                }
                 $scope.order.billTo.country = address.country;
                 $scope.order.billTo.city = address.city;
                 $scope.order.billTo.state = address.state;

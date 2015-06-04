@@ -239,7 +239,7 @@
 						    'street' : '9999MOCK',
 						    'zipCode' : '999',
 						    'city' : '999',
-						    'country' : 'USA',
+						    'country' : 'US',
 						    'state' : 'AK',
 						    'contactPhone' : '9999'
 						  },
@@ -248,7 +248,7 @@
 						    'street' : '9999MOCK',
 						    'zipCode' : '999MOCK',
 						    'city' : '999',
-						    'country' : 'USA',
+						    'country' : 'US',
 						    'state' : 'AK',
 						    'contactPhone' : '9999'
 						  },

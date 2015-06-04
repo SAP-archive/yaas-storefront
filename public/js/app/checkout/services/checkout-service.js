@@ -31,9 +31,15 @@ angular.module('ds.checkout')
         var DefaultOrder = function () {
             this.shipTo = {};
             this.billTo = {};
-            this.billTo.country = 'USA';
+            this.billTo.country = 'US';
 
-            this.paymentMethod = 'creditCard';
+            this.payment = {
+                paymentId: 'creditCard',
+                customAttributes: {
+                    creditCardToken: ''
+                }
+            };
+
             this.creditCard = new CreditCard();
         };
 
@@ -126,7 +132,12 @@ angular.module('ds.checkout')
                 var Order = function () {};
                 var newOrder = new Order();
                 newOrder.cartId = order && order.cart && order.cart.id ? order.cart.id : null;
-                newOrder.creditCardToken = token;
+                newOrder.payment = {
+                    paymentId: order.paymentMethod,
+                    customAttributes: {
+                        creditCardToken: token
+                    }
+                };
                 newOrder.currency = order.cart.currency;
                 newOrder.shippingCost = order.shippingCost;
 

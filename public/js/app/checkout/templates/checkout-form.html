@@ -111,7 +111,7 @@
                 ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
                 <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" inline-error-input required>
-                    <option value="USA">USA</option>
+                    <option value="US">US</option>
                 </select>
             </div>
         </div>
@@ -270,7 +270,7 @@
                     <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
                     <select class="form-control" inline-error-input ng-model="order.shipTo.country" name="country" id="countryShip" 
                             ng-required="!shipToSameAsBillTo" autocomplete="on">
-                        <option>USA</option>
+                        <option>US</option>
                     </select>
                 </div>
             </div>
