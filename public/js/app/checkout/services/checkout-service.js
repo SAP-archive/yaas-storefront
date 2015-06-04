@@ -34,7 +34,7 @@ angular.module('ds.checkout')
             this.billTo.country = 'US';
 
             this.payment = {
-                paymentId: 'creditCard',
+                paymentId: 'stripe',
                 customAttributes: {
                     creditCardToken: ''
                 }
@@ -132,12 +132,8 @@ angular.module('ds.checkout')
                 var Order = function () {};
                 var newOrder = new Order();
                 newOrder.cartId = order && order.cart && order.cart.id ? order.cart.id : null;
-                newOrder.payment = {
-                    paymentId: order.paymentMethod,
-                    customAttributes: {
-                        creditCardToken: token
-                    }
-                };
+                newOrder.payment = order.payment;
+                newOrder.payment.customAttributes.creditCardToken = token;
                 newOrder.currency = order.cart.currency;
                 newOrder.shippingCost = order.shippingCost;
 

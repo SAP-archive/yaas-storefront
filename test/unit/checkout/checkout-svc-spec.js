@@ -71,7 +71,7 @@ describe('CheckoutSvc', function () {
     order.cart = cart;
 
 
-    var checkoutJson =  {"cartId":"abcCart","currency":"USD", "payment": {"customAttributes": {}},
+    var checkoutJson =  {"cartId":"abcCart","currency":"USD", "payment": {"paymentId": '', "customAttributes": {}},
         "addresses":[
             {"contactName":"Bob Smith","street":"Bill Str. 14","city":"Amarillo","state":"TX","zipCode":"79109",
                 "country":"US","account":"bs@sushi.com","type":"BILLING"},
@@ -138,7 +138,7 @@ describe('CheckoutSvc', function () {
                 expect(order.shipTo).toBeTruthy();
                 expect(order.billTo).toBeTruthy();
                 expect(order.billTo.country).toEqualData('US');
-                expect(order.payment.paymentId).toEqualData('creditCard');
+                expect(order.payment.paymentId).toEqualData('stripe');
                 expect(order.creditCard).toBeTruthy();
             });
         });
