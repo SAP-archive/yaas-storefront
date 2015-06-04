@@ -61,11 +61,11 @@
             <!--<option value="">{{'SELECT_LANGUAGE' | translate}}</option>-->
         </select>
     </div>
-    <div ng-controller="currencySelectorController" ng-cloak class="selectContainer">
+    <!--<div ng-controller="currencySelectorController" ng-cloak class="selectContainer">
         <select ng-model="currency.selected" class="ui-select-bootstrap-transparent" ng-if="currencies.length > 1" ng-options="curr.label for curr in currencies">
-            <!--<option value="">{{'SELECT_CURRENCY' | translate}}</option>-->
+            <option value="">{{'SELECT_CURRENCY' | translate}}</option>
         </select>
-    </div>
+    </div>-->
 </div>
 
 <div class="store-settings hy-stickyComponent hidden-sm hidden-xs" ng-cloak >
@@ -74,10 +74,10 @@
             <p class="languageSelector" ng-if="languages.length > 1" >{{language.selected.value | translate}}</p>
         </div>
     </div>
-    <div class="configSelector" ng-controller="currencySelectorController">
+    <!--<div class="configSelector" ng-controller="currencySelectorController">
         <div data-placement="auto" popover-Class="currencySelectorContainer" pop-over popover-Controller="currencySelectorController" template-Url="js/app/shared/templates/currency-selector.html">
             <p class="currencySelector" ng-if="currencies.length > 1">{{currency.selected.id | translate}}</p>
         </div>
-    </div>
+    </div>-->
 </div>
 
