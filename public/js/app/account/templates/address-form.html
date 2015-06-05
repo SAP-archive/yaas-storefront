@@ -12,7 +12,10 @@
 
       <input type="hidden" name="id" ng-model="address.id">
       <input type="hidden" name="account" ng-model="address.account">
-      <div class="form-group input-group"
+
+      <localized-addresses></localized-addresses>
+
+      <!--div class="form-group input-group"
         ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
         <label class="input-group-addon control-label" for="contactName">{{'FULL_NAME' | translate}}</label>
         <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
@@ -120,8 +123,12 @@
         <label class="input-group-addon control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label>
         <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
 
-      </div>
+      </div-->
+
+
+
   </div>
+
   <div class="modal-footer">
     <a id="save-address-btn" class="btn btn-primary btn-lg btn-block" ng-click="save(address, addressForm.$valid, addressForm.$name)">{{'SAVE' | translate}}</a>
   </div>

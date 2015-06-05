@@ -39,6 +39,7 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CITY: 'City',
+        PROVINCE: 'Province',
         CONTINUE: 'Continue',
         COUNTRY: 'Country',
         CREDIT_CARD_NUMBER: 'Credit Card Number',
@@ -57,6 +58,7 @@ angular.module('ds.i18n')
         MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
+        FULL_NAME: 'Full Name',
         NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
@@ -90,6 +92,15 @@ angular.module('ds.i18n')
         TOTAL: 'Total',
         YEAR: 'Year',
         ZIP: 'Zip Code',
+
+        /*  addresses  */
+        DISTRICT: 'District',
+        STREET_NAME: 'Street Name with Street Number',
+        BUILDING_NAME: 'Building Name or Number',
+        ROOM_NUMBER: 'Room Number',
+        PERFECTURE: 'Perfecture',
+        POSTAL_CODE: 'Postal Code',
+        POST_CODE: 'Post Code',
 
         /*  coupons   */
         COUPON_APPLY: 'Apply',
