@@ -27,8 +27,16 @@ angular.module('ds.ytracking', [])
                     $rootScope.$on('productLoaded', function (arg, obj) {
 
                         var name = obj.product.name[Object.keys(obj.product.name)[0]];
+                        var price = '';
+                        if (!!obj.prices && !!obj.prices[0] && !!obj.prices[0].effectiveAmount) {
+                            price = obj.prices[0].effectiveAmount;
+                        }
+                        var category = '';
+                        if (!!obj.categories && !!obj.categories[0] && !!obj.categories[0].id) {
+                            category = obj.categories[0].id;
+                        }
 
-                        ytrackingSvc.setProductViewed(obj.product.id, name, !!obj.categories[0] ? obj.categories[0].id : '', !!obj.prices[0] ? obj.prices[0].effectiveAmount : '');
+                        ytrackingSvc.setProductViewed(obj.product.id, name, category, price);
 
                     });
                     $rootScope.$on('categoryLoaded', function (arg, obj) {

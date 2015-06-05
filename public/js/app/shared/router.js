@@ -43,11 +43,6 @@ angular.module('ds.router', [])
                         //  all required configuration (language, currency)
                         /* jshint ignore:start */
                         initialized: ['ConfigSvc', 'SiteSettingsSvc', function(ConfigSvc, SiteSettingsSvc) {
-                            SiteSettingsSvc.getStripeKey().then(function(response) {
-                                if (response.configuration && response.configuration.public && response.configuration.public.option1) {
-                                    Stripe.setPublishableKey(response.configuration.public.option1);
-                                }
-                            });
                             return ConfigSvc.initializeApp();
                         }]
                         /* jshint ignore:end */

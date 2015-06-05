@@ -55,10 +55,6 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/checkout/b1/' + tenantId
                 },
 
-                configuration: {
-                    baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
-                },
-
                 coupon: {
                     baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
                 } ,
@@ -92,10 +88,6 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
                 },
                 
-                siteSettings: {
-                    baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
-                },
-
                 tracking: {
                     baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }
