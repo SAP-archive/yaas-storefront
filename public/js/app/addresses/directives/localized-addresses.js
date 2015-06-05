@@ -20,9 +20,8 @@ angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
 
     	var initialize = function(scope, elem){
-			//set template type
-			var locale = 'def'; //TODO
-			loadTemplate(scope, elem, locale);
+			//set default template type
+			loadTemplate(scope, elem, '');
 		}
 
 		var loadTemplate = function(scope, elem, locale){
@@ -35,9 +34,10 @@ angular.module('ds.addresses').
             });
     	}
 
-        var getTemplate = function(contentType) {
-            var templateLoader,
-            baseUrl = 'js/app/addresses/templates/',
+        var getTemplate = function(viewType) {
+            var templateLoader, templateMap, templateUrl,
+            baseUrl = 'js/app/addresses/templates/';
+
             templateMap = {
             	USA : 'address-USA.html',
             	CAN : 'address-CAN.html',
@@ -46,8 +46,14 @@ angular.module('ds.addresses').
             	CHI : 'address-CHI.html',
             	GER : 'address-GER.html',
             	def : 'address-default.html'
-            },
-            templateUrl = baseUrl + templateMap[contentType];
+            };
+
+            // if view is not recognized load default template
+	        if( viewType!='USA' && viewType!='CAN' && viewType!='CHI' && viewType!='JPN' && viewType!='UK' && viewType!='GER'){
+	            viewType = 'def'
+	        }
+
+            templateUrl = baseUrl + templateMap[viewType];
             templateLoader = $http.get(templateUrl, {cache: $templateCache});
 
             return templateLoader;
@@ -56,35 +62,18 @@ angular.module('ds.addresses').
         var templateLinker = function(scope, element, attrs) {
         	var currentElement = element;
 			scope.localeSelection;
-			scope.localeSelections = [{name:'USA'}, {name:'CAN'}, {name:'CHI'}, {name:'JPN'}, {name:'UK'}, {name:'GER'}]; //TODO
+			scope.localeSelections = [
+				{id: 'USA', name:'USA'},
+				{id: 'CAN', name:'CANADA'},
+				{id: 'CHI', name:'CHINA'},
+				{id: 'JPN', name:'JAPAN'},
+				{id: 'UK',  name:'UK'},
+				{id: 'GER', name:'GERMANY'}];
 
 			//localization selection handler
 			scope.changeLocale = function(viewType){
-				var locale;
-		        switch(viewType) {
-		            case 'USA':
-		                locale = 'USA';
-		                break;
-		            case 'CAN':
-		                locale = 'CAN';
-		                break;
-		            case 'CHI':
-		                locale = 'CHI';
-		                break;
-		            case 'JPN':
-		                locale = 'JPN';
-		                break;
-		            case 'UK':
-		                locale = 'UK';
-		                break;
-		            case 'GER':
-		                locale = 'GER';
-		                break;
-		            default:
-		            	locale = 'def'
 
-		        }
-				loadTemplate(scope, element, locale);
+				loadTemplate(scope, element, viewType.id);
 			}
 
 	        initialize(scope, element);
