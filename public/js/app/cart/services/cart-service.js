@@ -302,7 +302,6 @@ angular.module('ds.cart')
                     var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
                     var updateDef = $q.defer();
                     if (qty > 0) {
-                        console.log(item.product);
                         var cartItem = new Item(item.product, item.price, qty);
                         CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);

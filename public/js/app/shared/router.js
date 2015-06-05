@@ -42,7 +42,7 @@ angular.module('ds.router', [])
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
                         /* jshint ignore:start */
-                        initialized: ['ConfigSvc', 'SiteSettingsSvc', function(ConfigSvc, SiteSettingsSvc) {
+                        initialized: ['ConfigSvc',function(ConfigSvc) {
                             return ConfigSvc.initializeApp();
                         }]
                         /* jshint ignore:end */
