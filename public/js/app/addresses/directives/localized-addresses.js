@@ -80,6 +80,9 @@ angular.module('ds.addresses').
         }
 
         return {
+        	scope: {
+        		type: '='
+        	},
             restrict: 'E',
             link: templateLinker
         };
