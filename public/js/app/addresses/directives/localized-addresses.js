@@ -19,14 +19,14 @@
 angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
 
-    	var initialize = function(scope, elem){
+    	var initialize = function(scope, elem, viewType){
 			//set default template type
-			loadTemplate(scope, elem, '');
+			loadTemplate(scope, elem, '', viewType);
 		}
 
-		var loadTemplate = function(scope, elem, locale){
+		var loadTemplate = function(scope, elem, locale, viewType){
 			//load dynamic address template into scope
-            var tempLoader = getTemplate(locale);
+            var tempLoader = getTemplate(locale, viewType);
             var promise = tempLoader.success(function(template) {
             	elem.html(template).show();
             }).then(function (response) {
@@ -34,26 +34,27 @@ angular.module('ds.addresses').
             });
     	}
 
-        var getTemplate = function(viewType) {
-            var templateLoader, templateMap, templateUrl,
+        var getTemplate = function(locale, viewType) {
+            var templateLoader,/*templateMap,*/ templateUrl,
             baseUrl = 'js/app/addresses/templates/';
 
-            templateMap = {
-            	USA : 'address-USA.html',
-            	CAN : 'address-CAN.html',
-            	UK  : 'address-UK.html',
-            	JPN : 'address-JPN.html',
-            	CHI : 'address-CHI.html',
-            	GER : 'address-GER.html',
-            	def : 'address-default.html'
-            };
+            // templateMap = {
+            // 	USA : 'address-USA.html',
+            // 	CAN : 'address-CAN.html',
+            // 	UK  : 'address-UK.html',
+            // 	JPN : 'address-JPN.html',
+            // 	CHI : 'address-CHI.html',
+            // 	GER : 'address-GER.html',
+            // 	def : 'address-default.html'
+            // };
 
-            // if view is not recognized load default template
-	        if( viewType!='USA' && viewType!='CAN' && viewType!='CHI' && viewType!='JPN' && viewType!='UK' && viewType!='GER'){
-	            viewType = 'def'
+            // if view is not recognized set default template
+	        if( locale!='USA' && locale!='CAN' && locale!='CHI' && locale!='JPN' && locale!='UK' && locale!='GER'){
+	            locale = 'Default';
 	        }
 
-            templateUrl = baseUrl + templateMap[viewType];
+            // templateUrl = baseUrl + viewType + '/' + templateMap[locale];
+            templateUrl = baseUrl + viewType + locale + '.html';
             templateLoader = $http.get(templateUrl, {cache: $templateCache});
 
             return templateLoader;
@@ -71,12 +72,12 @@ angular.module('ds.addresses').
 				{id: 'GER', name:'GERMANY'}];
 
 			//localization selection handler
-			scope.changeLocale = function(viewType){
+			scope.changeLocale = function(locale){
 
-				loadTemplate(scope, element, viewType.id);
+				loadTemplate(scope, element, locale.id, attrs.type);
 			}
 
-	        initialize(scope, element);
+	        initialize(scope, element, attrs.type);
         }
 
         return {
