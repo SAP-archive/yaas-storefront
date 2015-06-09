@@ -90,7 +90,6 @@ angular.module('ds.i18n')
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
-        ZIP: 'Zip Code',
 
         /*  addresses  */
         DISTRICT: 'District',
@@ -99,6 +98,10 @@ angular.module('ds.i18n')
         ROOM_NUMBER: 'Room Number',
         PREFECTURE: 'Prefecture',
         POSTAL_CODE: 'Postal Code',
+        ZIP: 'Zip/ Postal Code',
+        CITY_VILLAGE: 'City/ Village/ City Ward',
+        SUBAREA: 'Subarea',
+        FURTHER_SUBAREA: 'Further Subarea, Block #/ House #',
 
         /*  coupons   */
         COUPON_APPLY: 'Apply',
@@ -179,7 +182,7 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CLOSE: 'Close',
-        COMPANY_NAME: 'Company Name',
+        COMPANY_NAME: 'Company',
         CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
         FULL_NAME: 'Full Name',
         CONTACT_PHONE: 'Phone',

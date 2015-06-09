@@ -89,7 +89,6 @@ angular.module('ds.i18n')
         TAX: 'MwSt',
         TOTAL: 'gesamt',
         YEAR: 'Jahr',
-        ZIP: 'PLZ',
 
         /*  addresses  */
         DISTRICT: 'Kreis',
@@ -98,6 +97,10 @@ angular.module('ds.i18n')
         ROOM_NUMBER: 'Zimmernummer',
         PREFECTURE: 'Präfektur',
         POSTAL_CODE: 'Postleitzahl',
+        ZIP: 'PLZ',
+        CITY_VILLAGE: 'Stadt / Dorf / Stadt Ward',
+        SUBAREA: 'Untergebiet',
+        FURTHER_SUBAREA: 'Weitere Untergebiet , Block # / Haus #',
 
         /*  coupons   */
         COUPON_APPLY: 'Anwenden',

@@ -58,10 +58,10 @@ angular.module('ds.addresses').
 			scope.localeSelections = [
 				{id: 'USA', name:'USA'},
 				{id: 'CAN', name:'CANADA'},
-				{id: 'CHI', name:'CHINA'},
-				{id: 'JPN', name:'JAPAN'},
 				{id: 'UK',  name:'UK'},
-				{id: 'GER', name:'GERMANY'}];
+				{id: 'GER', name:'GERMANY'},
+				{id: 'CHI', name:'CHINA'},
+				{id: 'JPN', name:'JAPAN'}];
 
 			// localization selection handler
 			scope.changeLocale = function(locale){
