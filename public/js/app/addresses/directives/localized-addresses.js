@@ -19,51 +19,42 @@
 angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
 
-    	var initialize = function(scope, elem, viewType){
+		var initialize = function(scope, elem, viewType){
 			// set default template type
 			loadTemplate(scope, elem, '', viewType);
-		}
+		};
 
 		var loadTemplate = function(scope, elem, locale, viewType){
+
 			//load dynamic address template into scope
             var tempLoader = getTemplate(locale, viewType);
-            var promise = tempLoader.success(function(template) {
-            	elem.html(template).show();
-            }).then(function (response) {
+            tempLoader.success(function(template) {
+				elem.html(template).show();
+            }).then( function () {
                 $compile(elem.contents())(scope);
             });
-    	}
+		};
 
         var getTemplate = function(locale, viewType) {
+
             var templateLoader,/*templateMap,*/ templateUrl,
             baseUrl = 'js/app/addresses/templates/';
 
-            // templateMap = {
-            // 	USA : 'address-USA.html',
-            // 	CAN : 'address-CAN.html',
-            // 	UK  : 'address-UK.html',
-            // 	JPN : 'address-JPN.html',
-            // 	CHI : 'address-CHI.html',
-            // 	GER : 'address-GER.html',
-            // 	def : 'address-default.html'
-            // };
-
             // if view is not recognized set default template
-	        if( locale!='USA' && locale!='CAN' && locale!='CHI' && locale!='JPN' && locale!='UK' && locale!='GER'){
-	            locale = 'Default';
-	        }
+			if( locale!=='USA' && locale!=='CAN' && locale!=='CHI' && locale!=='JPN' && locale!=='UK' && locale!=='GER'){
+				locale = 'Default';
+			}
 
-            // templateUrl = baseUrl + viewType + '/' + templateMap[locale];
+            // set dynamic template url
             templateUrl = baseUrl + viewType + locale + '.html';
             templateLoader = $http.get(templateUrl, {cache: $templateCache});
 
             return templateLoader;
-        }
+        };
 
         var templateLinker = function(scope, element, attrs) {
-        	// var currentElement = element;
-        	var currentType = attrs.type;
-			scope.localeSelection;
+
+			var currentType = attrs.type;
 			scope.localeSelections = [
 				{id: 'USA', name:'USA'},
 				{id: 'CAN', name:'CANADA'},
@@ -76,7 +67,7 @@ angular.module('ds.addresses').
 			scope.changeLocale = function(locale){
 
 				loadTemplate(scope, element, locale.id, attrs.type);
-				debugger;
+
 				// set dynamic datamodel
 				switch(currentType){
 					case 'addAddress':
@@ -93,13 +84,13 @@ angular.module('ds.addresses').
 
 				}
 
-			}
+			};
 
-	        initialize(scope, element, currentType);
-        }
+			initialize(scope, element, currentType);
+        };
 
         return {
-        	scope: true,
+			scope: true,
             restrict: 'E',
             link: templateLinker
         };

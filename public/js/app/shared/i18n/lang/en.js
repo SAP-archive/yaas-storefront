@@ -94,10 +94,10 @@ angular.module('ds.i18n')
 
         /*  addresses  */
         DISTRICT: 'District',
-        STREET_NAME: 'Street Name with Street Number',
-        BUILDING_NAME: 'Building Name or Number',
+        STREET_NAME: 'Street Name/ Number',
+        BUILDING_NAME: 'Building Name/ Number',
         ROOM_NUMBER: 'Room Number',
-        PREFECTURE: 'Präfektur',
+        PREFECTURE: 'Prefecture',
         POSTAL_CODE: 'Postal Code',
 
         /*  coupons   */

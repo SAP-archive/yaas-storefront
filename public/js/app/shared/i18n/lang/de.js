@@ -93,10 +93,10 @@ angular.module('ds.i18n')
 
         /*  addresses  */
         DISTRICT: 'Kreis',
-        STREET_NAME: 'Street Name with Street Number',
-        BUILDING_NAME: 'Straßenname mit Hausnummer',
+        STREET_NAME: 'Straßenname mit Hausnummer',
+        BUILDING_NAME: 'Gebäudename',
         ROOM_NUMBER: 'Zimmernummer',
-        PREFECTURE: 'Perfecture',
+        PREFECTURE: 'Präfektur',
         POSTAL_CODE: 'Postleitzahl',
 
         /*  coupons   */
