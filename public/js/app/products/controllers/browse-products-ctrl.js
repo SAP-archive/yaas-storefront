@@ -30,13 +30,13 @@ angular.module('ds.products')
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
             $scope.pagination = {
-              productsFrom: 1,
-              productsTo:  1
+                productsFrom: 1,
+                productsTo: 1
             };
 
             $scope.category = category || {};
 
-            if(!!category){
+            if (!!category) {
                 $scope.$emit('categoryLoaded', category);
             }
 
@@ -54,7 +54,7 @@ angular.module('ds.products')
                 $location.path(pathSegments.join('/'));
             }
 
-            $rootScope.$emit('category:selected', {category: category});
+            $rootScope.$emit('category:selected', { category: category });
 
             function getProductIdsFromElements(elements) {
 
@@ -69,22 +69,22 @@ angular.module('ds.products')
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
-            function setMainImage(product){
-                if(product.media && product.media.length ){
-                    var mainImageArr = product.media.filter(function(media){
+            function setMainImage(product) {
+                if (product.media && product.media.length) {
+                    var mainImageArr = product.media.filter(function (media) {
                         return media.customAttributes && media.customAttributes.main;
                     });
-                    if(mainImageArr.length ){
+                    if (mainImageArr.length) {
                         product.mainImageURL = mainImageArr[0].url;
-                    } else  {
+                    } else {
                         product.mainImageURL = product.media[0].url;
                     }
                 }
             }
 
-            function assignMainImage(products){
-                _.forEach(products, function(product){
-                   setMainImage(product.product);
+            function assignMainImage(products) {
+                _.forEach(products, function (product) {
+                    setMainImage(product.product);
                 });
             }
 
@@ -163,7 +163,7 @@ angular.module('ds.products')
                     $scope.products = [];
                     $scope.pagination = {
                         productsFrom: 0,
-                        productsTo:  0
+                        productsTo: 0
                     };
                     $scope.total = 0;
                     return;
@@ -196,32 +196,30 @@ angular.module('ds.products')
                         }
 
                         $scope.requestInProgress = true;
-                        
-                        ProductSvc.queryProductDetailsList(query).then(
-                        //ProductSvc.query(query).then(
-                            function (products) {
-                                $scope.requestInProgress = false;
-                                if (products) {
-                                    GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
-                                    $scope.products = $scope.products.concat(products);
-                                    if ($scope.products.length === 0){
-                                        $scope.pagination.productsFrom = 0;
-                                    }
-                                    else if($scope.products.length > 0 && query.pageNumber === 1) {
-                                        //Check for visible items in viewport
-                                    }
-                                    $scope.total = GlobalData.products.meta.total;
-                                    if (products.length) {
-                                        assignMainImage(products);
-                                        assignPrices(products);
-                                    }
 
-                                    //Set page parameter
-                                    $location.search('page', $scope.pageNumber).replace();
+                        ProductSvc.queryProductDetailsList(query).then(function (products) {
+                            $scope.requestInProgress = false;
+                            if (products) {
+                                GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                                $scope.products = $scope.products.concat(products);
+                                if ($scope.products.length === 0) {
+                                    $scope.pagination.productsFrom = 0;
                                 }
-                            }, function () {
-                                $scope.requestInProgress = false;
-                            });
+                                else if ($scope.products.length > 0 && query.pageNumber === 1) {
+                                    //Check for visible items in viewport
+                                }
+                                $scope.total = GlobalData.products.meta.total;
+                                if (products.length) {
+                                    assignMainImage(products);
+                                    assignPrices(products);
+                                }
+
+                                //Set page parameter
+                                $location.search('page', $scope.pageNumber).replace();
+                            }
+                        }, function () {
+                            $scope.requestInProgress = false;
+                        });
                     }
                 }
             };
@@ -243,8 +241,8 @@ angular.module('ds.products')
             };
 
             //Check for query parameter that has the number of pages
-            if(!!$location.search().page){
-                $scope.loadedPages =  parseInt($location.search().page);
+            if (!!$location.search().page) {
+                $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
                 $scope.sort = GlobalData.products.lastSort;
                 $scope.loadMorePages = true;
@@ -289,27 +287,29 @@ angular.module('ds.products')
                 }
                 query.q = qSpec;
 
-                ProductSvc.query(query).then(function (products) {
+
+
+                ProductSvc.queryProductDetailsList(query).then(function (products) {
+                    $scope.requestInProgress = false;
                     if (products) {
                         GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                         $scope.products = products;
-                        if ($scope.products.length === 0){
+                        if ($scope.products.length === 0) {
                             $scope.pagination.productsFrom = 0;
                         }
-                       else if($scope.products.length > 0 && query.pageNumber === 1){
+                        else if ($scope.products.length > 0 && query.pageNumber === 1) {
                             //Check for visible items in viewport
-                       }
+                        }
                         $scope.total = GlobalData.products.meta.total;
                         if (products.length) {
                             assignMainImage(products);
+                            assignPrices(products);
                         }
                     }
-                    
-                    else {
-                        $scope.requestInProgress = false;
-                    }
-
+                }, function () {
+                    $scope.requestInProgress = false;
                 });
+
             };
 
             $scope.showRefineContainer = function () {

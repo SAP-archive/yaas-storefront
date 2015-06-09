@@ -166,7 +166,7 @@ describe('BrowseProductsCtrl', function () {
             it('setSortedPage should update current page and query products', function () {
 
                 $scope.setSortedPage();
-                expect(mockedProductSvc.query).toHaveBeenCalled();
+                expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
                 expect($scope.setSortedPageNumber).toBe(1)
             });
         });
