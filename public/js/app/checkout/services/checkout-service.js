@@ -36,7 +36,7 @@ angular.module('ds.checkout')
             this.payment = {
                 paymentId: 'stripe',
                 customAttributes: {
-                    creditCardToken: ''
+                    token: ''
                 }
             };
 
@@ -133,7 +133,7 @@ angular.module('ds.checkout')
                 var newOrder = new Order();
                 newOrder.cartId = order && order.cart && order.cart.id ? order.cart.id : null;
                 newOrder.payment = order.payment;
-                newOrder.payment.customAttributes.creditCardToken = token;
+                newOrder.payment.customAttributes.token = token;
                 newOrder.currency = order.cart.currency;
                 newOrder.shippingCost = order.shippingCost;
 
@@ -170,7 +170,7 @@ angular.module('ds.checkout')
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
-                newOrder.customer.customerNumber = order.cart.customerId;
+                newOrder.customer.id = order.cart.customerId;
                 if (order.account.title && order.account.title !== '') {
                     newOrder.customer.title = order.account.title;
                 }
