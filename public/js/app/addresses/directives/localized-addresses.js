@@ -42,7 +42,7 @@ angular.module('ds.addresses').
 
             // if view is not recognized set default template
 			if( locale!=='USA' && locale!=='CAN' && locale!=='CHI' && locale!=='JPN' && locale!=='UK' && locale!=='GER'){
-				locale = 'Default';
+				locale = 'USA';
 			}
 
             // set dynamic template url
