@@ -34,7 +34,7 @@
                                 <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
                                     <option value="name">A-Z</option>
                                     <option value="name:desc">Z-A</option>
-                                    <option value="created:desc">{{'NEWEST' | translate}}</option>
+                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
                                 </select>
                             </span>
                         </div>
