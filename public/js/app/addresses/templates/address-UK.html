@@ -71,7 +71,7 @@
     <div class="col-lg-6">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="zipCodeBill">{{'POST_CODE' | translate}}</label>
+            <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
             class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
             ng-model="order.billTo.zip">

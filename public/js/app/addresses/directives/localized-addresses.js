@@ -20,7 +20,7 @@ angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
 
     	var initialize = function(scope, elem, viewType){
-			//set default template type
+			// set default template type
 			loadTemplate(scope, elem, '', viewType);
 		}
 
@@ -61,7 +61,8 @@ angular.module('ds.addresses').
         }
 
         var templateLinker = function(scope, element, attrs) {
-        	var currentElement = element;
+        	// var currentElement = element;
+        	var currentType = attrs.type;
 			scope.localeSelection;
 			scope.localeSelections = [
 				{id: 'USA', name:'USA'},
@@ -71,19 +72,34 @@ angular.module('ds.addresses').
 				{id: 'UK',  name:'UK'},
 				{id: 'GER', name:'GERMANY'}];
 
-			//localization selection handler
+			// localization selection handler
 			scope.changeLocale = function(locale){
 
 				loadTemplate(scope, element, locale.id, attrs.type);
+				debugger;
+				// set dynamic datamodel
+				switch(currentType){
+					case 'addAddress':
+						scope.address.country = scope.localeSelection.name;
+						break;
+					case 'billing':
+						scope.order.billTo.country = scope.localeSelection.name;
+						break;
+					case 'shipping':
+						scope.order.shipTo.country = scope.localeSelection.name;
+						break;
+					default:
+						break;
+
+				}
+
 			}
 
-	        initialize(scope, element, attrs.type);
+	        initialize(scope, element, currentType);
         }
 
         return {
-        	scope: {
-        		type: '='
-        	},
+        	scope: true,
             restrict: 'E',
             link: templateLinker
         };

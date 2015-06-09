@@ -58,7 +58,6 @@ angular.module('ds.i18n')
         MIDDLE_NAME: 'Middle Name',
         MONTH: 'Month',
         NAME: 'Name',
-        FULL_NAME: 'Full Name',
         NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
@@ -98,9 +97,8 @@ angular.module('ds.i18n')
         STREET_NAME: 'Street Name with Street Number',
         BUILDING_NAME: 'Building Name or Number',
         ROOM_NUMBER: 'Room Number',
-        PERFECTURE: 'Perfecture',
+        PREFECTURE: 'Präfektur',
         POSTAL_CODE: 'Postal Code',
-        POST_CODE: 'Post Code',
 
         /*  coupons   */
         COUPON_APPLY: 'Apply',
@@ -184,7 +182,7 @@ angular.module('ds.i18n')
         COMPANY_NAME: 'Company Name',
         CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
         FULL_NAME: 'Full Name',
-        CONTACT_PHONE: 'Contact Phone',
+        CONTACT_PHONE: 'Phone',
         CURRENCY: 'Currency',
         SELECT_CURRENCY: 'Select a currency',
         DATE: 'Date',

@@ -58,7 +58,6 @@ angular.module('ds.i18n')
         MIDDLE_NAME: 'Zweiter Vorname',
         MONTH: 'Monat',
         NAME: 'Name',
-        FULL_NAME: 'voller Name',
         NO_ITEMS_IN_CART: 'Es sind keine Artikel im Warenkorb.',
         OPTIONAL: 'optional',
         ORDER_DETAILS: 'Bestelldetails',
@@ -97,9 +96,8 @@ angular.module('ds.i18n')
         STREET_NAME: 'Street Name with Street Number',
         BUILDING_NAME: 'Straßenname mit Hausnummer',
         ROOM_NUMBER: 'Zimmernummer',
-        PERFECTURE: 'Perfecture',
+        PREFECTURE: 'Perfecture',
         POSTAL_CODE: 'Postleitzahl',
-        POST_CODE: 'Postleitzahl',
 
         /*  coupons   */
         COUPON_APPLY: 'Anwenden',
@@ -183,7 +181,7 @@ angular.module('ds.i18n')
         COMPANY_NAME: 'Name Der Firma',
         CONFIRM_ADDRESS_REMOVAL: 'Adresse löschen?',
         FULL_NAME: 'Vollständiger Name',
-        CONTACT_PHONE: 'Kontakt Telefon',
+        CONTACT_PHONE: 'Telefon',
         CURRENCY: 'Währung',
         SELECT_CURRENCY: 'Wählen Sie eine Währung',
         DATE: 'Datum',
