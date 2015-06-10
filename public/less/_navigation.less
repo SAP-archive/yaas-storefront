@@ -88,10 +88,17 @@
 
   .store-settings{
     margin: 20px 0 100px;
+    
+    color:#636465;
 
     .selectContainer{
       margin: 0  10px;
       select{width: 100%; height:30px; margin: 20px 0 0; padding-left: 10px; }
+    }
+    
+    select{
+      width: 100%;
+      
     }
 
 
@@ -710,6 +717,11 @@ a.signout{
   padding: 40px 58px;
   color: #fff;
   
+  .store-settings select{
+    color: #636465;
+    width: 170px;
+  }
+  
   .socialIcons{
     font-size: 25px;
     
@@ -718,7 +730,13 @@ a.signout{
   .socialIcons > a{
     color: #fff;
     margin-right: 45px;
+    
+    &:last-child{
+      margin-right: 0;
+    }
   }
+  
+  
   
   .links{
     padding-top: 8px;

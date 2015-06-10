@@ -33,6 +33,8 @@ angular.module('ds.shared')
                     }
                 ];
             }
+            
+            console.log('list', availableLanguages)
             // Language translations (if we don't have them for current locale use values form config service - english versions)
             var translationPromises = availableLanguages
                 .map(function(lang) {
