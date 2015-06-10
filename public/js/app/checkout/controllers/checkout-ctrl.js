@@ -435,7 +435,7 @@ angular.module('ds.checkout')
 
             /** redeem coupon mashup */
             $scope.validateCouponCheckout = function() {
-                CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.value).then(function () {
+                CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.amount).then(function () {
                     // Apply Coupon: update total with coupon applied. This is required for API validation.
                     $scope.order.cart.totalPrice.amount -= UserCoupon.getCoupon().amounts.discountAmount;
                     // check if we need to clean out float precision
