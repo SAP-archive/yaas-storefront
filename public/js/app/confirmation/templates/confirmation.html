@@ -11,8 +11,7 @@
 			<p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
             <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
 
-            <!-- need to fix google plus login on checkout before release -->
-            <!-- div ng-include="'js/app/auth/templates/create-account.html'" create-account ></div -->
+            <div ng-include="'js/app/auth/templates/create-account.html'" create-account ></div>
 
             <div>
                 <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:</p>
@@ -70,7 +69,6 @@
 			</section>
 
             <section class="summary" ng-cloak>
-                <!-- CONFIRMATION-PAGE -->
                 <table class="table">
                     <tbody>
                         <tr>

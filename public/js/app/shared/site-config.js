@@ -48,7 +48,7 @@ angular.module('ds.shared')
                 },
 
                 categories: {
-                    baseUrl: 'https://' + apiPath + '/category/v3/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/category/b1/' + tenantId
                 },
 
                 checkout: {
@@ -60,11 +60,11 @@ angular.module('ds.shared')
                 },
 
                 coupon: {
-                    baseUrl: 'https://' + apiPath + '/coupon/v1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
                 } ,
 
                 customers: {
-                    baseUrl: 'https://' + apiPath + '/hybris/customer/v7/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/customer/b1/' + tenantId
                 },
 
                 orders: {
@@ -89,7 +89,7 @@ angular.module('ds.shared')
                 },
 
                 tracking: {
-                    baseUrl: ' https://api.yaas.io/piwik-service/' + tenantId + '/events'
+                    baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }
             };
 
