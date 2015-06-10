@@ -24,13 +24,26 @@
         </div>
     </div>
 
-   <div class="col-lg-12">
+
+    <div class="col-lg-12">
+        <div class="form-group input-group"
+            ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
+            <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
+            <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" 
+                ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
+                inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+<!--    <div class="col-lg-12">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
             <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
             </select>
         </div>
-    </div>
+    </div> -->
 
     <div class="col-lg-12">
         <div class="form-group input-group">

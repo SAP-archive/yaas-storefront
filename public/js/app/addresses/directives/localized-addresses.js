@@ -56,6 +56,7 @@ angular.module('ds.addresses').
 
 			var currentType = attrs.type;
 			scope.localeSelections = [
+				// {id: '', name:''},
 				{id: 'USA', name:'USA'},
 				{id: 'CAN', name:'CANADA'},
 				{id: 'UK',  name:'UK'},
