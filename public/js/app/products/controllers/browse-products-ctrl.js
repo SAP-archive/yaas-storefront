@@ -83,7 +83,7 @@ angular.module('ds.products')
             }
 
             function assignMainImage(products) {
-                _.forEach(products, function (product) {
+                angular.forEach(products, function (product) {
                     setMainImage(product.product);
                 });
             }
@@ -91,7 +91,7 @@ angular.module('ds.products')
             function assignPrices(products) {
                 var pricesMap = {};
                 var currentCurrency = GlobalData.getCurrencyId();
-                _.forEach(products, function (product) {
+                angular.forEach(products, function (product) {
                     product.prices.forEach(function (price) {
                         if (price.currency === currentCurrency) {
                             pricesMap[product.product.id] = price;
