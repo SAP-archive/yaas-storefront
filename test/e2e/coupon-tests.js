@@ -76,7 +76,7 @@ describe('coupons:', function () {
             browser.sleep(500);
         });
 
-        it('should not allow user to add coupon with incorrect currency', function () {
+        xit('should not allow user to add coupon with incorrect currency', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             tu.selectCurrency('EURO');
             tu.loadProductIntoCart('1', '€7.99');
@@ -216,7 +216,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
-        it('should allow euro off on checkout', function () {
+        xit('should allow euro off on checkout', function () {
             tu.createAccount('coupontesteuro');
             tu.selectCurrency('EURO');
             couponCheckoutTest('5EURO', '€7.99');

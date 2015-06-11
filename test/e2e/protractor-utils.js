@@ -180,7 +180,7 @@ exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
     browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
     browser.sleep(200);
-    clickElement('css', 'div.cart-and-account-container > #login-btn');
+    clickElement('id', 'login-btn');
     browser.wait(function () {
         return element(by.binding('SIGN_IN')).isPresent();
     });
@@ -234,14 +234,15 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
 var timestamp = Number(new Date());
 
 exports.createAccount = function(emailAddress) {
-    clickElement('css', 'div.cart-and-account-container > #login-btn');
+    clickElement('id', 'login-btn');
     browser.sleep(1000);
     clickElement('linkText', 'Create Account');
     sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
     sendKeysById('newPasswordInput', 'password');
     clickElement('id', 'create-acct-btn');
     browser.sleep(1000);
-    clickElement('css', '#user-avatar > a.my-profile > img.user-avatar');
+    clickElement('id', 'my-account-dropdown');
+    clickElement('id', 'my-account');
     browser.sleep(1000);
 }
 
