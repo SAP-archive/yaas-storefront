@@ -30,6 +30,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
                 <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
+                    <option value=""></option>
                 </select>
             </div>
         </div>
