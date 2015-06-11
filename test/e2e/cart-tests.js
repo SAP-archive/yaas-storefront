@@ -34,7 +34,7 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        it('should load one product into cart in Euros', function () {
+        xit('should load one product into cart in Euros', function () {
             tu.selectCurrency('EURO');
             tu.loadProductIntoCart('1', '€7.99');
             tu.clickElement('id', tu.removeFromCart);
@@ -44,7 +44,7 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        it('should load one product into cart in USD and change to Euros', function () {
+        xit('should load one product into cart in USD and change to Euros', function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             tu.selectCurrency('EURO');
@@ -54,7 +54,7 @@ describe("cart:", function () {
             tu.verifyCartTotal('€7.99');
         });
 
-        it('should load one product into cart in USD and change to Euros while logged in', function () {
+        xit('should load one product into cart in USD and change to Euros while logged in', function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             tu.loginHelper('currtest@hybristest.com', 'password');
@@ -74,11 +74,13 @@ describe("cart:", function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            browser.sleep(250);
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteThermos)).isDisplayed();
+            });
             tu.clickElement('xpath', tu.whiteThermos);
             browser.sleep(200);
             tu.clickElement('id', tu.buyButton);

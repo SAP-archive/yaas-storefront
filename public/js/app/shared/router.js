@@ -36,6 +36,9 @@ angular.module('ds.router', [])
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        },
+                        'footer@':{
+                            templateUrl: 'js/app/shared/templates/footer.html'
                         }
                     },
                     resolve:{
@@ -89,6 +92,9 @@ angular.module('ds.router', [])
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
+                        },
+                        'footer@': {
+                            template:''
                         }
                     },
                     resolve: {
