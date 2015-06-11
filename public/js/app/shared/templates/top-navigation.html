@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="text-center">
-                            <a ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                            <a id="login-btn" ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
                                 <img src="./img/user-icon_small_active.png" class="user-avatar">
                                 {{'SIGN_IN' | translate}}
                             </a>
@@ -49,12 +49,12 @@
                             <div class="signin-container ">
                                 <div class="text-center dropdown">
                                     <a class="my-profile dropdown-toggle"  title="{{'MY_ACCOUNT' | translate}}">
-                                        <img src="./img/user-icon_small_active.png" class="user-avatar">
+                                        <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
                                     </a>
-                                    <ul class="dropdown-menu" >
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+                                    <ul class="dropdown-menu">
+                                        <li id="my-account" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
                                         <li class="divider"></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                                        <li id="logout-btn" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -80,11 +80,11 @@
         <div class="content-container">
             <div class="navbar yamm navbar-default">
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
-                        <a ui-sref="base.category( {catName: category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
-                            {{ category.name  }}
-                            <ul class="dropdown-menu js-flyoutMenu" ng-if="category.subcategories">
-                                <div ng-repeat="sub2 in category.subcategories" class="col-xs-2">
+                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
+                        <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
+                            {{ top_category.name  }}
+                            <ul class="dropdown-menu js-flyoutMenu" ng-if="top_category.subcategories">
+                                <div ng-repeat="sub2 in top_category.subcategories" class="col-xs-2">
 
                                     <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}
                                         <div class="tertiaryCategory">
