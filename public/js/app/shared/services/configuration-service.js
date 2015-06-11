@@ -85,7 +85,7 @@ angular.module('ds.shared')
 
 
 
-                    ////Missing implementation for Algolia key
+                    //TODO: Missing implementation for Algolia key
                     //GlobalData.search.algoliaKey = value;
 
 
