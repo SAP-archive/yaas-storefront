@@ -8296,6 +8296,12 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   font-size: 24px;
   color: #929292;
 }
+@media (min-width: 1200px) {
+  .owl-carousel .owl-controls .owl-buttons .owl-prev,
+  .owl-carousel .owl-controls .owl-buttons .owl-next {
+    display: none !important;
+  }
+}
 .owl-carousel .owl-controls .owl-buttons .owl-prev {
   left: 0;
 }
