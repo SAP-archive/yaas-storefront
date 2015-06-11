@@ -5,7 +5,7 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[2]", text);
+    tu.sendKeysByXpath("(//input[@type='text'])[3]", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
@@ -47,17 +47,19 @@ describe("login:", function () {
         it('should allow existing user to login', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
-            tu.clickElement('id', 'logout-btn');
+            // tu.clickElement('id', 'logout-btn');
 
         });
 
         it('should allow user to update account info', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(2000);
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
@@ -81,7 +83,10 @@ describe("login:", function () {
         });
 
         it('should create a new user', function () {
-            tu.clickElement('id', "login-btn");
+            tu.clickElement('id', 'login-btn');
+            browser.wait(function () {
+                return element(by.binding('CREATE_ACCOUNT')).isPresent();
+            });
             tu.clickElement('binding', 'CREATE_ACCOUNT');
             tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
             tu.sendKeysById('newPasswordInput', 'pass');
@@ -90,7 +95,8 @@ describe("login:", function () {
             tu.sendKeysById('newPasswordInput', 'password');
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
 
 
@@ -132,7 +138,8 @@ describe("login:", function () {
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'incorrect');
@@ -148,7 +155,8 @@ describe("login:", function () {
         it('should not allow user to update their password if it less than 6 chars', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -163,7 +171,8 @@ describe("login:", function () {
         it('should not allow user to update their password if it does not match confirmation', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -177,7 +186,8 @@ describe("login:", function () {
         it('should allow user to update their password', function () {
             tu.loginHelper('password@hybristest.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -186,13 +196,15 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(1500);
-            tu.clickElement('id', "logout-btn");
+            tu.clickElement('id', 'my-account-dropdown')
+            tu.clickElement('css', '#logout-btn > a.ng-binding');
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
             browser.sleep(1000);
             tu.loginHelper('password@hybristest.com', 'password2');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(1000);
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password2');

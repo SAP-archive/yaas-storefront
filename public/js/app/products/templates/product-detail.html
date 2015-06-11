@@ -1,66 +1,71 @@
-<section class="white productDetailsContainer" match-background ng-cloak>
-    <div class="row">
-        <div class="col-md-8 col-md-push-4">
-            <div class="gallery product-gallery"> 
-                <div class="image">
-                    <div ng-repeat="image in product.product.media">
-                        <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
+<ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
+<div class="productDetailsContainer">
+    <section class="white " ng-cloak>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="gallery product-gallery">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="image">
+                                <div ng-repeat="image in product.product.media">
+                                    <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class=" thumbnails" ng-if="product.product.media && product.product.media.length > 1">
+                                <a ng-repeat="image in product.product.media" class="item" href="#">
+                                    <img class="lazyOwl" data-src="{{image.url}}" alt="">
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class=" thumbnails" ng-if="product.product.media && product.product.media.length > 1">
-                    <a ng-repeat="image in product.product.media" class="item" href="#">
-                        <img class="lazyOwl" data-src="{{image.url}}" alt="">
-                    </a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 col-md-pull-8">
-            <div class="product-details">
-                <!-- <div class="category">Category</div> -->
-                <div class="page-headline">
-
-                    <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
-
-                </div>
-                <div class="name">{{product.product.name}}</div>
-                <div class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
-
-                <form action="" class="cartPanel">
-                    <div class="row" >
-                        <div class="col-md-10 col-lg-8">
-                            <div class="form-group input-group qty">
-                                <label class="input-group-addon control-label" for="qty" >{{'QTY' | translate}}: </label>
-                                <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity"
-                                    ng-model="productDetailQty" ng-change="changeQty(event)">
-                            </div>
-                        </div>
-                    </div>  
-
-                    <div class="row">
-                        <div ng-if="error" class="col-md-12 col-lg-12">
-                            <div class="error" >
-                                <small class="help-inline has-error">
-                                    {{'ERROR_ADDING_TO_CART' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                        <div  class="col-md-12 col-lg-12 buyButton">
-
-                            <span id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary btn-block" ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</span>
-                            <span id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary btn-block">{{'OUT_OF_STOCK' | translate}}</span>
-
-                        </div>
-                    </div>
-                </form>
+            <div class="col-md-6">
+                <div class="product-details text-center">
+                    <h1 class="pageTitle">
+                        {{product.product.name}}
+                        
+                    </h1>
+                    <div class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
     
-                <div class="description">
-                    <div class="headline">{{'DESCRIPTION' | translate}}:</div>
-                        {{product.product.description}}
-                </div>
-            </div> 
+                    <form action="" class="cartPanel">
+                        <div class="row" >
+                            <div class="col-md-4 col-md-offset-4">
+                                <div class="form-group input-group qty">
+                                    <label class="input-group-addon control-label" for="qty" >{{'QTY' | translate}}: </label>
+                                    <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity"
+                                        ng-model="productDetailQty" ng-change="changeQty(event)">
+                                </div>
+                            </div>
+                        </div>  
+    
+                        <div class="row">
+                            <div ng-if="error" class="col-md-12 col-lg-12">
+                                <div class="error" >
+                                    <small class="help-inline has-error">
+                                        {{'ERROR_ADDING_TO_CART' | translate}}
+                                    </small>
+                                </div>
+                            </div>
+                            <div  class="col-md-12 col-lg-12 buyButton">
+                                <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                                <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> 
+            </div>
         </div>
-    </div>
-</section> 
+    </section>
+    <section class="gray">
+        <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+        <div class="description">
+            {{product.product.description}}
+        </div>
+    </section>
+</div>
 
 <script src="js/vendor-static/jquery.min.js"></script>
 <script src="js/vendor-static/bootstrap.min.js"></script>
