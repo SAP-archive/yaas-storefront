@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-xs-8 col-md-8  detail-col">
                     <div class="name">{{item.product.name}}</div>
-                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.amount | currency: currencySymbol}}</span></div>
+                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span></div>
                     <div class="variants row item-attr">
                         <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
                     </div>
