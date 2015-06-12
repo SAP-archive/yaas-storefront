@@ -48,7 +48,7 @@ angular.module('ds.products')
             }
 
             //Event that product is loaded
-            $scope.$emit('productLoaded', product);
+            $scope.$emit('product:opened', product);
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;

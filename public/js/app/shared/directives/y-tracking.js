@@ -24,10 +24,10 @@ angular.module('ds.ytracking', [])
                     ytrackingSvc.init();
 
                     //Handlers for events
-                    $rootScope.$on('productLoaded', function (arg, obj) {
+                    $rootScope.$on('product:opened', function (arg, obj) {
                         ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.name : '', !!obj.defaultPrice ? obj.defaultPrice.value : '');
                     });
-                    $rootScope.$on('categoryLoaded', function (arg, obj) {
+                    $rootScope.$on('category:opened', function (arg, obj) {
                         var path = '';
                         //For now we are only sending last category name, in future we will send array of categories
                         for (var i = 0; i < obj.path.length; i++) {
@@ -40,21 +40,24 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.searchEvent(obj.searchTerm, obj.numberOfResults);
                     });
 
-                    ////For now we are just tracking "user viewed category/product"
-                    //$rootScope.$on('orderPlaced', function (arg, obj) {
-                    //    //Send ordered cart items to piwik
-                    //    for(var i = 0; i < obj.cart.items.length; i++){
-                    //        //sku, name, categoryName, unitPrice, amount
-                    //        var item = obj.cart.items[i];
-                    //        ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
-                    //    }
-                    //    //Send order details to piwik
-                    //    ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
-                    //});
+                    $rootScope.$on('checkout:opened', function (arg, cart) {
+                        ytrackingSvc.proceedToCheckout(cart);
+                    });
 
-                    //$rootScope.$on('cart:updated', function (arg, obj) {
-                    //    ytrackingSvc.cartUpdated(obj.cart);
-                    //});
+                    $rootScope.$on('order:placed', function (arg, obj) {
+                        //Send ordered cart items to piwik
+                        for(var i = 0; i < obj.cart.items.length; i++){
+                            //sku, name, categoryName, unitPrice, amount
+                            var item = obj.cart.items[i];
+                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                        }
+                        //Send order details to piwik
+                        ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                    });
+
+                    $rootScope.$on('cart:updated', function (arg, obj) {
+                        ytrackingSvc.cartUpdated(obj.cart);
+                    });
 
                     $document.on('click', '.banner', function () {
                         var element = angular.element(this);
@@ -144,14 +147,18 @@ angular.module('ds.ytracking', [])
 
             };
 
-            //Method that is setting current url
+            /**
+            * Method that is setting current url
+            */
             var setCustomUrl = function () {
                 if (!!$window._paq) {
                     $window._paq.push(['setCustomUrl', $window.document.URL]);
                 }
             };
 
-
+            /**
+            * User updated cart
+            */
             var cartUpdated = function (cart) {
                 //Add products to the order
                 if (!!cart.items) {
@@ -168,6 +175,9 @@ angular.module('ds.ytracking', [])
                 //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
             };
 
+            /**
+            * Function for adding item to cart
+            */
             var addEcommerceItem = function (sku, name, categoryName, unitPrice, amount) {
                 if (!!$window._paq) {
                     $window._paq.push(['addEcommerceItem',
@@ -180,6 +190,9 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User created order
+            */
             var orderPlaced = function (orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered) {
                 if (!!$window._paq) {
                     $window._paq.push(['trackEcommerceOrder',
@@ -191,10 +204,13 @@ angular.module('ds.ytracking', [])
                         isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
                     ]);
 
-                    $window._paq.push(['trackPageView', 'OrderPlaced']);
+                    //$window._paq.push(['trackPageView', 'OrderPlaced']);
                 }
             };
 
+            /**
+            * User viewed product
+            */
             var setProductViewed = function (sku, name, category, price) {
                 if (!!$window._paq) {
                     //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
@@ -213,6 +229,9 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User viewed category
+            */
             var setCategoryViewed = function (categoryPage) {
                 if (!!$window._paq) {
                     //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
@@ -244,13 +263,16 @@ angular.module('ds.ytracking', [])
             };
 
 
+            /**
+            * User searched event
+            */
             //Category missing? There is no way to set SearchEvent and SearchNoResultsEvent as action_view
             var searchEvent = function (searchTerm, numberOfResults) {
                 if (!!$window._paq) {
                     if (numberOfResults > 0) {
                         $window._paq.push(['trackSiteSearch',
                             searchTerm,
-                            '',
+                            false, //This is search category selected in our search. At the moment we dont have this
                             numberOfResults
                         ]);
 
@@ -259,7 +281,7 @@ angular.module('ds.ytracking', [])
                     else {
                         $window._paq.push(['trackSiteSearch',
                             searchTerm,
-                            '',
+                            false, //This is search category selected in our search. At the moment we dont have this
                             0
                         ]);
 
@@ -268,10 +290,25 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User clicked on element with class  banner
+            */
             var bannerClick = function (bannerId, url) {
                 if (!!$window._paq) {
-                    $window._paq.push(['setCustomVariable', 1, bannerId, url, "page"]);
+                    $window._paq.push(['setCustomVariable', 1, bannerId, url, 'page']);
                     $window._paq.push(['trackLink', 'BannerClickEvent', 'action_name']);
+                }
+            };
+
+            /**
+            * User opened checkout page
+            */
+            var proceedToCheckout = function (cart) {
+                if (!!$window._paq) {
+                    var cartId = !!cart.id ? cart.id : '';
+                    $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
+                    //$window._paq.push(['trackEvent', 'checkout', 'proceed', '', '']);
+                    $window._paq.push(['trackLink', 'ProceedToCheckoutEvent', 'action_name']);
                 }
             };
 
@@ -285,6 +322,7 @@ angular.module('ds.ytracking', [])
                 setCategoryViewed: setCategoryViewed,
                 setCustomUrl: setCustomUrl,
                 searchEvent: searchEvent,
-                bannerClick: bannerClick
+                bannerClick: bannerClick,
+                proceedToCheckout: proceedToCheckout
             };
         }]);

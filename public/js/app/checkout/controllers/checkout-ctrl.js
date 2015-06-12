@@ -369,7 +369,7 @@ angular.module('ds.checkout')
                     cart: $scope.cart
                 };
                 //Send data to piwik
-                $rootScope.$emit('orderPlaced', piwikOrderDetails);
+                $rootScope.$emit('order:placed', piwikOrderDetails);
 
                 //Reset cart
                 CheckoutSvc.resetCart();

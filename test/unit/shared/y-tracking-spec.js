@@ -97,9 +97,9 @@ describe('ytracking', function () {
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('categoryLoaded', openedCategory);
+            $scope.$emit('category:opened', openedCategory);
 
-            expect($scope.$emit).toHaveBeenCalledWith("categoryLoaded", openedCategory);
+            expect($scope.$emit).toHaveBeenCalledWith("category:opened", openedCategory);
             expect(mockedYtrackingSvc.setCategoryViewed).toHaveBeenCalled();
         });
 
@@ -111,7 +111,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "setCategoryViewed").andCallThrough();
 
-            $scope.$emit('categoryLoaded', openedCategory);
+            $scope.$emit('category:opened', openedCategory);
 
             $timeout.flush();
 
@@ -127,9 +127,9 @@ describe('ytracking', function () {
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('productLoaded', openedProduct);
+            $scope.$emit('product:opened', openedProduct);
 
-            expect($scope.$emit).toHaveBeenCalledWith("productLoaded", openedProduct);
+            expect($scope.$emit).toHaveBeenCalledWith("product:opened", openedProduct);
             expect(mockedYtrackingSvc.setProductViewed).toHaveBeenCalled();
         });
 
@@ -141,7 +141,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "setProductViewed").andCallThrough();
 
-            $scope.$emit('productLoaded', openedProduct);
+            $scope.$emit('product:opened', openedProduct);
 
             $timeout.flush();
 
