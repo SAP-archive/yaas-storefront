@@ -26,7 +26,7 @@ angular.module('ds.ytracking', [])
                     //Handlers for events
                     $rootScope.$on('productLoaded', function (arg, obj) {
 
-                        var name = obj.product.name[Object.keys(obj.product.name)[0]];
+                        var name = obj.product.name || '';
                         var price = '';
                         if (!!obj.prices && !!obj.prices[0] && !!obj.prices[0].effectiveAmount) {
                             price = obj.prices[0].effectiveAmount;
