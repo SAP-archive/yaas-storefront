@@ -119,7 +119,7 @@ angular.module('ds.ytracking', [])
                 $window._paq.push(['setCustomRequestProcessing', processRequest]);
 
                 //Set document title
-                $window._paq.push(['setDocumentTitle', $window.document.title.toString()]);
+                $window._paq.push(['setDocumentTitle', 'PageViewEvent']);
 
                 //Set user id to equal the user token
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
@@ -195,7 +195,7 @@ angular.module('ds.ytracking', [])
                             price //(optional) Product Price as displayed on the page
                         ]);
 
-                        $window._paq.push(['trackPageView', 'ViewProduct']);
+                        $window._paq.push(['trackPageView', 'ProductDetailPageViewEvent']);
                     });
                 }
             };
@@ -212,7 +212,7 @@ angular.module('ds.ytracking', [])
                             categoryPage // Category Page, or array of up to 5 categories
                         ]);
 
-                        $window._paq.push(['trackPageView', 'ViewCategory']);
+                        $window._paq.push(['trackPageView', 'CategoryPageViewEvent']);
                     });
                 }
             };
