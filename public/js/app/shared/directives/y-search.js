@@ -28,7 +28,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     });
 
 angular.module('ds.ysearch')
-    .controller('ysearchController', ['$scope', '$rootScope','ysearchSvc',function (scope,$rootScope,ysearchSvc) {
+    .controller('ysearchController', ['$scope', '$rootScope', 'ysearchSvc', function (scope, $rootScope, ysearchSvc) {
 
         if (!scope.page) {
             scope.page = 0;
@@ -83,7 +83,7 @@ angular.module('ds.ysearch')
                 scope.search.numberOfHits = 0;
             }
             else {
-                ysearchSvc.getResults(scope.search.text, {hitsPerPage: 5, page: 0})
+                ysearchSvc.getResults(scope.search.text, { hitsPerPage: 5, page: 0 })
                     .then(function (content) {
                         if (content.query !== scope.search.text) {
                             // do not take out-dated answers into account
@@ -91,6 +91,9 @@ angular.module('ds.ysearch')
                         }
                         scope.search.numberOfHits = content.nbHits;
                         scope.search.results = content.hits;
+
+                        //Send event that search is done
+                        $rootScope.$emit('searchEvent', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
                     }, function () {
                     });
             }
@@ -103,13 +106,13 @@ angular.module('ds.ysearch')
         var client, index;
 
         var init = function () {
-            if(GlobalData.search.algoliaKey !== '') {
+            if (GlobalData.search.algoliaKey !== '') {
                 //Search available for this project
-                client = algolia.Client(GlobalData.search.algoliaProject, GlobalData.search.algoliaKey, {method: 'https'});
+                client = algolia.Client(GlobalData.search.algoliaProject, GlobalData.search.algoliaKey, { method: 'https' });
                 index = client.initIndex(GlobalData.store.tenant);
                 return true;
             }
-            else{
+            else {
                 return false;
             }
         };

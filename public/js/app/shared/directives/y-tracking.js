@@ -14,8 +14,8 @@
 
 angular.module('ds.ytracking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
-    .directive('ytracking', ['ytrackingSvc', '$rootScope',
-        function (ytrackingSvc, $rootScope) {
+    .directive('ytracking', ['ytrackingSvc', '$rootScope', '$document',
+        function (ytrackingSvc, $rootScope, $document) {
             return {
                 restrict: 'A',
                 compile: function () {
@@ -36,6 +36,10 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
+                    $rootScope.$on('searchEvent', function (arg, obj) {
+                        ytrackingSvc.searchEvent(obj.searchTerm, obj.numberOfResults);
+                    });
+
                     ////For now we are just tracking "user viewed category/product"
                     //$rootScope.$on('orderPlaced', function (arg, obj) {
                     //    //Send ordered cart items to piwik
@@ -51,6 +55,14 @@ angular.module('ds.ytracking', [])
                     //$rootScope.$on('cart:updated', function (arg, obj) {
                     //    ytrackingSvc.cartUpdated(obj.cart);
                     //});
+
+                    $document.on('click', '.banner', function () {
+                        var element = angular.element(this);
+                        var id = element.attr('id') || '';
+                        var url = element.attr('href') || '';
+
+                        ytrackingSvc.bannerClick(id, url);
+                    });
                 }
             };
         }])
@@ -152,7 +164,8 @@ angular.module('ds.ytracking', [])
 
                 //Records the cart for this visit
                 $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
-                $window._paq.push(['trackPageView', 'CartUpdated']);
+                //$window._paq.push(['trackPageView', 'CartUpdated']);
+                //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
             };
 
             var addEcommerceItem = function (sku, name, categoryName, unitPrice, amount) {
@@ -230,6 +243,38 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+
+            //Category missing? There is no way to set SearchEvent and SearchNoResultsEvent as action_view
+            var searchEvent = function (searchTerm, numberOfResults) {
+                if (!!$window._paq) {
+                    if (numberOfResults > 0) {
+                        $window._paq.push(['trackSiteSearch',
+                            searchTerm,
+                            '',
+                            numberOfResults
+                        ]);
+
+                        //$window._paq.push(['trackLink', 'SearchEvent', 'action_name']);
+                    }
+                    else {
+                        $window._paq.push(['trackSiteSearch',
+                            searchTerm,
+                            '',
+                            0
+                        ]);
+
+                        //$window._paq.push(['trackLink', 'SearchNoResultsEvent', 'action_name']);
+                    }
+                }
+            };
+
+            var bannerClick = function (bannerId, url) {
+                if (!!$window._paq) {
+                    $window._paq.push(['setCustomVariable', 1, bannerId, url, "page"]);
+                    $window._paq.push(['trackLink', 'BannerClickEvent', 'action_name']);
+                }
+            };
+
             return {
                 cartUpdated: cartUpdated,
                 init: init,
@@ -238,6 +283,8 @@ angular.module('ds.ytracking', [])
                 orderPlaced: orderPlaced,
                 setProductViewed: setProductViewed,
                 setCategoryViewed: setCategoryViewed,
-                setCustomUrl: setCustomUrl
+                setCustomUrl: setCustomUrl,
+                searchEvent: searchEvent,
+                bannerClick: bannerClick
             };
         }]);
