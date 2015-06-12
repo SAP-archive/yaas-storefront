@@ -83,10 +83,10 @@
 
         <div class="col-lg-6">
             <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.postal.$invalid && (shipToForm.postal.$dirty || showPristineErrors) }">
+                ng-class="{'has-error': shipToForm.zip.$invalid && (shipToForm.zip.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="zipCodeShip">{{'POSTAL_CODE' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                class="form-control" id="zipCodeShip" name="postal" required autocomplete="on"
+                class="form-control" id="zipCodeShip" name="zip" required autocomplete="on"
                 ng-model="order.shipTo.zip">
             </div>
         </div>

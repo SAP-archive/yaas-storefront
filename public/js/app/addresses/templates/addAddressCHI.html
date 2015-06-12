@@ -117,15 +117,15 @@
       </div> -->
 
       <div class="form-group input-group"
-          ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
+          ng-class="{'has-error': addressForm.zip.$invalid && (addressForm.zip.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-          class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
+          class="form-control" id="zipCodeBill" name="zip" required autocomplete="on"
           ng-model="order.billTo.zip">
       </div>
 
       <div class="form-group input-group"
-          ng-class="{'has-error': billToForm.province.$invalid && (billToForm.province.$dirty || showPristineErrors) }">
+          ng-class="{'has-error': addressForm.province.$invalid && (addressForm.province.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="provinceBill">{{'PROVINCE' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
           class="form-control" id="provinceBill" name="province" required autocomplete="on"
@@ -133,7 +133,7 @@
       </div>
 
       <div class="form-group input-group"
-          ng-class="{'has-error': billToForm.city.$invalid && (billToForm.city.$dirty || showPristineErrors) }">
+          ng-class="{'has-error': addressForm.city.$invalid && (addressForm.city.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="cityBill">{{'CITY' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
           class="form-control" id="cityBill" name="city" required autocomplete="on"
@@ -159,7 +159,7 @@
       </div>
 
       <div class="form-group input-group"
-          ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
+          ng-class="{'has-error': addressForm.address1.$invalid && (addressForm.address1.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="address1Bill">{{'ROOM_NUMBER' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                  class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
@@ -167,7 +167,7 @@
       </div>
 
       <div class="form-group input-group"
-           ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
+           ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                   class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
@@ -176,8 +176,7 @@
 
       <div class="form-group input-group">
           <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
-          <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
-                 autocomplete="on" placeholder="(Optional)">
+          <input type="text" class="form-control" id="companyNameBill"  placeholder="(Optional)" name="companyName" ng-model="order.billTo.companyName" autocomplete="on">
       </div>
 
 
