@@ -59,6 +59,6 @@ exports.config = {
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 120000
+        defaultTimeoutInterval: 150000
     }
 };
