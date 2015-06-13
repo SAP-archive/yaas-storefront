@@ -223,7 +223,7 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="USA"]')).click()
+    element(by.css('select option[value="US"]')).click()
     sendKeysById('city', city);
     element(by.css('select option[value="' + state + '"]')).click()
     sendKeysById('zipCode', zip);
