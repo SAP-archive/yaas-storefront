@@ -37,7 +37,7 @@ describe('product page', function () {
 
         });
 
-        iit('should get product detail page', function () {
+        it('should get product detail page', function () {
             var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
@@ -47,15 +47,17 @@ describe('product page', function () {
                 return element(by.binding(tu.productDescriptionBind)).isPresent();
             });
 
-            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('DESCRIPTION:\nDrink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
-            //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('$10.67');
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Drink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$10.67');
+
+            //the following to be re-enabled when multiple sites are supported
             //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Mugs');
 
-            //tu.selectLanguage('GERMAN');
+            // tu.selectLanguage('GERMAN');
             //tu.selectCurrency('EURO');
 
             //browser.sleep(3000);
-            //expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            // expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
             //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('€7.99');
             //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Tassen');
             // verify refreshing grabs correct config (STOR-1183)
@@ -75,7 +77,7 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', "WOMEN'S T-SHIRT - GRAY", '$14.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
         });
 
         //disabled until multiple sites are implemented
@@ -94,7 +96,7 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'WASSER-FLASCHE', '€19.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('created:desc', 'BIERKRUG W / HELLES', '€6.39');
+            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BIERKRUG W / HELLES', '€6.39');
         });
 
 
@@ -113,7 +115,7 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('created:desc', 'MOUSEPAD', '$1.99');
+            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'MOUSEPAD', '$1.99');
             browser.get(tu.tenant + '/#!/ct/mugs~269735936');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
@@ -122,11 +124,11 @@ describe('product page', function () {
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('created:desc', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/cosmetics~273954304');
         });
 
-        iit('should search', function () {
+        xit('should search', function () {
             tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
@@ -135,7 +137,7 @@ describe('product page', function () {
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });
 
-        it('not return search results', function () {
+        xit('not return search results', function () {
             tu.sendKeysByCss('div.col-xs-8.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
