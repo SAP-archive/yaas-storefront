@@ -101,6 +101,8 @@ angular.module('ds.checkout')
                 $scope.order.billTo.state = address.state;
                 $scope.order.billTo.zip = address.zipCode;
                 $scope.order.billTo.contactPhone = address.contactPhone;
+
+                $scope.$emit('localizedAddress:updated', address.country);
             };
 
             var getAddresses = function() {

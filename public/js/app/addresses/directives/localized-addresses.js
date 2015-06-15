@@ -17,7 +17,8 @@
  **/
 
 angular.module('ds.addresses').
-    directive('localizedAddresses', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
+    directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
+    	function($compile, $http, $templateCache, $rootScope) {
 
 		var initialize = function(scope, elem, viewType){
 			// set default template type
@@ -85,6 +86,13 @@ angular.module('ds.addresses').
 				}
 
 			};
+
+			debugger;
+            var unbind = $rootScope.$on('localizedAddress:updated', function (eve, eveObj) {
+            	debugger;
+            	var locale = {};
+                scope.changeLocale(locale);
+            });
 
 			initialize(scope, element, currentType);
         };
