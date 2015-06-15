@@ -46,10 +46,10 @@ angular.module('ds.ytracking', [])
 
                     $rootScope.$on('order:placed', function (arg, obj) {
                         //Send ordered cart items to piwik
-                        for(var i = 0; i < obj.cart.items.length; i++){
+                        for (var i = 0; i < obj.cart.items.length; i++) {
                             //sku, name, categoryName, unitPrice, amount
                             var item = obj.cart.items[i];
-                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '',item.unitPrice.value, item.quantity);
+                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
                         }
                         //Send order details to piwik
                         ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
@@ -72,10 +72,16 @@ angular.module('ds.ytracking', [])
     .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
         function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
 
-            //Url for piwik service
+            var internalCart = {};
+
+            /**
+            * Url for piwik service
+            */
             var url = siteConfig.apis.tracking.baseUrl;
 
-            //Create object from piwik GET request
+            /**
+            * Create object from piwik GET request
+            */
             var getQueryParameters = function (hash) {
                 var split = hash.split('&');
 
@@ -87,7 +93,9 @@ angular.module('ds.ytracking', [])
                 return obj;
             };
 
-            //Function that process piwik requests
+            /**
+            * Function that process piwik requests
+            */
             var processRequest = function (e) {
                 //Make post request to service
                 if (GlobalData.piwik.enabled) {
@@ -95,6 +103,9 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * Function that creates POST request to CDM endpoint
+            */
             var makeRequest = function (params) {
 
                 //Get object from query parameters
@@ -126,7 +137,9 @@ angular.module('ds.ytracking', [])
                     });
             };
 
-            //Initialization of piwik
+            /**
+            * Initialization of piwik
+            */
             var init = function () {
                 $window._paq = $window._paq || [];
 
@@ -140,7 +153,7 @@ angular.module('ds.ytracking', [])
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
                 $window._paq.push(['setTrackerUrl', url]);
-                $window._paq.push(['setSiteId', 1]);
+                $window._paq.push(['setSiteId', GlobalData.store.tenant]); //Ask CDM what they prefer
 
                 $window._paq.push(['trackPageView']);
                 $window._paq.push(['enableLinkTracking']);
@@ -153,58 +166,6 @@ angular.module('ds.ytracking', [])
             var setCustomUrl = function () {
                 if (!!$window._paq) {
                     $window._paq.push(['setCustomUrl', $window.document.URL]);
-                }
-            };
-
-            /**
-            * User updated cart
-            */
-            var cartUpdated = function (cart) {
-                //Add products to the order
-                if (!!cart.items) {
-                    for (var i = 0; i < cart.items.length; i++) {
-                        //sku, name, categoryName, unitPrice, amount
-                        var item = cart.items[i];
-                        addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
-                    }
-                }
-
-                //Records the cart for this visit
-                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
-                //$window._paq.push(['trackPageView', 'CartUpdated']);
-                //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
-            };
-
-            /**
-            * Function for adding item to cart
-            */
-            var addEcommerceItem = function (sku, name, categoryName, unitPrice, amount) {
-                if (!!$window._paq) {
-                    $window._paq.push(['addEcommerceItem',
-                        sku, // (required) SKU: Product unique identifier
-                        name, // (optional) Product name
-                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
-                        unitPrice, // (recommended) Product price
-                        amount // (optional, default to 1) Product quantity
-                    ]);
-                }
-            };
-
-            /**
-            * User created order
-            */
-            var orderPlaced = function (orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered) {
-                if (!!$window._paq) {
-                    $window._paq.push(['trackEcommerceOrder',
-                        orderId, // (required) Unique Order ID
-                        orderGrandTotal, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
-                        orderSubTotal, // (optional) Order sub total (excludes shipping)
-                        taxAmount, // (optional) Tax amount
-                        shippingAmount, // (optional) Shipping amount
-                        isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
-                    ]);
-
-                    //$window._paq.push(['trackPageView', 'OrderPlaced']);
                 }
             };
 
@@ -249,20 +210,6 @@ angular.module('ds.ytracking', [])
                 }
             };
 
-            var trackEvent = function (category, action, name, value) {
-                if (!!$window._paq) {
-                    $window._paq.push(['trackEvent',
-                        category,
-                        action,
-                        name,
-                        value
-                    ]);
-
-                    $window._paq.push(['trackPageView', 'trackEvent']);
-                }
-            };
-
-
             /**
             * User searched event
             */
@@ -301,6 +248,66 @@ angular.module('ds.ytracking', [])
             };
 
             /**
+            * User updated cart
+            */
+            var cartUpdated = function (cart) {
+                //Add products to the order
+                var i = 0;
+                console.log(internalCart);
+                console.log(cart);
+
+                //Check if there is some item that is removed in new cart??
+                if (!!internalCart.items && !!cart.items) {
+                    var productFound = false;
+                    for (i = 0; i < internalCart.items.length; i++) {
+                        //Check if this item exists in new cart
+                        for (var j = 0; j < cart.items.length; j++) {
+                            if (internalCart.items[i].product.id === cart.items[j].product.id) {
+                                productFound = true;
+                                break;
+                            }
+                        }
+                        if (!productFound) {
+                            //If it didn't break before that means that the item is not found and deleted
+                            addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].unitPrice.value, 0);
+                        }
+                        productFound = false;
+                    }
+                }
+
+                if (!!cart.items) {
+                    for (i = 0; i < cart.items.length; i++) {
+                        //sku, name, categoryName, unitPrice, amount
+                        var item = cart.items[i];
+                        addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
+                    }
+                }
+
+                //Records the cart for this visit
+                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
+                //$window._paq.push(['trackPageView', 'CartUpdated']);
+                //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
+
+                //Save previous state
+                internalCart = cart;
+            };
+
+            /**
+            * Function for adding item to cart
+            */
+            var addEcommerceItem = function (id, name, categoryName, unitPrice, amount) {
+                if (!!$window._paq) {
+                    $window._paq.push(['addEcommerceItem',
+                        id, // (required) SKU: Product unique identifier
+                        name, // (optional) Product name
+                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
+                        unitPrice, // (recommended) Product price
+                        amount // (optional, default to 1) Product quantity
+                    ]);
+                }
+            };
+
+            /**
             * User opened checkout page
             */
             var proceedToCheckout = function (cart) {
@@ -312,10 +319,28 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User created order
+            */
+            var orderPlaced = function (orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered) {
+                if (!!$window._paq) {
+                    $window._paq.push(['trackEcommerceOrder',
+                        orderId, // (required) Unique Order ID
+                        orderGrandTotal, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+                        orderSubTotal, // (optional) Order sub total (excludes shipping)
+                        taxAmount, // (optional) Tax amount
+                        shippingAmount, // (optional) Shipping amount
+                        isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
+                    ]);
+
+                    //$window._paq.push(['trackPageView', 'OrderPlaced']);
+                }
+            };
+
+
             return {
                 cartUpdated: cartUpdated,
                 init: init,
-                trackEvent: trackEvent,
                 addEcommerceItem: addEcommerceItem,
                 orderPlaced: orderPlaced,
                 setProductViewed: setProductViewed,
