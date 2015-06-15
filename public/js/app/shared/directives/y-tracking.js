@@ -25,7 +25,11 @@ angular.module('ds.ytracking', [])
 
                     //Handlers for events
                     $rootScope.$on('product:opened', function (arg, obj) {
-                        ytrackingSvc.setProductViewed(obj.id, obj.name, !!obj.richCategory ? obj.richCategory.name : '', !!obj.defaultPrice ? obj.defaultPrice.value : '');
+                        var name = obj.name || '';
+                        var category = !!obj.richCategory ? obj.richCategory.name : '';
+                        var price = !!obj.defaultPrice ? obj.defaultPrice.value : '';
+
+                        ytrackingSvc.setProductViewed(obj.id, name, category, price);
                     });
                     $rootScope.$on('category:opened', function (arg, obj) {
                         var path = '';
@@ -52,13 +56,20 @@ angular.module('ds.ytracking', [])
                             ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
                         }
                         //Send order details to piwik
-                        ytrackingSvc.orderPlaced(obj.orderId, obj.cart.totalPrice.value, obj.cart.subTotalPrice.value, 0, obj.cart.shippingCost.value, false);
+                        var orderId = obj.orderId || '';
+                        var totalPrice = !!obj.cart && !!obj.cart.totalPrice ? obj.cart.totalPrice.value : '';
+                        var subTotalPrice = !!obj.cart && !!obj.cart.subTotalPrice.value ? obj.cart.subTotalPrice.value : '';
+                        var tax = !!obj.cart && !!obj.cart.tax ? obj.cart.tax.value : '';
+                        var shippingCost = !!obj.cart && !!obj.cart.shippingCost ? obj.cart.shippingCost.value : '';
+                        ytrackingSvc.orderPlaced(orderId, totalPrice, subTotalPrice, tax, shippingCost, false);
                     });
 
                     $rootScope.$on('cart:updated', function (arg, obj) {
                         ytrackingSvc.cartUpdated(obj.cart);
                     });
 
+                    // This should be maybe changed, and user should put ng-click to all banners that we want to look for 
+                    // or say to user to give to all banners that they want to follow specific class
                     $document.on('click', '.banner', function () {
                         var element = angular.element(this);
                         var id = element.attr('id') || '';
@@ -242,8 +253,11 @@ angular.module('ds.ytracking', [])
             */
             var bannerClick = function (bannerId, url) {
                 if (!!$window._paq) {
-                    $window._paq.push(['setCustomVariable', 1, bannerId, url, 'page']);
-                    $window._paq.push(['trackLink', 'BannerClickEvent', 'action_name']);
+                    $timeout(function () {
+                        setCustomUrl();
+                        $window._paq.push(['setCustomVariable', 1, bannerId, url, 'page']);
+                        $window._paq.push(['trackLink', 'BannerClickEvent', 'action_name']);
+                    });
                 }
             };
 
@@ -251,27 +265,33 @@ angular.module('ds.ytracking', [])
             * User updated cart
             */
             var cartUpdated = function (cart) {
-                //Add products to the order
                 var i = 0;
-                console.log(internalCart);
-                console.log(cart);
 
                 //Check if there is some item that is removed in new cart??
-                if (!!internalCart.items && !!cart.items) {
-                    var productFound = false;
-                    for (i = 0; i < internalCart.items.length; i++) {
-                        //Check if this item exists in new cart
-                        for (var j = 0; j < cart.items.length; j++) {
-                            if (internalCart.items[i].product.id === cart.items[j].product.id) {
-                                productFound = true;
-                                break;
+                if (!!internalCart.items) {
+                    if (!!cart.items) {
+
+                        var productFound = false;
+                        for (i = 0; i < internalCart.items.length; i++) {
+                            //Check if this item exists in new cart
+                            for (var j = 0; j < cart.items.length; j++) {
+                                if (internalCart.items[i].product.id === cart.items[j].product.id) {
+                                    productFound = true;
+                                    break;
+                                }
                             }
+                            if (!productFound) {
+                                //If it didn't break before that means that the item is not found and deleted
+                                addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].unitPrice.value, 0);
+                            }
+                            productFound = false;
                         }
-                        if (!productFound) {
-                            //If it didn't break before that means that the item is not found and deleted
+                    }
+                    else {
+                        //All items are removed
+                        for (i = 0; i < internalCart.items.length; i++) {
                             addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].unitPrice.value, 0);
                         }
-                        productFound = false;
                     }
                 }
 
@@ -288,7 +308,7 @@ angular.module('ds.ytracking', [])
                 //$window._paq.push(['trackPageView', 'CartUpdated']);
                 //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
 
-                //Save previous state
+                //Save previous state for later comparasion (checking if objects are removed from cart)
                 internalCart = cart;
             };
 
@@ -312,10 +332,14 @@ angular.module('ds.ytracking', [])
             */
             var proceedToCheckout = function (cart) {
                 if (!!$window._paq) {
-                    var cartId = !!cart.id ? cart.id : '';
-                    $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
-                    //$window._paq.push(['trackEvent', 'checkout', 'proceed', '', '']);
-                    $window._paq.push(['trackLink', 'ProceedToCheckoutEvent', 'action_name']);
+                    $timeout(function () {
+                        setCustomUrl();
+
+                        var cartId = !!cart.id ? cart.id : '';
+                        $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
+                        //$window._paq.push(['trackEvent', 'checkout', 'proceed', '', '']);
+                        $window._paq.push(['trackLink', 'ProceedToCheckoutEvent', 'action_name']);
+                    });
                 }
             };
 
