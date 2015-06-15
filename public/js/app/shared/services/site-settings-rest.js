@@ -1,4 +1,4 @@
-/**
+﻿/*
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2015 hybris AG
@@ -12,14 +12,12 @@
 
 'use strict';
 
-/** REST service configuration for the "configuration" API. */
 angular.module('ds.shared')
-    .factory('ConfigurationREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
+    .factory('SiteSettingsREST', ['Restangular', 'SiteConfigSvc', function (Restangular, siteConfig) {
 
         return {
-            /** Main configuration endpoint.*/
-            Config: Restangular.withConfig(function(RestangularConfigurer) {
-                RestangularConfigurer.setBaseUrl(siteConfig.apis.configuration.baseUrl);
+            SiteSettings: Restangular.withConfig(function (RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.siteSettings.baseUrl);
             })
         };
 

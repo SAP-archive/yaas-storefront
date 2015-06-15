@@ -36,14 +36,20 @@ angular.module('ds.router', [])
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
                             controller: 'CartCtrl'
+                        },
+                        'footer@':{
+                            templateUrl: 'js/app/shared/templates/footer.html'
                         }
                     },
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: ['ConfigSvc', function(ConfigSvc) {
+                        /* jshint ignore:start */
+                        initialized: ['ConfigSvc',function(ConfigSvc) {
                             return ConfigSvc.initializeApp();
                         }]
+                        /* jshint ignore:end */
+
                     }
                 })
                 .state('base.home', {
@@ -89,6 +95,9 @@ angular.module('ds.router', [])
                         'main@': {
                             templateUrl: 'js/app/products/templates/product-list.html',
                             controller: 'BrowseProductsCtrl'
+                        },
+                        'footer@': {
+                            template:''
                         }
                     },
                     resolve: {

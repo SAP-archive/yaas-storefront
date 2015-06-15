@@ -34,8 +34,9 @@
         margin: 0 20px;
         font-size: 17px;
         text-transform: uppercase;
+        font-weight: bold;
         color: #3c3c3c;
-        height: 50px;
+        max-height: 50px;
         overflow: hidden;
       }
 
@@ -43,7 +44,6 @@
         margin: 0 20px ;
         font:17px @font-family-serif, sans-serif;
         font-style: italic;
-        font-weight: bold;
         color: #3c3c3c;
       }
     }
@@ -52,7 +52,7 @@
 
 // hero unit width quote and user image at the bottom
 section .hero-unit{
-  margin: -30px -30px 30px;
+  margin: -30px -58px 30px;
 }
 
 .hero-unit{
@@ -96,14 +96,7 @@ section .hero-unit{
 
 
 /*Affix between hero unit and products lists which track number of viewed products*/
-.productListingBreadCrumb{
-  .breadCrumbText{
-    font:13px @font-family-serif;
-    font-style: italic;
-    color: #7d7e7f;
-    margin: 0 0 15px 0;
-  }
-}
+
 
 .refine-section{
   margin: 0;
@@ -200,7 +193,7 @@ section .hero-unit{
   }
 
   .sortContainer{
-    background: #fff;
+    border: 1px solid #ebeced;
     height: 46px;
     line-height: 46px;
     padding-right: 0;
@@ -369,13 +362,11 @@ section .hero-unit{
   }
 }
 
+
+
 .responsive-fixed{
   position: fixed;
   width: auto;
   left: 0;
   right: 0;
-
-  @media (min-width: @screen-md-min) {
-    left: @offcanvas-left-width-d;
-  }
 }

@@ -27,7 +27,7 @@ describe('coupons:', function () {
 
     function couponCheckoutTest(couponCode, price) {
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -76,7 +76,7 @@ describe('coupons:', function () {
             browser.sleep(500);
         });
 
-        it('should not allow user to add coupon with incorrect currency', function () {
+        xit('should not allow user to add coupon with incorrect currency', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             tu.selectCurrency('EURO');
             tu.loadProductIntoCart('1', '€7.99');
@@ -90,7 +90,7 @@ describe('coupons:', function () {
         });
 
 
-        iit('should add percentage off coupon on cart', function () {
+        it('should add percentage off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
@@ -109,7 +109,7 @@ describe('coupons:', function () {
             addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
-            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -166,7 +166,8 @@ describe('coupons:', function () {
         it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin');
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            browser.sleep(1000);
+            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -216,7 +217,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
-        it('should allow euro off on checkout', function () {
+        xit('should allow euro off on checkout', function () {
             tu.createAccount('coupontesteuro');
             tu.selectCurrency('EURO');
             couponCheckoutTest('5EURO', '€7.99');

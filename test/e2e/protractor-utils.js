@@ -109,7 +109,7 @@ exports.sortAndVerifyPagination = function (sort, product1, price1) {
     selectOption(sort);
     browser.sleep(250);
     assertTextByRepeaterRow(0, product1);
-    expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
+    expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual(price1);
 };
 
 exports.sendKeysByXpath = function (pageElement, keys) {
@@ -120,6 +120,11 @@ exports.sendKeysByXpath = function (pageElement, keys) {
 var sendKeysById = exports.sendKeysById = function (pageElement, keys) {
     element(by.id(pageElement)).clear();
     element(by.id(pageElement)).sendKeys(keys);
+};
+
+var sendKeysByCss = exports.sendKeysByCss = function (pageElement, keys) {
+    element(by.css(pageElement)).clear();
+    element(by.css(pageElement)).sendKeys(keys);
 };
 
 exports.selectLanguage = function (language) {
@@ -175,7 +180,7 @@ exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
     browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
     browser.sleep(200);
-    clickElement('id', "login-btn");
+    clickElement('id', 'login-btn');
     browser.wait(function () {
         return element(by.binding('SIGN_IN')).isPresent();
     });
@@ -218,7 +223,7 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="USA"]')).click()
+    element(by.css('select option[value="US"]')).click()
     sendKeysById('city', city);
     element(by.css('select option[value="' + state + '"]')).click()
     sendKeysById('zipCode', zip);
@@ -229,14 +234,15 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
 var timestamp = Number(new Date());
 
 exports.createAccount = function(emailAddress) {
-    clickElement('id', "login-btn");
+    clickElement('id', 'login-btn');
     browser.sleep(1000);
     clickElement('linkText', 'Create Account');
     sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
     sendKeysById('newPasswordInput', 'password');
     clickElement('id', 'create-acct-btn');
     browser.sleep(1000);
-    clickElement('css', 'img.user-avatar');
+    clickElement('id', 'my-account-dropdown');
+    clickElement('id', 'my-account');
     browser.sleep(1000);
 }
 
