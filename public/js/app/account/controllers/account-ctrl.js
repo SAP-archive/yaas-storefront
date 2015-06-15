@@ -97,7 +97,6 @@ angular.module('ds.account')
             });
 
             $scope.save = function (address, formValid, form, formObj) {
-                console.log(formObj.$error.required);
                 $scope.$broadcast('submitting:form', form);
                 if (formValid) {
                     AccountSvc.saveAddress(address).then(

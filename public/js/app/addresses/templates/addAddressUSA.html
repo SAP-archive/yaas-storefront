@@ -8,7 +8,7 @@
         ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
         <label class="input-group-addon control-label" for="contactName">{{'FULL_NAME' | translate}}</label>
         <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)"
-        ng-required="addressForm.country.$viewValue.id === 'USA'">
+        ng-required="addressForm.country.$invalid || addressForm.country.$viewValue.id === 'USA'">
       </div>
 
 
