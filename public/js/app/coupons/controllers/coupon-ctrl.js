@@ -31,8 +31,8 @@ angular.module('ds.coupon')
             $scope.applyCoupon = function(couponCode) {
 
                 var cartData = {};
-                if(angular.isObject($scope.cart) && angular.isObject($scope.cart.subTotalPrice) && angular.isDefined($scope.cart.subTotalPrice.value)){
-                    cartData = { subTotalPrice: $scope.cart.subTotalPrice.value };
+                if(angular.isObject($scope.cart) && angular.isObject($scope.cart.subTotalPrice) && angular.isDefined($scope.cart.subTotalPrice.amount)){
+                    cartData = { subTotalPrice: $scope.cart.subTotalPrice.amount };
                     UserCoupon.applyCoupon(couponCode, cartData);
                 }
             };

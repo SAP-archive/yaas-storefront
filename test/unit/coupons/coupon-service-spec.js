@@ -49,12 +49,16 @@ describe('Coupon Service Test:', function () {
             meta: {
                 total: 0
             }
-        }
+        },
+        getCurrencyId: function() { return 'USD'}
     };
 
-    var mockedGlobalData = {
-        getCurrencyId: function(){
-            return 'USD'
+    var mockedAppConfig = {
+        storeTenant: function(){
+            return '121212/';
+        },
+        dynamicDomain: function(){
+            return 'api.yaas.io';
         }
     };
 
@@ -70,6 +74,7 @@ describe('Coupon Service Test:', function () {
             $provide.constant('appConfig', {} );
             $provide.value('GlobalData', mockedGlobalData);
             $provide.value('AuthSvc', AuthSvc);
+            $provide.constant('appConfig', mockedAppConfig );
         });
     });
 
@@ -187,7 +192,7 @@ describe('Coupon Service Test:', function () {
         it("should redeem a coupon", function() {
 
             var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
-            var couponCartRequest = {"code":"1234","amount":1.99,"name":"something","currency":"USD","sequenceId":"1","calculationType":"ApplyDiscountBeforeTax","link":{"type":"COUPON","url":"http://localhost/coupons/undefined"}},
+            var couponCartRequest = {"amount":1.99,"code":"1234","currency":"USD","name":"something","calculationType":"ApplyDiscountBeforeTax","links":[{"rel":"validate","href":"https://api.yaas.io/hybris/coupon/b1/121212/coupons/1234/validation","type":"application/json","title":"Discounts Validate"},{"rel":"redeem","href":"https://api.yaas.io/hybris/coupon/b1/121212/coupons/1234/redemptions","type":"application/json","title":"Discounts Redeem"}],"sequenceId":1},
             couponRequest = CouponSvc.buildCouponRequest( '1234', 'USD', 9.99, 1.99 ),
             response = {},
             successSpy = jasmine.createSpy('success'),

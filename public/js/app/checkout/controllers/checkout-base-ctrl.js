@@ -26,7 +26,7 @@ angular.module('ds.checkout')
             var totalPrice = 0;
 
             $scope.showEditCart = function(){
-                totalPrice = $scope.cart.totalPrice.value;
+                totalPrice = $scope.cart.totalPrice.amount;
                 $rootScope.checkoutCartEditVisible = true;
             };
             $scope.hideEditCart = function(){
@@ -37,7 +37,7 @@ angular.module('ds.checkout')
                     //Check if the subtotal value when opened edit cart is the different when closed
                     // (there are changes to cart)
                     CartSvc.getCart().then(function (cart){
-                        if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
+                        if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.amount){
                             //call method that will check if needed to redirect to step2 in mobile
                             $scope.$broadcast('goToStep2');
                         }

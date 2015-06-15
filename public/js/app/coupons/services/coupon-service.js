@@ -16,8 +16,8 @@
  *  Provides a variety of coupon: access, validation, and redemptions services.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['$q', 'SiteConfigSvc', 'CouponREST', 'CartREST', 'GlobalData',
-        function($q, siteConfig, CouponREST, CartREST, GlobalData){
+    .factory('CouponSvc', ['$q', 'SiteConfigSvc', 'CouponREST', 'CartREST', 'GlobalData', 'appConfig',
+        function($q, siteConfig, CouponREST, CartREST, GlobalData, appConfig){
 
         return {
             /**
@@ -147,19 +147,29 @@ angular.module('ds.coupon')
             },
 
             buildCouponCartRequest: function( couponObj, couponId, currencyType ){
+                var apiPath = appConfig.dynamicDomain();
                 return {
                             'id': couponId,
-                            'code': couponObj.code,
                             'amount': couponObj.amounts.discountAmount,
-                            'name': couponObj.name,
+                            'code': couponObj.code,
                             'currency': currencyType,
-                            'sequenceId': '1', //increment for multiple coupons.
+                            'name': couponObj.name,
                             'calculationType': 'ApplyDiscountBeforeTax',
-                            'link': {
-                                'id': couponId,
-                                'type': 'COUPON',
-                                'url': 'http://localhost/coupons/'+couponId
-                            }
+                            'links': [
+                                {
+                                  'rel': 'validate',
+                                  'href': 'https://' + apiPath + '/hybris/coupon/b1/' + GlobalData.store.tenant + '/coupons/' + couponObj.code + '/validation',
+                                  'type': 'application/json',
+                                  'title': 'Discounts Validate'
+                                },
+                                {
+                                  'rel': 'redeem',
+                                  'href': 'https://' + apiPath + '/hybris/coupon/b1/' + GlobalData.store.tenant + '/coupons/' + couponObj.code + '/redemptions',
+                                  'type': 'application/json',
+                                  'title': 'Discounts Redeem'
+                                }
+                            ],
+                            'sequenceId': 1, //increment for multiple coupons.
                     };
             },
 

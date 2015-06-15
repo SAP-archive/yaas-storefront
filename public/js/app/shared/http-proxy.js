@@ -54,6 +54,8 @@ angular.module('ds.httpproxy', [])
                             GlobalData.piwik.firstCall = false;
                         }
                     }
+                    else if (response.config.url.indexOf('loginconfig') > -1) {
+                    }
                     else {
                         //Normal process of other responses
                         if (response.status === 401) {
