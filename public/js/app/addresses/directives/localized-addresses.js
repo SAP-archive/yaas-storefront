@@ -20,6 +20,14 @@ angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
     	function($compile, $http, $templateCache, $rootScope) {
 
+		var selectionArray = [
+				{id: 'USA', name:'USA'},
+				{id: 'CAN', name:'CANADA'},
+				{id: 'UK',  name:'UK'},
+				{id: 'GER', name:'GERMANY'},
+				{id: 'CHI', name:'CHINA'},
+				{id: 'JPN', name:'JAPAN'}];
+
 		var initialize = function(scope, elem, viewType){
 			// set default template type
 			loadTemplate(scope, elem, '', viewType);
@@ -53,44 +61,58 @@ angular.module('ds.addresses').
             return templateLoader;
         };
 
+        var getLocaleSelection = function(name) {
+        	var locale = {};
+        	angular.forEach(selectionArray, function(item){
+        		debugger;
+        		if (item.name === name){
+        			locale = item;
+        			return false;
+        		}
+        	});
+        	return locale;
+
+        };
+
         var templateLinker = function(scope, element, attrs) {
 
 			var currentType = attrs.type;
-			scope.localeSelections = [
-				{id: 'USA', name:'USA'},
-				{id: 'CAN', name:'CANADA'},
-				{id: 'UK',  name:'UK'},
-				{id: 'GER', name:'GERMANY'},
-				{id: 'CHI', name:'CHINA'},
-				{id: 'JPN', name:'JAPAN'}];
+			scope.localeSelections = selectionArray;
+			// scope.localeSelections = [
+			// 	{id: 'USA', name:'USA'},
+			// 	{id: 'CAN', name:'CANADA'},
+			// 	{id: 'UK',  name:'UK'},
+			// 	{id: 'GER', name:'GERMANY'},
+			// 	{id: 'CHI', name:'CHINA'},
+			// 	{id: 'JPN', name:'JAPAN'}];
 
 			// localization selection handler
 			scope.changeLocale = function(locale){
 
 				loadTemplate(scope, element, locale.id, attrs.type);
 
+				debugger;
 				// set dynamic datamodel
 				switch(currentType){
 					case 'addAddress':
-						scope.address.country = scope.localeSelection.name;
+						scope.address.country = locale.name;
 						break;
 					case 'billing':
-						scope.order.billTo.country = scope.localeSelection.name;
+						scope.order.billTo.country = locale.name;
 						break;
 					case 'shipping':
-						scope.order.shipTo.country = scope.localeSelection.name;
+						scope.order.shipTo.country = locale.name;
 						break;
 					default:
 						break;
-
 				}
 
 			};
 
-			debugger;
-            var unbind = $rootScope.$on('localizedAddress:updated', function (eve, eveObj) {
+            var unbind = $rootScope.$on('localizedAddress:updated', function (e, name) {
             	debugger;
-            	var locale = {};
+            	var locale = getLocaleSelection(name);
+            	scope.localeSelection = locale;
                 scope.changeLocale(locale);
             });
 
