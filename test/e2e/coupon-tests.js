@@ -70,7 +70,7 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
             browser.sleep(1000);
             removeFromCart();
             browser.sleep(500);
@@ -182,7 +182,7 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'Add Coupon Code');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
             tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
