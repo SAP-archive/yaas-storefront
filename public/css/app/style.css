@@ -8440,6 +8440,16 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   font-size: 13px;
   height: auto;
 }
+.productDetailsContainer .product-details .productPricingContainer select {
+  width: 100%;
+  border-left: 1px solid #ccc;
+}
+.productDetailsContainer .product-details .productPricingContainer .form-group {
+  width: 100%;
+}
+.productDetailsContainer .product-details .productPricingContainer input {
+  width: 100%;
+}
 .productDetailsContainer .product-details .price {
   font-size: 39px;
   margin: 0 0 20px 0;
@@ -9852,4 +9862,23 @@ section footer button {
 }
 .open > .dropdown-menu {
   display: block !important;
+}
+.originalPrice {
+  text-decoration: line-through;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 14px;
+}
+.salesPrice {
+  display: inline-block;
+  margin-left: 10px;
+  color: #3ab85d;
+}
+.priceUnit {
+  font-size: 14px;
+  color: #969697;
+  margin-left: 2px;
+}
+.priceUnit:before {
+  content: '/';
 }

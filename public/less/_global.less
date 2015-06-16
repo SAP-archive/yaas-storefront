@@ -195,3 +195,26 @@ section{
   display: block !important;
 }
 
+.originalPrice{
+  text-decoration: line-through;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.salesPrice{
+  display: inline-block;
+  margin-left: 10px;
+  color: #3ab85d;
+
+}
+
+.priceUnit{
+  font-size: 14px;
+  color: #969697;
+  margin-left: 2px;
+  &:before{
+    content: '/'
+  }
+}
+
