@@ -207,6 +207,10 @@ angular.module('ds.cart')
 
                     var price = { 'priceId': prices[0].priceId, 'effectiveAmount': prices[0].effectiveAmount, 'originalAmount': prices[0].originalAmount, 'currency': prices[0].currency };
 
+                    if (prices[0].measurementUnit) {
+                        price.measurementUnit = prices[0].measurementUnit;
+                    }
+
                     var item = new Item(product, price, qty);
 
                     CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function () {
