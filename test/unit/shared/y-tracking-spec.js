@@ -358,11 +358,6 @@ describe('ytracking', function () {
         });
 
 
-        it('should add new item to _paq when user clicked on banner', function () {
-
-        });
-
-
     });
 
 });

@@ -25,11 +25,12 @@ angular.module('ds.ytracking', [])
 
                     //Handlers for events
                     $rootScope.$on('product:opened', function (arg, obj) {
-                        var name = obj.name || '';
-                        var category = !!obj.richCategory ? obj.richCategory.name : '';
-                        var price = !!obj.defaultPrice ? obj.defaultPrice.value : '';
 
-                        ytrackingSvc.setProductViewed(obj.id, name, category, price);
+                        var name = !!obj.product && !!obj.product.name ? obj.product.name : '';
+                        var category = !!obj.categories && !!obj.categories[0] ? obj.categories[0].name : '';
+                        var price = !!obj.prices && !!obj.prices[0] ? obj.prices[0].effectiveAmount : '';
+
+                        ytrackingSvc.setProductViewed(obj.product.id, name, category, price);
                     });
                     $rootScope.$on('category:opened', function (arg, obj) {
                         var path = '';
@@ -53,15 +54,17 @@ angular.module('ds.ytracking', [])
                         for (var i = 0; i < obj.cart.items.length; i++) {
                             //sku, name, categoryName, unitPrice, amount
                             var item = obj.cart.items[i];
-                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
+                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', item.itemPrice.amount, item.quantity);
                         }
                         //Send order details to piwik
                         var orderId = obj.orderId || '';
-                        var totalPrice = !!obj.cart && !!obj.cart.totalPrice ? obj.cart.totalPrice.value : '';
-                        var subTotalPrice = !!obj.cart && !!obj.cart.subTotalPrice.value ? obj.cart.subTotalPrice.value : '';
-                        var tax = !!obj.cart && !!obj.cart.tax ? obj.cart.tax.value : '';
-                        var shippingCost = !!obj.cart && !!obj.cart.shippingCost ? obj.cart.shippingCost.value : '';
-                        ytrackingSvc.orderPlaced(orderId, totalPrice, subTotalPrice, tax, shippingCost, false);
+                        var totalPrice = !!obj.cart && !!obj.cart.totalPrice ? obj.cart.totalPrice.amount : '';
+                        var subTotalPrice = !!obj.cart && !!obj.cart.subTotalPrice.amount ? obj.cart.subTotalPrice.amount : '';
+                        var tax = !!obj.cart && !!obj.cart.totalTax ? obj.cart.totalTax.amount : '';
+                        var shippingCost = !!obj.cart && !!obj.cart.shippingCost ? obj.cart.shippingCost.amount : '';
+                        var discountOffered = false;
+
+                        ytrackingSvc.orderPlaced(orderId, totalPrice, subTotalPrice, tax, shippingCost, discountOffered);
                     });
 
                     $rootScope.$on('cart:updated', function (arg, obj) {
@@ -282,7 +285,7 @@ angular.module('ds.ytracking', [])
                             }
                             if (!productFound) {
                                 //If it didn't break before that means that the item is not found and deleted
-                                addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].unitPrice.value, 0);
+                                addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].itemPrice.amount, 0);
                             }
                             productFound = false;
                         }
@@ -290,7 +293,7 @@ angular.module('ds.ytracking', [])
                     else {
                         //All items are removed
                         for (i = 0; i < internalCart.items.length; i++) {
-                            addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].unitPrice.value, 0);
+                            addEcommerceItem(internalCart.items[i].product.id, internalCart.items[i].product.name, '', internalCart.items[i].itemPrice.amount, 0);
                         }
                     }
                 }
@@ -299,12 +302,12 @@ angular.module('ds.ytracking', [])
                     for (i = 0; i < cart.items.length; i++) {
                         //sku, name, categoryName, unitPrice, amount
                         var item = cart.items[i];
-                        addEcommerceItem(item.product.id, item.product.name, '', item.unitPrice.value, item.quantity);
+                        addEcommerceItem(item.product.id, item.product.name, '', item.itemPrice.amount, item.quantity);
                     }
                 }
 
                 //Records the cart for this visit
-                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.value : 0]); // (required) Cart amount
+                $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.amount : 0]); // (required) Cart amount
                 //$window._paq.push(['trackPageView', 'CartUpdated']);
                 //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
 
