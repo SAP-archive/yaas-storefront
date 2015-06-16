@@ -112,10 +112,10 @@ describe('Coupon Ctrl Test: ', function () {
         it('should apply a PERCENT coupon', function () {
             $scope.cart = {
                 totalPrice : {
-                    value: 9.99
+                    amount: 9.99
                 },
                 subTotalPrice: {
-                    value: 11.99
+                    amount: 11.99
                 }
             };
             var couponData = {
@@ -132,10 +132,10 @@ describe('Coupon Ctrl Test: ', function () {
         it('should apply a ABSOLUTE coupon', function () {
             $scope.cart = {
                 totalPrice : {
-                    value: 9.99
+                    amount: 9.99
                 },
                 subTotalPrice: {
-                    value: 44.99
+                    amount: 44.99
                 }
             };
             var couponData = {
@@ -152,10 +152,10 @@ describe('Coupon Ctrl Test: ', function () {
         it('should apply an ABSOLUTE ZERO coupon, with a larger discount than subtotal', function () {
             $scope.cart = {
                 totalPrice : {
-                    value: 9.99
+                    amount: 9.99
                 },
                 subTotalPrice: {
-                    value: 1.99
+                    amount: 1.99
                 }
             };
             var couponData = {

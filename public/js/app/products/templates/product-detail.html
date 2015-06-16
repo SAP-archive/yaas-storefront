@@ -7,14 +7,14 @@
                     <div class="row">
                         <div class="col-md-10">
                             <div class="image">
-                                <div ng-repeat="image in product.media">
+                                <div ng-repeat="image in product.product.media">
                                     <img class="lazyOwl" data-src="{{image.url}}" data-zoom="{{image.url}}" alt="">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class=" thumbnails" ng-if="product.media && product.media.length > 1">
-                                <a ng-repeat="image in product.media" class="item" href="#">
+                            <div class=" thumbnails" ng-if="product.product.media && product.product.media.length > 1">
+                                <a ng-repeat="image in product.product.media" class="item" href="#">
                                     <img class="lazyOwl" data-src="{{image.url}}" alt="">
                                 </a>
                             </div>
@@ -25,10 +25,10 @@
             <div class="col-md-6">
                 <div class="product-details text-center">
                     <h1 class="pageTitle">
-                        {{product.name}}
+                        {{product.product.name}}
                         
                     </h1>
-                    <div class="price">{{ product.defaultPrice.value | currency: currencySymbol}}</div>
+                    <div class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
     
                     <form action="" class="cartPanel">
                         <div class="row" >
@@ -50,8 +50,8 @@
                                 </div>
                             </div>
                             <div  class="col-md-12 col-lg-12 buyButton">
-                                <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                                <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
+                                <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                                <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
                         </div>
                     </form>
@@ -62,7 +62,7 @@
     <section class="gray">
         <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
         <div class="description">
-            {{product.description}}
+            {{product.product.description}}
         </div>
     </section>
 </div>

@@ -109,7 +109,7 @@ exports.sortAndVerifyPagination = function (sort, product1, price1) {
     selectOption(sort);
     browser.sleep(250);
     assertTextByRepeaterRow(0, product1);
-    expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
+    expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual(price1);
 };
 
 exports.sendKeysByXpath = function (pageElement, keys) {
@@ -223,7 +223,7 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="USA"]')).click()
+    element(by.css('select option[value="US"]')).click()
     sendKeysById('city', city);
     element(by.css('select option[value="' + state + '"]')).click()
     sendKeysById('zipCode', zip);

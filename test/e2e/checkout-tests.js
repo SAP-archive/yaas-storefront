@@ -174,10 +174,10 @@ describe("checkout:", function () {
 
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
-            browser.wait(function () {
-                return element(by.repeater('top_categorycategory in categories').row(0).column('top_category.name')).isPresent();
-            });
-            element(by.repeater('top_category in top_categories').row(0).column('top_category.name')).click();
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
             browser.wait(function () {
                 return element(by.xpath(tu.whiteThermos)).isPresent();
             });
@@ -196,7 +196,7 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$28.93', '1');
         });
 
-        it('should allow all fields to be editable', function () {
+        iit('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');

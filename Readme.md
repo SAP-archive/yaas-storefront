@@ -80,7 +80,7 @@ Credential parameters also exist for automated build environments. With NPM 2.0,
 
 $ npm run-script singleProd -- --pid=abc --cid=123
 
-This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be set by default to the variable values in the gruntfile.
+This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be set by default to the build configuration variables in the gruntfile.
 
 
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
@@ -89,8 +89,7 @@ This allows for many different projects with many different clients to be config
 ### 6.  Deploy application to server
 
 You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single project mode (default),
-you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack)
- that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
+you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack) that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
 
 cf push -f static-manifest.yml
 
@@ -168,14 +167,44 @@ There are two distinct localization settings related to the store:  there are th
 
 This project contains the capability to run the same deployed store template against multiple configured storefronts. In order to do so, start the server by calling  "npm run-script multiProd".  This will start up the Express.JS server configured in file multi-tenant/multi-tenant-service.js. The multi-project mode is provided for development and test purposes only.
 
-In the multi-project setup, instead of reading the project ID from bootstrap.js, the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: http://localhost:9000/myproject.
+In the multi-project setup, instead of reading the project ID from bootstrap.js, the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: 
+
+    http://localhost:9000/myproject.
 
 ## Security
+
+### DevPortal Security Documentation
+
+A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at https://devportal.yaas.io/overview/storefrontsecurity.html Below is a brief on a few or our recomendations.
+
+### y-input
+
+One personalized security choice you have is for the custom data wrapper directive called y-input. It gives you the ability to finely tune regular expression input checking types for specific fields, like email, password, id, etc... as added ensurance against XSS.
+
+### Angular Version
+
+It is a good idea to ensure your Angular version dependencies are above 1.2 to gain the $SCE (strict contextual escaping) that is added by default in that version. For example, you should specify your angular build version in some variety(latest) greater than 1.2 like so:
+  "dependencies": {
+    "angular": "~1.3.0"
+
 
 ### Click-Jacking
 
 It is recommended that you configure your deployment HTTP server to send the X-FRAME-OPTIONS header to restrict others from hosting your site inside an IFrame.
-See [OWASP Click-Jacking] (https://www.owasp.org/index.php/Clickjacking).
+See [OWASP Click-Jacking]
+
+    (https://www.owasp.org/index.php/Clickjacking).
+
+### HTTPS
+
+We strongly recommend domains that are encrypted into a Secure Socket Layer (SSL) HTTPS session. Possibly also a forced redirect is optimal to ensure that all http users are converted into encrypted streams. For example of this see the configuration in the NodeJS server file located at: server/singleProdServer.js
+
+
+### OWASP
+
+For more information on any of these topics see OWASP. For starters, here is a good checklist of guidlines and an industry resource for Information Security best practices:
+
+    https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet
 
 ## Optimization
 
@@ -183,9 +212,25 @@ Performance optimizations are included in the gruntfile to improve the initial l
 
 A short list of the performance optimizations available are: JS & CSS minification, file revisioning, http template caching, and GZip in the NodeJS server.
 
+
+## Modularity
+
+At the core of what AngularJS is getting right, right now, are modules and components. The storefront architecture was design in best-practice manner to allow extensibility along any folder in the physical architecture. This is done by grouping files by Component first, then by language Type. So for example, a 'SomeFeature' folder that contains controllers, directives, services, templates. This structure allows reuse in the ability to add and differentiate any number of similar but different html, controllers, directives, etc. All the way up to the very top of the application in the bootstrap.js file. Where it is possible to partition and run in parallel separate variations of the codebase through manual variation of the base module in the angular.bootstrap parameter:
+
+    angular.bootstrap( document, ['ds.app'] );
+
+### Extensibility Plan
+
+The nice thing about the structure of AngularJS is that it gives you the ability to differentiate your business requirements into the architecture without ever having to touch the original codebase. This is possible if you are replicating the pieces that you need in parallel with the existing structure - like a scaffolding. For example before you make any modifications to say the gruntfile or the package.json - you should really split the That way, pulling down advancements in the demostore can be isolated to files that you are never using in production. Admittedly, this parallel replication process is low ceremony, but it becomes really helpful in extending the codbase year after year of feature implementation and sales growth. All while having a fully updated hybris demostore supporting your advancement while you develop. Those topics and more are discussed at the following DevPortal location:
+
+    https://devportal.yaas.io/overview/extendingthestorefront.html
+
+
 # Resources
 
-For in-depth API documentation, please visit https://devportal.yaas.io/
+For in-depth API documentation, please visit:
+
+    https://devportal.yaas.io/
 
 ## About this Project
 

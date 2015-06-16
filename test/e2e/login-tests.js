@@ -112,13 +112,13 @@ describe("login:", function () {
             expect(element(by.binding("defaultAddress.city")).getText()).toEqual("Boulder");
             expect(element(by.binding("defaultAddress.state")).getText()).toContain("CO");
             expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
-            expect(element(by.binding("defaultAddress.country")).getText()).toEqual("USA");
+            expect(element(by.binding("defaultAddress.country")).getText()).toEqual("US");
             expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
             tu.populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual("321 phony street, apt 420");
             expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Denver, CO 90210");
-            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("USA");
+            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("US");
             expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual("720-555-1234");
             tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
             browser.sleep(1500);

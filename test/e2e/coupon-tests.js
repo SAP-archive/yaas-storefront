@@ -90,7 +90,7 @@ describe('coupons:', function () {
         });
 
 
-        iit('should add percentage off coupon on cart', function () {
+        it('should add percentage off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
@@ -166,7 +166,8 @@ describe('coupons:', function () {
         it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin');
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            browser.sleep(1000);
+            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();

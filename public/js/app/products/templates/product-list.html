@@ -19,23 +19,23 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                 <div class="clearfix visible-sm"></div>
-                <div class="col-sm-7 col-md-6 col-lg-3">
-                    <div class="sortContainer">
-                        <div class="name">{{'SORT_BY' | translate}}:</div>
-                        <div class="form-group">
-                            <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
+        </div>
+        <div class="row">
+             <div class="clearfix visible-sm"></div>
+            <div class="col-sm-7 col-md-6 col-lg-3">
+                <div class="sortContainer">
+                    <div class="name">{{'SORT_BY' | translate}}:</div>
+                    <div class="form-group">
+                        <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
-                            <div>
-                                <span class='css-select-moz'>
-                                    <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                        <option value="name">A-Z</option>
-                                        <option value="name:desc">Z-A</option>
-                                        <option value="created:desc">{{'NEWEST' | translate}}</option>
-                                    </select>
-                                </span>
-                            </div>
+                        <div>
+                            <span class='css-select-moz'>
+                                <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
+                                    <option value="name">A-Z</option>
+                                    <option value="name:desc">Z-A</option>
+                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -58,25 +58,24 @@
 
         <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
 
-        <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
-             infinite-scroll-immediate-check="false"
-             infinite-scroll-data="pagination" ng-cloak
-             infinite-scroll-visible-items>
-            <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
-                 on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
+    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
+         infinite-scroll-immediate-check="false"
+         infinite-scroll-data="pagination" ng-cloak
+         infinite-scroll-visible-items>
+        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
+             on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
 
-                <a id="p_{{product.id}}" ng-click="openProductDetails(product.id)" ui-sref="base.product.detail( {productId: product.id, lastCatId: lastCatId} )">
+            <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
 
-                    <div class="thumb">
-                        <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
+                <div class="thumb">
+                    <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
 
-                    </div>
-                    <div class="productInfoContainer text-center">
-                        <div class="name">{{ product.name }}</div>
-                        <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
-                    </div>
-                </a>
-            </div>
+                </div>
+                <div class="productInfoContainer text-center">
+                    <div class="name">{{ product.product.name }}</div>
+                    <div class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
+                </div>
+            </a>
         </div>
 
         <button type="button" id="to-top-btn" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">

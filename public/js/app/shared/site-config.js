@@ -44,7 +44,7 @@ angular.module('ds.shared')
                 },
 
                 cart: {
-                    baseUrl: 'https://' + apiPath + '/cart/v5/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/cart/b1/' + tenantId
                 },
 
                 categories: {
@@ -52,11 +52,7 @@ angular.module('ds.shared')
                 },
 
                 checkout: {
-                    baseUrl: 'https://' + apiPath + '/checkout-mashup/v4/' + tenantId
-                },
-
-                configuration: {
-                    baseUrl: 'https://' + apiPath + '/configuration/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/checkout/b1/' + tenantId
                 },
 
                 coupon: {
@@ -68,26 +64,30 @@ angular.module('ds.shared')
                 },
 
                 orders: {
-                    baseUrl: 'https://' + apiPath + '/order/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/order/b1/' + tenantId
                 },
 
                 prices: {
-                    baseUrl: 'https://' + apiPath + '/price/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/price/b1/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/product/v3/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/hybris/product/b1/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/product-details/v3/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/product-details/b1/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + apiPath + '/shipping-cost/v4/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/shipping-cost/b1/' + tenantId
                 },
 
+                siteSettings: {
+                    baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
+                },
+                
                 tracking: {
                     baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
                 }

@@ -44,9 +44,12 @@ angular.module('ds.router', [])
                     resolve:{
                         // this will block controller loading until the application has been initialized with
                         //  all required configuration (language, currency)
-                        initialized: ['ConfigSvc', function(ConfigSvc) {
+                        /* jshint ignore:start */
+                        initialized: ['ConfigSvc',function(ConfigSvc) {
                             return ConfigSvc.initializeApp();
                         }]
+                        /* jshint ignore:end */
+
                     }
                 })
                 .state('base.home', {

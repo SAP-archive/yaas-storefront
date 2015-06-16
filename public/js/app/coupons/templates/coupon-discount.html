@@ -3,7 +3,7 @@
 
 	<tr>
 		<th>{{'EST_ORDER_TOTAL' | translate}}</th>
-        <th class="text-right">{{ (cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0 || 0 | currency: currencySymbol}}</th>
+        <th class="text-right">{{ (cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)? cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0 || 0 | currency: currencySymbol}}</th>
 	<tr>
 
 	</thead>
@@ -14,7 +14,7 @@
             <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
             </td>
             <td class="text-right">
-                {{cart.subTotalPrice.value | currency: currencySymbol}}
+                {{cart.subTotalPrice.amount | currency: currencySymbol}}
             </td>
         </tr>
 
