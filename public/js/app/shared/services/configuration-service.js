@@ -35,34 +35,30 @@ angular.module('ds.shared')
                 }
             }
 
+            function getDefaultSite(sites) {
+                for (var i = 0; i < sites.length; i++) {
+                    if (sites[i].default) {
+                        return sites[i];
+                    }
+                }
+                return sites[0];
+            }
+
             /**
              * Loads the store configuration settings - store name and logo.
              * These settings are then stored in the GlobalData service.
              * Returns promise once done.
              */
             function loadConfiguration() {
-                var params = { expand: 'payment:active,mixin:*' };
+                var params = { expand: 'payment:all,mixin:*' };
 
                 /**
                 * Get default site for the moment
                 */
-                var configPromise = SiteSettingsREST.SiteSettings.one('sites', 'default').get(params);
-                configPromise.then(function (result) {
+                var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList(params);
+                configPromise.then(function (sites) {
 
-                    //Set name
-                    GlobalData.store.name = result.name;
-                    $rootScope.titleConfig = result.name;
-
-                    //Set stripe key if defined
-                    if (!!result.payment && result.payment.length > 0 && !!result.payment[0].configuration && !!result.payment[0].configuration.public && !!result.payment[0].configuration.public.publicKey) {
-                        /* jshint ignore:start */
-                        Stripe.setPublishableKey(result.payment[0].configuration.public.publicKey);
-                        /* jshint ignore:end */
-                    }
-                    //Set main image
-                    if (!!result.mixins && !!result.mixins.storeLogoImageKey && !!result.mixins.storeLogoImageKey.value) {
-                        GlobalData.store.logo = result.mixins.storeLogoImageKey.value;
-                    }
+                    var result = getDefaultSite(sites);
 
                     //Create array
                     var currency = [{ id: result.currency, label: '' }];
@@ -83,7 +79,8 @@ angular.module('ds.shared')
                     GlobalData.setAvailableLanguages(languages);
 
 
-
+                    GlobalData.setSite(result);
+                    GlobalData.setSites(sites);
 
                     //TODO: Missing implementation for Algolia key
                     //GlobalData.search.algoliaKey = value;

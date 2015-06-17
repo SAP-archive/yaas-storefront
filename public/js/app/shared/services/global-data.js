@@ -21,6 +21,9 @@ angular.module('ds.shared')
     .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
         function (appConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
 
+
+            var sites, currentSite;
+
             var languageCode;
             var defaultLang;
             var languageMap = {};
@@ -286,6 +289,26 @@ angular.module('ds.shared')
                 /** Returns an array of language instances supported by this project.*/
                 getAvailableLanguages: function () {
                     return availableLanguages;
+                },
+
+                setSite: function (site) {
+                    currentSite = site;
+                },
+
+                setSites: function (Sites) {
+                    var storefrontSites = [];
+                    for (var i = 0; i < Sites.length; i++) {
+                        storefrontSites.push(Sites[i]);
+                    }
+                    sites = storefrontSites;
+                },
+
+                getSite: function () {
+                    return currentSite;
+                },
+
+                getSites: function () {
+                    return sites;
                 }
 
             };

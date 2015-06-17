@@ -18,11 +18,13 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
             setAvailableLanguages: jasmine.createSpy(),
-            setDefaultLanguage: jasmine.createSpy()
+            setDefaultLanguage: jasmine.createSpy(),
+            setSite: jasmine.createSpy(),
+            setSites: jasmine.createSpy()
         };
     var storeName = 'Default Store';
     var logoUrl = 'https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463';
-    var mockedStoreConfig = {
+    var mockedStoreConfig = [{
         code: "europe123",
         name: "Default Store",
         active: true,
@@ -60,7 +62,7 @@ describe('ConfigurationSvc Test', function () {
                 value: "https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463"
             }
         }
-    };
+    }];
     var mockedFBAndGoogleKeys = {
         facebookAppId: 'fbKey',
         googleClientId: 'googleKey'
@@ -108,7 +110,7 @@ describe('ConfigurationSvc Test', function () {
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
 
-            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites/default?expand=payment:active,mixin:*';
+            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites?expand=payment:all,mixin:*';
             //configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
 
             $q = _$q_;

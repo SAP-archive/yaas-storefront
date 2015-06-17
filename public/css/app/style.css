@@ -7643,6 +7643,12 @@ fieldset[disabled] .top-navigation .btn-link:focus {
   color: #b3b8bb;
   background-color: #d6dbde;
 }
+.pageFooter .regionMenu .selected {
+  color: #202122;
+}
+.pageFooter .regionMenu .hovered {
+  color: #3c3c3c;
+}
 @media (max-width: 992px) {
   .pageFooter {
     padding: 0;
@@ -7679,6 +7685,9 @@ fieldset[disabled] .top-navigation .btn-link:focus {
 }
 .regionControlList {
   border-right: 1px solid #b3b8bb;
+}
+.languageMenu li:hover {
+  color: #3c3c3c;
 }
 #cart {
   background: #eeeeee;

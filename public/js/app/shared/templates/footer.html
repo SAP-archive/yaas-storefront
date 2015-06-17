@@ -1,52 +1,44 @@
 <div class="pageFooter">
     <div class="row">
         <div class="col-xs-12 col-lg-3 pull-right regionControls text-center">
-            <div class="controlcontainer">
+            <div class="controlcontainer" ng-controller="siteSelectorController">
 
-                <div class="store-settings" >
-                    <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
-                        <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
-                            <!--<option value="">{{'SELECT_LANGUAGE' | translate}}</option>-->
-                        </select>
-                    </div>
-                </div>
-                
-                
+                <!--<div class="store-settings" >
+            <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
+                <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
+                </select>
+            </div>
+        </div>-->
                 <!------------------------------------------>
                 <!----- NEW REGION SELECTOR COMPONENT ------>
                 <!------------------------------------------>
-                
-                    <!--<div class="dropdown">-->
-                        <!--<a class=" dropdown-toggle">Region</a>-->
-                        <!--<div class="dropdown-menu regionMenu">-->
-                            <!--<div class="row">-->
-                                <!--<div class="col-xs-6">-->
-                                    <!--<ul class="list-unstyled regionControlList">-->
-                                        <!--<li>Region</li>-->
-                                        <!--<li>Region</li>-->
-                                        <!--<li>Region</li>-->
-                                        <!--<li>Region</li>-->
-                                    <!--</ul>-->
-    
-                                <!--</div>-->
-                                <!--<div class="col-xs-6">-->
-                                    <!--<ul class="list-unstyled">-->
-                                        <!--<li>Language</li>-->
-                                        <!--<li>Language</li>-->
-                                        <!--<li>Language</li>-->
-                                        <!--<li>Language</li>-->
-                                    <!--</ul>-->
-    
-                                <!--</div>-->
-    
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+
+                <div class="dropdown" ng-if="sites.length > 1">
+                    <a class=" dropdown-toggle" ng-click="setHoveredSite(selectedSite)">Region</a>
+                    <div class="dropdown-menu regionMenu">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <ul class="list-unstyled regionControlList">
+                                    <li ng-repeat="site in sites" ng-class="{ 'selected':site === selectedSite, 'hovered': site === hoveredSite}"
+                                        ng-click="selectSiteAndLanguage(site, site.defaultLanguage)"
+                                        ng-mouseover="setHoveredSite(site)">{{site.name}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-6">
+                                <ul class="list-unstyled languageMenu">
+                                    <li ng-repeat="lang in hoveredSite.languages" ng-click="selectSiteAndLanguage(hoveredSite, lang)"
+                                        ng-class="{ 'selected':(lang === selectedLanguage && hoveredSite === selectedSite) || (lang === hoveredSite.defaultLanguage && hoveredSite !== selectedSite)  }">
+                                    {{lang | translate}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!----------------------------------------------->
                 <!----- /END NEW REGION SELECTOR COMPONENT ------>
                 <!----------------------------------------------->
-                
+
             </div>
         </div>
         <div class="col-xs-12 col-lg-3 socialIcons text-center">
