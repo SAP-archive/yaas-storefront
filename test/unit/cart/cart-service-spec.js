@@ -319,7 +319,7 @@ describe('CartSvc Test', function () {
             });
         });
 
-        describe('switchCurrency', function () {
+        describe('swichSite', function () {
             var eventSpy;
 
             beforeEach(function () {
@@ -328,7 +328,7 @@ describe('CartSvc Test', function () {
             });
 
             it('should switch the cart currency', function () {
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', { "currency": "EUR" })
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "currency": "EUR" })
                     .respond(200, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
                     {
@@ -350,7 +350,7 @@ describe('CartSvc Test', function () {
                         "currency": "EUR"
                     });
                 mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(200, [{ id: prodId, images: ['myurl'], name: 'name' }]);
-                cartSvc.switchCurrency('EUR');
+                cartSvc.swichSite('EUR');
                 mockBackend.flush();
                 var closeAfterTimeout;
                 expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, price: { currency: 'USD', effectiveAmount: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
@@ -358,9 +358,9 @@ describe('CartSvc Test', function () {
 
             it('should signal cart error on currency switch failure', function () {
 
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency', { "currency": "EUR" })
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "currency": "EUR" })
                     .respond(500, {});
-                cartSvc.switchCurrency('EUR');
+                cartSvc.swichSite('EUR');
                 mockBackend.flush();
                 expect($rootScope.$emit).toHaveBeenCalled();
 
@@ -495,7 +495,7 @@ describe('CartSvc Test', function () {
             mockBackend.whenGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(500, {});
 
             // should issue changeCurrency request
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeCurrency').respond(204, {});
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite').respond(204, {});
 
             // should refresh current cart - fake currency to match global data so second currency change won't be triggered
             mockBackend.expectGET(cartUrl + '/' + cartId).respond(200, { currency: "USD" });

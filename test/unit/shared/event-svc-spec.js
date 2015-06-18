@@ -34,7 +34,7 @@ describe('EventSvc', function(){
                     return (state === compState);
                 });
             mockedState.transitionTo = jasmine.createSpy();
-            mockedCartSvc.switchCurrency = jasmine.createSpy().andCallFake(function(){
+            mockedCartSvc.swichSite = jasmine.createSpy().andCallFake(function () {
                 return curChangeDef.promise;
             });
         });
@@ -50,7 +50,7 @@ describe('EventSvc', function(){
                 EventSvc.onCurrencyChange({}, {currencyId: currencyId});
                 curChangeDef.resolve({});
                 $scope.$apply();
-                expect(mockedCartSvc.switchCurrency).toHaveBeenCalledWith(currencyId);
+                expect(mockedCartSvc.swichSite).toHaveBeenCalledWith(currencyId);
                 expect(mockedState.transitionTo).toHaveBeenCalled();
             });
 
@@ -63,7 +63,7 @@ describe('EventSvc', function(){
 
             it('should switch currency if event source not login', function(){
                 EventSvc.onCurrencyChange({}, {currencyId: currencyId, source: 'other'});
-                expect(mockedCartSvc.switchCurrency).toHaveBeenCalledWith(currencyId);
+                expect(mockedCartSvc.swichSite).toHaveBeenCalledWith(currencyId);
 
             });
 

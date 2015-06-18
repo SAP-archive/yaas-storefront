@@ -26,7 +26,7 @@ angular.module('ds.shared')
                  */
                 onCurrencyChange: function (eve, eveObj) {
                     if ($state.is('base.checkout.details')){
-                        CartSvc.switchCurrency(eveObj.currencyId).then(function(){
+                        CartSvc.swichSite(eveObj.currencyId).then(function () {
                             $state.transitionTo($state.current, $stateParams, {
                                 reload: true,
                                 inherit: true,
@@ -36,7 +36,7 @@ angular.module('ds.shared')
                     } else {
 
                         if ( eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
-                            CartSvc.switchCurrency(eveObj.currencyId);
+                            CartSvc.swichSite(eveObj.currencyId);
                         }
                         if($state.is('base.category') || $state.is('base.product.detail') ) {
                             $state.transitionTo($state.current, $stateParams, {

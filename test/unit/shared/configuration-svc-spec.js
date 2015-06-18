@@ -99,7 +99,7 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.loadInitialLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
 
-        mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
+        mockedCartSvc.swichSite = jasmine.createSpy('swichSite');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy('refreshCartAfterLogin');
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
 

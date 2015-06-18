@@ -60,6 +60,7 @@ angular.module('ds.cart')
                     });
                     accPromise.finally(function () {
                         newCart.currency = GlobalData.getCurrencyId();
+                        newCart.siteCode = GlobalData.getSiteName();
                         CartREST.Cart.all('carts').post(newCart).then(function (response) {
                             cart.id = response.cartId;
                             deferredCart.resolve({ cartId: cart.id});
@@ -110,8 +111,8 @@ angular.module('ds.cart')
                 var defCartTemp = $q.defer();
                 CartREST.Cart.one('carts', cartId).get().then(function (response) {
                     cart = response.plain();
-                    if (cart.currency !== GlobalData.getCurrencyId()) {
-                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: GlobalData.getCurrencyId}).then(function(){
+                    if (cart.siteCode !== GlobalData.getSiteName()) {
+                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteName() }).then(function () {
                             CartREST.Cart.one('carts', cartId).get().then(function (response) {
                                 cart = response.plain();
                                 defCartTemp.resolve(cart);
@@ -155,10 +156,10 @@ angular.module('ds.cart')
                 return defCart.promise;
             }
 
-            function switchCurrency(code){
+            function swichSite(code){
                 var def = $q.defer();
                 if (cart.id) {
-                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: code})
+                    CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteName() })
                         .then(function () {
                             refreshCart(cart.id, 'currency').finally(function(){
                                 def.resolve({});
@@ -186,8 +187,8 @@ angular.module('ds.cart')
                     });
                 } else {
                     // scope is already equivalent to latest user cart
-                    if (cart.currency !== GlobalData.getCurrencyId()) {
-                        switchCurrency(GlobalData.getCurrencyId());
+                    if (cart.siteCode !== GlobalData.getSiteName()) {
+                        swichSite(GlobalData.getCurrencyId());
                     } else {
                         $rootScope.$emit('cart:updated', {cart: cart});
                     }
@@ -254,8 +255,8 @@ angular.module('ds.cart')
                  *  once the refresh has happened (either successfully or failed).
                  *  @param currency code to switch to
                  */
-                switchCurrency: function (code) {
-                    return switchCurrency(code);
+                swichSite: function (code) {
+                    return swichSite(code);
                 },
 
                 /**
@@ -290,6 +291,7 @@ angular.module('ds.cart')
                             // just use empty cart - customer-specific cart will be created once first item is added
                             cart = {};
                             cart.currency = GlobalData.getCurrencyId();
+                            cart.siteCode = GlobalData.getSiteName();
                         }
                     });
                 },

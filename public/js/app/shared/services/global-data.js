@@ -307,6 +307,13 @@ angular.module('ds.shared')
                     return currentSite;
                 },
 
+                getSiteName: function () {
+                    if (!!currentSite) {
+                        return currentSite.code;
+                    }
+                    return 'default';
+                },
+
                 getSites: function () {
                     return sites;
                 }
