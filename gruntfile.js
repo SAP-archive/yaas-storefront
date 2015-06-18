@@ -154,7 +154,7 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: 'public/',
                 src: [
-                    'img/**', '../server.js', 'hero-merchandise.jpeg', 'index.html', '../multi-tenant/**', '../server/**',
+                    'img/**', '../server.js', '../gruntfile.js', '../config.rb', '../.buildpacks', '../.bowerrc', 'hero-merchandise.jpeg', 'index.html', '../multi-tenant/**', '../server/**',
                     '../bower.json', '../package.json', 'js/app/shared/router.js'],
                 dest: 'dist/public/'
             }
