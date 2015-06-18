@@ -118,31 +118,31 @@
 
       <div class="form-group input-group"
           ng-class="{'has-error': addressForm.zip.$invalid && (addressForm.zip.$dirty || showPristineErrors) }">
-          <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
+          <label class="input-group-addon control-label" for="zipCodeAdd">{{'POSTAL_CODE' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-          class="form-control" id="zipCodeBill" name="zip" required autocomplete="on" ng-model="address.zip"
+          class="form-control" id="zipCodeAdd" name="zip" required autocomplete="on" ng-model="address.zipCode"
           ng-required="addressForm.country.$viewValue.id === 'CHI'">
       </div>
 
       <div class="form-group input-group"
           ng-class="{'has-error': addressForm.state.$invalid && (addressForm.state.$dirty || showPristineErrors) }">
-          <label class="input-group-addon control-label" for="provinceBill">{{'PROVINCE' | translate}}</label>
+          <label class="input-group-addon control-label" for="provinceAdd">{{'PROVINCE' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-          class="form-control" id="provinceBill" name="state" required autocomplete="on" ng-model="address.state"
+          class="form-control" id="provinceAdd" name="state" required autocomplete="on" ng-model="address.state"
           ng-required="addressForm.country.$viewValue.id === 'CHI'">
       </div>
 
       <div class="form-group input-group"
           ng-class="{'has-error': addressForm.city.$invalid && (addressForm.city.$dirty || showPristineErrors) }">
-          <label class="input-group-addon control-label" for="cityBill">{{'CITY' | translate}}</label>
+          <label class="input-group-addon control-label" for="cityAdd">{{'CITY' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-          class="form-control" id="cityBill" name="city" required autocomplete="on" ng-model="address.city"
+          class="form-control" id="cityAdd" name="city" required autocomplete="on" ng-model="address.city"
           ng-required="addressForm.country.$viewValue.id === 'CHI'">
       </div>
 
       <div class="form-group input-group">
-          <label class="input-group-addon control-label" for="address4Bill">{{'DISTRICT' | translate}}</label>
-          <input type="text" class="form-control" placeholder="(Optional)" id="address4Bill" name="address4"
+          <label class="input-group-addon control-label" for="address4Add">{{'DISTRICT' | translate}}</label>
+          <input type="text" class="form-control" placeholder="(Optional)" id="address4Add" name="address4"
           ng-model="address.address4">
       </div>
 
@@ -155,28 +155,28 @@
       </div>
 
       <div class="form-group input-group">
-          <label class="input-group-addon control-label" for="address2Bill">{{'BUILDING_NAME' | translate}}</label>
-          <input type="text" class="form-control" placeholder="(Optional)" id="address2Bill" name="address2"
-          ng-model="address.address2">
+          <label class="input-group-addon control-label" for="address2Add">{{'BUILDING_NAME' | translate}}</label>
+          <input type="text" class="form-control" placeholder="(Optional)" id="address2Add" name="address2"
+          ng-model="address.streetAppendix">
       </div>
 
       <div class="form-group input-group">
-          <label class="input-group-addon control-label" for="address1Bill">{{'ROOM_NUMBER' | translate}}</label>
-          <input type="text" class="form-control" name="address1" placeholder="(Optional)" id="address1Bill" ng-model="address.address1">
+          <label class="input-group-addon control-label" for="address1Add">{{'ROOM_NUMBER' | translate}}</label>
+          <input type="text" class="form-control" name="address1" placeholder="(Optional)" id="address1Add" ng-model="address.address1">
       </div>
 
       <div class="form-group input-group"
            ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty || showPristineErrors) }">
-          <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
+          <label class="input-group-addon control-label" for="contactNameAdd">{{'FULL_NAME' | translate}}</label>
           <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                  class="form-control" id="contactNameBill" name="contactName" ng-model="address.contactName"
-                 required autocomplete="on" 
+                  class="form-control" id="contactNameAdd" name="contactName" ng-model="address.contactName"
+                 required autocomplete="on"
                  ng-required="addressForm.country.$viewValue.id === 'CHI'">
       </div>
 
       <div class="form-group input-group">
-          <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
-          <input type="text" class="form-control" id="companyNameBill"  placeholder="(Optional)" name="companyName" ng-model="address.companyName" autocomplete="on">
+          <label class="input-group-addon control-label" for="companyNameAdd">{{'COMPANY_NAME' | translate}}</label>
+          <input type="text" class="form-control" id="companyNameAdd"  placeholder="(Optional)" name="companyName" ng-model="address.companyName" autocomplete="on">
       </div>
 
 

@@ -105,7 +105,7 @@
                 <label class="input-group-addon control-label" for="address2Ship">{{'SUBAREA' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                     class="form-control" id="address2Ship" name="address2"
-                    ng-model="order.shipTo.address2" required autocomplete="on">
+                    ng-model="order.shipTo.streetAppendix" required autocomplete="on">
             </div>
         </div>
 
@@ -185,8 +185,7 @@
         <div class="col-lg-6">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label>
-                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on"
-                        placeholder="(Optional)">
+                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="phoneShip" id="contactPhoneShip" autocomplete="on" placeholder="(Optional)">
             </div>
         </div>
 

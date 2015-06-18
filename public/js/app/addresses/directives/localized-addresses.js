@@ -64,14 +64,11 @@ angular.module('ds.addresses').
         var getLocaleSelection = function(name) {
         	var locale = {};
         	angular.forEach(selectionArray, function(item){
-        		debugger;
         		if (item.name === name){
         			locale = item;
-        			return false;
         		}
         	});
         	return locale;
-
         };
 
         var templateLinker = function(scope, element, attrs) {
@@ -87,11 +84,15 @@ angular.module('ds.addresses').
 			// 	{id: 'JPN', name:'JAPAN'}];
 
 			// localization selection handler
+			scope.initializeLocale = function(locale){
+				loadTemplate(scope, element, locale.id, attrs.type);
+			}
+
+			// localization selection handler
 			scope.changeLocale = function(locale){
 
 				loadTemplate(scope, element, locale.id, attrs.type);
 
-				debugger;
 				// set dynamic datamodel
 				switch(currentType){
 					case 'addAddress':
@@ -110,10 +111,9 @@ angular.module('ds.addresses').
 			};
 
             var unbind = $rootScope.$on('localizedAddress:updated', function (e, name) {
-            	debugger;
             	var locale = getLocaleSelection(name);
             	scope.localeSelection = locale;
-                scope.changeLocale(locale);
+                scope.initializeLocale(locale);
             });
 
 			initialize(scope, element, currentType);
