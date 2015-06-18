@@ -154,8 +154,10 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: 'public/',
                 src: [
-                    'img/**', '../server.js', '../gruntfile.js', '../config.rb', '../.buildpacks', '../.bowerrc', 'hero-merchandise.jpeg', 'index.html', '../multi-tenant/**', '../server/**',
-                    '../bower.json', '../package.json', 'js/app/shared/router.js'],
+                    '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
+                    '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
+                    '../gruntfile.js', '../License.md', '../package.json', '../products.json',
+                    '../multi-tenant/**', '../server/**', '../server.js'],
                 dest: 'dist/public/'
             }
         },
