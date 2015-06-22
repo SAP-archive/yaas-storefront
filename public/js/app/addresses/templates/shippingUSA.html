@@ -83,11 +83,14 @@
             </div>
         </div>
 
+ <!-- && (addressForm.country.$invalid || addressForm.country.$viewValue.id === 'USA') -->
+
         <div class="col-lg-6">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
-                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
+                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                 ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.state" id="stateShip" name="state">
                     <option value=""></option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>
@@ -149,7 +152,7 @@
                 ng-class="{'has-error': shipToForm.zip.$invalid && ( shipToForm.zip.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="zipCodeShip">{{'ZIP' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                class="form-control" id="zipCodeShip" name="zip" required autocomplete="on"
+                class="form-control" id="zipCodeShip" name="zip" ng-required="!shipToSameAsBillTo" autocomplete="on"
                 ng-model="order.shipTo.zip">
             </div>
         </div>
