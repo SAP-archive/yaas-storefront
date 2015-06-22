@@ -22,11 +22,13 @@ angular.module('ds.shared')
             return {
 
                 /**
-                 * Handle "currency changed".
+                 * Handle "site changed".
                  */
-                onCurrencyChange: function (eve, eveObj) {
+                onSiteChange: function (eve, eveObj) {
+                    //Check if currency changed?
+                    console.log('site updated');
                     if ($state.is('base.checkout.details')){
-                        CartSvc.swichSite(eveObj.currencyId).then(function () {
+                        CartSvc.swichSite(eveObj.siteCode).then(function () {
                             $state.transitionTo($state.current, $stateParams, {
                                 reload: true,
                                 inherit: true,
@@ -36,7 +38,7 @@ angular.module('ds.shared')
                     } else {
 
                         if ( eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
-                            CartSvc.swichSite(eveObj.currencyId);
+                            CartSvc.swichSite(eveObj.siteCode);
                         }
                         if($state.is('base.category') || $state.is('base.product.detail') ) {
                             $state.transitionTo($state.current, $stateParams, {
