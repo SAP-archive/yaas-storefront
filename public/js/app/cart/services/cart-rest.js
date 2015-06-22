@@ -23,7 +23,7 @@ angular.module('ds.cart')
                     return {
                         element: element,
                         params: params,
-                        headers: _.extend(headers, { 'hybris-site': GlobalData.getSiteName() }),
+                        headers: _.extend(headers, { 'hybris-site': GlobalData.getSiteCode() }),
                         httpConfig: httpConfig
                     };
                 });
