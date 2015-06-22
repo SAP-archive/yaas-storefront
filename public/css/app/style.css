@@ -7645,6 +7645,7 @@ fieldset[disabled] .top-navigation .btn-link:focus {
 }
 .pageFooter .regionMenu .selected {
   color: #202122;
+  font-weight: bold;
 }
 .pageFooter .regionMenu .hovered {
   color: #3c3c3c;
