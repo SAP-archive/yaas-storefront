@@ -48,6 +48,20 @@ angular.module('ds.shared')
                 }
             }
 
+            /**
+           * Used for getting the language object from language id.
+           */
+            function getLanguageById(id) {
+                switch (id) {
+                    case 'en':
+                        return { id: id, label: 'English' };
+                    case 'de':
+                        return { id: id, label: 'German' };
+                    default:
+                        return { id: id, label: id };
+                }
+            }
+
             function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
                 if (!_.isEmpty(currencyMap)) {
                     if (currencyId && currencyId in currencyMap) {
@@ -56,13 +70,6 @@ angular.module('ds.shared')
                         }
                         if (currencyId !== activeCurrencyId) {
                             activeCurrencyId = currencyId;
-
-                            if (updateSource !== settings.eventSource.initialization) {  // don't event on initialization
-                                $rootScope.$emit('currency:updated', {
-                                    currencyId: activeCurrencyId,
-                                    source: updateSource
-                                });
-                            }
                         }
                     } else {
                         console.warn('Currency not valid: ' + currencyId + '. Using default currency ' + storeDefaultCurrency);
@@ -227,6 +234,13 @@ angular.module('ds.shared')
                     }
                 },
 
+                /** Determines the initial active currency for the store, based on store configuration and
+                * any existing cookie settings. */
+                loadInitialSite: function () {
+                    var siteCookie = CookieSvc.getSiteCookie();
+                    return siteCookie;
+                },
+
                 /** Returns the id of the currency that's currently active for the store.*/
                 getCurrencyId: function () {
                     return activeCurrencyId;
@@ -291,8 +305,67 @@ angular.module('ds.shared')
                     return availableLanguages;
                 },
 
+                setSiteCookie: function (site) {
+                    var cookieSite = { code: site.code };
+                    CookieSvc.setSiteCookie(cookieSite);
+                },
+
                 setSite: function (site) {
-                    currentSite = site;
+
+                    if (!currentSite || currentSite.code !== site.code) {
+
+                        //Set current site
+                        currentSite = site;
+
+                        //Set name of store
+                        this.store.name = site.name;
+                        $rootScope.titleConfig = site.name;
+
+                        //Set stripe key if defined
+                        if (!!site.payment && site.payment.length > 0 && !!site.payment[0].configuration && !!site.payment[0].configuration.public && !!site.payment[0].configuration.public.publicKey) {
+                            /* jshint ignore:start */
+                            Stripe.setPublishableKey(site.payment[0].configuration.public.publicKey);
+                            /* jshint ignore:end */
+                        }
+
+                        //Set main image
+                        if (!!site.mixins && !!site.mixins.storeLogoImageKey && !!site.mixins.storeLogoImageKey.value) {
+                            this.store.logo = site.mixins.storeLogoImageKey.value;
+                        }
+                        else {
+                            delete this.store.logo;
+                        }
+
+                        //Create array
+                        if (site.currency) {
+                            if (site.currency !== this.getCurrencyId()) {
+
+                                var currency = [{ id: site.currency, label: '' }];
+                                currency[0]['default'] = true;
+                                this.setAvailableCurrencies(currency);
+
+                                this.setCurrency(site.currency);
+                            }
+                        }
+
+                        //Set default language
+                        this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
+
+                        //Set languages
+                        var languages = [];
+                        if (!!site.languages) {
+                            for (var i = 0; i < site.languages.length; i++) {
+                                languages.push(getLanguageById(site.languages[i]));
+                            }
+                        }
+                        this.setAvailableLanguages(languages);
+
+                        //Emit site change for cart
+                        $rootScope.$emit('site:updated', {
+                            siteCode: site.code,
+                            source: settings.eventSource.siteUpdated
+                        });
+                    }
                 },
 
                 setSites: function (Sites) {
@@ -304,10 +377,15 @@ angular.module('ds.shared')
                 },
 
                 getSite: function () {
-                    return currentSite;
+                    if (!!currentSite) {
+                        return currentSite;
+                    }
+                    else {
+                        return CookieSvc.getSiteCookie();
+                    }
                 },
 
-                getSiteName: function () {
+                getSiteCode: function () {
                     if (!!currentSite) {
                         return currentSite.code;
                     }

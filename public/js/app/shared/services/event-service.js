@@ -26,7 +26,6 @@ angular.module('ds.shared')
                  */
                 onSiteChange: function (eve, eveObj) {
                     //Check if currency changed?
-                    console.log('site updated');
                     if ($state.is('base.checkout.details')){
                         CartSvc.swichSite(eveObj.siteCode).then(function () {
                             $state.transitionTo($state.current, $stateParams, {

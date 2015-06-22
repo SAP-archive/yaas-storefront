@@ -19,21 +19,7 @@ angular.module('ds.shared')
     .factory('ConfigSvc', ['$rootScope', '$q', 'settings', 'GlobalData', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc', 'SiteSettingsREST',
         function ($rootScope, $q, settings, GlobalData, AuthSvc, AccountSvc, CartSvc, CategorySvc, SiteSettingsREST) {
             var initialized = false;
-
-
-            /**
-            * Used for getting the language object from language id.
-            */
-            function getLanguageById(id) {
-                switch (id) {
-                    case 'en':
-                        return { id: id, label: 'English' };
-                    case 'de':
-                        return { id: id, label: 'German' };
-                    default:
-                        return { id: id, label: id };
-                }
-            }
+            var selectedSiteCode = '';
 
             function getDefaultSite(sites) {
                 for (var i = 0; i < sites.length; i++) {
@@ -45,12 +31,24 @@ angular.module('ds.shared')
             }
 
             /**
+            * Check if there is site in sites with specified code.
+            */
+            function siteExists(sites, code) {
+                for (var i = 0; i < sites.length; i++) {
+                    if (sites[i].code === code) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            /**
              * Loads the store configuration settings - store name and logo.
              * These settings are then stored in the GlobalData service.
              * Returns promise once done.
              */
             function loadConfiguration() {
-                var params = { expand: 'payment:all,mixin:*' };
+                var params = { expand: 'payment:active,tax:active,mixin:*' };
 
                 /**
                 * Get default site for the moment
@@ -58,34 +56,26 @@ angular.module('ds.shared')
                 var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList(params);
                 configPromise.then(function (sites) {
 
-                    var result = getDefaultSite(sites);
-
-                    //Create array
-                    var currency = [{ id: result.currency, label: '' }];
-                    currency[0]['default'] = true;
-                    GlobalData.setAvailableCurrencies(currency);
-
-
-                    //Set default language
-                    GlobalData.setDefaultLanguage(getLanguageById(result.defaultLanguage));
-
-                    //Set languages
-                    var languages = [];
-                    if (!!result.languages) {
-                        for (var i = 0; i < result.languages.length; i++) {
-                            languages.push(getLanguageById(result.languages[i]));
-                        }
+                    //Check if there is already default site in memory and if that one is valid one (exists in returned array)
+                    var result;
+                    var site = GlobalData.getSite();
+                    //Check if there is site in cookies and if that site is still valid (it is returned from server as one of sites defined for this tenant)
+                    if (!!site && siteExists(sites, site.code)) {
+                        result = site;
                     }
-                    GlobalData.setAvailableLanguages(languages);
+                    else {
+                        //If not, then use default one
+                        result = getDefaultSite(sites);
 
+                        //Save selected site as cookie
+                        GlobalData.setSiteCookie(result);
+                    }
 
-                    GlobalData.setSite(result);
+                    selectedSiteCode = result.code;
                     GlobalData.setSites(sites);
 
                     //TODO: Missing implementation for Algolia key
                     //GlobalData.search.algoliaKey = value;
-
-
 
                 }, function (error) {
                     console.error('Store settings retrieval failed: ' + JSON.stringify(error));
@@ -127,45 +117,57 @@ angular.module('ds.shared')
                         def.resolve({});
                     } else {
                         loadConfiguration(GlobalData.store.tenant).then(function () {
-                            var languageSet = false;
-                            var currencySet = false;
-                            if (AuthSvc.isAuthenticated()) {
-                                // if session still in tact, load user preferences
-                                AccountSvc.account().then(function (account) {
-                                    if (account.preferredLanguage) {
-                                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
-                                        languageSet = true;
-                                    }
-                                    if (account.preferredCurrency) {
-                                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.initialization);
-                                        currencySet = true;
-                                    }
 
-                                    if (!languageSet) {
-                                        GlobalData.loadInitialLanguage();
-                                    }
-                                    if (!currencySet) {
-                                        GlobalData.loadInitialCurrency();
-                                    }
+                            var siteSettingPromise = SiteSettingsREST.SiteSettings.one('sites', selectedSiteCode).get({ expand: 'payment:active,tax:active,mixin:*' });
+                            siteSettingPromise.then(function (site) {
+
+                                //Set site
+                                GlobalData.setSite(site);
+
+                                var languageSet = false;
+                                var currencySet = false;
+                                if (AuthSvc.isAuthenticated()) {
+                                    // if session still in tact, load user preferences
+                                    AccountSvc.account().then(function (account) {
+                                        if (account.preferredLanguage) {
+                                            GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
+                                            languageSet = true;
+                                        }
+                                        if (account.preferredCurrency) {
+                                            GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.initialization);
+                                            currencySet = true;
+                                        }
+
+                                        if (!languageSet) {
+                                            GlobalData.loadInitialLanguage();
+                                        }
+                                        if (!currencySet) {
+                                            GlobalData.loadInitialCurrency();
+                                        }
+                                        CategorySvc.getCategories().then(function () {
+                                            def.resolve({});
+                                        });
+
+                                        return account;
+                                    }).then(function (account) {
+                                        CartSvc.refreshCartAfterLogin(account.id);
+                                    });
+                                } else {
+                                    GlobalData.loadInitialLanguage();
+                                    GlobalData.loadInitialCurrency();
+
                                     CategorySvc.getCategories().then(function () {
                                         def.resolve({});
                                     });
+                                    CartSvc.getCart(); // no need to wait for cart promise to resolve
 
-                                    return account;
-                                }).then(function (account) {
-                                    CartSvc.refreshCartAfterLogin(account.id);
-                                });
-                            } else {
-                                GlobalData.loadInitialLanguage();
-                                GlobalData.loadInitialCurrency();
-
-                                CategorySvc.getCategories().then(function () {
-                                    def.resolve({});
-                                });
-                                CartSvc.getCart(); // no need to wait for cart promise to resolve
-
-                            }
-                            initialized = true;
+                                }
+                                initialized = true;
+                            });
+                        }, function (error) {
+                            console.error('Store settings retrieval failed: ' + JSON.stringify(error));
+                            // no point trying to localize, since we couldn't load language preferences
+                            window.alert('Unable to load store configuration.  Please refresh!');
                         });
                     }
                     return def.promise;
