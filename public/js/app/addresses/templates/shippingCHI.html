@@ -29,8 +29,7 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.zip.$invalid && ( shipToForm.zip.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="zipCodeShip">{{'POSTAL_CODE' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control"
-                        ng-model="order.shipTo.zip" name="zip" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo">
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="zip" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo">
             </div>
         </div>
 
@@ -66,8 +65,8 @@
                 ng-class="{'has-error': shipToForm.address3.$invalid && (shipToForm.address3.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="address3Ship">{{'STREET_NAME' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    class="form-control" id="address3Ship" name="address3" required  autocomplete="on"
-                    ng-model="order.shipTo.address3">
+                    class="form-control" id="address3Ship" name="address3" required  autocomplete="on" 
+                    ng-model="order.shipTo.address3" ng-required="!shipToSameAsBillTo">
             </div>
         </div>
 
@@ -75,7 +74,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="address2Ship">{{'BUILDING_NAME' | translate}}</label>
                 <input type="text" class="form-control" placeholder="(Optional)" id="address2Ship" name="address2"
-                ng-model="order.shipTo.streetAppendix" autocomplete="on">
+                ng-model="order.shipTo.address2" autocomplete="on">
             </div>
         </div>
 

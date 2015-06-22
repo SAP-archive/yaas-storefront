@@ -425,6 +425,8 @@ angular.module('ds.checkout')
                 } else {
                     $scope.showPristineErrors = true;
                     $scope.message = 'PLEASE_CORRECT_ERRORS';
+                    console.log('BILLTO:',$scope.billToForm.$error.required);
+                    console.log('SHIPTO:',$scope.shipToForm.$error.required);
                 }
             };
 
@@ -467,6 +469,8 @@ angular.module('ds.checkout')
                 target.state = address.state;
                 target.zip = address.zipCode;
                 target.contactPhone = address.contactPhone;
+
+                $scope.$emit('localizedAddress:updated', address.country);
 
                 if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
                     setShipToSameAsBillTo();
