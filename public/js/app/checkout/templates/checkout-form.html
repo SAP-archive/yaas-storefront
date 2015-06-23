@@ -9,7 +9,6 @@
     <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
     ng-click="editBillTo()"></span></h2>
 
-
     <div class="row step-detail">
         <div class="col-lg-6">
             <div class="form-group input-group"
@@ -143,7 +142,6 @@
                 <span class="error">{{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}</span>
                 </small>
             </div>
-            <!--<input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="postal" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo">-->
             <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
                 (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
                 <label class="input-group-addon control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label><!-- validate-card-number-->

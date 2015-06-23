@@ -22,37 +22,25 @@ angular.module('ds.addresses').
 
 		var selectionArray = [
 				{id: 'US', name:'USA'},
-				{id: 'CAN', name:'CANADA'},
-				{id: 'UK',  name:'UK'},
-				{id: 'GER', name:'GERMANY'},
-				{id: 'CHI', name:'CHINA'},
-				{id: 'JPN', name:'JAPAN'}];
+				{id: 'CA', name:'CANADA'},
+				{id: 'GB', name:'GREAT BRITAIN'},
+				{id: 'DE', name:'GERMANY'},
+				{id: 'CN', name:'CHINA'},
+				{id: 'JP', name:'JAPAN'}];
 
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
 		};
 
+		// load dynamic address template into scope
 		var loadTemplate = function(scope, elem, locale, viewType){
-
-			// load dynamic address template into scope
-			// var viewForm;
 			var tempLoader = getTemplate(locale, viewType);
-
 			// handle http request response, show, compile, init validation.
 			tempLoader.success(function(template) {
 				elem.html(template).show();
 			}).then( function () {
 				$compile(elem.contents())(scope);
-
-				// viewForm = getViewForm(scope);
-				// if(viewForm){
-				//     // reinitialize form validation
-				//     viewForm.$rollbackViewValue();
-				//     // viewForm.$setUntouched();
-				//     viewForm.$setPristine();
-				// }
-
 			});
 		};
 
@@ -73,28 +61,15 @@ angular.module('ds.addresses').
 			return templateLoader;
 		};
 
-		var getLocaleSelection = function(name) {
+		var getLocaleSelection = function(id) {
 			var locale = {};
 			angular.forEach(selectionArray, function(item){
-				if (item.name === name){
+				if (item.id === id){
 					locale = item;
 				}
 			});
 			return locale;
 		};
-
-		// var getViewForm = function(scope){
-			// switch(scope.viewTarget){
-			// 	case 'addAddress':
-			// 		return scope.addressForm;
-			// 	case 'billing':
-			// 		return scope.billToForm;
-			// 	case 'shipping':
-			// 		return scope.shipToForm;
-			// 	default:
-			// 		return null;
-			// }
-		//};
 
 		var templateLinker = function(scope, element, attrs) {
 
