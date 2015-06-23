@@ -14,6 +14,7 @@ describe('CartSvc Test', function () {
 
     var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData = {};
     var cartId = 'cartId456';
+    var selectedSiteCode = 'europe123';
     var prodId = '123';
     var prod1 = {
         product: {
@@ -65,7 +66,8 @@ describe('CartSvc Test', function () {
             },
             "quantity": 1.0
         }],
-        "currency": "USD"
+        "currency": "USD",
+        "siteCode": selectedSiteCode
     };
 
 
@@ -118,6 +120,7 @@ describe('CartSvc Test', function () {
         });
         mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
         mockedGlobalData.getAcceptLanguages = jasmine.createSpy('getAcceptLanguages').andReturn('en');
+        mockedGlobalData.getSiteCode = jasmine.createSpy('getSiteCode').andReturn(selectedSiteCode);
     }));
 
     describe('getLocalCart', function () {
@@ -222,7 +225,8 @@ describe('CartSvc Test', function () {
                     "shippingCost": {
                         "currency": "USD",
                         "amount": 3.24
-                    }
+                    },
+                    "siteCode": selectedSiteCode
                 });
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
             mockBackend.flush();
@@ -327,8 +331,8 @@ describe('CartSvc Test', function () {
                 mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn("EUR");
             });
 
-            it('should switch the cart currency', function () {
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "currency": "EUR" })
+            it('should switch the cart site', function () {
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "siteCode": selectedSiteCode })
                     .respond(200, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId).respond(200,
                     {
@@ -347,20 +351,21 @@ describe('CartSvc Test', function () {
                                 "id": itemId
                             }
                         ],
-                        "currency": "EUR"
+                        "currency": "EUR",
+                        "siteCode": selectedSiteCode
                     });
                 mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(200, [{ id: prodId, images: ['myurl'], name: 'name' }]);
-                cartSvc.swichSite('EUR');
+                cartSvc.swichSite();
                 mockBackend.flush();
                 var closeAfterTimeout;
-                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, price: { currency: 'USD', effectiveAmount: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
+                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', siteCode: selectedSiteCode, id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, price: { currency: 'USD', effectiveAmount: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
             });
 
-            it('should signal cart error on currency switch failure', function () {
+            it('should signal cart error on site switch failure', function () {
 
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "currency": "EUR" })
+                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "siteCode": selectedSiteCode })
                     .respond(500, {});
-                cartSvc.swichSite('EUR');
+                cartSvc.swichSite();
                 mockBackend.flush();
                 expect($rootScope.$emit).toHaveBeenCalled();
 
@@ -402,7 +407,8 @@ describe('CartSvc Test', function () {
                     "quantity": 2.0
                 }
                 ],
-                "id": cartId
+                "id": cartId,
+                "siteCode": selectedSiteCode
             });
             // should query product info for cart
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(500, {});
@@ -428,7 +434,8 @@ describe('CartSvc Test', function () {
                         "quantity": 2.0
                     }
                 ],
-                "id": anonCartId
+                "id": anonCartId,
+                "siteCode": selectedSiteCode
             });
             // should query product info for anonymous cart
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + prodId2 + ')').respond(500, {});
@@ -454,7 +461,8 @@ describe('CartSvc Test', function () {
                         "quantity": 2.0
                     }
                 ],
-                "id": cartId
+                "id": cartId,
+                "siteCode": selectedSiteCode
             });
 
             // should issue merge request https://yaas-test.apigee.net/test/cart/v3/carts/cartId456/merge
@@ -489,7 +497,8 @@ describe('CartSvc Test', function () {
                         "quantity": 2.0
                     }
                 ],
-                "id": cartId
+                "id": cartId,
+                "siteCode": selectedSiteCode
             });
 
             mockBackend.whenGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(500, {});
@@ -527,7 +536,8 @@ describe('CartSvc Test', function () {
                         "quantity": 2.0
                     }
                 ],
-                "id": cartId
+                "id": cartId,
+                "siteCode": selectedSiteCode
             });
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(500, {});
             cartSvc.getCart();
@@ -585,7 +595,8 @@ describe('CartSvc Test', function () {
                     "shippingCost": {
                         "currency": "USD",
                         "amount": 3.24
-                    }
+                    },
+                    "siteCode": selectedSiteCode
                 });
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
             var promise = cartSvc.getCart();
@@ -617,7 +628,8 @@ describe('CartSvc Test', function () {
                     "shippingCost": {
                         "currency": "USD",
                         "amount": 3.24
-                    }
+                    },
+                    "siteCode": selectedSiteCode
                 });
 
             var promise = cartSvc.getCart();

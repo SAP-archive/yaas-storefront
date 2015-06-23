@@ -35,7 +35,6 @@ angular.module('ds.shared')
                             });
                         });
                     } else {
-
                         if ( eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
                             CartSvc.swichSite(eveObj.siteCode);
                         }

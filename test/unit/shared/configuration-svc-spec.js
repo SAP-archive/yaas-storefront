@@ -13,7 +13,7 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig, fbGoogleDef,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig, fbGoogleDef, siteUrl,
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
@@ -98,6 +98,8 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.setLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
+        mockedGlobalData.getSite = jasmine.createSpy();
+        mockedGlobalData.setSiteCookie = jasmine.createSpy();
 
         mockedCartSvc.swichSite = jasmine.createSpy('swichSite');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy('refreshCartAfterLogin');
@@ -110,8 +112,8 @@ describe('ConfigurationSvc Test', function () {
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
 
-            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites?expand=payment:all,mixin:*';
-            //configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
+            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites?expand=payment:active,tax:active,mixin:*';
+            siteUrl = siteConfig.apis.siteSettings.baseUrl + 'sites/europe123?expand=payment:active,tax:active,mixin:*';
 
             $q = _$q_;
             settings = _settings_;
@@ -124,6 +126,9 @@ describe('ConfigurationSvc Test', function () {
 
         beforeEach(function(){
             $httpBackend.expectGET(configurationsUrl).respond(200, mockedStoreConfig);
+
+            $httpBackend.expectGET(siteUrl).respond(200, mockedStoreConfig[0]);
+
             catDef = $q.defer();
             mockedCategorySvc.getCategories = jasmine.createSpy('getCategories').andCallFake(function(){
                 return catDef.promise;
@@ -144,8 +149,7 @@ describe('ConfigurationSvc Test', function () {
             promise = configSvc.initializeApp();
             catDef.resolve({});
             $httpBackend.flush();
-            expect(mockedGlobalData.store.name).toEqualData(storeName);
-            expect(mockedGlobalData.store.logo).toEqualData(logoUrl);
+
             expect(mockedGlobalData.setAvailableCurrencies).toHaveBeenCalled;
             expect(mockedGlobalData.setAvailableLanguages).toHaveBeenCalled;
         });

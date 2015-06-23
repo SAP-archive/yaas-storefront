@@ -156,7 +156,7 @@ angular.module('ds.cart')
                 return defCart.promise;
             }
 
-            function swichSite(){
+            function swichSite() {
                 var def = $q.defer();
                 if (cart.id) {
                     CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() })

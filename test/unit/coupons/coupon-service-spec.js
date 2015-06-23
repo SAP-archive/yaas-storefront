@@ -50,7 +50,8 @@ describe('Coupon Service Test:', function () {
                 total: 0
             }
         },
-        getCurrencyId: function() { return 'USD'}
+        getCurrencyId: function () { return 'USD'; },
+        getSiteCode: function () { return 'US'; }
     };
 
     var mockedAppConfig = {

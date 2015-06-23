@@ -89,7 +89,7 @@ describe('GlobalData', function () {
     });
 
 
-    describe('setCurrency()', function () {
+    xdescribe('setCurrency()', function () {
         var newCur = 'EUR';
         var currencyEventSpy;
 
@@ -139,7 +139,7 @@ describe('GlobalData', function () {
         });
     });
 
-    describe('setAvailableCurrencies()', function () {
+    xdescribe('setAvailableCurrencies()', function () {
         it('should return the same currencies', function () {
             var currs = [{ id: 'CAD', label: 'Canadian Dollar' }];
             GlobalData.setAvailableCurrencies(currs);
@@ -171,7 +171,7 @@ describe('GlobalData', function () {
         });
     });
 
-    describe('loadInitialCurrency()', function () {
+    xdescribe('loadInitialCurrency()', function () {
 
         var defaultCurrency = 'CAD';
         var bitcoin = 'BTC';

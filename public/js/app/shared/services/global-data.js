@@ -333,6 +333,7 @@ angular.module('ds.shared')
                             this.store.logo = site.mixins.storeLogoImageKey.value;
                         }
                         else {
+                            //Delete this property and make store fallback to default
                             delete this.store.logo;
                         }
 
