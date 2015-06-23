@@ -13,11 +13,11 @@
 'use strict';
 
 /**
- *	Localized Addresses: dynamic address forms based on user selection of localization.
+ * Localized Addresses: dynamic address forms based on user selection of localization.
  **/
 
 angular.module('ds.addresses').
-    directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
+	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
 		function($compile, $http, $templateCache, $rootScope) {
 
 		var selectionArray = [
@@ -37,41 +37,41 @@ angular.module('ds.addresses').
 
 			// load dynamic address template into scope
 			// var viewForm;
-            var tempLoader = getTemplate(locale, viewType);
+			var tempLoader = getTemplate(locale, viewType);
 
-            // handle http request response, show, compile, init validation.
-            tempLoader.success(function(template) {
+			// handle http request response, show, compile, init validation.
+			tempLoader.success(function(template) {
 				elem.html(template).show();
-            }).then( function () {
-                $compile(elem.contents())(scope);
+			}).then( function () {
+				$compile(elem.contents())(scope);
 
-                // viewForm = getViewForm(scope);
-                // if(viewForm){
-                //     // reinitialize form validation
-                //     viewForm.$rollbackViewValue();
-                //     // viewForm.$setUntouched();
-                //     viewForm.$setPristine();
-                // }
+				// viewForm = getViewForm(scope);
+				// if(viewForm){
+				//     // reinitialize form validation
+				//     viewForm.$rollbackViewValue();
+				//     // viewForm.$setUntouched();
+				//     viewForm.$setPristine();
+				// }
 
-            });
+			});
 		};
 
-        var getTemplate = function(locale, viewType) {
+		var getTemplate = function(locale, viewType) {
 
-            var templateLoader, templateUrl,
-            baseUrl = 'js/app/addresses/templates/';
+			var templateLoader, templateUrl,
+			baseUrl = 'js/app/addresses/templates/';
 
-            // if view is not recognized set default template
+			// if view is not recognized set default template
 			if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
 				locale = 'US';
 			}
 
-            // set dynamic template url and return promise
-            templateUrl = baseUrl + viewType + locale + '.html';
-            templateLoader = $http.get(templateUrl, {cache: $templateCache});
+			// set dynamic template url and return promise
+			templateUrl = baseUrl + viewType + locale + '.html';
+			templateLoader = $http.get(templateUrl, {cache: $templateCache});
 
-            return templateLoader;
-        };
+			return templateLoader;
+		};
 
 		var getLocaleSelection = function(name) {
 			var locale = {};
@@ -83,7 +83,7 @@ angular.module('ds.addresses').
 			return locale;
 		};
 
-   //      var getViewForm = function(scope){
+		// var getViewForm = function(scope){
 			// switch(scope.viewTarget){
 			// 	case 'addAddress':
 			// 		return scope.addressForm;
@@ -94,9 +94,9 @@ angular.module('ds.addresses').
 			// 	default:
 			// 		return null;
 			// }
-   //      };
+		//};
 
-        var templateLinker = function(scope, element, attrs) {
+		var templateLinker = function(scope, element, attrs) {
 
 			scope.viewTarget = attrs.type;
 			scope.localeSelections = selectionArray;
@@ -139,11 +139,11 @@ angular.module('ds.addresses').
 
 
 			initialize(scope, element, scope.viewTarget);
-        };
+		};
 
-        return {
+		return {
 			scope: true,
-            restrict: 'E',
-            link: templateLinker
-        };
-    }]);
+			restrict: 'E',
+			link: templateLinker
+		};
+	}]);
