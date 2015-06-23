@@ -84,7 +84,7 @@
             ng-class="{'has-error': billToForm.province.$invalid && (billToForm.province.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="provinceBill">{{'PROVINCE' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-            class="form-control" id="provinceBill" name="province" required autocomplete="on"
+            class="form-control" id="provinceBill" name="province" ng-require=" billToForm.country.$viewValue.id === 'CAN'" autocomplete="on"
             ng-model="order.billTo.state">
         </div>
     </div>
