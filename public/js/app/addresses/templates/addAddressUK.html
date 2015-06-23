@@ -24,7 +24,7 @@
 
       <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
         <label class="input-group-addon control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label>
-        <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required class="form-control" id="street" name="street"
+        <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="street" name="street" ng-required="addressForm.country.$viewValue.id === 'UK'"
         ng-model="address.street" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
 

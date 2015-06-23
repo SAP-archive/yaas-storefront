@@ -45,11 +45,13 @@ angular.module('ds.addresses').
             }).then( function () {
                 $compile(elem.contents())(scope);
 
-                viewForm = getViewForm(scope);
-                if(viewForm){
-                    // reinitialize form validation
-                    viewForm.$rollbackViewValue();
-                }
+                // viewForm = getViewForm(scope);
+                // if(viewForm){
+                //     // reinitialize form validation
+                //     viewForm.$rollbackViewValue();
+                //     // viewForm.$setUntouched();
+                //     viewForm.$setPristine();
+                // }
 
             });
 		};
@@ -123,7 +125,6 @@ angular.module('ds.addresses').
 					default:
 						break;
 				}
-
 			};
 
 			// event for loading addressbook change request
