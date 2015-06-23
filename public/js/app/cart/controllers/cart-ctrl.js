@@ -15,10 +15,13 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
-            function($scope, $state, $rootScope, CartSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
+    .controller('CartCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'CouponSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
+            function($scope, $state, $rootScope, CartSvc, CouponSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
+
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+
+        $scope.couponCollapsed = true;
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
@@ -70,6 +73,17 @@ angular.module('ds.cart')
             else {
                 $state.go('base.checkout.details');
             }
+        };
+
+        /** get coupon and apply it to the cart */
+        $scope.applyCoupon = function(couponCode) {
+            $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponResponse) {
+                CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
+            });
+        };
+
+        $scope.removeCoupon = function(discountId) {
+            CouponSvc.removeCoupon(discountId, $scope.cart.id);
         };
 
     }]);

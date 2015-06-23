@@ -95,10 +95,8 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-rest.js',
 
         'public/js/app/coupons/coupon-index.js',
-        'public/js/app/coupons/controllers/coupon-ctrl.js',
         'public/js/app/coupons/services/coupon-service.js',
         'public/js/app/coupons/services/coupon-rest.js',
-        'public/js/app/coupons/services/coupon-user.js',
 
         'public/js/app/errors/controllers/errors-ctrl.js',
         'public/js/app/errors/backendStub.js',

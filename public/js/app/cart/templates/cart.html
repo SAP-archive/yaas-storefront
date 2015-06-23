@@ -33,7 +33,7 @@
         {{'CART_UNAVAILABLE' | translate}}
     </div>
 	<div ng-if="cart.items.length">
-			<section class="summary" ng-controller="CouponCtrl">
+			<section class="summary">
 				<!-- Apply Coupon -->
 				<div ng-include="'./js/app/cart/templates/cart-costs.html'"></div>
 				<div ng-include="'./js/app/coupons/templates/coupon-apply.html'"></div>
