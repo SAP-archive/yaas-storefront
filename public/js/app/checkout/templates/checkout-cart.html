@@ -36,10 +36,10 @@
                     <td>{{'SUBTOTAL' | translate}}</td>
                     <td class="text-right">{{cart.subTotalPrice.amount | currency: currencySymbol}}</td>
                 </tr>
-                <tr ng-if="coupon.amounts.discountAmount != 0">
+                <tr ng-if="cart.totalDiscount.amount > 0">
                     <td>{{'DISCOUNT' | translate}}</td>
                     <td class="text-right">
-                        <span class="error">-{{coupon.amounts.discountAmount | currency: currencySymbol}}</span>
+                        <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
                     </td>
                 </tr>
                 <tr>
@@ -50,7 +50,7 @@
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{((cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)?cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0) + shippingCost | currency: currencySymbol}}</td>
+                    <td class="text-right">{{((cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0) + shippingCost | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>
