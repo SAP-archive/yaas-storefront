@@ -31,12 +31,18 @@ describe('ytracking', function () {
         path: [{ name: 'cat1' }, { name: 'cat2' }]
     };
     var openedProduct = {
-        id: 1,
-        name: 'prod1',
-        richCategory: openedCategory,
-        defaultPrice: {
-            value: 100
-        }
+        product: {
+            id: 1,
+            name: {
+                en: 'prod1'
+            }
+        },
+        categories: [{
+            id: "62256128"
+        }],
+        prices: [{
+            effectiveAmount: 24.99
+        }]
     };
 
     function createYTracking() {

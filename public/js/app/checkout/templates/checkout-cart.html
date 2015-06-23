@@ -6,7 +6,7 @@
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)? cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + shippingCost | currency: shippingCurrencySymbol}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{((cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)? cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0) + shippingCost | currency: shippingCurrencySymbol}}</div>
     </section>
     <section class="cartItems" ng-cloak>
         <div ng-repeat="item in cart.items track by $index">
@@ -18,11 +18,11 @@
                 </div>
                 <div class="col-xs-8 col-md-8  detail-col">
                     <div class="name">{{item.product.name}}</div>
-                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.unitPrice.value | currency: currencySymbol}}</span></div>
+                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span></div>
                     <div class="variants row item-attr">
                         <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
                     </div>
-                    <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.unitPrice.value * item.quantity) | currency: currencySymbol}}</span>
+                    <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.itemPrice.amount) | currency: currencySymbol}}</span>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <tbody>
                 <tr>
                     <td>{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.value | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.subTotalPrice.amount | currency: currencySymbol}}</td>
                 </tr>
                 <tr ng-if="coupon.amounts.discountAmount != 0">
                     <td>{{'DISCOUNT' | translate}}</td>
@@ -50,7 +50,7 @@
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{((cart.subTotalPrice.value-coupon.amounts.discountAmount>0)?cart.subTotalPrice.value-coupon.amounts.discountAmount : 0) + shippingCost | currency: currencySymbol}}</td>
+                    <td class="text-right">{{((cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)?cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0) + shippingCost | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>

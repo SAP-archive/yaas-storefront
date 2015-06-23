@@ -71,9 +71,11 @@ angular.module('ds.shared')
             function setLanguageWithOptionalCookie(newLangCode, setCookie, updateSource) {
                 if (!_.isEmpty(languageMap)) {
                     if (newLangCode && newLangCode in languageMap) {
+
                         if (setCookie) {
                             CookieSvc.setLanguageCookie(newLangCode);
                         }
+
                         if (languageCode !== newLangCode) {
                             languageCode = newLangCode;
                             acceptLanguages = (languageCode === defaultLang ? languageCode : languageCode + ';q=1,' + defaultLang + ';q=0.5');
@@ -239,13 +241,14 @@ angular.module('ds.shared')
 
                 /** Sets an array of currency instances from which a shopper should be able to choose.*/
                 setAvailableCurrencies: function (currencies) {
+
                     if (currencies) {
                         availableCurrencies = currencies;
                         angular.forEach(currencies, function (currency) {
                             currencyMap[currency.id] = currency;
-                            if (currency.default) {
-                                storeDefaultCurrency = currency.id;
-                            }
+
+                            //One site has only one currency defined
+                            storeDefaultCurrency = currency.id;
                         });
                     }
                     if (!storeDefaultCurrency) {
@@ -261,14 +264,12 @@ angular.module('ds.shared')
                 /** Sets an array of language instances from which a shopper should be able to choose.*/
                 setAvailableLanguages: function (languages) {
                     if (languages) {
-                        availableLanguages = languages;
+                        availableLanguages = [];
+
                         angular.forEach(languages, function (language) {
                             languageMap[language.id] = language;
-                            if (language.default) {
-                                defaultLang = language.id;
-                                languageCode = defaultLang;
-                                acceptLanguages = defaultLang;
-                            }
+
+                            availableLanguages.push(language);
                         });
                     }
                     if (!defaultLang) {
@@ -276,12 +277,16 @@ angular.module('ds.shared')
                     }
                 },
 
+                setDefaultLanguage: function (lang) {
+                    defaultLang = lang.id;
+                    languageCode = defaultLang.id;
+                    acceptLanguages = defaultLang;
+                },
+
                 /** Returns an array of language instances supported by this project.*/
                 getAvailableLanguages: function () {
                     return availableLanguages;
                 }
-
-
 
             };
 

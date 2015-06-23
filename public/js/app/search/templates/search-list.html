@@ -1,5 +1,5 @@
 
-<section class="gray" match-background ng-cloak>
+<section class="white"  ng-cloak>
     <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
         <blockquote style="background-image: url('{{category.image}}' );background-position:0 0;">
             <p>{{store.name}}</p>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="productInfoContainer">
                         <div class="name">{{ product.name }}</div>
-                        <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
+                        <div class="price">{{ prices[product.id].amount | currency: currencySymbol}}</div>
                     </div>
                 </a>
             </div>

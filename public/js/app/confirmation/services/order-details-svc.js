@@ -58,7 +58,7 @@ angular.module('ds.confirmation')
                     if (orderDetails.totalPrice) {
                         confirmationDetails.totalPrice = orderDetails.totalPrice;
                     }
-                    if (orderDetails.discounts) {
+                    if (orderDetails.discounts && orderDetails.discounts.length) {
                         confirmationDetails.discountAmount = orderDetails.discounts[0].amount;
                     } else {
                         confirmationDetails.discountAmount = 0;

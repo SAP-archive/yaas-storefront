@@ -39,7 +39,7 @@ describe('CheckoutSvc', function () {
         city:    'Amarillo',
         state:  'TX',
         zip: '79109',
-        country: 'USA'
+        country: 'US'
     };
 
     order.shipTo = {
@@ -47,11 +47,17 @@ describe('CheckoutSvc', function () {
         address1: 'Ship Lane 56',
         city: 'Arvada',
         state: 'CO',
-        country: 'USA',
+        country: 'US',
         zip: '80005'
     };
 
+    order.payment = {
+        paymentId: '',
+        customAttributes: {}
+    };
+
     order.creditCard = {};
+
     order.shippingCost = 4.5;
 
     var cart =  {};
@@ -59,18 +65,18 @@ describe('CheckoutSvc', function () {
     cart.subtotal = 2.99;
     cart.estTax = 0.3;
     var totalPrice = {};
-    totalPrice.value = 7.79;
+    totalPrice.amount = 7.79;
     cart.totalPrice = totalPrice;
     cart.currency = 'USD';
     order.cart = cart;
 
 
-    var checkoutJson =  {"cartId":"abcCart","currency":"USD",
+    var checkoutJson =  {"cartId":"abcCart","currency":"USD", "payment": {"paymentId": '', "customAttributes": {}},
         "addresses":[
             {"contactName":"Bob Smith","street":"Bill Str. 14","city":"Amarillo","state":"TX","zipCode":"79109",
-                "country":"USA","account":"bs@sushi.com","type":"BILLING"},
+                "country":"US","account":"bs@sushi.com","type":"BILLING"},
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
-                "country":"USA","account":"bs@sushi.com","type":"SHIPPING"}],
+                "country":"US","account":"bs@sushi.com","type":"SHIPPING"}],
         "customer":{"title":"Mr.", "firstName":"Michael", "middleName":"Jeffrey", "lastName":"Jordan","email":"bs@sushi.com"},
         "totalPrice":7.79,"shippingCost": 4.5};
 
@@ -131,8 +137,8 @@ describe('CheckoutSvc', function () {
                 var order = checkoutSvc.getDefaultOrder();
                 expect(order.shipTo).toBeTruthy();
                 expect(order.billTo).toBeTruthy();
-                expect(order.billTo.country).toEqualData('USA');
-                expect(order.paymentMethod).toEqualData('creditCard');
+                expect(order.billTo.country).toEqualData('US');
+                expect(order.payment.paymentId).toEqualData('stripe');
                 expect(order.creditCard).toBeTruthy();
             });
         });

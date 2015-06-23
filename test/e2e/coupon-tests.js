@@ -27,7 +27,7 @@ describe('coupons:', function () {
 
     function couponCheckoutTest(couponCode, price) {
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -70,13 +70,13 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
             browser.sleep(1000);
             removeFromCart();
             browser.sleep(500);
         });
 
-        it('should not allow user to add coupon with incorrect currency', function () {
+        xit('should not allow user to add coupon with incorrect currency', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             tu.selectCurrency('EURO');
             tu.loadProductIntoCart('1', '€7.99');
@@ -90,7 +90,7 @@ describe('coupons:', function () {
         });
 
 
-        iit('should add percentage off coupon on cart', function () {
+        it('should add percentage off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
@@ -109,7 +109,7 @@ describe('coupons:', function () {
             addProductandApplyCoupon('10PERCENT', '$10.67');
             verifyCartDetails('1', '$9.60', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
-            var category =  element(by.repeater('category in categories').row(0).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -158,7 +158,7 @@ describe('coupons:', function () {
         it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED', '$10.67');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON HAS EXPIRED.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
             removeFromCart();
         });
 
@@ -166,7 +166,8 @@ describe('coupons:', function () {
         it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin');
             tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            var category =  element(by.repeater('category in categories').row(3).column('category.name'));
+            browser.sleep(1000);
+            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -181,7 +182,7 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'Add Coupon Code');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('The order value is too low for this coupon.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
             tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
@@ -216,7 +217,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
-        it('should allow euro off on checkout', function () {
+        xit('should allow euro off on checkout', function () {
             tu.createAccount('coupontesteuro');
             tu.selectCurrency('EURO');
             couponCheckoutTest('5EURO', '€7.99');

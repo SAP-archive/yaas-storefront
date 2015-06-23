@@ -142,7 +142,7 @@ angular.module('ds.i18n')
          */
         BUY: 'In den Warenkorb',
         ADD_TO_CART:'In den Warenkorb',
-        DESCRIPTION: 'Beschreibung',
+        PRODUCT_DESCRIPTION: 'Produkte Beschreibung',
         OUT_OF_STOCK: 'Ausverkauft',
         QTY: 'Menge',
         ERROR_ADDING_TO_CART: 'Artikel konnte nicht hinzugefügt werden. Bitte noch einmal probieren.',
@@ -292,7 +292,7 @@ angular.module('ds.i18n')
         /*
          Search
          */
-        SEARCH: 'SUCHE',
+        SEARCH: 'Suche',
         SEARCH_RESULTS: 'Suchergebnisse',
         MOST_RELEVANT: 'Wichtigsten',
         SEARCH_AGAIN: 'Neue Suche',
