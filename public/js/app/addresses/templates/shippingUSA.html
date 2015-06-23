@@ -1,11 +1,6 @@
 <div>
 
     <div class="col-lg-12">
-        <span class="form-block-headline">USA</span>
-        test{{shipToForm.country.$viewValue.id}}
-    </div>
-
-    <div class="col-lg-12">
         <div class="checkbox">
             <label>
                 <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
@@ -51,8 +46,8 @@
                 ng-class="{'has-error': shipToForm.address1.$invalid && (shipToForm.address1.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="address1Ship">{{'ADDRESS' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                       class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                ng-required="!shipToSameAsBillTo" autocomplete="on">
+                    class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
+                    ng-required="!shipToSameAsBillTo" autocomplete="on">
             </div>
         </div>
 
@@ -60,38 +55,24 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="address2Ship">{{'ADDRESS' | translate}} 2</label>
                 <input type="text" class="form-control" placeholder="(Optional)" id="address2Ship" name="address2"
-                ng-model="order.shipTo.address2" autocomplete="on">
+                    ng-model="order.shipTo.address2" autocomplete="on">
             </div>
         </div>
-
-<!--         <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.country.$invalid && (shipToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" inline-error-input ng-model="order.shipTo.country" name="country" id="countryShip" 
-                        ng-required="!shipToSameAsBillTo" autocomplete="on">
-                    <option>USA</option>
-                </select>
-            </div>
-        </div> -->
 
         <div class="col-lg-6">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.city.$invalid && (shipToForm.city.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="cityShip">{{'CITY' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control"
-                        id="cityShip" name="city" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.city" autocomplete="on">
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="cityShip" name="city" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.city" autocomplete="on">
             </div>
         </div>
-
- <!-- && (addressForm.country.$invalid || addressForm.country.$viewValue.id === 'USA') -->
 
         <div class="col-lg-6">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
                 <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                 ng-required="!shipToSameAsBillTo && shipToForm.country.$viewValue.id === 'USA'" ng-model="order.shipTo.state" id="stateShip" name="state">
+                 ng-required="!shipToSameAsBillTo && shipToForm.country.$viewValue.id === 'US'" ng-model="order.shipTo.state" id="stateShip" name="state">
                     <option value=""></option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>
@@ -161,8 +142,7 @@
         <div class="col-lg-6">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label>
-                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on"
-                        placeholder="(Optional)">
+                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on" placeholder="(Optional)">
             </div>
         </div>
 

@@ -21,7 +21,7 @@ angular.module('ds.addresses').
 		function($compile, $http, $templateCache, $rootScope) {
 
 		var selectionArray = [
-				{id: 'USA', name:'USA'},
+				{id: 'US', name:'USA'},
 				{id: 'CAN', name:'CANADA'},
 				{id: 'UK',  name:'UK'},
 				{id: 'GER', name:'GERMANY'},
@@ -63,7 +63,7 @@ angular.module('ds.addresses').
 
             // if view is not recognized set default template
 			if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
-				locale = 'USA';
+				locale = 'US';
 			}
 
             // set dynamic template url and return promise

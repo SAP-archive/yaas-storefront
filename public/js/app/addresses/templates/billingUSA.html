@@ -1,10 +1,6 @@
 <div>
 
     <div class="col-lg-12">
-        <span class="form-block-headline">USA</span>
-    </div>
-
-    <div class="col-lg-12">
         <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
     </div>
 
@@ -19,29 +15,15 @@
              ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
-                   required autocomplete="on" >
+            class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
+            required autocomplete="on" >
         </div>
     </div>
-
-<!--         <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="order.billTo.country" id="countryBill" name="country" inline-error-input required>
-                    <option value=""></option>
-                    <option value="USA">USA</option>
-                </select>
-            </div>
-        </div> -->
 
     <div class="col-lg-12">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-<!--             <select class="form-control" ng-model="order.billTo.country" ng-options="item as item.name for item in localeSelections" 
-                ng-change="changeLocale(order.billTo.country)" id="countryBill" name="country" 
-                inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required> -->
             <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections"
                 ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
                 inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
@@ -50,33 +32,11 @@
         </div>
     </div>
 
-
-<!--         <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="order.billTo.country" ng-options="item as item.name for item in localeSelections" 
-                    id="countryBill" name="country" ng-change="changeLocale(order.billTo.country)" inline-error-input required>
-                </select>
-            </div>
-        </div> -->
-
-<!--    <div class="col-lg-12">
-        <div class="form-group input-group"
-            ng-class="{'has-error': billToForm.country.$invalid && (billToForm.country.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-            <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale" required>
-
-            </select>
-        </div>
-    </div> -->
-
     <div class="col-lg-12">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
             <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
-                   autocomplete="on" placeholder="(Optional)">
+            autocomplete="on" placeholder="(Optional)">
         </div>
     </div>
     <div class="col-lg-6">
@@ -84,7 +44,7 @@
             ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="address1Bill">{{'ADDRESS' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                   class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
+            class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
             required autocomplete="on">
         </div>
     </div>
@@ -112,7 +72,7 @@
             ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="stateBill">{{'STATE' | translate}}</label>
             <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-             ng-require=" billToForm.country.$viewValue.id === 'USA'" ng-model="order.billTo.state" id="stateBill" name="state">
+             ng-require=" billToForm.country.$viewValue.id === 'US'" ng-model="order.billTo.state" id="stateBill" name="state">
                 <option value=""></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
