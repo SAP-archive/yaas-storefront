@@ -259,6 +259,7 @@ angular.module('ds.checkout')
             var setShipToSameAsBillTo = function () {
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
                 selectedShippingAddress = $scope.order.shipTo;
+                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
             };
 
             var clearShipTo = function(){
