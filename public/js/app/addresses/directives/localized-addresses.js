@@ -36,7 +36,7 @@ angular.module('ds.addresses').
 		var loadTemplate = function(scope, elem, locale, viewType){
 
 			// load dynamic address template into scope
-			var viewForm;
+			// var viewForm;
             var tempLoader = getTemplate(locale, viewType);
 
             // handle http request response, show, compile, init validation.
@@ -83,18 +83,18 @@ angular.module('ds.addresses').
 			return locale;
 		};
 
-        var getViewForm = function(scope){
-			switch(scope.viewTarget){
-				case 'addAddress':
-					return scope.addressForm;
-				case 'billing':
-					return scope.billToForm;
-				case 'shipping':
-					return scope.shipToForm;
-				default:
-					return null;
-			}
-        };
+   //      var getViewForm = function(scope){
+			// switch(scope.viewTarget){
+			// 	case 'addAddress':
+			// 		return scope.addressForm;
+			// 	case 'billing':
+			// 		return scope.billToForm;
+			// 	case 'shipping':
+			// 		return scope.shipToForm;
+			// 	default:
+			// 		return null;
+			// }
+   //      };
 
         var templateLinker = function(scope, element, attrs) {
 
