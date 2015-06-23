@@ -111,7 +111,9 @@
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="stateBill">{{'STATE' | translate}}</label>
-            <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required ng-model="order.billTo.state" id="stateBill" name="state">
+            <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+             required = "billToForm.country.$invalid || billToForm.country.$viewValue.id === 'USA')"
+             ng-model="order.billTo.state" id="stateBill" name="state">
                 <option value=""></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>

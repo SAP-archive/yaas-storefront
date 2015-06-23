@@ -30,8 +30,8 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.country.$invalid && ( shipToForm.country.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required
-                     ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale" name="country">
+                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                     ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale" name="country" ng-required="!shipToSameAsBillTo">
                         <option value=""></option>
                 </select>
             </div>

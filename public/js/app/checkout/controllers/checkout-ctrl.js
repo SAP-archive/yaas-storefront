@@ -453,9 +453,11 @@ angular.module('ds.checkout')
             $scope.selectAddress = function(address, target) {
                 if (target === $scope.order.billTo) {
                     selectedBillingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'billing');
                 }
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'shipping');
                 }
                 addressModalInstance.close();
 
@@ -469,8 +471,6 @@ angular.module('ds.checkout')
                 target.state = address.state;
                 target.zip = address.zipCode;
                 target.contactPhone = address.contactPhone;
-
-                $scope.$emit('localizedAddress:updated', address.country);
 
                 if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
                     setShipToSameAsBillTo();

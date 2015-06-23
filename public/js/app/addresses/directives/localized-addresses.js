@@ -18,7 +18,7 @@
 
 angular.module('ds.addresses').
     directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
-    	function($compile, $http, $templateCache, $rootScope) {
+		function($compile, $http, $templateCache, $rootScope) {
 
 		var selectionArray = [
 				{id: 'USA', name:'USA'},
@@ -29,64 +29,80 @@ angular.module('ds.addresses').
 				{id: 'JPN', name:'JAPAN'}];
 
 		var initialize = function(scope, elem, viewType){
-			// set default template type
+			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
 		};
 
 		var loadTemplate = function(scope, elem, locale, viewType){
 
-			//load dynamic address template into scope
+			// load dynamic address template into scope
+			var viewForm;
             var tempLoader = getTemplate(locale, viewType);
+
+            // handle http request response, show, compile, init validation.
             tempLoader.success(function(template) {
 				elem.html(template).show();
             }).then( function () {
                 $compile(elem.contents())(scope);
+
+                viewForm = getViewForm(scope);
+                if(viewForm){
+                    // reinitialize form validation
+                    viewForm.$rollbackViewValue();
+                }
+
             });
 		};
 
         var getTemplate = function(locale, viewType) {
 
-            var templateLoader,/*templateMap,*/ templateUrl,
+            var templateLoader, templateUrl,
             baseUrl = 'js/app/addresses/templates/';
 
             // if view is not recognized set default template
-			if( locale!=='USA' && locale!=='CAN' && locale!=='CHI' && locale!=='JPN' && locale!=='UK' && locale!=='GER'){
+			if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
 				locale = 'USA';
 			}
 
-            // set dynamic template url
+            // set dynamic template url and return promise
             templateUrl = baseUrl + viewType + locale + '.html';
             templateLoader = $http.get(templateUrl, {cache: $templateCache});
 
             return templateLoader;
         };
 
-        var getLocaleSelection = function(name) {
-        	var locale = {};
-        	angular.forEach(selectionArray, function(item){
-        		if (item.name === name){
-        			locale = item;
-        		}
-        	});
-        	return locale;
+		var getLocaleSelection = function(name) {
+			var locale = {};
+			angular.forEach(selectionArray, function(item){
+				if (item.name === name){
+					locale = item;
+				}
+			});
+			return locale;
+		};
+
+        var getViewForm = function(scope){
+			switch(scope.viewTarget){
+				case 'addAddress':
+					return scope.addressForm;
+				case 'billing':
+					return scope.billToForm;
+				case 'shipping':
+					return scope.shipToForm;
+				default:
+					return null;
+			}
         };
 
         var templateLinker = function(scope, element, attrs) {
 
-			var currentType = attrs.type;
+			scope.viewTarget = attrs.type;
 			scope.localeSelections = selectionArray;
-			// scope.localeSelections = [
-			// 	{id: 'USA', name:'USA'},
-			// 	{id: 'CAN', name:'CANADA'},
-			// 	{id: 'UK',  name:'UK'},
-			// 	{id: 'GER', name:'GERMANY'},
-			// 	{id: 'CHI', name:'CHINA'},
-			// 	{id: 'JPN', name:'JAPAN'}];
 
 			// localization selection handler
 			scope.initializeLocale = function(locale){
 				loadTemplate(scope, element, locale.id, attrs.type);
-			}
+			};
 
 			// localization selection handler
 			scope.changeLocale = function(locale){
@@ -94,7 +110,7 @@ angular.module('ds.addresses').
 				loadTemplate(scope, element, locale.id, attrs.type);
 
 				// set dynamic datamodel
-				switch(currentType){
+				switch(scope.viewTarget){
 					case 'addAddress':
 						scope.address.country = locale.name;
 						break;
@@ -110,13 +126,18 @@ angular.module('ds.addresses').
 
 			};
 
-            var unbind = $rootScope.$on('localizedAddress:updated', function (e, name) {
-            	var locale = getLocaleSelection(name);
-            	scope.localeSelection = locale;
-                scope.initializeLocale(locale);
-            });
+			// event for loading addressbook change request
+			var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
+				var locale = getLocaleSelection(name);
+				if( scope.viewTarget === target){
+					scope.localeSelection = locale;
+					scope.initializeLocale(locale);
+				}
+			});
+			scope.$on('$destroy', unbind);
 
-			initialize(scope, element, currentType);
+
+			initialize(scope, element, scope.viewTarget);
         };
 
         return {

@@ -64,15 +64,15 @@
         </div>
     </div> -->
 
-    <!-- <div class="col-lg-6">
+    <div class="col-lg-6">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.streetBill.$invalid && (billToForm.streetBill.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="address3Bill">{{'STREET_NAME' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                 class="form-control" id="address3Bill" name="streetBill" required autocomplete="on"
-                ng-model="order.billTo.address3">
+                ng-model="order.billTo.address1">
         </div>
-    </div> -->
+    </div>
 
     <div class="col-lg-6">
         <div class="form-group input-group">
@@ -82,12 +82,12 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- <div class="col-lg-6">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="address1Bill">{{'ROOM_NUMBER' | translate}}</label>
-            <input type="text" class="form-control"  placeholder="(Optional)" name="address1" id="address1Bill" ng-model="order.billTo.address1">
+            <input type="text" class="form-control"  placeholder="(Optional)" name="address3" id="address1Bill" ng-model="order.billTo.address1">
         </div>
-    </div>
+    </div> -->
 
     <div class="col-lg-6">
         <div class="form-group input-group"
