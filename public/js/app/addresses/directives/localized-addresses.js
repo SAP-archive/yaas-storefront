@@ -114,13 +114,13 @@ angular.module('ds.addresses').
 				// set dynamic datamodel
 				switch(scope.viewTarget){
 					case 'addAddress':
-						scope.address.country = locale.name;
+						scope.address.country = locale.id;
 						break;
 					case 'billing':
-						scope.order.billTo.country = locale.name;
+						scope.order.billTo.country = locale.id;
 						break;
 					case 'shipping':
-						scope.order.shipTo.country = locale.name;
+						scope.order.shipTo.country = locale.id;
 						break;
 					default:
 						break;
