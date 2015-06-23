@@ -1,10 +1,6 @@
 <div>
 
     <div class="col-lg-12">
-        <span class="form-block-headline">CHINA</span>
-    </div>
-
-    <div class="col-lg-12">
         <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
     </div>
 
@@ -56,14 +52,6 @@
         </div>
     </div>
 
-    <!-- <div class="col-lg-6">
-        <div class="form-group input-group">
-            <label class="input-group-addon control-label" for="address4Bill">{{'DISTRICT' | translate}}</label>
-            <input type="text" class="form-control" id="address4Bill" name="address4"  placeholder="(Optional)"
-            ng-model="order.billTo.address4">
-        </div>
-    </div> -->
-
     <div class="col-lg-6">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.streetBill.$invalid && (billToForm.streetBill.$dirty || showPristineErrors) }">
@@ -81,13 +69,6 @@
             ng-model="order.billTo.address2">
         </div>
     </div>
-
-    <!-- <div class="col-lg-6">
-        <div class="form-group input-group">
-            <label class="input-group-addon control-label" for="address1Bill">{{'ROOM_NUMBER' | translate}}</label>
-            <input type="text" class="form-control"  placeholder="(Optional)" name="address3" id="address1Bill" ng-model="order.billTo.address1">
-        </div>
-    </div> -->
 
     <div class="col-lg-6">
         <div class="form-group input-group"

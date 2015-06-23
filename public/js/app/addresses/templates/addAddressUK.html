@@ -1,9 +1,5 @@
 <div>
 
-      <div class="col-lg-12">
-          <span class="form-block-headline">defUK</span>
-      </div>
-
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
         <label class="input-group-addon control-label" for="contactName">{{'FULL_NAME' | translate}}</label>
@@ -34,15 +30,6 @@
         ng-model="address.streetAppendix" placeholder="(Optional)" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
       </div>
 
-<!--       <div class="form-group input-group"
-        ng-class="{'has-error': addressForm.country.$invalid && ( addressForm.country.$dirty || showPristineErrors) }">
-        <label class="input-group-addon control-label" for="country">{{'COUNTRY' | translate}}</label>
-        <select class="form-control" ng-model="address.country" id="country" name="country" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
-          <option value=""></option>
-          <option value="USA">USA</option>
-        </select>
-      </div> -->
-      
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.city.$invalid && (addressForm.city.$dirty || showPristineErrors) }">
         <label class="input-group-addon control-label" for="city">{{'CITY' | translate}}</label>
@@ -51,16 +38,7 @@
         ng-model="address.city" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)"
         ng-required="addressForm.country.$viewValue.id === 'UK'">
       </div>
-    
-<!--       <div class="form-group input-group"
-          ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
-          <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
-          <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-          class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
-          ng-model="order.billTo.zip">
-      </div> -->
-      
- 
+
       <div class="form-group input-group"
         ng-class="{'has-error': addressForm.zipCode.$invalid && (addressForm.zipCode.$dirty || showPristineErrors) }">
         <label class="input-group-addon control-label" for="zipCode">{{'POSTAL_CODE' | translate}}</label>

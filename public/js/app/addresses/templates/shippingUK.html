@@ -1,10 +1,6 @@
 <div>
 
     <div class="col-lg-12">
-        <span class="form-block-headline">UK</span>
-    </div>
-
-    <div class="col-lg-12">
         <div class="checkbox">
             <label>
                 <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
@@ -60,17 +56,6 @@
                 ng-model="order.shipTo.address2" autocomplete="on">
             </div>
         </div>
-
-<!--         <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.country.$invalid && (shipToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" inline-error-input ng-model="order.shipTo.country" name="country" id="countryShip" 
-                        ng-required="!shipToSameAsBillTo" autocomplete="on">
-                    <option>USA</option>
-                </select>
-            </div>
-        </div> -->
 
         <div class="col-lg-6">
             <div class="form-group input-group"

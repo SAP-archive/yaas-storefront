@@ -1,10 +1,6 @@
 <div>
 
     <div class="col-lg-12">
-        <span class="form-block-headline">CHINA</span>
-    </div>
-
-    <div class="col-lg-12">
         <div class="checkbox">
             <label>
                 <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
@@ -50,14 +46,6 @@
             </div>
         </div>
 
-        <!-- <div class="col-lg-6">
-            <div class="form-group input-group">
-                <label class="input-group-addon control-label" for="address4Ship">{{'DISTRICT' | translate}}</label>
-                <input type="text" class="form-control" placeholder="(Optional)" id="address4Ship" name="address4"
-                ng-model="order.shipTo.address4">
-            </div>
-        </div> -->
-
         <div class="col-lg-6">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.streetShip.$invalid && (shipToForm.streetShip$dirty || showPristineErrors) }">
@@ -75,16 +63,6 @@
                 ng-model="order.shipTo.address2" autocomplete="on">
             </div>
         </div>
-
-        <!-- <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.address1.$invalid && (shipToForm.address1.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="address1Ship">{{'ROOM_NUMBER' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                       class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                ng-required="!shipToSameAsBillTo" autocomplete="on">
-            </div>
-        </div> -->
 
         <div class="col-lg-6">
             <div class="form-group input-group"
