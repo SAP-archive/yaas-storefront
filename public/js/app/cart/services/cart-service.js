@@ -113,7 +113,7 @@ angular.module('ds.cart')
                     cart = response.plain();
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {
-                            CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                            CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                                 cart = response.plain();
                                 defCartTemp.resolve(cart);
                             }, function(){

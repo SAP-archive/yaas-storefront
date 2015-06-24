@@ -24,7 +24,6 @@ describe('EventSvc', function(){
 
         var state;
         var curChangeDef;
-        var siteCode = 'USD';
 
         beforeEach(function(){
             curChangeDef = $q.defer();
@@ -47,10 +46,9 @@ describe('EventSvc', function(){
             });
 
             it('should switch cart currency and refresh state on cart update', function () {
-                EventSvc.onSiteChange({}, {siteCode: siteCode});
+                EventSvc.onSiteChange({});
                 curChangeDef.resolve({});
                 $scope.$apply();
-                expect(mockedCartSvc.swichSite).toHaveBeenCalledWith(siteCode);
                 expect(mockedState.transitionTo).toHaveBeenCalled();
             });
 
@@ -61,14 +59,8 @@ describe('EventSvc', function(){
                 state = 'base.category';
             });
 
-            it('should switch currency if event source not login', function(){
-                EventSvc.onSiteChange({}, { siteCode: siteCode, source: 'other' });
-                expect(mockedCartSvc.swichSite).toHaveBeenCalledWith(siteCode);
-
-            });
-
             it('should reload state for category and prod detail', function(){
-                EventSvc.onSiteChange({}, { siteCode: siteCode, source: settings.eventSource.login });
+                EventSvc.onSiteChange({});
                 expect(mockedState.transitionTo).toHaveBeenCalled();
             });
 

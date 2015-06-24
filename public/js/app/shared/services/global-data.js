@@ -296,7 +296,7 @@ angular.module('ds.shared')
 
                 setDefaultLanguage: function (lang) {
                     defaultLang = lang.id;
-                    languageCode = defaultLang.id;
+                    languageCode = defaultLang;
                     acceptLanguages = defaultLang;
                 },
 
@@ -311,7 +311,6 @@ angular.module('ds.shared')
                 },
 
                 setSite: function (site) {
-
                     if (!currentSite || currentSite.code !== site.code) {
 
                         //Set current site
@@ -362,10 +361,7 @@ angular.module('ds.shared')
                         this.setAvailableLanguages(languages);
 
                         //Emit site change for cart
-                        $rootScope.$emit('site:updated', {
-                            siteCode: site.code,
-                            source: settings.eventSource.siteUpdated
-                        });
+                        $rootScope.$emit('site:updated');
                     }
                 },
 
