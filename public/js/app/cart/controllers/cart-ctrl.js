@@ -79,14 +79,18 @@ angular.module('ds.cart')
         $scope.applyCoupon = function(couponCode) {
             $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponResponse) {
                 $scope.couponErrorMessage = '';
-                CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
+                CouponSvc.redeemCoupon(couponResponse, $scope.cart.id).then(function () {
+                    CartSvc.getCart();
+                });
             }, function (couponError) {
                 getCouponError(couponError);
             });
         };
 
         $scope.removeCoupon = function(discountId) {
-            CouponSvc.removeCoupon(discountId, $scope.cart.id);
+            CouponSvc.removeCoupon(discountId, $scope.cart.id).then(function () {
+                CartSvc.getCart();
+            });
         };
 
         var getCouponError = function(couponError) {
