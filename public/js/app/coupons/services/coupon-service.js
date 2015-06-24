@@ -16,8 +16,8 @@
  *  Provides a variety of coupon: access, validation, and redemptions services.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['CartREST', 'CouponREST',
-        function(CartREST, CouponREST){
+    .factory('CouponSvc', ['CartSvc', 'CouponREST',
+        function(CartSvc, CouponREST){
 
             /*
              TODO:
@@ -44,11 +44,11 @@ angular.module('ds.coupon')
 
                 redeemCoupon: function (coupon, cartId) {
                     coupon = parseCoupon(coupon);
-                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts');
+                    CartSvc.redeemCoupon(coupon, cartId);
                 },
 
                 removeCoupon: function (discountId, cartId) {
-                    return CartREST.Cart.one('carts', cartId).one('discounts', discountId).remove();
+                    CartSvc.removeCoupon(discountId, cartId);
                 }
 
             };

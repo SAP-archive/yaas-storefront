@@ -488,7 +488,7 @@
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
     <div class="col-xs-6 text-right hidden-sm hidden-xs">
-        <span class="value">{{((cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)? cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0) + order.shippingCost | currency: currencySymbol}}</span>
+        <span class="value">{{((cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0) + order.shippingCost | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
