@@ -109,7 +109,7 @@ angular.module('ds.cart')
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
-                CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                     cart = response.plain();
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {
@@ -179,7 +179,7 @@ angular.module('ds.cart')
             function mergeAnonymousCartIntoCurrent(anonCart){
                 if (anonCart && anonCart.id) {
                     // merge anon cart into user cart
-                    CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function () {
+                    CartREST.Cart.one('carts', cart.id).one('merge').customPOST({ carts: [anonCart.id] }).then(function () {
                         // merge anonymous cart - will change currency if needed
                         refreshCart(cart.id, 'merge');
                     }, function(){
