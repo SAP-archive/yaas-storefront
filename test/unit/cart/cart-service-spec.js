@@ -648,6 +648,35 @@ describe('CartSvc Test', function () {
             expect(cart).toBeTruthy();
             expect(cart.error).toBeFalsy();
         });
+
+        it('should redeem the coupon', function () {
+            var mockCoupon = {
+                code: 'test1',
+                applied: false,
+                valid: true,
+                discountType: 'ABSOLUTE',
+                discountAbsolute: {
+                    amount: 5,
+                    currency: 'USD'
+                },
+                amount: 5,
+                currency: 'USD'
+            };
+
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/discounts', mockCoupon).respond(201, {});
+
+            cartSvc.redeemCoupon(mockCoupon, cartId);
+
+            mockBackend.flush();
+        });
+
+        it('should remove the coupon', function () {
+            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts/0').respond(200, {});
+
+            cartSvc.removeCoupon(0, cartId);
+
+            mockBackend.flush();
+        });
     });
 
 });

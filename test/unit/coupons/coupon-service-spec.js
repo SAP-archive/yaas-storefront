@@ -12,9 +12,10 @@
 
 describe('Coupon Service Test:', function () {
 
-    var $scope, $rootScope, couponUrl, cartUrl, CartSvc, mockBackend;
+    var $scope, $rootScope, couponUrl, cartUrl, mockBackend;
     var CouponREST = {};
     var CouponSvc = {};
+    var CartSvc = {};
     var AuthSvc = {
         isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
     };
@@ -89,6 +90,9 @@ describe('Coupon Service Test:', function () {
         CouponSvc = _CouponSvc_;
         CartSvc = _CartSvc_;
 
+        CartSvc.redeemCoupon = jasmine.createSpy();
+        CartSvc.removeCoupon = jasmine.createSpy();
+
         mockBackend = _$httpBackend_;
         couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
         cartUrl = SiteConfigSvc.apis.cart.baseUrl;
@@ -103,15 +107,43 @@ describe('Coupon Service Test:', function () {
         });
 
         it("should get a coupon", function() {
+            var getPayload = {"Accept":"application/json, text/plain, */*"};
+
+            mockBackend.expectGET(couponUrl +'coupons/test1', getPayload).respond(200, {});
+
+            CouponSvc.getCoupon('test1');
+
+            mockBackend.flush();
 
         });
 
         it("should redeem a coupon", function() {
             CouponSvc.redeemCoupon(mockCoupon, mockCart.id);
+
+            expect(CartSvc.redeemCoupon).toHaveBeenCalled();
+        });
+
+        it("should redeem a percentage coupon", function() {
+            var mockCoupon2 = {
+                code: 'test1',
+                applied: false,
+                valid: true,
+                discountType: 'PERCENT',
+                discountPercentage: 10
+            };
+
+            CouponSvc.redeemCoupon(mockCoupon2, mockCart.id);
+
+            var modifiedMockCoupon = mockCoupon2;
+            modifiedMockCoupon.discountRate = mockCoupon.discountPercentage;
+
+            expect(CartSvc.redeemCoupon).toHaveBeenCalledWith(modifiedMockCoupon, mockCart.id);
         });
 
         it("should remove a coupon", function() {
             CouponSvc.removeCoupon(mockCoupon.code, mockCart.id);
+
+            expect(CartSvc.removeCoupon).toHaveBeenCalled();
         });
 
     });
