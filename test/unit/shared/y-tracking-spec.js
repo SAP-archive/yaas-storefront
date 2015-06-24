@@ -21,9 +21,6 @@ describe('ytracking', function () {
         }
     };
     var mockedGlobalData = {
-        piwik: {
-            enabled: true
-        },
         store: {
             tenant: 'defaultTenant'
         }
@@ -46,6 +43,25 @@ describe('ytracking', function () {
         prices: [{
             effectiveAmount: 24.99
         }]
+    };
+
+    var order = {
+        cart: {
+            items: [{
+                product: {
+                    id: '02318421',
+                    name: 'product1'
+                },
+                itemPrice: {
+                    amount: 5
+                },
+                quantity: 2
+            }],
+            totalPrice: 0,
+            subTotalPrice: {
+                amount: 0
+            }
+        }
     };
 
     function createYTracking() {
@@ -231,24 +247,7 @@ describe('ytracking', function () {
 
         /*Order placed*/
         it('should call orderPlaced when user placed order', function () {
-            var order = {
-                cart: {
-                    items: [{
-                        product: {
-                            id: '02318421',
-                            name: 'product1'
-                        },
-                        unitPrice: {
-                            value: 5
-                        },
-                        quantity: 2
-                    }],
-                    totalPrice: 0,
-                    subTotalPrice: {
-                        value: 0
-                    }
-                }
-            };
+           
             mockedYtrackingSvc.orderPlaced = jasmine.createSpy('orderPlaced');
 
             spyOn($scope, "$emit").andCallThrough();
@@ -260,24 +259,7 @@ describe('ytracking', function () {
             expect(mockedYtrackingSvc.orderPlaced).toHaveBeenCalled();
         });
         it('should add new items to _paq array when user opened checkout page', function () {
-            var order = {
-                cart: {
-                    items: [{
-                        product: {
-                            id: '02318421',
-                            name: 'product1'
-                        },
-                        unitPrice: {
-                            value: 5
-                        },
-                        quantity: 2
-                    }],
-                    totalPrice: 0,
-                    subTotalPrice: {
-                        value: 0
-                    }
-                }
-            };
+           
             var lengthBefore = $window._paq.length;
 
             spyOn($scope, "$emit").andCallThrough();
@@ -297,60 +279,26 @@ describe('ytracking', function () {
 
         /*Cart updated*/
         it('should call cartUpdated when user added/removed something from cart', function () {
-            var obj = {
-                cart: {
-                    items: [{
-                        product: {
-                            id: '02318421',
-                            name: 'product1'
-                        },
-                        unitPrice: {
-                            value: 5
-                        },
-                        quantity: 2
-                    }],
-                    totalPrice: 0,
-                    subTotalPrice: {
-                        value: 0
-                    }
-                }
-            };
+         
             mockedYtrackingSvc.cartUpdated = jasmine.createSpy('cartUpdated');
 
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('cart:updated', obj);
+            $scope.$emit('cart:updated', order);
 
-            expect($scope.$emit).toHaveBeenCalledWith("cart:updated", obj);
+            expect($scope.$emit).toHaveBeenCalledWith("cart:updated", order);
             expect(mockedYtrackingSvc.cartUpdated).toHaveBeenCalled();
         });
         it('should add new items to _paq array when user added/removed something from cart', function () {
-            var obj = {
-                cart: {
-                    items: [{
-                        product: {
-                            id: '02318421',
-                            name: 'product1'
-                        },
-                        unitPrice: {
-                            value: 5
-                        },
-                        quantity: 2
-                    }],
-                    totalPrice: 0,
-                    subTotalPrice: {
-                        value: 0
-                    }
-                }
-            };
+
             var lengthBefore = $window._paq.length;
 
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "cartUpdated").andCallThrough();
 
-            $scope.$emit('cart:updated', obj);
+            $scope.$emit('cart:updated', order);
 
 
             var lengthAfter = $window._paq.length;

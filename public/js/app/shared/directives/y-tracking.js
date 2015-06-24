@@ -54,7 +54,8 @@ angular.module('ds.ytracking', [])
                         for (var i = 0; i < obj.cart.items.length; i++) {
                             //sku, name, categoryName, unitPrice, amount
                             var item = obj.cart.items[i];
-                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', item.itemPrice.amount, item.quantity);
+                            var price = !!item.itemPrice && !!item.itemPrice.amount ? item.itemPrice.amount : '';
+                            ytrackingSvc.addEcommerceItem(item.product.id, item.product.name, '', price, item.quantity);
                         }
                         //Send order details to piwik
                         var orderId = obj.orderId || '';
@@ -104,6 +105,10 @@ angular.module('ds.ytracking', [])
                     var kv = split[i].split('=');
                     obj[kv[0]] = decodeURIComponent(kv[1] ? kv[1].replace(/\+/g, ' ') : kv[1]);
                 }
+
+                //Set date for this request to current datetime when request processed. Needed from CDM for order of events.
+                obj.date = new Date().getTime();
+
                 return obj;
             };
 
@@ -111,19 +116,18 @@ angular.module('ds.ytracking', [])
             * Function that process piwik requests
             */
             var processRequest = function (e) {
+
+                //Get object from query parameters
+                var obj = getQueryParameters(e);
+
                 //Make post request to service
-                if (GlobalData.piwik.enabled) {
-                    makeRequest(e);
-                }
+                makeRequest(obj);
             };
 
             /**
             * Function that creates POST request to CDM endpoint
             */
-            var makeRequest = function (params) {
-
-                //Get object from query parameters
-                var obj = getQueryParameters(params);
+            var makeRequest = function (obj) {
 
                 var req = {
                     method: 'POST',
@@ -137,8 +141,6 @@ angular.module('ds.ytracking', [])
 
                 $http(req).
                     success(function () {
-                        GlobalData.piwik.firstCall = false;
-
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
@@ -147,7 +149,7 @@ angular.module('ds.ytracking', [])
                     }).
                     error(function () {
                         //Store request to localstorage so it can be sent again when possible
-                        localStorage.addItemToArray(yTrackingLocalStorageKey, params);
+                        localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
                     });
             };
 
@@ -167,7 +169,8 @@ angular.module('ds.ytracking', [])
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
                 $window._paq.push(['setTrackerUrl', url]);
-                $window._paq.push(['setSiteId', GlobalData.store.tenant]); //Ask CDM what they prefer
+                //Add site code. It should be   <tenant>.<siteCode>
+                $window._paq.push(['setSiteId', GlobalData.store.tenant]);
 
                 $window._paq.push(['trackPageView']);
                 $window._paq.push(['enableLinkTracking']);
@@ -236,8 +239,6 @@ angular.module('ds.ytracking', [])
                             false, //This is search category selected in our search. At the moment we dont have this
                             numberOfResults
                         ]);
-
-                        //$window._paq.push(['trackLink', 'SearchEvent', 'action_name']);
                     }
                     else {
                         $window._paq.push(['trackSiteSearch',
@@ -245,8 +246,6 @@ angular.module('ds.ytracking', [])
                             false, //This is search category selected in our search. At the moment we dont have this
                             0
                         ]);
-
-                        //$window._paq.push(['trackLink', 'SearchNoResultsEvent', 'action_name']);
                     }
                 }
             };
@@ -308,8 +307,6 @@ angular.module('ds.ytracking', [])
 
                 //Records the cart for this visit
                 $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.amount : 0]); // (required) Cart amount
-                //$window._paq.push(['trackPageView', 'CartUpdated']);
-                //$window._paq.push(['trackLink', 'CartUpdated', 'action_name']);
 
                 //Save previous state for later comparasion (checking if objects are removed from cart)
                 internalCart = cart;
@@ -340,7 +337,6 @@ angular.module('ds.ytracking', [])
 
                         var cartId = !!cart.id ? cart.id : '';
                         $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
-                        //$window._paq.push(['trackEvent', 'checkout', 'proceed', '', '']);
                         $window._paq.push(['trackLink', 'ProceedToCheckoutEvent', 'action_name']);
                     });
                 }
@@ -359,8 +355,6 @@ angular.module('ds.ytracking', [])
                         shippingAmount, // (optional) Shipping amount
                         isDiscountOffered // (optional) Discount offered (set to false for unspecified parameter)
                     ]);
-
-                    //$window._paq.push(['trackPageView', 'OrderPlaced']);
                 }
             };
 
