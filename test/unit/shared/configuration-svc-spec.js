@@ -101,7 +101,6 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.getSite = jasmine.createSpy();
         mockedGlobalData.setSiteCookie = jasmine.createSpy();
 
-        mockedCartSvc.swichSite = jasmine.createSpy('swichSite');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy('refreshCartAfterLogin');
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
 

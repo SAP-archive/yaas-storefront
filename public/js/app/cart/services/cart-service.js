@@ -162,18 +162,6 @@ angular.module('ds.cart')
                 return defCart.promise;
             }
 
-            function swichSite() {
-                var def = $q.defer();
-                if (cart.id) {
-                    refreshCart(cart.id, 'site').finally(function () {
-                        def.resolve({});
-                    });
-                } else {
-                    def.resolve();
-                }
-                return def.promise;
-            }
-
             function mergeAnonymousCartIntoCurrent(anonCart) {
                 if (anonCart && anonCart.id) {
                     // merge anon cart into user cart
@@ -186,7 +174,9 @@ angular.module('ds.cart')
                 } else {
                     // scope is already equivalent to latest user cart
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
-                        swichSite();
+                        if (cart.id) {
+                            refreshCart(cart.id, 'site');
+                        }
                     } else {
                         $rootScope.$emit('cart:updated', { cart: cart });
                     }
@@ -246,15 +236,6 @@ angular.module('ds.cart')
                  */
                 getCart: function () {
                     return refreshCart(cart.id ? cart.id : null);
-                },
-
-                /*
-                 *  This function switches the cart's currency and refreshes the cart.  Returns an empty success promise
-                 *  once the refresh has happened (either successfully or failed).
-                 *  @param currency code to switch to
-                 */
-                swichSite: function () {
-                    return swichSite();
                 },
 
                 /**
