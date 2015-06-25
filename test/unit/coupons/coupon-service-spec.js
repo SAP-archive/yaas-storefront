@@ -91,7 +91,7 @@ describe('Coupon Service Test:', function () {
         CartSvc = _CartSvc_;
 
         CartSvc.redeemCoupon = jasmine.createSpy();
-        CartSvc.removeCoupon = jasmine.createSpy();
+        CartSvc.removeAllCoupons = jasmine.createSpy();
 
         mockBackend = _$httpBackend_;
         couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
@@ -103,7 +103,7 @@ describe('Coupon Service Test:', function () {
         it('should exist', function () {
             expect(CouponSvc.getCoupon).toBeDefined();
             expect(CouponSvc.redeemCoupon).toBeDefined();
-            expect(CouponSvc.removeCoupon).toBeDefined();
+            expect(CouponSvc.removeAllCoupons).toBeDefined();
         });
 
         it("should get a coupon", function() {
@@ -140,10 +140,10 @@ describe('Coupon Service Test:', function () {
             expect(CartSvc.redeemCoupon).toHaveBeenCalledWith(modifiedMockCoupon, mockCart.id);
         });
 
-        it("should remove a coupon", function() {
-            CouponSvc.removeCoupon(mockCoupon.code, mockCart.id);
+        it("should remove all coupons", function() {
+            CouponSvc.removeAllCoupons(mockCart.id);
 
-            expect(CartSvc.removeCoupon).toHaveBeenCalled();
+            expect(CartSvc.removeAllCoupons).toHaveBeenCalled();
         });
 
     });

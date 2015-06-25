@@ -80,7 +80,7 @@ describe('CartCtrl Test', function () {
         mockedCouponSvc = {
             getCoupon: jasmine.createSpy('getCoupon'),
             redeemCoupon: jasmine.createSpy('redeemCoupon'),
-            removeCoupon: jasmine.createSpy('removeCoupon')
+            removeAllCoupons: jasmine.createSpy('removeAllCoupons')
         };
 
         cartCtrl = $controller('CartCtrl', {$scope: $scope, $state: mockedState, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc,

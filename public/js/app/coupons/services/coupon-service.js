@@ -44,11 +44,11 @@ angular.module('ds.coupon')
 
                 redeemCoupon: function (coupon, cartId) {
                     coupon = parseCoupon(coupon);
-                    CartSvc.redeemCoupon(coupon, cartId);
+                    return CartSvc.redeemCoupon(coupon, cartId);
                 },
 
-                removeCoupon: function (discountId, cartId) {
-                    CartSvc.removeCoupon(discountId, cartId);
+                removeAllCoupons: function (cartId) {
+                    return CartSvc.removeAllCoupons(cartId);
                 }
 
             };

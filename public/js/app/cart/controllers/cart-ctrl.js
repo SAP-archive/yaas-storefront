@@ -87,8 +87,8 @@ angular.module('ds.cart')
             });
         };
 
-        $scope.removeCoupon = function(discountId) {
-            CouponSvc.removeCoupon(discountId, $scope.cart.id).then(function () {
+        $scope.removeAllCoupons = function() {
+            CouponSvc.removeAllCoupons($scope.cart.id).then(function () {
                 CartSvc.getCart();
             });
         };

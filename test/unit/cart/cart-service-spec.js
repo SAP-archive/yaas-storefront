@@ -671,9 +671,9 @@ describe('CartSvc Test', function () {
         });
 
         it('should remove the coupon', function () {
-            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts/0').respond(200, {});
+            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
 
-            cartSvc.removeCoupon(0, cartId);
+            cartSvc.removeAllCoupons(cartId);
 
             mockBackend.flush();
         });

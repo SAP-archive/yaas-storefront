@@ -15,7 +15,7 @@
     <div ng-if="cart.discounts.length" class="row">
         <div ng-repeat="discount in cart.discounts" class="col-xs-8 col-md-8 img-col">
             {{discount.code}}
-            <button id="remove-coupon" ng-click="removeCoupon(discount.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+            <button id="remove-coupon" ng-click="removeAllCoupons()" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
         </div>
     </div>
 

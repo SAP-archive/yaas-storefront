@@ -357,8 +357,8 @@ angular.module('ds.cart')
                     return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts');
                 },
 
-                removeCoupon: function (discountId, cartId) {
-                    return CartREST.Cart.one('carts', cartId).one('discounts', discountId).remove();
+                removeAllCoupons: function(cartId) {
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove();
                 }
 
 
