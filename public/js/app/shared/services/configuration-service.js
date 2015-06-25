@@ -48,12 +48,11 @@ angular.module('ds.shared')
              * Returns promise once done.
              */
             function loadConfiguration() {
-                var params = { expand: 'payment:active,tax:active,mixin:*' };
 
                 /**
                 * Get default site for the moment
                 */
-                var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList(params);
+                var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList({});
                 configPromise.then(function (sites) {
 
                     //Check if there is already default site in memory and if that one is valid one (exists in returned array)

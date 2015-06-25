@@ -111,7 +111,7 @@ describe('ConfigurationSvc Test', function () {
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
 
-            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites?expand=payment:active,tax:active,mixin:*';
+            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites';
             siteUrl = siteConfig.apis.siteSettings.baseUrl + 'sites/europe123?expand=payment:active,tax:active,mixin:*';
 
             $q = _$q_;
