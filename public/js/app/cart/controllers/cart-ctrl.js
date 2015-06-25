@@ -15,8 +15,8 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'CouponSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager', '$filter',
-            function($scope, $state, $rootScope, CartSvc, CouponSvc, GlobalData, settings, AuthSvc, AuthDialogManager, $filter) {
+    .controller('CartCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
+            function($scope, $state, $rootScope, CartSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
 
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
@@ -72,41 +72,6 @@ angular.module('ds.cart')
             }
             else {
                 $state.go('base.checkout.details');
-            }
-        };
-
-        /** get coupon and apply it to the cart */
-        $scope.applyCoupon = function(couponCode) {
-            $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponResponse) {
-                $scope.couponErrorMessage = '';
-                CouponSvc.redeemCoupon(couponResponse, $scope.cart.id).then(function () {
-                    CartSvc.getCart();
-                });
-            }, function (couponError) {
-                getCouponError(couponError);
-            });
-        };
-
-        $scope.removeAllCoupons = function() {
-            CouponSvc.removeAllCoupons($scope.cart.id).then(function () {
-                CartSvc.getCart();
-            });
-        };
-
-        var getCouponError = function(couponError) {
-            $scope.coupon.error = couponError;
-            console.log(couponError);
-            if (couponError.status === 404 || (couponError.status === 403 && AuthSvc.isAuthenticated())) {
-                $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_UNAVAILABLE');
-            }
-            else if (couponError.status === 403) {
-                $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_ANONYMOUS');
-            }
-            else if (couponError.status === 'CURR') {
-                $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_CURRENCY');
-            }
-            else {
-                $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_UNAVAILABLE');
             }
         };
 
