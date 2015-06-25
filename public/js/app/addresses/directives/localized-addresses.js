@@ -24,11 +24,9 @@ angular.module('ds.addresses').
 				{id: 'US', name:'USA'},
 				{id: 'CA', name:'CANADA'},
 				{id: 'GB', name:'GREAT BRITAIN'},
-				{id: 'DE', name:'GERMANY'}];
-				// TODO: add these back once backing data is available. 
-				// Templates contain data schema: region, postal code, address3, address4.
-				// {id: 'CN', name:'CHINA'},
-				// {id: 'JP', name:'JAPAN'}];
+				{id: 'DE', name:'GERMANY'},
+				{id: 'CN', name:'CHINA'},
+				{id: 'JP', name:'JAPAN'}];
 
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
