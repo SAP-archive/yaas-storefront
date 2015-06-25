@@ -190,9 +190,9 @@ describe('ytracking', function () {
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('searchEvent', searchObj);
+            $scope.$emit('search:performed', searchObj);
 
-            expect($scope.$emit).toHaveBeenCalledWith("searchEvent", searchObj);
+            expect($scope.$emit).toHaveBeenCalledWith("search:performed", searchObj);
             expect(mockedYtrackingSvc.searchEvent).toHaveBeenCalled();
         });
         it('should add new items to _paq array when user searched page', function () {
@@ -206,7 +206,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "searchEvent").andCallThrough();
 
-            $scope.$emit('searchEvent', searchObj);
+            $scope.$emit('search:performed', searchObj);
 
             var lengthAfter = $window._paq.length;
             expect(lengthAfter > lengthBefore).toBeTruthy();

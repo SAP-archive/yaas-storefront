@@ -93,7 +93,7 @@ angular.module('ds.ysearch')
                         scope.search.results = content.hits;
 
                         //Send event that search is done
-                        $rootScope.$emit('searchEvent', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
+                        $rootScope.$emit('search:performed', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
                     }, function () {
                     });
             }

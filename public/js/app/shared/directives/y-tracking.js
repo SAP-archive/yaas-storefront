@@ -41,7 +41,7 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
-                    $rootScope.$on('searchEvent', function (arg, obj) {
+                    $rootScope.$on('search:performed', function (arg, obj) {
                         ytrackingSvc.searchEvent(obj.searchTerm, obj.numberOfResults);
                     });
 
