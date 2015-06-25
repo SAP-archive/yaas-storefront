@@ -131,13 +131,13 @@ angular.module('ds.ytracking', [])
                 $window._paq.push(['setCustomRequestProcessing', processRequest]);
 
                 //Set document title
-                $window._paq.push(['setDocumentTitle', $window.document.title.toString()]);
+                $window._paq.push(['setDocumentTitle', 'PageViewEvent']);
 
                 //Set user id to equal the user token
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
                 $window._paq.push(['setTrackerUrl', url]);
-                $window._paq.push(['setSiteId', 1]);
+                $window._paq.push(['setSiteId', GlobalData.store.tenant + '.' + GlobalData.getSiteCode()]);
 
                 $window._paq.push(['trackPageView']);
                 $window._paq.push(['enableLinkTracking']);

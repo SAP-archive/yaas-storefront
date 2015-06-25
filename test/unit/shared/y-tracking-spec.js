@@ -23,6 +23,12 @@ describe('ytracking', function () {
     var mockedGlobalData = {
         piwik: {
             enabled: true
+        },
+        store: {
+            tenant: 'default'
+        },
+        getSiteCode: function () {
+            return 'site';
         }
     };
     var mockedLocalStorage = {};
