@@ -122,7 +122,7 @@ angular.module('ds.shared')
                             siteSettingPromise.then(function (site) {
 
                                 //Set site
-                                GlobalData.setSite(site);
+                                GlobalData.setSite(site, true);
 
                                 var languageSet = false;
                                 var currencySet = false;
@@ -153,9 +153,6 @@ angular.module('ds.shared')
                                         CartSvc.refreshCartAfterLogin(account.id);
                                     });
                                 } else {
-                                    GlobalData.loadInitialLanguage();
-                                    GlobalData.loadInitialCurrency();
-
                                     CategorySvc.getCategories().then(function () {
                                         def.resolve({});
                                     });

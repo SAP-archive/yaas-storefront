@@ -33,8 +33,7 @@ angular.module('ds.shared')
 
             var storeDefaultCurrency;
             var activeCurrencyId;
-            var currencyMap = {};
-            var availableCurrencies = {};
+            var availableCurrency = {};
 
 
             // for label translation, we're limited to what we're providing in localization settings in i18
@@ -62,19 +61,12 @@ angular.module('ds.shared')
                 }
             }
 
-            function setCurrencyWithOptionalCookie(currencyId, setCookie, updateSource) {
-                if (!_.isEmpty(currencyMap)) {
-                    if (currencyId && currencyId in currencyMap) {
-                        if (setCookie) {
-                            CookieSvc.setCurrencyCookie(currencyId);
-                        }
-                        if (currencyId !== activeCurrencyId) {
-                            activeCurrencyId = currencyId;
-                        }
-                    } else {
-                        console.warn('Currency not valid: ' + currencyId + '. Using default currency ' + storeDefaultCurrency);
-                        setCurrencyWithOptionalCookie(storeDefaultCurrency, true, updateSource);
-                    }
+            function setCurrencyWithOptionalCookie(currencyId, setCookie) {
+                if (setCookie) {
+                    CookieSvc.setCurrencyCookie(currencyId);
+                }
+                if (currencyId !== activeCurrencyId) {
+                    activeCurrencyId = currencyId;
                 }
             }
 
@@ -176,7 +168,6 @@ angular.module('ds.shared')
                         symbol = 'CHF';
                     }
 
-
                     return symbol;
                 },
 
@@ -246,27 +237,17 @@ angular.module('ds.shared')
                     return activeCurrencyId;
                 },
 
-                /** Returns the currency instance for a given currency id.*/
-                getCurrencyById: function (currId) {
-                    return currencyMap[currId];
-                },
-
                 /** Returns the active currency instance.*/
                 getCurrency: function () {
-                    return this.getCurrencyById(activeCurrencyId);
+                    return activeCurrencyId;
                 },
 
                 /** Sets an array of currency instances from which a shopper should be able to choose.*/
-                setAvailableCurrencies: function (currencies) {
+                setAvailableCurrency: function (currency) {
 
-                    if (currencies) {
-                        availableCurrencies = currencies;
-                        angular.forEach(currencies, function (currency) {
-                            currencyMap[currency.id] = currency;
-
-                            //One site has only one currency defined
-                            storeDefaultCurrency = currency.id;
-                        });
+                    if (currency) {
+                        availableCurrency = currency;
+                        storeDefaultCurrency = currency;
                     }
                     if (!storeDefaultCurrency) {
                         console.error('No default currency defined!');
@@ -274,8 +255,8 @@ angular.module('ds.shared')
                 },
 
                 /** Returns an array of currency instances supported by this project.*/
-                getAvailableCurrencies: function () {
-                    return availableCurrencies;
+                getAvailableCurrency: function () {
+                    return availableCurrency;
                 },
 
                 /** Sets an array of language instances from which a shopper should be able to choose.*/
@@ -310,7 +291,7 @@ angular.module('ds.shared')
                     CookieSvc.setSiteCookie(cookieSite);
                 },
 
-                setSite: function (site) {
+                setSite: function (site, setLanguage) {
                     if (!currentSite || currentSite.code !== site.code) {
 
                         //Set current site
@@ -339,18 +320,17 @@ angular.module('ds.shared')
                         //Create array
                         if (site.currency) {
                             if (site.currency !== this.getCurrencyId()) {
-
-                                var currency = [{ id: site.currency, label: '' }];
-                                currency[0]['default'] = true;
-                                this.setAvailableCurrencies(currency);
+                                this.setAvailableCurrency(site.currency);
 
                                 this.setCurrency(site.currency);
                             }
                         }
 
-                        //Set default language
-                        this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
-
+                        if (setLanguage) {
+                            //Set default language
+                            this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
+                        }
+                       
                         //Set languages
                         var languages = [];
                         if (!!site.languages) {
