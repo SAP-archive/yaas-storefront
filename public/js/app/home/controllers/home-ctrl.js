@@ -21,10 +21,12 @@ angular.module('ds.home')
 
             $scope.slides = [
                 {
+                    id: 'audioBanner',
                     image: './img/homePg-hero-audio.jpg',
                     state: 'base.category'
                 },
                 {
+                    id: 'officeBanner',
                     image: './img/homePg-hero-office.jpg',
                     state: 'base.category'
                 }
