@@ -58,9 +58,9 @@
             <div ng-if="languageLocales.length > 1">
               <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
             </div>
-            <div ng-if="currencies.length > 1">
+            <!--<div ng-if="currencies.length > 1">
               <span class="inline-label">{{'CURRENCY' | translate}}:</span> <a href="#" editable-select="account.preferredCurrency" e-ng-options="currency.id as currency.label for currency in currencies" onbeforesave="updateAccount('preferredCurrency', $data)" >{{showCurrency()}} <span class="caret"></span></a>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>

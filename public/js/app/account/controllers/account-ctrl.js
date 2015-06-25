@@ -47,7 +47,7 @@ angular.module('ds.account')
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
 
-            $scope.currencies = GlobalData.getAvailableCurrencies();
+            $scope.currencies = GlobalData.getAvailableCurrency();
 
             $scope.showCurrency = function () {
                 var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency ? $scope.account.preferredCurrency : '?'});
