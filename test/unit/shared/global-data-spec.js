@@ -139,15 +139,6 @@ describe('GlobalData', function () {
         });
     });
 
-    xdescribe('setAvailableCurrencies()', function () {
-        it('should return the same currencies', function () {
-            var currs = [{ id: 'CAD', label: 'Canadian Dollar' }];
-            GlobalData.setAvailableCurrencies(currs);
-            var out = GlobalData.getAvailableCurrencies();
-            expect(out).toEqualData(currs);
-        });
-    });
-
     describe('loadInitialLanguage()', function () {
         var defaultLangCode = 'fr';
 

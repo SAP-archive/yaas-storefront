@@ -43,7 +43,7 @@ describe('Coupon Service Test:', function () {
         getCurrencyId: function() { return null},
         getCurrencySymbol: function () {return '$'},
         getAvailableLanguages: function() { return [{id:'en', label:eng}]},
-        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]},
+        getAvailableCurrency: function() { return 'USD'},
         getCurrency: function() { return null},
         addresses:  {
             meta: {

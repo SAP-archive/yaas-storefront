@@ -323,58 +323,6 @@ describe('CartSvc Test', function () {
             });
         });
 
-        describe('swichSite', function () {
-            var eventSpy;
-
-            beforeEach(function () {
-                eventSpy = spyOn($rootScope, '$emit');
-                mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn("EUR");
-            });
-
-            it('should switch the cart site', function () {
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "siteCode": selectedSiteCode })
-                    .respond(200, {});
-                mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200,
-                    {
-
-                        "id": cartId,
-                        "items": [
-                            {
-                                "product": {
-
-                                    "id": prodId
-                                },
-                                "price": {
-                                    "currency": "USD",
-                                    "effectiveAmount": 5.00
-                                },
-                                "id": itemId
-                            }
-                        ],
-                        "currency": "EUR",
-                        "siteCode": selectedSiteCode
-                    });
-                mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(200, [{ id: prodId, images: ['myurl'], name: 'name' }]);
-                cartSvc.swichSite();
-                mockBackend.flush();
-                var closeAfterTimeout;
-                expect($rootScope.$emit).toHaveBeenCalledWith('cart:updated', { cart: { currency: 'EUR', siteCode: selectedSiteCode, id: 'cartId456', items: [{ product: { id: '123', name: 'name' }, price: { currency: 'USD', effectiveAmount: 5 }, id: '0', images: undefined }] }, source: 'currency', closeAfterTimeout: closeAfterTimeout });
-            });
-
-            it('should signal cart error on site switch failure', function () {
-
-                mockBackend.expectPOST(cartUrl + '/' + cartId + '/changeSite', { "siteCode": selectedSiteCode })
-                    .respond(500, {});
-                cartSvc.swichSite();
-                mockBackend.flush();
-                expect($rootScope.$emit).toHaveBeenCalled();
-
-                expect(eventSpy.mostRecentCall.args[1].cart.error).toBeTruthy();
-            });
-        });
-
-
-
     });
 
     describe('refreshCartAfterLogin() - customer has cart', function () {
