@@ -70,7 +70,7 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
             browser.sleep(1000);
             removeFromCart();
             browser.sleep(500);
@@ -158,7 +158,7 @@ describe('coupons:', function () {
         it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED', '$10.67');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON HAS EXPIRED.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
             removeFromCart();
         });
 
@@ -182,7 +182,7 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'Add Coupon Code');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('The order value is too low for this coupon.');
+            expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
             tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');

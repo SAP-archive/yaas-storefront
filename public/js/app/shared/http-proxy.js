@@ -48,13 +48,8 @@ angular.module('ds.httpproxy', [])
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.config.url.indexOf('/stork/piwik') > -1) {
-                        if (GlobalData.piwik.firstCall) {
-                            GlobalData.piwik.enabled = false;
-                            GlobalData.piwik.firstCall = false;
-                        }
-                    }
-                    else if (response.config.url.indexOf('loginconfig') > -1) {
+                    if (response.config.url.indexOf('/stork/piwik') > -1 || response.config.url.indexOf('loginconfig') > -1) {
+                        //Ignore if requests for CDM or loginconfig fail.
                     }
                     else {
                         //Normal process of other responses
