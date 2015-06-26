@@ -28,7 +28,7 @@
                                 <ul class="list-unstyled languageMenu">
                                     <li ng-repeat="lang in hoveredSite.languages" ng-click="selectSiteAndLanguage(hoveredSite, lang)"
                                         ng-class="{ 'selected':(lang === selectedLanguage && hoveredSite.code === selectedSite.code), 
-                                                   'hovered': (lang === hoveredSite.defaultLanguage && hoveredSite.code !== selectedSite.code)  }">
+                                                   'defaultLang': (lang === hoveredSite.defaultLanguage && hoveredSite.code !== selectedSite.code)  }">
                                         {{lang | translate}}
                                     </li>
                                 </ul>

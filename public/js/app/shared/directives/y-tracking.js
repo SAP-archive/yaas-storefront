@@ -139,15 +139,13 @@ angular.module('ds.ytracking', [])
                     data: JSON.stringify(obj)
                 };
 
-                $http(req).
-                    success(function () {
+                $http(req).success(function () {
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
                             makeRequest(items[i]);
                         }
-                    }).
-                    error(function () {
+                    }).error(function () {
                         //Store request to localstorage so it can be sent again when possible
                         localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
                     });
