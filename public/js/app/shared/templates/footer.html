@@ -2,17 +2,6 @@
     <div class="row">
         <div class="col-xs-12 col-lg-3 pull-right regionControls text-center">
             <div class="controlcontainer" ng-controller="siteSelectorController">
-
-                <!--<div class="store-settings" >
-            <div ng-controller="languageSelectorController"  ng-cloak class="selectContainer">
-                <select ng-model="language.selected" class="ui-select-bootstrap-transparent" ng-if="languages.length > 1" ng-options="lang.value for lang in languages track by lang.value">
-                </select>
-            </div>
-        </div>-->
-                <!------------------------------------------>
-                <!----- NEW REGION SELECTOR COMPONENT ------>
-                <!------------------------------------------>
-
                 <div class="dropdown" ng-hide="sites.length == 1 && sites[0].languages.length == 1">
                     <a class=" dropdown-toggle" ng-click="setHoveredSite(selectedSite)">Region</a>
                     <div class="dropdown-menu regionMenu">
@@ -36,11 +25,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!----------------------------------------------->
-                <!----- /END NEW REGION SELECTOR COMPONENT ------>
-                <!----------------------------------------------->
-
             </div>
         </div>
         <div class="col-xs-12 col-lg-3 socialIcons text-center">
