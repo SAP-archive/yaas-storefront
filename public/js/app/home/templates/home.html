@@ -3,7 +3,7 @@
         <carousel interval="carouselInterval">
             <slide ng-repeat="slide in slides" active="slide.active">
                 <a data-ui-sref="{{slide.state}}">
-                    <img ng-src="{{slide.image}}">
+                    <img ng-src="{{slide.image}}" id="{{slide.id}}" class="banner">
                 </a>
             </slide>
         </carousel>
