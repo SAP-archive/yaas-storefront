@@ -90,12 +90,15 @@ angular.module('ds.addresses').
 				switch(scope.viewTarget){
 					case 'addAddress':
 						scope.address.country = locale.id;
+						scope.address.state = '';
 						break;
 					case 'billing':
 						scope.order.billTo.country = locale.id;
+						scope.order.billTo.state = '';
 						break;
 					case 'shipping':
 						scope.order.shipTo.country = locale.id;
+						scope.order.shipTo.state = '';
 						break;
 					default:
 						break;
