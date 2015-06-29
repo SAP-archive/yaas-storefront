@@ -16,8 +16,8 @@
  *  Provides a variety of coupon: access, validation, and redemptions services.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['CartSvc', 'CouponREST',
-        function(CartSvc, CouponREST){
+    .factory('CouponSvc', ['CartSvc', 'CouponREST', 'GlobalData',
+        function(CartSvc, CouponREST, GlobalData){
 
             /*
              TODO:
@@ -31,6 +31,7 @@ angular.module('ds.coupon')
                 }
                 else if (coupon.discountType === 'PERCENT') {
                     coupon.discountRate = coupon.discountPercentage;
+                    coupon.currency = GlobalData.getCurrencyId();
                 }
 
                 return coupon;
