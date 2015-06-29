@@ -196,7 +196,7 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$28.93', '1');
         });
 
-        iit('should allow all fields to be editable', function () {
+        it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');

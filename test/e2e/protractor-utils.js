@@ -223,7 +223,7 @@ exports.populateAddress = function(contact, street, aptNumber, city, state, zip,
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="US"]')).click()
+    element(by.css('select option[value="0"]')).click()
     sendKeysById('city', city);
     element(by.css('select option[value="' + state + '"]')).click()
     sendKeysById('zipCode', zip);
@@ -261,7 +261,7 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
     browser.sleep(1000);
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
-    expect(element(by.xpath('//address[2]/span[2]')).getText()).toContain(number);
-    expect(element(by.xpath('//address[2]/span[3]')).getText()).toContain(cityStateZip);
+    expect(element(by.xpath('//span[3]')).getText()).toContain(number);
+    expect(element(by.xpath('//span[4]]')).getText()).toContain(cityStateZip);
     expect(element(by.binding('product.price')).getText()).toEqual(price);
 }
