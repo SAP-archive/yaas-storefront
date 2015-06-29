@@ -373,8 +373,8 @@ describe("mobile checkout:", function () {
 
         });
 
-        var continueButton1 = '//div[16]/button'
-        var continueButton2 = '//div[6]/button'
+        var continueButton1 = '//div[6]/button'
+        var continueButton2 = '//div[4]/button'
         var paymentButton = "//button[@type='submit']"
 
 
