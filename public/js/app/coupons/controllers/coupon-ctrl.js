@@ -13,33 +13,32 @@
 'use strict';
 
 angular.module('ds.coupon')
-    .controller('CouponCtrl', ['$scope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$filter',
-        function($scope, CartSvc, CouponSvc, AuthSvc, $filter) {
+    .controller('CouponCtrl', ['$scope', '$rootScope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$filter', 'GlobalData',
+        function($scope, $rootScope, CartSvc, CouponSvc, AuthSvc, $filter, GlobalData) {
 
             $scope.cart = CartSvc.getLocalCart();
 
             $scope.couponCollapsed = true;
 
+            var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
+                $scope.cart = eveObj.cart;
+                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            });
+
+            $scope.$on('$destroy', unbind);
+
             /** get coupon and apply it to the cart */
             $scope.applyCoupon = function(couponCode) {
                 $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponResponse) {
                     $scope.couponErrorMessage = '';
-                    CouponSvc.redeemCoupon(couponResponse, $scope.cart.id).then(function () {
-                        CartSvc.getCart().then(function (response) {
-                            $scope.cart = response;
-                        });
-                    });
+                    CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
                 }, function (couponError) {
                     getCouponError(couponError);
                 });
             };
 
             $scope.removeAllCoupons = function() {
-                CouponSvc.removeAllCoupons($scope.cart.id).then(function () {
-                    CartSvc.getCart().then(function (response) {
-                        $scope.cart = response;
-                    });
-                });
+                CouponSvc.removeAllCoupons($scope.cart.id);
             };
 
             var getCouponError = function(couponError) {

@@ -649,7 +649,12 @@ describe('CartSvc Test', function () {
             expect(cart.error).toBeFalsy();
         });
 
+    });
+
+    describe('coupon tests', function () {
         it('should redeem the coupon', function () {
+            console.log(mockedGlobalData.getCurrencyId());
+
             var mockCoupon = {
                 code: 'test1',
                 applied: false,
@@ -665,6 +670,10 @@ describe('CartSvc Test', function () {
 
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/discounts', mockCoupon).respond(201, {});
 
+            mockBackend.expectGET(cartUrl + '/' + cartId ).respond(200, cartResponse);
+
+            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
+
             cartSvc.redeemCoupon(mockCoupon, cartId);
 
             mockBackend.flush();
@@ -672,6 +681,10 @@ describe('CartSvc Test', function () {
 
         it('should remove the coupon', function () {
             mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
+
+            mockBackend.expectGET(cartUrl + '/' + cartId ).respond(200, cartResponse);
+
+            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
 
             cartSvc.removeAllCoupons(cartId);
 

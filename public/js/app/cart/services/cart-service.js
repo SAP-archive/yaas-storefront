@@ -354,11 +354,15 @@ angular.module('ds.cart')
                 },
 
                 redeemCoupon: function (coupon, cartId) {
-                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts');
+                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
                 },
 
                 removeAllCoupons: function(cartId) {
-                    return CartREST.Cart.one('carts', cartId).all('discounts').remove();
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
                 }
 
 
