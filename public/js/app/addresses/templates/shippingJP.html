@@ -1,15 +1,5 @@
 <div>
 
-    <div class="col-lg-12">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
-                <span class="option">{{'SAME_AS_BILLING_ADDRESS' | translate}}</span>
-                <span class="adress" ng-show="shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
-            </label>
-        </div>
-    </div>
-
     <div id="ship-to-fields" ng-hide="shipToSameAsBillTo">
 
         <div class="col-lg-12">
