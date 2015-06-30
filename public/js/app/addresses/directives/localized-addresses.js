@@ -23,7 +23,7 @@ angular.module('ds.addresses').
 		var selectionArray = [
 				{id: 'US', name:'USA'},
 				{id: 'CA', name:'CANADA'}];
-				// {id: 'GB', name:'GREAT BRITAIN'},
+				// {id: 'GB', name:'GREAT BRITAIN'}, // feature toggle extra countries.
 				// {id: 'DE', name:'GERMANY'},
 				// {id: 'CN', name:'CHINA'},
 				// {id: 'JP', name:'JAPAN'}];
@@ -49,7 +49,7 @@ angular.module('ds.addresses').
 			var templateLoader, templateUrl,
 			baseUrl = 'js/app/addresses/templates/';
 
-			// if view is not recognized set default template
+			// when locale is not recognized set default template
 			if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
 				locale = 'US';
 			}
