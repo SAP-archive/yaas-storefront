@@ -22,11 +22,11 @@ angular.module('ds.addresses').
 
 		var selectionArray = [
 				{id: 'US', name:'USA'},
-				{id: 'CA', name:'CANADA'},
-				{id: 'GB', name:'GREAT BRITAIN'},
-				{id: 'DE', name:'GERMANY'},
-				{id: 'CN', name:'CHINA'},
-				{id: 'JP', name:'JAPAN'}];
+				{id: 'CA', name:'CANADA'}];
+				// {id: 'GB', name:'GREAT BRITAIN'},
+				// {id: 'DE', name:'GERMANY'},
+				// {id: 'CN', name:'CHINA'},
+				// {id: 'JP', name:'JAPAN'}];
 
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
