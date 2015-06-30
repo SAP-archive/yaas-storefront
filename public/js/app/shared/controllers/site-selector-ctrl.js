@@ -19,7 +19,9 @@ angular.module('ds.shared')
             $scope.sites = GlobalData.getSites();
             $scope.selectedSite = GlobalData.getSite();
             $scope.hoveredSite = {};
-            $scope.selectedLanguage = GlobalData.getLanguageCode();
+            $scope.selectedLanguage = function () {
+                return GlobalData.getLanguageCode();
+            };
 
             $scope.setHoveredSite = function (site) {
                 $scope.hoveredSite = site;
@@ -27,17 +29,16 @@ angular.module('ds.shared')
 
             $scope.selectSiteAndLanguage = function (site, language) {
                 var previousCode = $scope.selectedSite.code;
-                var previousLanguage = $scope.selectedLanguage;
+                var previousLanguage = $scope.selectedLanguage();
 
                 $scope.selectedSite = site;
-                $scope.selectedLanguage = language;
 
                 //Only apply changes if site or language changed
                 if (previousCode !== $scope.selectedSite.code) {
                     //Update cart and etc.
                     SiteSelectorSvc.changeSite(site);
                 }
-                if (previousLanguage !== $scope.selectedLanguage) {
+                if (previousLanguage !== language) {
                     GlobalData.setLanguage(language);
                 }
             };
