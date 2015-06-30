@@ -27,7 +27,6 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
-        currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
         siteCookie: 'siteCookie',
 

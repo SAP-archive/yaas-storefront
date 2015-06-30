@@ -97,7 +97,6 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.setCurrency = jasmine.createSpy();
         mockedGlobalData.setLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialLanguage = jasmine.createSpy();
-        mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
         mockedGlobalData.getSite = jasmine.createSpy();
         mockedGlobalData.setSiteCookie = jasmine.createSpy();
 
@@ -173,7 +172,6 @@ describe('ConfigurationSvc Test', function () {
             expect(mockedAccountSvc.account).toHaveBeenCalled();
 
             expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(lang, settings.eventSource.initialization);
-            expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(curr, settings.eventSource.initialization);
             expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalledWith(customerId);
             expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();
@@ -193,7 +191,6 @@ describe('ConfigurationSvc Test', function () {
             $rootScope.$apply();
 
             expect(mockedGlobalData.loadInitialLanguage).toHaveBeenCalled;
-            expect(mockedGlobalData.loadInitialCurrency).toHaveBeenCalled;
             expect(mockedCartSvc.getCart).toHaveBeenCalled;
             expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();

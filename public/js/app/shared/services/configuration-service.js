@@ -21,6 +21,9 @@ angular.module('ds.shared')
             var initialized = false;
             var selectedSiteCode = '';
 
+            /**
+            * Returns default or first site from sites array.
+            */
             function getDefaultSite(sites) {
                 for (var i = 0; i < sites.length; i++) {
                     if (sites[i].default) {
@@ -55,15 +58,14 @@ angular.module('ds.shared')
                 var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList({});
                 configPromise.then(function (sites) {
 
-                    //Check if there is already default site in memory and if that one is valid one (exists in returned array)
+                    //Check if there is already default site in memory or cookies and if that one is valid one (exists in returned array)
                     var result;
                     var site = GlobalData.getSite();
-                    //Check if there is site in cookies and if that site is still valid (it is returned from server as one of sites defined for this tenant)
                     if (!!site && siteExists(sites, site.code)) {
                         result = site;
                     }
                     else {
-                        //If not, then use default one
+                        //If not, then use default one from returned array of sites
                         result = getDefaultSite(sites);
 
                         //Save selected site as cookie
@@ -99,8 +101,6 @@ angular.module('ds.shared')
                     console.error('Facebook and Google key retrieval failed: ' + JSON.stringify(error));
                 });
 
-
-                //return $q.all([configPromise]);
                 return $q.all([configPromise, loginConfigPromise]);
             }
 
@@ -124,7 +124,6 @@ angular.module('ds.shared')
                                 GlobalData.setSite(site, true);
 
                                 var languageSet = false;
-                                var currencySet = false;
                                 if (AuthSvc.isAuthenticated()) {
                                     // if session still in tact, load user preferences
                                     AccountSvc.account().then(function (account) {
@@ -132,16 +131,8 @@ angular.module('ds.shared')
                                             GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
                                             languageSet = true;
                                         }
-                                        if (account.preferredCurrency) {
-                                            GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.initialization);
-                                            currencySet = true;
-                                        }
-
                                         if (!languageSet) {
                                             GlobalData.loadInitialLanguage();
-                                        }
-                                        if (!currencySet) {
-                                            GlobalData.loadInitialCurrency();
                                         }
                                         CategorySvc.getCategories().then(function () {
                                             def.resolve({});
