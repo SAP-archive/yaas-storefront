@@ -62,7 +62,7 @@
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
                 <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                 ng-required="!shipToSameAsBillTo && shipToForm.country.$viewValue.id === 'US'" ng-model="order.shipTo.state" id="stateShip" name="state">
+                 ng-required="shipToForm.country.$invalid || (!shipToSameAsBillTo && shipToForm.country.$viewValue.id === 'US')" ng-model="order.shipTo.state" id="stateShip" name="state">
                     <option value=""></option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>
