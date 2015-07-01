@@ -26,7 +26,7 @@ describe('coupons:', function () {
     };
 
     function couponCheckoutTest(couponCode, price) {
-            tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
@@ -165,7 +165,7 @@ describe('coupons:', function () {
 
         it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin');
-            tu.populateAddress('Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(1000);
             var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();

@@ -39,6 +39,7 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2: 'Adresszeile 2',
         BILLING_ADDRESS: 'Rechnungsadresse',
         CITY: 'Stadt',
+        PROVINCE: 'Provinz',
         CONTINUE: 'Weiter',
         COUNTRY: 'Land',
         CREDIT_CARD_NUMBER: 'Kreditkartennummer',
@@ -88,7 +89,18 @@ angular.module('ds.i18n')
         TAX: 'MwSt',
         TOTAL: 'gesamt',
         YEAR: 'Jahr',
+
+        /*  addresses  */
+        DISTRICT: 'Kreis',
+        STREET_NAME: 'Straßenname mit Hausnummer',
+        BUILDING_NAME: 'Gebäudename',
+        ROOM_NUMBER: 'Zimmernummer',
+        PREFECTURE: 'Präfektur',
+        POSTAL_CODE: 'Postleitzahl',
         ZIP: 'PLZ',
+        CITY_VILLAGE: 'Stadt / Dorf / Stadt Ward',
+        SUBAREA: 'Untergebiet',
+        FURTHER_SUBAREA: 'Weitere Untergebiet , Block # / Haus #',
 
         /*  coupons   */
         COUPON_APPLY: 'Anwenden',
@@ -172,7 +184,7 @@ angular.module('ds.i18n')
         COMPANY_NAME: 'Name Der Firma',
         CONFIRM_ADDRESS_REMOVAL: 'Adresse löschen?',
         FULL_NAME: 'Vollständiger Name',
-        CONTACT_PHONE: 'Kontakt Telefon',
+        CONTACT_PHONE: 'Telefon',
         CURRENCY: 'Währung',
         SELECT_CURRENCY: 'Wählen Sie eine Währung',
         DATE: 'Datum',
