@@ -98,6 +98,7 @@ angular.module('ds.i18n')
         COUPON_ERR_CURRENCY: 'Währungs ungültige Gutschein',
         COUPON_ERR_ANONYMOUS: 'Melden Sie sich an , um Gutscheincode zu nutzen',
         COUPON_ERR_UNAVAILABLE: 'Coupon nicht mehr verfügbar',
+        COUPON_MINIMUM_NOT_MET: 'Current order total does not meet the required minimum for this coupon',
 
         /*
          confirmation
