@@ -106,7 +106,7 @@ describe("login:", function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
             tu.createAccount('addresstest');
-            tu.populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            tu.populateAddress('0', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             expect(element(by.binding("defaultAddress.city")).getText()).toEqual("Boulder");
@@ -114,11 +114,11 @@ describe("login:", function () {
             expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
             expect(element(by.binding("defaultAddress.country")).getText()).toEqual("US");
             expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
-            tu.populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
+            tu.populateAddress('1', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual("321 phony street, apt 420");
-            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Denver, CO 90210");
-            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("US");
+            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Toronto, ON M4M 1H7");
+            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("CA");
             expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual("720-555-1234");
             tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
             browser.sleep(1500);
