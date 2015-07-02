@@ -16,6 +16,14 @@ describe('product page', function () {
             );
         });
 
+  afterEach(function() {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      // expect(browserLog.length).toEqual(0);
+      // Uncomment to actually see the log.
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
+  });
+
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
@@ -127,6 +135,27 @@ describe('product page', function () {
             tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/cosmetics~273954304');
         });
+
+        it('should display unit price on PLP and PDP', function () {
+            //default load
+            tu.getTextByRepeaterRow(0);
+            //price is not currently supported
+            browser.sleep(3000);
+            // tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.assertProductByRepeaterRow(2, 'MOUSEPAD');
+            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$1.99');
+            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
+            element(by.repeater('product in products').row(2).column('product.name')).click();
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.99');
+            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000g');
+
+
+        });
+
 
         xit('should search', function () {
             tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
