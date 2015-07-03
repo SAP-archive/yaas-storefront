@@ -92,11 +92,13 @@ angular.module('ds.products')
                 var pricesMap = {};
                 var currentCurrency = GlobalData.getCurrencyId();
                 angular.forEach(products, function (product) {
-                    product.prices.forEach(function (price) {
-                        if (price.currency === currentCurrency) {
-                            pricesMap[product.product.id] = price;
-                        }
-                    });
+                    if (product.prices && product.prices.length > 0) {
+                        product.prices.forEach(function (price) {
+                            if (price.currency === currentCurrency) {
+                                pricesMap[product.product.id] = price;
+                            }
+                        });
+                    }
                 });
 
                 $scope.prices = angular.extend($scope.prices, pricesMap);
