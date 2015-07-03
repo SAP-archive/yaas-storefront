@@ -12,48 +12,61 @@
 
 describe('ySearch Test', function () {
 
-    var $scope, $compile, $controller, $rootScope, $q;
+    var $scope, $compile, $controller, $rootScope, $q, mockedYsearchREST, mockedSiteConfigSvc;
     var $httpBackend;
     var mockedYSearchService = {};
     var templateHtml = '<div></div>';
     var mockedGlobalData = {};
-    mockedGlobalData.store = {
-        tenant: 'tenant'
+
+    mockedYSearchService.getResults = function () {};
+
+    mockedSiteConfigSvc = {
+        apis: {
+            indexing: {
+                baseUrl: 'https://api.yaas.io/hybris/algolia-search/b1/sitesettingsproj/project/'
+            }
+        }
     };
-    mockedGlobalData.search = {
-        algoliaKey: 'key'
+    mockedYsearchREST = {
+        AlgoliaSettings: {
+        }
     };
+
+    beforeEach(module('ds.shared', function ($provide) {
+        $provide.value('GlobalData', mockedGlobalData);
+        $provide.value('ysearchREST', mockedYsearchREST);
+        $provide.value('SiteConfigSvc', mockedSiteConfigSvc);
+    }));
+
+    beforeEach(module('restangular'));
 
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.ysearch'));
 
-    beforeEach(module('ds.shared', function ($provide) {
-        $provide.value('GlobalData', mockedGlobalData);
-    }));
 
     beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
         $httpBackend.whenGET('js/app/shared/templates/ysearch.html').respond(200, templateHtml);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_, _$q_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $compile = _$compile_;
         $controller = _$controller_('ysearchController', {
             $scope: $scope
         });
+        $q = _$q_;
 
-        mockedYSearchService.getResults = function () {
 
-        };
         spyOn(mockedYSearchService, "getResults");
-
+        mockedYSearchService.getAlgoliaConfiguration = jasmine.createSpy('ysearchSvc.getAlgoliaConfiguration').andReturn();
     }));
 
     function createYSearch() {
         var elem, compiledElem;
         elem = angular.element('<ysearch></ysearch>');
+        console.log($scope);
         compiledElem = $compile(elem)($scope);
         $scope.$digest();
 
@@ -83,6 +96,18 @@ describe('ySearch Test', function () {
 
     it("shouldn't show search results when there is no search term", function () {
         $scope.search.text = '';
+        $scope.doSearch();
+
+        expect($scope.search.showSearchResults).toEqual(false);
+    });
+
+    it("should set page and search string in directive from outer scope", function () {
+        $scope.search.text = '';
+
+        var el = createYSearch();
+        $scope.$digest();
+
+
         $scope.doSearch();
 
         expect($scope.search.showSearchResults).toEqual(false);
