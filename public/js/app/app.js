@@ -26,6 +26,7 @@ window.app = angular.module('ds.app', [
     'ds.confirmation',
     'ds.coupon',
     'ds.account',
+    'ds.addresses',
     'ds.auth',
     'ds.orders',
     'ds.queue',

@@ -41,6 +41,10 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
+                    $rootScope.$on('customer:login', function (arg, customer) {
+                        ytrackingSvc.customerLogIn(customer);
+                    });
+
                     $rootScope.$on('search:performed', function (arg, obj) {
                         ytrackingSvc.searchEvent(obj.searchTerm, obj.numberOfResults);
                     });
@@ -357,6 +361,14 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User created order
+            */
+            var customerLogIn = function () {
+                if (!!$window._paq) {
+                    $window._paq.push(['trackPageView', 'CustomerLogin']);
+                }
+            };
 
             return {
                 cartUpdated: cartUpdated,
@@ -368,6 +380,7 @@ angular.module('ds.ytracking', [])
                 setCustomUrl: setCustomUrl,
                 searchEvent: searchEvent,
                 bannerClick: bannerClick,
-                proceedToCheckout: proceedToCheckout
+                proceedToCheckout: proceedToCheckout,
+                customerLogIn: customerLogIn
             };
         }]);

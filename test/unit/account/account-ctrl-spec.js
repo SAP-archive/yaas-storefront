@@ -107,6 +107,7 @@ describe('AccountCtrl Test', function () {
         mockedModal.close = jasmine.createSpy('close');
         mockedModal.result = modalPromise.promise;
         mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
+        mockedModal.opened = {then:function(){}};
         updatePasswordDfd = $q.defer();
 
         this.addMatchers({
