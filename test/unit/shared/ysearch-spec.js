@@ -12,29 +12,35 @@
 
 describe('ySearch Test', function () {
 
-    var $scope, $compile, $controller, $rootScope, $q, mockedYsearchREST, mockedSiteConfigSvc;
-    var $httpBackend;
-    var mockedYSearchService = {};
+    var $scope, $compile, $controller, $rootScope, $q, mockedSiteConfigSvc, deferredSearch;
+    var $httpBackend, deferredConfig, ysearchREST;
+    var mockedYSearchService;
     var templateHtml = '<div></div>';
     var mockedGlobalData = {};
-
-    mockedYSearchService.getResults = function () {};
-
+    var algoliaUrl = 'https://api.yaas.io/hybris/algolia-search/b1/';
+    var searchResult = {
+        query: 'text',
+        nbHits: 2,
+        hits: [{ id: 1, id: 2 }]
+    };
     mockedSiteConfigSvc = {
         apis: {
             indexing: {
-                baseUrl: 'https://api.yaas.io/hybris/algolia-search/b1/sitesettingsproj/project/'
+                baseUrl: 'https://api.yaas.io/hybris/algolia-search/b1/sitesettingsproj/'
             }
         }
     };
-    mockedYsearchREST = {
-        AlgoliaSettings: {
-        }
+    var configResponse = {
+        "algoliaCredentials": {
+            "applicationId": "appID",
+            "searchKey": "searchKey",
+            "indexName": "tenanatID"
+        },
+        "activation": true
     };
 
     beforeEach(module('ds.shared', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('ysearchREST', mockedYsearchREST);
         $provide.value('SiteConfigSvc', mockedSiteConfigSvc);
     }));
 
@@ -49,7 +55,7 @@ describe('ySearch Test', function () {
         $httpBackend.whenGET('js/app/shared/templates/ysearch.html').respond(200, templateHtml);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_, _$q_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_, _$q_, ysearchREST, ysearchSvc) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $compile = _$compile_;
@@ -57,16 +63,19 @@ describe('ySearch Test', function () {
             $scope: $scope
         });
         $q = _$q_;
+        mockedYSearchService = ysearchSvc;
+        ysearchREST = ysearchREST;
+        ysearchREST.AlgoliaSettings.setBaseUrl(algoliaUrl);
 
-
-        spyOn(mockedYSearchService, "getResults");
-        mockedYSearchService.getAlgoliaConfiguration = jasmine.createSpy('ysearchSvc.getAlgoliaConfiguration').andReturn();
+        deferredConfig = $q.defer();
+        deferredSearch = $q.defer();
+        mockedYSearchService.getResults = jasmine.createSpy('ysearchSvc.getResults').andReturn(deferredSearch.promise);
+        mockedYSearchService.init = jasmine.createSpy('ysearchSvc.init').andReturn(deferredConfig.promise);
     }));
 
     function createYSearch() {
         var elem, compiledElem;
         elem = angular.element('<ysearch></ysearch>');
-        console.log($scope);
         compiledElem = $compile(elem)($scope);
         $scope.$digest();
 
@@ -77,40 +86,94 @@ describe('ySearch Test', function () {
         return compiledElem;
     }
 
-    it("should not call ySearchSvc.doSearch when there is no search term provided", function () {
-        var el = createYSearch();
-        $scope.$digest();
+    describe('doSearch()', function () {
 
-        $scope.search.text = '';
-        $scope.doSearch();
-        $scope.$digest();
-        expect(mockedYSearchService.getResults).not.toHaveBeenCalled();
+        beforeEach(function () {
+
+        });
+
+        it('should NOT do search when text is empty', function () {
+
+            $scope.search.text = '';
+            $scope.doSearch();
+            expect(mockedYSearchService.getResults).not.toHaveBeenCalled();
+
+            expect($scope.search.showSearchResults).toEqual(false);
+            expect($scope.search.results).toEqual([]);
+            expect($scope.search.numberOfHits).toEqual(0);
+        });
+
+        it('should do search when text is not empty', function () {
+
+            $httpBackend.expectGET(algoliaUrl + 'sitesettingsproj/project/configuration').respond(configResponse);
+
+            $scope.search.text = 'text';
+            $scope.doSearch();
+            expect(mockedYSearchService.getResults).toHaveBeenCalled();
+            deferredSearch.resolve(searchResult);
+
+            $scope.$digest();
+        });
     });
 
-    it("should show search results when there is search term", function () {
-        $scope.search.text = 'text';
-        $scope.doSearch();
 
-        expect($scope.search.showSearchResults).toEqual(true);
+    describe('showSearchResults()', function () {
+
+        beforeEach(function () {
+            $scope.doSearch = jasmine.createSpy('scope.doSearch');
+        });
+
+        it('should showSearchResults when search text is not empty and returned search results length === 0 and do search', function () {
+            $scope.search.showSearchResults = false;
+            $scope.search.text = 'text';
+            $scope.search.results = [];
+
+            expect($scope.search.showSearchResults).toEqual(false);
+            $scope.showSearchResults();
+            expect($scope.search.showSearchResults).toEqual(true);
+
+            expect($scope.doSearch).toHaveBeenCalled();
+        });
+
+        it('shouldn\'t do search results if search text is empty', function () {
+            $scope.search.showSearchResults = false;
+            $scope.search.text = '';
+            $scope.search.results = [{ id: '1' }, { id: '2' }];
+
+            expect($scope.search.showSearchResults).toEqual(false);
+            $scope.showSearchResults();
+            expect($scope.search.showSearchResults).toEqual(true);
+
+            expect($scope.doSearch).not.toHaveBeenCalled();
+        });
+
+        it('shouldn\'t do search results if search results array is not empty', function () {
+            $scope.search.showSearchResults = false;
+            $scope.search.text = 'text';
+            $scope.search.results = [{ id: '1' }, { id: '2' }];
+
+            expect($scope.search.showSearchResults).toEqual(false);
+            $scope.showSearchResults();
+            expect($scope.search.showSearchResults).toEqual(true);
+
+            expect($scope.doSearch).not.toHaveBeenCalled();
+        });
     });
 
-    it("shouldn't show search results when there is no search term", function () {
-        $scope.search.text = '';
-        $scope.doSearch();
 
-        expect($scope.search.showSearchResults).toEqual(false);
-    });
+    describe('hideSearchResults()', function () {
 
-    it("should set page and search string in directive from outer scope", function () {
-        $scope.search.text = '';
+        beforeEach(function () {
+            $rootScope.closeOffcanvas = jasmine.createSpy('rootScope.closeOffcanvas');
+        });
 
-        var el = createYSearch();
-        $scope.$digest();
+        it('should hideSearchResults method is called', function () {
+            $scope.search.showSearchResults = true;
 
-
-        $scope.doSearch();
-
-        expect($scope.search.showSearchResults).toEqual(false);
+            $scope.hideSearchResults();
+            expect($rootScope.closeOffcanvas).toHaveBeenCalled();
+            expect($scope.search.showSearchResults).toEqual(false);
+        });
     });
 
 });
