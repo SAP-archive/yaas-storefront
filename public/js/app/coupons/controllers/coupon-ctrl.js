@@ -33,7 +33,9 @@ angular.module('ds.coupon')
                     if (couponResponse.discountAbsolute && couponResponse.discountAbsolute.currency !== $scope.cart.currency) {
                         getCouponError({status: 'CURR'});
                     }
-                    CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
+                    else {
+                        CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
+                    }
                 }, function (couponError) {
                     getCouponError(couponError);
                 });
