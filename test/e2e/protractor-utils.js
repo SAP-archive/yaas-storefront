@@ -268,6 +268,6 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//span[2]')).getText()).toContain(number);
-    expect(element(by.xpath('//span[4]')).getText()).toContain(cityStateZip);
+    expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
     expect(element(by.binding('product.price')).getText()).toEqual(price);
 }
