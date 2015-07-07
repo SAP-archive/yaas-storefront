@@ -21,8 +21,8 @@ describe('ytracking', function () {
         }
     };
     var mockedGlobalData = {
-        piwik: {
-            enabled: true
+        store: {
+            tenant: 'defaultTenant'
         }
     };
     var mockedLocalStorage = {};
@@ -43,6 +43,25 @@ describe('ytracking', function () {
         prices: [{
             effectiveAmount: 24.99
         }]
+    };
+
+    var order = {
+        cart: {
+            items: [{
+                product: {
+                    id: '02318421',
+                    name: 'product1'
+                },
+                itemPrice: {
+                    amount: 5
+                },
+                quantity: 2
+            }],
+            totalPrice: 0,
+            subTotalPrice: {
+                amount: 0
+            }
+        }
     };
 
     function createYTracking() {
@@ -97,15 +116,17 @@ describe('ytracking', function () {
 
     describe('yTracking events', function () {
 
+
+        /*Category viewed*/
         it('should call setCategoryViewed when user navigated to category page', function () {
             mockedYtrackingSvc.setCategoryViewed = jasmine.createSpy('setCategoryViewed');
 
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('categoryLoaded', openedCategory);
+            $scope.$emit('category:opened', openedCategory);
 
-            expect($scope.$emit).toHaveBeenCalledWith("categoryLoaded", openedCategory);
+            expect($scope.$emit).toHaveBeenCalledWith("category:opened", openedCategory);
             expect(mockedYtrackingSvc.setCategoryViewed).toHaveBeenCalled();
         });
 
@@ -117,7 +138,7 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "setCategoryViewed").andCallThrough();
 
-            $scope.$emit('categoryLoaded', openedCategory);
+            $scope.$emit('category:opened', openedCategory);
 
             $timeout.flush();
 
@@ -126,6 +147,8 @@ describe('ytracking', function () {
         });
 
 
+
+        /*Product viewed*/
         it('should call setProductViewed when user navigated to product page', function () {
 
             mockedYtrackingSvc.setProductViewed = jasmine.createSpy('setProductViewed');
@@ -133,9 +156,9 @@ describe('ytracking', function () {
             spyOn($scope, "$emit").andCallThrough();
             spyOn($rootScope, "$on").andCallThrough();
 
-            $scope.$emit('productLoaded', openedProduct);
+            $scope.$emit('product:opened', openedProduct);
 
-            expect($scope.$emit).toHaveBeenCalledWith("productLoaded", openedProduct);
+            expect($scope.$emit).toHaveBeenCalledWith("product:opened", openedProduct);
             expect(mockedYtrackingSvc.setProductViewed).toHaveBeenCalled();
         });
 
@@ -147,13 +170,141 @@ describe('ytracking', function () {
             spyOn($rootScope, "$on").andCallThrough();
             spyOn(mockedYtrackingSvc, "setProductViewed").andCallThrough();
 
-            $scope.$emit('productLoaded', openedProduct);
+            $scope.$emit('product:opened', openedProduct);
 
             $timeout.flush();
 
             var lengthAfter = $window._paq.length;
             expect(lengthAfter > lengthBefore).toBeTruthy();
         });
+
+
+        /*Site search*/
+        it('should call searchEvent when user searched site', function () {
+            var searchObj = {
+                searchTerm: 'term',
+                numberOfResults: 3
+            };
+            mockedYtrackingSvc.searchEvent = jasmine.createSpy('searchEvent');
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+
+            $scope.$emit('search:performed', searchObj);
+
+            expect($scope.$emit).toHaveBeenCalledWith("search:performed", searchObj);
+            expect(mockedYtrackingSvc.searchEvent).toHaveBeenCalled();
+        });
+        it('should add new items to _paq array when user searched page', function () {
+            var searchObj = {
+                searchTerm: 'term',
+                numberOfResults: 3
+            };
+            var lengthBefore = $window._paq.length;
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+            spyOn(mockedYtrackingSvc, "searchEvent").andCallThrough();
+
+            $scope.$emit('search:performed', searchObj);
+
+            var lengthAfter = $window._paq.length;
+            expect(lengthAfter > lengthBefore).toBeTruthy();
+        });
+
+
+        /*Checkout open*/
+        it('should call proceedToCheckout when user opened checkout page', function () {
+            var cart = {};
+            mockedYtrackingSvc.proceedToCheckout = jasmine.createSpy('proceedToCheckout');
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+
+            $scope.$emit('checkout:opened', cart);
+
+            expect($scope.$emit).toHaveBeenCalledWith("checkout:opened", cart);
+            expect(mockedYtrackingSvc.proceedToCheckout).toHaveBeenCalled();
+        });
+        it('should add new items to _paq array when user opened checkout page', function () {
+            var cart = {};
+            var lengthBefore = $window._paq.length;
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+            spyOn(mockedYtrackingSvc, "proceedToCheckout").andCallThrough();
+
+            $scope.$emit('checkout:opened', cart);
+
+            $timeout.flush();
+
+            var lengthAfter = $window._paq.length;
+            expect(lengthAfter > lengthBefore).toBeTruthy();
+        });
+
+
+
+
+        /*Order placed*/
+        it('should call orderPlaced when user placed order', function () {
+           
+            mockedYtrackingSvc.orderPlaced = jasmine.createSpy('orderPlaced');
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+
+            $scope.$emit('order:placed', order);
+
+            expect($scope.$emit).toHaveBeenCalledWith("order:placed", order);
+            expect(mockedYtrackingSvc.orderPlaced).toHaveBeenCalled();
+        });
+        it('should add new items to _paq array when user opened checkout page', function () {
+           
+            var lengthBefore = $window._paq.length;
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+            spyOn(mockedYtrackingSvc, "orderPlaced").andCallThrough();
+
+            $scope.$emit('order:placed', order);
+
+            var lengthAfter = $window._paq.length;
+            expect(lengthAfter > lengthBefore).toBeTruthy();
+        });
+
+
+
+
+
+
+        /*Cart updated*/
+        it('should call cartUpdated when user added/removed something from cart', function () {
+         
+            mockedYtrackingSvc.cartUpdated = jasmine.createSpy('cartUpdated');
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+
+            $scope.$emit('cart:updated', order);
+
+            expect($scope.$emit).toHaveBeenCalledWith("cart:updated", order);
+            expect(mockedYtrackingSvc.cartUpdated).toHaveBeenCalled();
+        });
+        it('should add new items to _paq array when user added/removed something from cart', function () {
+
+            var lengthBefore = $window._paq.length;
+
+            spyOn($scope, "$emit").andCallThrough();
+            spyOn($rootScope, "$on").andCallThrough();
+            spyOn(mockedYtrackingSvc, "cartUpdated").andCallThrough();
+
+            $scope.$emit('cart:updated', order);
+
+
+            var lengthAfter = $window._paq.length;
+            expect(lengthAfter > lengthBefore).toBeTruthy();
+        });
+
 
     });
 

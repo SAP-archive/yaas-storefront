@@ -132,13 +132,13 @@ describe("checkout:", function () {
         });
 
 
-  // afterEach(function() {
-  //   browser.manage().logs().get('browser').then(function(browserLog) {
-  //     // expect(browserLog.length).toEqual(0);
-  //     // Uncomment to actually see the log.
-  //     console.log('log: ' + require('util').inspect(browserLog));
-  //   });
-  // });
+  afterEach(function() {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      // expect(browserLog.length).toEqual(0);
+      // Uncomment to actually see the log.
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
+  });
 
 
         it('should load one product into cart and move to checkout', function () {
@@ -196,7 +196,7 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$28.93', '1');
         });
 
-        iit('should allow all fields to be editable', function () {
+        it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
@@ -271,7 +271,7 @@ describe("checkout:", function () {
             tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
         });
 
-        it('should allow user to select address', function () {
+        iit('should allow user to select address', function () {
             loginAndContinueToCheckout('address@hybristest.com');
             expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Take out');
             tu.clickElement('id', 'select-address-btn-1');
@@ -373,8 +373,8 @@ describe("mobile checkout:", function () {
 
         });
 
-        var continueButton1 = '//div[16]/button'
-        var continueButton2 = '//div[6]/button'
+        var continueButton1 = '//div[6]/button'
+        var continueButton2 = '//div[4]/button'
         var paymentButton = "//button[@type='submit']"
 
 

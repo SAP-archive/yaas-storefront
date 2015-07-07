@@ -107,6 +107,9 @@ module.exports = function(config){
         'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
+        'public/js/app/addresses/addresses-index.js',
+        'public/js/app/addresses/directives/localized-addresses.js',
+
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/controllers/password-reset-ctrl.js',
@@ -140,6 +143,7 @@ module.exports = function(config){
 
         'test/unit/*.js',
         'test/unit/account/*.js',
+        'test/unit/addresses/*.js',
         'test/unit/auth/*.js',
         'test/unit/account/*.js',
         'test/unit/cart/*.js',

@@ -96,10 +96,8 @@ angular.module('ds.checkout')
                 $scope.order.billTo.companyName = address.companyName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
-                /*
-                 TODO:
-                 checkout now requires 2 character country codes: existing address with 'USA' for the country will fail
-                 */
+
+                //checkout requires 2 character country codes
                 if (address.country === 'USA') {
                     address.country = 'US';
                 }
@@ -108,6 +106,8 @@ angular.module('ds.checkout')
                 $scope.order.billTo.state = address.state;
                 $scope.order.billTo.zip = address.zipCode;
                 $scope.order.billTo.contactPhone = address.contactPhone;
+
+                $scope.$emit('localizedAddress:updated', address.country, 'billing');
             };
 
             var getAddresses = function() {
@@ -259,6 +259,7 @@ angular.module('ds.checkout')
             var setShipToSameAsBillTo = function () {
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
                 selectedShippingAddress = $scope.order.shipTo;
+                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
             };
 
             var clearShipTo = function(){
@@ -363,7 +364,7 @@ angular.module('ds.checkout')
                     cart: $scope.cart
                 };
                 //Send data to piwik
-                $rootScope.$emit('orderPlaced', piwikOrderDetails);
+                $rootScope.$emit('order:placed', piwikOrderDetails);
 
                 //Reset cart
                 CheckoutSvc.resetCart();
@@ -408,15 +409,20 @@ angular.module('ds.checkout')
                 } else {
                     $scope.showPristineErrors = true;
                     $scope.message = 'PLEASE_CORRECT_ERRORS';
+                    // Important debug for dynamic form validation.
+                    // console.log('BILLTO:',$scope.billToForm.$error.required);
+                    // console.log('SHIPTO:',$scope.shipToForm.$error.required);
                 }
             };
 
             $scope.selectAddress = function(address, target) {
                 if (target === $scope.order.billTo) {
                     selectedBillingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'billing');
                 }
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'shipping');
                 }
                 addressModalInstance.close();
 

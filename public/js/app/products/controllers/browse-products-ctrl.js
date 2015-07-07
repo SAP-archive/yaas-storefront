@@ -37,7 +37,7 @@ angular.module('ds.products')
             $scope.category = category || {};
 
             if (!!category) {
-                $scope.$emit('categoryLoaded', category);
+                $scope.$emit('category:opened', category);
             }
 
             $scope.lastCatId = $scope.category.id || 'allProducts';
