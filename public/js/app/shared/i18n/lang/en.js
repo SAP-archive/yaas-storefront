@@ -296,8 +296,8 @@ angular.module('ds.i18n')
         MOST_RELEVANT: 'Most Relevant',
         SEARCH_AGAIN: 'Search again',
         RESULTS: 'Results',
-        SEE_ALL: 'See All'
-
+        SEE_ALL: 'See All',
+        SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
 
 
 	});

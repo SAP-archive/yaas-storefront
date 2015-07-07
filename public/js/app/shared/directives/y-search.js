@@ -41,7 +41,8 @@ angular.module('ds.ysearch')
             results: [],
             numberOfHits: 0,
             showSearchResults: false,
-            searchAvailable: false
+            searchAvailable: false,
+            searchError: false
         };
 
         scope.yglyphiconVisible = false;
@@ -78,6 +79,7 @@ angular.module('ds.ysearch')
             });
 
         scope.doSearch = function () {
+            scope.search.searchError = false;
             scope.search.showSearchResults = true;
             if (scope.search.text === '') {
                 scope.search.showSearchResults = false;
@@ -97,6 +99,8 @@ angular.module('ds.ysearch')
                         //Send event that search is done
                         $rootScope.$emit('search:performed', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
                     }, function () {
+                        //Show error that search didn't perform correctly.
+                        scope.search.searchError = true;
                     });
             }
         };

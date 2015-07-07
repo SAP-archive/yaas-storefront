@@ -297,6 +297,7 @@ angular.module('ds.i18n')
         MOST_RELEVANT: 'Wichtigsten',
         SEARCH_AGAIN: 'Neue Suche',
         RESULTS: 'Ergebnisse',
-        SEE_ALL: 'Zeige Alle'
+        SEE_ALL: 'Zeige Alle',
+        SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar.',
 
     });
