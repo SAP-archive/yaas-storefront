@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.coupon')
-    .controller('CouponCtrl', ['$scope', '$rootScope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$filter', 'GlobalData',
-        function($scope, $rootScope, CartSvc, CouponSvc, AuthSvc, $filter, GlobalData) {
+    .controller('CouponCtrl', ['$scope', '$rootScope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$translate', 'GlobalData',
+        function($scope, $rootScope, CartSvc, CouponSvc, AuthSvc, $translate, GlobalData) {
 
             $scope.cart = CartSvc.getLocalCart();
 
@@ -49,16 +49,24 @@ angular.module('ds.coupon')
                 $scope.coupon.error = couponError;
                 console.log(couponError);
                 if (couponError.status === 404 || (couponError.status === 403 && AuthSvc.isAuthenticated())) {
-                    $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_UNAVAILABLE');
+                    $translate('COUPON_ERR_UNAVAILABLE').then(function (response) {
+                        $scope.couponErrorMessage = response;
+                    });
                 }
                 else if (couponError.status === 403) {
-                    $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_ANONYMOUS');
+                    $translate('COUPON_ERR_ANONYMOUS').then(function (response) {
+                        $scope.couponErrorMessage = response;
+                    });
                 }
                 else if (couponError.status === 'CURR') {
-                    $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_CURRENCY');
+                    $translate('COUPON_ERR_CURRENCY').then(function (response) {
+                        $scope.couponErrorMessage = response;
+                    });
                 }
                 else {
-                    $scope.couponErrorMessage = $filter('translate')('COUPON_ERR_UNAVAILABLE');
+                    $translate('COUPON_ERR_UNAVAILABLE').then(function (response) {
+                        $scope.couponErrorMessage = response;
+                    });
                 }
             };
 
