@@ -16,14 +16,6 @@ describe('product page', function () {
             );
         });
 
-  afterEach(function() {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      // expect(browserLog.length).toEqual(0);
-      // Uncomment to actually see the log.
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
-  });
-
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
@@ -57,21 +49,14 @@ describe('product page', function () {
 
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Drink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$10.67');
-
-            //the following to be re-enabled when multiple sites are supported
-            //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Mugs');
-
-            // tu.selectLanguage('GERMAN');
-            //tu.selectCurrency('EURO');
-
-            //browser.sleep(3000);
-            // expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('€7.99');
-            //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Tassen');
+            tu.switchSite('Sushi Demo Store Germany');
+            browser.sleep(3000);
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
             // verify refreshing grabs correct config (STOR-1183)
-            //browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
-            //expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('€7.99');
+            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
         });
 
         it('should get order of products correctly in english and USD', function () {

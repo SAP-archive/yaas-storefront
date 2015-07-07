@@ -271,7 +271,7 @@ describe("checkout:", function () {
             tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
         });
 
-        iit('should allow user to select address', function () {
+        it('should allow user to select address', function () {
             loginAndContinueToCheckout('address@hybristest.com');
             expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Take out');
             tu.clickElement('id', 'select-address-btn-1');
@@ -300,6 +300,12 @@ describe("checkout:", function () {
         });
 
         xit('should checkout in Euros', function () {
+            tu.clickElement('id', tu.contineShopping);
+            browser.sleep(1000);
+            tu.switchSite('Sushi Demo Store Germany')
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
+            browser.sleep(2000);
             loginAndContinueToCheckout('euro-order@hybristest.com');
             tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
             browser.sleep(500);

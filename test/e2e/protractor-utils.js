@@ -162,18 +162,18 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-var selectCurrency = exports.selectCurrency = function (currency) {
-    var currentCurrency = element(by.binding('currency.selected.id'));
-    browser.driver.actions().mouseMove(currentCurrency).perform();
-    currentCurrency.click();
-    var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+var switchSite = exports.switchSite = function (site) {
+    var siteSelector = element(by.linkText('Region'));
+    browser.driver.actions().mouseMove(siteSelector).perform();
+    siteSelector.click();
+    var newSite = element(by.repeater('site in sites').row(1));
     browser.wait(function () {
-        return newCurrency.isPresent();
+        return newSite.isPresent();
     });
     
-    browser.driver.actions().mouseMove(newCurrency).perform();
-    expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
-    newCurrency.click();
+    browser.driver.actions().mouseMove(newSite).perform();
+    expect(element(by.repeater('site in sites').row(1)).getText()).toEqual(site);
+    newSite.click();
 }
 
 exports.loginHelper = function (userName, password) {
