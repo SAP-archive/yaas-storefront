@@ -10,7 +10,7 @@
             {{couponErrorMessage}}
         </div>
         <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="cart.discounts.length">
-        <button id="apply-coupon" class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="cart.discounts.length">
+        <button id="apply-coupon" class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="cart.discounts.length || !coupon.code.length">
         {{'COUPON_APPLY' | translate}}
         </button>
     </div>
