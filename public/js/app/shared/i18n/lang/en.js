@@ -112,6 +112,7 @@ angular.module('ds.i18n')
         COUPON_ERR_ANONYMOUS: 'Sign in to use coupon code',
         COUPON_ERR_UNAVAILABLE: 'Coupon no longer available',
         COUPON_MINIMUM_NOT_MET: 'Current order total does not meet the required minimum for this coupon',
+        COUPON_NOT_VALID: 'Coupon Not Valid',
 
         /*
             confirmation

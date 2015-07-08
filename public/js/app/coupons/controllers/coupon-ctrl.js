@@ -48,8 +48,13 @@ angular.module('ds.coupon')
             var getCouponError = function(couponError) {
                 $scope.coupon.error = couponError;
                 console.log(couponError);
-                if (couponError.status === 404 || (couponError.status === 403 && AuthSvc.isAuthenticated())) {
+                if (couponError.status === 404) {
                     $translate('COUPON_ERR_UNAVAILABLE').then(function (response) {
+                        $scope.couponErrorMessage = response;
+                    });
+                }
+                else if (couponError.status === 403 && AuthSvc.isAuthenticated()) {
+                    $translate('COUPON_NOT_VALID').then(function (response) {
                         $scope.couponErrorMessage = response;
                     });
                 }
