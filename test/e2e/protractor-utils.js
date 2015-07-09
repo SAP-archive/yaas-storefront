@@ -225,7 +225,7 @@ exports.populateAddress = function(country, contact, street, aptNumber, city, st
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
     } else {
-        sendKeysById('state', state);
+        element(by.id('state')).sendKeys(state);
     }    
     
     sendKeysById('zipCode', zip);
