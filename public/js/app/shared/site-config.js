@@ -57,7 +57,7 @@ angular.module('ds.shared')
 
                 coupon: {
                     baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
-                } ,
+                },
 
                 customers: {
                     baseUrl: 'https://' + apiPath + '/hybris/customer/b1/' + tenantId
@@ -87,9 +87,13 @@ angular.module('ds.shared')
                 siteSettings: {
                     baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
                 },
-                
+
                 tracking: {
                     baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
+                },
+
+                indexing: {
+                    baseUrl: 'https://' + apiPath + '/hybris/algolia-search/b1/' + tenantId
                 }
             };
 

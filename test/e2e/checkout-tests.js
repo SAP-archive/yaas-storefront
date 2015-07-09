@@ -271,7 +271,7 @@ describe("checkout:", function () {
             tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
         });
 
-        iit('should allow user to select address', function () {
+        it('should allow user to select address', function () {
             loginAndContinueToCheckout('address@hybristest.com');
             expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Take out');
             tu.clickElement('id', 'select-address-btn-1');
