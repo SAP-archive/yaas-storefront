@@ -157,7 +157,11 @@ describe('product page', function () {
         });
 
 
-        xit('should search', function () {
+        it('should search', function () {
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+
             tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
@@ -166,14 +170,21 @@ describe('product page', function () {
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });
 
-        xit('not return search results', function () {
-            tu.sendKeysByCss('div.col-xs-8.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
+        it('not return search results', function () {
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
 
-        //need to revisit to see how we can do this with 2 search navs loaded
+        //need to revisit to see how we can do this with 2 search bars loaded in separate navs
         xit('should take user to search results page', function () {
-            tu.sendKeysByCss('div.col-xs-8.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            // browser.pause();
             expect(element(by.binding('search.numberOfHits')).getText()).toEqual('See All 3 Results');
             tu.clickElement('binding', 'search.numberOfHits');
             tu.assertProductByRepeaterRow('0', 'BEER MUG');
