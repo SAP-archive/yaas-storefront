@@ -77,15 +77,19 @@
              infinite-scroll-visible-items>
             <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
                  on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
-                <a id="p_{{product.id}}" ng-click="openProductDetails(product.id)" ui-sref="base.product.detail( {productId: product.id} )">
+                <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
 
                     <div class="thumb">
-                        <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
+                        <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
 
                     </div>
-                    <div class="productInfoContainer">
-                        <div class="name">{{ product.name }}</div>
-                        <div class="price">{{ prices[product.id].amount | currency: currencySymbol}}</div>
+                    <div class="productInfoContainer text-center">
+                        <div class="name">{{ product.product.name }}</div>
+                        <div ng-if="!prices[product.product.id].measurementUnit" class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
+                        <div ng-if="prices[product.product.id].measurementUnit" class="price">
+                            <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                            <span class="priceUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                        </div>
                     </div>
                 </a>
             </div>
