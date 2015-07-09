@@ -26,7 +26,8 @@ angular.module('ds.shared')
                  */
                 onSiteChange: function () {
 
-                    //Check if currency changed?
+                    CartSvc.getCart();
+
                     if ($state.is('base.checkout.details') || $state.is('base.category') || $state.is('base.product.detail')) {
                         $state.transitionTo($state.current, $stateParams, {
                             reload: true,
