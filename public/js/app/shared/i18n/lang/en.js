@@ -15,6 +15,18 @@
 angular.module('ds.i18n')
 	.constant('TranslationsEN', {
 
+
+	    /*
+
+            languages
+        */
+	    en: 'English',
+	    de: 'German',
+	    fr: 'French',
+	    es: 'Spanish',
+
+
+
         /*
             cart
          */
@@ -163,8 +175,6 @@ angular.module('ds.i18n')
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
         SELECT_LANGUAGE: 'Select a language',
-		en: 'English',
-		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
         SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',

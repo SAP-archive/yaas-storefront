@@ -774,8 +774,15 @@ a.signout{
     padding: 15px;
     color: #b3b8bb;
     background-color: #d6dbde;
-  }
   
+        .selected{
+            color:@maxdarkgrey;
+            font-weight:bold;
+        }
+        .hovered{
+            color:@darkestgrey;
+        }
+    }
 }
 
 @media (max-width: @screen-md-min) {
@@ -825,4 +832,15 @@ a.signout{
 
 .regionControlList{
   border-right: 1px solid #b3b8bb;
+}
+.languageMenu{
+    li:hover{
+        color:@darkestgrey;
+    }
+
+  
+    .defaultLang::after{
+      content: '*';
+      
+    }
 }
