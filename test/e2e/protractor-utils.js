@@ -191,10 +191,6 @@ exports.loginHelper = function (userName, password) {
 }
 
 exports.loadProductIntoCart = function (cartAmount, cartTotal) {
-    clickElement('id', cartButtonId);
-    waitForCart();
-    expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-    clickElement('binding', 'CONTINUE_SHOPPING');
     browser.wait(function () {
         return element(by.xpath(whiteCoffeeMug)).isPresent();
     });

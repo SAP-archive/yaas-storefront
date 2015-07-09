@@ -74,17 +74,17 @@ describe('product page', function () {
         });
 
         //disabled until multiple sites are implemented
-        xit('should get order of products correctly in german and Euros', function () {
+        it('should get order of products correctly in german and Euros', function () {
             //default load
             tu.getTextByRepeaterRow(0);
-            //price is not currently supported
-            tu.selectLanguage('GERMAN');
-            tu.selectCurrency('EURO');
-            browser.sleep(3000);
-            // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
-            // browser.sleep(750);
-            // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
-            // browser.sleep(750);
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Sushi Demo Store Germany');
+            browser.sleep(2000);
+            browser.get(tu.tenant + '/#!/ct/');
             tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'WASSER-FLASCHE', '€19.99');
