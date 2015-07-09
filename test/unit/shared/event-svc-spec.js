@@ -33,6 +33,8 @@ describe('EventSvc', function(){
                     return (state === compState);
                 });
             mockedState.transitionTo = jasmine.createSpy();
+
+            mockedCartSvc.getCart = jasmine.createSpy();
         });
 
 
