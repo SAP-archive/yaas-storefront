@@ -39,7 +39,7 @@ describe('coupons:', function () {
             tu.sendKeysById('firstNameAccount', 'Mike');
             tu.sendKeysById('lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
-            tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
     }
@@ -183,7 +183,7 @@ describe('coupons:', function () {
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
-            tu.fillCreditCardForm('5555555555554444', '06', '2015', '000');
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
             
