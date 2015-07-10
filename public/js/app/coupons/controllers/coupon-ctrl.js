@@ -18,6 +18,8 @@ angular.module('ds.coupon')
 
             $scope.cart = CartSvc.getLocalCart();
 
+            $scope.couponCode = '';
+
             $scope.couponCollapsed = true;
 
             var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
@@ -25,7 +27,14 @@ angular.module('ds.coupon')
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
             });
 
+            var unbindSignIn = $rootScope.$on('user:signedin', function () {
+                if ($scope.coupon.error.status === 403) {
+                    delete $scope.couponErrorMessage;
+                }
+            });
+
             $scope.$on('$destroy', unbind);
+            $scope.$on('$destroy', unbindSignIn);
 
             /** get coupon and apply it to the cart */
             $scope.applyCoupon = function(couponCode) {
@@ -42,12 +51,12 @@ angular.module('ds.coupon')
             };
 
             $scope.removeAllCoupons = function() {
+                $scope.couponCode = '';
                 CouponSvc.removeAllCoupons($scope.cart.id);
             };
 
             var getCouponError = function(couponError) {
                 $scope.coupon.error = couponError;
-                console.log(couponError);
                 if (couponError.status === 404) {
                     $translate('COUPON_ERR_UNAVAILABLE').then(function (response) {
                         $scope.couponErrorMessage = response;
