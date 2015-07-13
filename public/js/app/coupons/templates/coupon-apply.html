@@ -1,20 +1,24 @@
 <div class="couponApplyContainer">
 
-        <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!coupon.applied">{{'COUPON_CODE' | translate}}</a>
+    <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length">{{'COUPON_CODE' | translate}}</a>
 
-    <div ng-show="!couponCollapsed && !coupon.applied">
-        <div ng-if="!coupon.valid" class="error">
-            {{coupon.message.error}}
+    <div ng-show="!couponCollapsed && !cart.discounts.length">
+        <div ng-if="coupon.restrictions.minOrderValue.amount > cart.totalPrice.amount" class="error">
+            {{'COUPON_MINIMUM_NOT_MET' | translate}}
         </div>
-        <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='coupon.code' ng-disabled="coupon.applied">
-        <button id="apply-coupon" class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(coupon.code)" ng-disabled="coupon.applied">
+        <div ng-if="couponErrorMessage" class="error">
+            {{couponErrorMessage}}
+        </div>
+        <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' ng-disabled="cart.discounts.length">
+        <button id="apply-coupon" class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(couponCode); couponCode = null" ng-disabled="cart.discounts.length || !couponCode.length">
         {{'COUPON_APPLY' | translate}}
         </button>
     </div>
-    <div ng-if="coupon.applied" class="row">
-        <div class="col-xs-8 col-md-8 img-col">
-            {{coupon.code}} : {{coupon.message.success}}
-            <button id="remove-coupon" ng-click="removeCoupon(coupon.code)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+
+    <div ng-if="cart.discounts.length" class="row">
+        <div ng-repeat="discount in cart.discounts" class="col-xs-8 col-md-8 img-col">
+            {{discount.code}}
+            <button id="remove-coupon" ng-click="removeAllCoupons()" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
         </div>
     </div>
 

@@ -34,7 +34,7 @@ describe('CartCtrl Test', function () {
         $controller = _$controller_;
     }));
 
-    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData, mockedSettings, mockedAuthSvc, mockedAuthDialogManager, mockedState;
+    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData, mockedSettings, mockedAuthSvc, mockedAuthDialogManager, mockedState, mockedCouponSvc;
 
     beforeEach(function () {
         cart = {};
@@ -77,8 +77,15 @@ describe('CartCtrl Test', function () {
             close: jasmine.createSpy()
         };
 
+        mockedCouponSvc = {
+            getCoupon: jasmine.createSpy('getCoupon'),
+            redeemCoupon: jasmine.createSpy('redeemCoupon'),
+            removeAllCoupons: jasmine.createSpy('removeAllCoupons')
+        };
+
         cartCtrl = $controller('CartCtrl', {$scope: $scope, $state: mockedState, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc,
-            'GlobalData': mockedGlobalData, 'settings': mockedSettings, 'AuthSvc': mockedAuthSvc, 'AuthDialogManager': mockedAuthDialogManager});
+            'GlobalData': mockedGlobalData, 'settings': mockedSettings, 'AuthSvc': mockedAuthSvc,
+            'CouponSvc': mockedCouponSvc, 'AuthDialogManager': mockedAuthDialogManager});
 
         $rootScope.cart = products;
     });

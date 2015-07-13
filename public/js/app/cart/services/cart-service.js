@@ -152,12 +152,7 @@ angular.module('ds.cart')
                     defCart.resolve(cart);
                 });
                 defCart.promise.then(function () {
-                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout });
-
-                    //update coupon
-                    if (angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.amount)) {
-                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.amount });
-                    }
+                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
                 });
                 return defCart.promise;
             }
@@ -337,6 +332,18 @@ angular.module('ds.cart')
                     } else {
                         return $q.when({});
                     }
+                },
+
+                redeemCoupon: function (coupon, cartId) {
+                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
+                },
+
+                removeAllCoupons: function(cartId) {
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
                 }
 
 

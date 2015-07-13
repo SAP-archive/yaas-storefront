@@ -101,8 +101,10 @@ angular.module('ds.checkout')
                                             if(errorResponse.status) {
                                                 errMsg += ' Status code: '+errorResponse.status+'.';
                                             }
-                                            if(errorResponse.message) {
-                                                errMsg += ' ' + errorResponse.message;
+                                            if(errorResponse.data && errorResponse.data.details && errorResponse.data.details.length) {
+                                                angular.forEach(errorResponse.data.details, function (errorDetail) {
+                                                    errMsg += ' ' + errorDetail.message;
+                                                });
                                             }
                                         }
                                     }

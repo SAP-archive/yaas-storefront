@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData', 'CouponSvc', 'UserCoupon',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData, CouponSvc, UserCoupon) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
 
             $scope.order = order;
 
@@ -356,19 +356,6 @@ angular.module('ds.checkout')
                 modal.close();
             }
 
-            /* handles successful coupon checkout */
-            var couponSuccessHandler = function (order) {
-                UserCoupon.setBlankCoupon();    // clear coupon object.
-                checkoutSuccessHandler(order);
-            };
-
-            /** handles a failed coupon checkout. */
-            var couponErrorHandler = function (error) {
-                $scope.order.cart.totalPrice.amount += UserCoupon.getCoupon().amounts.discountAmount;
-                UserCoupon.setBlankCoupon();    // clear coupon object.
-                checkoutErrorHandler(error);
-            };
-
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
 
@@ -381,11 +368,6 @@ angular.module('ds.checkout')
 
                 //Reset cart
                 CheckoutSvc.resetCart();
-
-                //Reset coupon
-                if(angular.isDefined(UserCoupon)){
-                    UserCoupon.setBlankCoupon();
-                }
 
                 modal.close();
                 $state.go('base.confirmation', {orderId: order.orderId});
@@ -422,11 +404,7 @@ angular.module('ds.checkout')
                     }
                     $scope.order.cart = $scope.cart;
 
-                    if(UserCoupon && UserCoupon.getCoupon().applied){
-                        $scope.validateCouponCheckout();
-                    } else {
-                        CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
-                    }
+                    CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
 
                 } else {
                     $scope.showPristineErrors = true;
@@ -435,26 +413,6 @@ angular.module('ds.checkout')
                     // console.log('BILLTO:',$scope.billToForm.$error.required);
                     // console.log('SHIPTO:',$scope.shipToForm.$error.required);
                 }
-            };
-
-            /** redeem coupon mashup */
-            $scope.validateCouponCheckout = function() {
-                CouponSvc.redeemCoupon(UserCoupon.getCoupon(), $scope.cart.id, $scope.order.cart.totalPrice.amount).then(function () {
-                    // Apply Coupon: update total with coupon applied. This is required for API validation.
-                    $scope.order.cart.totalPrice.amount -= UserCoupon.getCoupon().amounts.discountAmount;
-                    // check if we need to clean out float precision
-                    if(($scope.order.cart.totalPrice.amount.toString().split('.')[1] || []).length > 2){
-                        // clean total of any float precision, required by cart coupon validation.
-                        $scope.order.cart.totalPrice.amount = parseFloat(($scope.order.cart.totalPrice.amount).toFixed(2));
-                    }
-                    // proceed with checkout now that coupon is applied.
-                    CheckoutSvc.checkout($scope.order).then(couponSuccessHandler, couponErrorHandler);
-
-                }, function (resp) {  // upstream error handler.
-                    $scope.message = resp.data.message; // display service message.
-                    $scope.submitIsDisabled = false;
-                    modal.close(); // stop loading indicator.
-                });
             };
 
             $scope.selectAddress = function(address, target) {
