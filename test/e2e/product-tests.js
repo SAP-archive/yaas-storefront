@@ -16,14 +16,6 @@ describe('product page', function () {
             );
         });
 
-  afterEach(function() {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      // expect(browserLog.length).toEqual(0);
-      // Uncomment to actually see the log.
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
-  });
-
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
@@ -57,21 +49,14 @@ describe('product page', function () {
 
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Drink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.');
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$10.67');
-
-            //the following to be re-enabled when multiple sites are supported
-            //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Mugs');
-
-            // tu.selectLanguage('GERMAN');
-            //tu.selectCurrency('EURO');
-
-            //browser.sleep(3000);
-            // expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('€7.99');
-            //expect(element(by.repeater('item in items.path').row(0)).getText()).toEqual('Tassen');
+            tu.switchSite('Sushi Demo Store Germany');
+            browser.sleep(3000);
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
             // verify refreshing grabs correct config (STOR-1183)
-            //browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
-            //expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('BESCHREIBUNG:\nTrinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            //expect(element(by.binding('product.defaultPrice.amount')).getText()).toEqual('€7.99');
+            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
         });
 
         it('should get order of products correctly in english and USD', function () {
@@ -89,17 +74,17 @@ describe('product page', function () {
         });
 
         //disabled until multiple sites are implemented
-        xit('should get order of products correctly in german and Euros', function () {
+        it('should get order of products correctly in german and Euros', function () {
             //default load
             tu.getTextByRepeaterRow(0);
-            //price is not currently supported
-            tu.selectLanguage('GERMAN');
-            tu.selectCurrency('EURO');
-            browser.sleep(3000);
-            // tu.sortAndVerifyPagination('price', 'FRANZÖSISCH PRESSE');
-            // browser.sleep(750);
-            // tu.sortAndVerifyPagination('-price', 'ESPRESSOMASCHINE');
-            // browser.sleep(750);
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Sushi Demo Store Germany');
+            browser.sleep(2000);
+            browser.get(tu.tenant + '/#!/ct/');
             tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'WASSER-FLASCHE', '€19.99');
@@ -157,7 +142,11 @@ describe('product page', function () {
         });
 
 
-        xit('should search', function () {
+        it('should search', function () {
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+
             tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
@@ -166,14 +155,21 @@ describe('product page', function () {
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });
 
-        xit('not return search results', function () {
-            tu.sendKeysByCss('div.col-xs-8.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
+        it('not return search results', function () {
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
 
-        //need to revisit to see how we can do this with 2 search navs loaded
+        //need to revisit to see how we can do this with 2 search bars loaded in separate navs
         xit('should take user to search results page', function () {
-            tu.sendKeysByCss('div.col-xs-8.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            browser.wait(function () {
+                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+            });
+            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            // browser.pause();
             expect(element(by.binding('search.numberOfHits')).getText()).toEqual('See All 3 Results');
             tu.clickElement('binding', 'search.numberOfHits');
             tu.assertProductByRepeaterRow('0', 'BEER MUG');

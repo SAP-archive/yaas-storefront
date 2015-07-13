@@ -21,8 +21,14 @@ describe('ytracking', function () {
         }
     };
     var mockedGlobalData = {
+        piwik: {
+            enabled: true
+        },
         store: {
-            tenant: 'defaultTenant'
+            tenant: 'default'
+        },
+        getSiteCode: function () {
+            return 'site';
         }
     };
     var mockedLocalStorage = {};

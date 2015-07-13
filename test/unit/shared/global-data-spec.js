@@ -5,8 +5,7 @@
 describe('GlobalData', function () {
 
     var mockedCookieSvc = {
-        setLanguageCookie: jasmine.createSpy(),
-        setCurrencyCookie: jasmine.createSpy()
+        setLanguageCookie: jasmine.createSpy()
     };
 
     var GlobalData = null;
@@ -88,47 +87,6 @@ describe('GlobalData', function () {
 
     });
 
-
-    describe('setCurrency()', function () {
-        var newCur = 'EUR';
-        var currencyEventSpy;
-
-        beforeEach(function () {
-            currencyEventSpy = jasmine.createSpy();
-            $rootScope.$on('currency:updated', currencyEventSpy);
-            GlobalData.setDefaultLanguage({ id: 'USD' });
-            GlobalData.setAvailableCurrencies([{ id: 'EUR' }, { id: 'USD', default: true }]);
-            GlobalData.setCurrency(newCur);
-        });
-
-        it('should set the currency as cookie', function () {
-            var update = 'USD';
-            GlobalData.setCurrency(update);
-            expect(mockedCookieSvc.setCurrencyCookie).toHaveBeenCalledWith(update);
-        });
-
-        it('should raise event <<currency:updated>> if currency changed', function () {
-            expect(currencyEventSpy).toHaveBeenCalled();
-        });
-
-        it('should set the store currency', function () {
-            expect(GlobalData.getCurrencyId()).toEqualData(newCur);
-        });
-
-        it('should return the correct currency symbol', function () {
-            var curSymbol = GlobalData.getCurrencySymbol();
-            expect(curSymbol).toEqualData('\u20AC');
-        });
-
-        it('should revert to default currency if new currency not among available currencies', function () {
-            GlobalData.setCurrency('pl');
-            expect(GlobalData.getCurrencyId()).toEqualData('USD');
-
-        });
-
-
-    });
-
     describe('setAvailableLanguage()', function () {
         it('should return the same language', function () {
             var langs = [{ id: 'kl', label: 'Klingon' }];
@@ -136,15 +94,6 @@ describe('GlobalData', function () {
             GlobalData.setAvailableLanguages(langs);
             var out = GlobalData.getAvailableLanguages();
             expect(out).toEqualData(langs);
-        });
-    });
-
-    describe('setAvailableCurrencies()', function () {
-        it('should return the same currencies', function () {
-            var currs = [{ id: 'CAD', label: 'Canadian Dollar' }];
-            GlobalData.setAvailableCurrencies(currs);
-            var out = GlobalData.getAvailableCurrencies();
-            expect(out).toEqualData(currs);
         });
     });
 
@@ -170,31 +119,6 @@ describe('GlobalData', function () {
             expect(GlobalData.getLanguageCode()).toEqualData(defaultLangCode);
         });
     });
-
-    describe('loadInitialCurrency()', function () {
-
-        var defaultCurrency = 'CAD';
-        var bitcoin = 'BTC';
-
-        beforeEach(function () {
-            GlobalData.setDefaultLanguage({ id: 'fr', label: 'French' });
-            GlobalData.setAvailableCurrencies([{ id: defaultCurrency, label: 'Canadian Dollar'}]);
-        });
-
-        xit('should use the cookie currency if set', function () {
-            var cookieCurr = bitcoin;
-            mockedCookieSvc.getCurrencyCookie = jasmine.createSpy().andReturn({ currency: bitcoin });
-            GlobalData.loadInitialCurrency();
-            expect(GlobalData.getCurrencyId()).toEqualData(cookieCurr);
-        });
-
-        it('should use default currency if cookie not set', function () {
-            mockedCookieSvc.getCurrencyCookie = jasmine.createSpy().andReturn(null);
-            GlobalData.loadInitialCurrency();
-            expect(GlobalData.getCurrencyId()).toEqualData(defaultCurrency);
-        });
-    });
-
 
 });
 

@@ -22,29 +22,18 @@ angular.module('ds.shared')
             return {
 
                 /**
-                 * Handle "currency changed".
+                 * Handle "site changed".
                  */
-                onCurrencyChange: function (eve, eveObj) {
-                    if ($state.is('base.checkout.details')){
-                        CartSvc.switchCurrency(eveObj.currencyId).then(function(){
-                            $state.transitionTo($state.current, $stateParams, {
-                                reload: true,
-                                inherit: true,
-                                notify: true
-                            });
-                        });
-                    } else {
+                onSiteChange: function () {
 
-                        if ( eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
-                            CartSvc.switchCurrency(eveObj.currencyId);
-                        }
-                        if($state.is('base.category') || $state.is('base.product.detail') ) {
-                            $state.transitionTo($state.current, $stateParams, {
-                                reload: true,
-                                inherit: true,
-                                notify: true
-                            });
-                        }
+                    CartSvc.getCart();
+
+                    if ($state.is('base.checkout.details') || $state.is('base.category') || $state.is('base.product.detail')) {
+                        $state.transitionTo($state.current, $stateParams, {
+                            reload: true,
+                            inherit: true,
+                            notify: true
+                        });
                     }
                 },
 

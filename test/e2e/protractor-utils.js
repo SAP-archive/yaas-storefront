@@ -162,18 +162,18 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-var selectCurrency = exports.selectCurrency = function (currency) {
-    var currentCurrency = element(by.binding('currency.selected.id'));
-    browser.driver.actions().mouseMove(currentCurrency).perform();
-    currentCurrency.click();
-    var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+var switchSite = exports.switchSite = function (site) {
+    var siteSelector = element(by.linkText('Region'));
+    browser.driver.actions().mouseMove(siteSelector).perform();
+    siteSelector.click();
+    var newSite = element(by.repeater('site in sites').row(1));
     browser.wait(function () {
-        return newCurrency.isPresent();
+        return newSite.isPresent();
     });
     
-    browser.driver.actions().mouseMove(newCurrency).perform();
-    expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
-    newCurrency.click();
+    browser.driver.actions().mouseMove(newSite).perform();
+    expect(element(by.repeater('site in sites').row(1)).getText()).toEqual(site);
+    newSite.click();
 }
 
 exports.loginHelper = function (userName, password) {
@@ -191,10 +191,6 @@ exports.loginHelper = function (userName, password) {
 }
 
 exports.loadProductIntoCart = function (cartAmount, cartTotal) {
-    clickElement('id', cartButtonId);
-    waitForCart();
-    expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-    clickElement('binding', 'CONTINUE_SHOPPING');
     browser.wait(function () {
         return element(by.xpath(whiteCoffeeMug)).isPresent();
     });
@@ -229,7 +225,7 @@ exports.populateAddress = function(country, contact, street, aptNumber, city, st
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
     } else {
-        sendKeysById('state', state);
+        element(by.id('state')).sendKeys(state);
     }    
     
     sendKeysById('zipCode', zip);
@@ -268,6 +264,6 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
     expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//span[2]')).getText()).toContain(number);
-    expect(element(by.xpath('//span[4]')).getText()).toContain(cityStateZip);
+    expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
     expect(element(by.binding('product.price')).getText()).toEqual(price);
 }

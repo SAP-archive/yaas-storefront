@@ -43,20 +43,20 @@
           ng-class="{'has-error': addressForm.state.$invalid && (addressForm.state.$dirty || showPristineErrors) }">
           <label class="input-group-addon control-label" for="state">{{'PROVINCE' | translate}}</label>
           <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="addressForm.country.$viewValue.id === 'CA'" ng-model="address.state" id="state" name="state">
-              <option value=""></option>
-              <option value="AB">Alberta</option>
-              <option value="BC">Manitoba</option>
-              <option value="MB">New Brunswick</option>
-              <option value="NB">Newfoundland and Labrador</option>
-              <option value="NL">Nova Scotia</option>
-              <option value="NS">Northwest Territories</option>
-              <option value="NT">Nunavut</option>
-              <option value="NU">Ontario</option>
-              <option value="ON">District Of Columbia</option>
-              <option value="PE">Prince Edward Island</option>
-              <option value="QC">Quebec</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="YT">Yukon</option>
+            <option value=""></option> 
+            <option value="AB">Alberta</option> 
+            <option value="BC">British Columbia</option> 
+            <option value="MB">Manitoba</option> 
+            <option value="NB">New Brunswick</option> 
+            <option value="NL">Newfoundland and Labrador</option> 
+            <option value="NS">Nova Scotia</option> 
+            <option value="NT">Northwest Territories</option> 
+            <option value="NU">Nunavut</option> 
+            <option value="ON">Ontario</option> 
+            <option value="PE">Prince Edward Island</option> 
+            <option value="QC">Quebec</option> 
+            <option value="SK">Saskatchewan</option> 
+            <option value="YT">Yukon</option>
           </select>
       </div>
 
