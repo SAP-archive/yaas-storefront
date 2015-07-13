@@ -18,8 +18,6 @@ angular.module('ds.coupon')
 
             $scope.cart = CartSvc.getLocalCart();
 
-            $scope.couponCode = '';
-
             $scope.couponCollapsed = true;
 
             var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
@@ -51,7 +49,6 @@ angular.module('ds.coupon')
             };
 
             $scope.removeAllCoupons = function() {
-                $scope.couponCode = '';
                 CouponSvc.removeAllCoupons($scope.cart.id);
             };
 
