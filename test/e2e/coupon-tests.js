@@ -89,6 +89,17 @@ describe('coupons:', function () {
             browser.sleep(500);
         });
 
+        it('should not allow other customers to use specific coupon', function () {
+            tu.loginHelper('coupon@hybristest.com', 'password');
+            tu.loadProductIntoCart('1', '$10.67');
+            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.sendKeysById('coupon-code', 'SPECIFIC');
+            tu.clickElement('id', 'apply-coupon');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON NOT VALID');
+            browser.sleep(1000);
+            removeFromCart();
+            browser.sleep(500);
+        });
 
         it('should add percentage off coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
@@ -169,38 +180,7 @@ describe('coupons:', function () {
 
 
         it('should not allow purchase under minimum at checkout', function () {
-            tu.createAccount('coupontestmin');
-            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            browser.sleep(1000);
-            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            tu.loadProductIntoCart('1', '$10.67');
-            tu.clickElement('binding', 'CHECKOUT');
-            browser.wait(function () {
-                return element(by.id("ccNumber")).isPresent();
-            });
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            tu.clickElement('linkText', 'Add Coupon Code');
-            tu.sendKeysById('coupon-code', '20MINIMUM');
-            tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('coupon.message.error')).getText()).toEqual('Coupon cannot be redeemed');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
-            browser.wait(function () {
-                return element(by.binding("message")).isPresent();
-            });
-            expect(element(by.binding('message')).getText()).toContain('The order value is too low for this coupon.');
-
-        });
-
-
-        it('should not allow purchase under minimum at checkout', function () {
-            tu.createAccount('coupontestmin');
+            tu.createAccount('coupontestmin1');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(1000);
             var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
@@ -273,17 +253,8 @@ describe('coupons:', function () {
         it('should allow customer to use specific coupon', function () {
             tu.loginHelper('specific@hybristest.com', 'password');
             couponCheckoutTest('SPECIFIC', '$10.67');
-            tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '-$2.13');
-            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
-        });
-        
-        //not finihed writing
-        xit('should not allow other customers to use specific coupon', function () {
-            tu.createAccount('coupontestdollar');
-            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('10DOLLAR', '$10.67');
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
-            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
+            tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '$10.67');
+            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$2.13');
         });
 
         xit('should allow euro off on checkout', function () {
