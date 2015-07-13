@@ -26,7 +26,6 @@ describe('coupons:', function () {
     };
 
     function couponCheckoutTest(couponCode, price) {
-            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
@@ -161,7 +160,7 @@ describe('coupons:', function () {
         });
 
         //no longer validates on cart
-        it('should not allow user to use expired coupon on cart', function () {
+        xit('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED', '$10.67');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
@@ -198,8 +197,49 @@ describe('coupons:', function () {
 
         });
 
+
+        it('should not allow purchase under minimum at checkout', function () {
+            tu.createAccount('coupontestmin');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            browser.sleep(1000);
+            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCart('1', '$10.67');
+            tu.clickElement('binding', 'CHECKOUT');
+            browser.wait(function () {
+                return element(by.id("ccNumber")).isPresent();
+            });
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            tu.clickElement('linkText', 'Add Coupon Code');
+            tu.sendKeysById('coupon-code', '20MINIMUM');
+            tu.clickElement('id', 'apply-coupon');
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            browser.sleep(500);
+            tu.clickElement('id', 'place-order-btn');
+            browser.wait(function () {
+                return element(by.binding("message")).isPresent();
+            });
+            expect(element(by.binding('message')).getText()).toContain('The order value is too low for this coupon.');
+
+        });
+
+        it('should not allow purchase coupon with max redemptions', function () {
+            tu.createAccount('coupontestmax');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            couponCheckoutTest('LMTD', '$10.67');
+            browser.wait(function () {
+                return element(by.binding("message")).isPresent();
+            });
+            expect(element(by.binding('message')).getText()).toContain('Coupon has reached maximum number of redemptions.');        
+        });
+
         it('should allow purchase over minimum', function () {
             tu.createAccount('coupontestmin2');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('MINIMUM', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
@@ -207,6 +247,7 @@ describe('coupons:', function () {
 
         it('should allow coupon larger than purchase price', function () {
             tu.createAccount('coupontestmax');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('20DOLLAR', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
@@ -214,6 +255,7 @@ describe('coupons:', function () {
 
         it('should allow percentage off on checkout', function () {
             tu.createAccount('coupontestpercent');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10PERCENT', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
@@ -221,6 +263,23 @@ describe('coupons:', function () {
 
         it('should allow dollar off on checkout', function () {
             tu.createAccount('coupontestdollar');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            couponCheckoutTest('10DOLLAR', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
+        });
+
+        it('should allow customer to use specific coupon', function () {
+            tu.loginHelper('specific@hybristest.com', 'password');
+            couponCheckoutTest('SPECIFIC', '$10.67');
+            tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '-$2.13');
+            expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
+        });
+        
+        //not finihed writing
+        xit('should not allow other customers to use specific coupon', function () {
+            tu.createAccount('coupontestdollar');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10DOLLAR', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
@@ -228,6 +287,7 @@ describe('coupons:', function () {
 
         xit('should allow euro off on checkout', function () {
             tu.createAccount('coupontesteuro');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             tu.selectCurrency('EURO');
             couponCheckoutTest('5EURO', '€7.99');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '€7.99');
