@@ -593,7 +593,7 @@ describe('CartSvc Test', function () {
 
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/discounts', mockCoupon).respond(201, {});
 
-            mockBackend.expectGET(cartUrl + '/' + cartId ).respond(200, cartResponse);
+            mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
 
@@ -605,7 +605,7 @@ describe('CartSvc Test', function () {
         it('should remove the coupon', function () {
             mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
 
-            mockBackend.expectGET(cartUrl + '/' + cartId ).respond(200, cartResponse);
+            mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
             mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
 
