@@ -15,8 +15,8 @@
 'use strict';
 
 angular.module('ds.searchlist')
-    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
+    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
+        function ($scope, $rootScope, ProductSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
 
             $scope.searchString = searchString;
 
@@ -47,71 +47,54 @@ angular.module('ds.searchlist')
 
 
             function getProductIdsFromElements(elements) {
+
                 return elements.map(function (element) {
-                   return element.objectID;
+                    return element.objectID;
                 });
             }
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
 
-            /** Retrieves pricing information for the list of products.
-             * @param products JSON product list response
-             */
-
-            function getPrices(products) {
-                var productIds = products.map(function (product) {
-                    return product.id;
-                });
-                var queryPrices = {
-                    q: 'productId:(' + productIds + ')'
-                };
-
-                PriceSvc.query(queryPrices).then(
-                    function (pricesResponse) {
-                        if (pricesResponse) {
-                            var pricesMap = {};
-
-                            pricesResponse.forEach(function (price) {
-                                if (price.currency === GlobalData.getCurrencyId()) {
-                                    pricesMap[price.productId] = price;
-                                }
-                            });
-
-                            $scope.prices = angular.extend($scope.prices, pricesMap);
-
-                            //initialize the viewing bar promixity script
-
-                            /* jshint ignore:start */
-
-                            initRefineAffix();
-
-                            /* jshint ignore:end */
-
-
-                            if ($scope.loadMorePages) {
-                                $timeout(function () {
-                                    $scope.pageSize = $scope.pageSize / $scope.loadedPages;
-                                    $scope.pageNumber = $scope.loadedPages;
-
-                                    //Scroll to the page
-                                    if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
-                                        $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
-                                    }
-
-                                    //Try scrolling to the last element
-                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
-
-                                    //Set page parameter
-                                    $location.search('page', $scope.pageNumber).replace();
-
-                                    $scope.loadMorePages = false;
-                                }, 1);
+            function assignPrices(products) {
+                var pricesMap = {};
+                var currentCurrency = GlobalData.getCurrencyId();
+                angular.forEach(products, function (product) {
+                    if (product.prices && product.prices.length > 0) {
+                        product.prices.forEach(function (price) {
+                            if (price.currency === currentCurrency) {
+                                pricesMap[product.product.id] = price;
                             }
-
-                        }
+                        });
                     }
-                );
+                });
+
+                $scope.prices = angular.extend($scope.prices, pricesMap);
+
+                //initialize the viewing bar promixity script
+                /* jshint ignore:start */
+                initRefineAffix();
+                /* jshint ignore:end */
+
+                if ($scope.loadMorePages) {
+                    $timeout(function () {
+                        $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                        $scope.pageNumber = $scope.loadedPages;
+
+                        //Scroll to the page
+                        if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
+                            $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                        }
+
+                        //Try scrolling to the last element
+                        $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
+
+                        //Set page parameter
+                        $location.search('page', $scope.pageNumber).replace();
+
+                        $scope.loadMorePages = false;
+                    }, 1);
+                }
             }
 
             function setMainImage(product) {
@@ -129,7 +112,7 @@ angular.module('ds.searchlist')
 
             function assignMainImage(products) {
                 _.forEach(products, function (product) {
-                    setMainImage(product);
+                    setMainImage(product.product);
                 });
             }
 
@@ -145,7 +128,7 @@ angular.module('ds.searchlist')
                 qSpec = qSpec + ' ' + 'id:(' + ids + ')';
                 query.q = qSpec;
 
-                ProductSvc.query(query).then(
+                ProductSvc.queryProductDetailsList(query).then(
                     function (products) {
                         $scope.requestInProgress = false;
                         if (products) {
@@ -154,8 +137,10 @@ angular.module('ds.searchlist')
                                 $scope.pagination.productsFrom = 0;
                             }
 
-                            getPrices(products);
-                            assignMainImage(products);
+                            if (products.length) {
+                                assignMainImage(products);
+                                assignPrices(products);
+                            }
 
                             //Set page parameter
                             $location.search('page', $scope.pageNumber).replace();

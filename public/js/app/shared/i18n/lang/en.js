@@ -15,6 +15,18 @@
 angular.module('ds.i18n')
 	.constant('TranslationsEN', {
 
+
+	    /*
+
+            languages
+        */
+	    en: 'English',
+	    de: 'German',
+	    fr: 'French',
+	    es: 'Spanish',
+
+
+
         /*
             cart
          */
@@ -39,6 +51,7 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CITY: 'City',
+        PROVINCE: 'Province',
         CONTINUE: 'Continue',
         COUNTRY: 'Country',
         CREDIT_CARD_NUMBER: 'Credit Card Number',
@@ -89,7 +102,18 @@ angular.module('ds.i18n')
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
-        ZIP: 'Zip Code',
+
+        /*  addresses  */
+        DISTRICT: 'District',
+        STREET_NAME: 'Street Name/ Number',
+        BUILDING_NAME: 'Building Name/ Number',
+        ROOM_NUMBER: 'Room Number',
+        PREFECTURE: 'Prefecture',
+        POSTAL_CODE: 'Postal Code',
+        ZIP: 'Zip/ Postal Code',
+        CITY_VILLAGE: 'City/ Village/ City Ward',
+        SUBAREA: 'Subarea',
+        FURTHER_SUBAREA: 'Further Subarea, Block #/ House #',
 
         /*  coupons   */
         COUPON_APPLY: 'Apply',
@@ -151,8 +175,6 @@ angular.module('ds.i18n')
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
         SELECT_LANGUAGE: 'Select a language',
-		en: 'English',
-		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
         SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
@@ -170,10 +192,10 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CLOSE: 'Close',
-        COMPANY_NAME: 'Company Name',
+        COMPANY_NAME: 'Company',
         CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
         FULL_NAME: 'Full Name',
-        CONTACT_PHONE: 'Contact Phone',
+        CONTACT_PHONE: 'Phone',
         CURRENCY: 'Currency',
         SELECT_CURRENCY: 'Select a currency',
         DATE: 'Date',
@@ -284,8 +306,8 @@ angular.module('ds.i18n')
         MOST_RELEVANT: 'Most Relevant',
         SEARCH_AGAIN: 'Search again',
         RESULTS: 'Results',
-        SEE_ALL: 'See All'
-
+        SEE_ALL: 'See All',
+        SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
 
 
 	});

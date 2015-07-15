@@ -32,6 +32,10 @@ angular.module('ds.auth')
 
             afterLoginFromSignUp: function (context) {
                 AccountSvc.account().then(function (account) {
+
+                    //Customer login event
+                    $rootScope.$emit('customer:login', {});
+
                     account.preferredCurrency = GlobalData.getCurrencyId();
                     account.preferredLanguage = GlobalData.getLanguageCode();
                     AccountSvc.updateAccount(account);
@@ -50,6 +54,10 @@ angular.module('ds.auth')
 
                 // there must be an account
                 AccountSvc.account().then(function (account) {
+
+                    //Customer login event
+                    $rootScope.$emit('customer:login', {});
+
                     if (account.preferredLanguage) {
                         GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.login);
                     }
@@ -80,7 +88,7 @@ angular.module('ds.auth')
              */
             afterSocialLogin: function(profile){
                 if(profile.email || profile.firstName || profile.lastName){
-                    AccountSvc.getCurrentAccount().then(function(accResult){
+                    AccountSvc.getCurrentAccount().then(function (accResult) {
                         var updated = false;
                         if(!accResult.firstName && !accResult.lastName){
                             accResult.firstName = profile.firstName;

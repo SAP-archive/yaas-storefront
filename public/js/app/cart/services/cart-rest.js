@@ -13,12 +13,20 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
+    .factory('CartREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
 
         return {
             /** Endpoint for Main Cart.*/
             Cart: Restangular.withConfig(function (RestangularConfigurer) {
                 RestangularConfigurer.setBaseUrl(siteConfig.apis.cart.baseUrl);
+                RestangularConfigurer.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+                    return {
+                        element: element,
+                        params: params,
+                        headers: _.extend(headers, { 'hybris-site': GlobalData.getSiteCode() }),
+                        httpConfig: httpConfig
+                    };
+                });
             })
         };
 

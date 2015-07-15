@@ -28,7 +28,11 @@
                         {{product.product.name}}
                         
                     </h1>
-                    <div class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
+                    <div ng-if="!product.prices[0].measurementUnit" class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol}}</div>
+                    <div ng-if="product.prices[0].measurementUnit" class="price">
+                        <span class="price">{{ product.prices[0].effectiveAmount | currency: currencySymbol }}</span>
+                        <span class="priceUnit">{{ product.prices[0].measurementUnit.quantity }}{{ product.prices[0].measurementUnit.unitCode }}</span>
+                    </div>
     
                     <form action="" class="cartPanel">
                         <div class="row" >

@@ -45,6 +45,7 @@ module.exports = function(config){
         'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/services/event-service.js',
         'public/js/app/shared/services/local-storage.js',
+        'public/js/app/shared/services/site-selector-service.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -108,6 +109,9 @@ module.exports = function(config){
         'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
+        'public/js/app/addresses/addresses-index.js',
+        'public/js/app/addresses/directives/localized-addresses.js',
+
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/controllers/password-reset-ctrl.js',
@@ -125,8 +129,7 @@ module.exports = function(config){
         'public/js/app/shared/router.js',
         'public/js/app/shared/http-proxy.js',
 
-        'public/js/app/shared/controllers/currency-selector-ctrl.js',
-        'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/controllers/site-selector-ctrl.js',
         'public/js/app/shared/directives/quantity-input.js',
         'public/js/app/shared/directives/popover.js',
 
@@ -141,6 +144,7 @@ module.exports = function(config){
 
         'test/unit/*.js',
         'test/unit/account/*.js',
+        'test/unit/addresses/*.js',
         'test/unit/auth/*.js',
         'test/unit/account/*.js',
         'test/unit/cart/*.js',

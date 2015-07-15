@@ -41,6 +41,10 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.setCategoryViewed(path);
                     });
 
+                    $rootScope.$on('customer:login', function (arg, customer) {
+                        ytrackingSvc.customerLogIn(customer);
+                    });
+
                     $rootScope.$on('search:performed', function (arg, obj) {
                         ytrackingSvc.searchEvent(obj.searchTerm, obj.numberOfResults);
                     });
@@ -139,15 +143,13 @@ angular.module('ds.ytracking', [])
                     data: JSON.stringify(obj)
                 };
 
-                $http(req).
-                    success(function () {
+                $http(req).success(function () {
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
                             makeRequest(items[i]);
                         }
-                    }).
-                    error(function () {
+                    }).error(function () {
                         //Store request to localstorage so it can be sent again when possible
                         localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
                     });
@@ -169,8 +171,9 @@ angular.module('ds.ytracking', [])
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
                 $window._paq.push(['setTrackerUrl', url]);
+
                 //Add site code. It should be   <tenant>.<siteCode>
-                $window._paq.push(['setSiteId', GlobalData.store.tenant]);
+                $window._paq.push(['setSiteId', GlobalData.store.tenant + '.' + GlobalData.getSiteCode()]);
 
                 $window._paq.push(['trackPageView']);
                 $window._paq.push(['enableLinkTracking']);
@@ -358,6 +361,14 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            /**
+            * User created order
+            */
+            var customerLogIn = function () {
+                if (!!$window._paq) {
+                    $window._paq.push(['trackPageView', 'CustomerLogin']);
+                }
+            };
 
             return {
                 cartUpdated: cartUpdated,
@@ -369,6 +380,7 @@ angular.module('ds.ytracking', [])
                 setCustomUrl: setCustomUrl,
                 searchEvent: searchEvent,
                 bannerClick: bannerClick,
-                proceedToCheckout: proceedToCheckout
+                proceedToCheckout: proceedToCheckout,
+                customerLogIn: customerLogIn
             };
         }]);

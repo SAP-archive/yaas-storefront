@@ -34,26 +34,37 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        xit('should load one product into cart in Euros', function () {
-            tu.selectCurrency('EURO');
+        it('should load one product into cart in Euros', function () {
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Sushi Demo Store Germany');
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
             tu.loadProductIntoCart('1', '€7.99');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
             });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('KEINE ARTIKEL IM KORB');
         });
 
-        xit('should load one product into cart in USD and change to Euros', function () {
+        it('should load one product into cart in USD and change to Euros', function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            tu.selectCurrency('EURO');
+            browser.sleep(1000);
+            tu.switchSite('Sushi Demo Store Germany');
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
-            browser.sleep(1000); 
+            browser.sleep(1000);
             tu.verifyCartTotal('€7.99');
         });
 
+        //will be updated when site is available on My Account
         xit('should load one product into cart in USD and change to Euros while logged in', function () {
             tu.loadProductIntoCart('1', '$10.67');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');

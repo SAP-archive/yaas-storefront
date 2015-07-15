@@ -27,8 +27,8 @@ angular.module('ds.shared')
         roleSeller: 'seller',
         // cookie name
         accessCookie: 'auth.user',
-        currencyCookie: 'currencyCookie',
         languageCookie: 'languageCookie',
+        siteCookie: 'siteCookie',
 
         // header keys
         headers: {
@@ -79,6 +79,7 @@ angular.module('ds.shared')
             login: 'login',
             initialization: 'init',
             unknown: 'unknown',
-            languageUpdate: 'languageUpdate'
+            languageUpdate: 'languageUpdate',
+            siteUpdate: 'siteUpdate'
         }
     });

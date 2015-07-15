@@ -26,6 +26,7 @@ window.app = angular.module('ds.app', [
     'ds.confirmation',
     'ds.coupon',
     'ds.account',
+    'ds.addresses',
     'ds.auth',
     'ds.orders',
     'ds.queue',
@@ -125,8 +126,8 @@ window.app = angular.module('ds.app', [
                 GlobalData.user.isAuthenticated = isAuthenticated;
             });
 
-            $rootScope.$on('currency:updated', function (event, eveObj) {
-                EventSvc.onCurrencyChange(event,eveObj);
+            $rootScope.$on('site:updated', function () {
+                EventSvc.onSiteChange();
             });
 
             $rootScope.$on('language:updated', function (event, eveObj) {
