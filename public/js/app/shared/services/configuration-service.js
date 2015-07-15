@@ -146,7 +146,9 @@ angular.module('ds.shared')
                                     CategorySvc.getCategories().then(function () {
                                         def.resolve({});
                                     });
-                                    CartSvc.getCart(); // no need to wait for cart promise to resolve
+
+                                    //We are getting cart with siteChange that happens on load
+                                    //CartSvc.getCart(); // no need to wait for cart promise to resolve
 
                                 }
                                 initialized = true;

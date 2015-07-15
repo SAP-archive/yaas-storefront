@@ -41,6 +41,8 @@ angular.module('ds.cart')
             // application scope cart instance
             var cart = {};
 
+            var customerID = '';
+
             /**  Ensure there is a cart associated with the current session.
              * Returns a promise for the existing or newly created cart.  Cart will only contain the id.
              * (Will create a new cart if the current cart hasn't been persisted yet).
@@ -107,26 +109,37 @@ angular.module('ds.cart')
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
+
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
-                CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                CartREST.Cart.one('carts', cartId).get().then(function (response) {
                     cart = response.plain();
-
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {
-                            CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                            CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                                 cart = response.plain();
                                 defCartTemp.resolve(cart);
                             }, function () {
                                 defCartTemp.reject();
                             });
                         }, function () {
-                            CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
-                                cart = response.plain();
-                                defCartTemp.resolve(cart);
-                            }, function () {
-                                defCartTemp.reject();
-                            });
+                            if (customerID !== '') {
+                                CartREST.Cart.one('carts','').get({ customerId: customerID, siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
+                            else {
+                                CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
+
                         });
 
                     } else {
@@ -245,6 +258,8 @@ angular.module('ds.cart')
                 refreshCartAfterLogin: function (customerId) {
                     // store existing anonymous cart
                     var anonCart = cart;
+
+                    customerID = customerId;
 
                     // retrieve any cart associated with the authenticated user
                     CartREST.Cart.one('carts', null).get({ customerId: customerId, siteCode: GlobalData.getSiteCode() }).then(function (authUserCart) {
