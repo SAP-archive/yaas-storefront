@@ -112,7 +112,7 @@ angular.module('ds.cart')
 
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
-                CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                     cart = response.plain();
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {

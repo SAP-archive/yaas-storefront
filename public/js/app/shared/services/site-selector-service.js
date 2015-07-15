@@ -23,7 +23,7 @@ angular.module('ds.shared')
                  */
                 changeSite: function (site) {
                     SiteSettingsREST.SiteSettings.one('sites', site.code).get({ expand: 'payment:active,taxes:active,mixin:*' }).then(function (result) {
-                        GlobalData.setSite(result, false);
+                        GlobalData.setSite(result);
                         GlobalData.setSiteCookie(result);
                     });
 

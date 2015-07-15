@@ -121,7 +121,7 @@ angular.module('ds.shared')
                             siteSettingPromise.then(function (site) {
 
                                 //Set site
-                                GlobalData.setSite(site, true);
+                                GlobalData.setSite(site);
 
                                 var languageSet = false;
                                 if (AuthSvc.isAuthenticated()) {
