@@ -113,7 +113,7 @@ angular.module('ds.cart')
                 CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                     cart = response.plain();
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
-                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {
+                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).finally(function () {
                             if (!!GlobalData.customerAccount) {
                                 CartREST.Cart.one('carts', '').get({ customerId: GlobalData.customerAccount.customerNumber, siteCode: GlobalData.getSiteCode() }).then(function (response) {
                                     cart = response.plain();
@@ -130,24 +130,6 @@ angular.module('ds.cart')
                                     defCartTemp.reject();
                                 });
                             }
-                        }, function () {
-                            if (!!GlobalData.customerAccount) {
-                                CartREST.Cart.one('carts', '').get({ customerId: GlobalData.customerAccount.customerNumber, siteCode: GlobalData.getSiteCode() }).then(function (response) {
-                                    cart = response.plain();
-                                    defCartTemp.resolve(cart);
-                                }, function () {
-                                    defCartTemp.reject();
-                                });
-                            }
-                            else {
-                                CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
-                                    cart = response.plain();
-                                    defCartTemp.resolve(cart);
-                                }, function () {
-                                    defCartTemp.reject();
-                                });
-                            }
-
                         });
 
                     } else {
