@@ -16,6 +16,15 @@ describe('product page', function () {
             );
         });
 
+
+  afterEach(function() {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      // expect(browserLog.length).toEqual(0);
+      // Uncomment to actually see the log.
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
+  });
+
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
@@ -118,7 +127,6 @@ describe('product page', function () {
             tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
             browser.sleep(750);
             tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
-            browser.get(tu.tenant + '/#!/ct/cosmetics~273954304');
         });
 
         it('should display unit price on PLP and PDP', function () {
