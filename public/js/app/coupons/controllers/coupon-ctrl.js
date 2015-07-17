@@ -70,7 +70,7 @@ angular.module('ds.coupon')
                     });
                 }
                 else {
-                    $translate('COUPON_ERR_UNAVAILABLE').then(function (response) {
+                    $translate('COUPON_NOT_VALID').then(function (response) {
                         $scope.couponErrorMessage = response;
                     });
                 }
