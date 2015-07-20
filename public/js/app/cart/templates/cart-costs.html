@@ -25,5 +25,12 @@
         </td>
     </tr>
 
+        <tr ng-if="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+            <td>{{'TAX' | translate}}</td>
+            <td class="text-right">
+                {{cart.totalTax.amount | currency: currencySymbol}}
+            </td>
+        </tr>
+
     </tbody>
 </table>
