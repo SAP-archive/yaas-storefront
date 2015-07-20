@@ -1,130 +1,167 @@
-.confirm{
-  
-    h1{
-      text-transform: uppercase;
-      
-    }
+.confirm {
 
-    .header-block{
-      background-color: #333;
-      color: #fff !important;
-      padding: 64px 0;
-    }
+  h1 {
+    text-transform: uppercase;
 
-    .centered-content{
-      margin: 0 auto;
-    }
-  
-    .order-details .centered-content{
-      max-width: 515px;
-    }
-  
-    .create-account{
-      background-color: #ebeced;
-      padding: 15px 0 35px 0;
-    }
-  
-    #create-acct-btn{
-      width: 200px;
-      margin: 0 auto;
-    }
-  
-    .create-account .tab-pane{
-      max-width: 680px;
-      
-    }
+  }
+
+  .orderEmailedTo {
+    margin-bottom: 20px;
+  }
+
+  address {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    min-height: 1px;
+
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .orderNumber {
+    color: #0079ff;
+    font-weight: bold;
+  }
+
+  h2.creatAccountHeader {
+    margin-bottom: 26px;
+    font-weight: bold;
+  }
+
+  .header-block {
+    background-color: #333;
+    color: #fff !important;
+    padding: 64px 0;
+  }
+
+  .centered-content {
+    margin: 0 auto;
+  }
+
+  .order-details .centered-content {
+    max-width: 515px;
+  }
+
+  .create-account{
+    background-color: #ebeced;
+    padding: 15px 15px 35px;
+  }
+
+  .order-success{
+    background-color: #ebeced;
+    padding: 40px 0 80px;
     
-    .socialMediaSigninContainer{
-      max-width: 430px;
-      margin-bottom: 15px;
+  }
+
+  #create-acct-btn {
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .create-account .tab-pane {
+    max-width: 680px;
+
+  }
+
+  .createAccountTagLine {
+    margin-bottom: 38px;
+  }
+
+  .socialMediaSigninContainer {
+    max-width: 430px;
+    margin-bottom: 15px;
+  }
+
+  .order-details {
+    padding: 46px 15px 42px;
+
+  }
+
+  .order-summary {
+    padding: 30px;
+  }
+  .text-center;
+
+  h3 {
+    font-family: @font-family-serif, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 19px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+  }
+
+  .highlight {
+    color: @lightblue;
+  }
+
+  hr {
+    padding-top: 15px;
+    border-color: #d2d2d2;
+    width: 46px;
+    text-align: left;
+  }
+
+  .success-box {
+    background-color: green;
+    height: 44px;
+    font-size: 16px;
+    padding-top: 8px;
+    padding-left: 20px;
+    color: #FFFFFF;
+  }
+
+  .support-box {
+    padding-top: 20px;
+  }
+
+  .well {
+    padding-top: 5px;
+    h3 {
+      padding-top: 0px;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
-    
-    .order-details{
-      padding: 46px 0 42px;
-      
+    p {
+      padding-top: 0px;
+      font-family: @font-family-serif, "Times New Roman", serif;
+      font-style: italic;
+      font-size: 14px;
     }
+  }
 
-	.order-summary{
-			padding: 30px;
-	}
-	.text-center;
+  .order-items {
+    padding: 0 15px;
 
-	address{
-		font-size: 19px;
-		text-transform: uppercase;
-	}
+  }
 
-	h3{
-		font-family: @font-family-serif, "Times New Roman", serif;
-		font-style: italic;	
-		font-size: 19px;
-		padding-top: 30px;
-		padding-bottom: 10px;
-	}
+  .order-detail {
+    .subheadline {
+      font-family: @font-family-serif, "Times New Roman", serif;
+      font-style: italic;
+      color: @darkestgrey;
+      font-size: 26px;
+      text-align: center;
+    }
+    .cart-item.item-attr {
+      margin-bottom: 0px;
+      margin-text-outline:;
+      p: 0px;
+    }
+  }
 
-	p{
-		padding-bottom: 20px;
-	}
-
-	.highlight{
-		color: @lightblue;
-	}
-
-	hr{
-		padding-top: 15px;
-		border-color: #d2d2d2;
-		width: 46px;
-		text-align: left;
-	}
-
-	.success-box{
-  		background-color: green;
-  		height: 44px;
-  		font-size: 16px;
-  		padding-top: 8px;
-  		padding-left: 20px;
-  		color: #FFFFFF;
-  	}
-
-	.support-box{
-		padding-top: 20px;
-	}
-
-	.well{
-		padding-top: 5px;
-		h3{
-			padding-top: 0px;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
-		p{
-			padding-top: 0px;
-			font-family: @font-family-serif, "Times New Roman", serif;
-			font-style: italic;	
-			font-size: 14px;
-		}
-	}
-
-	.order-detail{
-		.subheadline{
-			font-family: @font-family-serif, "Times New Roman", serif;
-			font-style: italic;
-			color: @darkestgrey;	
-			font-size: 26px;
-			text-align: center;
-		}
-		.cart-item.item-attr{
-            margin-bottom: 0px;
-            margin-top: 0px;
-    	}
-	}
-
+    .summary{
+      margin-top: 45px;
+    }
+  
 	@media screen and (min-width: @screen-sm-min) {
-		.text-left;
+      
+      .confirm .cart-item{
+        min-width: 210px;
 
-		hr{
-			margin-left: 0;
-		}
+      }
+
 	}
 
 }

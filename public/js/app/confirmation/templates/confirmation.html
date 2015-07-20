@@ -1,35 +1,37 @@
 <div class="confirm">
     <div class="row text-center header-block">
-        <div class="centered-content">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
             <h1>
                 {{'THANK_YOU' | translate}}</br>{{'FOR_YOUR_ORDER' | translate}}
             </h1>
         </div>
     </div>
     <div class="text-center order-details">
-        <div class="centered-content">
-            <p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
-            <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
+                <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-            <p>{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}}:  <span ng-cloak>{{confirmationDetails.emailAddress}}</span></p>
-            
-            <div>
-                <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
-                <address>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
-                    <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
-                    <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>
-                    <span ng-cloak>{{confirmationDetails.shippingAddressCountry}}<br></span>
-                </address>
+                <p class="orderEmailedTo">{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}} <span ng-cloak><strong>{{confirmationDetails.emailAddress}}</strong></span></p>
+
+                <div>
+                    <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
+                    <address>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
+                        <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
+                        <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressCountry}}<br></span>
+                    </address>
+                </div>
             </div>
         </div>
     </div>
-    <div create-account class="create-account">
-        <div ng-if="!isAuthenticated" class="text-center centered-content">
-            <h2>Create An Account</h2>
-            <p>{{'ONE_MORE_STEP' | translate}} {{'ONE_MORE_STEP_MESSAGE' | translate}}</p>
+    <div create-account class="create-account" ng-if="!isAuthenticated">
+        <div class="text-center centered-content">
+            <h2 class="creatAccountHeader">Create An Account</h2>
+            <p class="createAccountTagLine"><span ng-bind-html="'ONE_MORE_STEP' | translate"/> <span ng-bind-html="'ONE_MORE_STEP_MESSAGE' | translate" /></p>
 
             <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer centered-content row">
                 <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
@@ -48,14 +50,14 @@
             <div class="tab-pane centered-content" id="signup">
                 <form name="signupForm" ng-submit="signup(user.signup.password, confirmationDetails.emailAddress, signupForm)">
                     <div class="row">
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-sm-6">
                             <div class="form-group input-group">
                                 <span class="input-group-addon"><label class="control-label" for="emailInput">{{'EMAIL' | translate}}</label></span>
                                 <input builder-input="email" type="email" class="form-control" id="emailInput" name="email"
                                        ng-model="confirmationDetails.emailAddress" required ng-focus="clearErrors()">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-sm-6">
                             <div class="form-group input-group">
                                 <span class="input-group-addon"><label class="control-label" for="newPasswordInput">{{'PASSWORD' | translate}}</label></span>
                                 <input builder-input="password" type="password" class="form-control" id="newPasswordInput" placeholder="{{'PASSWORD_MINCHAR'| translate}}" name="password"
@@ -75,21 +77,17 @@
         
     </div>
 
-    <div class="row text-center">
-        <section class="">
-            <div class="subheadline">
-                <div ng-if="confirmationDetails.itemCount > 1">{{confirmationDetails.itemCount}} {{'ITEMS_IN_YOUR_ORDER' | translate}}</div>
-                <div ng-if="confirmationDetails.itemCount <= 1">{{confirmationDetails.itemCount}} {{'ITEM_IN_YOUR_ORDER' | translate}}</div>
-            </div>
-            <div ng-repeat="product in confirmationDetails.products">
-                <div class="cart-item row">
+    <div class="order-items">
+        <div class="row" >
+            <div class="cart-item col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="product in confirmationDetails.products">
+                <div class="row">
                     <div class="col-xs-4 col-md-4 text-center img-col">
                         <a ui-sref="base.product.detail( {productId: product.id} )">
-                            <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class="img-responsive"/>
+                            <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class=""/>
                         </a>
 
                     </div>
-                    <div class="col-xs-8 col-md-8  detail-col">
+                    <div class="col-xs-8 col-md-8  detail-col text-left">
 
                         <div class="name">{{product.name}}</div>
                         <div class="sku item-attr">{{'SKU' | translate}}: <span> {{product.sku }}</span></div>
@@ -102,61 +100,56 @@
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    
-    <div class="row section success-box" ng-if="accountSuccess">
-        {{'ACCOUNT_SUCCESS' | translate}}
-    </div>
-	<div class="row ">
-		<div class="col-sm-7 col-md-7 order-summary" ng-cloak>
-			<h1>
-				<small>{{'SUCCESS' | translate}}</small>
-				
-			</h1> 
-            <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>
-
-            <div data-ui-sref="base.category">
-                <button class="btn btn-primary btn-lg">
-					{{'RETURN_TO_SHOPPING' | translate}}
-                </button>
-            </div>
-            <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 555-1222</strong>.
-		</div>
-
-		<div class="col-md-5 col-sm-5 order-detail" ng-cloak>
-			
-
-            <section class="summary" ng-cloak>
-                <table class="table">
+        </div>
+        
+        <div class="summary row" ng-cloak>
+            <div class="col-sm-6 col-sm-offset-3 col-xs-12 col-lg-4 col-lg-offset-4">
+                <table class="table ">
                     <tbody>
-                        <tr>
-                            <td>{{'SUBTOTAL' | translate}}</td>
+                    <tr>
+                        <td class="text-left">{{'SUBTOTAL' | translate}}</td>
 
-                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount | currency: currencySymbol}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{'SHIPPING' | translate}}</td>
-                            <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
-                        </tr>
-                        <tr ng-if="confirmationDetails.discountAmount != 0">
-                            <td>{{'DISCOUNT' | translate}}</td>
-                            <td class="text-right">
-                                <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
-                            </td>
-                        </tr>
+                        <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount | currency: currencySymbol}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">{{'SHIPPING' | translate}}</td>
+                        <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
+                    </tr>
+                    <tr ng-if="confirmationDetails.discountAmount != 0">
+                        <td class="text-left">{{'DISCOUNT' | translate}}</td>
+                        <td class="text-right">
+                            <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                        </td>
+                    </tr>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td>{{'ORDER_TOTAL' | translate}}</td>
-                            <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
-                        <tr>
+                    <tr>
+                        <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
+                        <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
+                    <tr>
 
                     </tfoot>
                 </table>
-            </section>
+            </div>
+        </div>
+    </div>
+    
+    <div class="order-success"  ng-cloak>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                <h2 ng-if="accountSuccess">
+                    <small>{{'SUCCESS' | translate}}</small>
+                </h2>
+                <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>
 
-		</div>
+                <div data-ui-sref="base.category">
+                    <button class="btn btn-primary btn-lg">
+                        {{'RETURN_TO_SHOPPING' | translate}}
+                    </button>
+                </div>
+                <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 555-1222</strong>.
+            </div>
+        </div>
+    </div>
 
-	</div>
 </div>
