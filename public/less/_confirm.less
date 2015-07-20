@@ -85,8 +85,6 @@
   .text-center;
 
   h3 {
-    font-family: @font-family-serif, "Times New Roman", serif;
-    font-style: italic;
     font-size: 19px;
     padding-top: 30px;
     padding-bottom: 10px;
@@ -116,21 +114,6 @@
     padding-top: 20px;
   }
 
-  .well {
-    padding-top: 5px;
-    h3 {
-      padding-top: 0px;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    p {
-      padding-top: 0px;
-      font-family: @font-family-serif, "Times New Roman", serif;
-      font-style: italic;
-      font-size: 14px;
-    }
-  }
-
   .order-items {
     padding: 0 15px;
 
@@ -138,18 +121,35 @@
 
   .order-detail {
     .subheadline {
-      font-family: @font-family-serif, "Times New Roman", serif;
-      font-style: italic;
       color: @darkestgrey;
       font-size: 26px;
       text-align: center;
     }
     .cart-item.item-attr {
       margin-bottom: 0px;
-      margin-text-outline:;
+//      margin-text-outline:;
       p: 0px;
     }
   }
+
+  .cart-item .item-attr{
+    font-style: normal;
+    
+  }
+  .cart-item .sku.item-attr span,
+  .cart-item .price.item-attr span{
+    color: #6d6e6f;
+    font-size: inherit;
+  }
+  
+  .cart-item .variants.item-attr{
+    margin-bottom: 0;
+  }
+  
+  .cart-item .price-total.item-attr{
+    margin-top: 0;
+  }
+
 
     .summary{
       margin-top: 45px;
