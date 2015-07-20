@@ -227,7 +227,7 @@ describe('coupons:', function () {
         });
 
         it('should allow coupon larger than purchase price', function () {
-            tu.createAccount('coupontestmax');
+            tu.createAccount('coupontestmax2');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('20DOLLAR', '$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');

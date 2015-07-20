@@ -351,6 +351,7 @@ angular.module('ds.checkout')
             /** Show error message after failed checkout, re-enable the submit button and reset any wait cursor/splash screen.
              * @param error message*/
             function onCheckoutFailure (error) {
+
                 $scope.message = error;
                 $scope.submitIsDisabled = false;
                 modal.close();
