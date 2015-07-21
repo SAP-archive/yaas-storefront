@@ -22,13 +22,18 @@ angular.module('ds.checkout')
             $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
 
+            $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             });
 
+            var unbindSiteUpdated = $rootScope.$on('site:updated', function () {
+                $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+            });
+
             $scope.$on('$destroy', unbind);
-
-
+            $scope.$on('$destroy', unbindSiteUpdated);
 
         }]);

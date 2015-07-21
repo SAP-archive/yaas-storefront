@@ -22,7 +22,7 @@ angular.module('ds.cart')
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
         $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
-
+      
         $scope.couponCollapsed = true;
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
@@ -30,7 +30,12 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
         });
 
+        var unbindSiteUpdated = $rootScope.$on('site:updated', function () {
+            $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+        });
+
         $scope.$on('$destroy', unbind);
+        $scope.$on('$destroy', unbindSiteUpdated);
 
         /** Remove a product from the cart.
          * @param cart item id
