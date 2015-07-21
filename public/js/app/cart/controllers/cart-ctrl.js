@@ -28,14 +28,10 @@ angular.module('ds.cart')
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
-        });
-
-        var unbindSiteUpdated = $rootScope.$on('site:updated', function () {
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
         });
 
         $scope.$on('$destroy', unbind);
-        $scope.$on('$destroy', unbindSiteUpdated);
 
         /** Remove a product from the cart.
          * @param cart item id
