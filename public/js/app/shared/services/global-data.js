@@ -197,7 +197,7 @@ angular.module('ds.shared')
                         activeCurrencyId = currency;
                     }
                 },
-                
+
                 /** Determines the initial active currency for the store, based on store configuration and
                 * any existing cookie settings. */
                 loadInitialSite: function () {
@@ -265,7 +265,7 @@ angular.module('ds.shared')
                     CookieSvc.setSiteCookie(cookieSite);
                 },
 
-                setSite: function (site, setLanguage) {
+                setSite: function (site) {
                     if (!currentSite || currentSite.code !== site.code) {
 
                         //Set current site
@@ -299,10 +299,8 @@ angular.module('ds.shared')
                             }
                         }
 
-                        if (setLanguage) {
-                            //Set default language
-                            this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
-                        }
+                        //Set default language
+                        this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
 
                         //Set languages
                         var languages = [];
