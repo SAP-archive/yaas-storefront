@@ -26,7 +26,7 @@
             </td>
         </tr>
 
-        <tr>
+        <tr ng-if="!!taxType && taxType !== 'FLATRATE'">
             <td class="estimate-tax-link">
                 <a href="" ng-click="showZipInput = !showZipInput">
                     Estimate Tax
@@ -39,15 +39,15 @@
 
         <tr class="zip-inputs" ng-show="showZipInput">
             <td>
-                <input type="text" class="zip-input form-control" placeholder="Zip/Postal Code" />
+                <input type="text" class="zip-input form-control" ng-model="calculateTax.postalCode" placeholder="Zip/Postal Code" />
             </td>
         </tr>
         <tr class="zip-inputs" ng-show="showZipInput">
             <td>
-                <input type="text" class="zip-input form-control" placeholder="Country Code" />
+                <input type="text" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code" />
             </td>
             <td>
-                <button class="apply-tax btn btn-primary pull-right">Apply</button>
+                <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">Apply</button>
             </td>
         </tr>
 

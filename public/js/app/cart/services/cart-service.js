@@ -347,6 +347,9 @@ angular.module('ds.cart')
                     return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
                         refreshCart(cartId, 'manual');
                     });
+                },
+
+                getCartWithParams: function () {
                 }
 
 

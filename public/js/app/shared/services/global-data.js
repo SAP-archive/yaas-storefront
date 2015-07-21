@@ -342,6 +342,13 @@ angular.module('ds.shared')
 
                 getSites: function () {
                     return sites;
+                },
+
+                getTaxType: function () {
+                    if (!!currentSite && !!currentSite.tax[0]) {
+                        return currentSite.tax[0].id;
+                    }
+                    return null;
                 }
 
             };

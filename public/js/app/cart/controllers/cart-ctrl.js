@@ -22,10 +22,16 @@ angular.module('ds.cart')
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
         $scope.couponCollapsed = true;
+        $scope.taxType = GlobalData.getTaxType();
+        $scope.calculateTax = {
+            postalCode: '',
+            countryCode: '',
+        };
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            $scope.taxType = GlobalData.getTaxType();
         });
 
         $scope.$on('$destroy', unbind);
@@ -73,6 +79,10 @@ angular.module('ds.cart')
             else {
                 $state.go('base.checkout.details');
             }
+        };
+
+        $scope.applyTax = function () {
+            
         };
 
     }]);
