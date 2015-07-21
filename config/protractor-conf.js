@@ -6,9 +6,11 @@ exports.config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: [
+        //not supported until we have multiple sites
+        '../test/e2e/localization-tests.js',
         '../test/e2e/cart-tests.js',
         '../test/e2e/checkout-tests.js',
-        '../test/e2e/localization-tests.js',
+        '../test/e2e/coupon-tests.js',
         '../test/e2e/login-tests.js',
         '../test/e2e/product-tests.js'
     ],
@@ -16,7 +18,7 @@ exports.config = {
 
     capabilities: {
         'browserName': 'chrome',
-        'maxInstances': 5,
+        'maxInstances': 6,
         'shardTestFiles': true,
         //comment out the following capabilities to run locally
         'platform': 'OS X 10.8',
@@ -51,12 +53,12 @@ exports.config = {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
     },
 
-    baseUrl: 'http://storefront-demo.yaas.io/',
+    baseUrl: 'https://storefront-demo.yaas.io/',
 
 
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 120000
+        defaultTimeoutInterval: 150000
     }
 };

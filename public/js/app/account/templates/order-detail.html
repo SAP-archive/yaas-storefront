@@ -20,14 +20,15 @@
         </div>
         <div class="section-headline">
             <h2>{{'ORDER_DETAILS' | translate}}</h2>
+            <span class="area-headline date">{{'ORDER_DATE' | translate}} <span class="orderDate">{{orderDate}}</span></span>
         </div>
         <div class="row">
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="area">
-  		<span class="area-headline">
-  			{{'SHIPPING_ADDRESS' | translate}}
-  		</span>
+                <div class="">
+                    <span class="area-headline">
+                        {{'SHIPPING_ADDRESS' | translate}}
+                    </span>
                     <address>
                         {{order.shippingAddress.contactName}}<br>
                         <div ng-if="order.shippingAddress.companyName">{{order.shippingAddress.companyName}}<br></div>
@@ -40,7 +41,7 @@
             </div>
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="area">
+                <div class="">
   		<span class="area-headline">
   			{{'BILLING_ADDRESS' | translate}}
   		</span>
@@ -56,7 +57,7 @@
             </div>
             <!-- AREA -->
             <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="area">
+                <div class="">
   		<span class="area-headline">
   			{{'PAYMENT' | translate}}
   		</span>
@@ -133,18 +134,26 @@
         </div>
         <div class="summary row">
             <div class="col-md-offset-7 col-lg-offset-7 col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                <!-- ORDER-DETAIL -->
                 <table class="table">
                     <tbody>
                     <tr>
                         <td >{{'SUBTOTAL' | translate}}</td>
+
                         <td class="text-right">
-                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount| currency: currencySymbol}}
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount + (order.discounts[0].amount || 0 ) | currency: currencySymbol}}
                         </td>
                     </tr>
                     <tr>
                         <td>{{'SHIPPING' | translate}}</td>
                         <td class="text-right">
                             {{order.shipping.total.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    <tr ng-if="order.discounts && order.discounts[0].amount != 0">
+                        <td>{{'DISCOUNT' | translate}}</td>
+                        <td class="text-right">
+                            <span class="error">-{{ order.discounts[0].amount || 0 | currency: currencySymbol}}</span>
                         </td>
                     </tr>
                     </tbody>

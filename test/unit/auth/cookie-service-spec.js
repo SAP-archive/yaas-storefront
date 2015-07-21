@@ -13,12 +13,10 @@
 describe('CookieSvc', function () {
 
     var CookieSvc, ipCookie;
-    var langCookieName = 'langCookie';
-    var curCookieName = 'curCookie';
+    var langCookieName = 'languageCookie';
 
     var mockedSettings = {
-        currencyCookie: langCookieName,
-        languageCookie: curCookieName
+        languageCookie: langCookieName
     };
 
     beforeEach(function() {
@@ -38,7 +36,6 @@ describe('CookieSvc', function () {
 
     beforeEach(function(){
         ipCookie.remove(langCookieName);
-        ipCookie.remove(curCookieName);
         this.addMatchers({
             toEqualData: function (expected) {
                 return angular.equals(this.actual, expected);
@@ -47,37 +44,19 @@ describe('CookieSvc', function () {
 
     });
 
-    describe('currencyCookie', function(){
-
-        it('should get the correct cookie', function(){
-            var oldCurr = 'USD';
-            ipCookie(curCookieName, oldCurr);
-            //expect(CookieSvc.getCurrencyCookie().currency).toEqualData(oldCurr);
-        });
-
-        it('should set the cookie value', function(){
-            var currency = 'EUR';
-            var oldCurr = 'USD';
-            ipCookie(curCookieName, oldCurr);
-            CookieSvc.setCurrencyCookie(currency);
-            //expect(ipCookie(curCookieName)).toEqualData(currency);
-        });
-
-    });
-
     describe('languageCookie', function(){
         it('should get the correct cookie', function(){
             var oldLang = 'en';
-            ipCookie(curCookieName, oldLang);
-            //expect(CookieSvc.getLanguageCookie().languageCode).toEqualData(oldLang);
+            CookieSvc.setLanguageCookie(oldLang);
+            expect(CookieSvc.getLanguageCookie().languageCode).toEqualData(oldLang);
         });
 
         it('should set the cookie value', function(){
             var lang = 'de';
             var oldLang = 'en';
-            ipCookie(curCookieName, oldLang);
-            CookieSvc.setCurrencyCookie(lang);
-            //expect(ipCookie(langCookieName).languageCode).toEqualData(lang);
+            ipCookie(langCookieName, oldLang);
+            CookieSvc.setLanguageCookie(lang);
+            expect(ipCookie(langCookieName).languageCode).toEqualData(lang);
         });
     });
 

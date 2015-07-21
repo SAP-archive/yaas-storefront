@@ -1,12 +1,12 @@
 var fs = require('fs');
 
-exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
+var whiteCoffeeMug = exports.whiteCoffeeMug = "//a[contains(@href, '/products/5502177da4ae283d1df57d04/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/550214eca4ae283d1df57cd9/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/550214f84d6ea5a71b0cf025/')]";
 var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
 exports.beerBug = stressBallPath;
-exports.cartButtonId = 'full-cart-btn';
-exports.buyButton = "buy-button";
+var cartButtonId = exports.cartButtonId = 'full-cart-btn';
+var buyButton = exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
 exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
@@ -17,7 +17,7 @@ exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
 
-exports.waitForCart = function(){
+var waitForCart = exports.waitForCart = function(){
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
@@ -25,18 +25,25 @@ exports.waitForCart = function(){
     browser.sleep(500);
 };
 
-exports.verifyCartAmount = function (amount) {
+var verifyCartAmount = exports.verifyCartAmount = function (amount) {
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
 };
 
-exports.verifyCartTotal = function (total) {
+var verifyCartTotal = exports.verifyCartTotal = function (total) {
     browser.wait(function () {
         return element(by.css("th.text-right.ng-binding")).isPresent();
     });
     expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
+};
+
+var verifyCartDiscount = exports.verifyCartDiscount = function (amount) {
+    browser.wait(function () {
+        return element(by.css('span.error.ng-binding')).isPresent();
+    });
+    expect(element(by.css('span.error.ng-binding')).getText()).toEqual(amount);
 };
 
 exports.waitForAccountPage = function(){
@@ -102,7 +109,7 @@ exports.sortAndVerifyPagination = function (sort, product1, price1) {
     selectOption(sort);
     browser.sleep(250);
     assertTextByRepeaterRow(0, product1);
-    expect(element(by.repeater('product in products').row(0).column('prices[product.id].value')).getText()).toEqual(price1);
+    expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual(price1);
 };
 
 exports.sendKeysByXpath = function (pageElement, keys) {
@@ -110,9 +117,14 @@ exports.sendKeysByXpath = function (pageElement, keys) {
     element(by.xpath(pageElement)).sendKeys(keys);
 };
 
-exports.sendKeysById = function (pageElement, keys) {
+var sendKeysById = exports.sendKeysById = function (pageElement, keys) {
     element(by.id(pageElement)).clear();
     element(by.id(pageElement)).sendKeys(keys);
+};
+
+var sendKeysByCss = exports.sendKeysByCss = function (pageElement, keys) {
+    element(by.css(pageElement)).clear();
+    element(by.css(pageElement)).sendKeys(keys);
 };
 
 exports.selectLanguage = function (language) {
@@ -150,25 +162,25 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-var selectCurrency = exports.selectCurrency = function (currency) {
-    var currentCurrency = element(by.binding('currency.selected.id'));
-    browser.driver.actions().mouseMove(currentCurrency).perform();
-    currentCurrency.click();
-    var newCurrency = element(by.repeater('currencyType in currencies').row(1));
+var switchSite = exports.switchSite = function (site) {
+    var siteSelector = element(by.linkText('Region'));
+    browser.driver.actions().mouseMove(siteSelector).perform();
+    siteSelector.click();
+    var newSite = element(by.repeater('site in sites').row(1));
     browser.wait(function () {
-        return newCurrency.isPresent();
+        return newSite.isPresent();
     });
     
-    browser.driver.actions().mouseMove(newCurrency).perform();
-    expect(element(by.repeater('currencyType in currencies').row(1)).getText()).toEqual(currency);
-    newCurrency.click();
+    browser.driver.actions().mouseMove(newSite).perform();
+    expect(element(by.repeater('site in sites').row(1)).getText()).toEqual(site);
+    newSite.click();
 }
 
 exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
     browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
     browser.sleep(200);
-    clickElement('id', "login-btn");
+    clickElement('id', 'login-btn');
     browser.wait(function () {
         return element(by.binding('SIGN_IN')).isPresent();
     });
@@ -178,3 +190,80 @@ exports.loginHelper = function (userName, password) {
     browser.sleep(1000);
 }
 
+exports.loadProductIntoCart = function (cartAmount, cartTotal) {
+    browser.wait(function () {
+        return element(by.xpath(whiteCoffeeMug)).isPresent();
+    });
+    browser.sleep(500);
+    clickElement('xpath', whiteCoffeeMug);
+    browser.wait(function () {
+        return element(by.id(buyButton)).isPresent();
+    });
+    clickElement('id', buyButton);
+    //wait for cart to close
+    browser.sleep(5500);
+    browser.wait(function () {
+        return element(by.id(cartButtonId)).isDisplayed();
+    });
+    browser.sleep(1000);
+    clickElement('id', cartButtonId);
+    waitForCart();
+    browser.sleep(2000);
+    verifyCartAmount(cartAmount);
+    verifyCartTotal(cartTotal);
+}
+
+//country is populated from localized-addresses.js
+exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
+    clickElement('id', "add-address-btn");
+    browser.sleep(1000);
+    sendKeysById('contactName', contact);
+    sendKeysById('street', street);
+    sendKeysById('streetAppendix', aptNumber);
+    element(by.css('select option[value="' + country + '"]')).click();
+    sendKeysById('city', city);
+    if (country === '0') {
+        element(by.css('select option[value="' + state + '"]')).click();
+    } else {
+        element(by.id('state')).sendKeys(state);
+    }    
+    
+    sendKeysById('zipCode', zip);
+    sendKeysById('contactPhone', phone);
+    clickElement('id', 'save-address-btn');
+}
+
+var timestamp = Number(new Date());
+
+exports.createAccount = function(emailAddress) {
+    clickElement('id', 'login-btn');
+    browser.sleep(1000);
+    clickElement('linkText', 'Create Account');
+    sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
+    sendKeysById('newPasswordInput', 'password');
+    clickElement('id', 'create-acct-btn');
+    browser.sleep(1000);
+    clickElement('id', 'my-account-dropdown');
+    clickElement('id', 'my-account');
+    browser.sleep(1000);
+}
+
+var fillCreditCardForm = exports.fillCreditCardForm = function(ccNumber, ccMonth, ccYear, cvcNumber) {
+    sendKeysById('ccNumber', ccNumber);
+    element(by.id('expMonth')).sendKeys(ccMonth);
+    element(by.id('expYear')).sendKeys(ccYear);
+    sendKeysById('cvc', cvcNumber);
+}
+
+var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
+    var email = account.toUpperCase();
+    browser.wait(function () {
+        return element(by.css('address > span.ng-binding')).isPresent();
+    });
+    browser.sleep(1000);
+    expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
+    expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
+    expect(element(by.xpath('//span[2]')).getText()).toContain(number);
+    expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
+    expect(element(by.binding('product.price')).getText()).toEqual(price);
+}

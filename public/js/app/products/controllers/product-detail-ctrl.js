@@ -23,7 +23,7 @@ angular.module('ds.products')
             $scope.product = product;
 
             // used by breadcrumb directive
-            $scope.category = product.richCategory;
+            $scope.category = product.categories;
             $scope.breadcrumbData = angular.copy($scope.category);
 
             if(!!lastCatId) {
@@ -48,19 +48,19 @@ angular.module('ds.products')
             }
 
             //Event that product is loaded
-            $scope.$emit('productLoaded', product);
+            $scope.$emit('product:opened', product);
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
 
-            if(!$scope.product.media || !$scope.product.media.length) { // set default image if no images configured
-                $scope.product.media = [{url: settings.placeholderImage}];
-            } else if (!$scope.product.media[0].customAttributes || !$scope.product.media[0].customAttributes.main){ // make sure main image is first in list
-                for (var i = 0; i < $scope.product.media.length; i++) {
-                    if($scope.product.media[i].customAttributes && $scope.product.media[i].customAttributes.main){
-                        var first = $scope.product.media[0];
-                        $scope.product.media[0] = $scope.product.media[i];
-                        $scope.product.media[i] = first;
+            if (!$scope.product.product.media || !$scope.product.product.media.length) { // set default image if no images configured
+                $scope.product.product.media = [{ url: settings.placeholderImage }];
+            } else if (!$scope.product.product.media[0].customAttributes || !$scope.product.product.media[0].customAttributes.main) { // make sure main image is first in list
+                for (var i = 0; i < $scope.product.product.media.length; i++) {
+                    if ($scope.product.product.media[i].customAttributes && $scope.product.product.media[i].customAttributes.main) {
+                        var first = $scope.product.product.media[0];
+                        $scope.product.product.media[0] = $scope.product.product.media[i];
+                        $scope.product.product.media[i] = first;
                         break;
                     }
                 }
@@ -94,7 +94,7 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product, $scope.productDetailQty, {closeCartAfterTimeout: true, opencartAfterEdit: true}).then(function(){},
+                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: true }).then(function () { },
                 function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
                     $scope.buyButtonEnabled = true;

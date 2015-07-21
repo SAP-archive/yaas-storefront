@@ -14,11 +14,14 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope','CartSvc','$q',
-        function ($scope, $rootScope,  CartSvc, $q) {
+    .controller('CheckoutBaseCtrl', ['$scope', '$rootScope', 'CartSvc', '$q',
+        function ($scope, $rootScope, CartSvc, $q) {
 
             $scope.cart = CartSvc.getLocalCart();
             $scope.updatedCartItems = [];
+
+            //Event Proceed to Checkout
+            $scope.$emit('checkout:opened', $scope.cart);
 
             //Make background not scrollable when the user opens edit cart
             $rootScope.checkoutCartEditVisible = false;
@@ -26,20 +29,20 @@ angular.module('ds.checkout')
             var totalPrice = 0;
 
             $scope.showEditCart = function(){
-                totalPrice = $scope.cart.totalPrice.value;
+                totalPrice = $scope.cart.totalPrice.amount;
                 $rootScope.checkoutCartEditVisible = true;
             };
-            $scope.hideEditCart = function(){
+            $scope.hideEditCart = function () {
                 $rootScope.checkoutCartEditVisible = false;
 
                 $q.all($scope.updatedCartItems).then(function () {
                     //If the mobile navigation is shown that means there are steps in checkout process
                     //Check if the subtotal value when opened edit cart is the different when closed
                     // (there are changes to cart)
-                    CartSvc.getCart().then(function (cart){
-                        if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.value){
-                            //call method that will check if needed to redirect to step2 in mobile
 
+                    CartSvc.getCart().then(function (cart){
+                        if(!$rootScope.showMobileNav && totalPrice !== cart.totalPrice.amount){
+                            //call method that will check if needed to redirect to step2 in mobile
                             $scope.$broadcast('goToStep2');
                         }
                     });

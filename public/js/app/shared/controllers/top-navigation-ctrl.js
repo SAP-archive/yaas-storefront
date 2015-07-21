@@ -14,14 +14,21 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
 
             $scope.GlobalData = GlobalData;
+            $scope.categories = CategorySvc.getCategoriesFromCache();
 
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
+
+            var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
+                if(!$scope.categories || obj.source === settings.eventSource.languageUpdate){
+                    $scope.categories = obj.categories;
+                }
+            });
 
 
             $scope.cart =  CartSvc.getLocalCart();
@@ -30,6 +37,7 @@ angular.module('ds.shared')
             });
 
             $scope.$on('$destroy', unbind);
+            $scope.$on('$destroy', unbindCats);
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */

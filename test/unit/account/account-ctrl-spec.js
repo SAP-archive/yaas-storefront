@@ -24,7 +24,7 @@ describe('AccountCtrl Test', function () {
         getCurrencyId: function() { return null},
         getCurrencySymbol: function () {return '$'},
         getAvailableLanguages: function() { return [{id:'en', label:eng}]},
-        getAvailableCurrencies: function() { return [{id:'USD', label: usd}]},
+        getAvailableCurrency: function() { return 'USD'},
         getCurrency: function() { return null},
         addresses:  {
             meta: {
@@ -107,6 +107,7 @@ describe('AccountCtrl Test', function () {
         mockedModal.close = jasmine.createSpy('close');
         mockedModal.result = modalPromise.promise;
         mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
+        mockedModal.opened = {then:function(){}};
         updatePasswordDfd = $q.defer();
 
         this.addMatchers({
@@ -219,15 +220,6 @@ describe('AccountCtrl Test', function () {
             $scope.$digest();
             expect(AccountSvc.saveAddress).toHaveBeenCalled();
             expect(addr.isDefault).toEqual(true);
-        });
-
-
-        it("should show the currency as expected", function () {
-            var retVal = $scope.showCurrency();
-            expect(retVal).toEqualData('NOT_SET');
-            $scope.account.preferredCurrency = 'USD';
-            retVal = $scope.showCurrency();
-            expect(retVal).toEqualData(usd);
         });
 
         it("should show the language locale as expected", function () {

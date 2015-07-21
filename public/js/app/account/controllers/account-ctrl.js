@@ -47,7 +47,7 @@ angular.module('ds.account')
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
 
-            $scope.currencies = GlobalData.getAvailableCurrencies();
+            $scope.currencies = GlobalData.getAvailableCurrency();
 
             $scope.showCurrency = function () {
                 var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency ? $scope.account.preferredCurrency : '?'});
@@ -96,7 +96,8 @@ angular.module('ds.account')
                 }
             });
 
-            $scope.save = function (address, formValid, form) {
+            $scope.save = function (address, formValid, form /*,formObj*/) {
+                // console.log('AddrForm', formObj.$error.required); // Important debug for dynamic form validation.
                 $scope.$broadcast('submitting:form', form);
                 if (formValid) {
                     AccountSvc.saveAddress(address).then(
@@ -140,6 +141,13 @@ angular.module('ds.account')
                     templateUrl: './js/app/account/templates/address-form.html',
                     scope: $scope,
                     backdrop: 'static'
+                });
+
+                modalInstance.opened.then(function() {
+                    setTimeout(function() {
+                        // once dialog is open initialize dynamic localized address.
+                        $scope.$emit('localizedAddress:updated', address.country, 'addAddress');
+                    }, 10);
                 });
 
                 modalInstance.result.then(function () {

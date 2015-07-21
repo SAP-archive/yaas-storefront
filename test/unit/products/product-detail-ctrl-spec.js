@@ -17,12 +17,11 @@ describe('ProductDetailCtrl', function () {
     };
 
     var mockProduct = {
-        name: 'product1',
-        defaultPrice: {
-            currency: 'USD',
-            value: 5000
+        product:{
+            name: 'product1',
+            id: 123,
+            published: true,
         },
-        published: true,
         categories: [
             {
                 id: 12345,
@@ -30,9 +29,9 @@ describe('ProductDetailCtrl', function () {
                 slug: 'fake-cat'
             }
         ],
-        richCategory: {
-            id: 12345
-        }
+        prices: [{
+            effectiveAmount: 24.99
+        }]
     };
 
     var mockLastCatId = {
@@ -86,7 +85,7 @@ describe('ProductDetailCtrl', function () {
        });
 
         it('product without image should get default image', function () {
-            expect($scope.product.media[0].url).toEqualData(dummyImg);
+            expect($scope.product.product.media[0].url).toEqualData(dummyImg);
         });
     });
 
@@ -171,17 +170,15 @@ describe('ProductDetailCtrl', function () {
 
     describe('productWithMainImage', function(){
         var mockProductWithMain = {
-            name: 'product1',
-            defaultPrice: {
-                currency: 'USD',
-                value: 5000
-            },
-            published: true,
-            media: [
-                {url:'http://url1', customAttributes:{}},
-                {url:'http://url2', customAttributes:{main:true}},
-                {url:'http://url3', customAttributes:{}}
-            ]
+            product: {
+                name: 'product1',
+                published: true,
+                media: [
+                    { url: 'http://url1', customAttributes: {} },
+                    { url: 'http://url2', customAttributes: { main: true } },
+                    { url: 'http://url3', customAttributes: {} }
+                ]
+            }
         };
 
         beforeEach(function(){
@@ -190,24 +187,33 @@ describe('ProductDetailCtrl', function () {
         });
 
         it('should list main image first', function(){
-            expect($scope.product.media[0].url).toEqualData('http://url2');
-            expect($scope.product.media[1].url).toEqualData('http://url1');
-            expect($scope.product.media[2].url).toEqualData('http://url3');
+            expect($scope.product.product.media[0].url).toEqualData('http://url2');
+            expect($scope.product.product.media[1].url).toEqualData('http://url1');
+            expect($scope.product.product.media[2].url).toEqualData('http://url3');
         });
     });
 
     describe('productWithoutMainImage', function(){
         var mockProductWithImages = {
-            name: 'product1',
-            defaultPrice: {
-                currency: 'USD',
-                value: 5000
+            product:{
+                name: 'product1',
+                id: 123,
+                published: true,
+                media: [
+                    { url: 'http://url1', customAttributes: {} },
+                    { url: 'http://url2', customAttributes: {} }
+                ]
             },
-            published: true,
-            media: [
-                {url:'http://url1', customAttributes:{}},
-                {url:'http://url2', customAttributes:{}}
-            ]
+            categories: [
+                {
+                    id: 12345,
+                    name: 'fakeCat',
+                    slug: 'fake-cat'
+                }
+            ],
+            prices: [{
+                effectiveAmount: 24.99
+            }]
         };
 
         beforeEach(function(){
@@ -216,8 +222,8 @@ describe('ProductDetailCtrl', function () {
         });
 
         it('should list first image first', function(){
-            expect($scope.product.media[0].url).toEqualData('http://url1');
-            expect($scope.product.media[1].url).toEqualData('http://url2');
+            expect($scope.product.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.product.media[1].url).toEqualData('http://url2');
         });
     });
 

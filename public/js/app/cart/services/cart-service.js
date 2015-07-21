@@ -22,7 +22,7 @@ angular.module('ds.cart')
                 this.product = {
                     id: product.id
                 };
-                this.unitPrice = price;
+                this.price = price;
                 this.quantity = qty;
             };
 
@@ -31,9 +31,9 @@ angular.module('ds.cart')
                 this.items = [];
                 this.totalUnitsCount = 0;
                 this.subTotalPrice = {};
-                this.subTotalPrice.value = 0;
+                this.subTotalPrice.amount = 0;
                 this.totalPrice = {};
-                this.totalPrice.value = 0;
+                this.totalPrice.amount = 0;
                 this.id = null;
             };
 
@@ -50,7 +50,7 @@ angular.module('ds.cart')
                 // Use copy of cart from local scope if it exists - don't want to use same instance because we don't want
                 //   data binding
                 if (cart.id) {
-                    deferredCart.resolve({ cartId: cart.id});
+                    deferredCart.resolve({ cartId: cart.id });
                 } else {
 
                     var newCart = {};
@@ -60,9 +60,10 @@ angular.module('ds.cart')
                     });
                     accPromise.finally(function () {
                         newCart.currency = GlobalData.getCurrencyId();
+                        newCart.siteCode = GlobalData.getSiteCode();
                         CartREST.Cart.all('carts').post(newCart).then(function (response) {
                             cart.id = response.cartId;
-                            deferredCart.resolve({ cartId: cart.id});
+                            deferredCart.resolve({ cartId: cart.id });
                         }, function () {
                             deferredCart.reject();
                         });
@@ -79,13 +80,14 @@ angular.module('ds.cart')
                         return item.product.id;
                     });
                     var productParms = {
-                        q: 'id:(' + productIds + ')'
+                        q: 'id:(' + productIds + ')',
+                        expand: 'media'
                     };
                     ProductSvc.query(productParms).then(function (productResults) {
                         angular.forEach(cart.items, function (item) {
                             angular.forEach(productResults, function (product) {
                                 if (product.id === item.product.id) {
-                                    item.images = product.images;
+                                    item.images = product.media;
                                     item.product.name = product.name;
                                 }
                             });
@@ -105,31 +107,40 @@ angular.module('ds.cart')
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
+
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
-                CartREST.Cart.one('carts', cartId).get().then(function (response) {
+                CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                     cart = response.plain();
-                    if (cart.currency !== GlobalData.getCurrencyId()) {
-                        CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: GlobalData.getCurrencyId}).then(function(){
-                            CartREST.Cart.one('carts', cartId).get().then(function (response) {
-                                cart = response.plain();
-                                defCartTemp.resolve(cart);
-                            }, function(){
-                                defCartTemp.reject();
-                            });
-                        }, function(){
-                           defCartTemp.reject();
+                    if (cart.siteCode !== GlobalData.getSiteCode()) {
+                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).finally(function () {
+                            if (!!GlobalData.customerAccount) {
+                                CartREST.Cart.one('carts', '').get({ customerId: GlobalData.customerAccount.customerNumber, siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
+                            else {
+                                CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
                         });
 
                     } else {
                         defCartTemp.resolve(cart);
                     }
-                    defCartTemp.promise.then(function(curCart){
-                        getCartWithImages(curCart).then(function(updatedCart){
+                    defCartTemp.promise.then(function (curCart) {
+                        getCartWithImages(curCart).then(function (updatedCart) {
                             defCart.resolve(updatedCart);
                         });
 
-                    }, function(){
+                    }, function () {
                         cart.error = true;
                     });
 
@@ -149,41 +160,23 @@ angular.module('ds.cart')
                 return defCart.promise;
             }
 
-            function switchCurrency(code){
-                var def = $q.defer();
-                if (cart.id) {
-                    CartREST.Cart.one('carts', cart.id).one('changeCurrency').customPOST({currency: code})
-                        .then(function () {
-                            refreshCart(cart.id, 'currency').finally(function(){
-                                def.resolve({});
-                            });
-                        }, function () {
-                            cart.error = true;
-                            $rootScope.$emit('cart:updated', {cart: cart, source: 'currency'});
-                            def.resolve({});
-                            console.error('Update of cart currency failed.');
-                        });
-                } else {
-                    def.resolve();
-                }
-                return def.promise;
-            }
-
-            function mergeAnonymousCartIntoCurrent(anonCart){
+            function mergeAnonymousCartIntoCurrent(anonCart) {
                 if (anonCart && anonCart.id) {
                     // merge anon cart into user cart
-                    CartREST.Cart.one('carts', cart.id).one('merge').customPOST({carts: [anonCart.id]}).then(function () {
+                    CartREST.Cart.one('carts', cart.id).one('merge').customPOST({ carts: [anonCart.id] }).then(function () {
                         // merge anonymous cart - will change currency if needed
                         refreshCart(cart.id, 'merge');
-                    }, function(){
+                    }, function () {
                         cart.error = true;
                     });
                 } else {
                     // scope is already equivalent to latest user cart
-                    if (cart.currency !== GlobalData.getCurrencyId()) {
-                        switchCurrency(GlobalData.getCurrencyId());
+                    if (cart.siteCode !== GlobalData.getSiteCode()) {
+                        if (cart.id) {
+                            refreshCart(cart.id, 'site');
+                        }
                     } else {
-                        $rootScope.$emit('cart:updated', {cart: cart});
+                        $rootScope.$emit('cart:updated', { cart: cart });
                     }
                 }
             }
@@ -191,15 +184,18 @@ angular.module('ds.cart')
             /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
              * cart is created first.
              */
-            function createCartItem(product, qty, config) {
+            function createCartItem(product, prices, qty, config) {
 
                 var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
                 var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
 
                 var createItemDef = $q.defer();
                 getOrCreateCart().then(function (cartResult) {
-                    var price = {'value': product.defaultPrice.value, 'currency': product.defaultPrice.currency};
+
+                    var price = { 'priceId': prices[0].priceId, 'effectiveAmount': prices[0].effectiveAmount, 'originalAmount': prices[0].originalAmount, 'currency': prices[0].currency };
+
                     var item = new Item(product, price, qty);
+
                     CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function () {
                         refreshCart(cartResult.cartId, cartUpdateMode, closeCartAfterTimeout);
                         createItemDef.resolve();
@@ -225,7 +221,7 @@ angular.module('ds.cart')
                  */
                 resetCart: function () {
                     cart = new Cart();
-                    $rootScope.$emit('cart:updated', {cart: cart, source: 'reset'});
+                    $rootScope.$emit('cart:updated', { cart: cart, source: 'reset' });
                 },
 
                 /** Returns the cart as stored in the local scope - no GET is issued.*/
@@ -240,15 +236,6 @@ angular.module('ds.cart')
                     return refreshCart(cart.id ? cart.id : null);
                 },
 
-                /*
-                 *  This function switches the cart's currency and refreshes the cart.  Returns an empty success promise
-                 *  once the refresh has happened (either successfully or failed).
-                 *  @param currency code to switch to
-                 */
-                switchCurrency: function (code) {
-                    return switchCurrency(code);
-                },
-
                 /**
                  * Retrieve any existing cart that there might be for an authenticated user, and merges it with
                  * any content in the current cart.
@@ -256,11 +243,11 @@ angular.module('ds.cart')
                 refreshCartAfterLogin: function (customerId) {
                     // store existing anonymous cart
                     var anonCart = cart;
-               
+
                     // retrieve any cart associated with the authenticated user
-                    CartREST.Cart.one('carts', null).get({customerId: customerId}).then(function (authUserCart) {
+                    CartREST.Cart.one('carts', null).get({ customerId: customerId, siteCode: GlobalData.getSiteCode() }).then(function (authUserCart) {
                         // there is an existing cart - update scope instance
-                        getCartWithImages(authUserCart.plain()).then(function(updatedCart){
+                        getCartWithImages(authUserCart.plain()).then(function (updatedCart) {
                             cart = updatedCart;
                             mergeAnonymousCartIntoCurrent(anonCart);
                         });
@@ -268,12 +255,12 @@ angular.module('ds.cart')
                         // no existing user cart
                         if (anonCart && anonCart.id) {
                             // create new cart for customer so anon cart can be merged into it
-                            cart = {customerId: customerId, currency: GlobalData.getCurrencyId()};
+                            cart = { customerId: customerId, currency: GlobalData.getCurrencyId(), siteCode: GlobalData.getSiteCode() };
 
                             CartREST.Cart.all('carts').post(cart).then(function (newCartResponse) {
                                 cart.id = newCartResponse.cartId;
                                 mergeAnonymousCartIntoCurrent(anonCart);
-                            }, function(){
+                            }, function () {
                                 cart.error = true;
                                 console.error('new cart creation failed');
                             });
@@ -281,6 +268,7 @@ angular.module('ds.cart')
                             // just use empty cart - customer-specific cart will be created once first item is added
                             cart = {};
                             cart.currency = GlobalData.getCurrencyId();
+                            cart.siteCode = GlobalData.getSiteCode();
                         }
                     });
                 },
@@ -293,7 +281,7 @@ angular.module('ds.cart')
                     var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
                     var updateDef = $q.defer();
                     if (qty > 0) {
-                        var cartItem = new Item(item.product, item.unitPrice, qty);
+                        var cartItem = new Item(item.product, item.price, qty);
                         CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
                             updateDef.resolve();
@@ -333,7 +321,7 @@ angular.module('ds.cart')
                  *   @param closeCartAfterTimeout if the
                  *   @return promise over success/failure
                  */
-                addProductToCart: function (product, productDetailQty, config) {
+                addProductToCart: function (product, prices, productDetailQty, config) {
                     if (productDetailQty > 0) {
                         var item = null;
                         for (var i = 0; cart.items && i < cart.items.length; i++) {
@@ -343,10 +331,22 @@ angular.module('ds.cart')
                                 return this.updateCartItem(item, qty, config);
                             }
                         }
-                        return createCartItem(product, productDetailQty, config);
+                        return createCartItem(product, prices, productDetailQty, config);
                     } else {
                         return $q.when({});
                     }
+                },
+
+                redeemCoupon: function (coupon, cartId) {
+                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
+                },
+
+                removeAllCoupons: function(cartId) {
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
                 }
 
 

@@ -20,11 +20,10 @@ describe('EventSvc', function(){
         EventSvc = _EventSvc_;
     }));
 
-    describe('onCurrencyChange', function () {
+    describe('onSiteChange', function () {
 
         var state;
         var curChangeDef;
-        var currencyId = 'USD';
 
         beforeEach(function(){
             curChangeDef = $q.defer();
@@ -34,9 +33,8 @@ describe('EventSvc', function(){
                     return (state === compState);
                 });
             mockedState.transitionTo = jasmine.createSpy();
-            mockedCartSvc.switchCurrency = jasmine.createSpy().andCallFake(function(){
-                return curChangeDef.promise;
-            });
+
+            mockedCartSvc.getCart = jasmine.createSpy();
         });
 
 
@@ -47,10 +45,9 @@ describe('EventSvc', function(){
             });
 
             it('should switch cart currency and refresh state on cart update', function () {
-                EventSvc.onCurrencyChange({}, {currencyId: currencyId});
+                EventSvc.onSiteChange({});
                 curChangeDef.resolve({});
                 $scope.$apply();
-                expect(mockedCartSvc.switchCurrency).toHaveBeenCalledWith(currencyId);
                 expect(mockedState.transitionTo).toHaveBeenCalled();
             });
 
@@ -61,14 +58,8 @@ describe('EventSvc', function(){
                 state = 'base.category';
             });
 
-            it('should switch currency if event source not login', function(){
-                EventSvc.onCurrencyChange({}, {currencyId: currencyId, source: 'other'});
-                expect(mockedCartSvc.switchCurrency).toHaveBeenCalledWith(currencyId);
-
-            });
-
             it('should reload state for category and prod detail', function(){
-                EventSvc.onCurrencyChange({}, {currencyId: currencyId, source: settings.eventSource.login});
+                EventSvc.onSiteChange({});
                 expect(mockedState.transitionTo).toHaveBeenCalled();
             });
 

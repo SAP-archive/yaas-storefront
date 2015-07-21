@@ -37,13 +37,15 @@ module.exports = function(config){
         'public/js/app/shared/app-config.js',
         'public/js/app/shared/site-config.js',
         'public/js/app/shared/services/cookie-svc.js',
+        'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/services/global-data.js',
+        'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/services/configuration-service.js',
-        'public/js/app/shared/services/configuration-rest.js',
         'public/js/app/shared/services/http-queue.js',
         'public/js/app/shared/services/event-service.js',
         'public/js/app/shared/services/local-storage.js',
+        'public/js/app/shared/services/site-selector-service.js',
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
@@ -55,6 +57,7 @@ module.exports = function(config){
         'public/js/app/shared/directives/y-breadcrumb.js',
         'public/js/app/shared/directives/y-tracking.js',
         'public/js/app/shared/directives/y-search.js',
+        'public/js/app/shared/directives/y-inputs-dir.js',
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
@@ -92,6 +95,11 @@ module.exports = function(config){
         'public/js/app/confirmation/services/order-details-svc.js',
         'public/js/app/confirmation/services/order-details-rest.js',
 
+        'public/js/app/coupons/coupon-index.js',
+        'public/js/app/coupons/controllers/coupon-ctrl.js',
+        'public/js/app/coupons/services/coupon-service.js',
+        'public/js/app/coupons/services/coupon-rest.js',
+
         'public/js/app/errors/controllers/errors-ctrl.js',
         'public/js/app/errors/backendStub.js',
 
@@ -100,12 +108,16 @@ module.exports = function(config){
         'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
+        'public/js/app/addresses/addresses-index.js',
+        'public/js/app/addresses/directives/localized-addresses.js',
+
         'public/js/app/auth/auth-index.js',
         'public/js/app/auth/controllers/auth-modal-dialog-ctrl.js',
         'public/js/app/auth/controllers/password-reset-ctrl.js',
         'public/js/app/auth/controllers/password-update-ctrl.js',
         'public/js/app/auth/controllers/password-reset-update-ctrl.js',
         'public/js/app/auth/directives/confirm-input.js',
+        'public/js/app/auth/directives/create-account.js',
         'public/js/app/auth/services/auth-rest.js',
         'public/js/app/auth/services/token-service.js',
         'public/js/app/auth/services/auth-service.js',
@@ -116,8 +128,7 @@ module.exports = function(config){
         'public/js/app/shared/router.js',
         'public/js/app/shared/http-proxy.js',
 
-        'public/js/app/shared/controllers/currency-selector-ctrl.js',
-        'public/js/app/shared/controllers/language-selector-ctrl.js',
+        'public/js/app/shared/controllers/site-selector-ctrl.js',
         'public/js/app/shared/directives/quantity-input.js',
         'public/js/app/shared/directives/popover.js',
 
@@ -132,11 +143,13 @@ module.exports = function(config){
 
         'test/unit/*.js',
         'test/unit/account/*.js',
+        'test/unit/addresses/*.js',
         'test/unit/auth/*.js',
         'test/unit/account/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
+        'test/unit/coupons/*.js',
         'test/unit/errors/*.js',
         'test/unit/home/*.js',
         'test/unit/orders/*.js',

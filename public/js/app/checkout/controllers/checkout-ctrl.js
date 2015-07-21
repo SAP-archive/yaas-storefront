@@ -96,11 +96,18 @@ angular.module('ds.checkout')
                 $scope.order.billTo.companyName = address.companyName;
                 $scope.order.billTo.address1 = address.street;
                 $scope.order.billTo.address2 = address.streetAppendix;
+
+                //checkout requires 2 character country codes
+                if (address.country === 'USA') {
+                    address.country = 'US';
+                }
                 $scope.order.billTo.country = address.country;
                 $scope.order.billTo.city = address.city;
                 $scope.order.billTo.state = address.state;
                 $scope.order.billTo.zip = address.zipCode;
                 $scope.order.billTo.contactPhone = address.contactPhone;
+
+                $scope.$emit('localizedAddress:updated', address.country, 'billing');
             };
 
             var getAddresses = function() {
@@ -252,6 +259,7 @@ angular.module('ds.checkout')
             var setShipToSameAsBillTo = function () {
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
                 selectedShippingAddress = $scope.order.shipTo;
+                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
             };
 
             var clearShipTo = function(){
@@ -342,7 +350,8 @@ angular.module('ds.checkout')
 
             /** Show error message after failed checkout, re-enable the submit button and reset any wait cursor/splash screen.
              * @param error message*/
-            function onCheckoutFailure(error) {
+            function onCheckoutFailure (error) {
+
                 $scope.message = error;
                 $scope.submitIsDisabled = false;
                 modal.close();
@@ -351,13 +360,12 @@ angular.module('ds.checkout')
             /** Advances the application state to the confirmation page. */
             var checkoutSuccessHandler = function goToConfirmationPage(order) {
 
-
                 var piwikOrderDetails = {
                     orderId: order.orderId,
                     cart: $scope.cart
                 };
                 //Send data to piwik
-                $rootScope.$emit('orderPlaced', piwikOrderDetails);
+                $rootScope.$emit('order:placed', piwikOrderDetails);
 
                 //Reset cart
                 CheckoutSvc.resetCart();
@@ -367,7 +375,7 @@ angular.module('ds.checkout')
             };
 
             /** Handles a failed "checkout"/order submission event. */
-            var checkoutErrorHandler = function handleCheckoutError(error) {
+            var checkoutErrorHandler = function (error) {
                 if (error.type === CheckoutSvc.ERROR_TYPES.order) {
                     onCheckoutFailure(error.error);
                 } else if (error.type === CheckoutSvc.ERROR_TYPES.stripe) {
@@ -402,15 +410,20 @@ angular.module('ds.checkout')
                 } else {
                     $scope.showPristineErrors = true;
                     $scope.message = 'PLEASE_CORRECT_ERRORS';
+                    // Important debug for dynamic form validation.
+                    // console.log('BILLTO:',$scope.billToForm.$error.required);
+                    // console.log('SHIPTO:',$scope.shipToForm.$error.required);
                 }
             };
 
             $scope.selectAddress = function(address, target) {
                 if (target === $scope.order.billTo) {
                     selectedBillingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'billing');
                 }
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
+                    $scope.$emit('localizedAddress:updated', address.country, 'shipping');
                 }
                 addressModalInstance.close();
 

@@ -2,9 +2,6 @@
   .product-details{
     padding-top: 30px;
 
-    .page-headline{
-      margin: 0 0 15px 0;
-    }
 
     .category{
       color: #0079ff;
@@ -13,7 +10,8 @@
     }
 
     .form-group{
-      margin: 0;
+      width: 91px !important;
+      margin: 0 auto;
 
       .form-control{
         font-size: 13px;
@@ -21,16 +19,23 @@
       }
     }
 
-    .name{
-      text-transform: uppercase;
-      font-size: 34px;
-      line-height: 34px;
-      color: #3c3c3c;
-      margin: 0 0 30px 0;
+    .productPricingContainer{
+      select{
+        width: 100%;
+        border-left: 1px solid #ccc;
+      }
+
+      .form-group{
+        width: 100%;
+      }
+
+      input{
+        width:100%;
+      }
     }
 
     .price{
-      font: italic bold 19px/30px @font-family-serif, sans-serif;
+      font-size: 39px;
       margin: 0 0 20px 0;
     }
 
@@ -42,7 +47,7 @@
     .buyButton{
       margin: 22px 0 0 0;
       button{
-        padding: 16px 0;
+        padding: 14px 89px;
       }
     }
 
@@ -100,20 +105,6 @@
 
     }
 
-    .description{
-      border-top: 1px solid @lightgrey;
-      margin: 20px 0 0 0;
-      font-size: 13px;
-      line-height: 19px;
-      color: #3c3c3c;
-      .headline{
-        text-transform: uppercase;
-        margin:  30px 0 26px 0;
-        font: 14px/25px @font-family-serif, sans-serif;
-        color: #454545;
-      }
-    }
-
     @media  (max-width: @screen-sm-max) {
       &{
         text-align: center;
@@ -131,6 +122,33 @@
 
   @media  (min-width: @screen-md-max) {
     padding-top: 65px;
+  }
+
+  section.gray{
+    padding: 46px 110px 100px 110px;
+    
+    .headline{
+      text-transform: uppercase;
+      font-weight: bold;
+      margin:  30px 0 26px 0;
+      font-size: 21px;
+      color: #232323;
+    }
+
+    .description{
+      margin: 20px 0 0 0;
+      line-height: 19px;
+      color: #5b5b5b;
+
+      height:105px;
+      -webkit-column-count: 2;
+      -moz-column-count: 2;
+      column-count: 2;
+      -webkit-column-gap: 90px;
+      -moz-column-gap: 90px;
+      column-gap: 90px;
+    }
+
   }
 }
 
@@ -157,14 +175,29 @@
     .hidden-xs;
     @media (min-width: @screen-md-max) {
       &{
-        height: 84px;
 
         a>img{
-          height: 84px;
-          width: auto;
+          width: 100%;
         }
       }
 
     }
+
+    &.owl-carousel a{
+      margin-right: 0;
+      
+    }
+
+    &.owl-carousel .owl-wrapper-outer .owl-wrapper{
+      
+      width: auto !important;
+      .owl-item {
+        float: none;
+        margin-bottom: 20px;
+        width: 100% !important;
+      }
+    }
   }
+  
+  
 }

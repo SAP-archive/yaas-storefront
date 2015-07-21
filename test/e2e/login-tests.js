@@ -5,24 +5,13 @@ var timestamp = Number(new Date());
 
 function updateAccountField(fieldName, text) {
     tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[2]", text);
+    tu.sendKeysByXpath("(//input[@type='text'])[3]", text);
     tu.clickElement('xpath', "//button[@type='submit']");
 }
 function updateTitleField(fieldName, text) {
     tu.clickElement('id', fieldName);
     element(by.xpath("//select[@ng-model='$data']")).sendKeys(text);
     tu.clickElement('xpath', "//button[@type='submit']");
-}
-
-function populateAddress(contact, street, aptNumber, city, state, zip, phone) {
-    tu.sendKeysById('contactName', contact);
-    tu.sendKeysById('street', street);
-    tu.sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="USA"]')).click()
-    tu.sendKeysById('city', city);
-    element(by.css('select option[value="' + state + '"]')).click()
-    tu.sendKeysById('zipCode', zip);
-    tu.sendKeysById('contactPhone', phone);
 }
 
 function waitForAccountPage() {
@@ -58,17 +47,19 @@ describe("login:", function () {
         it('should allow existing user to login', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
-            tu.clickElement('id', "logout-btn");
+            // tu.clickElement('id', 'logout-btn');
 
         });
 
         it('should allow user to update account info', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(2000);
             updateTitleField('title', 'Mr.');
             expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
@@ -92,7 +83,10 @@ describe("login:", function () {
         });
 
         it('should create a new user', function () {
-            tu.clickElement('id', "login-btn");
+            tu.clickElement('id', 'login-btn');
+            browser.wait(function () {
+                return element(by.binding('CREATE_ACCOUNT')).isPresent();
+            });
             tu.clickElement('binding', 'CREATE_ACCOUNT');
             tu.sendKeysById('emailInput', 'cool@cool' + timestamp + '.com');
             tu.sendKeysById('newPasswordInput', 'pass');
@@ -101,7 +95,8 @@ describe("login:", function () {
             tu.sendKeysById('newPasswordInput', 'password');
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
 
 
@@ -110,33 +105,20 @@ describe("login:", function () {
         it('should allow existing user to manage addresses', function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
-            tu.clickElement('id', "login-btn");
-            browser.sleep(1000);
-            tu.clickElement('linkText', 'Create Account');
-            tu.sendKeysById('emailInput', 'address@cool' + timestamp + '.com');
-            tu.sendKeysById('newPasswordInput', 'password');
-            tu.clickElement('id', 'create-acct-btn');
-            browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
-            browser.sleep(1000);
-            tu.clickElement('id', "add-address-btn");
-            browser.sleep(1000);
-            populateAddress('Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            tu.clickElement('id', 'save-address-btn');
+            tu.createAccount('addresstest');
+            tu.populateAddress('0', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             expect(element(by.binding("defaultAddress.city")).getText()).toEqual("Boulder");
             expect(element(by.binding("defaultAddress.state")).getText()).toContain("CO");
             expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
-            expect(element(by.binding("defaultAddress.country")).getText()).toEqual("USA");
+            expect(element(by.binding("defaultAddress.country")).getText()).toEqual("US");
             expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
-            tu.clickElement('id', "add-address-btn");
-            populateAddress('2nd Test', '321 phony street', 'apt 420', 'Denver', 'CO', '90210', '720-555-1234');
-            tu.clickElement('id', 'save-address-btn');
+            tu.populateAddress('1', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual("321 phony street, apt 420");
-            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Denver, CO 90210");
-            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("USA");
+            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Toronto, ON M4M 1H7");
+            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("CA");
             expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual("720-555-1234");
             tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
             browser.sleep(1500);
@@ -156,7 +138,8 @@ describe("login:", function () {
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'incorrect');
@@ -172,7 +155,8 @@ describe("login:", function () {
         it('should not allow user to update their password if it less than 6 chars', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -187,7 +171,8 @@ describe("login:", function () {
         it('should not allow user to update their password if it does not match confirmation', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -201,7 +186,8 @@ describe("login:", function () {
         it('should allow user to update their password', function () {
             tu.loginHelper('password@hybristest.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password');
@@ -210,12 +196,15 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(1500);
-            tu.clickElement('id', "logout-btn");
+            tu.clickElement('id', 'my-account-dropdown')
+            tu.clickElement('css', '#logout-btn > a.ng-binding');
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
+            browser.sleep(1000);
             tu.loginHelper('password@hybristest.com', 'password2');
             browser.sleep(1000);
-            tu.clickElement('css', 'img.user-avatar');
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account');
             browser.sleep(1000);
             tu.clickElement('id', 'password-edit');
             tu.sendKeysById('currentPassword', 'password2');

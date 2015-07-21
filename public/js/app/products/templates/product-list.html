@@ -1,23 +1,22 @@
-<section class="gray" match-background>
+<div ng-cloak>
     <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
         <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
         </blockquote>
     </div>
+    <ybreadcrumb yitem="category" size="large"></ybreadcrumb>
+    <section class="white">
+        <div class="refine-section">
 
-    <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
-
-
-    <div class="refine-section" ng-cloak>
-
-        <div class="row">
-
-            <div ng-if="category.name" class="col-xs-12 col-sm-6  title">{{ category.name }}</div>
-            <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{ 'ALL_PRODUCTS' | translate }}</div>
-            <div class="col-sm-6 col-md-6">
-                <div class="viewingContainer">
-                    <div class="name">{{'VIEWING' | translate}}:</div>
-                    <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1 class="pageTitle"><span ng-if="category.name">{{ category.name }}</span><span ng-if="!category.name">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
+                </div>
+                <div class="col-sm-offset-6 col-md-offset-6 col-sm-6 col-md-6">
+                    <div class="viewingContainer">
+                        <div class="name">{{'VIEWING' | translate}}:</div>
+                        <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,31 +33,30 @@
                                 <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
                                     <option value="name">A-Z</option>
                                     <option value="name:desc">Z-A</option>
-                                    <option value="created:desc">{{'NEWEST' | translate}}</option>
+                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
                                 </select>
                             </span>
                         </div>
                     </div>
                 </div>
+
             </div>
-            
         </div>
-    </div>
 
-    <div id="refineAffix" class=" refine-section responsive-fixed">
-        <div class="row">
+        <div id="refineAffix" class=" refine-section responsive-fixed">
+            <div class="row">
 
-            <div class="col-xs-12">
-                <div class="viewingContainer">
-                    <div class="name">{{'VIEWING' | translate}}:</div>
-                    <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
+                <div class="col-xs-12">
+                    <div class="viewingContainer">
+                        <div class="name">{{'VIEWING' | translate}}:</div>
+                        <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
+        <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
 
     <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
          infinite-scroll-immediate-check="false"
@@ -67,25 +65,28 @@
         <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
              on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
 
-            <a id="p_{{product.id}}" ng-click="openProductDetails(product.id)" ui-sref="base.product.detail( {productId: product.id, lastCatId: lastCatId} )">
+            <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
 
                 <div class="thumb">
-                    <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
+                    <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
 
                 </div>
-                <div class="productInfoContainer">
-                    <div class="name">{{ product.name }}</div>
-                    <div class="price">{{ prices[product.id].value | currency: currencySymbol}}</div>
+                <div class="productInfoContainer text-center">
+                    <div class="name">{{ product.product.name }}</div>
+                    <div ng-if="!prices[product.product.id].measurementUnit" class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
+                    <div ng-if="prices[product.product.id].measurementUnit" class="price">
+                        <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                        <span class="priceUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                    </div>
                 </div>
             </a>
         </div>
-    </div>
 
-	<button type="button" id="to-top-btn" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
-		<span class="hyicon hyicon-chevron-bold-up" />
-	</button>
-</section>
-
+        <button type="button" id="to-top-btn" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
+            <span class="hyicon hyicon-chevron-bold-up" />
+        </button>
+    </section>
+</div>
 
 <script src="js/vendor-static/img-touch-canvas.js"></script>
 <script src="js/vendor-static/jquery.fullscreen-min.js"></script>

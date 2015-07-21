@@ -31,9 +31,15 @@ angular.module('ds.checkout')
         var DefaultOrder = function () {
             this.shipTo = {};
             this.billTo = {};
-            this.billTo.country = 'USA';
+            this.billTo.country = 'US';
 
-            this.paymentMethod = 'creditCard';
+            this.payment = {
+                paymentId: 'stripe',
+                customAttributes: {
+                    token: ''
+                }
+            };
+
             this.creditCard = new CreditCard();
         };
 
@@ -60,7 +66,6 @@ angular.module('ds.checkout')
 
                 // the promise handle to the result of the transaction
                 var deferred = $q.defer();
-
                 var stripeData = {};
                 /* jshint ignore:start */
                 var creditCard = order.creditCard;
@@ -96,8 +101,10 @@ angular.module('ds.checkout')
                                             if(errorResponse.status) {
                                                 errMsg += ' Status code: '+errorResponse.status+'.';
                                             }
-                                            if(errorResponse.message) {
-                                                errMsg += ' ' + errorResponse.message;
+                                            if(errorResponse.data && errorResponse.data.details && errorResponse.data.details.length) {
+                                                angular.forEach(errorResponse.data.details, function (errorDetail) {
+                                                    errMsg += ' ' + errorDetail.message;
+                                                });
                                             }
                                         }
                                     }
@@ -127,18 +134,18 @@ angular.module('ds.checkout')
                 var Order = function () {};
                 var newOrder = new Order();
                 newOrder.cartId = order && order.cart && order.cart.id ? order.cart.id : null;
-                newOrder.creditCardToken = token;
+                newOrder.payment = order.payment;
+                newOrder.payment.customAttributes.token = token;
                 newOrder.currency = order.cart.currency;
                 newOrder.shippingCost = order.shippingCost;
 
-                newOrder.totalPrice =  order.cart.totalPrice.value;
+                newOrder.totalPrice =  order.cart.totalPrice.amount;
                 newOrder.addresses = [];
                 var billTo = {};
                 billTo.contactName = order.billTo.contactName;
                 billTo.companyName = order.billTo.companyName;
                 billTo.street = order.billTo.address1;
-                // TODO - what about 2nd street line?
-                //billTo.streetAppendix = order.billTo.address2;
+                billTo.streetAppendix = order.billTo.address2;
                 billTo.city = order.billTo.city;
                 billTo.state = order.billTo.state;
                 billTo.zipCode = order.billTo.zip;
@@ -152,8 +159,7 @@ angular.module('ds.checkout')
                 shipTo.contactName = order.shipTo.contactName;
                 shipTo.companyName = order.shipTo.companyName;
                 shipTo.street = order.shipTo.address1;
-                //shipTo.streetAppendix = order.shipTo.address2;
-                // TODO - what about 2nd street line?
+                shipTo.streetAppendix = order.shipTo.address2;
                 shipTo.city = order.shipTo.city;
                 shipTo.state = order.shipTo.state;
                 shipTo.zipCode = order.shipTo.zip;
@@ -164,7 +170,7 @@ angular.module('ds.checkout')
                 newOrder.addresses.push(shipTo);
 
                 newOrder.customer = {};
-                newOrder.customer.customerNumber = order.cart.customerId;
+                newOrder.customer.id = order.cart.customerId;
                 if (order.account.title && order.account.title !== '') {
                     newOrder.customer.title = order.account.title;
                 }

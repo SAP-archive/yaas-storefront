@@ -195,7 +195,7 @@
 						  'status' : 'CREATED',
 						  'entries' : [ {
 						    'amount' : 4,
-						    'unitPrice' : 9.99,
+						    'price' : 9.99,
 						    'totalPrice' : 39.96,
 						    'id' : '5436899a3cceb8a9381288d9',
 						    'product' : {
@@ -239,7 +239,7 @@
 						    'street' : '9999MOCK',
 						    'zipCode' : '999',
 						    'city' : '999',
-						    'country' : 'USA',
+						    'country' : 'US',
 						    'state' : 'AK',
 						    'contactPhone' : '9999'
 						  },
@@ -248,7 +248,7 @@
 						    'street' : '9999MOCK',
 						    'zipCode' : '999MOCK',
 						    'city' : '999',
-						    'country' : 'USA',
+						    'country' : 'US',
 						    'state' : 'AK',
 						    'contactPhone' : '9999'
 						  },
@@ -277,7 +277,6 @@
 						  'currency' : 'USD'
 						}
 					); //end mock.
-
 
 
 					/** MOCK-PASSTHROUGHS

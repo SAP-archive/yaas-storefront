@@ -31,7 +31,6 @@ angular.module('ds.confirmation')
              * @param orderId
              */
             getFormattedConfirmationDetails: function (orderId) {
-
                 return getOrderDetails(orderId).then(function (orderDetails) {
 
                     var confirmationDetails = {};
@@ -50,6 +49,19 @@ angular.module('ds.confirmation')
 
                     if (orderDetails.shippingAddress.streetAppendix) {
                         confirmationDetails.shippingAddressStreetLine2 = orderDetails.shippingAddress.streetAppendix;
+                    }
+
+                    if (orderDetails.shipping) {
+                        confirmationDetails.shipping = orderDetails.shipping;
+                    }
+
+                    if (orderDetails.totalPrice) {
+                        confirmationDetails.totalPrice = orderDetails.totalPrice;
+                    }
+                    if (orderDetails.discounts && orderDetails.discounts.length) {
+                        confirmationDetails.discountAmount = orderDetails.discounts[0].amount;
+                    } else {
+                        confirmationDetails.discountAmount = 0;
                     }
 
                     confirmationDetails.shippingAddressCityStateZip = orderDetails.shippingAddress.city + ', ' + orderDetails.shippingAddress.state +

@@ -7,12 +7,33 @@ body.disable-scroll{
 }
 
 body{
-  background: @lightestgrey;
+  background: @white;
 
   &.fixedLayout{
     overflow-y:hidden !important;
   }
 }
+
+.clr{
+  clear: both;
+}
+table .error{
+  background-color: transparent;
+  padding: 0;
+  font-weight: normal;
+  
+}
+
+.content-container{
+  padding: 10px 58px;
+}
+
+@media (max-width: @screen-sm-max){
+  .content-container,.mainContent section{
+    padding: 0 10px 10px 10px;
+  }
+}
+
 
 
 // GET RID OF THE SPINNER IN INPUT TYPE NUMBER
@@ -105,30 +126,6 @@ input[type='number']{
 }
 
 
-.content-mask {
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    left: 0;
-    opacity: 0.1;
-    position: fixed;
-    top: 0;
-    transform: translateZ(0px);
-    visibility: hidden;
-    width: 100%;
-    z-index: @zIndex-offcanvas-mask;
-
-    transition: opacity 0.25s ease-out 0.3s;
-
-
-    .right &,
-    .left &,
-    .mask &{
-        overflow-y: hidden;
-    	opacity: 1;
-    	visibility: visible;
-    }
-}
-
 .errorPageContainer{
   text-align: center;
   padding-top: 75px;
@@ -149,7 +146,7 @@ input[type='number']{
 }
 
 section{
-  padding: 30px;
+  padding: 30px 58px;
 
   &.white{
     background: #fff;
@@ -181,6 +178,45 @@ section{
     }
   }
 }
+
+.pageTitle{
+  font-size: 49px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #202122;
+  
+}
+
 .popoverCloseBtn{
   margin: 10px;
 }
+
+.open > .dropdown-menu{
+  display: block !important;
+}
+
+.originalPrice{
+  text-decoration: line-through;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.salesPrice{
+  display: inline-block;
+  margin-left: 10px;
+  color: #3ab85d;
+
+}
+
+.priceUnit{
+  font-weight: 200;
+  font-size: 80%;
+  margin-left: 2px;
+  position: relative;
+  &:before{
+    content: '/';
+    margin-right: 7px;
+  }
+}
+

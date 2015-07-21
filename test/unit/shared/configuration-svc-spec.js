@@ -13,17 +13,60 @@ describe('ConfigurationSvc Test', function () {
 
     var url = 'http://dummyurl';
     var dummyRoute = '/dummyRoute';
-    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig,
+    var $scope, $rootScope, $httpBackend, $q, configSvc, settings, configurationsUrl, siteConfig, fbGoogleDef, siteUrl,
 
         mockedGlobalData={store:{},
             setAvailableCurrencies: jasmine.createSpy(),
-            setAvailableLanguages: jasmine.createSpy()
+            setAvailableLanguages: jasmine.createSpy(),
+            setDefaultLanguage: jasmine.createSpy(),
+            setSite: jasmine.createSpy(),
+            setSites: jasmine.createSpy()
         };
-    var storeName = 'Sushi Store';
-    var logoUrl = 'http://media/logo.jpg';
-    var mockedStoreConfig = [{"key":"store.settings.name","value":storeName},{"key":"store.settings.image.logo.url",
-        "value":logoUrl},{"key":"project_curr","value":"[{\"id\":\"USD\",\"label\":\"US Dollar\",\"default\":true,\"required\":true}]"},
-        {"key":"project_lang", "value":"[{\"id\":\"en\",\"label\":\"English\"}]"}];
+    var storeName = 'Default Store';
+    var logoUrl = 'https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463';
+    var mockedStoreConfig = [{
+        code: "europe123",
+        name: "Default Store",
+        active: true,
+        "default": true,
+        defaultLanguage: "en",
+        languages: ["de", "en"],
+        currency: "USD",
+        homeBase: {
+            address: {
+                zipCode: "18000",
+                country: "IT"
+            }
+        },
+        payment: [{
+            id: "stripe",
+            name: "Stripe Payment Service",
+            serviceType: "urn:x-yaas:service:payment",
+            serviceUrl: "https://api.yaas.io/payment-stripe/v1",
+            active: true,
+            configuration: {
+                "public": {
+                    publicKey: "public"
+                }
+            }
+        }],
+        tax: [{
+            id: "AVALARA",
+            name: "Avalara Tax Service",
+            serviceType: "urn:x-yaas:service:tax",
+            serviceUrl: "http://avalara-b1.prod.cf.hybris.com/",
+            active: true
+        }],
+        mixins: {
+            storeLogoImageKey: {
+                value: "https://api.yaas.io/media-repository/v2/sitesettingsproj/wwayKT9jMgQYaJEs50YmwVPjBVrqbjAe/media/556c175ea70efaac32843463"
+            }
+        }
+    }];
+    var mockedFBAndGoogleKeys = {
+        facebookAppId: 'fbKey',
+        googleClientId: 'googleKey'
+    };
     var mockedAuthSvc={}, mockedAccountSvc={}, mockedCartSvc={}, mockedCategorySvc = {};
     var appConfig = {
         storeTenant: function() { return '121212/'; },
@@ -54,9 +97,9 @@ describe('ConfigurationSvc Test', function () {
         mockedGlobalData.setCurrency = jasmine.createSpy();
         mockedGlobalData.setLanguage = jasmine.createSpy();
         mockedGlobalData.loadInitialLanguage = jasmine.createSpy();
-        mockedGlobalData.loadInitialCurrency = jasmine.createSpy();
+        mockedGlobalData.getSite = jasmine.createSpy();
+        mockedGlobalData.setSiteCookie = jasmine.createSpy();
 
-        mockedCartSvc.switchCurrency = jasmine.createSpy('switchCurrency');
         mockedCartSvc.refreshCartAfterLogin = jasmine.createSpy('refreshCartAfterLogin');
         mockedCartSvc.getCart = jasmine.createSpy('getCart');
 
@@ -66,7 +109,10 @@ describe('ConfigurationSvc Test', function () {
             $httpBackend = _$httpBackend_;
             configSvc = _ConfigSvc_;
             siteConfig = SiteConfigSvc;
-            configurationsUrl = siteConfig.apis.configuration.baseUrl + 'configurations?pageSize=100';
+
+            configurationsUrl = siteConfig.apis.siteSettings.baseUrl + 'sites';
+            siteUrl = siteConfig.apis.siteSettings.baseUrl + 'sites/europe123?expand=payment:active,tax:active,mixin:*';
+
             $q = _$q_;
             settings = _settings_;
         });
@@ -78,10 +124,17 @@ describe('ConfigurationSvc Test', function () {
 
         beforeEach(function(){
             $httpBackend.expectGET(configurationsUrl).respond(200, mockedStoreConfig);
+
+            $httpBackend.expectGET(siteUrl).respond(200, mockedStoreConfig[0]);
+
             catDef = $q.defer();
             mockedCategorySvc.getCategories = jasmine.createSpy('getCategories').andCallFake(function(){
                 return catDef.promise;
             });
+
+            fbGoogleDef = $q.defer();
+            mockedAuthSvc.getFBAndGoogleLoginKeys = jasmine.createSpy().andReturn(fbGoogleDef.promise);
+            fbGoogleDef.resolve(mockedFBAndGoogleKeys);
         });
 
         it('should GET settings and update store config', function () {
@@ -94,8 +147,7 @@ describe('ConfigurationSvc Test', function () {
             promise = configSvc.initializeApp();
             catDef.resolve({});
             $httpBackend.flush();
-            expect(mockedGlobalData.store.name).toEqualData(storeName);
-            expect(mockedGlobalData.store.logo).toEqualData(logoUrl);
+
             expect(mockedGlobalData.setAvailableCurrencies).toHaveBeenCalled;
             expect(mockedGlobalData.setAvailableLanguages).toHaveBeenCalled;
         });
@@ -120,7 +172,6 @@ describe('ConfigurationSvc Test', function () {
             expect(mockedAccountSvc.account).toHaveBeenCalled();
 
             expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(lang, settings.eventSource.initialization);
-            expect(mockedGlobalData.setCurrency).toHaveBeenCalledWith(curr, settings.eventSource.initialization);
             expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalledWith(customerId);
             expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();
@@ -140,7 +191,6 @@ describe('ConfigurationSvc Test', function () {
             $rootScope.$apply();
 
             expect(mockedGlobalData.loadInitialLanguage).toHaveBeenCalled;
-            expect(mockedGlobalData.loadInitialCurrency).toHaveBeenCalled;
             expect(mockedCartSvc.getCart).toHaveBeenCalled;
             expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();

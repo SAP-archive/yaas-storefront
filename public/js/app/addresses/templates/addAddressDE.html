@@ -1,0 +1,55 @@
+<div>
+
+      <div class="form-group input-group"
+        ng-class="{'has-error': addressForm.contactName.$invalid && (addressForm.contactName.$dirty  || showPristineErrors)}">
+        <label class="input-group-addon control-label" for="contactName">{{'FULL_NAME' | translate}}</label>
+        <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)"
+        ng-required="addressForm.country.$viewValue.id === 'DE'">
+      </div>
+
+      <div class="form-group input-group">
+          <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
+          <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale" required>
+          </select>
+      </div>
+
+      <div class="form-group input-group">
+          <label class="input-group-addon control-label" for="companyName">{{'COMPANY_NAME' | translate}}</label>
+          <input type="text" placeholder="(Optional)" class="form-control" id="companyName" name="companyName" ng-model="address.companyName" autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
+      </div>
+
+      <div class="form-group input-group" ng-class="{'has-error': addressForm.street.$invalid && (addressForm.street.$dirty  || showPristineErrors)}">
+        <label class="input-group-addon control-label" for="street">{{'ADDRESS_LINE_1' | translate}}</label>
+        <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="street" name="street" ng-required="addressForm.country.$viewValue.id === 'DE'"
+        ng-model="address.street" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
+      </div>
+
+      <div class="form-group input-group" ng-class="{'has-error': addressForm.streetAppendix.$invalid && (addressForm.streetAppendix.$dirty  || showPristineErrors)}">
+        <label class="input-group-addon control-label" for="streetAppendix">{{'ADDRESS_LINE_2' | translate}}</label>
+        <input type="text" inline-error-input class="form-control" id="streetAppendix" name="streetAppendix" placeholder="(Optional)"
+        ng-model="address.streetAppendix" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
+      </div>
+
+      <div class="form-group input-group"
+        ng-class="{'has-error': addressForm.city.$invalid && (addressForm.city.$dirty || showPristineErrors) }">
+        <label class="input-group-addon control-label" for="city">{{'CITY' | translate}}</label>
+        <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+        class="form-control" id="city" name="city" required autocomplete="on"
+        ng-model="address.city" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)"
+        ng-required="addressForm.country.$viewValue.id === 'DE'">
+      </div>
+
+      <div class="form-group input-group"
+          ng-class="{'has-error': addressForm.zip.$invalid && (addressForm.zip.$dirty || showPristineErrors) }">
+          <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
+          <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+          class="form-control" id="zipCodeBill" name="zip" required autocomplete="on" ng-model="address.zipCode"
+          ng-required="addressForm.country.$viewValue.id === 'DE'">
+      </div>
+
+      <div class="form-group input-group">
+        <label class="input-group-addon control-label" for="contactPhone">{{'CONTACT_PHONE' | translate}}</label>
+        <input type="text" class="form-control" id="contactPhone" name="contactPhone" ng-model="address.contactPhone" autocomplete="on" placeholder="(Optional)" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)">
+
+      </div>
+</div>

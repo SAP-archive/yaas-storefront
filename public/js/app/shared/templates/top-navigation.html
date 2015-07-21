@@ -1,42 +1,107 @@
-<nav class="top-navigation" ng-cloak>
-<!-- mobile "hamburger" menu button-->
-<button type="button" class="btn btn-link navbar-btn pull-left menu" ng-click="toggleOffCanvas()">
-    <span class="hyicon hyicon-menu"></span>
-</button>
-<!-- mobile cart icon -->
-<button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn pull-right cart"
-        ng-click="toggleCart()">
-    <span class="hyicon hyicon-cart"></span>
-    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-</button>
+<div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
+    <nav class="top-navigation row" ng-cloak>
+        <!-- mobile "hamburger" menu button-->
+        <div class="col-xs-3 ">
+            <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
+                <span class="hyicon hyicon-menu"></span>
+            </button>
+        </div>
+        <div class="col-xs-6 text-center">
+            <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+        </div>
+        
+        <div class="col-xs-3 text-right">
+            <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn cart-button"
+                    ng-click="toggleCart()">
+                <span class="shopping-bag">
+                    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                </span>
+            </button>
+        </div>
 
-<a ng-if="!user.isAuthenticated" class="btn btn-link navbar-btn pull-right signin" ng-click="login({windowClass:'mobileLoginModal'})">
-  <img src="./img/user-icon_small.png" class="user-avatar">
-</a>
-
-<div class="dropdown pull-right">
-  <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn  signin" ng-if="user.isAuthenticated" >
-    <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
-  </a>
-  <ul class="dropdown-menu" class="pull-right">
-    <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
-    <li class="divider"></li>
-    <li><a href="" class="my-profile" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
-  </ul>
+    </nav>
 </div>
+        
+        
+        
+<div class="desktopNav hidden-xs hidden-sm visible-md visible-lg">
+    <div class="row info">
+        <div class="content-container">
+            <div class="col-xs-2 logo">
+                <a ui-sref="base.home" class="logo">
+                    <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}"  height="46" alt=""/>
+                    <!--<img ng-src="{{store.logo || 'img/logo.png'}}" widt alt=""/>-->
+                </a>
+            </div>
+            <div class="col-xs-7 search">
+                <ysearch></ysearch>
+            </div>
+            <div class="col-xs-3 cart">
+                <div class="row">
+                    <div class="col-xs-6 col-md-7">
+                        <div class="text-center">
+                            <a id="login-btn" ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                                <img src="./img/user-icon_small_active.png" class="user-avatar">
+                                {{'SIGN_IN' | translate}}
+                            </a>
+                        </div>
+                        <div ng-if="user.isAuthenticated">
+                            <div class="signin-container ">
+                                <div class="text-center dropdown">
+                                    <a class="my-profile dropdown-toggle"  title="{{'MY_ACCOUNT' | translate}}">
+                                        <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li id="my-account" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+                                        <li class="divider"></li>
+                                        <li id="logout-btn" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-xs-6 col-md-5 text-center checkout-btn-container">
+                        <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+                        <span class="shopping-bag">
+                            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                        </span>
+                        </button>
+                        
+                    </div>
+                    
+                </div>
+                <div class="cart-and-account-container">
+                </div>
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+    <div class="row nav js-mainNav">
+        <div class="content-container">
+            <div class="navbar yamm navbar-default">
+                <ul class="nav navbar-nav">
+                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
+                        <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
+                            {{ top_category.name  }}
+                            <ul class="dropdown-menu js-flyoutMenu" ng-if="top_category.subcategories">
+                                <div ng-repeat="sub2 in top_category.subcategories" class="col-xs-2">
 
-
-<!-- mobile search button -->
-<!-- <button type="button" class="btn btn-link navbar-btn pull-right search">
-    <span class="hyicon hyicon-search"></span>
-</button>-->
-<!-- mobile logo -->
-<div class="logo pull-left">
-    <a href=""><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+                                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}
+                                        <div class="tertiaryCategory">
+                                            <ul>
+                                                <li ng-repeat="sub3 in sub2.subcategories">
+                                                    <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" >{{ sub3.name }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </a>
+                                </div>
+                            </ul>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
 </div>
-
-</nav>
-<!-- full size cart icon -->
-<button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn pull-right cart" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-    <span class="hyicon hyicon-cart"></span><span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-</button>

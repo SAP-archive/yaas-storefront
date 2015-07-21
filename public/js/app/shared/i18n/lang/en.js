@@ -15,6 +15,18 @@
 angular.module('ds.i18n')
 	.constant('TranslationsEN', {
 
+
+	    /*
+
+            languages
+        */
+	    en: 'English',
+	    de: 'German',
+	    fr: 'French',
+	    es: 'Spanish',
+
+
+
         /*
             cart
          */
@@ -39,6 +51,7 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2: 'Address Line 2',
         BILLING_ADDRESS: 'Billing Address',
         CITY: 'City',
+        PROVINCE: 'Province',
         CONTINUE: 'Continue',
         COUNTRY: 'Country',
         CREDIT_CARD_NUMBER: 'Credit Card Number',
@@ -60,6 +73,7 @@ angular.module('ds.i18n')
         NO_ITEMS_IN_CART: 'There are no items in your cart.',
         OPTIONAL: 'Optional',
         ORDER_DETAILS: 'Order Details',
+        ORDER_DATE: 'Order Date',
         ORDER_PENDING: 'One moment... Placing your order',
         ORDER_TOTAL: 'Order Total',
         PAYMENT: 'Payment',
@@ -84,11 +98,33 @@ angular.module('ds.i18n')
         STEP_3_PAYMENT: 'Step 3. Payment',
         STEP_4_REVIEW_ORDER: 'Step 4. Review Order',
         SUBTOTAL: 'Subtotal',
+        DISCOUNT: 'Discount',
         TAX: 'Tax',
         TOTAL: 'Total',
         YEAR: 'Year',
-        ZIP: 'Zip Code',
 
+        /*  addresses  */
+        DISTRICT: 'District',
+        STREET_NAME: 'Street Name/ Number',
+        BUILDING_NAME: 'Building Name/ Number',
+        ROOM_NUMBER: 'Room Number',
+        PREFECTURE: 'Prefecture',
+        POSTAL_CODE: 'Postal Code',
+        ZIP: 'Zip/ Postal Code',
+        CITY_VILLAGE: 'City/ Village/ City Ward',
+        SUBAREA: 'Subarea',
+        FURTHER_SUBAREA: 'Further Subarea, Block #/ House #',
+
+        /*  coupons   */
+        COUPON_APPLY: 'Apply',
+        COUPON_APPLIED: 'Applied',
+        COUPON_CODE: 'Add Coupon Code',
+        COUPON_ERROR: 'Coupon not valid.',
+        COUPON_ERR_CURRENCY: 'Currency invalid with coupon',
+        COUPON_ERR_ANONYMOUS: 'Sign in to use coupon code',
+        COUPON_ERR_UNAVAILABLE: 'Coupon no longer available',
+        COUPON_MINIMUM_NOT_MET: 'Current order total does not meet the required minimum for this coupon',
+        COUPON_NOT_VALID: 'Coupon Not Valid',
 
         /*
             confirmation
@@ -102,9 +138,12 @@ angular.module('ds.i18n')
         ORDER: 'Order',
         RETURN_TO_SHOPPING: 'Return to shopping',
         SUCCESS: 'Success!',
+        ACCOUNT_SUCCESS: 'Your account was successfully created!',
         THANK_YOU: 'Thank you',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
         YOUR_ORDER_IS: 'Your order # is ',
+        ONE_MORE_STEP: 'One More Step to Create an Account',
+        ONE_MORE_STEP_MESSAGE: 'for a Fast Checkout and Easy Access to Previous Orders',
         SKU: 'SKU',
 
         /*
@@ -118,7 +157,7 @@ angular.module('ds.i18n')
          */
         BUY: 'Buy',
         ADD_TO_CART:'Add to Cart',
-        DESCRIPTION: 'Description',
+        PRODUCT_DESCRIPTION: 'Product Description',
         OUT_OF_STOCK: 'out of stock',
         QTY: 'Qty',
         ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
@@ -138,8 +177,6 @@ angular.module('ds.i18n')
 		EMPTY_MSG: 'Demo Store - Coming Soon',
 		LANGUAGES: 'Languages',
         SELECT_LANGUAGE: 'Select a language',
-		en: 'English',
-		de: 'German',
         SIGN_OUT: 'Sign Out',
         SIGN_IN: 'Sign In',
         SIGN_IN_WITH_FACEBOOK: 'Sign in with Facebook',
@@ -157,10 +194,10 @@ angular.module('ds.i18n')
         NO_ADDRESSES: 'You have no addresses stored!',
         ADD_ADDRESS: 'Add Address',
         CLOSE: 'Close',
-        COMPANY_NAME: 'Company Name',
+        COMPANY_NAME: 'Company',
         CONFIRM_ADDRESS_REMOVAL: 'Are you sure you want to remove the address?',
         FULL_NAME: 'Full Name',
-        CONTACT_PHONE: 'Contact Phone',
+        CONTACT_PHONE: 'Phone',
         CURRENCY: 'Currency',
         SELECT_CURRENCY: 'Select a currency',
         DATE: 'Date',
@@ -174,6 +211,7 @@ angular.module('ds.i18n')
         ORDER_HISTORY: 'Order History',
         ORDER_NUMBER: 'Order Number',
         ORDER_STATUS: 'Order Status',
+        SHIPPING_DETAILS: 'SHIPPING DETAILS',
         SAVE: 'Save',
         UPDATE_PASSWORD: 'Update password',
         CURRENT_PASSWORD: 'Current password',
@@ -223,6 +261,8 @@ angular.module('ds.i18n')
         ENTER_EXISTING_EMAIL: 'Enter the email address of an existing account',
         LOGIN_FAILED: 'Login failed',
 
+	    ACCOUNT_EMAIL: 'Account Email',
+
         /*
             dynamic error displays
         */
@@ -263,13 +303,13 @@ angular.module('ds.i18n')
         /*
          Search
          */
-        SEARCH: 'SEARCH',
+        SEARCH: 'Search',
         SEARCH_RESULTS: 'Search results',
         MOST_RELEVANT: 'Most Relevant',
         SEARCH_AGAIN: 'Search again',
         RESULTS: 'Results',
-        SEE_ALL: 'See All'
-
+        SEE_ALL: 'See All',
+        SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
 
 
 	});

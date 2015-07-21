@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
 /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'PriceSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location','$timeout','$anchorScroll',
-        function ($scope, $rootScope, ProductSvc, PriceSvc, GlobalData, CategorySvc, settings, category, $state, $location,$timeout,$anchorScroll) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
+        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -30,14 +30,14 @@ angular.module('ds.products')
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
 
             $scope.pagination = {
-              productsFrom: 1,
-              productsTo:  1
+                productsFrom: 1,
+                productsTo: 1
             };
 
             $scope.category = category || {};
 
-            if(!!category){
-                $scope.$emit('categoryLoaded', category);
+            if (!!category) {
+                $scope.$emit('category:opened', category);
             }
 
             $scope.lastCatId = $scope.category.id || 'allProducts';
@@ -54,7 +54,7 @@ angular.module('ds.products')
                 $location.path(pathSegments.join('/'));
             }
 
-            $rootScope.$emit('category:selected', {category: category});
+            $rootScope.$emit('category:selected', { category: category });
 
             function getProductIdsFromElements(elements) {
 
@@ -69,81 +69,68 @@ angular.module('ds.products')
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
-
-            /** Retrieves pricing information for the list of products.
-             * @param products JSON product list response
-             */
-            function getPrices(products) {
-                var productIds = products.map(function (product) {
-                    return product.id;
-                });
-                var queryPrices = {
-                    q: 'productId:(' + productIds + ')'
-                };
-
-                PriceSvc.query(queryPrices).then(
-                    function (pricesResponse) {
-                        if (pricesResponse) {
-                            var pricesMap = {};
-
-                            pricesResponse.forEach(function (price) {
-                                if (price.currency === GlobalData.getCurrencyId()) {
-                                    pricesMap[price.productId] = price;
-                                }
-                            });
-
-                            $scope.prices = angular.extend($scope.prices, pricesMap);
-
-                            //initialize the viewing bar promixity script
-                            /* jshint ignore:start */
-                            initRefineAffix();
-                            /* jshint ignore:end */
-
-                            if($scope.loadMorePages) {
-                                $timeout(function(){
-                                    $scope.pageSize = $scope.pageSize / $scope.loadedPages;
-                                    $scope.pageNumber = $scope.loadedPages;
-
-                                    //Scroll to the page
-                                    if(!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]){
-                                        $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
-                                    }
-
-                                    //Try scrolling to the last element
-                                    $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
-
-                                    //Set page parameter
-                                    $location.search('page', $scope.pageNumber).replace();
-
-                                    $scope.loadMorePages = false;
-                                },1);
-                            }
-
-                        }
-                    }
-                );
-            }
-
-            function setMainImage(product){
-                if(product.media && product.media.length ){
-                    var mainImageArr = product.media.filter(function(media){
+            function setMainImage(product) {
+                if (product.media && product.media.length) {
+                    var mainImageArr = product.media.filter(function (media) {
                         return media.customAttributes && media.customAttributes.main;
                     });
-                    if(mainImageArr.length ){
+                    if (mainImageArr.length) {
                         product.mainImageURL = mainImageArr[0].url;
-                    } else  {
+                    } else {
                         product.mainImageURL = product.media[0].url;
                     }
                 }
             }
 
-            function assignMainImage(products){
-                _.forEach(products, function(product){
-                   setMainImage(product);
+            function assignMainImage(products) {
+                angular.forEach(products, function (product) {
+                    setMainImage(product.product);
                 });
             }
 
+            function assignPrices(products) {
+                var pricesMap = {};
+                var currentCurrency = GlobalData.getCurrencyId();
+                angular.forEach(products, function (product) {
+                    if (product.prices && product.prices.length > 0) {
+                        product.prices.forEach(function (price) {
+                            if (price.currency === currentCurrency) {
+                                pricesMap[product.product.id] = price;
+                            }
+                        });
+                    }
+                });
 
+                $scope.prices = angular.extend($scope.prices, pricesMap);
+
+                //initialize the viewing bar promixity script
+                /* jshint ignore:start */
+                initRefineAffix();
+                /* jshint ignore:end */
+
+                if ($scope.loadMorePages) {
+                    $timeout(function () {
+                        $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                        $scope.pageNumber = $scope.loadedPages;
+
+                        //Scroll to the page
+                        if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
+                            $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                        }
+
+                        //Try scrolling to the last element
+                        $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
+
+                        //Set page parameter
+                        $location.search('page', $scope.pageNumber).replace();
+
+                        $scope.loadMorePages = false;
+                    }, 1);
+                }
+
+
+
+            }
 
             // Primary Reason for categories to be updated is that the language change.
             //  We'll have to retrieve the current slug for the category (and thus this page)
@@ -178,7 +165,7 @@ angular.module('ds.products')
                     $scope.products = [];
                     $scope.pagination = {
                         productsFrom: 0,
-                        productsTo:  0
+                        productsTo: 0
                     };
                     $scope.total = 0;
                     return;
@@ -211,30 +198,30 @@ angular.module('ds.products')
                         }
 
                         $scope.requestInProgress = true;
-                        ProductSvc.query(query).then(
-                            function (products) {
-                                $scope.requestInProgress = false;
-                                if (products) {
-                                    GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
-                                    $scope.products = $scope.products.concat(products);
-                                    if ($scope.products.length === 0){
-                                        $scope.pagination.productsFrom = 0;
-                                    }
-                                    else if($scope.products.length > 0 && query.pageNumber === 1) {
-                                        //Check for visible items in viewport
-                                    }
-                                    $scope.total = GlobalData.products.meta.total;
-                                    if (products.length) {
-                                        getPrices(products);
-                                        assignMainImage(products);
-                                    }
 
-                                    //Set page parameter
-                                    $location.search('page', $scope.pageNumber).replace();
+                        ProductSvc.queryProductDetailsList(query).then(function (products) {
+                            $scope.requestInProgress = false;
+                            if (products) {
+                                GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                                $scope.products = $scope.products.concat(products);
+                                if ($scope.products.length === 0) {
+                                    $scope.pagination.productsFrom = 0;
                                 }
-                            }, function () {
-                                $scope.requestInProgress = false;
-                            });
+                                else if ($scope.products.length > 0 && query.pageNumber === 1) {
+                                    //Check for visible items in viewport
+                                }
+                                $scope.total = GlobalData.products.meta.total;
+                                if (products.length) {
+                                    assignMainImage(products);
+                                    assignPrices(products);
+                                }
+
+                                //Set page parameter
+                                $location.search('page', $scope.pageNumber).replace();
+                            }
+                        }, function () {
+                            $scope.requestInProgress = false;
+                        });
                     }
                 }
             };
@@ -256,8 +243,8 @@ angular.module('ds.products')
             };
 
             //Check for query parameter that has the number of pages
-            if(!!$location.search().page){
-                $scope.loadedPages =  parseInt($location.search().page);
+            if (!!$location.search().page) {
+                $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
                 $scope.sort = GlobalData.products.lastSort;
                 $scope.loadMorePages = true;
@@ -302,28 +289,29 @@ angular.module('ds.products')
                 }
                 query.q = qSpec;
 
-                ProductSvc.query(query).then(function (products) {
+
+
+                ProductSvc.queryProductDetailsList(query).then(function (products) {
+                    $scope.requestInProgress = false;
                     if (products) {
                         GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
                         $scope.products = products;
-                        if ($scope.products.length === 0){
+                        if ($scope.products.length === 0) {
                             $scope.pagination.productsFrom = 0;
                         }
-                       else if($scope.products.length > 0 && query.pageNumber === 1){
+                        else if ($scope.products.length > 0 && query.pageNumber === 1) {
                             //Check for visible items in viewport
-                       }
+                        }
                         $scope.total = GlobalData.products.meta.total;
                         if (products.length) {
-                            getPrices(products);
                             assignMainImage(products);
+                            assignPrices(products);
                         }
                     }
-                    
-                    else {
-                        $scope.requestInProgress = false;
-                    }
-
+                }, function () {
+                    $scope.requestInProgress = false;
                 });
+
             };
 
             $scope.showRefineContainer = function () {
