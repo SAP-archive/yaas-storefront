@@ -34,6 +34,10 @@
                         <span class="priceUnit">{{ product.prices[0].measurementUnit.quantity }}{{ product.prices[0].measurementUnit.unitCode }}</span>
                     </div>
     
+                    <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.included">
+                        {{taxConfiguration.label}}
+                    </div>
+
                     <form action="" class="cartPanel">
                         <div class="row" >
                             <div class="col-md-4 col-md-offset-4">
