@@ -21,10 +21,13 @@ angular.module('ds.cart')
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
+        $scope.taxCalculationApplied = false;
+        $scope.showTaxEstimation = false;
+
         $scope.couponCollapsed = true;
         $scope.taxType = GlobalData.getTaxType();
         $scope.calculateTax = {
-            postalCode: '',
+            zipCode: '',
             countryCode: '',
         };
 
@@ -82,7 +85,22 @@ angular.module('ds.cart')
         };
 
         $scope.applyTax = function () {
-            
+            if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
+                var params = {
+                    countryCode: $scope.calculateTax.countryCode,
+                    zipCode: $scope.calculateTax.zipCode
+                };
+                CartSvc.getCartWithParams(params).then(function (res) {
+                    $scope.cart = res;
+                    $scope.showTaxEstimation = true;
+                });
+                $scope.taxCalculationApplied = true;
+            }
+            else {
+                //Show error message
+                $scope.taxCalculationApplied = false;
+                $scope.showTaxEstimation = false;
+            }
         };
 
     }]);

@@ -59,7 +59,8 @@ describe('CartCtrl Test', function () {
         };
 
         mockedGlobalData = {
-            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$')
+            getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('$'),
+            getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA'),
         };
 
         mockedSettings = {

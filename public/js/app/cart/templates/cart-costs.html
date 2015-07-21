@@ -26,25 +26,29 @@
             </td>
         </tr>
 
-        <tr ng-if="!!taxType && taxType !== 'FLATRATE'">
+        <tr ng-show="!!taxType && taxType !== 'FLATRATE'">
             <td class="estimate-tax-link">
-                <a href="" ng-click="showZipInput = !showZipInput">
+                <a href="" ng-click="showTaxEstimation=!showTaxEstimation">
                     Estimate Tax
-                    <span ng-show="!showZipInput" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                    <span ng-show="showZipInput" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    <span ng-show="!showTaxEstimation" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    <span ng-show="showTaxEstimation" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                 </a>
             </td>
-            <td class="text-right"></td>
+            <td class="text-right" ng-show="showTaxEstimation && taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
         </tr>
 
-        <tr class="zip-inputs" ng-show="showZipInput">
+        <tr class="zip-inputs" ng-show="showTaxEstimation">
             <td>
-                <input type="text" class="zip-input form-control" ng-model="calculateTax.postalCode" placeholder="Zip/Postal Code" />
+                <input type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
             </td>
         </tr>
-        <tr class="zip-inputs" ng-show="showZipInput">
+        <tr class="zip-inputs" ng-show="showTaxEstimation">
             <td>
-                <input type="text" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code" />
+                <select class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
+                    <option value="CA">Canada</option>
+                    <option value="US">USA</option>
+                </select>
+                <!--<input type="text" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code" />-->
             </td>
             <td>
                 <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">Apply</button>
