@@ -47,21 +47,6 @@ angular.module('ds.account')
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
 
-            $scope.currencies = GlobalData.getAvailableCurrency();
-
-            $scope.showCurrency = function () {
-                var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency ? $scope.account.preferredCurrency : '?'});
-                return (selected && selected.length) ? selected[0].label : notSet;
-            };
-
-            $scope.languageLocales = GlobalData.getAvailableLanguages();
-
-            $scope.showLanguageLocale = function () {
-                $scope.account.preferredLanguage = $scope.account.preferredLanguage.split('_')[0];
-                var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage ? $scope.account.preferredLanguage : '?'});
-                return (selected && selected.length) ? selected[0].label : notSet;
-            };
-
             $scope.titles = [];
             var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];
 
@@ -238,14 +223,7 @@ angular.module('ds.account')
                     return $translate('PLEASE_ENTER_VALID_EMAIL');
                 }
                 account[field] = data;
-                return AccountSvc.updateAccount(account).then(function () {
-                    if (field === 'preferredLanguage' && data) {
-                        GlobalData.setLanguage(data.split('_')[0]);
-                    }
-                    if (field === 'preferredCurrency' && data) {
-                        GlobalData.setCurrency(data.split('_')[0]);
-                    }
-                });
+                return AccountSvc.updateAccount(account);
             };
 
             $scope.updatePassword = function () {

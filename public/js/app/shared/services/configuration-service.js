@@ -127,10 +127,6 @@ angular.module('ds.shared')
                                 if (AuthSvc.isAuthenticated()) {
                                     // if session still in tact, load user preferences
                                     AccountSvc.account().then(function (account) {
-                                        if (account.preferredLanguage) {
-                                            GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.initialization);
-                                            languageSet = true;
-                                        }
                                         if (!languageSet) {
                                             GlobalData.loadInitialLanguage();
                                         }

@@ -69,13 +69,8 @@ describe('SessionSvc', function () {
             });
             var account = {id: 'abc'};
             SessionSvc.afterLoginFromSignUp();
-            updatedAccount = {id: 'abc', preferredCurrency: 'USD', preferredLanguage: 'en' };
             accountDef.resolve(account);
             $scope.$apply();
-        });
-
-        it('should update account with current language and currency', function(){
-            expect(mockedAccountSvc.updateAccount).wasCalledWith(updatedAccount);
         });
 
         it('should request cart for logged in user', function(){
@@ -100,15 +95,11 @@ describe('SessionSvc', function () {
 
 
         it('should set language and currency preference if set', function(){
-            var lang = 'de';
-            var cur = 'EUR';
-            var account = {id: 'abc', preferredCurrency: cur, preferredLanguage: lang};
+            var account = {id: 'abc'};
             SessionSvc.afterLogIn();
 
             accountDef.resolve(account);
             $scope.$apply();
-            expect(mockedGlobalData.setLanguage).wasCalledWith(lang, settings.eventSource.login);
-            expect(mockedGlobalData.setCurrency).wasCalledWith(cur, settings.eventSource.login);
         });
 
 

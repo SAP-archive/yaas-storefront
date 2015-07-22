@@ -31,14 +31,9 @@ angular.module('ds.auth')
         return {
 
             afterLoginFromSignUp: function (context) {
-                AccountSvc.account().then(function (account) {
-
+                AccountSvc.account().then(function () {
                     //Customer login event
                     $rootScope.$emit('customer:login', {});
-
-                    account.preferredCurrency = GlobalData.getCurrencyId();
-                    account.preferredLanguage = GlobalData.getLanguageCode();
-                    AccountSvc.updateAccount(account);
                 }).then(function(){
                    commonPostLogin(context);
                 });
@@ -54,16 +49,8 @@ angular.module('ds.auth')
 
                 // there must be an account
                 AccountSvc.account().then(function (account) {
-
                     //Customer login event
                     $rootScope.$emit('customer:login', {});
-
-                    if (account.preferredLanguage) {
-                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.login);
-                    }
-                    if (account.preferredCurrency) {
-                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.login);
-                    }
                     return account;
                 }).finally(function () {
                    commonPostLogin(context);
