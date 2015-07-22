@@ -15,7 +15,7 @@
                     {{category.name}}
                 </li>
                 <li ng-repeat="sub2 in category.subcategories" >
-                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">
+                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}" ng-click="hideMobileNav()">
                         {{sub2.name }}
                     </a>
                     <label for="tertiarycategory{{$index}}" class="toggle-sub" onclick="" ng-if="sub2.subcategories">
@@ -29,7 +29,7 @@
                         </li>
                         <!-- more NG loops would happen here -->
                         <li ng-repeat="sub3 in sub2.subcategories">
-                            <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" >{{ sub3.name }}</a>
+                            <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" ng-click="hideMobileNav()">{{ sub3.name }}</a>
                         </li>
                     </ul>
                 </li>

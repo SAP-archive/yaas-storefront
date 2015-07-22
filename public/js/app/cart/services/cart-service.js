@@ -77,26 +77,29 @@ angular.module('ds.cart')
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
+
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
                 CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
                     cart = response.plain();
-
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
-                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).then(function () {
-                            CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
-                                cart = response.plain();
-                                defCartTemp.resolve(cart);
-                            }, function () {
-                                defCartTemp.reject();
-                            });
-                        }, function () {
-                            CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
-                                cart = response.plain();
-                                defCartTemp.resolve(cart);
-                            }, function () {
-                                defCartTemp.reject();
-                            });
+                        CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).finally(function () {
+                            if (!!GlobalData.customerAccount) {
+                                CartREST.Cart.one('carts', '').get({ customerId: GlobalData.customerAccount.customerNumber, siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
+                            else {
+                                CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                    cart = response.plain();
+                                    defCartTemp.resolve(cart);
+                                }, function () {
+                                    defCartTemp.reject();
+                                });
+                            }
                         });
 
                     } else {
@@ -120,12 +123,7 @@ angular.module('ds.cart')
                     defCart.resolve(cart);
                 });
                 defCart.promise.then(function () {
-                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout });
-
-                    //update coupon
-                    if (angular.isObject(cart) && angular.isObject(cart.subTotalPrice) && angular.isDefined(cart.subTotalPrice.amount)) {
-                        $rootScope.$emit('coupon:cartupdate', { subTotalPrice: cart.subTotalPrice.amount });
-                    }
+                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
                 });
                 return defCart.promise;
             }
@@ -303,6 +301,18 @@ angular.module('ds.cart')
                     } else {
                         return $q.when({});
                     }
+                },
+
+                redeemCoupon: function (coupon, cartId) {
+                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
+                },
+
+                removeAllCoupons: function(cartId) {
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
+                        refreshCart(cartId, 'manual');
+                    });
                 }
 
 

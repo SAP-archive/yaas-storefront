@@ -10,181 +10,130 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Coupon Ctrl Test: ', function () {
+describe('CouponCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, AuthSvc;
+    var $scope, $rootScope, $controller, $injector, $q;
 
-    var mockedCouponSvc = {
+    //***********************************************************************
+    // Common Setup
+    // - shared setup between constructor validation and method validation
+    //***********************************************************************
+
+    // configure the target controller's module for testing - see angular.mock
+
+
+    var translateReturn = {
+        then: jasmine.createSpy()
     };
+    function mockedTranslate(title) {
+        return { then: function(callback){callback(title)}};
+    }
 
-    var mockCoupon = {
-            code: '',
-            applied: false,
-            valid: true,
-            message : {
-                error: 'Code not valid',
-                success: 'Applied'
-            },
-            amounts : {
-                originalAmount: 0,
-                discountAmount: 0
-            }
-        };
-    var UserCoupon = {
-        applyCoupon:jasmine.createSpy('applyCoupon').andReturn(mockCoupon),
-        getCoupon:function(){
-            return mockCoupon;
-        },
-        setCoupon:function(couponData){
-            return mockCoupon;
-        },
-        setBlankCoupon: jasmine.createSpy('setBlankCoupon').andReturn(mockCoupon)
-    };
-
-    var authDialogDeferred, mockAuthDialogManager = {};
-
-    beforeEach(module('ds.coupon', function ($provide) {
+    beforeEach(angular.mock.module('ds.coupon'));
+    beforeEach(module('ds.account', function ($provide) {
+        $provide.value('$translate', mockedTranslate);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
-        $scope = _$rootScope_.$new();
-        $rootScope = _$rootScope_.$new();
-        $controller = _$controller_;
-        $q =  _$q_;
 
-        authDialogDeferred = $q.defer();
-        authDialogDeferred.then = function(){};
-        mockAuthDialogManager = {
-            isOpened: jasmine.createSpy('then'),
-            open: jasmine.createSpy('open').andReturn( authDialogDeferred),
-            close: jasmine.createSpy('close')
-        };
-
-        var couponDeferredValidate = $q.defer();
-        mockedCouponSvc.validateCoupon = jasmine.createSpy('validateCoupon').andCallFake(function() {
-            return couponDeferredValidate.promise;
+        this.addMatchers({
+            toEqualData: function (expected) {
+                return angular.equals(this.actual, expected);
+            }
         });
-
+        $rootScope =  _$rootScope_;
+        $scope = _$rootScope_.$new();
+        $controller = _$controller_;
+        $q = _$q_;
     }));
 
-    describe('Coupon Ctrl ', function () {
+    var couponCtrl, mockCartSvc, mockCart, mockCouponSvc, mockAuthSvc, mockGlobalData, couponResult, products;
 
-        beforeEach(function () {
-
-        AuthSvc = {
-            isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
+    beforeEach(function () {
+        mockGlobalData = {
+            getCurrencySymbol: jasmine.createSpy().andReturn('$')
         };
-            couponCtrl = $controller('CouponCtrl', {$scope: $scope, AuthSvc:AuthSvc, AuthDialogManager:mockAuthDialogManager, CouponSvc:mockedCouponSvc, UserCoupon:UserCoupon });
-        });
 
-        it('should exist', function () {
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback({}); } }
-            });
-            expect($scope.applyCoupon).toBeDefined();
-            expect($scope.removeCoupon).toBeDefined();
-            expect(mockedCouponSvc.getCoupon).toBeDefined();
-            expect(mockedCouponSvc.validateCoupon).toBeDefined();
-        });
-
-
-        it('should call coupon event update', function () {
-            var testCoupon = mockCoupon;
-            testCoupon.code = '1234';
-            $rootScope.$emit('coupon:updated', {e:{}, userCoupon: testCoupon});
-            expect($scope.applyCoupon).toBeDefined();
-            expect($scope.coupon).toEqual(testCoupon);
-        });
-
-        it('should call cart event update', function () {
-            mockedCouponSvc.getCoupon = jasmine.createSpy('getCoupon').andCallFake(function() {
-                return {then: function(callback) { return callback({}); } }
-            });
-            $rootScope.$emit('coupon:cartupdate');
-        });
-
-        it('should remove a coupon', function () {
-            $scope.removeCoupon();
-            expect(UserCoupon.setBlankCoupon).toHaveBeenCalled();
-        });
-
-
-        it('should apply a PERCENT coupon', function () {
-            $scope.cart = {
-                totalPrice : {
-                    amount: 9.99
-                },
-                subTotalPrice: {
-                    amount: 11.99
-                }
-            };
-            var couponData = {
-                discountAbsolute:{
-                    amount: 19.99
-                },
-                discountType: 'PERCENT'
+        couponResult = {
+            name: 'coupon1234',
+            code: 'coupon1234',
+            discountType: 'ABSOLUTE',
+            discountAbsolute: {
+                amount: 5,
+                currency: 'USD'
             }
+        };
 
-            $scope.applyCoupon('CouponCode');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('CouponCode', { subTotalPrice : 11.99 });
-        });
+        var deferredCoupon = $q.defer();
+        deferredCoupon.resolve(couponResult);
 
-        it('should apply a ABSOLUTE coupon', function () {
-            $scope.cart = {
-                totalPrice : {
-                    amount: 9.99
-                },
-                subTotalPrice: {
-                    amount: 44.99
-                }
-            };
-            var couponData = {
-                discountAbsolute:{
-                    amount: 9.99
-                },
-                discountType: 'ABSOLUTE'
-            }
+        mockCouponSvc = {
+            getCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
+            redeemCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
+            removeAllCoupons: jasmine.createSpy()
+        };
 
-            $scope.applyCoupon('TEST8');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith('TEST8', { subTotalPrice : 44.99 });
-        });
+        mockCart = {
+            id: 'cart1234',
+            currency: 'USD'
+        };
 
-        it('should apply an ABSOLUTE ZERO coupon, with a larger discount than subtotal', function () {
-            $scope.cart = {
-                totalPrice : {
-                    amount: 9.99
-                },
-                subTotalPrice: {
-                    amount: 1.99
-                }
-            };
-            var couponData = {
-                discountAbsolute:{
-                    amount: 19.99
-                },
-                discountType: 'ABSOLUTE'
-            }
+        products = [
+            {'name': 'Electric Guitar', 'id': 'guitar1234', 'price': 1000.00, 'quantity': 1},
+            {'name': 'Acoustic Guitar', 'id': 'guitar5678', 'price': 800.00, 'quantity': 1}
+        ];
 
-            $scope.applyCoupon('TEST9');
-            expect(UserCoupon.applyCoupon).toHaveBeenCalledWith( 'TEST9', { subTotalPrice : 1.99 });
-        });
+        mockCart.items = products;
 
+        // stubbing a service with callback
+        mockCartSvc = {
+            getLocalCart: jasmine.createSpy().andReturn(mockCart)
+        };
 
+        mockAuthSvc = {
+            isAuthenticated: jasmine.createSpy().andReturn(true)
+        };
+
+        couponCtrl = $controller('CouponCtrl', {$scope: $scope,$rootScope: $rootScope, 'CartSvc': mockCartSvc,
+            'GlobalData': mockGlobalData,'AuthSvc': mockAuthSvc, 'CouponSvc': mockCouponSvc, '$translate': mockedTranslate});
 
     });
 
+    it('should apply the coupon', function () {
+        $scope.applyCoupon('coupon1234');
 
-    describe('Coupon Ctrl without Authentication ', function () {
+        expect(mockCouponSvc.getCoupon).toHaveBeenCalledWith('coupon1234');
 
-        beforeEach(function () {
-            AuthSvc = {
-                isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(false)
-            };
+        $scope.$apply();
 
-            couponCtrl = $controller('CouponCtrl', {$scope: $scope, AuthSvc:AuthSvc, AuthDialogManager:mockAuthDialogManager, CouponSvc:mockedCouponSvc, UserCoupon:UserCoupon });
-        });
+        expect(mockCouponSvc.redeemCoupon).toHaveBeenCalledWith(couponResult, $scope.cart.id);
+    });
 
+    it('should err if coupon has different currency than cart', function () {
+        $scope.cart.currency = 'EUR';
 
+        $scope.applyCoupon('coupon1234');
+
+        expect(mockCouponSvc.getCoupon).toHaveBeenCalledWith('coupon1234');
+
+        $scope.$apply();
+
+        expect($scope.coupon.error).toEqualData({status: 'CURR'});
+    });
+
+    it('should remove all coupons', function () {
+        $scope.removeAllCoupons();
+
+        expect(mockCouponSvc.removeAllCoupons).toHaveBeenCalledWith($scope.cart.id);
+    });
+
+    it('should update cart and currency symbol when the cart is updated', function () {
+        var newCart = angular.copy(couponResult);
+        newCart.currency = 'EUR';
+        $rootScope.$broadcast('cart:updated', {cart: newCart, source: 'manual'});
+
+        expect($scope.cart).toEqualData(newCart);
+        expect(mockGlobalData.getCurrencySymbol).toHaveBeenCalledWith('EUR');
     });
 
 });

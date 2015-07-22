@@ -38,8 +38,11 @@ angular.module('ds.shared')
                     //Update cart and etc.
                     SiteSelectorSvc.changeSite(site);
                 }
-                if (previousLanguage !== language) {
-                    GlobalData.setLanguage(language);
+                else {
+                    //If site is not changed, only change language
+                    if (previousLanguage !== language) {
+                        GlobalData.setLanguage(language);
+                    }
                 }
             };
         }

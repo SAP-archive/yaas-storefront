@@ -121,7 +121,7 @@ angular.module('ds.shared')
                             siteSettingPromise.then(function (site) {
 
                                 //Set site
-                                GlobalData.setSite(site, true);
+                                GlobalData.setSite(site);
 
                                 var languageSet = false;
                                 if (AuthSvc.isAuthenticated()) {
@@ -146,7 +146,9 @@ angular.module('ds.shared')
                                     CategorySvc.getCategories().then(function () {
                                         def.resolve({});
                                     });
-                                    CartSvc.getCart(); // no need to wait for cart promise to resolve
+
+                                    //We are getting cart with siteChange that happens on load
+                                    //CartSvc.getCart(); // no need to wait for cart promise to resolve
 
                                 }
                                 initialized = true;

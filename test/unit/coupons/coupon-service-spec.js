@@ -13,25 +13,25 @@
 describe('Coupon Service Test:', function () {
 
     var $scope, $rootScope, couponUrl, cartUrl, mockBackend;
-    var CartREST = {};
+    var CouponREST = {};
     var CouponSvc = {};
+    var CartSvc = {};
     var AuthSvc = {
         isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(true)
     };
     var mockCoupon = {
-            code: '',
+            code: 'test1',
             applied: false,
             valid: true,
-            message : {
-                error: 'Code not valid',
-                success: 'Applied'
-            },
-            amounts : {
-                originalAmount: 0,
-                discountAmount: 0
+            discountType: 'ABSOLUTE',
+            discountAbsolute: {
+                amount: 5,
+                currency: 'USD'
             }
         };
-    var UserCoupon = {};
+    var mockCart = {
+        id: 'cart123'
+    };
     var storeTenant = '121212';
     var eng = 'English';
     var usd = 'US Dollar';
@@ -64,6 +64,8 @@ describe('Coupon Service Test:', function () {
     };
 
     beforeEach(module('ds.cart', function ($provide) {
+        $provide.value('AccountSvc', {});
+        $provide.value('ProductSvc', {});
     }));
 
     beforeEach(module('ds.coupon', function ($provide) {
@@ -83,11 +85,14 @@ describe('Coupon Service Test:', function () {
         module('restangular');
     });
 
-    beforeEach(inject(function( SiteConfigSvc, _CouponSvc_, _UserCoupon_, _$rootScope_, _CouponREST_, CartREST, _$httpBackend_) {
+    beforeEach(inject(function( _CouponSvc_, _$rootScope_, _CouponREST_, _CartSvc_, _$httpBackend_, SiteConfigSvc) {
         $scope = _$rootScope_.$new();
-        UserCoupon = _UserCoupon_;
         CouponREST = _CouponREST_;
         CouponSvc = _CouponSvc_;
+        CartSvc = _CartSvc_;
+
+        CartSvc.redeemCoupon = jasmine.createSpy();
+        CartSvc.removeAllCoupons = jasmine.createSpy();
 
         mockBackend = _$httpBackend_;
         couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
@@ -97,147 +102,50 @@ describe('Coupon Service Test:', function () {
     describe('Coupon Service ', function () {
 
         it('should exist', function () {
-            expect(CouponSvc.getValidateCoupon).toBeDefined();
-            expect(CouponSvc.validateCoupon).toBeDefined();
+            expect(CouponSvc.getCoupon).toBeDefined();
             expect(CouponSvc.redeemCoupon).toBeDefined();
-            expect(CouponSvc.buildCouponCartRequest).toBeDefined();
-            expect(CouponSvc.buildCouponRequest).toBeDefined();
+            expect(CouponSvc.removeAllCoupons).toBeDefined();
         });
 
         it("should get a coupon", function() {
+            var getPayload = {"Accept":"application/json, text/plain, */*"};
 
-            var getPayload = {"Accept":"application/json, text/plain, */*"},
-            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
-            response = {},
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
+            mockBackend.expectGET(couponUrl +'coupons/test1', getPayload).respond(200, {});
 
-            mockBackend.expectGET(couponUrl +'coupons/CouponCode', getPayload).respond(200, response);
-
-            var promise = CouponSvc.getCoupon('CouponCode');
-             promise.then(successSpy, errorSpy);
+            CouponSvc.getCoupon('test1');
 
             mockBackend.flush();
 
-            expect(promise.then).toBeDefined();
-            expect(successSpy).not.toHaveBeenCalled();
-            expect(errorSpy).toHaveBeenCalled();
-
         });
-
-        it("should validate a fixed rate coupon", function() {
-
-            var getPayload = {"Accept":"application/json, text/plain, */*"},
-            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
-            response = {},
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-
-            mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
-
-            var couponData = {discountType: 'ABSOLUTE', discountAbsolute: {amount:null} }
-            var promise = CouponSvc.validateCoupon('CouponCode', 9.99, couponData);
-             promise.then(successSpy, errorSpy);
-
-            mockBackend.flush();
-
-            expect(promise.then).toBeDefined();
-            expect(successSpy).toHaveBeenCalled();
-            expect(errorSpy).not.toHaveBeenCalled();
-
-        });
-
-        it("should validate a percentage coupon", function() {
-
-            var getPayload = {"Accept":"application/json, text/plain, */*"},
-            postPayload = {"orderCode":"CouponCode","orderTotal":{"currency":"USD","amount":9.99},"discount":{"currency":"USD","amount":null}},
-            response = {},
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-
-            mockBackend.expectPOST(couponUrl +'coupons/CouponCode/validation', postPayload).respond(200, response);
-
-            var couponData = {discountType: 'PERCENTAGE', discountAbsolute: {amount:null} }
-            var promise = CouponSvc.validateCoupon('CouponCode', 9.99, couponData);
-             promise.then(successSpy, errorSpy);
-
-            mockBackend.flush();
-
-            expect(promise.then).toBeDefined();
-            expect(successSpy).toHaveBeenCalled();
-            expect(errorSpy).not.toHaveBeenCalled();
-
-        });
-
-        it("should getvalidate a fixed rate coupon", function() {
-
-            var getPayload = {"Accept":"application/json, text/plain, */*"},
-            response = {},
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-
-            mockBackend.expectGET(couponUrl +'coupons/CouponCode').respond(200, response);
-
-            var promise = CouponSvc.getValidateCoupon('CouponCode', 19.99);
-             promise.then(successSpy, errorSpy);
-
-            mockBackend.flush();
-
-            expect(promise.then).toBeDefined();
-            expect(successSpy).not.toHaveBeenCalled();
-            expect(errorSpy).toHaveBeenCalled();
-
-        });
-
 
         it("should redeem a coupon", function() {
+            CouponSvc.redeemCoupon(mockCoupon, mockCart.id);
 
-            var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
-            var couponCartRequest = {"amount":1.99,"code":"1234","currency":"USD","name":"something","calculationType":"ApplyDiscountBeforeTax","links":[{"rel":"validate","href":"https://api.yaas.io/hybris/coupon/b1/121212/coupons/1234/validation","type":"application/json","title":"Discounts Validate"},{"rel":"redeem","href":"https://api.yaas.io/hybris/coupon/b1/121212/coupons/1234/redemptions","type":"application/json","title":"Discounts Redeem"}],"sequenceId":1},
-            couponRequest = CouponSvc.buildCouponRequest( '1234', 'USD', 9.99, 1.99 ),
-            response = {},
-            successSpy = jasmine.createSpy('success'),
-            errorSpy = jasmine.createSpy('error');
-
-            mockBackend.expectPOST(couponUrl +'coupons/1234/redemptions', couponRequest).respond(200, response);
-            mockBackend.expectPOST(cartUrl +'carts/12345/discounts', couponCartRequest).respond(200, response);
-            var promise = CouponSvc.redeemCoupon( couponObj, '12345', 9.99 );
-            promise.then(successSpy, errorSpy);
-
-            mockBackend.flush();
-
-            expect(promise.then).toBeDefined();
-            expect(successSpy).toHaveBeenCalled();
-            expect(errorSpy).not.toHaveBeenCalled();
-
+            expect(CartSvc.redeemCoupon).toHaveBeenCalled();
         });
 
-        it("should build request objects", function() {
-            var couponObj = {code:'1234', name:'something', amounts:{discountAmount:1.99}};
-            var couponRequest = CouponSvc.buildCouponRequest( '1234', 'USD', 9.99, 1.99 );
-            var couponCartRequest = CouponSvc.buildCouponCartRequest( couponObj, '12345', 'USD' );
+        it("should redeem a percentage coupon", function() {
+            var mockCoupon2 = {
+                code: 'test1',
+                applied: false,
+                valid: true,
+                discountType: 'PERCENT',
+                discountPercentage: 10
+            };
 
-            expect(couponRequest.orderCode).toBe('1234');
-            expect(couponRequest.discount.currency).toBe('USD');
-            expect(couponRequest.orderTotal.amount).toBe(9.99);
-            expect(couponRequest.discount.amount).toBe(1.99);
-            expect(couponCartRequest.code).toBe('1234');
-            expect(couponCartRequest.id).toBe('12345');
-            expect(couponCartRequest.currency).toBe('USD');
+            CouponSvc.redeemCoupon(mockCoupon2, mockCart.id);
 
+            var modifiedMockCoupon = mockCoupon2;
+            modifiedMockCoupon.discountRate = mockCoupon.discountPercentage;
+
+            expect(CartSvc.redeemCoupon).toHaveBeenCalledWith(modifiedMockCoupon, mockCart.id);
         });
 
-        it("should validate currency", function() {
-            var couponData = {restrictions:{minOrderValue:{currency:'USD'}}};
-            var validation = CouponSvc.validateCurrency( couponData );
-            expect(validation).toBe(true);
-            couponData = {restrictions:{minOrderValue:{currency:'EUR'}}};
-            validation = CouponSvc.validateCurrency( couponData );
-            expect(validation).toBe(false);
+        it("should remove all coupons", function() {
+            CouponSvc.removeAllCoupons(mockCart.id);
 
-
+            expect(CartSvc.removeAllCoupons).toHaveBeenCalled();
         });
-
 
     });
 

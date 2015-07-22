@@ -121,6 +121,8 @@ angular.module('ds.i18n')
         COUPON_ERR_CURRENCY: 'Währungs ungültige Gutschein',
         COUPON_ERR_ANONYMOUS: 'Melden Sie sich an , um Gutscheincode zu nutzen',
         COUPON_ERR_UNAVAILABLE: 'Coupon nicht mehr verfügbar',
+        COUPON_MINIMUM_NOT_MET: 'Aktuelle Bestellsumme nicht die erforderliche Mindest für diesen Gutschein treffen',
+        COUPON_NOT_VALID: 'Coupon ungültig',
 
         /*
          confirmation
@@ -308,5 +310,6 @@ angular.module('ds.i18n')
         RESULTS: 'Ergebnisse',
         SEE_ALL: 'Zeige Alle',
         SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar.',
+        NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden.',
 
     });
