@@ -150,10 +150,16 @@
                             {{order.shipping.total.amount | currency: currencySymbol}}
                         </td>
                     </tr>
-                    <tr ng-if="order.discounts && order.discounts[0].amount != 0">
+                    <tr ng-if="order.discounts && order.discounts.length > 0 && order.discounts[0].amount != 0">
                         <td>{{'DISCOUNT' | translate}}</td>
                         <td class="text-right">
                             <span class="error">-{{ order.discounts[0].amount || 0 | currency: currencySymbol}}</span>
+                        </td>
+                    </tr>
+                    <tr ng-if="!!order.tax && !order.tax.total.inclusive">
+                        <td>{{'TAX' | translate}}</td>
+                        <td class="text-right">
+                            {{order.tax.total.amount | currency: currencySymbol}}
                         </td>
                     </tr>
                     </tbody>
