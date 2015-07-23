@@ -21,11 +21,14 @@ angular.module('ds.cart')
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
+        $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+      
         $scope.couponCollapsed = true;
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
         });
 
         $scope.$on('$destroy', unbind);

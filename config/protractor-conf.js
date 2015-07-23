@@ -7,7 +7,7 @@ exports.config = {
 
     specs: [
         //not supported until we have multiple sites
-        '../test/e2e/localization-tests.js',
+        // '../test/e2e/localization-tests.js',
         '../test/e2e/cart-tests.js',
         '../test/e2e/checkout-tests.js',
         '../test/e2e/coupon-tests.js',
