@@ -28,7 +28,8 @@ angular.module('ds.checkout')
 
             var totalPrice = 0;
 
-            $scope.showEditCart = function(){
+            $scope.showEditCart = function () {
+                $scope.cart = CartSvc.getLocalCart();
                 totalPrice = $scope.cart.totalPrice.amount;
                 $rootScope.checkoutCartEditVisible = true;
             };
