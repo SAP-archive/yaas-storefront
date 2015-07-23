@@ -27,6 +27,13 @@ angular.module('ds.i18n')
 
 
         /*
+            countries
+        */
+        CANADA: 'Canada',
+        USA: 'USA',
+
+
+        /*
          cart
          */
         BACK_TO_CHECKOUT: 'zurück zur Kasse',
@@ -41,6 +48,10 @@ angular.module('ds.i18n')
         CART_UNAVAILABLE: 'Warenkorb momentan nicht zugänglich.  Bitte noch einmal anfordern.',
         CART_EMPTY: 'Keine Artikel im Korb',
         CART_ITEM_UPDATE_ERROR: 'Aktualizierung nicht erfolgreich. Bitte noch einmal anfordern.',
+        ESTIMATE_TAX: 'Schätzung Steuerberatung',
+        APPLY: 'Anwenden',
+        ESTIMATE_TAX_ERROR: 'PLZ/Postleitzahl und Land Code Felder sind Pflichtfelder',
+
 
         /*
          checkout

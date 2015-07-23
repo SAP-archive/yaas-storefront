@@ -29,7 +29,7 @@
         <tr ng-show="!!taxType && taxType !== 'FLATRATE'">
             <td class="estimate-tax-link">
                 <a href="" ng-click="showTaxEstimation=!showTaxEstimation">
-                    Estimate Tax
+                    {{'ESTIMATE_TAX'|translate}}
                     <span ng-show="!showTaxEstimation" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                     <span ng-show="showTaxEstimation" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                 </a>
@@ -45,17 +45,17 @@
         <tr class="zip-inputs" ng-show="showTaxEstimation">
             <td>
                 <select class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
-                    <option value="CA">Canada</option>
-                    <option value="US">USA</option>
+                    <option value="CA">{{'CANADA'|translate}}</option>
+                    <option value="US">{{'USA'|translate}}</option>
                 </select>
             </td>
             <td>
-                <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">Apply</button>
+                <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">{{'APPLY'|translate}}</button>
             </td>
         </tr>
         <tr ng-show="taxEstimationError">
             <td>
-                Zip/Postal Code and Country Code fields are required.
+               {{'ESTIMATE_TAX_ERROR'|translate}}
             </td>
         </tr>
 
