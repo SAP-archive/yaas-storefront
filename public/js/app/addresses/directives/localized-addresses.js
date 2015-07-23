@@ -90,15 +90,33 @@ angular.module('ds.addresses').
 				switch(scope.viewTarget){
 					case 'addAddress':
 						scope.address.country = locale.id;
-						scope.address.state = '';
+                        scope.address.companyName = '';
+                        scope.address.street = '';
+                        scope.address.streetAppendix = '';
+                        scope.address.city = '';
+                        scope.address.state = '';
+                        scope.address.zipCode = '';
+                        scope.address.contactPhone = '';
 						break;
 					case 'billing':
 						scope.order.billTo.country = locale.id;
+                        scope.order.billTo.companyName = '';
+                        scope.order.billTo.address1 = '';
+                        scope.order.billTo.address2 = '';
+                        scope.order.billTo.city = '';
 						scope.order.billTo.state = '';
+                        scope.order.billTo.zip = '';
+                        scope.order.billTo.contactPhone = '';
 						break;
 					case 'shipping':
 						scope.order.shipTo.country = locale.id;
-						scope.order.shipTo.state = '';
+                        scope.order.shipTo.companyName = '';
+                        scope.order.shipTo.address1 = '';
+                        scope.order.shipTo.address2 = '';
+                        scope.order.shipTo.city = '';
+                        scope.order.shipTo.state = '';
+                        scope.order.shipTo.zip = '';
+                        scope.order.shipTo.contactPhone = '';
 						break;
 					default:
 						break;
