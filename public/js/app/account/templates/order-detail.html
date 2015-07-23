@@ -110,7 +110,6 @@
         </div>
         <div class="hidden-lg">
             <div class="summary" ng-repeat="entry in order.entries">
-
                 <div class="cart-item row">
                     <div class="col-xs-4 col-md-4 text-center img-col">
                         <a ui-sref="base.product.detail( {productId: entry.product.id} )">
@@ -150,7 +149,7 @@
                             {{order.shipping.total.amount | currency: currencySymbol}}
                         </td>
                     </tr>
-                    <tr ng-if="order.discounts && order.discounts.length > 0 && order.discounts[0].amount != 0">
+                    <tr ng-if="order.discounts && order.discounts[0].amount != 0">
                         <td>{{'DISCOUNT' | translate}}</td>
                         <td class="text-right">
                             <span class="error">-{{ order.discounts[0].amount || 0 | currency: currencySymbol}}</span>

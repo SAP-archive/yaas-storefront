@@ -85,7 +85,7 @@
                                 <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                             </td>
                         </tr>
-                        <tr ng-if="!!confirmationDetails.tax">
+                        <tr ng-if="!!confirmationDetails.tax && !confirmationDetails.tax.total.inclusive">
                             <td>{{'TAX' | translate}}</td>
                             <td class="text-right">{{confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
                         </tr>
