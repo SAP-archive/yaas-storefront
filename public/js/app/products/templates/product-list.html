@@ -73,6 +73,7 @@
                 </div>
                 <div class="productInfoContainer text-center">
                     <div class="name">{{ product.product.name }}</div>
+                    <div ng-if="prices[product.product.id].salePrice" class="price"><strike>{{ prices[product.product.id].originalAmount | currency: currencySymbol }}</strike></div>
                     <div ng-if="!prices[product.product.id].measurementUnit" class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
                     <div ng-if="prices[product.product.id].measurementUnit" class="price">
                         <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
