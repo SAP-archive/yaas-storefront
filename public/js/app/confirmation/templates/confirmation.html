@@ -1,4 +1,7 @@
 <div class="confirm">
+    <div class="row section success-box" ng-if="accountSuccess">
+        {{'ACCOUNT_SUCCESS' | translate}}
+    </div>
     <div class="row text-center header-block">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
             <h1>
@@ -137,9 +140,6 @@
     <div class="order-success"  ng-cloak>
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                <h2 ng-if="accountSuccess">
-                    <small>{{'SUCCESS' | translate}}</small>
-                </h2>
                 <h3>{{'ENJOY_YOUR_ITEMS' | translate}}</h3>
 
                 <div data-ui-sref="base.category">
