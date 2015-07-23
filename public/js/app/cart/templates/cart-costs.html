@@ -53,6 +53,11 @@
                 <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">Apply</button>
             </td>
         </tr>
+        <tr ng-show="taxEstimationError">
+            <td>
+                Zip/Postal Code and Country Code fields are required.
+            </td>
+        </tr>
 
     </tbody>
 </table>

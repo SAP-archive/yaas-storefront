@@ -85,6 +85,7 @@ angular.module('ds.cart')
         };
 
         $scope.applyTax = function () {
+            $scope.taxEstimationError = false;
             if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
                 var params = {
                     countryCode: $scope.calculateTax.countryCode,
@@ -100,6 +101,7 @@ angular.module('ds.cart')
                 //Show error message
                 $scope.taxCalculationApplied = false;
                 $scope.showTaxEstimation = false;
+                $scope.taxEstimationError = true;
             }
         };
 
