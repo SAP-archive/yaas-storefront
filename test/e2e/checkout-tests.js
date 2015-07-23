@@ -145,7 +145,7 @@ describe("checkout:", function () {
         it('should load one product into cart and move to checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$13.94', '1');
+            verifyCartContents('$10.67', '$14.92', '1');
         });
 
         it('should update cart quantity on checkout page', function () {
@@ -153,14 +153,14 @@ describe("checkout:", function () {
             var editCartButton = "(//span[@id='checkout-cart-btn'])[2]"
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal()
-            verifyCartContents('$10.67', '$13.94', '1');
+            verifyCartContents('$10.67', '$14.92', '1');
             tu.clickElement('xpath', editCartButton);
             browser.wait(function () {
                 return element(by.binding('BACK_TO_CHECKOUT')).isPresent();
             });          
             tu.sendKeysByXpath("//input[@type='number']", '5');
             tu.clickElement('binding', 'BACK_TO_CHECKOUT');
-            verifyCartContents('$10.67', '$56.62', '5');
+            verifyCartContents('$10.67', '$60.58', '5');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
@@ -170,7 +170,7 @@ describe("checkout:", function () {
             browser.wait(function () {
                 return element(by.binding("ORDER_TOTAL")).isPresent();
             });
-            verifyCartContents('$10.67', '$24.61', '2');
+            verifyCartContents('$10.67', '$26.33', '2');
         });
 
         it('should load 2 different products into cart and move to checkout', function () {
@@ -194,7 +194,7 @@ describe("checkout:", function () {
             browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$28.93', '1');
+            verifyCartContents('$10.67', '$30.96', '1');
         });
 
         it('should allow all fields to be editable', function () {
@@ -297,7 +297,7 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page', function () {
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$24.61');
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$26.33');
         });
 
         it('should checkout in Euros', function () {
