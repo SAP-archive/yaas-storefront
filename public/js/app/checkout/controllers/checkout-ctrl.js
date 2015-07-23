@@ -80,6 +80,7 @@ angular.module('ds.checkout')
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
+                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
             });
 
             $scope.$on('$destroy', unbind);
