@@ -93,6 +93,8 @@ angular.module('ds.ysearch')
                             // do not take out-dated answers into account
                             return;
                         }
+                        //Hide error only when search was ok
+                        scope.search.searchError = false;
                         scope.search.numberOfHits = content.nbHits;
                         scope.search.results = content.hits;
                         scope.search.searchError = false;

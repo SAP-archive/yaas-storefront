@@ -24,6 +24,8 @@ angular.module('ds.cart')
         $scope.taxCalculationApplied = false;
         $scope.showTaxEstimation = false;
 
+        $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+      
         $scope.couponCollapsed = true;
         $scope.taxType = GlobalData.getTaxType();
         $scope.calculateTax = {
@@ -35,6 +37,7 @@ angular.module('ds.cart')
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
             $scope.taxType = GlobalData.getTaxType();
+            $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
         });
 
         $scope.$on('$destroy', unbind);
