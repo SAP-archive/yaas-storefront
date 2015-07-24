@@ -112,7 +112,6 @@ angular.module('ds.cart')
                 var defCartTemp = $q.defer();
 
                 var params = angular.extend({ siteCode: GlobalData.getSiteCode() }, additionalParams);
-                console.log(params);
 
                 CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                     cart = response.plain();
