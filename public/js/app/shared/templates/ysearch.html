@@ -20,6 +20,8 @@
 
     <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && search.searchError">
         <div class="y-search-unavailable-text">{{'SEARCH_UNAVAILABLE' | translate}}</div>
+    </div> 
+    <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && !search.searchError && search.zeroResults">
+        <div class="y-search-unavailable-text">{{'NO_RESULTS_FOUND' | translate}}</div>
     </div>
-
 </div>

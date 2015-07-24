@@ -80,6 +80,7 @@ angular.module('ds.checkout')
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
+                $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
             });
 
             $scope.$on('$destroy', unbind);
@@ -351,6 +352,7 @@ angular.module('ds.checkout')
             /** Show error message after failed checkout, re-enable the submit button and reset any wait cursor/splash screen.
              * @param error message*/
             function onCheckoutFailure (error) {
+
                 $scope.message = error;
                 $scope.submitIsDisabled = false;
                 modal.close();

@@ -110,24 +110,28 @@
                 <table class="table ">
                     <tbody>
                     <tr>
-                        <td class="text-left">{{'SUBTOTAL' | translate}}</td>
+                        <td>{{'SUBTOTAL' | translate}}</td>
 
-                        <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount | currency: currencySymbol}}</td>
+                        <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
                     </tr>
                     <tr>
-                        <td class="text-left">{{'SHIPPING' | translate}}</td>
+                        <td>{{'SHIPPING' | translate}}</td>
                         <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
                     </tr>
                     <tr ng-if="confirmationDetails.discountAmount != 0">
-                        <td class="text-left">{{'DISCOUNT' | translate}}</td>
+                        <td>{{'DISCOUNT' | translate}}</td>
                         <td class="text-right">
                             <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                         </td>
                     </tr>
+                    <tr ng-if="!!confirmationDetails.tax && !confirmationDetails.tax.total.inclusive">
+                        <td>{{'TAX' | translate}}</td>
+                        <td class="text-right">{{confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
+                        <td>{{'ORDER_TOTAL' | translate}}</td>
                         <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
                     <tr>
 

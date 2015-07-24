@@ -310,6 +310,6 @@ angular.module('ds.i18n')
         RESULTS: 'Results',
         SEE_ALL: 'See All',
         SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
-
+	    NO_RESULTS_FOUND:'No results found.',
 
 	});

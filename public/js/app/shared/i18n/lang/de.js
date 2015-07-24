@@ -310,5 +310,6 @@ angular.module('ds.i18n')
         RESULTS: 'Ergebnisse',
         SEE_ALL: 'Zeige Alle',
         SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar.',
+        NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden.',
 
     });
