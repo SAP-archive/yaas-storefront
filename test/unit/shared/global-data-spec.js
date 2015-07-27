@@ -48,7 +48,9 @@ describe('GlobalData', function () {
     describe('setLanguage()', function () {
 
         beforeEach(function () {
-            GlobalData.setDefaultLanguage({ id: 'en', label: 'English' });
+
+            GlobalData.setLanguage('en', '');
+            //GlobalData.setDefaultLanguage({ id: 'en', label: 'English' });
             GlobalData.setAvailableLanguages([{ id: 'en', label: 'English'}, { id: 'de', label: 'Deutsch' }, { id: 'fr', label: 'Français' }]);
         });
 
@@ -90,7 +92,9 @@ describe('GlobalData', function () {
     describe('setAvailableLanguage()', function () {
         it('should return the same language', function () {
             var langs = [{ id: 'kl', label: 'Klingon' }];
-            GlobalData.setDefaultLanguage({ id: 'kl', label: 'Klingon' });
+
+            GlobalData.setLanguage('kl', '');
+            //GlobalData.setDefaultLanguage({ id: 'kl', label: 'Klingon' });
             GlobalData.setAvailableLanguages(langs);
             var out = GlobalData.getAvailableLanguages();
             expect(out).toEqualData(langs);
@@ -101,7 +105,6 @@ describe('GlobalData', function () {
         var defaultLangCode = 'fr';
 
         beforeEach(function () {
-
             GlobalData.setDefaultLanguage({ id: defaultLangCode, label: 'French'});
             GlobalData.setAvailableLanguages([{ id: defaultLangCode, label: 'French' }, { id: 'kl', label: 'Klingon' }]);
         });
