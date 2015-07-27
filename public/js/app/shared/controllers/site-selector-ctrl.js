@@ -35,8 +35,14 @@ angular.module('ds.shared')
 
                 //Only apply changes if site or language changed
                 if (previousCode !== $scope.selectedSite.code) {
-                    //Update cart and etc.
-                    SiteSelectorSvc.changeSite(site);
+                    if (previousLanguage !== language) {
+                        //Update cart and etc. and use choosen language
+                        SiteSelectorSvc.changeSite(site, language);
+                    }
+                    else {
+                        //Use default language from selected site
+                        SiteSelectorSvc.changeSite(site, $scope.selectedSite.defaultLanguage);
+                    }
                 }
                 else {
                     //If site is not changed, only change language
