@@ -571,6 +571,48 @@ describe('CartSvc Test', function () {
             expect(cart).toBeTruthy();
             expect(cart.error).toBeFalsy();
         });
+
+    });
+
+    describe('coupon tests', function () {
+        it('should redeem the coupon', function () {
+            console.log(mockedGlobalData.getCurrencyId());
+
+            var mockCoupon = {
+                code: 'test1',
+                applied: false,
+                valid: true,
+                discountType: 'ABSOLUTE',
+                discountAbsolute: {
+                    amount: 5,
+                    currency: 'USD'
+                },
+                amount: 5,
+                currency: 'USD'
+            };
+
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/discounts', mockCoupon).respond(201, {});
+
+            mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
+
+            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
+
+            cartSvc.redeemCoupon(mockCoupon, cartId);
+
+            mockBackend.flush();
+        });
+
+        it('should remove the coupon', function () {
+            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
+
+            mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
+
+            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
+
+            cartSvc.removeAllCoupons(cartId);
+
+            mockBackend.flush();
+        });
     });
 
 });

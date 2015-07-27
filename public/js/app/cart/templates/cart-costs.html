@@ -1,29 +1,34 @@
 <table class="table">
     <thead>
-
-    <tr>
-        <th>{{'EST_ORDER_TOTAL' | translate}}</th>
-        <th class="text-right">{{ (cart.subTotalPrice.amount-coupon.amounts.discountAmount>0)? cart.subTotalPrice.amount-coupon.amounts.discountAmount : 0 || 0 | currency: currencySymbol}}</th>
-    <tr>
-
+        <tr>
+            <th>{{'EST_ORDER_TOTAL' | translate}}</th>
+            <th class="text-right">{{cart.totalPrice.amount | currency: currencySymbol}}</th>
+        <tr>
     </thead>
-
     <tbody>
-
-    <tr>
-        <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
-        </td>
-        <td class="text-right">
-            {{cart.subTotalPrice.amount | currency: currencySymbol}}
-        </td>
-    </tr>
-
-    <tr ng-if="coupon.amounts.discountAmount != 0">
-        <td>{{'DISCOUNT' | translate}}</td>
-        <td class="text-right">
-            <span class="error">-{{coupon.amounts.discountAmount | currency: currencySymbol}}</span>
-        </td>
-    </tr>
-
+        <tr>
+            <td>
+                {{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
+            </td>
+            <td class="text-right">
+                {{cart.subTotalPrice.amount | currency: currencySymbol}}
+            </td>
+        </tr>
+        <tr ng-if="cart.discounts.length">
+            <td>{{'DISCOUNT' | translate}}</td>
+            <td class="text-right">
+                <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>{{'SHIPPING' | translate}}</td>
+            <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
+        </tr>
+        <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+            <td>{{'TAX' | translate}}</td>
+            <td class="text-right">
+                {{cart.totalTax.amount | currency: currencySymbol}}
+            </td>
+        </tr>
     </tbody>
 </table>

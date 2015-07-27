@@ -123,6 +123,8 @@ angular.module('ds.i18n')
         COUPON_ERR_CURRENCY: 'Currency invalid with coupon',
         COUPON_ERR_ANONYMOUS: 'Sign in to use coupon code',
         COUPON_ERR_UNAVAILABLE: 'Coupon no longer available',
+        COUPON_MINIMUM_NOT_MET: 'Current order total does not meet the required minimum for this coupon',
+        COUPON_NOT_VALID: 'Coupon Not Valid',
 
         /*
             confirmation
@@ -308,6 +310,6 @@ angular.module('ds.i18n')
         RESULTS: 'Results',
         SEE_ALL: 'See All',
         SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
-
+	    NO_RESULTS_FOUND:'No results found.',
 
 	});

@@ -6,7 +6,7 @@
 		<div class="col-sm-7 col-md-7 order-summary" ng-cloak>
 			<h1>
 				<small>{{'SUCCESS' | translate}}</small>
-				{{'THANK_YOU' | translate}}</br> {{'FOR_YOUR_ORDER' | translate}}
+				{{'THANK_YOU' | translate}}<br/> {{'FOR_YOUR_ORDER' | translate}}
 			</h1>
 			<p  ng-if="isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></p>
             <p  ng-if="!isAuthenticated" >{{'YOUR_ORDER_IS' | translate}} {{ orderInfo.orderId }}</p>
@@ -67,24 +67,27 @@
                     </div>
                 </div>
 			</section>
-
             <section class="summary" ng-cloak>
                 <table class="table">
                     <tbody>
                         <tr>
                             <td>{{'SUBTOTAL' | translate}}</td>
 
-                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount | currency: currencySymbol}}</td>
+                            <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
                         </tr>
                         <tr>
                             <td>{{'SHIPPING' | translate}}</td>
-                            <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
+                            <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: currencySymbol }}</td>
                         </tr>
-                        <tr ng-controller="CouponCtrl" ng-if="confirmationDetails.discountAmount != 0">
+                        <tr ng-if="confirmationDetails.discountAmount != 0">
                             <td>{{'DISCOUNT' | translate}}</td>
                             <td class="text-right">
                                 <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                             </td>
+                        </tr>
+                        <tr ng-if="!!confirmationDetails.tax && !confirmationDetails.tax.total.inclusive">
+                            <td>{{'TAX' | translate}}</td>
+                            <td class="text-right">{{confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
                         </tr>
                     </tbody>
                     <tfoot>
