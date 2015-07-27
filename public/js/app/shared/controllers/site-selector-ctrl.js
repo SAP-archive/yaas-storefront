@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.shared')
-    .controller('siteSelectorController', ['$rootScope', '$scope', 'GlobalData','SiteSelectorSvc',
+    .controller('siteSelectorController', ['$rootScope', '$scope', 'GlobalData', 'SiteSelectorSvc',
         function ($rootScope, $scope, GlobalData, SiteSelectorSvc) {
 
             $scope.sites = GlobalData.getSites();
@@ -35,14 +35,8 @@ angular.module('ds.shared')
 
                 //Only apply changes if site or language changed
                 if (previousCode !== $scope.selectedSite.code) {
-                    if (previousLanguage !== language) {
-                        //Update cart and etc. and use choosen language
-                        SiteSelectorSvc.changeSite(site, language);
-                    }
-                    else {
-                        //Use default language from selected site
-                        SiteSelectorSvc.changeSite(site, $scope.selectedSite.defaultLanguage);
-                    }
+                    //Update cart and etc. and use choosen language
+                    SiteSelectorSvc.changeSite(site, language);
                 }
                 else {
                     //If site is not changed, only change language
