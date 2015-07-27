@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>{{'SHIPPING' | translate}}</td>
-            <td class="text-right">{{ cart.shippingCost.amount | currency: shippingCurrencySymbol }}</td>
+            <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
         </tr>
         <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
             <td>{{'TAX' | translate}}</td>

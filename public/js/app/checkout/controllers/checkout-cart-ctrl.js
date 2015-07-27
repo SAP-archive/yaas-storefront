@@ -19,7 +19,6 @@ angular.module('ds.checkout')
 
             cart = $scope.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
-            $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
@@ -27,7 +26,6 @@ angular.module('ds.checkout')
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
-                $scope.shippingCurrencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
                 $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
                 $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
             });
