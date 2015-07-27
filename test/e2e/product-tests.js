@@ -17,13 +17,13 @@ describe('product page', function () {
         });
 
 
-  afterEach(function() {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      // expect(browserLog.length).toEqual(0);
-      // Uncomment to actually see the log.
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
-  });
+  // afterEach(function() {
+  //   browser.manage().logs().get('browser').then(function(browserLog) {
+  //     // expect(browserLog.length).toEqual(0);
+  //     // Uncomment to actually see the log.
+  //     console.log('log: ' + require('util').inspect(browserLog));
+  //   });
+  // });
 
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
@@ -142,11 +142,11 @@ describe('product page', function () {
             expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
             element(by.repeater('product in products').row(2).column('product.name')).click();
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.99');
-            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000g');
+            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000 g');
 
         });
 
-        it('should display sales price on PLP and PDP', function () {
+            it('should display sales price on PLP and PDP', function () {
             //default load
             tu.getTextByRepeaterRow(0);
             browser.sleep(3000);
