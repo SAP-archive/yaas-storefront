@@ -39,18 +39,18 @@
 
         <tr class="zip-inputs" ng-show="showTaxEstimation">
             <td>
-                <input type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
+                <input id="zipCode" type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
             </td>
         </tr>
         <tr class="zip-inputs" ng-show="showTaxEstimation">
             <td>
-                <select class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
+                <select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
                     <option value="CA">{{'CANADA'|translate}}</option>
                     <option value="US">{{'USA'|translate}}</option>
                 </select>
             </td>
             <td>
-                <button class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">{{'APPLY'|translate}}</button>
+                <button id="apply-btn" class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">{{'APPLY'|translate}}</button>
             </td>
         </tr>
         <tr ng-show="taxEstimationError">
