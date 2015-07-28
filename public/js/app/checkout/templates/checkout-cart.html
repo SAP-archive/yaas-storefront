@@ -6,7 +6,7 @@
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.totalPrice.amount | currency: shippingCurrencySymbol}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.totalPrice.amount | currency: currencySymbol}}</div>
     </section>
     <section class="cartItems" ng-cloak>
         <div ng-repeat="item in cart.items track by $index">
@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                     <td>{{'SHIPPING' | translate}}</td>
-                    <td class="text-right">{{ cart.shippingCost.amount | currency: shippingCurrencySymbol }}</td>
+                    <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
                 </tr>
                 <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
                     <td>{{'TAX' | translate}}</td>

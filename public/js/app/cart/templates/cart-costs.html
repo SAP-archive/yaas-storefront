@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>{{'SHIPPING' | translate}}</td>
-            <td class="text-right">{{ cart.shippingCost.amount | currency: shippingCurrencySymbol }}</td>
+            <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
         </tr>
 
         <tr ng-show="!!taxType && taxType !== 'FLATRATE'">
