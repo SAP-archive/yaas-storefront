@@ -38,6 +38,12 @@ angular.module('ds.cart')
             };
 
 
+            var calculateTax = {
+                zipCode: '',
+                countryCode: '',
+                taxCalculationApplied: false
+            };
+
             // application scope cart instance
             var cart = {};
 
@@ -110,12 +116,22 @@ angular.module('ds.cart')
 
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
-                CartREST.Cart.one('carts', cartId).get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+
+                var params = { siteCode: GlobalData.getSiteCode() };
+                if (GlobalData.getTaxType() === 'AVALARA' && calculateTax.zipCode !== '' && calculateTax.countryCode !== '') {
+                    params = angular.extend({ siteCode: GlobalData.getSiteCode() }, { zipCode: calculateTax.zipCode, countryCode: calculateTax.countryCode });
+                }
+                //var params = angular.extend({ siteCode: GlobalData.getSiteCode() }, additionalParams);
+
+                CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                     cart = response.plain();
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         CartREST.Cart.one('carts', cart.id).one('changeSite').customPOST({ siteCode: GlobalData.getSiteCode() }).finally(function () {
                             if (!!GlobalData.customerAccount) {
-                                CartREST.Cart.one('carts', '').get({ customerId: GlobalData.customerAccount.customerNumber, siteCode: GlobalData.getSiteCode() }).then(function (response) {
+
+                                params = angular.extend(params, { customerId: GlobalData.customerAccount.customerNumber });
+
+                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
@@ -123,7 +139,7 @@ angular.module('ds.cart')
                                 });
                             }
                             else {
-                                CartREST.Cart.one('carts', '').get({ siteCode: GlobalData.getSiteCode() }).then(function (response) {
+                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
@@ -347,6 +363,16 @@ angular.module('ds.cart')
                     return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
                         refreshCart(cartId, 'manual');
                     });
+                },
+
+                getCalculateTax: function () {
+                    return calculateTax;
+                },
+
+                setCalculateTax: function (zipCode, countryCode, taxCalculationApplied) {
+                    calculateTax.zipCode = zipCode;
+                    calculateTax.countryCode = countryCode;
+                    calculateTax.taxCalculationApplied = taxCalculationApplied;
                 }
 
 
