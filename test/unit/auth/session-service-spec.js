@@ -99,7 +99,7 @@ describe('SessionSvc', function () {
         });
 
 
-        it('should set language and currency preference if set', function(){
+        xit('should set language and currency preference if set', function(){
             var lang = 'de';
             var cur = 'EUR';
             var account = {id: 'abc', preferredCurrency: cur, preferredLanguage: lang};
