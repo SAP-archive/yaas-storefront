@@ -34,7 +34,7 @@
                     <span ng-show="showTaxEstimation" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                 </a>
             </td>
-            <td class="text-right" ng-show="showTaxEstimation && taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
+            <td class="text-right" ng-show="calculateTax.taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
         </tr>
 
         <tr class="zip-inputs" ng-show="showTaxEstimation">

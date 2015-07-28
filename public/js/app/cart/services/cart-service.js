@@ -38,6 +38,12 @@ angular.module('ds.cart')
             };
 
 
+            var calculateTax = {
+                zipCode: '',
+                countryCode: '',
+                taxCalculationApplied: false
+            };
+
             // application scope cart instance
             var cart = {};
 
@@ -106,12 +112,16 @@ angular.module('ds.cart')
 
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
-            function refreshCart(cartId, updateSource, closeCartAfterTimeout, additionalParams) {
+            function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
 
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
 
-                var params = angular.extend({ siteCode: GlobalData.getSiteCode() }, additionalParams);
+                var params = { siteCode: GlobalData.getSiteCode() };
+                if (GlobalData.getTaxType() === 'AVALARA' && calculateTax.zipCode !== '' && calculateTax.countryCode !== '') {
+                    params = angular.extend({ siteCode: GlobalData.getSiteCode() }, { zipCode: calculateTax.zipCode, countryCode: calculateTax.countryCode });
+                }
+                //var params = angular.extend({ siteCode: GlobalData.getSiteCode() }, additionalParams);
 
                 CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                     cart = response.plain();
@@ -355,8 +365,14 @@ angular.module('ds.cart')
                     });
                 },
 
-                getCartWithParams: function (params) {
-                    return refreshCart(cart.id ? cart.id : null, 'taxEstimationSource', false, params);
+                getCalculateTax: function () {
+                    return calculateTax;
+                },
+
+                setCalculateTax: function (zipCode, countryCode, taxCalculationApplied) {
+                    calculateTax.zipCode = zipCode;
+                    calculateTax.countryCode = countryCode;
+                    calculateTax.taxCalculationApplied = taxCalculationApplied;
                 }
 
 
