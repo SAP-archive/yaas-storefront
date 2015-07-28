@@ -51,7 +51,12 @@ describe('CartCtrl Test', function () {
             removeProductFromCart: jasmine.createSpy(),
             updateCartItem: jasmine.createSpy(),
             getCart: jasmine.createSpy().andReturn(cart),
-            getLocalCart: jasmine.createSpy().andReturn(cart)
+            getLocalCart: jasmine.createSpy().andReturn(cart),
+            getCalculateTax: jasmine.createSpy().andReturn({
+                zipCode: '60606',
+                countryCode: 'US',
+                taxCalculationApplied: true
+            })
         };
 
         mockedState = {
