@@ -46,7 +46,6 @@ angular.module('ds.checkout')
 
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
-            $scope.order.shippingCurrencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
