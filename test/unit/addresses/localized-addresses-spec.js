@@ -11,9 +11,14 @@
  */
 
 describe('LocalizedAddresses Test', function () {
-    var $compile, $rootScope, mockBackend;
+    var $compile, $rootScope, mockBackend, mockGlobalData;
+
+    mockGlobalData = {
+        getSite: jasmine.createSpy().andReturn({code: 'us'})
+    };
 
     beforeEach(module('ds.addresses', function ($provide) {
+        $provide.value('GlobalData', mockGlobalData);
     }));
 
     beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_){

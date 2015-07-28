@@ -17,8 +17,8 @@
  **/
 
 angular.module('ds.addresses').
-	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
-		function($compile, $http, $templateCache, $rootScope) {
+	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData',
+		function($compile, $http, $templateCache, $rootScope, GlobalData) {
 
 		var selectionArray = [
 				{id: 'US', name:'USA'},
@@ -31,7 +31,43 @@ angular.module('ds.addresses').
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
+            selectDefaultLocale(scope, viewType);
 		};
+
+        var selectDefaultLocale = function (scope, viewType) {
+
+            var currentSite = GlobalData.getSite();
+
+            angular.forEach(selectionArray, function (selection) {
+                if (selection.id === currentSite.code) {
+                    scope.localeSelection = selection;
+                }
+            });
+
+            if (!scope.localeSelection) {
+                scope.localeSelection = selectionArray[0];
+            }
+
+            switch(viewType){
+                case 'addAddress':
+                    if (scope.address) {
+                        scope.address.country = scope.localeSelection.id;
+                    }
+                    break;
+                case 'billing':
+                    if (scope.order.billTo) {
+                        scope.order.billTo.country = scope.localeSelection.id;
+                    }
+                    break;
+                case 'shipping':
+                    if (scope.order.shipTo) {
+                        scope.order.shipTo.country = scope.localeSelection.id;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
 
 		// load dynamic address template into scope
 		var loadTemplate = function(scope, elem, locale, viewType){
