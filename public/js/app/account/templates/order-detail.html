@@ -71,6 +71,10 @@
         <div class="section-headline">
             <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
+        <div ng-repeat="shipment in order.shipments">
+            <span><b>{{shipment.carrier}} {{'ON' | translate}} {{shipment.shippedDate}}</b></span><br>
+            <span ng-if="shipment.trackingNumber">{{'TRACKING_NUMBER' | translate}}: {{shipment.trackingNumber}}</span>
+        </div>
     </section>
     <section class="white clearfix orderItemsContainer" ng-cloak>
         <div class="section-headline">
