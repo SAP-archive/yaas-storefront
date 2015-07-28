@@ -21,13 +21,19 @@ angular.module('ds.cart')
         $scope.cart = CartSvc.getLocalCart();
         $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
 
+        $scope.showTaxEstimation = false;
+
         $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
       
         $scope.couponCollapsed = true;
+        $scope.taxType = GlobalData.getTaxType();
+
+        $scope.calculateTax = CartSvc.getCalculateTax();
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+            $scope.taxType = GlobalData.getTaxType();
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
         });
 
@@ -76,6 +82,25 @@ angular.module('ds.cart')
             else {
                 $state.go('base.checkout.details');
             }
+        };
+
+        $scope.applyTax = function () {
+            $scope.taxEstimationError = false;
+            if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
+                //Save countryCode and zipCode in service
+                CartSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.calculateTax.taxCalculationApplied);
+
+                CartSvc.getCart();
+                $scope.calculateTax.taxCalculationApplied = true;
+
+            }
+            else {
+                //Show error message
+                $scope.calculateTax.taxCalculationApplied = false;
+                $scope.showTaxEstimation = false;
+                $scope.taxEstimationError = true;
+            }
+
         };
 
     }]);

@@ -24,7 +24,13 @@ angular.module('ds.i18n')
 	    de: 'German',
 	    fr: 'French',
 	    es: 'Spanish',
+        
 
+	    /*
+            countries
+        */
+	    CANADA: 'Canada',
+	    USA: 'USA',
 
 
         /*
@@ -42,6 +48,9 @@ angular.module('ds.i18n')
         CART_UNAVAILABLE: 'The cart is currently unavailable. Please try again.',
         CART_EMPTY: 'Your cart is empty',
         CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
+        ESTIMATE_TAX: 'Estimate Tax',
+        APPLY: 'Apply',
+        ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
 
         /*
             checkout
@@ -309,7 +318,7 @@ angular.module('ds.i18n')
         SEARCH_AGAIN: 'Search again',
         RESULTS: 'Results',
         SEE_ALL: 'See All',
-        SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
-	    NO_RESULTS_FOUND:'No results found.',
+        SEARCH_UNAVAILABLE: 'Search is currently unavailable',
+	    NO_RESULTS_FOUND:'No results found',
 
 	});
