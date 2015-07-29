@@ -25,7 +25,7 @@ angular.module('ds.shared')
             var sites, currentSite;
 
             var languageCode;
-            var defaultLang;
+            var defaultLang = 'en';
             var languageMap = {};
             var availableLanguages = {};
             // HTTP accept-languages header setting for service calls
@@ -250,9 +250,6 @@ angular.module('ds.shared')
 
                 setDefaultLanguage: function (lang) {
                     defaultLang = lang.id;
-                    languageCode = lang.id;
-                    acceptLanguages = lang.id;
-                    setTranslateLanguage(lang.id);
                 },
 
                 /** Returns an array of language instances supported by this project.*/
@@ -265,7 +262,7 @@ angular.module('ds.shared')
                     CookieSvc.setSiteCookie(cookieSite);
                 },
 
-                setSite: function (site) {
+                setSite: function (site, selectedLanguageCode) {
                     if (!currentSite || currentSite.code !== site.code) {
 
                         //Set current site
@@ -299,9 +296,6 @@ angular.module('ds.shared')
                             }
                         }
 
-                        //Set default language
-                        this.setDefaultLanguage(getLanguageById(site.defaultLanguage));
-
                         //Set languages
                         var languages = [];
                         if (!!site.languages) {
@@ -310,6 +304,9 @@ angular.module('ds.shared')
                             }
                         }
                         this.setAvailableLanguages(languages);
+
+                        //Set default language
+                        setLanguageWithOptionalCookie(selectedLanguageCode, true, settings.eventSource.siteUpdate);
 
                         //Emit site change for cart
                         $rootScope.$emit('site:updated');
@@ -342,7 +339,22 @@ angular.module('ds.shared')
 
                 getSites: function () {
                     return sites;
-                }
+                },
+
+                getTaxType: function () {
+                    if (!!currentSite && !!currentSite.tax[0]) {
+                        return currentSite.tax[0].id;
+                    }
+                    return null;
+                },
+                getCurrentTaxConfiguration: function () {
+                    if (!!currentSite && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
+                        return currentSite.tax[0].configuration.public;
+                    }
+                    else {
+                        return null;
+                    }
+                },
 
             };
 

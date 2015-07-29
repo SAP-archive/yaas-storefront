@@ -11,8 +11,9 @@
  */
 
 describe('CartSvc Test', function () {
-
-    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, mockedGlobalData = {};
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, mockedGlobalData = {
+        getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA')
+    };
     var cartId = 'cartId456';
     var selectedSiteCode = 'europe123';
     var prodId = '123';

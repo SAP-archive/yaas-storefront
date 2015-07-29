@@ -62,7 +62,7 @@ describe('AnonAuthSvc', function () {
 
         describe('happy path', function(){
             beforeEach(function(){
-                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()))
+                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) + '&hybris-tenant=' + storeTenant())
                     .respond(200, {}, {'Location': location});
             });
 
@@ -91,7 +91,7 @@ describe('AnonAuthSvc', function () {
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(200, {}, {'Location': location});
+                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) + '&hybris-tenant=' + storeTenant() ).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });
@@ -106,14 +106,14 @@ describe('AnonAuthSvc', function () {
 
         describe('failure path', function(){
             beforeEach(function(){
-                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(500, {});
+                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) + '&hybris-tenant=' + storeTenant()).respond(500, {});
             });
 
             it('should re-enable new login attempt on failure', function(){
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
                 mockBackend.resetExpectations();
-                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) ).respond(200, {}, {'Location': location});
+                mockBackend.expectGET(accountUrl + '/auth/anonymous/login?client_id=' + clientId() + '&redirect_uri=' + encodeURIComponent(redirectURI()) + '&hybris-tenant=' + storeTenant()).respond(200, {}, {'Location': location});
                 AnonAuthSvc.getToken();
                 mockBackend.flush();
             });

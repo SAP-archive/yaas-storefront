@@ -34,9 +34,11 @@
     </div>
 	<div ng-if="cart.items.length">
 			<section class="summary">
+
 				<!-- Apply Coupon -->
 				<div ng-include="'./js/app/cart/templates/cart-costs.html'"></div>
 				<div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
+
 			</section>
 			<section>
 				<!-- Cart Item -->

@@ -1,29 +1,68 @@
 <table class="table">
     <thead>
 
-    <tr>
-        <th>{{'EST_ORDER_TOTAL' | translate}}</th>
-        <th class="text-right">{{ (cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0 || 0 | currency: currencySymbol}}</th>
-    <tr>
-
+        <tr>
+            <th>{{'EST_ORDER_TOTAL' | translate}}</th>
+            <th class="text-right">{{cart.totalPrice.amount | currency: currencySymbol}}</th>
+        <tr>
     </thead>
-
     <tbody>
+        <tr>
+            <td>
+                {{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
+            </td>
+            <td class="text-right">
+                {{cart.subTotalPrice.amount | currency: currencySymbol}}
+            </td>
+        </tr>
+        <tr ng-if="cart.discounts.length">
+            <td>{{'DISCOUNT' | translate}}</td>
+            <td class="text-right">
+                <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>{{'SHIPPING' | translate}}</td>
+            <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
+        </tr>
 
-    <tr>
-        <td >{{'SUBTOTAL' | translate}} ( {{cart.totalUnitsCount || 0}} {{'ITEM' | translate}}{{cart.totalUnitsCount == 1 ? '' :'s'}} )
-        </td>
-        <td class="text-right">
-            {{cart.subTotalPrice.amount | currency: currencySymbol}}
-        </td>
-    </tr>
+        <tr ng-show="!!taxType && taxType !== 'FLATRATE'">
+            <td class="estimate-tax-link">
+                <a href="" ng-click="showTaxEstimation=!showTaxEstimation">
+                    {{'ESTIMATE_TAX'|translate}}
+                    <span ng-show="!showTaxEstimation" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    <span ng-show="showTaxEstimation" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td class="text-right" ng-show="calculateTax.taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
+        </tr>
 
-    <tr ng-if="cart.discounts.length">
-        <td>{{'DISCOUNT' | translate}}</td>
-        <td class="text-right">
-            <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
-        </td>
-    </tr>
-
+        <tr class="zip-inputs" ng-show="!!taxType && taxType !== 'FLATRATE' && showTaxEstimation">
+            <td>
+                <input id="zipCode" type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
+            </td>
+        </tr>
+        <tr class="zip-inputs" ng-show="!!taxType && taxType !== 'FLATRATE' && showTaxEstimation">
+            <td>
+                <select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
+                    <option value="CA">{{'CANADA'|translate}}</option>
+                    <option value="US">{{'USA'|translate}}</option>
+                </select>
+            </td>
+            <td>
+                <button id="apply-btn" class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">{{'APPLY'|translate}}</button>
+            </td>
+        </tr>
+        <tr ng-show="!!taxType && taxType !== 'FLATRATE' && taxEstimationError">
+            <td>
+                {{'ESTIMATE_TAX_ERROR'|translate}}
+            </td>
+        </tr>
+        <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+            <td>{{'TAX' | translate}}</td>
+            <td class="text-right">
+                {{cart.totalTax.amount | currency: currencySymbol}}
+            </td>
+        </tr>
     </tbody>
 </table>
