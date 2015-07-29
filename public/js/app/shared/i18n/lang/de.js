@@ -309,6 +309,8 @@ angular.module('ds.i18n')
          Order Details
          */
         CREDIT_CARD: 'Kreditkarte',
+        ON: 'an',
+        TRACKING_NUMBER: 'Verfolgungsnummer',
 
 
         /*
