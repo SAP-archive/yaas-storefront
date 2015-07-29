@@ -20,7 +20,8 @@ angular.module('ds.cart')
             // Prototype for outbound "update cart item" call
             var Item = function (product, price, qty) {
                 this.product = {
-                    id: product.id
+                    id: product.id,
+                    images: product.media
                 };
                 this.price = price;
                 this.quantity = qty;
@@ -78,37 +79,6 @@ angular.module('ds.cart')
                 return deferredCart.promise;
             }
 
-            function getCartWithImages(cart) {
-                var updatedCartDef = $q.defer();
-                if (cart.items && cart.items.length) {
-                    // we need to retrieve images for the items in the cart:
-                    var productIds = cart.items.map(function (item) {
-                        return item.product.id;
-                    });
-                    var productParms = {
-                        q: 'id:(' + productIds + ')',
-                        expand: 'media'
-                    };
-                    ProductSvc.query(productParms).then(function (productResults) {
-                        angular.forEach(cart.items, function (item) {
-                            angular.forEach(productResults, function (product) {
-                                if (product.id === item.product.id) {
-                                    item.images = product.media;
-                                    item.product.name = product.name;
-                                }
-                            });
-                        });
-                        updatedCartDef.resolve(cart);
-                    }, function () {
-                        // proceed without images
-                        updatedCartDef.resolve(cart);
-                    });
-                } else {
-                    updatedCartDef.resolve(cart);
-                }
-                return updatedCartDef.promise;
-            }
-
 
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
@@ -152,9 +122,7 @@ angular.module('ds.cart')
                         defCartTemp.resolve(cart);
                     }
                     defCartTemp.promise.then(function (curCart) {
-                        getCartWithImages(curCart).then(function (updatedCart) {
-                            defCart.resolve(updatedCart);
-                        });
+                        defCart.resolve(curCart);
 
                     }, function () {
                         cart.error = true;
@@ -263,10 +231,8 @@ angular.module('ds.cart')
                     // retrieve any cart associated with the authenticated user
                     CartREST.Cart.one('carts', null).get({ customerId: customerId, siteCode: GlobalData.getSiteCode() }).then(function (authUserCart) {
                         // there is an existing cart - update scope instance
-                        getCartWithImages(authUserCart.plain()).then(function (updatedCart) {
-                            cart = updatedCart;
-                            mergeAnonymousCartIntoCurrent(anonCart);
-                        });
+                        cart = authUserCart.plain();
+                        mergeAnonymousCartIntoCurrent(anonCart);
                     }, function () {
                         // no existing user cart
                         if (anonCart && anonCart.id) {
