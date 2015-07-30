@@ -88,9 +88,8 @@ angular.module('ds.cart')
             $scope.taxEstimationError = false;
             if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
                 //Save countryCode and zipCode in service
-                CartSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.calculateTax.taxCalculationApplied);
+                CartSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.cart.id);
 
-                CartSvc.getCart();
                 $scope.calculateTax.taxCalculationApplied = true;
 
             }
