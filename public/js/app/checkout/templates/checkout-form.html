@@ -115,7 +115,6 @@
                 </select>
             </div>
         </div>
-    </form>
     <div class="col-lg-12">
         <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
         class="hyicon hyicon-chevron-thin-right"></span></button>
@@ -233,7 +232,7 @@
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>
     <div class="col-xs-6 text-right hidden-sm hidden-xs">
-        <span class="value">{{((cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0) + order.shippingCost | currency: currencySymbol}}</span>
+        <span class="value">{{cart.totalPrice.amount | currency: currencySymbol}}</span>
     </div>
     <div class="col-xs-12">
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"

@@ -90,8 +90,9 @@
       position: absolute;
       top: 0;
       right: 0;
-      .visible-md;
-      .visible-lg;
+//      .visible-md;
+//      .visible-lg;
+      padding-top: 0;
 	}
 
 	/* ATTR SKINNING */
@@ -173,6 +174,21 @@
           padding-bottom: 21px;
           padding-top: 0;
       }
+	.zip-input{
+	  display: inline;
+	}
+    .estimate-tax-link{
+      text-transform: capitalize;
+      .glyphicon{
+        padding-left: 10px;
+      }
+      a:hover,a:focus, a:active{
+        text-decoration: none;
+      }
+    }
+    .apply-tax{
+      padding: 5px 20px;
+    }
   }
 }
 
@@ -223,4 +239,18 @@
  .edit-cart {
    margin-top:75px;
  }
+}
+@media  (max-width: 415px) {
+  .zip-inputs {
+    td {
+      display: inline;
+      input,button{
+        width: 125%;
+      }
+      .apply-tax{
+        margin-top: 20px;
+        float: none !important;
+      }
+    }
+  }
 }
