@@ -101,7 +101,7 @@ angular.module('ds.shared')
                     console.error('Facebook and Google key retrieval failed: ' + JSON.stringify(error));
                 });
 
-                return $q.all([configPromise, loginConfigPromise]);
+                return $q.all([configPromise]);
             }
 
 

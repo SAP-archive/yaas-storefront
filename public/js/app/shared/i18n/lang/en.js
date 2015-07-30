@@ -49,6 +49,9 @@ angular.module('ds.i18n')
         CART_EMPTY: 'Your cart is empty',
         //XMSG
         CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
+        ESTIMATE_TAX: 'Estimate Tax',
+        APPLY: 'Apply',
+        ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
 
 
         //-------------------------------------------------
@@ -529,6 +532,8 @@ angular.module('ds.i18n')
 
         //XFLD
         CREDIT_CARD: 'Credit Card',
+        ON: 'on',
+        TRACKING_NUMBER: 'Tracking Number',
 
 
         //-------------------------------------------------

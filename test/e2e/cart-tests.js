@@ -164,6 +164,27 @@ describe("cart:", function () {
             tu.verifyCartTotal('$12.05');
         });
 
+        it('should calculate taxes', function () {
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Avalara');
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCart('1', '$13.94');
+            tu.clickElement('binding', 'ESTIMATE_TAX');
+            tu.sendKeys('id', 'zipCode', '80301');
+            tu.clickElement('id', 'country');
+            tu.selectOption('US');
+            tu.clickElement('id', 'apply-btn');
+            expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$0.69');
+
+        });
+
         xit('should automatically close when mousing off', function () {
             tu.loadProductIntoCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();

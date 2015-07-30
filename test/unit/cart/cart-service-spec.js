@@ -11,8 +11,9 @@
  */
 
 describe('CartSvc Test', function () {
-
-    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData = {};
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, mockedGlobalData = {
+        getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA')
+    };
     var cartId = 'cartId456';
     var selectedSiteCode = 'europe123';
     var prodId = '123';
@@ -107,7 +108,6 @@ describe('CartSvc Test', function () {
         cartSvc = CartSvc;
         siteConfig = SiteConfigSvc;
         cartUrl = siteConfig.apis.cart.baseUrl + 'carts';
-        productUrl = siteConfig.apis.products.baseUrl + 'products'
         mockBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
         deferredAccount = _$q_.defer();
         mockedAccountSvc.getCurrentAccount = jasmine.createSpy('getCurrentAccount').andReturn(deferredAccount.promise);
@@ -146,7 +146,6 @@ describe('CartSvc Test', function () {
             cartPromise.then(successSpy);
 
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
             mockBackend.flush();
 
             expect(successSpy).wasCalled();
@@ -174,7 +173,6 @@ describe('CartSvc Test', function () {
             var failureSpy = jasmine.createSpy();
             cartPromise.then(function () { }, failureSpy);
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
             mockBackend.flush();
             expect(failureSpy).wasCalled();
         });
@@ -228,7 +226,6 @@ describe('CartSvc Test', function () {
                     },
                     "siteCode": selectedSiteCode
                 });
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
             mockBackend.flush();
             var updatedCart = cartSvc.getLocalCart();
             expect(updatedCart.items.length).toEqualData(1);
@@ -243,7 +240,6 @@ describe('CartSvc Test', function () {
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-                mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
 
                 console.log(prod1.product);
                 
@@ -276,7 +272,6 @@ describe('CartSvc Test', function () {
             it('should delete cart item', function () {
                 mockBackend.expectDELETE(cartUrl + '/' + cartId + '/items/' + itemId).respond(200, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-                mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
                 cartSvc.removeProductFromCart(itemId);
                 mockBackend.flush();
             });
@@ -295,7 +290,6 @@ describe('CartSvc Test', function () {
                 mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-                mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + productIdFromCart + ')').respond(200, [{ id: prodId, images: ['myurl'] }]);
                 cartSvc.updateCartItem(item, 5, {});
                 mockBackend.flush();
             });
@@ -358,8 +352,6 @@ describe('CartSvc Test', function () {
                 "id": cartId,
                 "siteCode": selectedSiteCode
             });
-            // should query product info for cart
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(500, {});
         });
 
         xit('should merge the cart if there was an anonymous cart with items', function () {
@@ -385,8 +377,6 @@ describe('CartSvc Test', function () {
                 "id": anonCartId,
                 "siteCode": selectedSiteCode
             });
-            // should query product info for anonymous cart
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(' + prodId2 + ')').respond(500, {});
             cartSvc.getCart();
             mockBackend.flush();
 
@@ -417,8 +407,6 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/merge', { "carts": [anonCartId] }).respond(200, {});
             // should refresh current cart
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, { currency: 'USD' });
-            // should query product info for items in shopper cart
-            mockBackend.whenGET(productUrl + '?expand=media&q=id:(' + prodId + ')').respond(500, {});
             cartSvc.refreshCartAfterLogin(custId);
             mockBackend.flush();
         });
@@ -450,7 +438,6 @@ describe('CartSvc Test', function () {
                 "id": cartId,
                 "siteCode": selectedSiteCode
             });
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(500, {});
             cartSvc.getCart();
             mockBackend.flush();
 
@@ -509,7 +496,6 @@ describe('CartSvc Test', function () {
                     },
                     "siteCode": selectedSiteCode
                 });
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(123)').respond(200, [{ id: prodId, images: ['myurl'] }]);
             var promise = cartSvc.getCart();
             promise.then(successCallback, failureCallback);
             mockBackend.flush();
@@ -595,8 +581,6 @@ describe('CartSvc Test', function () {
 
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
-
             cartSvc.redeemCoupon(mockCoupon, cartId);
 
             mockBackend.flush();
@@ -606,8 +590,6 @@ describe('CartSvc Test', function () {
             mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
 
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
-
-            mockBackend.expectGET(productUrl + '?expand=media&q=id:(540751ee394edbc101ff20f5)').respond(200, [{ id: productIdFromCart, images: ['myurl'] }]);
 
             cartSvc.removeAllCoupons(cartId);
 
