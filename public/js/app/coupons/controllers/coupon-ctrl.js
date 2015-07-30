@@ -26,7 +26,7 @@ angular.module('ds.coupon')
             });
 
             var unbindSignIn = $rootScope.$on('user:signedin', function () {
-                if ($scope.coupon.error.status === 403) {
+                if ($scope.coupon && $scope.coupon.error && $scope.coupon.error.status === 403) {
                     delete $scope.couponErrorMessage;
                 }
             });
@@ -36,15 +36,20 @@ angular.module('ds.coupon')
 
             /** get coupon and apply it to the cart */
             $scope.applyCoupon = function(couponCode) {
-                $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponResponse) {
-                    if (couponResponse.discountAbsolute && couponResponse.discountAbsolute.currency !== $scope.cart.currency) {
+                $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponGetResponse) {
+                    if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
                         getCouponError({status: 'CURR'});
                     }
                     else {
-                        CouponSvc.redeemCoupon(couponResponse, $scope.cart.id);
+                        CouponSvc.redeemCoupon(couponGetResponse, $scope.cart.id).then(function () {
+                            //success
+                        }, function (couponRedeemError) {
+                            //error
+                            redeemCouponError(couponRedeemError);
+                        });
                     }
-                }, function (couponError) {
-                    getCouponError(couponError);
+                }, function (couponGetError) {
+                    getCouponError(couponGetError);
                 });
             };
 
@@ -54,7 +59,7 @@ angular.module('ds.coupon')
 
             var getCouponError = function(couponError) {
                 $scope.coupon.error = couponError;
-                if (couponError.status === 404 || couponError.status === 403 && AuthSvc.isAuthenticated()) {
+                if (couponError.status === 404 || (couponError.status === 403 && AuthSvc.isAuthenticated())) {
                     $translate('COUPON_NOT_VALID').then(function (response) {
                         $scope.couponErrorMessage = response;
                     });
@@ -73,6 +78,13 @@ angular.module('ds.coupon')
                     $translate('COUPON_NOT_VALID').then(function (response) {
                         $scope.couponErrorMessage = response;
                     });
+                }
+            };
+
+            var redeemCouponError = function (couponError) {
+                $scope.coupon.error = couponError;
+                if (couponError.status === 400) {
+                    $scope.couponErrorMessage = couponError.data.details[0].message;
                 }
             };
 
