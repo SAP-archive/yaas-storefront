@@ -66,11 +66,6 @@ describe('CouponCtrl Test', function () {
 
         mockCart.items = products;
 
-        // stubbing a service with callback
-        mockCartSvc = {
-            getLocalCart: jasmine.createSpy().andReturn(mockCart)
-        };
-
         mockAuthSvc = {
             isAuthenticated: jasmine.createSpy().andReturn(true)
         };
@@ -95,7 +90,11 @@ describe('CouponCtrl Test', function () {
             deferredCoupon.resolve(couponResult);
 
             mockCouponSvc = {
-                getCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
+                getCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise)
+            };
+
+            mockCartSvc = {
+                getLocalCart: jasmine.createSpy().andReturn(mockCart),
                 redeemCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
                 removeAllCoupons: jasmine.createSpy()
             };
@@ -112,7 +111,7 @@ describe('CouponCtrl Test', function () {
 
             $scope.$apply();
 
-            expect(mockCouponSvc.redeemCoupon).toHaveBeenCalledWith(couponResult, $scope.cart.id);
+            expect(mockCartSvc.redeemCoupon).toHaveBeenCalledWith(couponResult, $scope.cart.id);
         });
 
         it('should err if coupon has different currency than cart', function () {
@@ -130,7 +129,7 @@ describe('CouponCtrl Test', function () {
         it('should remove all coupons', function () {
             $scope.removeAllCoupons();
 
-            expect(mockCouponSvc.removeAllCoupons).toHaveBeenCalledWith($scope.cart.id);
+            expect(mockCartSvc.removeAllCoupons).toHaveBeenCalledWith($scope.cart.id);
         });
 
         it('should update cart and currency symbol when the cart is updated', function () {
@@ -173,7 +172,11 @@ describe('CouponCtrl Test', function () {
             deferredRedeemCoupon.reject(couponRedeemResult);
 
             mockCouponSvc = {
-                getCoupon: jasmine.createSpy().andReturn(deferredGetCoupon.promise),
+                getCoupon: jasmine.createSpy().andReturn(deferredGetCoupon.promise)
+            };
+
+            mockCartSvc = {
+                getLocalCart: jasmine.createSpy().andReturn(mockCart),
                 redeemCoupon: jasmine.createSpy().andReturn(deferredRedeemCoupon.promise),
                 removeAllCoupons: jasmine.createSpy()
             };
@@ -185,7 +188,7 @@ describe('CouponCtrl Test', function () {
 
             $scope.$apply();
 
-            expect(mockCouponSvc.redeemCoupon).toHaveBeenCalled();
+            expect(mockCartSvc.redeemCoupon).toHaveBeenCalled();
 
             expect($scope.couponErrorMessage).toEqualData(errorMessage);
         });

@@ -41,7 +41,7 @@ angular.module('ds.coupon')
                         getCouponError({status: 'CURR'});
                     }
                     else {
-                        CouponSvc.redeemCoupon(couponGetResponse, $scope.cart.id).then(function () {
+                        CartSvc.redeemCoupon(couponGetResponse, $scope.cart.id).then(function () {
                             //success
                         }, function (couponRedeemError) {
                             //error
@@ -54,7 +54,7 @@ angular.module('ds.coupon')
             };
 
             $scope.removeAllCoupons = function() {
-                CouponSvc.removeAllCoupons($scope.cart.id);
+                CartSvc.removeAllCoupons($scope.cart.id);
             };
 
             var getCouponError = function(couponError) {
