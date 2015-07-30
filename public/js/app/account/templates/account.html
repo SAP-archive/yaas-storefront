@@ -98,7 +98,7 @@
                            </p>
                            <p>
                                <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
-                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{order.id}}</a>
+                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{m_order.id}}</a>
                            </p>
                            <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                        </div>
