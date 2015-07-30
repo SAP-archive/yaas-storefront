@@ -58,12 +58,12 @@ angular.module('ds.auth')
                     //Customer login event
                     $rootScope.$emit('customer:login', {});
 
-                    if (account.preferredLanguage) {
-                        GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.login);
-                    }
-                    if (account.preferredCurrency) {
-                        GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.login);
-                    }
+                    //if (account.preferredLanguage) {
+                    //    GlobalData.setLanguage(account.preferredLanguage.split('_')[0], settings.eventSource.login);
+                    //}
+                    //if (account.preferredCurrency) {
+                    //    GlobalData.setCurrency(account.preferredCurrency, settings.eventSource.login);
+                    //}
                     return account;
                 }).finally(function () {
                    commonPostLogin(context);

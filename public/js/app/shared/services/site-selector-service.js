@@ -21,9 +21,9 @@ angular.module('ds.shared')
                 /**
                  * Method that is used to change current site on storefront
                  */
-                changeSite: function (site) {
+                changeSite: function (site, languageCode) {
                     SiteSettingsREST.SiteSettings.one('sites', site.code).get({ expand: 'payment:active,tax:active,mixin:*' }).then(function (result) {
-                        GlobalData.setSite(result);
+                        GlobalData.setSite(result, languageCode);
                         GlobalData.setSiteCookie(result);
                     });
 

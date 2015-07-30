@@ -27,6 +27,13 @@ angular.module('ds.i18n')
 
 
         /*
+            countries
+        */
+        CANADA: 'Canada',
+        USA: 'USA',
+
+
+        /*
          cart
          */
         BACK_TO_CHECKOUT: 'zurück zur Kasse',
@@ -41,6 +48,10 @@ angular.module('ds.i18n')
         CART_UNAVAILABLE: 'Warenkorb momentan nicht zugänglich.  Bitte noch einmal anfordern.',
         CART_EMPTY: 'Keine Artikel im Korb',
         CART_ITEM_UPDATE_ERROR: 'Aktualizierung nicht erfolgreich. Bitte noch einmal anfordern.',
+        ESTIMATE_TAX: 'Schätzung Steuerberatung',
+        APPLY: 'Anwenden',
+        ESTIMATE_TAX_ERROR: 'PLZ/Postleitzahl und Land Code Felder sind Pflichtfelder',
+
 
         /*
          checkout
@@ -298,6 +309,8 @@ angular.module('ds.i18n')
          Order Details
          */
         CREDIT_CARD: 'Kreditkarte',
+        ON: 'an',
+        TRACKING_NUMBER: 'Verfolgungsnummer',
 
 
         /*
@@ -309,7 +322,7 @@ angular.module('ds.i18n')
         SEARCH_AGAIN: 'Neue Suche',
         RESULTS: 'Ergebnisse',
         SEE_ALL: 'Zeige Alle',
-        SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar.',
-        NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden.',
+        SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar',
+        NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden',
 
     });

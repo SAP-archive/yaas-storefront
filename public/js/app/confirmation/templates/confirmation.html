@@ -116,7 +116,7 @@
                     </tr>
                     <tr>
                         <td>{{'SHIPPING' | translate}}</td>
-                        <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: shippingCurrencySymbol }}</td>
+                        <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: currencySymbol }}</td>
                     </tr>
                     <tr ng-if="confirmationDetails.discountAmount != 0">
                         <td>{{'DISCOUNT' | translate}}</td>

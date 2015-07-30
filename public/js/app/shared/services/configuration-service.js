@@ -101,7 +101,7 @@ angular.module('ds.shared')
                     console.error('Facebook and Google key retrieval failed: ' + JSON.stringify(error));
                 });
 
-                return $q.all([configPromise, loginConfigPromise]);
+                return $q.all([configPromise]);
             }
 
 
@@ -121,7 +121,7 @@ angular.module('ds.shared')
                             siteSettingPromise.then(function (site) {
 
                                 //Set site
-                                GlobalData.setSite(site);
+                                GlobalData.setSite(site, site.defaultLanguage);
 
                                 var languageSet = false;
                                 if (AuthSvc.isAuthenticated()) {
