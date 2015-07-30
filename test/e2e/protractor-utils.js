@@ -8,14 +8,13 @@ exports.beerBug = stressBallPath;
 var cartButtonId = exports.cartButtonId = 'full-cart-btn';
 var buyButton = exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
-exports.removeFromCart = "remove-product";
+var removeFromCart = exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
-
 
 var waitForCart = exports.waitForCart = function(){
     browser.wait(function () {
@@ -273,5 +272,13 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//span[2]')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('product.price')).getText()).toEqual(price);
+    expect(element(by.binding('entry.totalPrice')).getText()).toEqual(price);
 }
+
+     exports.removeItemFromCart = function(){
+            clickElement('id', removeFromCart);
+            browser.wait(function () {
+                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+            });
+            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+    };
