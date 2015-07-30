@@ -265,6 +265,9 @@ angular.module('ds.checkout')
             var clearShipTo = function(){
                 selectedShippingAddress = {};
                 $scope.order.shipTo = {};
+                if ($scope.order.billTo.country) {
+                    $scope.order.shipTo.country = $scope.order.billTo.country;
+                }
                 $scope.shipToSameAsBillTo = false;
             };
 
