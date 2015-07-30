@@ -37,7 +37,7 @@
                         <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                     </div>
     
-                    <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.included">
+                    <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
                         {{taxConfiguration.label}}
                     </div>
 
