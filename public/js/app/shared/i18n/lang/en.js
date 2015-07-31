@@ -268,6 +268,8 @@ angular.module('ds.i18n')
         PRODUCTS: 'Products',
         //XBUT
         BACK_TO: 'Back To',
+        //XFLD
+        REGION: 'Region',
 
 
         //-------------------------------------------------

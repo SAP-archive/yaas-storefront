@@ -3,7 +3,7 @@
         <div class="col-xs-12 col-lg-3 pull-right regionControls text-center">
             <div class="controlcontainer" ng-controller="siteSelectorController">
                 <div class="dropdown" ng-hide="sites.length == 1 && sites[0].languages.length == 1">
-                    <a class=" dropdown-toggle" ng-click="setHoveredSite(selectedSite)">Region</a>
+                    <a class=" dropdown-toggle" ng-click="setHoveredSite(selectedSite)">{{'REGION' | translate}}</a>
                     <div class="dropdown-menu regionMenu">
                         <div class="row">
                             <div class="col-xs-6">
