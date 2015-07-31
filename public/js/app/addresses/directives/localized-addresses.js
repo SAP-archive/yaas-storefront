@@ -17,8 +17,8 @@
  **/
 
 angular.module('ds.addresses').
-	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope',
-		function($compile, $http, $templateCache, $rootScope) {
+	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData',
+		function($compile, $http, $templateCache, $rootScope, GlobalData) {
 
 		var selectionArray = [
 				{id: 'US', name:'USA'},
@@ -31,7 +31,43 @@ angular.module('ds.addresses').
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
+            selectDefaultLocale(scope, viewType);
 		};
+
+        var selectDefaultLocale = function (scope, viewType) {
+
+            var currentSite = GlobalData.getSite();
+
+            angular.forEach(selectionArray, function (selection) {
+                if (selection.id === currentSite.code) {
+                    scope.localeSelection = selection;
+                }
+            });
+
+            if (!scope.localeSelection) {
+                scope.localeSelection = selectionArray[0];
+            }
+
+            switch(viewType){
+                case 'addAddress':
+                    if (scope.address) {
+                        scope.address.country = scope.localeSelection.id;
+                    }
+                    break;
+                case 'billing':
+                    if (scope.order.billTo) {
+                        scope.order.billTo.country = scope.localeSelection.id;
+                    }
+                    break;
+                case 'shipping':
+                    if (scope.order.shipTo) {
+                        scope.order.shipTo.country = scope.localeSelection.id;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
 
 		// load dynamic address template into scope
 		var loadTemplate = function(scope, elem, locale, viewType){
@@ -90,15 +126,33 @@ angular.module('ds.addresses').
 				switch(scope.viewTarget){
 					case 'addAddress':
 						scope.address.country = locale.id;
-						scope.address.state = '';
+                        scope.address.companyName = '';
+                        scope.address.street = '';
+                        scope.address.streetAppendix = '';
+                        scope.address.city = '';
+                        scope.address.state = '';
+                        scope.address.zipCode = '';
+                        scope.address.contactPhone = '';
 						break;
 					case 'billing':
 						scope.order.billTo.country = locale.id;
+                        scope.order.billTo.companyName = '';
+                        scope.order.billTo.address1 = '';
+                        scope.order.billTo.address2 = '';
+                        scope.order.billTo.city = '';
 						scope.order.billTo.state = '';
+                        scope.order.billTo.zip = '';
+                        scope.order.billTo.contactPhone = '';
 						break;
 					case 'shipping':
 						scope.order.shipTo.country = locale.id;
-						scope.order.shipTo.state = '';
+                        scope.order.shipTo.companyName = '';
+                        scope.order.shipTo.address1 = '';
+                        scope.order.shipTo.address2 = '';
+                        scope.order.shipTo.city = '';
+                        scope.order.shipTo.state = '';
+                        scope.order.shipTo.zip = '';
+                        scope.order.shipTo.contactPhone = '';
 						break;
 					default:
 						break;

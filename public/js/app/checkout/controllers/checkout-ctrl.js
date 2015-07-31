@@ -265,6 +265,9 @@ angular.module('ds.checkout')
             var clearShipTo = function(){
                 selectedShippingAddress = {};
                 $scope.order.shipTo = {};
+                if ($scope.order.billTo.country) {
+                    $scope.order.shipTo.country = $scope.order.billTo.country;
+                }
                 $scope.shipToSameAsBillTo = false;
             };
 
@@ -438,7 +441,7 @@ angular.module('ds.checkout')
                 target.zip = address.zipCode;
                 target.contactPhone = address.contactPhone;
 
-                if(target === $scope.order.billTo && _.isEmpty($scope.order.shipTo)){
+                if(target === $scope.order.billTo && ($scope.shipToSameAsBillTo === true || _.isEmpty($scope.order.shipTo))){
                     setShipToSameAsBillTo();
                 }
                 $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
