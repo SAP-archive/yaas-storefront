@@ -90,7 +90,7 @@ angular.module('ds.cart')
 
                                 params = angular.extend(params, { customerId: GlobalData.customerAccount.customerNumber });
 
-                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
+                                CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
@@ -98,7 +98,7 @@ angular.module('ds.cart')
                                 });
                             }
                             else {
-                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
+                                CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
