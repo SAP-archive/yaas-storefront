@@ -82,11 +82,11 @@
 
     <div class="order-items">
         <div class="row" >
-            <div class="cart-item col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="product in confirmationDetails.products">
+            <div class="cart-item col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="entry in confirmationDetails.entries">
                 <div class="row">
                     <div class="col-xs-4 col-md-4 text-center img-col">
                         <a ui-sref="base.product.detail( {productId: product.id} )">
-                            <img ng-src="{{ product.images && product.images[0].url || product.externalImages[0]}}" class=""/>
+                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive"/>
                         </a>
 
                     </div>
