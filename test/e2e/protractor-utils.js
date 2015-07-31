@@ -263,16 +263,16 @@ var fillCreditCardForm = exports.fillCreditCardForm = function(ccNumber, ccMonth
 }
 
 var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
-    var email = account.toUpperCase();
+    var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
     });
     browser.sleep(1000);
-    expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
-    expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
-    expect(element(by.xpath('//span[2]')).getText()).toContain(number);
+    expect(element(by.binding('confirmationDetails.emailAddress')).getText()).toContain(email);
+    expect(element(by.binding('confirmationDetails.shippingAddressName')).getText()).toContain(name);
+    expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('entry.totalPrice')).getText()).toEqual(price);
+    expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
 }
 
      exports.removeItemFromCart = function(){
