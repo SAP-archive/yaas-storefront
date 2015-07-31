@@ -224,10 +224,10 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal) {
 exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
     clickElement('id', "add-address-btn");
     browser.sleep(1000);
+    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('city', city);
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
