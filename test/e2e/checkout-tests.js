@@ -122,7 +122,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(6500);
+            browser.sleep(8000);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
@@ -297,7 +297,8 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page', function () {
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$26.33');
+            tu.removeItemFromCart();
+            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$14.92');
         });
 
         it('should checkout in Euros', function () {
@@ -317,6 +318,7 @@ describe("checkout:", function () {
         });
 
         it('should create order on account page in Euros', function () {
+            tu.removeItemFromCart();
             verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€14.53');
         });
 
@@ -331,12 +333,12 @@ describe("checkout:", function () {
             tu.waitForCart();
             browser.sleep(100);
             tu.clickElement('binding', 'CHECKOUT');
-            verifyCartContents('$10.67', '$28.93', '1');
+            verifyCartContents('$10.67', '$30.96', '1');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
             //browser.sleep(20000);
-            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$14.99');
+            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$10.67');
             tu.clickElement('binding', 'orderInfo.orderId');
             expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
             // tu.clickElement('id', "logout-btn");
