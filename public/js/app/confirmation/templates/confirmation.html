@@ -92,14 +92,14 @@
                     </div>
                     <div class="col-xs-8 col-md-8  detail-col text-left text-uppercase">
 
-                        <div class="name">{{product.name}}</div>
-                        <div class="sku item-attr">{{'SKU' | translate}} <span>{{product.sku }}</span></div>
-                        <div class="price item-attr"><span>{{product.price | currency: currencySymbol}}</span></div>
-                        <div class="variants row item-attr">
-                            <div class="variant col-md-6 ">{{'QTY' | translate}} <span>{{product.amount}}</span></div>
-                        </div>
-                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}} <span>{{product.price * product.amount |currency: currencySymbol}}</span>
-                        </div>
+                        <div class="name">{{entry.product.name}}</div>
+                                <div class="sku item-attr">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
+                                <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
+                                <div class="variants row item-attr">
+                                    <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
+                                </div>
+                                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice |currency: currencySymbol}}</span>
+                                </div>
                     </div>
                 </div>
             </div>
