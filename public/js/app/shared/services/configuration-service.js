@@ -120,16 +120,13 @@ angular.module('ds.shared')
                             var siteSettingPromise = SiteSettingsREST.SiteSettings.one('sites', selectedSiteCode).get({ expand: 'payment:active,tax:active,mixin:*' });
                             siteSettingPromise.then(function (site) {
 
-                                //Set site
-                                GlobalData.setSite(site, site.defaultLanguage);
+                                //Set site and load initial language
+                                GlobalData.setSite(site);
+                                GlobalData.loadInitialLanguage();
 
-                                var languageSet = false;
                                 if (AuthSvc.isAuthenticated()) {
                                     // if session still in tact, load user preferences
                                     AccountSvc.account().then(function (account) {
-                                        if (!languageSet) {
-                                            GlobalData.loadInitialLanguage();
-                                        }
                                         CategorySvc.getCategories().then(function () {
                                             def.resolve({});
                                         });
