@@ -83,19 +83,6 @@ describe('ConfirmationCtrl Test', function () {
 
     });
 
-    describe('should get formatted confirmation details', function () {
-
-        it ('should get the formatted confirmation details', function () {
-            $scope.$digest();
-
-            expect($scope.confirmationDetails.products[0].price).toEqualData('10');
-            expect($scope.confirmationDetails.products[0].amount).toEqualData('1');
-            expect($scope.confirmationDetails.products[1].price).toEqualData('5');
-            expect($scope.confirmationDetails.products[1].amount).toEqualData('2');
-        });
-
-    });
-
 
 
 });

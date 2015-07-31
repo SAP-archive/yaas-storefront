@@ -92,17 +92,7 @@ describe('SessionSvc', function () {
             SessionSvc.afterLogIn();
             expect(mockedAccountSvc.account).wasCalled();
         });
-
-
-        it('should set language and currency preference if set', function(){
-            var account = {id: 'abc'};
-            SessionSvc.afterLogIn();
-
-            accountDef.resolve(account);
-            $scope.$apply();
-        });
-
-
+        
         it('should navigate to target state if indicated', function(){
             var account = {id: 'abc'};
             var toState = 'target';

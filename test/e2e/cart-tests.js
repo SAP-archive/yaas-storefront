@@ -26,7 +26,7 @@ describe("cart:", function () {
 
 
         it('should load one product into cart', function () {
-            tu.loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
@@ -45,7 +45,7 @@ describe("cart:", function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.loadProductIntoCart('1', '€7.99');
+            tu.loadProductIntoCart('1', '€14.53');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
@@ -54,14 +54,14 @@ describe("cart:", function () {
         });
 
         it('should load one product into cart in USD and change to Euros', function () {
-            tu.loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(1000);
             tu.switchSite('Sushi Demo Store Germany');
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(1000);
-            tu.verifyCartTotal('€7.99');
+            tu.verifyCartTotal('€14.53');
         });
 
         //will be updated when site is available on My Account
@@ -82,7 +82,7 @@ describe("cart:", function () {
         });
 
         it('should load multiple products into cart', function () {
-            tu.loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
             var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
@@ -103,12 +103,12 @@ describe("cart:", function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(500);
-            tu.verifyCartTotal("$25.66");
+            tu.verifyCartTotal("$30.96");
         });
 
 
         it('should update quantity', function () {
-            tu.loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             browser.sleep(250);
             tu.clickElement('id', tu.buyButton);
@@ -121,21 +121,21 @@ describe("cart:", function () {
             browser.sleep(1000);
             tu.verifyCartAmount('2');
             browser.sleep(2000);
-            tu.verifyCartTotal('$21.34');
+            tu.verifyCartTotal('$26.33');
             tu.sendKeysByXpath(tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.verifyCartAmount("5");
-            tu.verifyCartTotal("$53.35");
+            tu.verifyCartTotal("$60.58");
             tu.sendKeysByXpath(tu.cartQuantity, '10');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.verifyCartAmount("10");
-            tu.verifyCartTotal("$106.70");
+            tu.verifyCartTotal("$117.67");
         });
 
         it('should not add out of stock item', function () {
@@ -161,7 +161,28 @@ describe("cart:", function () {
             tu.loginHelper('cart@hybristest.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(250);
-            tu.verifyCartTotal('$7.99');
+            tu.verifyCartTotal('$12.05');
+        });
+
+        it('should calculate taxes', function () {
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Avalara');
+            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCart('1', '$13.94');
+            tu.clickElement('binding', 'ESTIMATE_TAX');
+            tu.sendKeys('id', 'zipCode', '80301');
+            tu.clickElement('id', 'country');
+            tu.selectOption('US');
+            tu.clickElement('id', 'apply-btn');
+            expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$0.69');
+
         });
 
         xit('should automatically close when mousing off', function () {

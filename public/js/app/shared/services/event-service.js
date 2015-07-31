@@ -43,8 +43,9 @@ angular.module('ds.shared')
                  * @param eveObj - property: languageCode
                  */
                 onLanguageChange: function (eve, eveObj) {
-                    // cart is already loaded on login and initialization - no need for separate refresh
-                    if (eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization) {
+
+                    // cart is already loaded on login, initialization and siteChange - no need for separate refresh
+                    if (eveObj.source !== settings.eventSource.login && eveObj.source !== settings.eventSource.initialization && eveObj.source !== settings.eventSource.siteUpdate) {
                         CartSvc.getCart();
                     }
                     // Any state that requires an updated localized data load should be refreshed (with exception of checkout,

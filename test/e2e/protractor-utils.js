@@ -8,14 +8,13 @@ exports.beerBug = stressBallPath;
 var cartButtonId = exports.cartButtonId = 'full-cart-btn';
 var buyButton = exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
-exports.removeFromCart = "remove-product";
+var removeFromCart = exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
-
 
 var waitForCart = exports.waitForCart = function(){
     browser.wait(function () {
@@ -34,9 +33,9 @@ var verifyCartAmount = exports.verifyCartAmount = function (amount) {
 
 var verifyCartTotal = exports.verifyCartTotal = function (total) {
     browser.wait(function () {
-        return element(by.css("th.text-right.ng-binding")).isPresent();
+        return element(by.binding('cart.totalPrice.amount')).isPresent();
     });
-    expect(element(by.css("th.text-right.ng-binding")).getText()).toEqual(total);
+    expect(element(by.binding('cart.totalPrice.amount')).getText()).toEqual(total);
 };
 
 var verifyCartDiscount = exports.verifyCartDiscount = function (amount) {
@@ -163,16 +162,24 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 };
 
 var switchSite = exports.switchSite = function (site) {
+    if (site === 'Sushi Demo Store Germany') {
+        var siteRow = '1'
+    } else if (site === 'Avalara') {
+        var siteRow = '2'
+    } else {
+        var siteRow = '0'
+    }    
+
     var siteSelector = element(by.linkText('Region'));
     browser.driver.actions().mouseMove(siteSelector).perform();
     siteSelector.click();
-    var newSite = element(by.repeater('site in sites').row(1));
+    var newSite = element(by.repeater('site in sites').row(siteRow));
     browser.wait(function () {
         return newSite.isPresent();
     });
     
     browser.driver.actions().mouseMove(newSite).perform();
-    expect(element(by.repeater('site in sites').row(1)).getText()).toEqual(site);
+    expect(element(by.repeater('site in sites').row(siteRow)).getText()).toEqual(site);
     newSite.click();
 }
 
@@ -217,10 +224,10 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal) {
 exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
     clickElement('id', "add-address-btn");
     browser.sleep(1000);
+    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('city', city);
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
@@ -265,5 +272,13 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
     expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
     expect(element(by.xpath('//span[2]')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('product.price')).getText()).toEqual(price);
+    expect(element(by.binding('entry.totalPrice')).getText()).toEqual(price);
 }
+
+     exports.removeItemFromCart = function(){
+            clickElement('id', removeFromCart);
+            browser.wait(function () {
+                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+            });
+            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+    };

@@ -6,14 +6,14 @@
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
         <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{((cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0) + shippingCost | currency: shippingCurrencySymbol}}</div>
+        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.totalPrice.amount | currency: currencySymbol}}</div>
     </section>
     <section class="cartItems" ng-cloak>
         <div ng-repeat="item in cart.items track by $index">
             <div class="cart-item row">
                 <div class="col-xs-4 col-md-4 text-center img-col">
                     <a ui-sref="base.product.detail( {productId: item.product.id} )">
-                        <img ng-src="{{ item && item.images[0].url || ''}}" class="img-responsive"/>
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="img-responsive"/>
                     </a>
                 </div>
                 <div class="col-xs-8 col-md-8  detail-col">
@@ -44,13 +44,19 @@
                 </tr>
                 <tr>
                     <td>{{'SHIPPING' | translate}}</td>
-                    <td class="text-right">{{ shippingCost | currency: shippingCurrencySymbol }}</td>
+                    <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
+                </tr>
+                <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+                    <td>{{'TAX' | translate}}</td>
+                    <td class="text-right">
+                        {{cart.totalTax.amount | currency: currencySymbol}}
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{((cart.subTotalPrice.amount-cart.totalDiscount.amount>0)? cart.subTotalPrice.amount-cart.totalDiscount.amount : 0) + shippingCost | currency: currencySymbol}}</td>
+                    <td class="text-right">{{cart.totalPrice.amount | currency: currencySymbol}}</td>
                 <tr>
 
             </tfoot>

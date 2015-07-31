@@ -17,13 +17,13 @@ describe('product page', function () {
         });
 
 
-  afterEach(function() {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      // expect(browserLog.length).toEqual(0);
-      // Uncomment to actually see the log.
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
-  });
+  // afterEach(function() {
+  //   browser.manage().logs().get('browser').then(function(browserLog) {
+  //     // expect(browserLog.length).toEqual(0);
+  //     // Uncomment to actually see the log.
+  //     console.log('log: ' + require('util').inspect(browserLog));
+  //   });
+  // });
 
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
@@ -132,9 +132,7 @@ describe('product page', function () {
         it('should display unit price on PLP and PDP', function () {
             //default load
             tu.getTextByRepeaterRow(0);
-            //price is not currently supported
             browser.sleep(3000);
-            // tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
             var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
@@ -144,11 +142,26 @@ describe('product page', function () {
             expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
             element(by.repeater('product in products').row(2).column('product.name')).click();
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.99');
-            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000g');
-
+            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000 g');
 
         });
 
+            it('should display sales price on PLP and PDP', function () {
+            //default load
+            tu.getTextByRepeaterRow(0);
+            browser.sleep(3000);
+            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.assertProductByRepeaterRow(1, 'FRUIT INFUSER DRINKING BOTTLE');
+            expect(element(by.repeater('product in products').row(1).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$19.98');
+            expect(element(by.repeater('product in products').row(1).column('prices[product.product.id].originalAmount')).getText()).toEqual('$29.99');
+            element(by.repeater('product in products').row(1).column('product.name')).click();
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$19.98');
+            expect(element(by.binding('product.prices[0].originalAmount')).getText()).toEqual('$29.99');
+
+        });
 
         it('should search', function () {
             browser.wait(function () {
