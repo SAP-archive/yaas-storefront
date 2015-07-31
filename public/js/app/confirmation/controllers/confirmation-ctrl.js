@@ -33,6 +33,9 @@ angular.module('ds.confirmation')
         OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
             $scope.confirmationDetails = details;
 
+            var productSkus = details.entries.map(function (entry) {
+                return entry.product.sku;
+            });
             var amount = details.entries.map(function(entry){
                return entry.amount;
             });
@@ -40,7 +43,29 @@ angular.module('ds.confirmation')
                 return total+count;
             });
 
+            var productParms = {
+                q: 'sku:(' + productSkus + ')'
+            };
+
             $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
+
+            ProductSvc.query(productParms).then(function(productResult){
+                $scope.confirmationDetails.products = productResult;
+
+                /*
+                    the product details service does not provide the actual price paid in the order,
+                    nor does it provide the quantity ordered.  So we have to map that data
+                    to each product
+                 */
+                angular.forEach(details.entries, function (entry) {
+                    angular.forEach($scope.confirmationDetails.products, function (product, key) {
+                        if (product.sku === entry.product.sku) {
+                            $scope.confirmationDetails.products[key].price = entry.unitPrice;
+                            $scope.confirmationDetails.products[key].amount = entry.amount;
+                        }
+                    });
+                });
+            });
 
             var unbindConfirmAccount = $rootScope.$on('confirmation:account', function(){
                 // show success panel
