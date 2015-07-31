@@ -348,7 +348,7 @@ angular.module('ds.shared')
                     return null;
                 },
                 getCurrentTaxConfiguration: function () {
-                    if (!!currentSite && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
+                    if (!!currentSite && !!currentSite.tax && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
                         return currentSite.tax[0].configuration.public;
                     }
                     else {
