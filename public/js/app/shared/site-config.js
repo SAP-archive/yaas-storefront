@@ -37,7 +37,7 @@ angular.module('ds.shared')
 
             this.apis = {
                 account: {
-                    baseUrl: 'https://' + apiPath + '/hybris/account/v2',
+                    baseUrl: 'https://' + apiPath + '/hybris/account/b1',
                     addresses: {
                         initialPageSize: 6
                     }
