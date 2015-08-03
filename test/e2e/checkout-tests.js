@@ -38,6 +38,7 @@ function verifyCartContents(itemPrice, totalPrice, quantity) {
 function validateField(field, form, text, buttonType, button) {
     element(by.id(field + form)).clear();
     tu.clickElement(buttonType, button);
+    browser.sleep(500);
     browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
     browser.sleep(200);
     tu.sendKeysById(field + form, text);
@@ -122,7 +123,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(8000);
+            browser.sleep(6500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
