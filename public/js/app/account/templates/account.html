@@ -17,8 +17,8 @@
           <div class="page-headline">
             <h1>
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lastName">,</span> <br/>
-              <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
+              <div translate="WELCOME" translate-compile
+                   translate-values="{firstName: '{{account.firstName}}', middleName: '{{account.middleName}}', lastName: '{{account.lastName}}'}"></div>
             </h1>
           </div>
           <address ng-if="defaultAddress">

@@ -363,7 +363,7 @@ angular.module('ds.i18n')
         //XFLD
         STREET_NUMBER: 'Street Number',
         //XTIT
-        WELCOME: 'Welcome',
+        WELCOME: 'Welcome<span ng-if="account.firstName || account.lastName">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
         //XFLD
         ITEMS_IN_ORDER: 'Items In Order',
         //XFLD
