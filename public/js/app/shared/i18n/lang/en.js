@@ -255,7 +255,7 @@ angular.module('ds.i18n')
         //XMSG
         ONE_MORE_STEP: 'One More Step to Create an Account',
         //XMSG
-        ONE_MORE_STEP_MESSAGE: 'for a Fast Checkout and Easy Access to Previous Orders',
+        ONE_MORE_STEP_MESSAGE: 'for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
         //XFLD
         SKU: 'SKU',
 

@@ -8,14 +8,13 @@ exports.beerBug = stressBallPath;
 var cartButtonId = exports.cartButtonId = 'full-cart-btn';
 var buyButton = exports.buyButton = "buy-button";
 exports.contineShopping = "continue-shopping";
-exports.removeFromCart = "remove-product";
+var removeFromCart = exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
 exports.outOfStockButton = "//div[3]/button";
 exports.tenant = '';
 exports.accountWithOrderEmail = 'order@hybristest.com';
-
 
 var waitForCart = exports.waitForCart = function(){
     browser.wait(function () {
@@ -225,10 +224,10 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal) {
 exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
     clickElement('id', "add-address-btn");
     browser.sleep(1000);
+    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('contactName', contact);
     sendKeysById('street', street);
     sendKeysById('streetAppendix', aptNumber);
-    element(by.css('select option[value="' + country + '"]')).click();
     sendKeysById('city', city);
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
@@ -264,14 +263,22 @@ var fillCreditCardForm = exports.fillCreditCardForm = function(ccNumber, ccMonth
 }
 
 var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
-    var email = account.toUpperCase();
+    var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
     });
     browser.sleep(1000);
-    expect(element(by.css('address > span.ng-binding')).getText()).toContain(email);
-    expect(element(by.xpath('//address[2]/span')).getText()).toContain(name);
-    expect(element(by.xpath('//span[2]')).getText()).toContain(number);
+    expect(element(by.binding('confirmationDetails.emailAddress')).getText()).toContain(email);
+    expect(element(by.binding('confirmationDetails.shippingAddressName')).getText()).toContain(name);
+    expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('product.price')).getText()).toEqual(price);
+    expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
 }
+
+     exports.removeItemFromCart = function(){
+            clickElement('id', removeFromCart);
+            browser.wait(function () {
+                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+            });
+            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+    };

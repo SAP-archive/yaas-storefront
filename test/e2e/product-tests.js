@@ -61,10 +61,12 @@ describe('product page', function () {
             tu.switchSite('Sushi Demo Store Germany');
             browser.sleep(3000);
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
             // verify refreshing grabs correct config (STOR-1183)
             browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
+            expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');          
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
         });
 
