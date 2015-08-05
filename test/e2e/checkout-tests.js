@@ -79,9 +79,9 @@ function verifyOrderOnAccountPageMobile(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('m_order in orders').row(0).column('m_order.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('m_order in orders').row(0).column('m_order.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
     element(by.repeater('m_order in orders').row(0).column('m_order.created')).click();
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
     tu.clickElement('id', "logout-btn");
 }
 
@@ -93,9 +93,9 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
     element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
 }
 
     function clickOnModal() {
