@@ -225,7 +225,7 @@ describe("login:", function () {
             tu.sendKeys('id', 'passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
-            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Order # is P0T7S1A7');
+            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Order# P0T7S1A7');
         });
 
     });
