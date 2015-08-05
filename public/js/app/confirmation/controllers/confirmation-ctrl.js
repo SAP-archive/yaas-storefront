@@ -22,7 +22,9 @@ angular.module('ds.confirmation')
         $scope.orderInfo = {};
         $scope.orderInfo.orderId = $stateParams.orderId;
         $scope.isAuthenticated = isAuthenticated;
+        $scope.summaryRowClass = '';
         window.scrollTo(0, 0);
+       
 
         /* OrderDetails are retrieved on controller instantiation, rather than being injected
         * through UI router.  This allows us to display the page immediately while filling in the details as they become
@@ -39,6 +41,31 @@ angular.module('ds.confirmation')
             $scope.confirmationDetails.itemCount = amount.reduce(function (total, count){
                 return total+count;
             });
+            
+            var qSize = details.entries.length; 
+            var alignClass = ''
+            if( qSize === 1)
+            {
+                alignClass = 'col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4';
+            }else{
+                //handle 33% displays
+                var calc33 = Math.floor(parseInt(((qSize*.33) %1).toFixed(1).split('.')[1], 10)/3);
+                switch(calc33)
+                {
+                    case 0:
+                        alignClass = 'col-lg-4 col-lg-offset-8 col-md-4 col-md-offset-8';
+                    break;
+                    case 1:
+                        alignClass = 'col-lg-4 col-md-4';
+                    break;
+                    case 2:
+                        alignClass = 'col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4';
+                    break;
+                }
+            }
+            
+            $scope.summaryRowClass = alignClass;
+            
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
 

@@ -81,32 +81,36 @@
     </div>
 
     <div class="order-items">
-        <div class="row" >
-            <div class="cart-item col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="entry in confirmationDetails.entries">
+        <!-- only 1 product in the order -->
+        <div class="row">
+            
+            <div class="cart-item" 
+                ng-class="(confirmationDetails.entries.length === 1)? 'col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12' : 'col-xs-12 col-sm-6 col-md-4'"
+                    ng-repeat="entry in confirmationDetails.entries">
                 <div class="row">
                     <div class="col-xs-4 col-md-4 text-center img-col">
                         <a ui-sref="base.product.detail( {productId: product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive"/>
                         </a>
-
                     </div>
                     <div class="col-xs-8 col-md-8  detail-col text-left text-uppercase">
 
                         <div class="name">{{entry.product.name}}</div>
-                                <div class="sku item-attr">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
-                                <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
-                                <div class="variants row item-attr">
-                                    <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
-                                </div>
-                                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice |currency: currencySymbol}}</span>
-                                </div>
+                        <div class="sku item-attr">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
+                        <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
+                        <div class="variants row item-attr">
+                            <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
+                        </div>
+                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice |currency: currencySymbol}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            
         </div>
-        
         <div class="summary row" ng-cloak>
-            <div class="col-sm-6 col-sm-offset-3 col-xs-12 col-lg-4 col-lg-offset-4">
+            <div class="{{summaryRowClass}} col-xs-12">
                 <table class="table ">
                     <tbody>
                     <tr>
@@ -139,6 +143,9 @@
                 </table>
             </div>
         </div>
+        
+        
+        
     </div>
     
     <div class="order-success"  ng-cloak>
