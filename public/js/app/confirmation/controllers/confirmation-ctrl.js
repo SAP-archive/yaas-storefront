@@ -71,6 +71,7 @@ angular.module('ds.confirmation')
 
             var unbindConfirmAccount = $rootScope.$on('confirmation:account', function(){
                 // show success panel
+                window.scrollTo(0, 0);
                 $scope.accountSuccess = true;
                 $scope.isAuthenticated = true;
             });
