@@ -330,9 +330,21 @@ describe("checkout:", function () {
             browser.sleep(200);
             element(by.repeater('top_category in categories').row(0).column('top_category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
             tu.clickElement('id', tu.buyButton);
-            tu.waitForCart();
-            browser.sleep(100);
+            //wait for cart to close
+            browser.sleep(6500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
+            browser.wait(function () {
+                return element(by.binding('CHECKOUT')).isPresent();
+            });
+            browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('$10.67', '$30.96', '1');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
