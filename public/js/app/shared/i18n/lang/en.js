@@ -177,6 +177,8 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
         //XFLD
+        DEFAULT: 'Default',
+        //XFLD
         DISTRICT: 'District',
         //XFLD
         STREET_NAME: 'Street Name/ Number',
@@ -249,6 +251,8 @@ angular.module('ds.i18n')
         //XMSG
         THANK_YOU: 'Thank you',
         //XMSG
+        THANK_YOU_FOR_YOUR_ORDER: 'Thank you</br>for your order!',
+        //XMSG
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
         //XMSG
         YOUR_ORDER_IS: 'Your order # is ',
@@ -306,6 +310,8 @@ angular.module('ds.i18n')
         SORT_BY: 'Sort by',
         //XFLD
         VIEWING: 'Viewing',
+        //XFLD
+        PRODUCTS_FROM_TO: '<div>{{productsFrom}}-{{productsTo}} of {{total}}</div>',
         //XFLD
         ALL_PRODUCTS: 'All Products',
         //XTIT
@@ -535,13 +541,17 @@ angular.module('ds.i18n')
         //XFLD
         CREDIT_CARD: 'Credit Card',
         ON: 'on',
-        TRACKING_NUMBER: 'Tracking Number',
+        QUANTITY: 'Quantity',
+        SHIPPED_BY_ON: '<span><b>{{carrier}} on {{shippedDate}}</b></span>',
+        TRACKING_NUMBER: '<span>Tracking Number: {{trackingNumber}}</span>',
 
 
         //-------------------------------------------------
         // Search
         //-------------------------------------------------
 
+        //XFLD
+        FOUND_FOR: 'found for',
         //XACT
         SEARCH: 'Search',
         //XFLD
@@ -556,5 +566,16 @@ angular.module('ds.i18n')
         SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
         //XMSG
         NO_RESULTS_FOUND:'No results found.',
+
+        //-------------------------------------------------
+        // FOOTER
+        //-------------------------------------------------
+
+        //XFLD
+        TERMS_AND_CONDITIONS: 'Terms & Conditions',
+        //XFLD
+        CONTACT_US: 'Contact Us',
+        //XFLD
+        SITE_MAP: 'Site Map',
 
 	});
