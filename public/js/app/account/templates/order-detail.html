@@ -72,8 +72,11 @@
             <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
         </div>
         <div ng-repeat="shipment in order.shipments">
-            <span><b>{{shipment.carrier}} {{'ON' | translate}} {{shipment.shippedDate}}</b></span><br>
-            <span ng-if="shipment.trackingNumber">{{'TRACKING_NUMBER' | translate}}: {{shipment.trackingNumber}}</span>
+            <div translate="SHIPPED_BY_ON" translate-compile
+                 translate-values="{carrier: '{{shipment.carrier}}', shippedDate: '{{shipment.shippedDate}}'}"></div>
+            <br>
+            <div ng-if="shipment.trackingNumber" translate="TRACKING_NUMBER" translate-compile
+                 translate-values="{trackingNumber: '{{shipment.trackingNumber}}'"></div>
         </div>
     </section>
     <section class="white clearfix orderItemsContainer" ng-cloak>
@@ -101,7 +104,7 @@
                                 </div>
                                 <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
                                     <div class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
-                                    <div class="price item-attr ">SKU: <span> {{entry.product.sku}}</span></div>
+                                    <div class="price item-attr ">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
                                 </div>
                             </div>
                         </td>

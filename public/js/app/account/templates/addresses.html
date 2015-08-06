@@ -8,7 +8,7 @@
       </div>
       <div class="">
         <address ng-class="{ 'default-address': (address.isDefault && !isDialog) || (address.selected && isDialog) }">
-          <span>{{address.contactName}}</span> <em ng-if="address.isDefault && addresses.length > 1">(default)</em><br>
+          <span>{{address.contactName}}</span> <em ng-if="address.isDefault && addresses.length > 1">({{'DEFAULT' | translate}})</em><br>
           <span ng-if="address.companyName">{{address.companyName}}<br></span>
           <span>{{address.streetNumber}} {{address.street}}<span ng-if="address.streetAppendix">, {{address.streetAppendix}}</span></span><br>
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>

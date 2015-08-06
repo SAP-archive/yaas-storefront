@@ -13,7 +13,8 @@
 describe('ProductDetailCtrl', function () {
 
     var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
-        getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD')
+        getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
+        getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: "Includes Tax/VAT", included: false })
     };
 
     var mockProduct = {

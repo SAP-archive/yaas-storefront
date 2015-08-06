@@ -47,7 +47,7 @@ var verifyCartDiscount = exports.verifyCartDiscount = function (amount) {
 
 exports.waitForAccountPage = function(){
     browser.wait(function () {
-        return element(by.binding('WELCOME')).isPresent();
+        return element(by.binding('ACCOUNT_DETAILS')).isPresent();
     });
 };
 
