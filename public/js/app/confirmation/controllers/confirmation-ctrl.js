@@ -42,14 +42,14 @@ angular.module('ds.confirmation')
                 return total+count;
             });
             
-            var qSize = details.entries.length; 
-            var alignClass = ''
+            var qSize = details.entries.length;
+            var alignClass = '';
             if( qSize === 1)
             {
                 alignClass = 'col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4';
             }else{
                 //handle 33% displays
-                var calc33 = Math.floor(parseInt(((qSize*.33) %1).toFixed(1).split('.')[1], 10)/3);
+                var calc33 = Math.floor(parseInt(((qSize*0.33) %1).toFixed(1).split('.')[1], 10)/3);
                 switch(calc33)
                 {
                     case 0:
