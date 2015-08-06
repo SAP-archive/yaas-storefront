@@ -50,7 +50,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
+            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
             // tu.clickElement('id', 'logout-btn');
 
         });
@@ -62,23 +62,27 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account');
             browser.sleep(2000);
             updateTitleField('title', 'Mr.');
-            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
+            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
+            expect(element(by.binding("account.middleName")).getText()).toEqual("C");
+            expect(element(by.binding("account.lastName")).getText()).toEqual("Cool");
             updateAccountField('first-name-edit', 'first');
             browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST C COOL");
+            expect(element(by.binding("account.firstName")).getText()).toEqual("first");
             updateAccountField('middle-name-edit', 'middle');
             browser.sleep(1000);            
-            expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE COOL");
+            expect(element(by.binding("account.middleName")).getText()).toEqual("middle");
             updateAccountField('last-name-edit', 'last');
             browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("FIRST MIDDLE LAST");
+            expect(element(by.binding("account.lastName")).getText()).toEqual("last");
             updateTitleField('title', 'Dr.');
             updateAccountField('email-edit', 'cool@cool.com');
             updateAccountField('first-name-edit', 'Joe');
             updateAccountField('middle-name-edit', 'C');
             browser.sleep(1000);
             updateAccountField('last-name-edit', 'Cool');
-            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE C COOL");
+            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
+            expect(element(by.binding("account.middleName")).getText()).toEqual("C");
+            expect(element(by.binding("account.lastName")).getText()).toEqual("Cool");
 
         });
 
@@ -225,7 +229,7 @@ describe("login:", function () {
             tu.sendKeys('id', 'passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
-            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Your Order # is P0T7S1A7');
+            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Order# P0T7S1A7');
         });
 
     });

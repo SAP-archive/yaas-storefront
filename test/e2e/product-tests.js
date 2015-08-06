@@ -38,7 +38,7 @@ describe('product page', function () {
 
         it('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
-            expect(element(by.css('div.page-indicator.ng-binding')).getText()).toContain('1-');
+            expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('1-');
             tu.scrollToBottomOfProducts()
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
