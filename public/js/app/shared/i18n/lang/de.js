@@ -315,7 +315,7 @@ angular.module('ds.i18n')
         CREDIT_CARD: 'Kreditkarte',
         ON: 'an',
         QUANTITY: 'Menge',
-        SHIPPED_BY_ON: '<span><b>{{carrier}} on {{shippedDate}}</b></span>',
+        SHIPPED_BY_ON: 'Versendet durch: <span><b>{{carrier}} on {{shippedDate}}</b></span>',
         TRACKING_NUMBER: 'Verfolgungsnummer',
 
 

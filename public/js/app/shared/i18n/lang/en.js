@@ -545,7 +545,7 @@ angular.module('ds.i18n')
         //XFLD
         QUANTITY: 'Quantity',
         //XFLD
-        SHIPPED_BY_ON: '<span><b>{{carrier}} on {{shippedDate}}</b></span>',
+        SHIPPED_BY_ON: 'Shipped by: <span><b>{{carrier}} on {{shippedDate}}</b></span>',
         //XFLD
         TRACKING_NUMBER: '<span>Tracking Number: {{trackingNumber}}</span>',
 
