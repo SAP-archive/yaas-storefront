@@ -113,6 +113,7 @@ angular.module('ds.i18n')
         YEAR: 'Jahr',
 
         /*  addresses  */
+        DEFAULT: 'Default',
         DISTRICT: 'Kreis',
         STREET_NAME: 'Straßenname mit Hausnummer',
         BUILDING_NAME: 'Gebäudename',
@@ -149,6 +150,7 @@ angular.module('ds.i18n')
         SUCCESS: 'Erfolg!',
         ACCOUNT_SUCCESS: 'Dein Konto wurde erfolgreich erstellt!',
         THANK_YOU: 'Vielen Dank',
+        THANK_YOU_FOR_YOUR_ORDER: 'Vielen Dank Für Ihre Bestellung',
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
         YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
         ONE_MORE_STEP: 'Ein weiterer Schritt , um ein Konto zu erstellen',
@@ -160,6 +162,7 @@ angular.module('ds.i18n')
          */
         PRODUCTS: 'Produkte',
         BACK_TO: 'Zurück zu',
+        REGION: 'Region',
 
         /*
          product detail page
@@ -181,6 +184,7 @@ angular.module('ds.i18n')
         PRICE_LOW_HIGH: 'Preis aufsteigend',
         SORT_BY: 'Sortieren',
         VIEWING: 'Anzeige',
+        PRODUCTS_FROM_TO: '<div>{{productsFrom}}-{{productsTo}} of {{total}}</div>',
         ALL_PRODUCTS: 'Alle Produkte',
 
         EMPTY_MSG: 'Demo Shop - Coming soon',
@@ -214,7 +218,7 @@ angular.module('ds.i18n')
         NAME_REQUIRED: 'Name Erforderlich',
         STREET: 'Straße',
         SAVE: 'Speichern',
-        WELCOME: 'Willkommen',
+        WELCOME: 'Willkommen<span ng-if="account.firstName || account.lastName">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
         ITEM_IN_ORDER: 'translation needed',
         ITEMS_IN_ORDER: 'Postenzähler',
         NOT_SET: 'Unbekannt',
@@ -310,12 +314,15 @@ angular.module('ds.i18n')
          */
         CREDIT_CARD: 'Kreditkarte',
         ON: 'an',
+        QUANTITY: 'Menge',
+        SHIPPED_BY_ON: '<span><b>{{carrier}} on {{shippedDate}}</b></span>',
         TRACKING_NUMBER: 'Verfolgungsnummer',
 
 
         /*
          Search
          */
+        FOUND_FOR: 'gefunden',
         SEARCH: 'Suche',
         SEARCH_RESULTS: 'Suchergebnisse',
         MOST_RELEVANT: 'Wichtigsten',
@@ -324,5 +331,17 @@ angular.module('ds.i18n')
         SEE_ALL: 'Zeige Alle',
         SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar',
         NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden',
+
+        //-------------------------------------------------
+        // FOOTER
+        //-------------------------------------------------
+
+        //XFLD
+        TERMS_AND_CONDITIONS: 'Geschäftsbedingungen',
+        //XFLD
+        CONTACT_US: 'Kontaktieren Sie Uns',
+        //XFLD
+        SITE_MAP: 'Site Map',
+
 
     });

@@ -540,9 +540,13 @@ angular.module('ds.i18n')
 
         //XFLD
         CREDIT_CARD: 'Credit Card',
+        //XFLD
         ON: 'on',
+        //XFLD
         QUANTITY: 'Quantity',
+        //XFLD
         SHIPPED_BY_ON: '<span><b>{{carrier}} on {{shippedDate}}</b></span>',
+        //XFLD
         TRACKING_NUMBER: '<span>Tracking Number: {{trackingNumber}}</span>',
 
 
