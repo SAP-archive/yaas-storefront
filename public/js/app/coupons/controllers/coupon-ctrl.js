@@ -54,7 +54,10 @@ angular.module('ds.coupon')
             };
 
             $scope.removeAllCoupons = function() {
-                CartSvc.removeAllCoupons($scope.cart.id);
+                CartSvc.removeAllCoupons($scope.cart.id).then(function () {
+                    $scope.coupon.error = '';
+                    $scope.couponErrorMessage = '';
+                });
             };
 
             var getCouponError = function(couponError) {
