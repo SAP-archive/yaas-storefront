@@ -342,13 +342,14 @@ angular.module('ds.shared')
                 },
 
                 getTaxType: function () {
-                    if (!!currentSite && !!currentSite.tax[0]) {
+                    if (!!currentSite && !!currentSite.tax && !!currentSite.tax[0]) {
                         return currentSite.tax[0].id;
                     }
                     return null;
                 },
+
                 getCurrentTaxConfiguration: function () {
-                    if (!!currentSite && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
+                    if (!!currentSite && !!currentSite.tax && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
                         return currentSite.tax[0].configuration.public;
                     }
                     else {
