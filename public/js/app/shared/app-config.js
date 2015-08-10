@@ -52,6 +52,3 @@ angular.module('ds.appconfig', [])
 
 
     });
-
-
-
