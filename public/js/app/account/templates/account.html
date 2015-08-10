@@ -13,35 +13,71 @@
   <section class="white" ng-cloak>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-9 col-sm-5">
-          <div class="page-headline">
+        <div class="page-headline">
             <h1>
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lastName">,</span> <br/>
-              <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
+              {{'WELCOME' | translate}} {{account.firstName}} <img src="./img/user-icon_big.png" class="img-circle img-responsive" width="45"/>
             </h1>
           </div>
-          <address ng-if="defaultAddress">
-            <span>{{defaultAddress.street}}</span>
-            <span>{{defaultAddress.streetNumber}}</span>
-            <br>
-            <span>{{defaultAddress.city}}</span>, {{defaultAddress.state}} {{defaultAddress.zipCode}}<br>
-            <span>{{defaultAddress.country}}</span><br>
-            <span>{{defaultAddress.contactPhone}}</span>
-          </address>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
         </div>
-        <div class="col-xs-3 col-sm-2 text-center">
-          <img src="./img/user-icon_big.png" class="img-circle img-responsive"/>
+        <div class="col-xs-12 col-sm-3"> 
+          <p>Name</p>
+          <p>{{account.firstName}} {{account.middleName}} {{account.lastName}}</p>
+        </div> 
+        <div class="col-xs-12 col-sm-4"> 
+          <p>Phone</p>
+          <p>{{defaultAddress.contactPhone}}</p>
         </div>
+        <div class="col-xs-12 col-sm-4"> 
+          <p>Region Preferences</p>
+          <p>Preferred Locale</p>
+          <p>{{showLanguageLocale()}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-offset-1">
+              <span class="area-headline">{{'ACCOUNT_DETAILS' | translate}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-1">
+              <a href="#"><span class="glyphicon glyphicon-pencil"></span></a>  
+            </div>
+            <div class="col-xs-11">
+              <p>Email</p>
+              <p>{{account.contactEmail}}</p>  
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-1">
+              <a href="#"><span class="glyphicon glyphicon-pencil"></span></a>  
+            </div>
+            <div class="col-xs-11">
+              <p>Password</p>
+              <p>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</p>
+            </div>
+          </div>
+        </div>  
+      </div>
+     
+      <div class="row hidden">
         <div class="col-sm-12 col-sm-5">
           <div class="clearfix visible-xs"></div>
-          <span class="area-headline">{{'ACCOUNT_DETAILS' | translate}}</span>
+          
           <div class="account-details">
             <div>
               <span class="inline-label">{{'TITLE' | translate}}:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
             </div>
             <div>
-                <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit">{{account.firstName}} <span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
+                <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit"><span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div>
               <span class="inline-label">{{'MIDDLE_NAME' | translate}}:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>
@@ -56,14 +92,14 @@
               <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div ng-if="languageLocales.length > 1">
-              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
+              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" > <span id="preferred-locale" class="caret"></span></a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <section ng-cloak>
+  <section class="lightgray" ng-cloak>
     <div class="section-headline clearfix">
       <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
       <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
@@ -80,7 +116,7 @@
     </div>
 
   </section>
-  <section class="mediumgray" match-background ng-cloak>
+  <section class="mediumgray" ng-cloak>
     <div class="section-headline clearfix">
       <h2>{{'ORDER_HISTORY' | translate}}</h2>
     </div>
