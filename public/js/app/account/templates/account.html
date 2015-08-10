@@ -17,8 +17,8 @@
           <div class="page-headline">
             <h1>
               <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELCOME' | translate}}<span ng-if="account.firstName || account.lastName">,</span> <br/>
-              <strong>{{account.firstName}} {{account.middleName}} {{account.lastName}}</strong>
+              <div translate="WELCOME" translate-compile
+                   translate-values="{firstName: '{{account.firstName}}', middleName: '{{account.middleName}}', lastName: '{{account.lastName}}'}"></div>
             </h1>
           </div>
           <address ng-if="defaultAddress">
@@ -98,12 +98,12 @@
                            </p>
                            <p>
                                <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
-                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{order.id}}</a>
+                               <a ui-sref="base.orderDetail({orderId: m_order.id})">{{m_order.id}}</a>
                            </p>
                            <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                        </div>
                        <div class="col-sm-4 col-xs-4">
-                        <p><strong>{{m_order.status}}</strong></p>
+                        <p><strong>{{m_order.status | translate}}</strong></p>
                        </div>
                    </div>
                </div>
@@ -127,7 +127,7 @@
             <td>{{xrder.created | date: 'medium'}}</td>
             <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
             <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
-            <td><strong>{{xrder.status}}</strong></td>
+            <td><strong>{{xrder.status | translate}}</strong></td>
           </tr>
         </tbody>
       </table>

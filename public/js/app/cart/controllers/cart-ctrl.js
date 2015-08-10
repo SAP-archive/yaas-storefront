@@ -35,6 +35,7 @@ angular.module('ds.cart')
             $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
             $scope.taxType = GlobalData.getTaxType();
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+            $scope.calculateTax = CartSvc.getCalculateTax();
         });
 
         $scope.$on('$destroy', unbind);
@@ -88,9 +89,8 @@ angular.module('ds.cart')
             $scope.taxEstimationError = false;
             if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
                 //Save countryCode and zipCode in service
-                CartSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.calculateTax.taxCalculationApplied);
+                CartSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.cart.id);
 
-                CartSvc.getCart();
                 $scope.calculateTax.taxCalculationApplied = true;
 
             }

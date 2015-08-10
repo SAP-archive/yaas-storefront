@@ -26,6 +26,8 @@ angular.module('ds.products')
             $scope.category = product.categories;
             $scope.breadcrumbData = angular.copy($scope.category);
 
+            $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
             if(!!lastCatId) {
                 if(lastCatId === 'allProducts'){
                     var allProductsName = $filter('translate')('ALL_PRODUCTS');
@@ -75,6 +77,9 @@ angular.module('ds.products')
             window.scrollTo(0, 0);
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
+
+                $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
                 if(eveObj.source === 'manual'){
                     $rootScope.showCart = true;
                     //check to see if the cart should close after timeout
