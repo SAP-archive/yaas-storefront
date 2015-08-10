@@ -27,7 +27,7 @@ angular.module('ds.confirmation')
                 */
                 var setClass = function(alignClass){
                     element.attr('class', alignClass);
-                }
+                };
                  
                 attrs.$observe('productcount', function(value){
                     
