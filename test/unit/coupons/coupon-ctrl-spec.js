@@ -89,6 +89,9 @@ describe('CouponCtrl Test', function () {
             var deferredCoupon = $q.defer();
             deferredCoupon.resolve(couponResult);
 
+            var deferredCart = $q.defer();
+            deferredCart.resolve(mockCart);
+
             mockCouponSvc = {
                 getCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise)
             };
@@ -96,7 +99,7 @@ describe('CouponCtrl Test', function () {
             mockCartSvc = {
                 getLocalCart: jasmine.createSpy().andReturn(mockCart),
                 redeemCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
-                removeAllCoupons: jasmine.createSpy()
+                removeAllCoupons: jasmine.createSpy().andReturn(deferredCart.promise)
             };
 
             couponCtrl = $controller('CouponCtrl', {$scope: $scope,$rootScope: $rootScope, 'CartSvc': mockCartSvc,
