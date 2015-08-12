@@ -55,9 +55,6 @@
             <div>
               <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
             </div>
-            <div ng-if="languageLocales.length > 1">
-              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" >{{showLanguageLocale()}} <span id="preferred-locale" class="caret"></span></a>
-            </div>
           </div>
         </div>
       </div>
