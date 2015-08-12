@@ -162,16 +162,12 @@ describe('ConfigurationSvc Test', function () {
             });
             promise = configSvc.initializeApp();
             promise.then(successCallback, errorCallback);
-            var lang = 'pl';
-            var curr = 'CAD';
             var customerId = 'abc';
-            accountDef.resolve({id: customerId, preferredLanguage: lang, preferredCurrency: curr});
+            accountDef.resolve({id: customerId});
             $httpBackend.flush();
             catDef.resolve({});
             $scope.$apply();
             expect(mockedAccountSvc.account).toHaveBeenCalled();
-
-            expect(mockedGlobalData.setLanguage).toHaveBeenCalledWith(lang, settings.eventSource.initialization);
             expect(mockedCartSvc.refreshCartAfterLogin).toHaveBeenCalledWith(customerId);
             expect(successCallback).toHaveBeenCalled();
             expect(errorCallback).not.toHaveBeenCalled();
