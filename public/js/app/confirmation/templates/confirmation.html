@@ -15,7 +15,8 @@
                 <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-                <p class="orderEmailedTo">{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}} <span ng-cloak><strong>{{confirmationDetails.emailAddress}}</strong></span></p>
+                <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile
+                     translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'"></div>
 
                 <div>
                     <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
@@ -158,7 +159,7 @@
                         {{'RETURN_TO_SHOPPING' | translate}}
                     </button>
                 </div>
-                <p class="support-box">{{'QUESTIONS' | translate}} <strong>(888) 555-1222</strong>.
+                <div translate="QUESTIONS" translate-compile translate-values="{contactInfo: '{{questionsContactInfo}}'"></div>
             </div>
         </div>
     </div>
