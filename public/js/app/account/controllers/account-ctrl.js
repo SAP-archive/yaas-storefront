@@ -18,6 +18,7 @@ angular.module('ds.account')
         function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
 
             var modalInstance;
+            var originalAccountData;
             var customerNumber = account.customerNumber;
             var notSet = '';
             $translate('NOT_SET').then(function(value){
@@ -73,8 +74,85 @@ angular.module('ds.account')
                     $scope.titles.push(translatedValue);
                 });
             });
+            
+            $scope.editAccountInfo = function(mtype){
+        		var template;
 
-
+    			switch(mtype)
+            		{
+            		  case 'user':
+        				template = 'js/app/account/templates/editUser-dialog.html';
+            		  break;
+            		  case 'email':
+                        template = 'js/app/account/templates/editUser-dialog.html';
+            		  break;
+            		  case 'password':
+                        template = 'js/app/account/templates/editUser-dialog.html';
+            		  break;
+        		}
+                
+                $scope.mtype = mtype;
+                    
+                originalAccountData = $scope.account;
+			 
+    			modalInstance = $modal.open({
+    				templateUrl: template,
+                    scope: $scope
+    			});    		    
+    	    };
+            
+            $scope.closeEditUserDialog = function(){
+               modalInstance.close(); 
+            };
+            
+            $scope.updateUserInfo = function(){
+              var account = angular.copy($scope.account);
+              
+              debugger;
+             
+              switch($scope.mtype){
+                  case 'user':
+                    //do nothing
+                  break;
+                  case 'email':
+                    
+                  break;
+                  case 'password':
+                    
+                  break;
+              }  
+              
+              AccountSvc.updateAccount(account).then(function(){
+                  if($scope.mtype == 'user')
+                  {
+                     if (account.preferredLanguage != originalAccountData.preferredLanguage) {
+                        GlobalData.setLanguage(data.split('_')[0]);
+                     }
+                     if (account.preferredCurrency != originalAccountData.preferredCurrency) {
+                        GlobalData.setCurrency(data.split('_')[0]);
+                     }
+                  }
+                    
+              });
+            };
+            
+            $scope.updateAccount = function (field, data) {
+                var account = angular.copy($scope.account);
+                var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+                if (field === 'contactEmail' && !emailRegexp.test(data)) {
+                    return $translate('PLEASE_ENTER_VALID_EMAIL');
+                }
+                account[field] = data;
+                return AccountSvc.updateAccount(account).then(function () {
+                    if (field === 'preferredLanguage' && data) {
+                        GlobalData.setLanguage(data.split('_')[0]);
+                    }
+                    if (field === 'preferredCurrency' && data) {
+                        GlobalData.setCurrency(data.split('_')[0]);
+                    }
+                });
+            };
+            
             var extractServerSideErrors = function (response) {
                 var errors = [];
                 if (response.status === 400) {
@@ -231,22 +309,7 @@ angular.module('ds.account')
                 });
             };
 
-            $scope.updateAccount = function (field, data) {
-                var account = angular.copy($scope.account);
-                var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-                if (field === 'contactEmail' && !emailRegexp.test(data)) {
-                    return $translate('PLEASE_ENTER_VALID_EMAIL');
-                }
-                account[field] = data;
-                return AccountSvc.updateAccount(account).then(function () {
-                    if (field === 'preferredLanguage' && data) {
-                        GlobalData.setLanguage(data.split('_')[0]);
-                    }
-                    if (field === 'preferredCurrency' && data) {
-                        GlobalData.setCurrency(data.split('_')[0]);
-                    }
-                });
-            };
+            
 
             $scope.updatePassword = function () {
                 AuthDialogManager.showUpdatePassword();
