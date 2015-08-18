@@ -76,27 +76,11 @@ angular.module('ds.account')
             });
             
             $scope.editAccountInfo = function(mtype){
-        		var template;
-
-    			switch(mtype)
-            		{
-            		  case 'user':
-        				template = 'js/app/account/templates/editUser-dialog.html';
-            		  break;
-            		  case 'email':
-                        template = 'js/app/account/templates/editUser-dialog.html';
-            		  break;
-            		  case 'password':
-                        template = 'js/app/account/templates/editUser-dialog.html';
-            		  break;
-        		}
-                
-                $scope.mtype = mtype;
-                    
+        		$scope.mtype = mtype;    
                 originalAccountData = $scope.account;
 			 
     			modalInstance = $modal.open({
-    				templateUrl: template,
+    				templateUrl: 'js/app/account/templates/editUser-dialog.html',
                     scope: $scope
     			});    		    
     	    };
@@ -115,9 +99,6 @@ angular.module('ds.account')
                     //do nothing
                   break;
                   case 'email':
-                    
-                  break;
-                  case 'password':
                     
                   break;
               }  

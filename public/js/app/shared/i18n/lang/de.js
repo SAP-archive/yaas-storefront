@@ -199,6 +199,8 @@ angular.module('ds.i18n')
          */
         ACCOUNT_DETAILS: 'Kontodaten',
         ADD: 'Hinzufügen',
+        REGION_PREFERENCES: 'Region Preferences',
+        NEW_EMAIL:'Neu Email',
         ADDRESSBOOK: 'Adressbuch',
         NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
         ADD_ADDRESS: 'Adresse hinzufügen',

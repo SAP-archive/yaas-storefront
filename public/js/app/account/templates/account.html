@@ -15,94 +15,71 @@
       <div class="row">
         <div class="page-headline">
             <h1>
-              <small>{{'MY_ACCOUNT' | translate}}</small></br>
-              {{'WELCOME' | translate}} {{account.firstName}} <img src="./img/user-icon_big.png" class="img-circle img-responsive" width="45"/>
+              <small>{{'MY_ACCOUNT' | translate}}</small>
+	      <span class="welcomeTxt pull-left">{{'WELCOME' | translate}} {{account.firstName}}</span> <img src="./img/user-icon_big.png" class="img-circle pull-left " width="65"/>
             </h1>
+       </div>
+      </div>
+      <div class="row userInfoRow">
+	      <div class="col-xs-12 titleRow hidden-xs">
+		      <div class="row">
+		      <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-4 col-md-4 col-lg-4">
+			      {{'NAME' | translate}}
+		      </div>
+		      <div class="col-sm-4 col-md-4 col-lg-4">
+			      {{'REGION_PREFERENCES' | translate}}
+		      </div>
+		      </div>
+	      </div>
+	      <div class="col-xs-1 editLinkContainer">
+		  <a href="#" ng-click="editAccountInfo('user')"><span class="glyphicon glyphicon-pencil"></span></a>
+              </div>
+              <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-4 col-md-4 col-lg-4"> 
+		      {{account.firstName}} {{account.middleName}} {{account.lastName}}
+              </div> 
+              <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-4"> 
+                <span class="dataLabel">Preferred Locale</span>
+                {{showLanguageLocale()}}
+              </div>
+	      <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-3">
+		<span class="dataLabel">Currency</span>
+	        {{account.preferredCurrency}}
+	      </div>
+
           </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-1">
-          <a href="#" ng-click="editAccountInfo('user')"><span class="glyphicon glyphicon-pencil"></span></a>
-        </div>
-        <div class="col-xs-12 col-sm-3"> 
-          <p>Name</p>
-          <p>{{account.firstName}} {{account.middleName}} {{account.lastName}}</p>
-        </div> 
-        <div class="col-xs-12 col-sm-4"> 
-          <p>Phone</p>
-          <p>{{defaultAddress.contactPhone}}</p>
-        </div>
-        <div class="col-xs-12 col-sm-4"> 
-          <p>Region Preferences</p>
-          <p>Preferred Locale</p>
-          <p>{{showLanguageLocale()}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="row userData">
+      </div><!-- ./row -->
+      <div class="row userInfoRow">
+        <div class="col-xs-12 titleRow hidden-xs">
           <div class="row">
-            <div class="col-xs-offset-1">
-              <span class="area-headline">{{'ACCOUNT_DETAILS' | translate}}</span>
+            <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-10">
+              {{'ACCOUNT_DETAILS' | translate}}
             </div>
           </div>
-          <div class="row">
-            <div class="col-xs-1">
-              <a href="#" ng-click="editAccountInfo('email')"><span class="glyphicon glyphicon-pencil"></span></a>  
-            </div>
-            <div class="col-xs-11">
-              <p>Email</p>
-              <p>{{account.contactEmail}}</p>  
-            </div>
-          </div>
+	</div>
+	<div class="col-xs-1 editLinkContainer">
+		      <a href="#" ng-click="editAccountInfo('email')"><span class="glyphicon glyphicon-pencil"></span></a>  
         </div>
-        <div class="col-xs-12">
-          <div class="row">
-            <div class="col-xs-1">
-              <a href="#" ng-click="updatePassword()"><span class="glyphicon glyphicon-pencil"></span></a>  
-            </div>
-            <div class="col-xs-11">
-              <p>Password</p>
-              <p>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</p>
-            </div>
-          </div>
-        </div>  
-      </div>
-     
-      <div class="row hidden">
-        <div class="col-sm-12 col-sm-5">
-          <div class="clearfix visible-xs"></div>
-          
-          <div class="account-details">
-            <div>
-              <span class="inline-label">{{'TITLE' | translate}}:</span> <a href="#" editable-select="account.title" e-ng-options="title for title in titles" onbeforesave="updateAccount('title', $data)" >{{account.title}} <span id="title" class="caret"></span></a>
-            </div>
-            <div>
-                <span class="inline-label">{{'FIRST_NAME' | translate}}:</span> <a id="first-name-text" href="#" editable-text="account.firstName" onbeforesave="updateAccount('firstName', $data)" alt="Edit"><span id="first-name-edit" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div>
-              <span class="inline-label">{{'MIDDLE_NAME' | translate}}:</span> <a href="#" editable-text="account.middleName" onbeforesave="updateAccount('middleName', $data)" alt="Edit">{{account.middleName}} <span id="middle-name-edit" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div>
-              <span class="inline-label">{{'LAST_NAME' | translate}}:</span> <a href="#" editable-text="account.lastName" onbeforesave="updateAccount('lastName', $data)" alt="Edit">{{account.lastName}} <span id="last-name-edit" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div>
-              <span class="inline-label">{{'EMAIL' | translate}}:</span> <a href="#" editable-text="account.contactEmail" onbeforesave="updateAccount('contactEmail', $data)" alt="Edit">{{account.contactEmail}} <span id="email-edit" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div>
-              <span class="inline-label">{{'PASSWORD' | translate}}:</span> <a href="" ng-click="updatePassword()">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; <span id="password-edit" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div ng-if="languageLocales.length > 1">
-              <span class="inline-label">{{'LOCALE' | translate}}:</span> <a href="#" editable-select="account.preferredLanguage" e-ng-options="ll.id as ll.label for ll in languageLocales" onbeforesave="updateAccount('preferredLanguage', $data)" > <span id="preferred-locale" class="caret"></span></a>
-            </div>
-          </div>
+        <div class="col-xs-11 col-xs-offset-1 col-sm-offset-0 col-sm-3 col-md-3 col-lg-3">
+		<span class="dataLabel">{{'EMAIL' | translate}}</span>
+        	{{account.contactEmail}}  
+       </div>
+       <div class="col-xs-1 editLinkContainer">
+         <a href="#" ng-click="updatePassword()"><span class="glyphicon glyphicon-pencil"></span></a> 
+       </div>
+
+       <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">	
+	   <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+            &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+        </div>
         </div>
       </div>
-    </div>
+   </div>
   </section>
   <section class="lightgray" ng-cloak>
     <div class="section-headline clearfix">
       <h2 class="pull-left">{{'ADDRESSBOOK' | translate}}</h2>
-      <button id="add-address-btn" class="btn btn-primary btn-lg pull-right" ng-click="openAddressModal()">
+      <button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="openAddressModal()">
       {{'ADD' | translate}}
       </button>
     </div>
