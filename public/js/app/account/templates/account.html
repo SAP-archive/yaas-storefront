@@ -31,50 +31,56 @@
 		      </div>
 		      </div>
 	      </div>
-	      <div class="col-xs-1 editLinkContainer">
-		  <a href="#" ng-click="editAccountInfo('user')"><span class="glyphicon glyphicon-pencil"></span></a>
-              </div>
-              <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-4 col-md-4 col-lg-4"> 
-		      {{account.firstName}} {{account.middleName}} {{account.lastName}}
-              </div> 
-              <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-4"> 
-                <span class="dataLabel">Preferred Locale</span>
-                {{showLanguageLocale()}}
-              </div>
-	      <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-3">
-		<span class="dataLabel">Currency</span>
+	      <div class="col-xs-3 col-sm-1 editLinkContainer">
+		      <a href="#" ng-click="editAccountInfo('user')"><span class="glyphicon glyphicon-pencil"></span></a>
+        </div>
+        <div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-4 col-md-4 col-lg-4"> 
+          <span class="userInforRow visible-xs hidden-md hidden-lg">
+            {{'NAME' | translate}}
+          </span>
+          {{account.firstName}} {{account.middleName}} {{account.lastName}}
+        </div> 
+        <div class="col-xs-offset-3 col-sm-offset-0 col-xs-9 col-sm-4"> 
+          <span class="userInforRow visible-xs hidden-md hidden-lg">
+            {{'REGION_PREFERENCES' | translate}}
+          </span>
+          <span class="dataLabel">Preferred Locale</span>
+          {{showLanguageLocale()}}
+        </div>
+	      <div class="col-xs-offset-3 col-sm-offset-0 col-xs-9 col-sm-3">
+		    <span class="dataLabel">Currency</span>
 	        {{account.preferredCurrency}}
 	      </div>
-
-          </div>
+      </div>
       <div class="row userData">
       </div><!-- ./row -->
       <div class="row userInfoRow">
         <div class="col-xs-12 titleRow hidden-xs">
           <div class="row">
-            <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-10">
+            <div class="col-xs-offset-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-9">
               {{'ACCOUNT_DETAILS' | translate}}
             </div>
           </div>
-	</div>
-	<div class="col-xs-1 editLinkContainer">
+	       </div>
+	       <div class="col-xs-3 col-sm-1 editLinkContainer">
 		      <a href="#" ng-click="editAccountInfo('email')"><span class="glyphicon glyphicon-pencil"></span></a>  
         </div>
-        <div class="col-xs-11 col-xs-offset-1 col-sm-offset-0 col-sm-3 col-md-3 col-lg-3">
-		<span class="dataLabel">{{'EMAIL' | translate}}</span>
+        <div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-3 col-md-3 col-lg-3">
+          <span class="userInforRow visible-xs hidden-md hidden-lg">
+            {{'ACCOUNT_DETAILS' | translate}}
+          </span>
+		      <span class="dataLabel">{{'EMAIL' | translate}}</span>
         	{{account.contactEmail}}  
        </div>
-       <div class="col-xs-1 editLinkContainer">
+       <div class="col-xs-3 col-sm-1 editLinkContainer">
          <a href="#" ng-click="updatePassword()"><span class="glyphicon glyphicon-pencil"></span></a> 
        </div>
-
-       <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">	
-	   <span class="dataLabel">{{'PASSWORD' | translate}}</span>
-            &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
-        </div>
-        </div>
+       <div class="col-xs-offset-3 col-xs-9 col-sm-offset-0 col-sm-4">	
+	       <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+         &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+       </div>
       </div>
-   </div>
+    </div>
   </section>
   <section class="lightgray" ng-cloak>
     <div class="section-headline clearfix">
