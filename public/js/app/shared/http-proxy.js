@@ -48,7 +48,7 @@ angular.module('ds.httpproxy', [])
                 responseError: function (response) {
                     document.body.style.cursor = 'auto';
 
-                    if (response.config.url.indexOf('/stork/piwik') > -1 ||
+                    if (response.config.url.indexOf('/hybris/piwik') > -1 ||
                         response.config.url.indexOf('loginconfig') > -1 ||
                         response.config.url.indexOf('algolia') > -1) {
                         //Ignore if request to one of this endpoints fails.
