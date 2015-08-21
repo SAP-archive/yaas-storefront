@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Example for running script:
-# version-eye.sh FILE_1 FILE_2
+# version-eye.sh API_KEY FILE_1 FILE_2
 
-# version-eye.sh "C:\Job\yaas-storefront\bower.json" "C:\Job\yaas-storefront\package.json"
+# version-eye.sh "7fe24345cea494dfdad8" "C:\Job\yaas-storefront\bower.json" "C:\Job\yaas-storefront\package.json"
 
 BASE_DIR=`dirname $0`
 DEST_FILE=$BASE_DIR/result.json
@@ -14,24 +14,24 @@ function jsonval {
 }
 
 echo ""
-echo "Creating new project in version eye and uploading $1"
+echo "Creating new project in version eye and uploading $2"
 echo "-------------------------------------------------------------------"
 
-json=`curl --form upload=@$1 https://versioneye.hybris.com/api/v2/projects?api_key=7fe24345cea494dfdad8`
+json=`curl --form upload=@$2 https://versioneye.hybris.com/api/v2/projects?api_key=${1}`
 prop='id'
 idVal=`jsonval`
 
 echo ""
-echo "Uploading $2"
+echo "Uploading $3"
 echo ""
 
-json=`curl --form project_file=@$2 https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=7fe24345cea494dfdad8`
+json=`curl --form project_file=@$3 https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=${1}`
 
 echo ""
 echo "Get state of dependencies"
 echo ""
 
-json=`curl https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=7fe24345cea494dfdad8`
+json=`curl https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=${1}`
 
 echo "Writing json response to $DEST_FILE"
 echo "$json" > "$DEST_FILE"
@@ -40,7 +40,7 @@ echo ""
 echo "Delete newly created project"
 echo ""
 
-json=`curl -X "DELETE" https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=7fe24345cea494dfdad8`
+json=`curl -X "DELETE" https://versioneye.hybris.com/api/v2/projects/${idVal}?api_key=${1}`
 
 echo ""
 echo "Finished!"
