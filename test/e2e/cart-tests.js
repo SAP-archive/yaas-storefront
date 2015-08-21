@@ -64,23 +64,6 @@ describe("cart:", function () {
             tu.verifyCartTotal('€14.53');
         });
 
-        //will be updated when site is available on My Account
-        xit('should load one product into cart in USD and change to Euros while logged in', function () {
-            tu.loadProductIntoCart('1', '$10.67');
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            tu.loginHelper('currtest@hybristest.com', 'password');
-            browser.sleep(1000);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(2000);
-            tu.verifyCartTotal('€7.99');
-            tu.clickElement('id', tu.removeFromCart);
-            browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
-            });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-        });
-
         it('should load multiple products into cart', function () {
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');

@@ -76,6 +76,9 @@ angular.module('ds.router', [])
                         'main@': {
                             templateUrl: 'js/app/search/templates/search-list.html',
                             controller: 'SearchListCtrl'
+                        },
+                        'footer@': {
+                            template: ''
                         }
                     },
                     resolve:{

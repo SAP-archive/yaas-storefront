@@ -188,7 +188,23 @@ angular.module('ds.cart')
                 return createItemDef.promise;
             }
 
+            /*
+             TODO:
+             this function is only necessary because the cart mashup does not directly consume the coupon as
+             it is returned from the coupon service.  That may change in the future
+             */
+            function parseCoupon(coupon) {
+                if (coupon.discountType === 'ABSOLUTE') {
+                    coupon.amount = coupon.discountAbsolute.amount;
+                    coupon.currency = coupon.discountAbsolute.currency;
+                }
+                else if (coupon.discountType === 'PERCENT') {
+                    coupon.discountRate = coupon.discountPercentage;
+                    coupon.currency = GlobalData.getCurrencyId();
+                }
 
+                return coupon;
+            }
 
             return {
 
@@ -314,7 +330,8 @@ angular.module('ds.cart')
                 },
 
                 redeemCoupon: function (coupon, cartId) {
-                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function () {
+                    coupon = parseCoupon(coupon);
+                    return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
                         refreshCart(cartId, 'manual');
                     });
                 },
