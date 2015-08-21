@@ -311,9 +311,9 @@ module.exports = function (grunt) {
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
       function(domainParam){
 
-        grunt.task.run('replace:projectId');
-        grunt.task.run('replace:clientId');
-        grunt.task.run('replace:redirectURI');
+        // grunt.task.run('replace:projectId');
+        // grunt.task.run('replace:clientId');
+        // grunt.task.run('replace:redirectURI');
 
         runDomainReplace(domainParam);
 

@@ -76,24 +76,22 @@ angular.module('ds.account')
             });
             
             $scope.editAccountInfo = function(mtype){
-        		$scope.mtype = mtype;    
+                $scope.mtype = mtype;
                 originalAccountData = $scope.account;
 			 
-    			modalInstance = $modal.open({
-    				templateUrl: 'js/app/account/templates/editUser-dialog.html',
+                modalInstance = $modal.open({
+                    templateUrl: 'js/app/account/templates/editUser-dialog.html',
                     scope: $scope
-    			});    		    
-    	    };
+                });
+            };
             
             $scope.closeEditUserDialog = function(){
-               modalInstance.close(); 
+               modalInstance.close();
             };
             
             $scope.updateUserInfo = function(){
               var account = angular.copy($scope.account);
-              
-              debugger;
-             
+
               switch($scope.mtype){
                   case 'user':
                     //do nothing
@@ -101,15 +99,16 @@ angular.module('ds.account')
                   case 'email':
                     
                   break;
-              }  
+              }
               
               AccountSvc.updateAccount(account).then(function(){
-                  if($scope.mtype == 'user')
+                  var data = $scope.account.preferredLanguage;
+                  if($scope.mtype === 'user')
                   {
-                     if (account.preferredLanguage != originalAccountData.preferredLanguage) {
+                     if (account.preferredLanguage !== originalAccountData.preferredLanguage) {
                         GlobalData.setLanguage(data.split('_')[0]);
                      }
-                     if (account.preferredCurrency != originalAccountData.preferredCurrency) {
+                     if (account.preferredCurrency !== originalAccountData.preferredCurrency) {
                         GlobalData.setCurrency(data.split('_')[0]);
                      }
                   }
