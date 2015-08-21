@@ -198,7 +198,7 @@ angular.module('ds.shared')
                     }
                 },
 
-                /** Determines the initial active currency for the store, based on store configuration and
+                /** Determines the initial active site for the store, based on store configuration and
                 * any existing cookie settings. */
                 loadInitialSite: function () {
                     var siteCookie = CookieSvc.getSiteCookie();
@@ -306,7 +306,9 @@ angular.module('ds.shared')
                         this.setAvailableLanguages(languages);
 
                         //Set default language
-                        setLanguageWithOptionalCookie(selectedLanguageCode, true, settings.eventSource.siteUpdate);
+                        if (selectedLanguageCode) {
+                            setLanguageWithOptionalCookie(selectedLanguageCode, true, settings.eventSource.siteUpdate);
+                        }
 
                         //Emit site change for cart
                         $rootScope.$emit('site:updated');
@@ -347,6 +349,7 @@ angular.module('ds.shared')
                     }
                     return null;
                 },
+
                 getCurrentTaxConfiguration: function () {
                     if (!!currentSite && !!currentSite.tax && !!currentSite.tax[0] && currentSite.tax[0].id === 'FLATRATE' && !!currentSite.tax[0].configuration) {
                         return currentSite.tax[0].configuration.public;

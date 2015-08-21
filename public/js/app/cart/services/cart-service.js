@@ -43,13 +43,6 @@ angular.module('ds.cart')
                 this.id = null;
             };
 
-
-            var calculateTax = {
-                zipCode: '',
-                countryCode: '',
-                taxCalculationApplied: false
-            };
-
             // application scope cart instance
             var cart = {};
 
@@ -93,10 +86,6 @@ angular.module('ds.cart')
                 var defCartTemp = $q.defer();
 
                 var params = { siteCode: GlobalData.getSiteCode() };
-                if (GlobalData.getTaxType() === 'AVALARA' && calculateTax.zipCode !== '' && calculateTax.countryCode !== '') {
-                    params = angular.extend({ siteCode: GlobalData.getSiteCode() }, { zipCode: calculateTax.zipCode, countryCode: calculateTax.countryCode });
-                }
-                //var params = angular.extend({ siteCode: GlobalData.getSiteCode() }, additionalParams);
 
                 CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                     cart = response.plain();
@@ -106,7 +95,7 @@ angular.module('ds.cart')
 
                                 params = angular.extend(params, { customerId: GlobalData.customerAccount.customerNumber });
 
-                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
+                                CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
@@ -114,7 +103,7 @@ angular.module('ds.cart')
                                 });
                             }
                             else {
-                                CartREST.Cart.one('carts', '').get(params).then(function (response) {
+                                CartREST.Cart.one('carts', cartId).get(params).then(function (response) {
                                     cart = response.plain();
                                     defCartTemp.resolve(cart);
                                 }, function () {
@@ -144,7 +133,7 @@ angular.module('ds.cart')
                     defCart.resolve(cart);
                 });
                 defCart.promise.then(function () {
-                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout});
+                    $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout });
                 });
                 return defCart.promise;
             }
@@ -199,7 +188,23 @@ angular.module('ds.cart')
                 return createItemDef.promise;
             }
 
+            /*
+             TODO:
+             this function is only necessary because the cart mashup does not directly consume the coupon as
+             it is returned from the coupon service.  That may change in the future
+             */
+            function parseCoupon(coupon) {
+                if (coupon.discountType === 'ABSOLUTE') {
+                    coupon.amount = coupon.discountAbsolute.amount;
+                    coupon.currency = coupon.discountAbsolute.currency;
+                }
+                else if (coupon.discountType === 'PERCENT') {
+                    coupon.discountRate = coupon.discountPercentage;
+                    coupon.currency = GlobalData.getCurrencyId();
+                }
 
+                return coupon;
+            }
 
             return {
 
@@ -325,25 +330,33 @@ angular.module('ds.cart')
                 },
 
                 redeemCoupon: function (coupon, cartId) {
+                    coupon = parseCoupon(coupon);
                     return CartREST.Cart.one('carts', cartId).customPOST(coupon, 'discounts').then(function() {
                         refreshCart(cartId, 'manual');
                     });
                 },
 
-                removeAllCoupons: function(cartId) {
-                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function() {
+                removeAllCoupons: function (cartId) {
+                    return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function () {
                         refreshCart(cartId, 'manual');
                     });
                 },
 
                 getCalculateTax: function () {
-                    return calculateTax;
+                    if (!!cart && !!cart.countryCode && !!cart.zipCode) {
+                        return {
+                            countryCode: cart.countryCode,
+                            zipCode: cart.zipCode,
+                            taxCalculationApplied: true
+                        };
+                    }
+                    return { taxCalculationApplied: false };
                 },
 
-                setCalculateTax: function (zipCode, countryCode, taxCalculationApplied) {
-                    calculateTax.zipCode = zipCode;
-                    calculateTax.countryCode = countryCode;
-                    calculateTax.taxCalculationApplied = taxCalculationApplied;
+                setCalculateTax: function (zipCode, countryCode, cartId) {
+                    return CartREST.Cart.one('carts', cartId).customPUT({ zipCode: zipCode, countryCode: countryCode }, '').then(function () {
+                        refreshCart(cartId, 'manual');
+                    });
                 }
 
 

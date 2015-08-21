@@ -103,8 +103,6 @@ describe('Coupon Service Test:', function () {
 
         it('should exist', function () {
             expect(CouponSvc.getCoupon).toBeDefined();
-            expect(CouponSvc.redeemCoupon).toBeDefined();
-            expect(CouponSvc.removeAllCoupons).toBeDefined();
         });
 
         it("should get a coupon", function() {
@@ -116,35 +114,6 @@ describe('Coupon Service Test:', function () {
 
             mockBackend.flush();
 
-        });
-
-        it("should redeem a coupon", function() {
-            CouponSvc.redeemCoupon(mockCoupon, mockCart.id);
-
-            expect(CartSvc.redeemCoupon).toHaveBeenCalled();
-        });
-
-        it("should redeem a percentage coupon", function() {
-            var mockCoupon2 = {
-                code: 'test1',
-                applied: false,
-                valid: true,
-                discountType: 'PERCENT',
-                discountPercentage: 10
-            };
-
-            CouponSvc.redeemCoupon(mockCoupon2, mockCart.id);
-
-            var modifiedMockCoupon = mockCoupon2;
-            modifiedMockCoupon.discountRate = mockCoupon.discountPercentage;
-
-            expect(CartSvc.redeemCoupon).toHaveBeenCalledWith(modifiedMockCoupon, mockCart.id);
-        });
-
-        it("should remove all coupons", function() {
-            CouponSvc.removeAllCoupons(mockCart.id);
-
-            expect(CartSvc.removeAllCoupons).toHaveBeenCalled();
         });
 
     });

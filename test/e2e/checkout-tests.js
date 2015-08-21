@@ -38,6 +38,7 @@ function verifyCartContents(itemPrice, totalPrice, quantity) {
 function validateField(field, form, text, buttonType, button) {
     element(by.id(field + form)).clear();
     tu.clickElement(buttonType, button);
+    browser.sleep(500);
     browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
     browser.sleep(200);
     tu.sendKeysById(field + form, text);
@@ -78,9 +79,9 @@ function verifyOrderOnAccountPageMobile(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('m_order in orders').row(0).column('m_order.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('m_order in orders').row(0).column('m_order.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
     element(by.repeater('m_order in orders').row(0).column('m_order.created')).click();
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
     tu.clickElement('id', "logout-btn");
 }
 
@@ -92,9 +93,9 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
     element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
 }
 
     function clickOnModal() {
@@ -122,7 +123,7 @@ describe("checkout:", function () {
             });
             tu.clickElement('id', tu.buyButton);
             //wait for cart to close
-            browser.sleep(8000);
+            browser.sleep(6500);
             browser.wait(function () {
                 return element(by.id(tu.cartButtonId)).isDisplayed();
             });
@@ -329,9 +330,21 @@ describe("checkout:", function () {
             browser.sleep(200);
             element(by.repeater('top_category in categories').row(0).column('top_category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
             tu.clickElement('id', tu.buyButton);
-            tu.waitForCart();
-            browser.sleep(100);
+            //wait for cart to close
+            browser.sleep(6500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
+            browser.wait(function () {
+                return element(by.binding('CHECKOUT')).isPresent();
+            });
+            browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
             verifyCartContents('$10.67', '$30.96', '1');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');

@@ -23,7 +23,7 @@ angular.module('ds.confirmation')
         $scope.orderInfo.orderId = $stateParams.orderId;
         $scope.isAuthenticated = isAuthenticated;
         window.scrollTo(0, 0);
-
+       
         /* OrderDetails are retrieved on controller instantiation, rather than being injected
         * through UI router.  This allows us to display the page immediately while filling in the details as they become
         * available. It's a visual/psychological clue that the order processing success is being made.
@@ -39,17 +39,17 @@ angular.module('ds.confirmation')
             $scope.confirmationDetails.itemCount = amount.reduce(function (total, count){
                 return total+count;
             });
-
+            
             $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
 
             var unbindConfirmAccount = $rootScope.$on('confirmation:account', function(){
                 // show success panel
+                window.scrollTo(0, 0);
                 $scope.accountSuccess = true;
                 $scope.isAuthenticated = true;
             });
+            
             $scope.$on('$destroy', unbindConfirmAccount);
-
-
         });
         
         

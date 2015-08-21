@@ -37,7 +37,7 @@ angular.module('ds.shared')
 
             this.apis = {
                 account: {
-                    baseUrl: 'https://' + apiPath + '/hybris/account/v2',
+                    baseUrl: 'https://' + apiPath + '/hybris/account/b1',
                     addresses: {
                         initialPageSize: 6
                     }
@@ -77,19 +77,19 @@ angular.module('ds.shared')
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/hybris/product-details/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/productdetails/b1/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + apiPath + '/hybris/shipping-cost/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/shippingcost/b1/' + tenantId
                 },
 
                 siteSettings: {
-                    baseUrl: 'https://' + apiPath + '/hybris/site-settings/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/site/b1/' + tenantId
                 },
 
                 tracking: {
-                    baseUrl: ' https://' + apiPath + '/stork/piwik/v1/' + tenantId + '/events'
+                    baseUrl: ' https://' + apiPath + '/hybris/piwik/b1/' + tenantId + '/events'
                 },
 
                 indexing: {

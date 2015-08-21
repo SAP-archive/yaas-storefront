@@ -18,12 +18,8 @@ describe('AccountCtrl Test', function () {
     var usd = 'US Dollar';
     var mockedGlobalData = {
         store: {tenant: storeTenant},
-        setLanguage: jasmine.createSpy('setLanguage'),
-        setCurrency: jasmine.createSpy('setCurrency'),
-        getLanguageCode: function(){ return null},
         getCurrencyId: function() { return null},
         getCurrencySymbol: function () {return '$'},
-        getAvailableLanguages: function() { return [{id:'en', label:eng}]},
         getAvailableCurrency: function() { return 'USD'},
         getCurrency: function() { return null},
         addresses:  {
@@ -161,11 +157,7 @@ describe('AccountCtrl Test', function () {
             expect($scope.addresses).toBeDefined();
             expect($scope.orders).toBeDefined();
             expect($scope.showAllOrdersButton).toBeDefined();
-            expect($scope.currencies).toBeDefined();
             expect($scope.showAddressButtons).toBeDefined();
-            expect($scope.showCurrency).toBeDefined();
-            expect($scope.languageLocales).toBeDefined();
-            expect($scope.showLanguageLocale).toBeDefined();
             expect($scope.save).toBeDefined();
             expect($scope.openAddressModal).toBeDefined();
             expect($scope.closeAddressModal).toBeDefined();
@@ -222,15 +214,6 @@ describe('AccountCtrl Test', function () {
             expect(addr.isDefault).toEqual(true);
         });
 
-        it("should show the language locale as expected", function () {
-            $scope.account.preferredLanguage = '';
-            var retVal = $scope.showLanguageLocale();
-            expect(retVal).toEqualData('NOT_SET');
-            $scope.account.preferredLanguage = 'en';
-            retVal = $scope.showLanguageLocale();
-            expect(retVal).toEqualData(eng);
-        });
-
         it("should show all of the orders", function () {
             $scope.showAllOrders();
             $scope.$digest();
@@ -257,20 +240,6 @@ describe('AccountCtrl Test', function () {
                 $scope.updateAccount();
                 $scope.$digest();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
-            });
-
-            it('update of preferred language should set language in GlobalData', function () {
-                $scope.updateAccount('preferredLanguage', 'en');
-                $scope.$digest();
-                expect(AccountSvc.updateAccount).toHaveBeenCalled();
-                expect(mockedGlobalData.setLanguage).toHaveBeenCalled();
-            });
-
-            it('update of preferred currency should set currency in GlobalData', function () {
-                $scope.updateAccount('preferredCurrency', 'EUR');
-                $scope.$digest();
-                expect(AccountSvc.updateAccount).toHaveBeenCalled();
-                expect(mockedGlobalData.setCurrency).toHaveBeenCalled();
             });
 
             it('should partially update account when calling updateAccount with parameters', function () {
