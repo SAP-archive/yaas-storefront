@@ -128,22 +128,52 @@
 
   .page-headline{
       h1{
-	overflow:hidden;
+	      overflow:hidden;
         font-size: 34px;
         margin-top: 5px;
-	margin-bottom: 18px;
+	      margin-bottom: 18px;
         font-weight: 200;
-	small{
-		display:block;
-		margin-bottom: 17px;
-	}
+        small{
+          display:block;
+          margin-bottom: 17px;
+        }
         .welcomeTxt{
-		display:inline-block;
-	}
+          display:inline-block;
+        }
+        img{
+          width: 65px;
+        }
 	
+      }
+      
+      &.mobile{
+        h1{
+          margin-bottom: 28px;
+        }
+        
+        img{
+          margin: 0 0 20px 0;
+        }
       }
 
   }
+  
+  .userInfoRow.mobile{
+    padding-bottom: 0;
+    
+    #add-address-btn{
+      margin-top: 0;
+    }
+  }
+  
+  .mobileDataSection{
+    margin: 0 0 40px 0;
+    
+    .dataLabel.locale{
+      margin-bottom: 20px;
+    }
+  }
+  
 
   .inline-label{
       font-family: @font-family-serif, serif;
@@ -297,8 +327,7 @@ address .addressInfo{ font-weight: 200; }
     color: @state-danger-text !important;
 }
 
-#add-address-btn{
-	margin-top: 12px;
+.btn-secondary{
 	background-color: #636465;
 	color: #fff;
 	padding-left: 26px;

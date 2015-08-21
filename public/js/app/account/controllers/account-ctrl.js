@@ -112,6 +112,8 @@ angular.module('ds.account')
                         GlobalData.setCurrency(data.split('_')[0]);
                      }
                   }
+                  
+                  modalInstance.close();
                     
               });
             };
@@ -270,6 +272,13 @@ angular.module('ds.account')
                     // show filtered list or show all orders. Hide if all data is shown within filter.
                     $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
                     $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
+                    
+                    angular.forEach(orders.entries, 
+                        function (entry) { 
+                            debugger;
+                            entry.totalItems = entry.amount + totalItems 
+                        } 
+                    );
 
                 });
             };
