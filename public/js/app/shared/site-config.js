@@ -93,7 +93,7 @@ angular.module('ds.shared')
                 },
 
                 indexing: {
-                    baseUrl: 'https://' + apiPath + '/hybris/algolia-search/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/search-algolia/b1/' + tenantId
                 }
             };
 
