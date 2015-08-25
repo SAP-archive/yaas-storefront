@@ -77,7 +77,7 @@ describe('product page', function () {
             // browser.sleep(750);
             // tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
             // browser.sleep(750);
-            tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
+            tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', "WOMEN'S T-SHIRT - GRAY", '$14.99');
             browser.sleep(750);
@@ -123,8 +123,8 @@ describe('product page', function () {
             browser.get(tu.tenant + '/#!/ct/office~23050496');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
-            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - BLACK');
-            tu.sortAndVerifyPagination('name', 'COFFEE MUG - BLACK', '$9.99');
+            tu.assertProductByRepeaterRow(0, 'EXECUTIVE PEN');
+            tu.sortAndVerifyPagination('name', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'TIGHT GRIP PEN', '$2.49');
             browser.sleep(750);
@@ -156,10 +156,10 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(2, 'BEER MUG');
-            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$3.99');
-            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].originalAmount')).getText()).toEqual('$6.99');
-            element(by.repeater('product in products').row(2).column('product.name')).click();
+            tu.assertProductByRepeaterRow(3, 'BEER MUG');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$3.99');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].originalAmount')).getText()).toEqual('$6.99');
+            element(by.repeater('product in products').row(3).column('product.name')).click();
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$3.99');
             expect(element(by.binding('product.prices[0].originalAmount')).getText()).toEqual('$6.99');
 
@@ -177,7 +177,7 @@ describe('product page', function () {
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });
 
-        iit('not return search results', function () {
+        it('not return search results', function () {
             browser.wait(function () {
                 return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
             });
