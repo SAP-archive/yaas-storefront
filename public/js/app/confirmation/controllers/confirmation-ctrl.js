@@ -23,6 +23,11 @@ angular.module('ds.confirmation')
         $scope.orderInfo.orderId = $stateParams.orderId;
         $scope.isAuthenticated = isAuthenticated;
         window.scrollTo(0, 0);
+
+        /*
+         TODO: need an actual implementation
+         */
+        $scope.questionsContactInfo = '(888) 555-1222';
        
         /* OrderDetails are retrieved on controller instantiation, rather than being injected
         * through UI router.  This allows us to display the page immediately while filling in the details as they become
