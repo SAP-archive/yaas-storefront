@@ -92,14 +92,6 @@ angular.module('ds.account')
             $scope.updateUserInfo = function(){
               var account = angular.copy($scope.account);
 
-              switch($scope.mtype){
-                  case 'user':
-                    //do nothing
-                  break;
-                  case 'email':
-                    
-                  break;
-              }
               
               AccountSvc.updateAccount(account).then(function(){
                   var data = $scope.account.preferredLanguage;
