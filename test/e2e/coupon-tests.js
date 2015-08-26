@@ -26,7 +26,7 @@ describe('coupons:', function () {
     };
 
     function couponCheckoutTest(couponCode, price) {
-            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -63,29 +63,37 @@ describe('coupons:', function () {
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
-        //no longer validates on cart
-        xit('should not allow user to add coupon below minimum on cart', function () {
+        it('should not allow user to add coupon below minimum on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            tu.loadProductIntoCart('1', '$10.67');
+            tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
             browser.sleep(1000);
             removeFromCart();
             browser.sleep(500);
         });
 
-        xit('should not allow user to add coupon with incorrect currency', function () {
+        it('should not allow user to add coupon with incorrect currency', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            tu.selectCurrency('EURO');
-            tu.loadProductIntoCart('1', '€7.99');
-            tu.clickElement('linkText', 'ADD COUPON CODE');
+            browser.wait(function () {
+                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
+            });
+            browser.sleep(500);
+            tu.clickElement('xpath', tu.whiteCoffeeMug);
+            tu.switchSite('Sushi Demo Store Germany');
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCart('1', '€18.89');
+            tu.clickElement('linkText', 'GUTSCHEINCODE HINZUFÜGEN');
             tu.sendKeysById('coupon-code', '10DOLLAR');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('CURRENCY INVALID WITH COUPON');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNGS UNGÜLTIGE GUTSCHEIN');
             browser.sleep(1000);
-            removeFromCart();
+            tu.clickElement('id', tu.removeFromCart);
             browser.sleep(500);
         });
 
@@ -122,7 +130,7 @@ describe('coupons:', function () {
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
-            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -170,11 +178,10 @@ describe('coupons:', function () {
             removeFromCart();
         });
 
-        //no longer validates on cart
-        xit('should not allow user to use expired coupon on cart', function () {
+        it('should not allow user to use expired coupon on cart', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
-            addProductandApplyCoupon('EXPIRED', '$10.67');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON CANNOT BE REDEEMED');
+            addProductandApplyCoupon('EXPIRED', '$14.92');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON HAS EXPIRED.');
             removeFromCart();
         });
 
@@ -183,7 +190,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontestmin1');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(1000);
-            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -198,24 +205,11 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'Add Coupon Code');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
             browser.wait(function () {
-                return element(by.binding("message")).isPresent();
+                return element(by.binding('couponErrorMessage')).isPresent();
             });
-            expect(element(by.binding('message')).getText()).toContain('The order value is too low for this coupon.');
+            expect(element(by.binding('couponErrorMessage')).getText()).toContain('The order value is too low for this coupon.');
 
-        });
-
-        it('should not allow purchase coupon with max redemptions', function () {
-            tu.createAccount('coupontestmax');
-            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('LMTD', '$14.92');
-            browser.wait(function () {
-                return element(by.binding("message")).isPresent();
-            });
-            expect(element(by.binding('message')).getText()).toContain('Coupon has reached maximum number of redemptions.');        
         });
 
         it('should allow purchase over minimum', function () {
@@ -250,7 +244,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
-        it('should allow customer to use specific coupon', function () {
+        xit('should allow customer to use specific coupon', function () {
             tu.loginHelper('specific@hybristest.com', 'password');
             couponCheckoutTest('SPECIFIC', '$14.92');
             tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '$10.67');
