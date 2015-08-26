@@ -163,9 +163,9 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 var switchSite = exports.switchSite = function (site) {
     if (site === 'Sushi Demo Store Germany') {
-        var siteRow = '1'
-    } else if (site === 'Avalara') {
         var siteRow = '2'
+    } else if (site === 'Avalara') {
+        var siteRow = '1'
     } else {
         var siteRow = '0'
     }    

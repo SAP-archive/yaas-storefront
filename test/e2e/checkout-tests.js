@@ -302,7 +302,7 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$14.92');
         });
 
-        xit('should checkout in Euros', function () {
+        it('should checkout in Euros', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.sleep(1000);
             tu.switchSite('Sushi Demo Store Germany');
@@ -313,14 +313,14 @@ describe("checkout:", function () {
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('euro-order@hybristest.com', 'MIKE', '123', 'BOULDER, CO 80301', '€7.04');
+            tu.verifyOrderConfirmation('euro-order@hybristest.com', 'MIKE', '123', 'BOULDER, CO 80301', '€6.75');
             tu.clickElement('binding', 'orderInfo.orderId');
             expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
         });
 
-        xit('should create order on account page in Euros', function () {
+        it('should create order on account page in Euros', function () {
             tu.removeItemFromCart();
-            verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€14.53');
+            verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€18.89');
         });
 
         it('should merge carts and checkout for logged in user', function () {
