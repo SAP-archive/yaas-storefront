@@ -26,7 +26,7 @@ describe('coupons:', function () {
     };
 
     function couponCheckoutTest(couponCode, price) {
-            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -186,11 +186,11 @@ describe('coupons:', function () {
         });
 
 
-        xit('should not allow purchase under minimum at checkout', function () {
+        it('should not allow purchase under minimum at checkout', function () {
             tu.createAccount('coupontestmin1');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(1000);
-            var category =  element(by.repeater('top_category in categories').row(3).column('category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -205,27 +205,14 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'Add Coupon Code');
             tu.sendKeysById('coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
             browser.wait(function () {
-                return element(by.binding("message")).isPresent();
+                return element(by.binding('couponErrorMessage')).isPresent();
             });
-            expect(element(by.binding('message')).getText()).toContain('The order value is too low for this coupon.');
+            expect(element(by.binding('couponErrorMessage')).getText()).toContain('The order value is too low for this coupon.');
 
         });
 
-        xit('should not allow purchase coupon with max redemptions', function () {
-            tu.createAccount('coupontestmax');
-            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('LMTD', '$14.92');
-            browser.wait(function () {
-                return element(by.binding("message")).isPresent();
-            });
-            expect(element(by.binding('message')).getText()).toContain('Coupon has reached maximum number of redemptions.');        
-        });
-
-        xit('should allow purchase over minimum', function () {
+        it('should allow purchase over minimum', function () {
             tu.createAccount('coupontestmin2');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('MINIMUM', '$14.92');
@@ -233,7 +220,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
         });
 
-        xit('should allow coupon larger than purchase price', function () {
+        it('should allow coupon larger than purchase price', function () {
             tu.createAccount('coupontestmax2');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('20DOLLAR', '$14.92');
@@ -241,7 +228,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
 
-        xit('should allow percentage off on checkout', function () {
+        it('should allow percentage off on checkout', function () {
             tu.createAccount('coupontestpercent');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10PERCENT', '$14.92');
@@ -249,7 +236,7 @@ describe('coupons:', function () {
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
         });
 
-        xit('should allow dollar off on checkout', function () {
+        it('should allow dollar off on checkout', function () {
             tu.createAccount('coupontestdollar');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10DOLLAR', '$14.92');

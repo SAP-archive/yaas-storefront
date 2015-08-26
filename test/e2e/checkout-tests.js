@@ -113,7 +113,7 @@ describe("checkout:", function () {
         beforeEach(function () {
             browser.manage().deleteAllCookies();
             browser.driver.manage().window().setSize(1200, 1200);
-            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
             browser.switchTo().alert().then(
                 function (alert) { alert.dismiss(); },
                 function (err) { }
@@ -176,7 +176,7 @@ describe("checkout:", function () {
 
         it('should load 2 different products into cart and move to checkout', function () {
             tu.clickElement('id', tu.contineShopping);
-            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -302,7 +302,7 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$14.92');
         });
 
-        it('should checkout in Euros', function () {
+        xit('should checkout in Euros', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.sleep(1000);
             tu.switchSite('Sushi Demo Store Germany');
@@ -318,7 +318,7 @@ describe("checkout:", function () {
             expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
         });
 
-        it('should create order on account page in Euros', function () {
+        xit('should create order on account page in Euros', function () {
             tu.removeItemFromCart();
             verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€14.53');
         });
@@ -326,9 +326,9 @@ describe("checkout:", function () {
         it('should merge carts and checkout for logged in user', function () {
             tu.clickElement('id', tu.contineShopping);
             tu.loginHelper('checkout@hybristest.com', 'password');
-            browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(0).column('top_category.name'))).perform();
+            browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(1).column('top_category.name'))).perform();
             browser.sleep(200);
-            element(by.repeater('top_category in categories').row(0).column('top_category.name')).click();
+            element(by.repeater('top_category in categories').row(1).column('top_category.name')).click();
             tu.clickElement('xpath', tu.whiteThermos);
             browser.wait(function () {
                 return element(by.id(tu.buyButton)).isPresent();
@@ -370,7 +370,7 @@ describe("mobile checkout:", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
             browser.switchTo().alert().then(
             function (alert) { alert.accept(); },
             function (err) { }

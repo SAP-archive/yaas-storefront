@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.i18n')
-	.constant('TranslationsEN', {
+        .constant('TranslationsEN', {
 
         en: 'English',
         de: 'German',
@@ -228,7 +228,7 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
 
-        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: '<p class="orderEmailedTo">A copy of your order details has been sent to <span ng-cloak><strong>{{emailAddress}}</strong></span></p>',
+        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
         //XMSG
         ENJOY_YOUR_ITEMS: 'Enjoy your items!',
         //XMSG
