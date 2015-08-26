@@ -92,6 +92,11 @@ angular.module('ds.account')
             $scope.updateUserInfo = function(){
               var account = angular.copy($scope.account);
 
+                var emailRegexp = GlobalData.getEmailRegEx();
+                
+                if ($scope.mtype === 'email' && !emailRegexp.test(account.contactEmail)) {
+                    return $translate('PLEASE_ENTER_VALID_EMAIL');
+                }
               
               AccountSvc.updateAccount(account).then(function(){
                   var data = $scope.account.preferredLanguage;
@@ -109,23 +114,7 @@ angular.module('ds.account')
                     
               });
             };
-            
-            $scope.updateAccount = function (field, data) {
-                var account = angular.copy($scope.account);
-                var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-                if (field === 'contactEmail' && !emailRegexp.test(data)) {
-                    return $translate('PLEASE_ENTER_VALID_EMAIL');
-                }
-                account[field] = data;
-                return AccountSvc.updateAccount(account).then(function () {
-                    if (field === 'preferredLanguage' && data) {
-                        GlobalData.setLanguage(data.split('_')[0]);
-                    }
-                    if (field === 'preferredCurrency' && data) {
-                        GlobalData.setCurrency(data.split('_')[0]);
-                    }
-                });
-            };
+
             
             var extractServerSideErrors = function (response) {
                 var errors = [];
