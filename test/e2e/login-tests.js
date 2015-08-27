@@ -219,7 +219,7 @@ describe("login:", function () {
             browser.sleep(1500);
         });
 
-        it('should allow user to access order confirmation', function (){
+        xit('should allow user to access order confirmation', function (){
             browser.sleep(5000);
             browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
             browser.wait(function () {

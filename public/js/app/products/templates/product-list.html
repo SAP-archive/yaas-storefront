@@ -50,7 +50,8 @@
                 <div class="col-xs-12">
                     <div class="viewingContainer">
                         <div class="name">{{'VIEWING' | translate}}:</div>
-                        <div class="page-indicator">{{pagination.productsFrom}}-{{pagination.productsTo}} {{'OF' | translate}} {{total}}</div>
+                        <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
+                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
 
                     </div>
                 </div>
