@@ -52,7 +52,8 @@ angular.module('ds.i18n')
         ESTIMATE_TAX: 'Estimate Tax',
         APPLY: 'Apply',
         ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
-
+        //XMSG
+        SELECT_A_COUNTRY: 'Select a country',
 
         //-------------------------------------------------
         // Checkout

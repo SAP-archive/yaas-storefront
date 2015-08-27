@@ -48,6 +48,7 @@
         <!--<select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" ng-options="countryCodeOption.text for countryCodeOption in countryCodeOptions track by countryCodeOption.value"></select>-->
         <!--<p>{{calculateTax.countryCode}}</p>-->
         <select id="country" class="zip-input form-control" ng-init="calculateTax.countryCode = 'US'" ng-model="calculateTax.countryCode">
+            <option value="-1">{{'SELECT_A_COUNTRY' | translate}}</option>
             <option value="US">{{'USA'|translate}}</option>
             <option value="CA">{{'CANADA'|translate}}</option>
         </select>
