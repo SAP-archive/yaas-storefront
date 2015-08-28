@@ -197,15 +197,15 @@ angular.module('ds.checkout')
             getShippingCost: function() {
                 var deferred = $q.defer();
 
+                var defaultCost = {};
+                defaultCost.price = {};
+                defaultCost.price[GlobalData.getCurrencyId()] = 0;
+                
                 CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts){
-                    var defaultCost = {};
-                    defaultCost.price = {};
-                    defaultCost.price[GlobalData.getCurrencyId()] = 0;
-
                     var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
                     deferred.resolve(costs);
                 }, function(failure){
-                    deferred.reject(failure);
+                    deferred.resolve(defaultCost);
                 });
 
                 return deferred.promise;
