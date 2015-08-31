@@ -1,0 +1,10 @@
+---
+applications:
+- name: store-template-simple
+  buildpack: https://github.com/drnic/staticfile-buildpack.git
+  memory: 64M
+  host: store-template-simple
+  domain: dev.cf.hybris.com
+  instances: 1
+  url: store-template-simple.cf1.hybris.com
+  path: ./public/

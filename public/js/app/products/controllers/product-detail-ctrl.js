@@ -22,7 +22,7 @@ angular.module('ds.products')
 
             $scope.product = product;
 
-            // used by breadcrumb directive
+            //used by breadcrumb directive
             $scope.category = product.categories;
             $scope.breadcrumbData = angular.copy($scope.category);
 

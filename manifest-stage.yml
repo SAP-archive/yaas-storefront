@@ -1,0 +1,11 @@
+---
+applications:
+- name: shops
+  command: npm run-script multiStage
+  buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
+  memory: 1024M
+  host: shops
+  domain: stage.yaas.io
+  instances: 1
+  url: shops.stage.yaas.io
+  path: .
