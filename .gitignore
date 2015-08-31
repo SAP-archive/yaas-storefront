@@ -1,0 +1,16 @@
+.sass-cache
+bower_components
+node_modules
+*sublime*
+public/js/vendor
+public/css/vendor
+.tmp/
+*.iml
+public/css/app/style.css
+public/css/app/style.css.map
+public/js/app/shared/app-config.js
+.idea
+coverage/
+config/config.js
+dist
+.DS_Store

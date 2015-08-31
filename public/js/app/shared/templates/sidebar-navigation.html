@@ -1,0 +1,88 @@
+<ysearch></ysearch>
+<div ng-cloak id="menu">
+    <ul class="navi">
+        <li ng-repeat="category in categories" > <!-- class="has-sub" -->
+            <a ui-sref="base.category( {catName: category.slug} )" class="mainCategory categoryLevel" ng-click="hideMobileNav()">
+                {{ category.name  }}
+            </a>
+            <label for="secondarycategory{{$index}}" class="toggle-sub" onclick="" ng-if="category.subcategories">
+                <span class="hyicon hyicon-chevron-thin-right"></span>
+            </label>
+            <input type="checkbox" id="secondarycategory{{$index}}" class="sub-nav-check" ng-if="category.subcategories">
+            <ul id="secondarycategory{{$index}}-sub" class="sub-nav" ng-if="category.subcategories">
+                <li class="sub-heading">
+                    <label for="secondarycategory{{$index}}" class="toggle" onclick="" title="{{'BACK' | translate}}"><span class="hyicon hyicon-chevron-thin-left"></span></label>
+                    {{category.name}}
+                </li>
+                <li ng-repeat="sub2 in category.subcategories" >
+                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}" ng-click="hideMobileNav()">
+                        {{sub2.name }}
+                    </a>
+                    <label for="tertiarycategory{{$index}}" class="toggle-sub" onclick="" ng-if="sub2.subcategories">
+                        <span class="hyicon hyicon-chevron-thin-right"></span>
+                    </label>
+                    <input type="checkbox" id="tertiarycategory{{$index}}" class="sub-nav-check" ng-if="sub2.subcategories">
+                    <ul class="sub-nav" id="tertiarycategory{{$index}}-sub">
+                        <li class="sub-heading">
+                            <label for="tertiarycategory{{$index}}" class="toggle" onclick="" title="{{'BACK' | translate}}"><span class="hyicon hyicon-chevron-thin-left"></span></label>
+                            {{sub2.name}}
+                        </li>
+                        <!-- more NG loops would happen here -->
+                        <li ng-repeat="sub3 in sub2.subcategories">
+                            <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" ng-click="hideMobileNav()">{{ sub3.name }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="authentication-cnt">
+    <div ng-if="user.isAuthenticated" >
+        <div class="signinContainer">
+            <div class="col-xs-3 text-right">
+                <a><img src="./img/user-icon_small_active.png" class="user-avatar" ng-click="myAccount()"></a>
+            </div>
+            <div class="col-xs-9 my-account-link">
+                <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
+                    {{'MY_ACCOUNT' | translate}}
+                </a>
+            </div>
+            <div class="col-xs-offset-3 col-xs-9 logout-link text-left">
+                <a ng-click="logout()" id="logout-btn" class="signout">{{'SIGN_OUT' | translate}}</a>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <div ng-if="!user.isAuthenticated">
+        <div class="signinContainer">
+            <div class="col-xs-3 text-right">
+                <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
+            </div>
+            <div class="col-xs-9 my-account-link">
+                <a class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                    {{'SIGN_IN' | translate}}
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="dropdown ">
+            <a data-toggle="dropdown" href="#" class="btn btn-link navbar-btn signin pull-right" ng-if="user.isAuthenticated" >
+                <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
+            </a>
+            <ul class="dropdown-menu" class="pull-right">
+                <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                <li class="divider"></li>
+                <li><a href="" class="my-profile" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+        
+

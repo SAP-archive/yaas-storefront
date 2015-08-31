@@ -1,0 +1,182 @@
+<!--
+  ~ [y] hybris Platform
+  ~
+  ~ Copyright (c) 2000-2014 hybris AG
+  ~ All rights reserved.
+  ~
+  ~ This software is the confidential and proprietary information of hybris
+  ~ ("Confidential Information"). You shall not disclose such Confidential
+  ~ Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with hybris.
+  -->
+
+<div class="account">
+    <section class="white orderHeaderContainer" ng-cloak>
+        <div class="page-headline">
+            <div class="breadCrumb">
+                <a data-ui-sref="base.account">{{'MY_ACCOUNT' | translate}}</a> / {{'ORDER_DETAILS' | translate}}
+            </div>
+            <h1>{{'ORDER' | translate}} {{order.id}}</h1>
+        </div>
+        <div class="section-headline">
+            <h2>{{'ORDER_DETAILS' | translate}}</h2>
+            <span class="area-headline date">{{'ORDER_DATE' | translate}} <span class="orderDate">{{orderDate}}</span></span>
+        </div>
+        <div class="row">
+            <!-- AREA -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="">
+                    <span class="area-headline">
+                        {{'SHIPPING_ADDRESS' | translate}}
+                    </span>
+                    <address>
+                        {{order.shippingAddress.contactName}}<br>
+                        <div ng-if="order.shippingAddress.companyName">{{order.shippingAddress.companyName}}<br></div>
+                        {{order.shippingAddress.street}}<div ng-if="order.shippingAddress.streetAppendix">, {{order.shippingAddress.streetAppendix}}</div><br>
+                        {{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zipCode}}<br>
+                        {{order.shippingAddress.country}}<br>
+                        {{order.shippingAddress.contactPhone}}<br>
+                    </address>
+                </div>
+            </div>
+            <!-- AREA -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="">
+  		<span class="area-headline">
+  			{{'BILLING_ADDRESS' | translate}}
+  		</span>
+                    <address>
+                        {{order.billingAddress.contactName}}<br>
+                        <div ng-if="order.billingAddress.companyName">{{order.billingAddress.companyName}}<br></div>
+                        {{order.billingAddress.street}}<div ng-if="order.billingAddress.streetAppendix">, {{order.billingAddress.streetAppendix}}</div><br>
+                        {{order.billingAddress.city}}, {{order.billingAddress.state}} {{order.billingAddress.zipCode}}<br>
+                        {{order.billingAddress.country}}<br>
+                        {{order.billingAddress.contactPhone}}
+                    </address>
+                </div>
+            </div>
+            <!-- AREA -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="">
+  		<span class="area-headline">
+  			{{'PAYMENT' | translate}}
+  		</span>
+                    <p>{{'CREDIT_CARD' | translate}}, {{payment.paidAmount}} {{payment.currency}}, {{payment.status | translate}}</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="mediumgray orderStatusContainer" ng-cloak>
+        <div class="section-headline">
+            <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
+        </div>
+        <div ng-repeat="shipment in order.shipments">
+            <div translate="SHIPPED_BY_ON" translate-compile
+                 translate-values="{carrier: '{{shipment.carrier}}', shippedDate: '{{shipment.shippedDate}}'}"></div>
+            <br>
+            <div ng-if="shipment.trackingNumber" translate="TRACKING_NUMBER" translate-compile
+                 translate-values="{trackingNumber: '{{shipment.trackingNumber}}'}"></div>
+        </div>
+    </section>
+    <section class="white clearfix orderItemsContainer" ng-cloak>
+        <div class="section-headline">
+            <h2>{{'ITEMS_IN_YOUR_ORDER' | translate}}</h2>
+        </div>
+        <div class="table-responsive order-tabel hidden-xs hidden-sm hidden-md">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{'ITEM' | translate}}</th>
+                    <th>{{'ITEM_PRICE' | translate}}</th>
+                    <th>{{'QUANTITY' | translate}}</th>
+                    <th class="priceColumn">{{'TOTAL_PRICE' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entry in order.entries">
+                        <td class="col-lg-7 col-md-7 col-sm-5 col-xs-5">
+                            <div class="cart-item row">
+                                <div class="img-col col-xs-4 col-sm-4 col-lg-4">
+                                    <a ui-sref="base.product.detail( {productId: entry.id} )">
+                                        <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
+                                    </a>
+                                </div>
+                                <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
+                                    <div class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
+                                    <div class="price item-attr ">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-3 col-xs-3">{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-2 col-xs-3">{{entry.amount}}</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 priceColumn">{{entry.totalPrice | currency: currencySymbol}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="hidden-lg">
+            <div class="summary" ng-repeat="entry in order.entries">
+                <div class="cart-item row">
+                    <div class="col-xs-4 col-md-4 text-center img-col">
+                        <a ui-sref="base.product.detail( {productId: entry.product.id} )">
+                            <img class="img-responsive" ng-src="{{ entry && entry.product.images[0].url || PLACEHOLDER_IMAGE}}">
+                        </a>
+
+                    </div>
+                    <div class="col-xs-8 col-md-8  detail-col">
+
+                        <div class="name"><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
+                        <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
+                        <div class="variants row item-attr">
+                            <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
+                        </div>
+                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice | currency: currencySymbol}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="summary row">
+            <div class="col-md-offset-7 col-lg-offset-7 col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                <!-- ORDER-DETAIL -->
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td >{{'SUBTOTAL' | translate}}</td>
+
+                        <td class="text-right">
+                            {{order.totalPrice - order.tax.total.amount - order.shipping.total.amount + (order.discounts[0].amount || 0 ) | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{'SHIPPING' | translate}}</td>
+                        <td class="text-right">
+                            {{order.shipping.total.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    <tr ng-if="order.discounts && order.discounts[0].amount != 0">
+                        <td>{{'DISCOUNT' | translate}}</td>
+                        <td class="text-right">
+                            <span class="error">-{{ order.discounts[0].amount || 0 | currency: currencySymbol}}</span>
+                        </td>
+                    </tr>
+                    <tr ng-if="!!order.tax && !order.tax.total.inclusive">
+                        <td>{{'TAX' | translate}}</td>
+                        <td class="text-right">
+                            {{order.tax.total.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>{{'ORDER_TOTAL' | translate}}</td>
+                        <td class="text-right">{{order.totalPrice | currency: currencySymbol}}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

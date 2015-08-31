@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible }">
+<head>
+    <meta charset="utf8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title title-config ng-bind-template="{{titleConfig}}">Store Template</title>
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- dynamic optimized style sheet resources -->
+    <!-- build:css css/app/storefront.css -->
+    <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
+    <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
+    <link href="js/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <!-- endbuild -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-class="{'fixedLayout': showCart }">
+    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas"  >
+        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation" ></div>
+        <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
+            <div ui-view="topNavigation" ></div>
+            <div class="main" >
+                <div ui-view="main"></div>
+                <!--<div class="content-mask" ng-click="closeOffcanvas()"></div>-->
+            </div>
+            <div ui-view="footer"></div>
+
+        </div>
+        <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+
+
+    </div>
+
+    <!-- dynamic optimized script resources -->
+    <!-- build:js js/storefront.js -->
+    <script src="js/vendor-static/jquery.min.js"></script>
+    <script src="js/vendor/angular/angular.js"></script>
+    <script src="js/vendor/angular-mocks/angular-mocks.js"></script>
+    <script src="js/vendor/angular-touch/angular-touch.js"></script>
+    <script src="js/vendor/angular-cookie/angular-cookie.min.js"></script>
+    <script src="js/vendor/restangular/dist/restangular.min.js"></script>
+    <script src="js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="js/vendor/angular-translate/angular-translate.min.js"></script>
+    <script src="js/vendor/lodash/dist/lodash.compat.min.js"></script>
+    <script src="js/vendor/angular-stripe-js/build/angular-stripe-js.min.js"></script>
+    <script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script src="js/vendor/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
+    <script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
+    <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script> 
+    <script src="js/bootstrap.js"></script>
+    <script src="js/vendor/spin.js/spin.js"></script>
+    <script src="js/app/shared/shared-index.js"></script>
+    <script src="js/app/shared/settings.js"></script>
+    <script src="js/app/shared/app-config.js"></script>
+    <script src="js/app/shared/site-config.js"></script>
+    <script src="js/app/shared/http-proxy.js"></script>
+    <script src="js/app/shared/directives/quantity-input.js"></script>
+    <script src="js/app/shared/directives/menu-aim.js"></script>
+    <script src="js/app/shared/directives/match-background.js"></script>
+    <script src="js/app/shared/directives/sticky-navigation.js"></script>
+    <script src="js/app/shared/directives/infinite-scrolling-visible-items.js"></script>
+    <script src="js/app/shared/directives/ngRepeat-rendering-finished.js"></script>
+    <script src="js/app/shared/directives/y-breadcrumb.js"></script>
+    <script src="js/app/shared/directives/y-tracking.js"></script>
+    <script src="js/app/shared/directives/y-search.js"></script>
+    <script src="js/app/shared/directives/y-inputs-dir.js"></script>
+    <script src="js/app/shared/services/cookie-svc.js"></script>
+    <script src="js/app/shared/services/global-data.js"></script>
+    <script src="js/app/shared/services/site-settings-rest.js"></script>
+    <script src="js/app/shared/services/configuration-service.js"></script>
+    <script src="js/app/shared/services/http-queue.js"></script>
+    <script src="js/app/shared/services/event-service.js"></script>
+    <script src="js/app/shared/services/local-storage.js"></script>
+    <script src="js/app/shared/services/site-selector-service.js"></script>
+    <script src="js/app/shared/controllers/site-selector-ctrl.js"></script>
+    <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
+    <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
+    <script src="js/app/shared/filters/filters.js"></script>
+    <script src="js/app/shared/i18n/i18-index.js"></script>
+    <script src="js/app/shared/i18n/i18-constants.js"></script>
+    <script src="js/app/shared/i18n/lang/en.js"></script>
+    <script src="js/app/shared/i18n/lang/de.js"></script>
+    <script src="js/app/shared/i18n/providers/translation-provider.js"></script>
+    <script src="js/app/orders/orders-index.js"></script>
+    <script src="js/app/orders/services/order-list-service.js"></script>
+    <script src="js/app/orders/services/orders-rest.js"></script>
+    <script src="js/app/home/home-index.js"></script>
+    <script src="js/app/home/controllers/home-ctrl.js"></script>
+    <script src="js/app/products/products-index.js"></script>
+    <script src="js/app/products/controllers/browse-products-ctrl.js"></script>
+    <script src="js/app/products/controllers/product-detail-ctrl.js"></script>
+    <script src="js/app/products/services/product-service.js"></script>
+    <script src="js/app/products/services/price-service.js"></script>
+    <script src="js/app/products/services/price-product-rest.js"></script>
+    <script src="js/app/products/services/category-service.js"></script>
+    <script src="js/app/errors/controllers/errors-ctrl.js"></script>
+    <script src="js/app/cart/cart-index.js"></script>
+    <script src="js/app/cart/controllers/cart-ctrl.js"></script>
+    <script src="js/app/cart/directives/cart-auto-toggle.js"></script>
+    <script src="js/app/cart/services/cart-rest.js"></script>
+    <script src="js/app/cart/services/cart-service.js"></script>
+    <script src="js/app/checkout/checkout-index.js"></script>
+    <script src="js/app/checkout/controllers/checkout-base-ctrl.js"></script>
+    <script src="js/app/checkout/controllers/checkout-ctrl.js"></script>
+    <script src="js/app/checkout/controllers/checkout-cart-ctrl.js"></script>
+    <script src="js/app/checkout/controllers/checkout-edit-cart-ctrl.js"></script>
+    <script src="js/app/checkout/services/checkout-service.js"></script>
+    <script src="js/app/checkout/directives/address-decorator.js"></script>
+    <script src="js/app/checkout/directives/inline-error-input.js"></script>
+    <script src="js/app/checkout/directives/mobile-checkout-wizard.js"></script>
+    <script src="js/app/checkout/services/checkout-rest.js"></script>
+    <script src="js/app/checkout/services/checkout-service.js"></script>
+    <script src="js/app/confirmation/confirmation-index.js"></script>
+    <script src="js/app/confirmation/controllers/confirmation-ctrl.js"></script>
+    <script src="js/app/confirmation/services/order-details-svc.js"></script>
+    <script src="js/app/confirmation/services/order-details-rest.js"></script>
+    <script src="js/app/confirmation/directives/summary-align.js"></script>
+    <script src="js/app/coupons/coupon-index.js"></script>
+    <script src="js/app/coupons/controllers/coupon-ctrl.js"></script>
+    <script src="js/app/coupons/services/coupon-service.js"></script>
+    <script src="js/app/coupons/services/coupon-rest.js"></script>
+    <script src="js/app/addresses/addresses-index.js"></script>
+    <script src="js/app/addresses/directives/localized-addresses.js"></script>
+    <script src="js/app/account/account-index.js"></script>
+    <script src="js/app/account/controllers/account-ctrl.js"></script>
+    <script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
+    <script src="js/app/account/services/account-service.js"></script>
+    <script src="js/app/auth/auth-index.js"></script>
+    <script src="js/app/auth/controllers/auth-modal-dialog-ctrl.js"></script>
+    <script src="js/app/auth/controllers/password-reset-ctrl.js"></script>
+    <script src="js/app/auth/controllers/password-update-ctrl.js"></script>
+    <script src="js/app/auth/controllers/password-reset-update-ctrl.js"></script>
+    <script src="js/app/auth/directives/confirm-input.js"></script>
+    <script src="js/app/auth/directives/create-account.js"></script>
+    <script src="js/app/auth/services/auth-rest.js"></script>
+    <script src="js/app/auth/services/token-service.js"></script>
+    <script src="js/app/auth/services/session-service.js"></script>
+    <script src="js/app/auth/services/auth-service.js"></script>
+    <script src="js/app/auth/services/anon-auth-service.js"></script>
+    <script src="js/app/auth/services/auth-dialog-manager.js"></script>
+    <script src="js/app/search/search-index.js"></script>
+    <script src="js/app/search/controllers/search-list-ctrl.js"></script>
+    <script src="js/app/errors/backendStub.js"></script>
+    <script src="js/vendor-static/bootstrap.min.js"></script>
+    <script src="js/vendor/bootstrap/js/popover.js"></script>
+    <script src="js/app/shared/directives/popover.js"></script>
+    <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="js/vendor-static/jquery.menu-aim.js"></script>
+    <script src="js/app/app.js"></script>
+    <!-- endbuild -->
+
+    <!-- static script resources -->
+    <script src="js/app/shared/router.js"></script>
+    <script src="https://js.stripe.com/v2/"></script>
+
+    <script async defer src="js/vendor-static/piwik.js"></script>
+    <div ytracking></div>
+</body >
+</html>

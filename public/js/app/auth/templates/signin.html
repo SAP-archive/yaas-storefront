@@ -1,0 +1,21 @@
+<form name="singinForm" ng-submit="signin(user.signin, singinForm)">
+    <div class="form-group input-group" ng-class="{ 'has-error': singinForm.username.$invalid && singinForm.username.$dirty }">
+        <label class="input-group-addon control-label" for="usernameInput">{{'EMAIL' | translate}}</label>
+        <input builder-input="email" type="email" class="form-control" id="usernameInput" name="username"
+               ng-model="user.signin.email" required ng-focus="clearErrors()">
+    </div>
+    <div class="form-group input-group" ng-class="{ 'has-error': singinForm.password.$invalid && singinForm.password.$dirty }">
+        <label class="input-group-addon control-label" for="passwordInput">{{'PASSWORD' | translate}}</label>
+        <input builder-input="password" type="password" class="form-control" id="passwordInput" name="password"
+               ng-model="user.signin.password" required ng-focus="clearErrors()">
+    </div>
+    <ul ng-if="errors && errors.signin.length" class="list-unstyled text-danger">
+        <li ng-repeat="error in errors.signin">{{error.message | translate}}</li>
+    </ul>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-in-button">{{'SIGN_IN' | translate}}</button>
+    <br>
+    <a ng-click="showResetPassword()" class="forgot-password-btn">{{'FORGOT_PASSWORD' | translate }}</a>
+</form>
+
+
+

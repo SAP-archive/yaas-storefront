@@ -1,0 +1,112 @@
+
+<section class="white"  ng-cloak>
+    <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
+        <blockquote style="background-image: url('{{category.image}}' );background-position:0 0;">
+            <p>{{store.name}}</p>
+        </blockquote>
+    </div>
+
+    <ybreadcrumb yitem="category" size="'large'"></ybreadcrumb>
+
+    <div ng-if="total === 0">
+        <div class="refine-section" ng-cloak>
+            <div class="row">
+                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{total}} {{ 'RESULTS' | translate }}</div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <div translate="FOUND_FOR" translate-compile translate-values="{searchString: '{{searchString}}'"></div>
+                </div>
+            </div>
+            <div class="row continueShoppingBtn">
+                <a ui-sref="base.category" class="btn btn-primary btn-large btn-block">{{'CONTINUE_SHOPPING' | translate}}</a>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="total > 0">
+
+        <div class="refine-section" ng-cloak>
+
+            <div class="row">
+
+                <div ng-if="!category.name" class="col-xs-12 col-sm-6  title">{{total}} {{ 'RESULTS' | translate }}</div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="viewingContainer">
+                        <div class="name">{{'VIEWING' | translate}}:</div>
+                        <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
+                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="clearfix visible-sm"></div>
+                <div class="col-sm-7 col-md-6 col-lg-3">
+                    <div class="sortContainer">
+                        <div class="name">{{'SORT_BY' | translate}}:</div>
+                        <div class="form-group">
+                            <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
+
+                            <div>
+                                <span class='css-select-moz'>
+                                    <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
+                                        <option value="mostRelevant">{{'MOST_RELEVANT' | translate}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="refineAffix" class=" refine-section responsive-fixed" ng-cloak>
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <div class="viewingContainer">
+                        <div class="name">{{'VIEWING' | translate}}:</div>
+                        <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
+                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
+             infinite-scroll-immediate-check="false"
+             infinite-scroll-data="pagination" ng-cloak
+             infinite-scroll-visible-items>
+            <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
+                 on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
+                <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
+
+                    <div class="thumb">
+                        <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
+
+                    </div>
+                    <div class="productInfoContainer text-center">
+                        <div class="name">{{ product.product.name }}</div>
+                        <div ng-if="!prices[product.product.id].measurementUnit" class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
+                        <div ng-if="prices[product.product.id].measurementUnit" class="price">
+                            <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                            <span class="priceUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <button type="button" id="to-top-btn" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
+        <span class="hyicon hyicon-chevron-bold-up" />
+    </button>
+
+
+    </div>
+
+</section>
+
+
+<script src="js/vendor-static/img-touch-canvas.js"></script>
+<script src="js/vendor-static/jquery.fullscreen-min.js"></script>
+<script src="js/vendor-static/main.js"></script>

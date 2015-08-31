@@ -1,0 +1,39 @@
+<div ng-if="!isAuthenticated">
+
+    {{'ONE_MORE_STEP' | translate}} <br>
+    {{'ONE_MORE_STEP_MESSAGE' | translate}} <br>
+
+        <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer row">
+            <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
+                <div class="fbLoginButton">
+                    <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
+                </div>
+            </div>
+            <div ng-if="googleClientId"  class="googlePlusLogin col-sm-6 col-xs-12">
+                <div class="googleSignIn">
+                    <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
+                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                </div>
+            </div>
+        </div>
+
+      <div class="tab-pane" id="signup" >
+        <form name="signupForm" ng-submit="signup(user.signup.password, confirmationDetails.emailAddress, signupForm)">
+            <div class="form-group input-group">
+                <span class="input-group-addon"><label class="control-label" for="emailInput">{{'EMAIL' | translate}}</label></span>
+                <input builder-input="email" type="email" class="form-control" id="emailInput" name="email"
+                       ng-model="confirmationDetails.emailAddress" required ng-focus="clearErrors()">
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon"><label class="control-label" for="newPasswordInput">{{'PASSWORD' | translate}}</label></span>
+                <input builder-input="password" type="password" class="form-control" id="newPasswordInput" placeholder="{{'PASSWORD_MINCHAR'| translate}}" name="password"
+                       ng-model="user.signup.password" required ng-focus="clearErrors()">
+            </div>
+            <ul ng-if="errors && errors.signup.length" class="text-danger list-unstyled">
+                <li ng-repeat="error in errors.signup">{{error.message | translate}}</li>
+            </ul>
+          <button type="submit" id="create-acct-btn" class="btn btn-primary btn-lg btn-block">{{'CREATE_ACCOUNT' | translate}}</button>
+        </form>
+      </div>
+
+</div>

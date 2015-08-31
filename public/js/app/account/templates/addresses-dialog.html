@@ -1,0 +1,9 @@
+<div class="modal-header" ng-cloak>
+  <button type="button" class="close" ng-click="closeAddressDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
+  <h4 class="modal-title" id="myModalLabel">{{'ADDRESS_BOOK' | translate}}</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div ng-include="'./js/app/account/templates/addresses.html'"></div>
+  </div>
+</div>
