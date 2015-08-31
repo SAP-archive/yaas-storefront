@@ -375,13 +375,13 @@ section .hero-unit{
 @media screen and (min-width: @screen-xs) {
   
   .product-grid .item .thumb{
-    height:  265.556px;
+    height:  455.556px;
   }
 }
 
 @media screen and (min-width: @screen-sm) {
   .product-grid .item .thumb{
-    height: 234px; 
+    height: 414px; 
   }
 }
 
@@ -392,8 +392,14 @@ section .hero-unit{
 
 }
 
-@media screen and (min-width: @screen-lg) {
+@media screen and (min-width: @screen-lg) and (max-width: 1500px) {
   .product-grid .item .thumb{
-    height: 215.556px;
+    height: 276.556px;
+  }
+}
+
+@media screen and (min-width: 1501px) {
+  .product-grid .item .thumb{
+    height: 366.556px;
   }
 }
