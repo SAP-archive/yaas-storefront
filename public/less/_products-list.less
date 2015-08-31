@@ -20,9 +20,10 @@
 
       .thumb{
         margin: 0 0 10px 0;
-        overflow: hidden;
+        vertical-align: middle;
         width: 100%;
         text-align: center;
+        overflow: hidden;
 
         img{
           width: 100%;
@@ -367,4 +368,32 @@ section .hero-unit{
   width: auto;
   left: 0;
   right: 0;
+}
+
+
+/*** HACKS FOR IMAGES IN THE LIST THAT DON'T HAVE A WAY TO HAVE DEFINED HEIGHTS ***/
+@media screen and (min-width: @screen-xs) {
+  
+  .product-grid .item .thumb{
+    height:  265.556px;
+  }
+}
+
+@media screen and (min-width: @screen-sm) {
+  .product-grid .item .thumb{
+    height: 234px; 
+  }
+}
+
+@media screen and (min-width: @screen-md) {
+  .product-grid .item .thumb{
+    height: 245px;
+  }
+
+}
+
+@media screen and (min-width: @screen-lg) {
+  .product-grid .item .thumb{
+    height: 215.556px;
+  }
 }
