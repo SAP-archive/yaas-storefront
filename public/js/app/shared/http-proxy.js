@@ -50,6 +50,7 @@ angular.module('ds.httpproxy', [])
 
                     if (response.config.url.indexOf('/hybris/piwik') > -1 ||
                         response.config.url.indexOf('loginconfig') > -1 ||
+                        response.config.url.indexOf('shippingcost') > -1 ||
                         response.config.url.indexOf('algolia') > -1) {
                         //Ignore if request to one of this endpoints fails.
                     }
