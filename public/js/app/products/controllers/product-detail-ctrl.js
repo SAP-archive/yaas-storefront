@@ -56,7 +56,7 @@ angular.module('ds.products')
             $scope.error=null;
 
             if (!$scope.product.product.media || !$scope.product.product.media.length) { // set default image if no images configured
-                $scope.product.product.media = [{ url: settings.placeholderImage }];
+                $scope.product.product.media = [{ id: settings.placeholderImageId, url: settings.placeholderImage }];
             } else if (!$scope.product.product.media[0].customAttributes || !$scope.product.product.media[0].customAttributes.main) { // make sure main image is first in list
                 for (var i = 0; i < $scope.product.product.media.length; i++) {
                     if ($scope.product.product.media[i].customAttributes && $scope.product.product.media[i].customAttributes.main) {
