@@ -28,7 +28,11 @@ angular.module('ds.cart')
         $scope.couponCollapsed = true;
         $scope.taxType = GlobalData.getTaxType();
 
+
         $scope.calculateTax = CartSvc.getCalculateTax();
+
+
+                
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;
@@ -52,6 +56,7 @@ angular.module('ds.cart')
         $scope.toggleCart = function (){
             $rootScope.showCart = false;
         };
+                
 
         /**
          *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.

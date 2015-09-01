@@ -13,18 +13,22 @@
 'use strict';
 
 angular.module('ds.i18n')
-        .constant('TranslationsEN', {
-
+	.constant('TranslationsEN', {
+        //XFLD
         en: 'English',
+        //XFLD
         de: 'German',
+        //XFLD
         fr: 'French',
+        //XFLD
         es: 'Spanish',
 
-        //XBUT
+        //XFLD
         //-------------------------------------------------
         // Cart
         //-------------------------------------------------
 
+        //XBUT
         BACK_TO_CHECKOUT: 'Back to checkout',
         //XBUT
         CHECKOUT: 'Checkout',
@@ -48,16 +52,21 @@ angular.module('ds.i18n')
         CART_EMPTY: 'Your cart is empty',
         //XMSG
         CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
+        //XFLD
         ESTIMATE_TAX: 'Estimate Tax',
+        //XFLD
         APPLY: 'Apply',
+        //XFLD
         ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
+        //XMSG
+        SELECT_A_COUNTRY: 'Select a country',
 
         //XFLD
         //-------------------------------------------------
         // Checkout
         //-------------------------------------------------
 
-
+        //XFLD
         ADDRESS: 'Address',
         //XFLD
         ADDRESS_LINE_1: 'Address Line 1',
@@ -170,12 +179,13 @@ angular.module('ds.i18n')
         //XFLD
         YEAR: 'Year',
 
+
         //XFLD
         //-------------------------------------------------
         // Addresses
         //-------------------------------------------------
 
-
+        //XFLD
         DEFAULT: 'Default',
         //XFLD
         DISTRICT: 'District',
@@ -198,12 +208,12 @@ angular.module('ds.i18n')
         //XFLD
         FURTHER_SUBAREA: 'Further Subarea, Block #/ House #',
 
-        //XBUT
+        //XFLD
         //-------------------------------------------------
         // Coupons
         //-------------------------------------------------
 
-
+        //XBUT
         COUPON_APPLY: 'Apply',
         //XFLD
         COUPON_APPLIED: 'Applied',
@@ -222,21 +232,24 @@ angular.module('ds.i18n')
         //XMSG
         COUPON_NOT_VALID: 'Coupon Not Valid',
 
-        //XMSG
+
+        //XFLD
         //-------------------------------------------------
         // Confirmation
         //-------------------------------------------------
 
-
+        //XMSG
         A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
         //XMSG
         ENJOY_YOUR_ITEMS: 'Enjoy your items!',
+        //XMSG
+        FOR_YOUR_ORDER: 'for your order!',
         //XMSG
         ITEM_IN_YOUR_ORDER: 'Item in your order',
         //XMSG
         ITEMS_IN_YOUR_ORDER: 'Items in your order',
         //XMSG
-        QUESTIONS: '<p class="support-box">If you have any questions, contact us at <strong>{{questionsContactInfo}}</strong>.</p>',
+        QUESTIONS: 'If you have any questions, contact us at',
         //XFLD
         ORDER: 'Order',
         //XBUT
@@ -252,31 +265,37 @@ angular.module('ds.i18n')
         //XMSG
         THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'The order will be shipped to',
         //XMSG
+        YOUR_ORDER_IS: 'Your order # is ',
+        //XMSG
         ONE_MORE_STEP: 'One More Step to Create an Account',
         //XMSG
         ONE_MORE_STEP_MESSAGE: 'for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
         //XFLD
         SKU: 'SKU',
 
+
         //XFLD
         //-------------------------------------------------
         // Navigation
         //-------------------------------------------------
 
-
+        //XFLD
         PRODUCTS: 'Products',
+        //XBUT
+        BACK_TO: 'Back To',
         //XFLD
         REGION: 'Region',
 
-        //XBUT
+
+        //XFLD
         //-------------------------------------------------
         // Product Detail Page
         //-------------------------------------------------
 
-
+        //XBUT
         BUY: 'Buy',
         //XBUT
-        ADD_TO_CART: 'Add to Cart',
+        ADD_TO_CART:'Add to Cart',
         //XTIT
         PRODUCT_DESCRIPTION: 'Product Description',
         //XBUT
@@ -286,13 +305,16 @@ angular.module('ds.i18n')
         //XMSG
         ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
 
-        //XLST
+
+        //XFLD
         //-------------------------------------------------
         // Product List Page
         //-------------------------------------------------
 
-
+        //XLST
         NEWEST: 'newest',
+        //XFLD
+        OF: 'of',
         //XLST
         PRICE_HIGH_LOW: 'price high - low',
         //XLST
@@ -326,12 +348,13 @@ angular.module('ds.i18n')
         //XBUT
         CONTINUE_AS_GUEST: 'Continue as our guest',
 
+
         //XFLD
         //-------------------------------------------------
         // Account Page
         //-------------------------------------------------
 
-
+        //XFLD
         ACCOUNT_DETAILS: 'Account details',
         //XBUT
         ADD: 'Add',
@@ -394,12 +417,13 @@ angular.module('ds.i18n')
         //XFLD
         SHOW_LESS: 'Show less',
 
-        //XBUT
+
+        //XFLD
         //-------------------------------------------------
         // Login, password, signup
         //-------------------------------------------------
 
-
+        //XBUT
         FORGOT_PW: 'Forgot your password?',
         //XFLD
         PASSWORD: 'Password',
@@ -422,7 +446,7 @@ angular.module('ds.i18n')
         //XMSG
         REQUEST_PW_EXPIRED_MSG: 'The request to reset your password has expired. Please enter your email to make a new request.',
         //XMSG
-        CHECK_EMAIL: 'Check Your Email',
+        CHECK_EMAIL:'Check Your Email',
         //XMSG
         CHECK_EMAIL_INSTRUCT: '...and follow the link to reset your password. The link will be valid for 24 hours.',
         //XMSG
@@ -470,12 +494,13 @@ angular.module('ds.i18n')
         //XFLD
         ACCOUNT_EMAIL: 'Account Email',
 
-        //XMSG
+
+        //XFLD
         //-------------------------------------------------
         // Dynamic Error Displays
         //-------------------------------------------------
 
-
+        //XMSG
         ERROR_TITLE: 'Internal Error',
         //XMSG
         ERROR_MESSAGE: 'Oops! There\'s a problem.',
@@ -492,12 +517,13 @@ angular.module('ds.i18n')
         //XBUT
         ERROR_BUTTON_TEXT: 'HOMEPAGE',
 
-        //XACT
+
+        //XFLD
         //-------------------------------------------------
         // Titles
         //-------------------------------------------------
 
-
+        //XACT
         DR: 'Dr.',
         //XACT
         MR: 'Mr.',
@@ -508,12 +534,13 @@ angular.module('ds.i18n')
         //XACT
         TITLE: 'Title',
 
-        //XSEL
+
+        //XFLD
         //-------------------------------------------------
         // Order Statuses
         //-------------------------------------------------
 
-
+        //XSEL
         COMPLETED: 'Completed',
         //XSEL
         CONFIRMED: 'Confirmed',
@@ -524,12 +551,13 @@ angular.module('ds.i18n')
         //XSEL
         SHIPPED: 'Shipped',
 
+
         //XFLD
         //-------------------------------------------------
         // Order Details
         //-------------------------------------------------
 
-
+        //XFLD
         CREDIT_CARD: 'Credit Card',
         //XFLD
         ON: 'on',
@@ -540,12 +568,14 @@ angular.module('ds.i18n')
         //XFLD
         TRACKING_NUMBER: '<span>Tracking Number: {{trackingNumber}}</span>',
 
+
         //XFLD
         //-------------------------------------------------
         // Search
         //-------------------------------------------------
 
-        FOUND_FOR: '<strong>0</strong> found for <strong>{{searchString}}</strong>',
+        //XFLD
+        FOUND_FOR: 'found for',
         //XACT
         SEARCH: 'Search',
         //XFLD
@@ -559,18 +589,18 @@ angular.module('ds.i18n')
         //XMSG
         SEARCH_UNAVAILABLE: 'Search is currently unavailable.',
         //XMSG
-        NO_RESULTS_FOUND: 'No results found.',
+        NO_RESULTS_FOUND:'No results found.',
 
         //XFLD
         //-------------------------------------------------
         // FOOTER
         //-------------------------------------------------
 
-
+        //XFLD
         TERMS_AND_CONDITIONS: 'Terms & Conditions',
         //XFLD
         CONTACT_US: 'Contact Us',
         //XFLD
         SITE_MAP: 'Site Map',
 
-    });
+	});
