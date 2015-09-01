@@ -205,7 +205,11 @@ angular.module('ds.checkout')
                     var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
                     deferred.resolve(costs);
                 }, function(failure){
-                    deferred.resolve(defaultCost);
+                    if (failure.status === 404) {
+                        deferred.resolve(defaultCost);
+                    } else {
+                        deferred.reject(failure);
+                    }
                 });
 
                 return deferred.promise;
