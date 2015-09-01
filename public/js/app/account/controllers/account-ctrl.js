@@ -113,7 +113,7 @@ angular.module('ds.account')
                 if ($scope.account.middleName) {
                     fullName = fullName + $scope.account.middleName + ' ';
                 }
-                if ($scope.account.lastName) {
+                  if ($scope.account.lastName) {
                     fullName = fullName + $scope.account.lastName;
                 }
                 $scope.address = angular.copy(address || {
