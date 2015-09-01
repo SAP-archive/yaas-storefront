@@ -1,6 +1,6 @@
 ---
 applications:
-- name: teststore
+- name: teststore-blue
   command: npm run-script multiProd
   buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
   memory: 1024M

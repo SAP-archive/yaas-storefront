@@ -204,7 +204,7 @@ angular.module('ds.checkout')
                 CheckoutREST.ShippingCosts.all('shippingcosts').getList().then(function(shippingCosts){
                     var costs = shippingCosts.length && shippingCosts[0].price ? shippingCosts[0].plain() : defaultCost;
                     deferred.resolve(costs);
-                }, function(failure){
+                }, function(defaultCost){
                     deferred.resolve(defaultCost);
                 });
 
