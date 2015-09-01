@@ -10,8 +10,7 @@
     a{
       display: block;
       background: #fff;
-      padding: 0 0 30px 0;
-      margin:  0 0 30px 0;
+      margin:  0 0 45px 0;
 
       // FIXED GRID
       &:hover{
@@ -37,7 +36,6 @@
         text-transform: uppercase;
         font-weight: bold;
         color: #3c3c3c;
-        max-height: 50px;
         overflow: hidden;
       }
 
@@ -371,11 +369,15 @@ section .hero-unit{
 }
 
 
-/*** HACKS FOR IMAGES IN THE LIST THAT DON'T HAVE A WAY TO HAVE DEFINED HEIGHTS ***/
+
 @media screen and (min-width: @screen-xs) {
   
   .product-grid .item .thumb{
     height:  455.556px;
+  }
+  
+  .product-grid .item a{
+    height: 539px;
   }
 }
 
@@ -383,11 +385,19 @@ section .hero-unit{
   .product-grid .item .thumb{
     height: 414px; 
   }
+  
+  .product-grid .item a{
+    height: 520px;  
+  }
 }
 
 @media screen and (min-width: @screen-md) {
   .product-grid .item .thumb{
     height: 245px;
+  }
+  
+  .product-grid .item a{
+    height: 3740px;  
   }
 
 }
@@ -396,10 +406,18 @@ section .hero-unit{
   .product-grid .item .thumb{
     height: 276.556px;
   }
+  
+  .product-grid .item a{
+    height: 420px;  
+  }
 }
 
 @media screen and (min-width: 1501px) {
   .product-grid .item .thumb{
     height: 366.556px;
+  }
+  
+  .product-grid .item a{
+    height: 500px;  
   }
 }
