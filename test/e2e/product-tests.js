@@ -42,12 +42,12 @@ describe('product page', function () {
             tu.scrollToBottomOfProducts()
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
-            expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
+            expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
 
         });
 
         it('should get product detail page', function () {
-            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -64,7 +64,7 @@ describe('product page', function () {
             expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
             // verify refreshing grabs correct config (STOR-1183)
-            browser.get(tu.tenant + '/#!/products/5502177da4ae283d1df57d04/');
+            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
             expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');          
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
@@ -77,7 +77,7 @@ describe('product page', function () {
             // browser.sleep(750);
             // tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
             // browser.sleep(750);
-            tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
+            tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', "WOMEN'S T-SHIRT - GRAY", '$14.99');
             browser.sleep(750);
@@ -114,41 +114,24 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(0, 'EARBUDS');
-            tu.sortAndVerifyPagination('name', 'EARBUDS', '$15.00');
+            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
+            tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', 'USB', '$5.99');
-            browser.sleep(750);
-            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'MOUSEPAD', '$1.99');
-            browser.get(tu.tenant + '/#!/ct/mugs~269735936');
-            browser.driver.manage().window().maximize();
-            browser.sleep(2000);
-            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - BLACK');
-            tu.sortAndVerifyPagination('name', 'BEER MUG', '$6.99');
-            browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', 'COFFEE MUGS WITH COFFEE BEANS - PACKAGE', '$16.49');
+            tu.sortAndVerifyPagination('name:desc', 'WATER BOTTLE', '$24.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
+            browser.get(tu.tenant + '/#!/ct/office~23050496');
+            browser.driver.manage().window().maximize();
+            browser.sleep(2000);
+            tu.assertProductByRepeaterRow(0, 'EXECUTIVE PEN');
+            tu.sortAndVerifyPagination('name', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
+            browser.sleep(750);
+            tu.sortAndVerifyPagination('name:desc', 'TIGHT GRIP PEN', '$2.49');
+            browser.sleep(750);
+            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
         });
 
         it('should display unit price on PLP and PDP', function () {
-            //default load
-            tu.getTextByRepeaterRow(0);
-            browser.sleep(3000);
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            tu.assertProductByRepeaterRow(2, 'MOUSEPAD');
-            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$1.99');
-            expect(element(by.repeater('product in products').row(2).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
-            element(by.repeater('product in products').row(2).column('product.name')).click();
-            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.99');
-            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000 g');
-
-        });
-
-            it('should display sales price on PLP and PDP', function () {
             //default load
             tu.getTextByRepeaterRow(0);
             browser.sleep(3000);
@@ -156,12 +139,29 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(1, 'FRUIT INFUSER DRINKING BOTTLE');
-            expect(element(by.repeater('product in products').row(1).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$19.98');
-            expect(element(by.repeater('product in products').row(1).column('prices[product.product.id].originalAmount')).getText()).toEqual('$29.99');
-            element(by.repeater('product in products').row(1).column('product.name')).click();
-            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$19.98');
-            expect(element(by.binding('product.prices[0].originalAmount')).getText()).toEqual('$29.99');
+            tu.assertProductByRepeaterRow(3, 'LIPBALM');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$1.49');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
+            element(by.repeater('product in products').row(3).column('product.name')).click();
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.49');
+            expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000 g');
+
+        });
+
+        it('should display sales price on PLP and PDP', function () {
+            //default load
+            tu.getTextByRepeaterRow(0);
+            browser.sleep(3000);
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.assertProductByRepeaterRow(3, 'BEER MUG');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$3.99');
+            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].originalAmount')).getText()).toEqual('$6.99');
+            element(by.repeater('product in products').row(3).column('product.name')).click();
+            expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$3.99');
+            expect(element(by.binding('product.prices[0].originalAmount')).getText()).toEqual('$6.99');
 
         });
 
@@ -173,7 +173,6 @@ describe('product page', function () {
             tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
-            expect(element(by.repeater('result in search.results').row(2)).getText()).toEqual('Water Bottle');
             element(by.repeater('result in search.results').row(1)).click();
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });

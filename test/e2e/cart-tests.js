@@ -41,11 +41,11 @@ describe("cart:", function () {
             browser.sleep(500);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.switchSite('Sushi Demo Store Germany');
-            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.loadProductIntoCart('1', '€14.53');
+            tu.loadProductIntoCart('1', '€18.89');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
@@ -61,14 +61,14 @@ describe("cart:", function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(1000);
-            tu.verifyCartTotal('€14.53');
+            tu.verifyCartTotal('€18.89');
         });
 
         it('should load multiple products into cart', function () {
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -144,7 +144,7 @@ describe("cart:", function () {
             tu.loginHelper('cart@hybristest.com', 'password');
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(250);
-            tu.verifyCartTotal('$12.05');
+            tu.verifyCartTotal('$7.77');
         });
 
         it('should calculate taxes', function () {
@@ -154,7 +154,7 @@ describe("cart:", function () {
             browser.sleep(500);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.switchSite('Avalara');
-            var category =  element(by.repeater('top_category in categories').row(3).column('top_category.name'));
+            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();

@@ -14,13 +14,16 @@
 
 angular.module('ds.i18n')
 	.constant('TranslationsEN', {
-        
+        //XFLD
         en: 'English',
+        //XFLD
         de: 'German',
+        //XFLD
         fr: 'French',
+        //XFLD
         es: 'Spanish',
 
-
+        //XFLD
         //-------------------------------------------------
         // Cart
         //-------------------------------------------------
@@ -49,11 +52,16 @@ angular.module('ds.i18n')
         CART_EMPTY: 'Your cart is empty',
         //XMSG
         CART_ITEM_UPDATE_ERROR: 'The update was not successful. Please try again.',
+        //XFLD
         ESTIMATE_TAX: 'Estimate Tax',
+        //XFLD
         APPLY: 'Apply',
+        //XFLD
         ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
+        //XMSG
+        SELECT_A_COUNTRY: 'Select a country',
 
-
+        //XFLD
         //-------------------------------------------------
         // Checkout
         //-------------------------------------------------
@@ -172,6 +180,7 @@ angular.module('ds.i18n')
         YEAR: 'Year',
 
 
+        //XFLD
         //-------------------------------------------------
         // Addresses
         //-------------------------------------------------
@@ -199,7 +208,7 @@ angular.module('ds.i18n')
         //XFLD
         FURTHER_SUBAREA: 'Further Subarea, Block #/ House #',
 
-
+        //XFLD
         //-------------------------------------------------
         // Coupons
         //-------------------------------------------------
@@ -224,6 +233,7 @@ angular.module('ds.i18n')
         COUPON_NOT_VALID: 'Coupon Not Valid',
 
 
+        //XFLD
         //-------------------------------------------------
         // Confirmation
         //-------------------------------------------------
@@ -264,6 +274,7 @@ angular.module('ds.i18n')
         SKU: 'SKU',
 
 
+        //XFLD
         //-------------------------------------------------
         // Navigation
         //-------------------------------------------------
@@ -276,6 +287,7 @@ angular.module('ds.i18n')
         REGION: 'Region',
 
 
+        //XFLD
         //-------------------------------------------------
         // Product Detail Page
         //-------------------------------------------------
@@ -294,6 +306,7 @@ angular.module('ds.i18n')
         ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
 
 
+        //XFLD
         //-------------------------------------------------
         // Product List Page
         //-------------------------------------------------
@@ -336,6 +349,7 @@ angular.module('ds.i18n')
         CONTINUE_AS_GUEST: 'Continue as our guest',
 
 
+        //XFLD
         //-------------------------------------------------
         // Account Page
         //-------------------------------------------------
@@ -406,6 +420,7 @@ angular.module('ds.i18n')
         SHOW_LESS: 'Show less',
 
 
+        //XFLD
         //-------------------------------------------------
         // Login, password, signup
         //-------------------------------------------------
@@ -482,6 +497,7 @@ angular.module('ds.i18n')
         ACCOUNT_EMAIL: 'Account Email',
 
 
+        //XFLD
         //-------------------------------------------------
         // Dynamic Error Displays
         //-------------------------------------------------
@@ -504,6 +520,7 @@ angular.module('ds.i18n')
         ERROR_BUTTON_TEXT: 'HOMEPAGE',
 
 
+        //XFLD
         //-------------------------------------------------
         // Titles
         //-------------------------------------------------
@@ -520,6 +537,7 @@ angular.module('ds.i18n')
         TITLE: 'Title',
 
 
+        //XFLD
         //-------------------------------------------------
         // Order Statuses
         //-------------------------------------------------
@@ -536,6 +554,7 @@ angular.module('ds.i18n')
         SHIPPED: 'Shipped',
 
 
+        //XFLD
         //-------------------------------------------------
         // Order Details
         //-------------------------------------------------
@@ -552,6 +571,7 @@ angular.module('ds.i18n')
         TRACKING_NUMBER: '<span>Tracking Number: {{trackingNumber}}</span>',
 
 
+        //XFLD
         //-------------------------------------------------
         // Search
         //-------------------------------------------------
@@ -573,6 +593,7 @@ angular.module('ds.i18n')
         //XMSG
         NO_RESULTS_FOUND:'No results found.',
 
+        //XFLD
         //-------------------------------------------------
         // FOOTER
         //-------------------------------------------------

@@ -51,7 +51,8 @@ angular.module('ds.i18n')
         ESTIMATE_TAX: 'Schätzung Steuerberatung',
         APPLY: 'Anwenden',
         ESTIMATE_TAX_ERROR: 'PLZ/Postleitzahl und Land Code Felder sind Pflichtfelder',
-
+        //XMSG
+        SELECT_A_COUNTRY: 'Wählen Sie ein Land',
 
         /*
          checkout
