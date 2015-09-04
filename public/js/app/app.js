@@ -56,7 +56,7 @@ window.app = angular.module('ds.app', [
         RestangularProvider.addFullRequestInterceptor( function(element, operation, route, url, headers, params, httpConfig) {
 
             var oldHeaders = {};
-            if(url.indexOf('yaas') < 0) {
+            if(url.indexOf('yaas')<0) {
                 delete $httpProvider.defaults.headers.common[settings.headers.hybrisAuthorization];
                 //work around if not going through Apigee proxy for a particular URL, such as while testing new services
                 oldHeaders [settings.headers.hybrisTenant] = appConfig.storeTenant();

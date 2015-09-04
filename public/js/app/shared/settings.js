@@ -71,6 +71,7 @@ angular.module('ds.shared')
         translateDefault: 'en',
 
         placeholderImage: 'img/no-image.jpg',
+        placeholderImageId: 'no-image',
 
         homeState: 'base.home',
         checkoutState: 'base.checkout.details',
