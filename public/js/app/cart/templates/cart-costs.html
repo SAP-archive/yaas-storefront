@@ -37,32 +37,38 @@
             <td class="text-right" ng-show="calculateTax.taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
         </tr>
 
-        <tr class="zip-inputs" ng-show="!!taxType && taxType !== 'FLATRATE' && showTaxEstimation">
-            <td>
-                <input id="zipCode" type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
-            </td>
-        </tr>
-        <tr class="zip-inputs" ng-show="!!taxType && taxType !== 'FLATRATE' && showTaxEstimation">
-            <td>
-                <select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" placeholder="Country Code">
-                    <option value="CA">{{'CANADA'|translate}}</option>
-                    <option value="US">{{'USA'|translate}}</option>
-                </select>
-            </td>
-            <td>
-                <button id="apply-btn" class="apply-tax btn btn-primary pull-right" ng-click="applyTax()">{{'APPLY'|translate}}</button>
-            </td>
-        </tr>
-        <tr ng-show="!!taxType && taxType !== 'FLATRATE' && taxEstimationError">
-            <td>
-                {{'ESTIMATE_TAX_ERROR'|translate}}
-            </td>
-        </tr>
-        <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
-            <td>{{'TAX' | translate}}</td>
-            <td class="text-right">
-                {{cart.totalTax.amount | currency: currencySymbol}}
-            </td>
-        </tr>
     </tbody>
 </table>
+        
+<div class="row cartTaxConfiguration" ng-show="!!taxType && taxType !== 'FLATRATE' && showTaxEstimation">
+    <div class="col-xs-12">
+        <input id="zipCode" type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
+    </div>
+    <div class="col-xs-12">
+        <!--<select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" ng-options="countryCodeOption.text for countryCodeOption in countryCodeOptions track by countryCodeOption.value"></select>-->
+        <!--<p>{{calculateTax.countryCode}}</p>-->
+        <select id="country" class="zip-input form-control" ng-init="calculateTax.countryCode = 'US'" ng-model="calculateTax.countryCode">
+            <option value="-1">{{'SELECT_A_COUNTRY' | translate}}</option>
+            <option value="US">{{'USA'|translate}}</option>
+            <option value="CA">{{'CANADA'|translate}}</option>
+        </select>
+    </div>
+    <div class="col-xs-12">
+        <button id="apply-btn" class="apply-tax btn btn-primary" ng-click="applyTax()">{{'APPLY'|translate}}</button>
+    </div>
+    
+</div>
+<div class="row" ng-show="!!taxType && taxType !== 'FLATRATE' && taxEstimationError">
+    <div class="col-xs-12">
+        {{'ESTIMATE_TAX_ERROR'|translate}}
+    </div>
+</div>
+
+
+
+<!--<tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">-->
+    <!--<td>{{'TAX' | translate}}</td>-->
+    <!--<td class="text-right">-->
+        <!--{{cart.totalTax.amount | currency: currencySymbol}}-->
+    <!--</td>-->
+<!--</tr>-->

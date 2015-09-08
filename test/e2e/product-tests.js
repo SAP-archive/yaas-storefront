@@ -42,7 +42,7 @@ describe('product page', function () {
             tu.scrollToBottomOfProducts()
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
-            expect(element(by.css('div.col-xs-12 > div.viewingContainer > div.page-indicator.ng-binding')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
+            expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
 
         });
 
