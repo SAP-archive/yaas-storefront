@@ -242,6 +242,11 @@ Licensor: Angular Core Team
 Website: https://github.com/angular/bower-angular-sanitize
 License: MIT
 
+Component: angular-ui-bootstrap
+Licensor: Angular UI
+Website: https://angular-ui.github.io/bootstrap/
+License: MIT
+
 Component: angular-ui-select
 Licensor: Angular UI
 Website: https://github.com/angular-ui/ui-select
@@ -551,6 +556,36 @@ Component: async
 Licensor: Caolan McMahon
 Website: https://github.com/caolan/async
 License: MIT
+
+Component: img-touch-canvas
+Licensor: Romain BEAUDON
+Website: https://github.com/rombdn/img-touch-canvas/
+License: MIT
+
+Component: jquery-fullscreen-plugin
+Licensor: Klaus Reimer
+Website: https://github.com/kayahr/jquery-fullscreen-plugin
+License: MIT
+
+Component: jQuery-menu-aim
+Licensor: Ben Kamens
+Website: https://github.com/kamens/jQuery-menu-aim
+License: MIT
+
+Component: jquery-throttle-debounce
+Licensor: Ben Alman
+Website: http://benalman.com/projects/jquery-throttle-debounce-plugin/
+License: MIT
+
+Component: OwlCarousel
+Licensor: Owl
+Website: http://owlgraphic.com/owlcarousel/
+License: MIT
+
+Component: Piwik
+Licensor: Piwik
+Website: http://piwik.org/
+License: GPL v3
 
 ----------------------------------------------------------------------------------------------------------------------------
 MIT License
