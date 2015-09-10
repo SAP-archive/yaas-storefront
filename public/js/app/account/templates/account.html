@@ -31,95 +31,49 @@
       </div>
         
       <!-- desktop display -->
-      <div class="row userInfoRow hidden-xs">
-	      <div class="col-xs-12 titleRow">
-		      <div class="row ">
-            <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-4 col-md-4 col-lg-4">
-              {{'NAME' | translate}}
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              {{'REGION_PREFERENCES' | translate}}
-            </div>
-		      </div>
-	      </div>
-	      <div class="col-xs-3 col-sm-1 editLinkContainer">
-		      <a href="#" ng-click="editAccountInfo('user')"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
+      <div class="row userInfoRow hidden-xs desktopUserInfo">
+
+        <div class="col-sm-1 editLinkContainer">
+            <a ng-click="editAccountInfo('user')"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
         </div>
-        <div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-4 col-md-4 col-lg-4">
-          {{account.firstName}} {{account.middleName}} {{account.lastName}}
-        </div> 
-        <div class="col-xs-offset-3 col-sm-offset-0 col-xs-9 col-sm-4"> 
-          <span class="dataLabel">Preferred Locale</span>
-          {{showLanguageLocale()}}
+        <div class="col-sm-3 col-md-3">
+            <span class="dataLabel">{{'NAME' | translate}}</span>
+            {{account.firstName}} {{account.middleName}} {{account.lastName}}
         </div>
-	      <div class="col-xs-offset-3 col-sm-offset-0 col-xs-9 col-sm-3">
-		    <span class="dataLabel">Currency</span>
-	        {{account.preferredCurrency}}
-	      </div>
+          <div class="col-sm-1 editLinkContainer">
+              <a ng-click="editAccountInfo('email')"><span class="glyphicon glyphicon-pencil"></span></a>
+          </div>
+          <div class="col-sm-3">
+              <span class="dataLabel">{{'EMAIL' | translate}}</span>
+              {{account.contactEmail}}
+          </div>
+
+          <div class="col-sm-1 editLinkContainer">
+              <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
+          </div>
+          <div class="col-sm-3">
+              <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+              &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+          </div>
       </div>
       <!-- /desktop -->
 
-        <!-- mobile display -->
-      <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg">
-        
-          <div class="col-xs-8">
-            <div class="mobileDataSection">
-              <span class="titleRow visible-xs hidden-md hidden-lg">
-                {{'NAME' | translate}}
-              </span>  
-              {{account.firstName}} {{account.middleName}} {{account.lastName}}
-            </div>
-            <div class="mobileDataSection">
-              <span class="titleRow visible-xs hidden-md hidden-lg">
-                {{'REGION_PREFERENCES' | translate}}
-              </span>
-              <span class="dataLabel">Preferred Locale</span>
-              {{showLanguageLocale()}}   
-              
-              <span class="dataLabel">Currency</span>
-              {{account.preferredCurrency}}
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <button class="btn btn-secondary btn-md pull-right" ng-click="editAccountInfo('user')">{{'EDIT' | translate}}</button>
-          </div>
-         
-      </div>
-      <!-- /mobile display -->
-
-      <!-- desktop display -->
-      <div class="row userInfoRow hidden-xs">
-        <div class="col-xs-12 titleRow ">
-          <div class="row">
-            <div class="col-xs-offset-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-9">
-              {{'ACCOUNT_DETAILS' | translate}}
-            </div>
-          </div>
-	       </div>
-	       <div class="col-xs-3 col-sm-1 editLinkContainer">
-		      <a href="#" ng-click="editAccountInfo('email')"><span class="glyphicon glyphicon-pencil"></span></a>  
-        </div>
-        <div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-3 col-md-3 col-lg-3">
-		      <span class="dataLabel">{{'EMAIL' | translate}}</span>
-        	{{account.contactEmail}}  
-       </div>
-       <div class="col-xs-3 col-sm-1 editLinkContainer">
-         <a href="#" ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a> 
-       </div>
-       <div class="col-xs-offset-3 col-xs-9 col-sm-offset-0 col-sm-4">	
-	       <span class="dataLabel">{{'PASSWORD' | translate}}</span>
-         &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
-       </div>
-      </div>
-      <!-- /desktop display -->
-
       <!-- mobile display -->
       <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg">
-        
+
           <div class="col-xs-12">
             <span class="titleRow visible-xs hidden-md hidden-lg">
                 {{'ACCOUNT_DETAILS' | translate}}
               </span>  
+          </div>
+          <div class="col-xs-8">
+              <div class="mobileDataSection">
+                <span class="dataLabel locale">{{'NAME' | translate}}</span>
+                {{account.firstName}} {{account.middleName}} {{account.lastName}}
+              </div>
+          </div>
+          <div class="col-xs-4">
+              <button class="btn btn-secondary btn-md pull-right" ng-click="editAccountInfo('user')">{{'EDIT' | translate}}</button>
           </div>
           <div class="col-xs-8">
             <div class="mobileDataSection">

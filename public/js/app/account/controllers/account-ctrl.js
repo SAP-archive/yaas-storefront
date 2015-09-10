@@ -77,7 +77,7 @@ angular.module('ds.account')
             
             $scope.editAccountInfo = function(mtype){
                 $scope.mtype = mtype;
-                originalAccountData = $scope.account;
+                originalAccountData = angular.copy($scope.account);
 			 
                 modalInstance = $modal.open({
                     templateUrl: 'js/app/account/templates/editUser-dialog.html',
@@ -86,6 +86,7 @@ angular.module('ds.account')
             };
             
             $scope.closeEditUserDialog = function(){
+               $scope.account = originalAccountData;
                modalInstance.close();
             };
             
