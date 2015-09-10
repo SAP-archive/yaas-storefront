@@ -15,336 +15,559 @@
 angular.module('ds.i18n')
     .constant('TranslationsDE', {
 
+        en:'Englisch',
+        de:'Deutsch',
+        fr:'Französisch',
+        es:'Spanisch',
 
-        /*
+        //XBUT
+        //-------------------------------------------------
+        // Cart
+        //-------------------------------------------------
 
-        languages
-        */
-        en: 'Englisch',
-        de: 'Deutsch',
-        fr: 'Französisch',
-        es: 'Spanisch',
-
-
-        /*
-            countries
-        */
-        CANADA: 'Canada',
-        USA: 'USA',
-
-
-        /*
-         cart
-         */
-        BACK_TO_CHECKOUT: 'zurück zur Kasse',
-        CHECKOUT: 'Kasse',
-        CONTINUE_SHOPPING: 'Weiter Einkaufen',
-        SHOP: 'Geschäft',
-        EST_ORDER_TOTAL: 'Zwischensumme',
-        FREE_SHIPPING: 'Kostenloser Versand',
-        ITEM: 'Artikel',
-        ITEM_PRICE: 'Artikel Preis',
-        TOTAL_PRICE: 'Gesamtpreis',
-        CART_UNAVAILABLE: 'Warenkorb momentan nicht zugänglich.  Bitte noch einmal anfordern.',
-        CART_EMPTY: 'Keine Artikel im Korb',
-        CART_ITEM_UPDATE_ERROR: 'Aktualizierung nicht erfolgreich. Bitte noch einmal anfordern.',
-        ESTIMATE_TAX: 'Schätzung Steuerberatung',
-        APPLY: 'Anwenden',
-        ESTIMATE_TAX_ERROR: 'PLZ/Postleitzahl und Land Code Felder sind Pflichtfelder',
+        BACK_TO_CHECKOUT:'Zurück zur Kasse',
+        //XBUT
+        CHECKOUT:'Kasse',
+        //XBUT
+        CONTINUE_SHOPPING:'Einkauf fortsetzen',
+        //XBUT
+        SHOP:'Einkaufen',
+        //XFLD: Est. is short for Estimated
+        EST_ORDER_TOTAL:'Geschätzte Bestellsumme',
+        //XFLD
+        FREE_SHIPPING:'Versand und Rücksendung in den USA kostenlos',
+        //XFLD
+        ITEM:'Position',
+        //XFLD
+        ITEM_PRICE:'Positionspreis',
+        //XFLD
+        TOTAL_PRICE:'Gesamtpreis',
         //XMSG
-        SELECT_A_COUNTRY: 'Wählen Sie ein Land',
+        CART_UNAVAILABLE:'Der Warenkorb ist zurzeit nicht verfügbar. Versuchen Sie es noch einmal.',
+        //XMSG
+        CART_EMPTY:'Ihr Warenkorb ist leer',
+        //XMSG
+        CART_ITEM_UPDATE_ERROR:'Die Aktualisierung war nicht erfolgreich. Versuchen Sie es noch einmal.',
+        //XFLD
+        ESTIMATE_TAX:'Steuern schätzen',
+        //XBUT
+        APPLY:'Anwenden',
+        //XMSG
+        ESTIMATE_TAX_ERROR:'Felder "Postleitzahl" und "Ländercode" sind erforderlich',
 
-        /*
-         checkout
-         */
-        ADDRESS: 'Adresse',
-        ADDRESS_LINE_1: 'Adresszeile 1',
-        ADDRESS_LINE_2: 'Adresszeile 2',
-        BILLING_ADDRESS: 'Rechnungsadresse',
-        CITY: 'Stadt',
-        PROVINCE: 'Provinz',
-        CONTINUE: 'Weiter',
-        COUNTRY: 'Land',
-        CREDIT_CARD_NUMBER: 'Kreditkartennummer',
-        CVC_NUMBER: 'CVC Nummer',
-        DELIVERY_METHOD: 'Versandart',
-        EMAIL: 'Email',
-        EDIT: 'Bearbeiten',
-        FIRST_NAME: 'Vorname',
-        FREE_STANDARD_SHIPPING: 'Kostenloser Standardversand',
-        FLAT_RATE_SHPPING: 'Pauschale',
-        INVALID_EXPIRATION_DATE: 'Ungültiges Ablaufdatum',
-        ITEMS: 'Artikel',
-        LAST_NAME: 'Nachname',
-        LAST_NAME_REQUIRED: 'Nachname Pflicht',
-        METHOD: 'Verfahren',
-        MIDDLE_NAME: 'Zweiter Vorname',
-        MONTH: 'Monat',
-        NAME: 'Name',
-        NO_ITEMS_IN_CART: 'Es sind keine Artikel im Warenkorb.',
-        OPTIONAL: 'optional',
-        ORDER_DETAILS: 'Bestelldetails',
-        ORDER_DATE: 'Bestelldatum',
-        ORDER_PENDING: 'Einen Moment... Sie Ihre Bestellung',
-        ORDER_TOTAL: 'Gesamtsumme',
-        PAYMENT: 'Zahlung',
-        PHONE_REQUIRED: 'Telefon Pflicht',
-        PLACE_ORDER: 'Bestellung aufgeben',
-        PLEASE_CORRECT_ERRORS: 'Bitte korrigieren sie alle Fehler.',
-        PLEASE_ENTER_VALID_CC: 'Bitte geben Sie eine gültige Kreditkartennummer an.',
-        PLEASE_ENTER_VALID_CODE: 'Bitte geben Sie einen gültigen Code an.',
-        PLEASE_ENTER_VALID_EMAIL: 'Geben Sie eine gültige E-Mail an.',
-        REQUIRED: 'Erforderlich',
-        SAME_AS_BILLING_ADDRESS: 'entspricht Rechnungsadresse',
-        SECURE_CHECKOUT: 'Sicher bestellen',
-        SELECT_FROM_ADDRESS_BOOK: 'Vom Adressbuch Wählen',
-        SHIPPING: 'Versand',
-        SHIPPING_ADDRESS: 'Versandadresse',
-        SIMPLE_3_STEP_CHECKOUT: 'Einfach bestellen in drei Schritten',
-        SIMPLE_4_STEP_CHECKOUT: 'Einfach bestellen in vier Schritten',
-        STATE: 'Bundesland',
-        STEP_1_MY_DETAILS: '1. Meine Daten',
-        STEP_2_SHIPPING_INFORMATION: '2. Versandinformationen',
-        STEP_3_PAYMENT: '3. Zahlung',
-        STEP_4_REVIEW_ORDER: '4. Bestätigung',
-        SUBTOTAL: 'Zwischensumme',
-        DISCOUNT: 'Rabatt',
-        TAX: 'MwSt',
-        TOTAL: 'gesamt',
-        YEAR: 'Jahr',
+        //XFLD
+        //-------------------------------------------------
+        // Checkout
+        //-------------------------------------------------
 
-        /*  addresses  */
-        DEFAULT: 'Default',
-        DISTRICT: 'Kreis',
-        STREET_NAME: 'Straßenname mit Hausnummer',
-        BUILDING_NAME: 'Gebäudename',
-        ROOM_NUMBER: 'Zimmernummer',
-        PREFECTURE: 'Präfektur',
-        POSTAL_CODE: 'Postleitzahl',
-        ZIP: 'PLZ',
-        CITY_VILLAGE: 'Stadt / Dorf / Stadt Ward',
-        SUBAREA: 'Untergebiet',
-        FURTHER_SUBAREA: 'Weitere Untergebiet , Block # / Haus #',
 
-        /*  coupons   */
-        COUPON_APPLY: 'Anwenden',
-        COUPON_APPLIED: 'Angewandt',
-        COUPON_CODE: 'Gutscheincode hinzufügen',
-        COUPON_ERROR: 'Coupon nicht gültig',
-        COUPON_ERR_CURRENCY: 'Währungs ungültige Gutschein',
-        COUPON_ERR_ANONYMOUS: 'Melden Sie sich an , um Gutscheincode zu nutzen',
-        COUPON_ERR_UNAVAILABLE: 'Coupon nicht mehr verfügbar',
-        COUPON_MINIMUM_NOT_MET: 'Aktuelle Bestellsumme nicht die erforderliche Mindest für diesen Gutschein treffen',
-        COUPON_NOT_VALID: 'Coupon ungültig',
+        ADDRESS:'Adresse',
+        //XFLD
+        ADDRESS_LINE_1:'Adresszeile 1',
+        //XFLD
+        ADDRESS_LINE_2:'Adresszeile 2',
+        //XGRP
+        BILLING_ADDRESS:'Rechnungsadresse',
+        //XFLD
+        CITY:'Ort',
+        //XFLD: Is part of the Canadian and German address forms
+        PROVINCE:'Provinz/Bundesland',
+        //XBUT
+        CONTINUE:'Weiter',
+        //XFLD
+        COUNTRY:'Land',
+        //XFLD
+        CREDIT_CARD_NUMBER:'Kreditkartennummer',
+        //XFLD
+        CVC_NUMBER:'Prüfnummer',
+        //XFLD
+        DELIVERY_METHOD:'Liefermethode',
+        //XFLD
+        EMAIL:'E-Mail',
+        //XBUT
+        EDIT:'Bearbeiten',
+        //XFLD
+        FIRST_NAME:'Vorname',
+        //XLST
+        FREE_STANDARD_SHIPPING:'Kostenloser Standardversand',
+        //XLST
+        FLAT_RATE_SHPPING:'Pauschale',
+        //XMSG
+        INVALID_EXPIRATION_DATE:'Ungültiges Ablaufdatum',
+        //XFLD
+        ITEMS:'Positionen',
+        //XFLD
+        LAST_NAME:'Nachname',
+        //XFLD
+        LAST_NAME_REQUIRED:'Nachname erforderlich',
+        //XFLD
+        METHOD:'Versandart',
+        //XFLD
+        MIDDLE_NAME:'Zweiter Vorname',
+        //XFLD
+        MONTH:'Monat',
+        //XFLD
+        NAME:'Name',
+        //XMSG
+        NO_ITEMS_IN_CART:'Ihr Warenkorb enthält keine Positionen.',
+        //XACT
+        OPTIONAL:'Optional',
+        //XGRP
+        ORDER_DETAILS:'Bestelldetails',
+        //XFLD
+        ORDER_DATE:'Bestelldatum',
+        //XMSG
+        ORDER_PENDING:'Einen Augenblick bitte... Ihre Bestellung wird ausgeführt',
+        //XFLD
+        ORDER_TOTAL:'Bestellsumme',
+        //XFLD
+        PAYMENT:'Zahlung',
+        //XMSG
+        PHONE_REQUIRED:'Telefon erforderlich',
+        //XBUT
+        PLACE_ORDER:'Bestellen',
+        //XFLD
+        PLACED_AT:'Bestellt am',
+        //XMSG
+        PLEASE_CORRECT_ERRORS:'Korrigieren Sie vor dem Bestellen die oben aufgeführten Fehler.',
+        //XMSG
+        PLEASE_ENTER_VALID_CC:'Geben Sie eine gültige Kreditkartennummer ein',
+        //XMSG
+        PLEASE_ENTER_VALID_CODE:'Geben Sie einen gültigen Code ein',
+        //XMSG
+        PLEASE_ENTER_VALID_EMAIL:'Geben Sie eine gültige E-Mail-Adresse im Format name@beispiel.com ein',
+        //XACT
+        REQUIRED:'Erforderlich',
+        //XCKL
+        SAME_AS_BILLING_ADDRESS:'Wie Rechnungsadresse',
+        //XTIT
+        SECURE_CHECKOUT:'Sichere Kaufabwicklung',
+        //XBUT
+        SELECT_FROM_ADDRESS_BOOK:'Aus Adressbuch auswählen',
+        //XFLD
+        SHIPPING:'Versand',
+        //XGRP
+        SHIPPING_ADDRESS:'Lieferadresse',
+        //XGRP
+        SIMPLE_3_STEP_CHECKOUT:'Einfache Kaufabwicklung in 3 Schritten',
+        //XGRP
+        SIMPLE_4_STEP_CHECKOUT:'Einfache Kaufabwicklung in 4 Schritten',
+        //XFLD: Is part of the US address form
+        STATE:'Bundesstaat',
+        //XGRP
+        STEP_1_MY_DETAILS:'Schritt 1: Meine Details',
+        //XGRP
+        STEP_2_SHIPPING_INFORMATION:'Schritt 2: Versandinformationen',
+        //XGRP
+        STEP_3_PAYMENT:'Schritt 3: Zahlung',
+        //XGRP
+        STEP_4_REVIEW_ORDER:'Schritt 4: Bestellung prüfen',
+        //XFLD
+        SUBTOTAL:'Zwischensumme',
+        //XFLD
+        DISCOUNT:'Rabatt',
+        //XFLD
+        TAX:'Steuern',
+        //XFLD
+        TOTAL:'Summe',
+        //XFLD
+        YEAR:'Jahr',
 
-        /*
-         confirmation
-         */
-        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'Eine Bestellbestätigung wurde Ihnen zugesendet',
-        ENJOY_YOUR_ITEMS: 'Viel Spass mit ihrer Bestellung!',
-        FOR_YOUR_ORDER: 'für Ihre Bestellung!',
-        ITEM_IN_YOUR_ORDER: 'Element in der Reihenfolge',
-        ITEMS_IN_YOUR_ORDER: 'Artikel in Ihrer Bestellung',
-        QUESTIONS: 'Wenn Sie irgendwelche Fragen haben, kontaktieren Sie uns unter',
-        ORDER: 'Bestellung',
-        RETURN_TO_SHOPPING: 'Weiter einkaufen',
-        SUCCESS: 'Erfolg!',
-        ACCOUNT_SUCCESS: 'Dein Konto wurde erfolgreich erstellt!',
-        THANK_YOU: 'Vielen Dank',
-        THANK_YOU_FOR_YOUR_ORDER: 'Vielen Dank Für Ihre Bestellung',
-        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION: 'Die Artikel werden an die folgenden Adresse gesendet',
-        YOUR_ORDER_IS: 'Ihre Bestellung ist # ',
-        ONE_MORE_STEP: 'Ein weiterer Schritt , um ein Konto zu erstellen',
-        ONE_MORE_STEP_MESSAGE: 'für eine <strong>Schnellauswahl</strong> und <strong>einfachen Zugang</strong> zu Vorherige Bestellungen',
-        SKU: 'SKU',
+        //XFLD
+        //-------------------------------------------------
+        // Addresses
+        //-------------------------------------------------
 
-        /*
-         navigation
-         */
-        PRODUCTS: 'Produkte',
-        BACK_TO: 'Zurück zu',
-        REGION: 'Region',
 
-        /*
-         product detail page
-         */
-        BUY: 'In den Warenkorb',
+        DEFAULT:'Standard',
+        //XFLD: Is part of the Chinese addreess form
+        DISTRICT:'Stadtbezirk',
+        //XFLD
+        STREET_NAME:'Straße/Hausnummer',
+        //XFLD
+        BUILDING_NAME:'Gebäudename/-nummer',
+        //XFLD
+        ROOM_NUMBER:'Zimmernummer',
+        //XFLD: Is part of the Japanese address form
+        PREFECTURE:'Präfektur',
+        //XFLD
+        POSTAL_CODE:'Postleitzahl',
+        //XFLD
+        ZIP:'Postleitzahl',
+        //XFLD
+        CITY_VILLAGE:'Stadt/Dorf/Stadtbezirk',
+        //XFLD
+        SUBAREA:'Stadtteil',
+        //XFLD
+        FURTHER_SUBAREA:'Stadtteilabschnitt, Blocknummer/Hausnummer',
+
+        //XBUT
+        //-------------------------------------------------
+        // Coupons
+        //-------------------------------------------------
+
+
+        COUPON_APPLY:'Anwenden',
+        //XFLD
+        COUPON_APPLIED:'Angewendet',
+        //XLNK
+        COUPON_CODE:'Couponcode hinzufügen',
+        //XMSG
+        COUPON_ERROR:'Coupon nicht gültig.',
+        //XMSG
+        COUPON_ERR_CURRENCY:'Währung für Coupon ungültig',
+        //XMSG
+        COUPON_ERR_ANONYMOUS:'Melden Sie sich an, um den Couponcode zu verwenden',
+        //XMSG
+        COUPON_ERR_UNAVAILABLE:'Coupon nicht mehr verfügbar',
+        //XMSG
+        COUPON_MINIMUM_NOT_MET:'Aktuelle Bestellsumme entspricht nicht der erforderlichen Mindestsumme für diesen Coupon',
+        //XMSG
+        COUPON_NOT_VALID:'Coupon nicht gültig',
+
+        //XMSG
+        //-------------------------------------------------
+        // Confirmation
+        //-------------------------------------------------
+
+
+        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO:'<p class=\"orderEmailedTo\">Eine Kopie Ihrer Bestelldetails wurde an <span ng-cloak><strong>{{emailAddress}}</strong></span></p> gesendet',
+        //XMSG
+        ENJOY_YOUR_ITEMS:'Viel Freude an Ihrem Einkauf!',
+        //XMSG
+        ITEM_IN_YOUR_ORDER:'Position in Ihrer Bestellung',
+        //XMSG
+        ITEMS_IN_YOUR_ORDER:'Positionen in Ihrer Bestellung',
+        //XMSG
+        QUESTIONS:'<p class=\"support-box\">Bei Fragen kontaktieren Sie uns unter <strong>{{questionsContactInfo}}</strong>.</p>',
+        //XFLD
+        ORDER:'Bestellung',
+        //XBUT
+        RETURN_TO_SHOPPING:'Zurück zum Einkauf',
+        //XMSG
+        SUCCESS:'Vorgang war erfolgreich!',
+        //XMSG
+        ACCOUNT_SUCCESS:'Ihr Konto wurde erfolgreich angelegt.',
+        //XMSG
+        THANK_YOU:'Vielen Dank',
+        //XMSG
+        THANK_YOU_FOR_YOUR_ORDER:'Vielen Dank</br>für Ihre Bestellung!',
+        //XMSG
+        THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION:'Die Bestellung wird geliefert an',
+        //XMSG
+        ONE_MORE_STEP:'Nur ein weiterer Schritt zum Anlegen eines Kontos mit <strong>schneller Kaufabwicklung</strong> und einem <strong>einfachen Zugriff</strong> auf frühere Bestellungen',
+        //XFLD  Stock Keeping Unit
+        SKU:'Lagermengeneinheit',
+
+        //XFLD
+        //-------------------------------------------------
+        // Navigation
+        //-------------------------------------------------
+
+
+        PRODUCTS:'Produkte',
+        //XFLD: The title of the site selector
+        REGION:'Region',
+
+        //XBUT
+        //-------------------------------------------------
+        // Product Detail Page
+        //-------------------------------------------------
+
+
+        BUY:'Kaufen',
+        //XBUT
         ADD_TO_CART:'In den Warenkorb',
-        PRODUCT_DESCRIPTION: 'Produkte Beschreibung',
-        OUT_OF_STOCK: 'Ausverkauft',
-        QTY: 'Menge',
-        ERROR_ADDING_TO_CART: 'Artikel konnte nicht hinzugefügt werden. Bitte noch einmal probieren.',
+        //XTIT
+        PRODUCT_DESCRIPTION:'Produktbeschreibung',
+        //XBUT
+        OUT_OF_STOCK:'nicht vorrätig',
+        //XFLD
+        QTY:'Menge',
+        //XMSG
+        ERROR_ADDING_TO_CART:'Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.',
+
+        //XLST
+        //-------------------------------------------------
+        // Product List Page
+        //-------------------------------------------------
 
 
-        /*
-         product list page
-         */
-        NEWEST: 'neueste',
-        OF: 'Von',
-        PRICE_HIGH_LOW: 'Preis absteigend',
-        PRICE_LOW_HIGH: 'Preis aufsteigend',
-        SORT_BY: 'Sortieren',
-        VIEWING: 'Anzeige',
-        PRODUCTS_FROM_TO: '<div>{{productsFrom}}-{{productsTo}} of {{total}}</div>',
-        ALL_PRODUCTS: 'Alle Produkte',
+        NEWEST:'neueste',
+        //XLST
+        PRICE_HIGH_LOW:'Preis (höchster - niedrigster)',
+        //XLST
+        PRICE_LOW_HIGH:'Preis (niedrigster - höchster)',
+        //XFLD
+        SORT_BY:'Sortieren nach',
+        //XFLD: Viewing number of product out of total number of products on Product Listing Page
+        VIEWING:'Anzeigen',
+        //XFLD
+        PRODUCTS_FROM_TO:'<div>{{productsFrom}}-{{productsTo}} von {{total}}</div>',
+        //XFLD
+        ALL_PRODUCTS:'Alle Produkte',
+        //XTIT
+        EMPTY_MSG:'Demo-Filiale - demnächst verfügbar',
+        //XFLD
+        LANGUAGES:'Sprachen',
+        //XFLD
+        SELECT_LANGUAGE:'Sprache auswählen',
+        //XBUT
+        SIGN_OUT:'Abmelden',
+        //XBUT
+        SIGN_IN:'Anmelden',
+        //XBUT
+        SIGN_IN_WITH_FACEBOOK:'Über Facebook anmelden',
+        //XBUT
+        LOG_IN_WITH_GOOGLE_PLUS:'Über Google+ anmelden',
+        //XBUT
+        MY_ACCOUNT:'Mein Konto',
+        //XBUT
+        CREATE_ACCOUNT:'Konto anlegen',
+        //XBUT
+        CONTINUE_AS_GUEST:'Weiter als Gast',
 
-        EMPTY_MSG: 'Demo Shop - Coming soon',
-		LANGUAGES: 'Sprachen',
-        SELECT_LANGUAGE: 'Wählen Sie eine Sprache',
-        SIGN_OUT: 'Austragen',
-        SIGN_IN: 'Anmelden',
-        SIGN_IN_WITH_FACEBOOK: 'Mit Facebook Anmelden',
-        LOG_IN_WITH_GOOGLE_PLUS: 'Mit Google+ Anmelden',
-        MY_ACCOUNT: 'Mein Profil',
-        CREATE_ACCOUNT: 'Konto erstellen',
-        CONTINUE_AS_GUEST: 'Weiter als Gast',
-
-        /*
-            account page
-         */
-        ACCOUNT_DETAILS: 'Kontodaten',
-        ADD: 'Hinzufügen',
-        REGION_PREFERENCES: 'Region Preferences',
-        NEW_EMAIL:'Neu Email',
-        ADDRESSBOOK: 'Adressbuch',
-        NO_ADDRESSES: 'Sie haben keine Adressen gespeichert!',
-        ADD_ADDRESS: 'Adresse hinzufügen',
-        CLOSE: 'Schließen',
-        COMPANY_NAME: 'Name Der Firma',
-        CONFIRM_ADDRESS_REMOVAL: 'Adresse löschen?',
-        FULL_NAME: 'Vollständiger Name',
-        CONTACT_PHONE: 'Telefon',
-        CURRENCY: 'Währung',
-        SELECT_CURRENCY: 'Wählen Sie eine Währung',
-        DATE: 'Datum',
-        LOCALE: 'Ort',
-        NAME_REQUIRED: 'Name Erforderlich',
-        STREET: 'Straße',
-        SAVE: 'Speichern',
-        WELCOME: 'Willkommen<span ng-if="account.firstName || account.lastName">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
-        ITEM_IN_ORDER: 'translation needed',
-        ITEMS_IN_ORDER: 'Postenzähler',
-        NOT_SET: 'Unbekannt',
-        ORDER_HISTORY: 'Bestellverlauf',
-        ORDER_NUMBER: 'Bestellnummer',
-        ORDER_STATUS: 'Auftragsstatus',
-        SHIPPING_DETAILS: 'SHIPPING DETAILS',
-        STREET_NUMBER: 'Nummer',
-        UPDATE_PASSWORD: 'Passwort aktualisieren',
-        CURRENT_PASSWORD: 'Aktuelles Passwort',
-        NEW_PASSWORD: 'Neues Passwort',
-        CONFIRM_NEW_PASSWORD: 'Neues Passwort bestätigen',
-        PASSWORDS_NO_MATCH: 'Passwörter stimmen nicht überein',
-        WRONG_CURRENT_PASSWORD: 'Aktuelles Passwort nicht korrekt.',
-        PASSWORD_TOO_SHORT: 'Passwort zu kurz',
-        SHOW_ALL: 'Alle anzeigen',
-        SHOW_LESS: 'Weniger',
-
-        /*
-         login, password, signup
-         */
-        PASSWORD: 'Passwort',
-        PASSWORD_MINCHAR: 'Min. 6 Zeichen',
-        CONFIRM_PASSWORD: 'Passwort bestätigen',
-        FORGOT_PW: 'Passwort vergessen?',
-        RESET_PASSWORD: 'Neues Passwort',
-        RESET_PW_TITLE: 'Passwort Zurücksetzen',
-        RESET_PW_INSTRUCT: 'Bitte ein neues Passwort angeben.',
-        TOKEN: 'Token',
-        FORGOT_PW_INSTRUCT: 'Bitte Emailadresse angeben. Ein Link zum Zurücksetzen des Passworts wird Ihnen dann zugesendet.',
-        REQUEST_PW_EXPIRED: 'Passwort Zurücksetzung Abgelaufen',
-        REQUEST_PW_EXPIRED_MSG: 'Die Anfrage zum Zurücksetzen des Passworts ist abgelaufen.  Bitte Emailadresse angeben und noch einmal anfordern.',
-        CHECK_EMAIL:'Überprüfen Sie Ihre Email',
-        CHECK_EMAIL_INSTRUCT: '... und klicken auf den Link zum Zurücksetzen des Passworts.  Gültig für 24 Stunden.',
-        PASSWORD_REQUIRED: 'Passwort mit mindestens 6 Zeichen erforderlich.',
-        PASSWORDS_MUST_MATCH: 'Passwörter müssen übereinstimmen.',
-        PW_SUCCESS: 'Erfolg',
-        PW_CHANGED_MSG: 'Ihr Passwort wurde geändert. Sie können sich nun in Ihrem Konto anmelden.',
-        INVALID_TOKEN: 'Dieser Link is nicht gültig. Bitte neu anfordern.',
-        PW_CHANGE_FAILED: 'Passwort konnte nicht geändert werden.',
-        RESET_PW_REPEAT: 'Link nochmal anfordern.',
-        FIELD_REQUIRED: 'Angabe erforderlich',
-        FIELD_TOO_SHORT: 'Feld zu kurz!',
-        FIELDS_NOT_MATCHING: 'Angaben stimmen nicht überein!',
-
-        SERVER_UNAVAILABLE: 'Server ist nicht verfügbar, bitte versuchen Sie es später erneut.',
-        INVALID_CREDENTIALS: 'Anmeldeinformation ungültig.',
-        PASSWORD_INVALID: 'Passwort ungültig - mindestens 6 Zeichen erforderlich.',
-        ACCOUNT_LOCKED: 'Konto wegen hoher Anzahl von ungültigen Anmeldeversuchen gesperrt. Bitte warten Sie 5 Minuten.',
-        ACCOUNT_ALREADY_EXISTS: 'Konto für diese Emailadresse wurde bereits erstellt.',
-        FORGOT_PASSWORD: 'Passwort vergessen?',
-        EMAIL_NOT_FOUND: 'Emailadresse nicht mit einem Konto verbunden.',
-        ENTER_EMAIL: 'Emailadresse angeben',
-        ENTER_EXISTING_EMAIL: 'Geben Sie die E-Mail-Adresse eines vorhandenen Kontos',
-        LOGIN_FAILED: 'Anmeldung fehlgeschlagen',
-
-        ACCOUNT_EMAIL: 'Konto Email',
-
-        /*
-            error display
-        */
-        ERROR_TITLE: 'Interner Fehler',
-        ERROR_MESSAGE: 'Ups! Da ist ein Problem',
-        ERROR_TITLE_401: 'Unbefugt',
-        ERROR_MESSAGE_401: 'Ups! Da ist ein Problem. Ihre Anmeldedaten gewähren keinen Zugang zu dieser Seite',
-        ERROR_TITLE_404: 'Seite nicht gefunden',
-        ERROR_MESSAGE_404: 'Ups! Da ist ein Problem. Diese Seite ist nicht vorhanden',
-        ERROR_REDIRECT: 'Hier ist eine Seite , damit Sie wieder auf die Strecke',
-        ERROR_BUTTON_TEXT: 'HOMEPAGE',
+        //XFLD
+        //-------------------------------------------------
+        // Account Page
+        //-------------------------------------------------
 
 
-        /*
-         titles
-    */
-        DR: 'Dr.',
-        MR: 'Herr',
-        MRS: 'Frau',
-        MS: 'Fräulein',
-        TITLE: 'Anrede',
+        ACCOUNT_DETAILS:'Kontodetails',
+        //XBUT
+        ADD:'Hinzufügen',
+        //XGRP
+        ADDRESSBOOK:'Adressbuch',
+        //XMSG
+        NO_ADDRESSES:'Sie haben keine Adressen gespeichert.',
+        //XBUT
+        ADD_ADDRESS:'Adresse hinzufügen',
+        //XBUT
+        CLOSE:'Schließen',
+        //XFLD
+        COMPANY_NAME:'Unternehmen',
+        //XMSG
+        CONFIRM_ADDRESS_REMOVAL:'Möchten Sie die Adresse wirklich entfernen?',
+        //XFLD
+        FULL_NAME:'Vollständiger Name',
+        //XFLD
+        CONTACT_PHONE:'Telefon',
+        //XFLD
+        DATE:'Datum',
+        //XMSG
+        NAME_REQUIRED:'Name erforderlich',
+        //XFLD
+        STREET:'Straße',
+        //XFLD
+        STREET_NUMBER:'Hausnummer',
+        //XTIT
+        WELCOME:'Willkommen, <span ng-if=\"account.firstName || account.lastName\">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
+        //XGRP
+        ORDER_HISTORY:'Bestellhistorie',
+        //XFLD
+        ORDER_NUMBER:'Bestellnummer',
+        //XFLD
+        ORDER_STATUS:'Bestellstatus',
+        //XFLD
+        SHIPPING_DETAILS:'VERSANDDETAILS',
+        //XBUT
+        SAVE:'Sichern',
+        //XBUT
+        UPDATE_PASSWORD:'Kennwort aktualisieren',
+        //XBUT
+        CURRENT_PASSWORD:'Aktuelles Kennwort',
+        //XBUT
+        NEW_PASSWORD:'Neues Kennwort',
+        //XMSG
+        CONFIRM_NEW_PASSWORD:'Neues Kennwort bestätigen',
+        //XMSG
+        PASSWORDS_NO_MATCH:'Kennwörter stimmen nicht überein',
+        //XMSG
+        WRONG_CURRENT_PASSWORD:'Geben Sie ein korrektes aktuelles Kennwort an.',
+        //XMSG
+        PASSWORD_TOO_SHORT:'Kennwort zu kurz',
+        //XFLD
+        SHOW_ALL:'Alles anzeigen',
+        //XFLD
+        SHOW_LESS:'Weniger anzeigen',
+
+        //XBUT
+        //-------------------------------------------------
+        // Login, password, signup
+        //-------------------------------------------------
 
 
-        /*
-         order statuses
-         */
-        COMPLETED: 'Fertiggestellt',
-        CONFIRMED: 'Bestätigt',
-        CREATED: 'Erstellt',
-        DECLINED: 'Zurückgegangen',
-        SHIPPED: 'Ausgeliefert',
+        FORGOT_PW:'Kennwort vergessen?',
+        //XFLD
+        PASSWORD:'Kennwort',
+        //XACT
+        PASSWORD_MINCHAR:'Mindestens 6 Zeichen',
+        //XBUT
+        CONFIRM_PASSWORD:'Kennwort bestätigen',
+        //XFLD
+        TOKEN:'Token',
+        //XBUT
+        RESET_PASSWORD:'Kennwort zurücksetzen',
+        //XGRP
+        RESET_PW_TITLE:'Kennwort zurücksetzen',
+        //XMSG
+        RESET_PW_INSTRUCT:'Legen Sie ein neues Kennwort an.',
+        //XMSG
+        FORGOT_PW_INSTRUCT:'Geben Sie unten die E-Mail-Adresse Ihres Kontos an.  Sie erhalten eine E-Mail mit einem Link zum Zurücksetzen Ihres Kennworts.',
+        //XMSG
+        REQUEST_PW_EXPIRED:'Anforderung zum Zurücksetzen des Kennworts abgelaufen',
+        //XMSG
+        REQUEST_PW_EXPIRED_MSG:'Die Anforderung zum Zurücksetzen Ihres Kennworts ist abgelaufen. Geben Sie Ihre E-Mail ein, um eine neue Anforderung zu übermitteln.',
+        //XMSG
+        CHECK_EMAIL:'Überprüfen Sie Ihre E-Mail',
+        //XMSG
+        CHECK_EMAIL_INSTRUCT:'... und wählen Sie den Link, um Ihr Kennwort zurückzusetzen. Der Link ist 24 Stunden gültig.',
+        //XMSG
+        PASSWORD_REQUIRED:'Das Kennwort muss mindestens 6 Zeichen haben.',
+        //XMSG
+        PASSWORDS_MUST_MATCH:'Die Kennwörter müssen übereinstimmen.',
+        //XMSG
+        PW_SUCCESS:'Erfolgreich',
+        //XMSG
+        PW_CHANGED_MSG:'Ihr Kennwort wurde zurückgesetzt. Sie können sich nun an Ihrem Konto anmelden.',
+        //XMSG
+        INVALID_TOKEN:'Der Link zum Zurücksetzen des Kennworts ist nicht mehr gültig. Fordern Sie einen neuen Link an.',
+        //XMSG
+        PW_CHANGE_FAILED:'Aktualisierung des Kennworts fehlgeschlagen.',
+        //XMSG
+        RESET_PW_REPEAT:'Fordern Sie erneut einen Link zum Zurücksetzen des Kennworts an.',
+        //XACT
+        FIELD_REQUIRED:'Das Feld ist erforderlich.',
+        //XACT
+        FIELD_TOO_SHORT:'Das Feld ist zu kurz.',
+        //XACT
+        FIELDS_NOT_MATCHING:'Die Felder stimmen nicht überein.',
 
-        /*
-         Order Details
-         */
-        CREDIT_CARD: 'Kreditkarte',
-        ON: 'an',
-        QUANTITY: 'Menge',
-        SHIPPED_BY_ON: 'Versendet durch: <span><b>{{carrier}} on {{shippedDate}}</b></span>',
-        TRACKING_NUMBER: 'Verfolgungsnummer',
+        //XMSG
+        SERVER_UNAVAILABLE:'Der Server ist nicht verfügbar, versuchen Sie es später erneut.',
+        //XMSG
+        INVALID_CREDENTIALS:'Sie haben eine ungültige E-Mail-Adresse oder ein ungültiges Kennwort eingegeben.',
+        //XMSG
+        PASSWORD_INVALID:'Kennwort ungültig - mindestens 6 Zeichen erforderlich.',
+        //XMSG
+        ACCOUNT_LOCKED:'Das Konto wurde gesperrt, weil die Anzahl der ungültigen Anmeldeversuche überschritten wurde. Versuchen Sie es nach 5 Minuten noch einmal.',
+        //XMSG
+        ACCOUNT_ALREADY_EXISTS:'E-Mail-Adresse wird für das vorhandene Konto bereits verwendet.',
+        //XFLD
+        FORGOT_PASSWORD:'Kennwort vergessen?',
+        //XMSG
+        EMAIL_NOT_FOUND:'Dieser E-Mail-Adresse ist kein Konto zugeordnet.',
+        //XACT
+        ENTER_EMAIL:'E-Mail-Adresse eingeben',
+        //XMSG
+        ENTER_EXISTING_EMAIL:'Geben Sie die E-Mail-Adresse eines vorhandenen Kontos ein',
+        //XMSG
+        LOGIN_FAILED:'Anmeldung fehlgeschlagen',
+
+        //XFLD
+        ACCOUNT_EMAIL:'E-Mail-Adresse für Konto',
+
+        //XMSG
+        //-------------------------------------------------
+        // Dynamic Error Displays
+        //-------------------------------------------------
 
 
-        /*
-         Search
-         */
-        FOUND_FOR: 'gefunden',
-        SEARCH: 'Suche',
-        SEARCH_RESULTS: 'Suchergebnisse',
-        MOST_RELEVANT: 'Wichtigsten',
-        SEARCH_AGAIN: 'Neue Suche',
-        RESULTS: 'Ergebnisse',
-        SEE_ALL: 'Zeige Alle',
-        SEARCH_UNAVAILABLE: 'Suche ist derzeit nicht verfügbar',
-        NO_RESULTS_FOUND: 'Keine Ergebnisse gefunden',
+        ERROR_TITLE:'Interner Fehler',
+        //XMSG
+        ERROR_MESSAGE:'Hoppla, es ist ein Problem aufgetreten.',
+        //XMSG
+        ERROR_TITLE_401:'Keine Berechtigung',
+        //XMSG
+        ERROR_MESSAGE_401:'Hoppla, es ist ein Problem aufgetreten. Ihre Anmeldedaten lassen keinen Zugriff auf diese Seite zu.',
+        //XMSG
+        ERROR_TITLE_404:'Seite nicht gefunden',
+        //XMSG
+        ERROR_MESSAGE_404:'Hoppla, es ist ein Problem aufgetreten. Diese Seite ist nicht vorhanden.',
+        //XMSG
+        ERROR_REDIRECT:'Hier ist eine Seite, die Ihnen weiterhilft.',
+        //XBUT
+        ERROR_BUTTON_TEXT:'STARTSEITE',
 
+        //XACT
+        //-------------------------------------------------
+        // Titles
+        //-------------------------------------------------
+
+
+        DR:'Dr.',
+        //XACT
+        MR:'Herr',
+        //XACT
+        MRS:'Frau',
+        //XACT
+        MS:'Frau',
+        //XACT
+        TITLE:'Anrede',
+
+        //XSEL
+        //-------------------------------------------------
+        // Order Statuses
+        //-------------------------------------------------
+
+
+        COMPLETED:'Abgeschlossen',
+        //XSEL
+        CONFIRMED:'Bestätigt',
+        //XSEL
+        CREATED:'Angelegt',
+        //XSEL
+        DECLINED:'Abgelehnt',
+        //XSEL
+        SHIPPED:'Versendet',
+
+        //XFLD
+        //-------------------------------------------------
+        // Order Details
+        //-------------------------------------------------
+
+
+        CREDIT_CARD:'Kreditkarte',
+        //XFLD
+        ON:'am',
+        //XFLD
+        QUANTITY:'Menge',
+        //XFLD
+        SHIPPED_BY_ON:'Geliefert von: <span><b>{{carrier}} am {{shippedDate}}</b></span>',
+        //XFLD
+        TRACKING_NUMBER:'<span>Verfolgungsnummer: {{trackingNumber}}</span>',
+
+        //XFLD
+        //-------------------------------------------------
+        // Search
+        //-------------------------------------------------
+
+        FOUND_FOR:'<strong>0</strong> für <strong>{{searchString}}</strong> gefunden',
+        //XACT
+        SEARCH:'Suchen',
+        //XFLD
+        SEARCH_RESULTS:'Suchergebnisse',
+        //XFLD
+        MOST_RELEVANT:'Relevanteste',
+        //XGRP
+        RESULTS:'Ergebnisse',
+        //XLNK
+        SEE_ALL:'Alle anzeigen',
+        //XMSG
+        SEARCH_UNAVAILABLE:'Die Suche ist zurzeit nicht verfügbar.',
+        //XMSG
+        NO_RESULTS_FOUND:'Keine Ergebnisse gefunden.',
+
+        //XFLD
         //-------------------------------------------------
         // FOOTER
         //-------------------------------------------------
 
-        //XFLD
-        TERMS_AND_CONDITIONS: 'Geschäftsbedingungen',
-        //XFLD
-        CONTACT_US: 'Kontaktieren Sie Uns',
-        //XFLD
-        SITE_MAP: 'Site Map',
 
+        TERMS_AND_CONDITIONS:'Geschäftsbedingungen',
+        //XFLD
+        CONTACT_US:'Kontakt',
+        //XFLD
+        SITE_MAP:'Sitemap',
 
-    });
+});
