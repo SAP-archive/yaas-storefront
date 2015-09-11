@@ -47,22 +47,7 @@ angular.module('ds.account')
             $scope.showAllOrdersButton = true;
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
-
-            $scope.currencies = GlobalData.getAvailableCurrency();
-
-            $scope.showCurrency = function () {
-                var selected = $filter('filter')($scope.currencies, {id: $scope.account.preferredCurrency ? $scope.account.preferredCurrency : '?'});
-                return (selected && selected.length) ? selected[0].label : notSet;
-            };
-
-            $scope.languageLocales = GlobalData.getAvailableLanguages();
-
-            $scope.showLanguageLocale = function () {
-                $scope.account.preferredLanguage = $scope.account.preferredLanguage.split('_')[0];
-                var selected = $filter('filter')($scope.languageLocales, {id: $scope.account.preferredLanguage ? $scope.account.preferredLanguage : '?'});
-                return (selected && selected.length) ? selected[0].label : notSet;
-            };
-
+            
             $scope.titles = [];
             var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];
 
@@ -74,49 +59,37 @@ angular.module('ds.account')
                     $scope.titles.push(translatedValue);
                 });
             });
-            
+
             $scope.editAccountInfo = function(mtype){
                 $scope.mtype = mtype;
                 originalAccountData = angular.copy($scope.account);
-			 
+
                 modalInstance = $modal.open({
                     templateUrl: 'js/app/account/templates/editUser-dialog.html',
                     scope: $scope
                 });
             };
-            
+
             $scope.closeEditUserDialog = function(){
                $scope.account = originalAccountData;
                modalInstance.close();
             };
-            
+
             $scope.updateUserInfo = function(){
               var account = angular.copy($scope.account);
 
                 var emailRegexp = GlobalData.getEmailRegEx();
-                
+
                 if ($scope.mtype === 'email' && !emailRegexp.test(account.contactEmail)) {
                     return $translate('PLEASE_ENTER_VALID_EMAIL');
                 }
-              
+
               AccountSvc.updateAccount(account).then(function(){
-                  var data = $scope.account.preferredLanguage;
-                  if($scope.mtype === 'user')
-                  {
-                     if (account.preferredLanguage !== originalAccountData.preferredLanguage) {
-                        GlobalData.setLanguage(data.split('_')[0]);
-                     }
-                     if (account.preferredCurrency !== originalAccountData.preferredCurrency) {
-                        GlobalData.setCurrency(data.split('_')[0]);
-                     }
-                  }
-                  
                   modalInstance.close();
-                    
               });
             };
 
-            
+
             var extractServerSideErrors = function (response) {
                 var errors = [];
                 if (response.status === 400) {
@@ -254,7 +227,7 @@ angular.module('ds.account')
                     // show filtered list or show all orders. Hide if all data is shown within filter.
                     $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
                     $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
-                   
+
 
                 });
             };
@@ -274,7 +247,7 @@ angular.module('ds.account')
                 });
             };
 
-            
+
 
             $scope.updatePassword = function () {
                 AuthDialogManager.showUpdatePassword();
