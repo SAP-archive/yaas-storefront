@@ -358,6 +358,8 @@ angular.module('ds.i18n')
         ACCOUNT_DETAILS: 'Account details',
         //XBUT
         ADD: 'Add',
+        REGION_PREFERENCES: 'Region Preferences',
+        NEW_EMAIL: 'New Email',
         //XGRP
         ADDRESSBOOK: 'Addressbook',
         //XMSG
@@ -383,7 +385,7 @@ angular.module('ds.i18n')
         //XFLD
         STREET_NUMBER: 'Street Number',
         //XTIT
-        WELCOME: 'Welcome<span ng-if="account.firstName || account.lastName">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
+        WELCOME: 'Welcome',
         //XFLD
         ITEMS_IN_ORDER: 'Items In Order',
         //XFLD

@@ -56,11 +56,11 @@ angular.module('ds.products')
 
             $rootScope.$emit('category:selected', { category: category });
 
-            function getProductIdsFromElements(elements) {
+            function getProductIdsFromAssignments(assignments) {
 
-                return elements.map(function (element) {
-                    if (element.ref.type === 'product') {
-                        return element.ref.id;
+                return assignments.map(function (assignment) {
+                    if (assignment.ref.type === 'product') {
+                        return assignment.ref.id;
                     } else {
                         return '';
                     }
@@ -161,7 +161,7 @@ angular.module('ds.products')
              */
             $scope.addMore = function () {
                 // category selected, but no products associated with category - leave blank for time being
-                if ($scope.category.elements && $scope.category.elements.length === 0) {
+                if ($scope.category.assignments && $scope.category.assignments.length === 0) {
                     $scope.products = [];
                     $scope.pagination = {
                         productsFrom: 0,
@@ -182,9 +182,9 @@ angular.module('ds.products')
 
 
                         var qSpec = 'published:true';
-                        if ($scope.category.elements && $scope.category.elements.length > 0) {
-                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
-                        } // If no category elements (rather than length = 0), we're showing "all" products
+                        if ($scope.category.assignments && $scope.category.assignments.length > 0) {
+                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromAssignments($scope.category.assignments) + ')';
+                        } // If no category assignment (rather than length = 0), we're showing "all" products
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
@@ -284,8 +284,8 @@ angular.module('ds.products')
 
                 //we only want to show published products on this list
                 var qSpec = 'published:true';
-                if ($scope.category.elements && $scope.category.elements.length > 0) {
-                    qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromElements($scope.category.elements) + ')';
+                if ($scope.category.assignments && $scope.category.assignments.length > 0) {
+                    qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromAssignments($scope.category.assignments) + ')';
                 }
                 query.q = qSpec;
 

@@ -46,10 +46,10 @@ angular.module('ds.searchlist')
             $scope.loadMorePages = false;
 
 
-            function getProductIdsFromElements(elements) {
+            function getProductIdsFromAssignments(assignments) {
 
-                return elements.map(function (element) {
-                    return element.objectID;
+                return assignments.map(function (assignment) {
+                    return assignment.objectID;
                 });
             }
 
@@ -172,7 +172,7 @@ angular.module('ds.searchlist')
                                 $scope.lastPageNumber = Math.ceil(content.nbHits / $scope.pageSize);
 
                                 if (content.hits.length > 0) {
-                                    var ids = getProductIdsFromElements(content.hits);
+                                    var ids = getProductIdsFromAssignments(content.hits);
 
                                     getProducts(ids);
                                 }
