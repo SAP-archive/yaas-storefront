@@ -1,3 +1,7 @@
+#EditAccountModalLabel{
+  text-transform: uppercase;
+}
+
 .account{
   section{
     padding-left: 62px;
@@ -74,7 +78,6 @@
       margin-bottom: 0;
       min-height:1px;
     }
-    
     .orderdetailsheader{
       margin-bottom: 25px;
       h2{
@@ -119,19 +122,58 @@
   }
 
   .img-circle{
-      margin-top: 25px;
-      min-width: 45px;
+      margin-top: -17px;
+      margin-left: 35px;
   }
 
   .page-headline{
-      margin-top: 65px;
-
       h1{
+	      overflow:hidden;
         font-size: 34px;
         margin-top: 5px;
+	      margin-bottom: 18px;
+        font-weight: 200;
+        small{
+          display:block;
+          margin-bottom: 17px;
+        }
+        .welcomeTxt{
+          display:inline-block;
+        }
+        img{
+          width: 65px;
+        }
+	
+      }
+      
+      &.mobile{
+        h1{
+          margin-bottom: 28px;
+        }
+        
+        img{
+          margin: 0 0 20px 0;
+        }
       }
 
   }
+  
+  .userInfoRow.mobile{
+    padding-bottom: 0;
+    
+    #add-address-btn{
+      margin-top: 0;
+    }
+  }
+  
+  .mobileDataSection{
+    margin: 0 0 40px 0;
+    
+    .dataLabel.locale{
+      margin-bottom: 20px;
+    }
+  }
+  
 
   .inline-label{
       font-family: @font-family-serif, serif;
@@ -181,7 +223,33 @@
           float: none;
       }
   }
-
+  
+  .desktopUserInfo{
+    margin-top: 40px;
+    
+  }
+  
+  .userInfoRow{
+	  border-top: 1px solid #e5e5e5;
+	  padding-top: 30px;
+	  padding-bottom: 75px;
+  }
+  
+  .desktopUserInfo.userInfoRow{
+    border-top: none;
+    
+  }
+  
+  .userInfoRow .titleRow{
+	  margin-bottom:21px;
+	  font-size:10px;
+	  text-transform: uppercase;
+	  color: #7d7e7f;
+  }
+  .userInfoRow .dataLabel{
+	  display:block;
+	  font-weight:bold;
+  }
   /* UPSCALING IMPROVMENTS */
   @media screen and (max-width: @screen-sm-max){
 
@@ -215,20 +283,72 @@
   }
 }
 
-.default-address span {
+.default-address .contactName{
   font-weight: bold;
+}
+.default-address .defaultLabel{
+	color:#016aab;
+}
+.panel{
+  height: 183px;
+  
+}
+
+.panel.defaultAddress{
+  border: 1px solid #016aab;
 }
 
 address {
 	min-height: 120px;
 	overflow: hidden;
+	color: #969696;
 }
 
-.editable-buttons.btn.btn-default {
-    display: none;
+.panel.defaultAddress address{
+	color:#333;
 }
-.editable-controls.editable-error {
+.section-headline h2{
+	font-size: 18px;
+	font-weight: 900 !important;
+	padding-bottom: 0 !important;
+}
+.editLinkContainer{
+	border-right: 1px solid #cecece;
+}
+
+.editLinkContainer + div{
+	padding-left: 22px;
+}
+
+address .addressInfo{ font-weight: 200; }
+
+.btn-group-vertical .btn-link, .btn-group-vertical .btn.delete, .userInfoRow a{
+	color:#cecece;
+	font-size: 22px;
+}
+
+.btn-group-vertical .btn-link:hover, .userInfoRow a:hover{
+	color:#016aab;
+}
+
+.btn-group-vertical .btn.delete:hover{
+	color: #f1291e;
+}
+
+.btn-group-vertical .btn-link.active{
+	color: #016aab;
+}
+
+.editable-buttons.btn.btn-default { display: none; } .editable-controls.editable-error {
     color: @state-danger-text !important;
 }
 
-
+.account .btn-secondary{
+	background-color: #636465;
+	color: #fff;
+	padding-left: 26px;
+	padding-right:26px;
+	-webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+}
