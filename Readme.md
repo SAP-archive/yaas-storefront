@@ -273,7 +273,7 @@ between modules.
 
 ### About Contributions
  
-At the moment, we are not accepting pull requests or contributions to this repository.  This is likely to change in the future.  In the meantime, we encourage you to create a fork of the repository and make edits there.  You can also report bugs using GitHub's issue tracking system.
+We encourage contributions in the form of pull requests against the master branch of this repository.  Your pull request will be reviewed by a member of the hybris organization.
 
 ### License
  

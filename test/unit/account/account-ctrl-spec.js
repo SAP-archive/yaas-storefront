@@ -19,6 +19,8 @@ describe('AccountCtrl Test', function () {
     var mockedGlobalData = {
         store: {tenant: storeTenant},
         getCurrencyId: function() { return null},
+        getAvailableLanguages: function(){return null},
+        getEmailRegEx: function(){return (/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)},
         getCurrencySymbol: function () {return '$'},
         getAvailableCurrency: function() { return 'USD'},
         getCurrency: function() { return null},
@@ -56,6 +58,7 @@ describe('AccountCtrl Test', function () {
         }
     ];
     var mockedModal = {};
+    
     var defaultLang = 'en';
     var mockedAppConfig = {};
     var storeTenant = '121212';
@@ -148,7 +151,7 @@ describe('AccountCtrl Test', function () {
         beforeEach(function () {
             AccountCtrl = $controller('AccountCtrl',
                 {$scope: $scope, 'AccountSvc': AccountSvc, addresses: addresses, account: account, orders: orders,
-                    OrderListSvc: mockedOrderListSvc, AuthDialogManager: mockedAuthDialogManager, $translate: mockedTranslate});
+                    OrderListSvc: mockedOrderListSvc, AuthDialogManager: mockedAuthDialogManager, $translate: mockedTranslate, GlobalData: mockedGlobalData});
         });
 
         it("should expose correct scope interface", function() {
@@ -166,7 +169,7 @@ describe('AccountCtrl Test', function () {
             expect($scope.refreshAddresses).toBeDefined();
             expect($scope.setAddressAsDefault).toBeDefined();
             expect($scope.showAllOrders).toBeDefined();
-            expect($scope.updateAccount).toBeDefined();
+            expect($scope.updateUserInfo).toBeDefined();
             expect($scope.updatePassword).toBeDefined();
         });
 
@@ -236,18 +239,13 @@ describe('AccountCtrl Test', function () {
 
         describe('updateAccount()', function() {
 
-            it('should update account by executing updateAccount', function () {
-                $scope.updateAccount();
-                $scope.$digest();
+            
+            it('should update account by executing updateUserInfo', function () {
+                $scope.updateUserInfo();
                 expect(AccountSvc.updateAccount).toHaveBeenCalled();
             });
 
-            it('should partially update account when calling updateAccount with parameters', function () {
-                var msg = $scope.updateAccount('contactEmail', 'notAnEmailAddress');
-                $scope.$digest();
-                expect(AccountSvc.updateAccount).wasNotCalled();
-                expect(msg).toBeTruthy();
-            });
+
         });
 
         describe('saveOnEnter', function(){
