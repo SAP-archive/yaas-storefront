@@ -1,0 +1,48 @@
+{
+  "name": "blank-project",
+  "version": "0.0.0",
+  "authors": [
+    "hybris"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "~1.3.0",
+    "angular-resource": "latest",
+    "angular-ui-router": "~0.2.11",
+    "angular-mocks": "~1.3.0",
+    "angular-translate": "~2.4.0",
+    "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
+    "ngInfiniteScroll": "1.0.0",
+    "bootstrap": "3.3.2",
+    "restangular": "~1.4.0",
+    "lodash": "~2.4.1",
+    "spin.js": "~2.0.1",
+    "angular-cookie": "~4.0.2",
+    "angular-bootstrap": "~0.11.0",
+    "angular-xeditable": "~0.1.8",
+    "angular-directive.g-signin": "~0.1.2",
+    "angular-ui-select": "~0.8.2",
+    "angular-sanitize": "~1.3.0",
+    "angular-touch": "~1.3.0",
+    "algoliasearch": "2.9.2",
+    "yamm3": "1.1.0"
+  },
+  "install": {
+    "path": {
+      "css": "public/css/vendor",
+      "js": "public/js/vendor"
+    }
+  },
+  "resolutions": {
+    "angular": "~1.3.0"
+  }
+}
