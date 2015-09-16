@@ -150,7 +150,7 @@ describe('CategorySvc', function () {
         it('should return category with products', function () {
             categorySvc.resetCategoryCache();
             $httpBackend.expectGET(categoryUrl+catQueryPath).respond(categoryResponse);
-            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements?recursive=true').respond([]);
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/assignments?recursive=true').respond([]);
             var cat = null;
             categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function (category) {
                 cat = category;
@@ -162,7 +162,7 @@ describe('CategorySvc', function () {
             $httpBackend.verifyNoOutstandingRequest();
 
             cat = null;
-            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/elements?recursive=true').respond([]);
+            $httpBackend.expectGET(categoryUrl+'/'+cosmeticsId+'/assignments?recursive=true').respond([]);
             categorySvc.getCategoryWithProducts(cosmeticsSlug).then(function (category) {
                 cat = category;
             });

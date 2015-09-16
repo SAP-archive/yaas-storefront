@@ -11,7 +11,7 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
     mockedCategory.id = 123;
-    mockedCategory.elements = [
+    mockedCategory.assignments = [
         {
             'id': 456,
             'ref': {
@@ -118,11 +118,11 @@ describe('BrowseProductsCtrl', function () {
 
     });
 
-    describe('Initialize with category without elements', function(){
+    describe('Initialize with category without assignments', function(){
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope,  'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, 'category': {elements:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
+                    'settings': mockedSettings, 'category': {assignments:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
 
         });
 
