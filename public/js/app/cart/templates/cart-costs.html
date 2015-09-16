@@ -36,6 +36,12 @@
             </td>
             <td class="text-right" ng-show="calculateTax.taxCalculationApplied">{{cart.totalTax.amount | currency: currencySymbol}}</td>
         </tr>
+        <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
+            <td>{{'TAX' | translate}}</td>
+            <td class="text-right">
+                {{cart.totalTax.amount | currency: currencySymbol}}
+            </td>
+        </tr>
 
     </tbody>
 </table>
@@ -63,12 +69,3 @@
         {{'ESTIMATE_TAX_ERROR'|translate}}
     </div>
 </div>
-
-
-
-<!--<tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">-->
-    <!--<td>{{'TAX' | translate}}</td>-->
-    <!--<td class="text-right">-->
-        <!--{{cart.totalTax.amount | currency: currencySymbol}}-->
-    <!--</td>-->
-<!--</tr>-->

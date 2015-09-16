@@ -28,6 +28,10 @@ angular.module('ds.cart')
                 else if (product.media) {
                     this.product.images = product.media;
                 }
+                var currentSiteCode = GlobalData.getSiteCode();
+                if (product.mixins && product.mixins.taxCodes && product.mixins.taxCodes[currentSiteCode]) {
+                    this.taxCode = product.mixins.taxCodes[currentSiteCode];
+                }
                 this.price = price;
                 this.quantity = qty;
             };
