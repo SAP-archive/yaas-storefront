@@ -387,8 +387,6 @@ angular.module('ds.i18n')
         //XTIT
         WELCOME: 'Welcome',
         //XFLD
-        ITEMS_IN_ORDER: 'Items In Order',
-        //XFLD
         NOT_SET: 'Not Set',
         //XGRP
         ORDER_HISTORY: 'Order History',
@@ -418,6 +416,8 @@ angular.module('ds.i18n')
         SHOW_ALL: 'Show all',
         //XFLD
         SHOW_LESS: 'Show less',
+				//XFLD
+				ITEMS_IN_ORDER: 'Items in Order',
 
 
         //XFLD
