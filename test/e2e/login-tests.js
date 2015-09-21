@@ -50,7 +50,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
+            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE");
             // tu.clickElement('id', 'logout-btn');
 
         });

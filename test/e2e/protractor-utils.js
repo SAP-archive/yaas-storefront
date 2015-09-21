@@ -7,6 +7,7 @@ var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')
 exports.beerBug = stressBallPath;
 var cartButtonId = exports.cartButtonId = 'full-cart-btn';
 var buyButton = exports.buyButton = "buy-button";
+var siteSelectorButton = exports.siteSelectorButton = 'siteSelectorButton'
 exports.contineShopping = "continue-shopping";
 var removeFromCart = exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';

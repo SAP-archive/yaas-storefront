@@ -34,7 +34,7 @@ describe("cart:", function () {
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        it('should load one product into cart in Euros', function () {
+        iit('should load one product into cart in Euros', function () {
             browser.wait(function () {
                 return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
             });
@@ -50,7 +50,7 @@ describe("cart:", function () {
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
             });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('KEINE ARTIKEL IM KORB');
+            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('IHR WARENKORB IST LEER');
         });
 
         it('should load one product into cart in USD and change to Euros', function () {
