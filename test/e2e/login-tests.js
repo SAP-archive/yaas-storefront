@@ -3,15 +3,10 @@ var tu = require('./protractor-utils.js');
 
 var timestamp = Number(new Date());
 
-function updateAccountField(fieldName, text) {
-    tu.clickElement('id', fieldName);
-    tu.sendKeysByXpath("(//input[@type='text'])[3]", text);
-    tu.clickElement('xpath', "//button[@type='submit']");
-}
-function updateTitleField(fieldName, text) {
-    tu.clickElement('id', fieldName);
-    element(by.xpath("//select[@ng-model='$data']")).sendKeys(text);
-    tu.clickElement('xpath', "//button[@type='submit']");
+function updateNameField(id, text) {
+    element(by.id(id)).clear();
+    browser.executeScript("document.getElementById('" + id + "').style.display='block';");
+    element(by.id(id)).sendKeys(text);
 }
 
 function waitForAccountPage() {
@@ -38,8 +33,8 @@ describe("login:", function () {
 
         });
 
-
-        it('should not allow user to login', function () {
+        //disabled until KIWIS-2024 can be fixed
+        xit('should not allow user to login', function () {
             tu.loginHelper('bad@bad.com', 'bad');
             expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
         });
@@ -50,7 +45,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("JOE");
+            expect(element(by.binding("account.firstName")).getText()).toEqual('JOE');
             // tu.clickElement('id', 'logout-btn');
 
         });
@@ -61,29 +56,19 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(2000);
-            updateTitleField('title', 'Mr.');
-            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
-            expect(element(by.binding("account.middleName")).getText()).toEqual("C");
-            expect(element(by.binding("account.lastName")).getText()).toEqual("Cool");
-            updateAccountField('first-name-edit', 'first');
-            browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toEqual("first");
-            updateAccountField('middle-name-edit', 'middle');
-            browser.sleep(1000);            
-            expect(element(by.binding("account.middleName")).getText()).toEqual("middle");
-            updateAccountField('last-name-edit', 'last');
-            browser.sleep(1000);
-            expect(element(by.binding("account.lastName")).getText()).toEqual("last");
-            updateTitleField('title', 'Dr.');
-            updateAccountField('email-edit', 'cool@cool.com');
-            updateAccountField('first-name-edit', 'Joe');
-            updateAccountField('middle-name-edit', 'C');
-            browser.sleep(1000);
-            updateAccountField('last-name-edit', 'Cool');
-            expect(element(by.binding("account.firstName")).getText()).toEqual("Joe");
-            expect(element(by.binding("account.middleName")).getText()).toEqual("C");
-            expect(element(by.binding("account.lastName")).getText()).toEqual("Cool");
-
+            expect(element(by.binding("account.lastName")).getText()).toContain('Joe C Cool');
+            tu.clickElement('id', 'edit-user-info');
+            updateNameField('firstNameAccount', 'first');
+            tu.sendKeysById('middleNameAccount', 'middle');
+            updateNameField('lastNameAccount', 'last');
+            tu.clickElement('id', 'save-btn');
+            expect(element(by.binding("account.lastName")).getText()).toContain('first middle last');
+            tu.clickElement('id', 'edit-user-info');
+            updateNameField('firstNameAccount', 'Joe');
+            tu.sendKeysById('middleNameAccount', 'C');
+            updateNameField('lastNameAccount', 'Cool');
+            tu.clickElement('id', 'save-btn');
+            expect(element(by.binding("account.lastName")).getText()).toContain('Joe C Cool');
         });
 
         it('should create a new user', function () {
@@ -112,24 +97,23 @@ describe("login:", function () {
             tu.createAccount('addresstest');
             tu.populateAddress('0', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
-            expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
-            expect(element(by.binding("defaultAddress.city")).getText()).toEqual("Boulder");
-            expect(element(by.binding("defaultAddress.state")).getText()).toContain("CO");
-            expect(element(by.binding("defaultAddress.zipCode")).getText()).toContain("80301");
-            expect(element(by.binding("defaultAddress.country")).getText()).toEqual("US");
-            expect(element(by.binding("defaultAddress.contactPhone")).getText()).toEqual("303-303-3333");
+            // expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
+            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
+            expect(element(by.repeater('address in addresses').row(0).column('address.city')).getText()).toEqual('Boulder, CO 80301');
+            expect(element(by.repeater('address in addresses').row(0).column('address.country')).getText()).toEqual('US');
+            expect(element(by.repeater('address in addresses').row(0).column('address.contactPhone')).getText()).toEqual('303-303-3333');
             tu.populateAddress('1', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
-            expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual("321 phony street, apt 420");
-            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual("Toronto, ON M4M 1H7");
-            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual("CA");
-            expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual("720-555-1234");
+            expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual('321 phony street, apt 420');
+            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual('Toronto, ON M4M 1H7');
+            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual('CA');
+            expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual('720-555-1234');
             tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
             browser.sleep(1500);
-            expect(element(by.binding("defaultAddress.street")).getText()).toEqual("321 phony street");
+            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('321 phony street, apt 420');
             tu.clickElement('xpath', "(  //button[@id='set-default-btn'])[2]");
             browser.sleep(1000);
-            expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
+            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
             tu.clickElement('id', 'delete-address-btn');
             browser.wait(function () {
                 return element(by.id('delete-address-btn')).isPresent();
@@ -139,13 +123,14 @@ describe("login:", function () {
 
         });
 
-        it('should not allow user to update their password with incorrect password', function () {
+        //disabled until KIWIS-2024 can be fixed
+        xit('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
-            tu.clickElement('id', 'password-edit');
+            tu.clickElement('id', 'update-password');
             tu.sendKeysById('currentPassword', 'incorrect');
             tu.sendKeysById('newPassword', 'notnew');
             tu.sendKeysById('confirmNewPassword', 'notnew');
@@ -162,7 +147,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
-            tu.clickElement('id', 'password-edit');
+            tu.clickElement('id', 'update-password');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', '123');
             tu.sendKeysById('confirmNewPassword', '123');
@@ -178,7 +163,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
-            tu.clickElement('id', 'password-edit');
+            tu.clickElement('id', 'update-password');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'incorrect1');
             tu.sendKeysById('confirmNewPassword', 'incorrect2');
@@ -193,7 +178,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
-            tu.clickElement('id', 'password-edit');
+            tu.clickElement('id', 'update-password');
             tu.sendKeysById('currentPassword', 'password');
             tu.sendKeysById('newPassword', 'password2');
             tu.sendKeysById('confirmNewPassword', 'password2');
@@ -210,7 +195,7 @@ describe("login:", function () {
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(1000);
-            tu.clickElement('id', 'password-edit');
+            tu.clickElement('id', 'update-password');
             tu.sendKeysById('currentPassword', 'password2');
             tu.sendKeysById('newPassword', 'password');
             tu.sendKeysById('confirmNewPassword', 'password');
