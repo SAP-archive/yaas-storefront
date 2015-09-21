@@ -170,7 +170,7 @@ var switchSite = exports.switchSite = function (site) {
         var siteRow = '0'
     }    
 
-    var siteSelector = element(by.linkText('Region'));
+    var siteSelector = element(by.id('siteSelectorButton'));
     browser.driver.actions().mouseMove(siteSelector).perform();
     siteSelector.click();
     var newSite = element(by.repeater('site in sites').row(siteRow));
