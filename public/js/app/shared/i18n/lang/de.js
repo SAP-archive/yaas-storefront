@@ -391,7 +391,7 @@ angular.module('ds.i18n')
         //XFLD
         SHOW_LESS:'Weniger anzeigen',
         //XFLD
-				ITEMS_IN_ORDER: 'Menge Artikel',
+        ITEMS_IN_ORDER: 'Menge Artikel',
 
         //XBUT
         //-------------------------------------------------

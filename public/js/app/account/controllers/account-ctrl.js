@@ -64,8 +64,6 @@ angular.module('ds.account')
               setOrderLengthLabel();
             });
 
-            console.log($scope.orders);
-
             // show more or less addresses.
             $scope.showAddressDefault = 6;
             $scope.showAddressButtons = ($scope.addresses.length >= $scope.showAddressDefault);
