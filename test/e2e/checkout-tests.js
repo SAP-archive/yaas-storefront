@@ -93,9 +93,9 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
     element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
 }
 
     function clickOnModal() {
