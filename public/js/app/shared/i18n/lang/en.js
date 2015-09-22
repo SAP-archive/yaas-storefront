@@ -416,8 +416,8 @@ angular.module('ds.i18n')
         SHOW_ALL: 'Show all',
         //XFLD
         SHOW_LESS: 'Show less',
-				//XFLD
-				ITEMS_IN_ORDER: 'Items in Order',
+		//XFLD
+		ITEMS_IN_ORDER: 'Items in Order',
 
 
         //XFLD

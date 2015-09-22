@@ -144,6 +144,10 @@
                                 <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
                                 <a ui-sref="base.orderDetail({orderId: m_order.id})">{{m_order.id}}</a>
                             </p>
+                            <p>
+                                <strong>{{'ITEMS_IN_ORDER'|translate}}</strong></br>
+                                {{m_order.totalItems}}
+                            </p>
                             <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                         </div>
                         <div class="col-sm-4 col-xs-4">
