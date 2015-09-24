@@ -390,6 +390,8 @@ angular.module('ds.i18n')
         SHOW_ALL:'Alles anzeigen',
         //XFLD
         SHOW_LESS:'Weniger anzeigen',
+        //XFLD
+        ITEMS_IN_ORDER: 'Menge Artikel',
 
         //XBUT
         //-------------------------------------------------

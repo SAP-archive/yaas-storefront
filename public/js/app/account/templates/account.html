@@ -25,11 +25,11 @@
               <div>
                 <img src="./img/user-icon_big.png" class="img-circle"/>
               </div>
-	            <span class="welcomeTxt pull-left">{{'WELCOME' | translate}} <span ng-if="account.firstName">{{account.firstName}}</span></span> 
+	            <span class="welcomeTxt pull-left">{{'WELCOME' | translate}} <span ng-if="account.firstName">{{account.firstName}}</span></span>
             </h1>
        </div>
       </div>
-        
+
       <!-- desktop display -->
       <div class="row userInfoRow hidden-xs desktopUserInfo">
 
@@ -64,7 +64,7 @@
           <div class="col-xs-12">
             <span class="titleRow visible-xs hidden-md hidden-lg">
                 {{'ACCOUNT_DETAILS' | translate}}
-              </span>  
+              </span>
           </div>
           <div class="col-xs-8">
               <div class="mobileDataSection">
@@ -78,27 +78,27 @@
           <div class="col-xs-8">
             <div class="mobileDataSection">
               <span class="dataLabel locale">{{'EMAIL' | translate}}</span>
-              {{showLanguageLocale()}}  
+              {{showLanguageLocale()}}
             </div>
           </div>
           <div class="col-xs-4">
-            <button class="btn btn-secondary btn-md pull-right" ng-click="editAccountInfo('email')">{{'EDIT' | translate}}</button>  
+            <button class="btn btn-secondary btn-md pull-right" ng-click="editAccountInfo('email')">{{'EDIT' | translate}}</button>
           </div>
           <div class="col-xs-8">
             <div class="mobileDataSection">
-              <span class="dataLabel">{{'PASSWORD' | translate}}</span> 
-              &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679; 
-            </div>  
+              <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+              &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+            </div>
           </div>
           <div class="col-xs-4">
-            <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>  
+            <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>
           </div>
-          
+
       </div>
       <!-- /mobile display -->
-      
-      
-      
+
+
+
     </div>
   </section>
   <section class="lightgray" ng-cloak>
@@ -116,7 +116,7 @@
       <div class="row">
         <div ng-include="'./js/app/account/templates/addresses.html'"></div>
       </div>
-  
+
       <div class="text-center" ng-if="showAddressButtons">
         <button class="btn btn-link" ng-show="showAllAddressButton" ng-click="showAllAddresses()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
         <button class="btn btn-link" ng-show="!showAllAddressButton" ng-click="showAllAddresses()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
@@ -128,7 +128,7 @@
       <div class="section-headline clearfix">
         <h2>{{'ORDER_HISTORY' | translate}}</h2>
       </div>
-  
+
       <div class="hidden-md hidden-lg row">
         <div ng-repeat="m_order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
             <div class="cardStatusIdentifier pull-left" ></div>
@@ -144,6 +144,10 @@
                                 <strong>{{'ORDER_NUMBER'|translate}}</strong></br>
                                 <a ui-sref="base.orderDetail({orderId: m_order.id})">{{m_order.id}}</a>
                             </p>
+                            <p>
+                                <strong>{{'ITEMS_IN_ORDER'|translate}}</strong></br>
+                                {{m_order.totalItems}}
+                            </p>
                             <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                         </div>
                         <div class="col-sm-4 col-xs-4">
@@ -154,14 +158,14 @@
             </div>
         </div>
       </div>
-  
-  
+
       <div class="table-responsive hidden-sm hidden-xs">
         <table class="table">
           <thead>
             <tr>
               <th>{{'DATE' | translate}}</th>
               <th>{{'ORDER_NUMBER' | translate}}</th>
+              <th>{{'ITEMS_IN_ORDER' | translate}}</ht>
               <th>{{'ORDER_TOTAL' | translate}}</th>
               <th>{{'ORDER_STATUS' | translate}}</th>
             </tr>
@@ -170,13 +174,14 @@
             <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
               <td>{{xrder.created | date: 'medium'}}</td>
               <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
+              <td>{{xrder.totalItems}}</td>
               <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
               <td><strong>{{xrder.status}}</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
-  
+
       <div class="text-center" ng-if="showOrderButtons">
         <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
         <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
