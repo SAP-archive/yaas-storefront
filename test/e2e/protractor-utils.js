@@ -269,7 +269,7 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
         return element(by.css('address > span.ng-binding')).isPresent();
     });
     browser.sleep(1000);
-    expect(element(by.binding('confirmationDetails.emailAddress')).getText()).toContain(email);
+    expect(element(by.css('strong')).getText()).toContain(email);
     expect(element(by.binding('confirmationDetails.shippingAddressName')).getText()).toContain(name);
     expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
