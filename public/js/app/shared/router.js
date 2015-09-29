@@ -82,9 +82,10 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve:{
-                        searchString: function ($stateParams) {
+                        searchString: ['$sanitize', '$stateParams', function ($sanitize, $stateParams) {
+                            $stateParams.searchString = $sanitize($stateParams.searchString);
                             return $stateParams.searchString;
-                        }
+                        }]
                     }
 
                 })
