@@ -76,17 +76,7 @@ angular.module('ds.account')
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
 
-            $scope.titles = [];
-            var titlesToTranslate = ['MR', 'MS', 'MRS', 'DR'];
-
-            /*
-             need to translate titles on page load
-             */
-            angular.forEach(titlesToTranslate, function (title) {
-                $translate(title).then(function (translatedValue) {
-                    $scope.titles.push(translatedValue);
-                });
-            });
+            $scope.titles = GlobalData.getUserTitles();
 
             $scope.editAccountInfo = function(mtype){
                 $scope.mtype = mtype;

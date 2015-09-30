@@ -38,6 +38,8 @@ angular.module('ds.checkout')
 
             $scope.order = order;
 
+            $scope.titles = GlobalData.getUserTitles();
+
             //Resolve in the ui.router state returns cart object, problem is when the user is loged in
             //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
             //this method changes cart. That is the reason cart was empty on refresh
