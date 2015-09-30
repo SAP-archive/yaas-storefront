@@ -46,7 +46,7 @@
                     <td>{{'SHIPPING' | translate}}</td>
                     <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
                 </tr>
-                <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+                <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
                     <td ng-if="taxLine.name">{{taxLine.name}}</td>
                     <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
                     <td class="text-right">
