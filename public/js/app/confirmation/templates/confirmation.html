@@ -128,9 +128,12 @@
                             <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                         </td>
                     </tr>
-                    <tr ng-if="!!confirmationDetails.tax && !confirmationDetails.tax.total.inclusive">
-                        <td>{{'TAX' | translate}}</td>
-                        <td class="text-right">{{confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                    <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
+                        <td ng-if="taxLine.name">{{taxLine.name}}</td>
+                        <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
+                        <td class="text-right">
+                            {{taxLine.amount | currency: currencySymbol}}
+                        </td>
                     </tr>
                     </tbody>
                     <tfoot>
