@@ -367,7 +367,13 @@ angular.module('ds.i18n')
         //XFLD
         ORDER_NUMBER:'Bestellnummer',
         //XFLD
-        ORDER_STATUS:'Bestellstatus',
+        ORDER_STATUS: 'Bestellstatus',
+
+        //XSEL
+        ORDER_ITEM_COUNT: '{{number}} Position',
+        //XSEL
+        ORDER_ITEMS_COUNT: '{{number}} Positionen',
+
         //XFLD
         SHIPPING_DETAILS:'VERSANDDETAILS',
         //XBUT
