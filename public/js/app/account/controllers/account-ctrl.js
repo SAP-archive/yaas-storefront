@@ -13,9 +13,9 @@
 
 angular.module('ds.account')
 
-    .controller('AccountCtrl', ['$rootScope', '$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
+    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
 
-        function ($rootScope, $scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+        function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
 
             var modalInstance;
             var originalAccountData;
@@ -35,34 +35,6 @@ angular.module('ds.account')
             $scope.addresses = addresses;
             $scope.orders = orders;
             $scope.defaultAddress = getDefaultAddress();
-
-            var setOrderLengthLabel  = function(){
-              //set the total item count for each order so that it can be displayed in the product table
-              angular.forEach( $scope.orders,
-                  function (order){
-                    var currentOrderSum = 0;
-
-                    angular.forEach(order.entries,
-                        function (entry) {
-                            currentOrderSum += entry.amount;
-                        }
-                    );
-
-                    ((currentOrderSum >1)? $translate('ITEMS'): $translate('ITEM')).then(
-                      function (value) {
-
-                          order.totalItems = currentOrderSum + (' ' + value);
-                      }
-                    );
-                  }
-              );
-            };
-
-            setOrderLengthLabel();
-
-            $rootScope.$on('$translateChangeSuccess', function (){
-              setOrderLengthLabel();
-            });
 
             // show more or less addresses.
             $scope.showAddressDefault = 6;
@@ -252,14 +224,9 @@ angular.module('ds.account')
                 OrderListSvc.query(parms).then(function (orders) {
                     $scope.orders = orders;
 
-                    setOrderLengthLabel();
-
                     // show filtered list or show all orders. Hide if all data is shown within filter.
                     $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
                     $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
-
-
-
                 });
             };
 

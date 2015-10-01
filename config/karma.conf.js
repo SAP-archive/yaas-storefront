@@ -39,6 +39,8 @@ module.exports = function(config){
         'public/js/app/shared/services/cookie-svc.js',
         'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/filters/filters.js',
+        'public/js/app/shared/filters/show-number-of-items-filter.js',
+        'public/js/app/shared/filters/sum-by-key-filter.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/services/configuration-service.js',
@@ -155,7 +157,8 @@ module.exports = function(config){
         'test/unit/orders/*.js',
         'test/unit/products/*.js',
         'test/unit/search/*.js',
-        'test/unit/shared/*.js'
+        'test/unit/shared/*.js',
+        'test/unit/shared/*/*.js'
 
     ],
 
