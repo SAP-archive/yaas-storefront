@@ -171,12 +171,12 @@
             </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="order in orders | limitTo: showOrdersFilter ">
-                  <td>{{order.created | date: 'medium'}}</td>
-                  <td><a ui-sref="base.orderDetail({orderId: order.id})">{{order.id}}</a></td>
-                  <td>{{order.entries|sumByKey:'amount'|showNoOfItems}}</td>
-                  <td>{{order.totalPrice | currency: order.currencySymbol}}</td>
-                  <td><strong>{{order.status}}</strong></td>
+              <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
+                  <td>{{xrder.created | date: 'medium'}}</td>
+                  <td><a ui-sref="base.orderDetail({orderId: order.id})">{{xrder.id}}</a></td>
+                  <td>{{xrder.entries|sumByKey:'amount'|showNoOfItems}}</td>
+                  <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
+                  <td><strong>{{xrder.status}}</strong></td>
               </tr>
           </tbody>
         </table>
