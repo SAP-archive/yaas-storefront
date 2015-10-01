@@ -10,7 +10,8 @@ describe('CheckoutCtrl', function () {
             user: null
         },
         getCurrencyId: jasmine.createSpy().andReturn('USD'),
-        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+        getCurrencySymbol: jasmine.createSpy().andReturn('$'),
+        getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR'])
     };
     var CouponSvc = {
     };

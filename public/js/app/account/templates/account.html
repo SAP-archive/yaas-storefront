@@ -146,7 +146,7 @@
                             </p>
                             <p>
                                 <strong>{{'ITEMS_IN_ORDER'|translate}}</strong></br>
-                                {{m_order.totalItems}}
+                                <td>{{m_order.entries|sumByKey:'amount'|showNoOfItems}}</td>
                             </p>
                             <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                         </div>
@@ -171,13 +171,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
-              <td>{{xrder.created | date: 'medium'}}</td>
-              <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
-              <td>{{xrder.totalItems}}</td>
-              <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
-              <td><strong>{{xrder.status}}</strong></td>
-            </tr>
+              <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
+                  <td>{{xrder.created | date: 'medium'}}</td>
+                  <td><a ui-sref="base.orderDetail({orderId: order.id})">{{xrder.id}}</a></td>
+                  <td>{{xrder.entries|sumByKey:'amount'|showNoOfItems}}</td>
+                  <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
+                  <td><strong>{{xrder.status}}</strong></td>
+              </tr>
           </tbody>
         </table>
       </div>
