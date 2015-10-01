@@ -12,12 +12,7 @@
             <div class="col-lg-12">
                 <div class="form-group input-group">
                     <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                    <select class="form-control" ng-model="account.title" id="titleAccount" name="title">
-                        <option value="Mr.">{{'MR' | translate}}</option>
-                        <option value="Ms.">{{'MS' | translate}}</option>
-                        <option value="Mrs.">{{'MRS' | translate}}</option>
-                        <option value="Dr.">{{'DR' | translate}}</option>
-                    </select>
+                    <select class="form-control" ng-model="account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
                 </div>
             </div>
             <div class="col-lg-12 col">

@@ -28,7 +28,8 @@ describe('AccountCtrl Test', function () {
             meta: {
                 total: 0
             }
-        }
+        },
+        getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR'])
     };
 
     var AccountSvc = { };
