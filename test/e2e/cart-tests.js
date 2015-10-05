@@ -15,6 +15,7 @@ describe("cart:", function () {
         });
 
         afterEach(function () {
+            //dismisses any alerts left open
             browser.switchTo().alert().then(
                 function (alert) { alert.dismiss(); },
                 function (err) { }
@@ -29,12 +30,12 @@ describe("cart:", function () {
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed(); //checks to see if cart text is displayed
             });
             expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
-        iit('should load one product into cart in Euros', function () {
+        it('should load one product into cart in Euros', function () {
             browser.wait(function () {
                 return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
             });
@@ -141,7 +142,7 @@ describe("cart:", function () {
         });
 
         it('should retrieve previous cart', function () {
-            tu.loginHelper('cart@hybristest.com', 'password');
+            tu.loginHelper('cart@hybristest.com', 'password'); //existing user with previous cart
             tu.clickElement('id', tu.cartButtonId);
             browser.sleep(250);
             tu.verifyCartTotal('$7.77');
