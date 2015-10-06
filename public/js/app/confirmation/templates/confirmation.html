@@ -15,7 +15,7 @@
                 <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-                 <p class="orderEmailedTo">{{'A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO' | translate}} <span ng-cloak><strong>{{confirmationDetails.emailAddress}}</strong></span></p>
+                 <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
 
                 <div>
                     <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
@@ -34,7 +34,7 @@
     <div create-account class="create-account" ng-if="!isAuthenticated">
         <div class="text-center centered-content">
             <h2 class="creatAccountHeader">Create An Account</h2>
-            <p class="createAccountTagLine"><span ng-bind-html="'ONE_MORE_STEP' | translate"/> <span ng-bind-html="'ONE_MORE_STEP_MESSAGE' | translate" /></p>
+            <p class="createAccountTagLine"><span ng-bind-html="'ONE_MORE_STEP' | translate"/></p>
 
             <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer centered-content row">
                 <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
@@ -158,7 +158,7 @@
                         {{'RETURN_TO_SHOPPING' | translate}}
                     </button>
                 </div>
-                <div translate="QUESTIONS" translate-compile translate-values="{contactInfo: '{{questionsContactInfo}}'"></div>
+                <div translate="QUESTIONS" translate-compile translate-values="{contactInfo: '{{questionsContactInfo}}'}"></div>
             </div>
         </div>
     </div>

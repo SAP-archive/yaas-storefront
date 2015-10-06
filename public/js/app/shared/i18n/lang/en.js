@@ -239,7 +239,7 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
         //XMSG
-        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: 'A copy of your order details has been sent to',
+        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO: '<p class=\"orderEmailedTo\">A copy of your order details has been sent to <span ng-cloak><strong>{{emailAddress}}</strong></span></p>',
         //XMSG
         ENJOY_YOUR_ITEMS: 'Enjoy your items!',
         //XMSG
@@ -249,7 +249,7 @@ angular.module('ds.i18n')
         //XMSG
         ITEMS_IN_YOUR_ORDER: 'Items in your order',
         //XMSG
-        QUESTIONS: 'If you have any questions, contact us at',
+        QUESTIONS: '<p class=\"support-box\">If you have any questions, contact us at <strong>{{contactInfo}}</strong>.</p>',
         //XFLD
         ORDER: 'Order',
         //XBUT
@@ -267,9 +267,7 @@ angular.module('ds.i18n')
         //XMSG
         YOUR_ORDER_IS: 'Your order # is ',
         //XMSG
-        ONE_MORE_STEP: 'One More Step to Create an Account',
-        //XMSG
-        ONE_MORE_STEP_MESSAGE: 'for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
+        ONE_MORE_STEP: 'One More Step to Create an Account for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
         //XFLD
         SKU: 'SKU',
 
@@ -387,8 +385,6 @@ angular.module('ds.i18n')
         //XTIT
         WELCOME: 'Welcome',
         //XFLD
-        ITEMS_IN_ORDER: 'Items In Order',
-        //XFLD
         NOT_SET: 'Not Set',
         //XGRP
         ORDER_HISTORY: 'Order History',
@@ -396,6 +392,12 @@ angular.module('ds.i18n')
         ORDER_NUMBER: 'Order Number',
         //XFLD
         ORDER_STATUS: 'Order Status',
+
+	    //XSEL
+        ORDER_ITEM_COUNT: '{{number}} Item',
+	    //XSEL
+        ORDER_ITEMS_COUNT: '{{number}} Items',
+
         //XFLD
         SHIPPING_DETAILS: 'SHIPPING DETAILS',
         //XBUT
@@ -418,6 +420,8 @@ angular.module('ds.i18n')
         SHOW_ALL: 'Show all',
         //XFLD
         SHOW_LESS: 'Show less',
+        //XFLD
+        ITEMS_IN_ORDER: 'Items in Order',
 
 
         //XFLD
@@ -577,7 +581,7 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
         //XFLD
-        FOUND_FOR: 'found for',
+        FOUND_FOR: '<strong>{{total}}</strong> found for <strong>{{searchString}}</strong>',
         //XACT
         SEARCH: 'Search',
         //XFLD

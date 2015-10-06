@@ -362,6 +362,10 @@ angular.module('ds.shared')
                 getEmailRegEx: function(){
                     return (/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i);
                     
+                },
+
+                getUserTitles: function () {
+                    return ['', 'MR', 'MS', 'MRS', 'DR'];
                 }
 
             };
