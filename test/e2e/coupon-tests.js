@@ -88,10 +88,10 @@ describe('coupons:', function () {
             browser.sleep(200);
             category.click();
             tu.loadProductIntoCart('1', '€18.89');
-            tu.clickElement('linkText', 'GUTSCHEINCODE HINZUFÜGEN');
+            tu.clickElement('linkText', 'COUPONCODE HINZUFÜGEN');
             tu.sendKeysById('coupon-code', '10DOLLAR');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNGS UNGÜLTIGE GUTSCHEIN');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNG FÜR COUPON UNGÜLTIG');
             browser.sleep(1000);
             tu.clickElement('id', tu.removeFromCart);
             browser.sleep(500);

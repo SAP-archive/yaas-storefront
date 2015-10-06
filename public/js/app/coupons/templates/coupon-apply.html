@@ -2,7 +2,7 @@
 
     <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length">{{'COUPON_CODE' | translate}}</a>
 
-    <div ng-show="!couponCollapsed && !cart.discounts.length">
+    <div ng-show="!couponCollapsed && !cart.discounts.length" class="couponContainer">
         <div ng-if="coupon.restrictions.minOrderValue.amount > cart.totalPrice.amount" class="error">
             {{'COUPON_MINIMUM_NOT_MET' | translate}}
         </div>

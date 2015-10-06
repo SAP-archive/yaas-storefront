@@ -12,6 +12,6 @@
 
 'use strict';
 
-angular.module('ds.shared').filter('encodeURIComponent', function() {
+angular.module('ds.shared').filter('encodeURIComponent', function () {
     return window.encodeURIComponent;
 });
