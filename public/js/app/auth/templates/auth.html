@@ -13,11 +13,11 @@
       <div class="tab-pane active" id="signin" >
         <div ng-include="'js/app/auth/templates/signin.html'" ></div>
 
-        <div class="seperatorLine">
-          <p class="subtitle lineContainer"><span>Or</span></p>
-        </div>
-
         <div ng-if="fbAppId || googleClientId">
+          <div class="seperatorLine">
+            <p class="subtitle lineContainer"><span>Or</span></p>
+          </div>
+          
           <div class="socialMediaSigninContainer ">
             <div ng-if="fbAppId" class="fbLogin" ng-click="fbLogin()">
                 <div class="fbLoginButton">
