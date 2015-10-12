@@ -13,9 +13,6 @@
         <li ng-repeat="error in errors.signin">{{error.message | translate}}</li>
     </ul>
     <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-in-button">{{'SIGN_IN' | translate}}</button>
-    <br>
-    <a ng-click="showResetPassword()" class="forgot-password-btn">{{'FORGOT_PASSWORD' | translate }}</a>
+    <a ng-click="showResetPassword()" class="forgot-password-btn pull-right">{{'FORGOT_PASSWORD' | translate }}</a>
+    <div class="clr"><!-- --></div>
 </form>
-
-
-
