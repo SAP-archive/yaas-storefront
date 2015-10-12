@@ -246,7 +246,7 @@ var timestamp = Number(new Date());
 exports.createAccount = function(emailAddress) {
     clickElement('id', 'login-btn');
     browser.sleep(1000);
-    clickElement('linkText', 'Create Account');
+    clickElement('binding', 'CREATE_ACCOUNT');
     sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
     sendKeysById('newPasswordInput', 'password');
     clickElement('id', 'create-acct-btn');
