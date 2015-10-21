@@ -296,8 +296,8 @@ angular.module('ds.i18n')
         ADD_TO_CART:'Add to Cart',
         //XTIT
         PRODUCT_DESCRIPTION: 'Product Description',
-            //XTIT
-            PRODUCT_DETAILS: 'Product Details',
+        //XTIT
+        PRODUCT_DETAILS: 'Product Details',
         //XBUT
         OUT_OF_STOCK: 'out of stock',
         //XFLD
