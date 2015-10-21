@@ -20,7 +20,7 @@ angular.module('ds.confirmation')
 
         $scope.entity = $stateParams.entity;
         $scope.accountSuccess = false;
-        if ($scope.entity == 'order') {
+        if ($scope.entity === 'order') {
             $scope.orderInfo = {};
             $scope.orderInfo.orderId = $stateParams.id;
         } else {
@@ -35,7 +35,7 @@ angular.module('ds.confirmation')
          */
         $scope.questionsContactInfo = '(888) 555-1222';
        
-        if ($scope.entity == 'order') {
+        if ($scope.entity === 'order') {
             /* OrderDetails are retrieved on controller instantiation, rather than being injected
             * through UI router.  This allows us to display the page immediately while filling in the details as they become
             * available. It's a visual/psychological clue that the order processing success is being made.

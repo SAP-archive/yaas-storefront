@@ -370,8 +370,8 @@ angular.module('ds.checkout')
                     checkoutId: order.checkoutId,
                     cart: $scope.cart
                 };
-                var entity = order.orderId ? 'order' : 'checkout'
-                var id = order.orderId ? order.orderId : order.checkoutId
+                var entity = order.orderId ? 'order' : 'checkout';
+                var id = order.orderId ? order.orderId : order.checkoutId;
                 //Send data to piwik
                 $rootScope.$emit('order:placed', piwikOrderDetails);
 
