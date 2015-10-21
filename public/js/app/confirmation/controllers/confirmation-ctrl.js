@@ -18,9 +18,15 @@ angular.module('ds.confirmation')
     .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', '$rootScope', function
         ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated, $rootScope) {
 
+        $scope.entity = $stateParams.entity;
         $scope.accountSuccess = false;
-        $scope.orderInfo = {};
-        $scope.orderInfo.orderId = $stateParams.orderId;
+        if ($scope.entity == 'order') {
+            $scope.orderInfo = {};
+            $scope.orderInfo.orderId = $stateParams.id;
+        } else {
+            $scope.checkoutInfo = {};
+            $scope.checkoutInfo.checkoutId = $stateParams.id;
+        }
         $scope.isAuthenticated = isAuthenticated;
         window.scrollTo(0, 0);
 
@@ -29,33 +35,36 @@ angular.module('ds.confirmation')
          */
         $scope.questionsContactInfo = '(888) 555-1222';
        
-        /* OrderDetails are retrieved on controller instantiation, rather than being injected
-        * through UI router.  This allows us to display the page immediately while filling in the details as they become
-        * available. It's a visual/psychological clue that the order processing success is being made.
-        *
-        * @param orderId used to retrieve order details for the confirmation
-        */
-        OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
-            $scope.confirmationDetails = details;
+        if ($scope.entity == 'order') {
+            /* OrderDetails are retrieved on controller instantiation, rather than being injected
+            * through UI router.  This allows us to display the page immediately while filling in the details as they become
+            * available. It's a visual/psychological clue that the order processing success is being made.
+            *
+            * @param orderId used to retrieve order details for the confirmation
+            */
+            OrderDetailSvc.getFormattedConfirmationDetails($scope.orderInfo.orderId).then(function(details){
+                $scope.confirmationDetails = details;
 
-            var amount = details.entries.map(function(entry){
-               return entry.amount;
+                var amount = details.entries.map(function(entry){
+                   return entry.amount;
+                });
+                $scope.confirmationDetails.itemCount = amount.reduce(function (total, count){
+                    return total+count;
+                });
+
+                $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
+
             });
-            $scope.confirmationDetails.itemCount = amount.reduce(function (total, count){
-                return total+count;
-            });
-            
-            $scope.currencySymbol = GlobalData.getCurrencySymbol(details.currency);
+        }
 
             var unbindConfirmAccount = $rootScope.$on('confirmation:account', function(){
-                // show success panel
-                window.scrollTo(0, 0);
-                $scope.accountSuccess = true;
-                $scope.isAuthenticated = true;
-            });
-            
-            $scope.$on('$destroy', unbindConfirmAccount);
+            // show success panel
+            window.scrollTo(0, 0);
+            $scope.accountSuccess = true;
+            $scope.isAuthenticated = true;
         });
+
+        $scope.$on('$destroy', unbindConfirmAccount);
         
         
 

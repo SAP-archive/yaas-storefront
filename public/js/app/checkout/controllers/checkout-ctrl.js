@@ -367,8 +367,11 @@ angular.module('ds.checkout')
 
                 var piwikOrderDetails = {
                     orderId: order.orderId,
+                    checkoutId: order.checkoutId,
                     cart: $scope.cart
                 };
+                var entity = order.orderId ? 'order' : 'checkout'
+                var id = order.orderId ? order.orderId : order.checkoutId
                 //Send data to piwik
                 $rootScope.$emit('order:placed', piwikOrderDetails);
 
@@ -376,7 +379,7 @@ angular.module('ds.checkout')
                 CheckoutSvc.resetCart();
 
                 modal.close();
-                $state.go('base.confirmation', {orderId: order.orderId});
+                $state.go('base.confirmation', {id: id, entity: entity});
             };
 
             /** Handles a failed "checkout"/order submission event. */
