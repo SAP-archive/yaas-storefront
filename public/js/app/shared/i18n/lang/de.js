@@ -280,6 +280,8 @@ angular.module('ds.i18n')
         ADD_TO_CART:'In den Warenkorb',
         //XTIT
         PRODUCT_DESCRIPTION:'Produktbeschreibung',
+        //XTIT
+        PRODUCT_DETAILS: 'Product Details',
         //XBUT
         OUT_OF_STOCK:'nicht vorrätig',
         //XFLD
