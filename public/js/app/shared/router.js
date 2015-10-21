@@ -200,7 +200,7 @@ angular.module('ds.router', [])
                     }
                 })
                 .state('base.confirmation', {
-                    url: '/confirmation/:orderId/',
+                    url: '/confirmation/:entity/:id/',
                     views: {
                         'main@': {
                             templateUrl: 'js/app/confirmation/templates/confirmation.html',

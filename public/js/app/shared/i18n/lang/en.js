@@ -270,6 +270,10 @@ angular.module('ds.i18n')
         ONE_MORE_STEP: 'One More Step to Create an Account for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
         //XFLD
         SKU: 'SKU',
+        //XMSG
+        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED: 'Your checkout has been accepted, but the order has not been created. For tracking purposes, please use the following checkout ID number: ',
+        //XMSG
+        YOUR_ORDER_WILL_BE_CREATED: 'Your order will be created as soon as possible.',
 
 
         //XFLD
