@@ -9,7 +9,7 @@
             </h1>
         </div>
     </div>
-    <div class="text-center order-details" ng-if="entity == 'order'">
+    <div class="text-center order-details" ng-if="entity === 'order'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
                 <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="text-center order-details" ng-if="entity == 'checkout'">
+    <div class="text-center order-details" ng-if="entity === 'checkout'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
                 <span>{{'YOUR_CHECKOUT_HAS_BEEN_ACCEPTED' | translate}}</span>
@@ -91,7 +91,7 @@
         
     </div>
 
-    <div class="order-items" ng-if="entity == 'order'">
+    <div class="order-items" ng-if="entity === 'order'">
         <!-- only 1 product in the order -->
         <div class="row">
             
