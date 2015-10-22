@@ -23,7 +23,10 @@ angular.module('ds.confirmation')
         if ($scope.entity === 'order') {
             $scope.orderInfo = {};
             $scope.orderInfo.orderId = $stateParams.id;
-        } else {
+        } else if ($scope.entity === 'checkout') {
+            /*
+             else is triggered when the checkout was successful but the order placement failed
+             */
             $scope.checkoutInfo = {};
             $scope.checkoutInfo.checkoutId = $stateParams.id;
         }

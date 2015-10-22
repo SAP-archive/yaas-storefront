@@ -259,7 +259,7 @@ angular.module('ds.i18n')
         //XFLD  Stock Keeping Unit
         SKU:'Lagermengeneinheit',
         //XMSG
-        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED: 'Ihre Kasse wurde akzeptiert, aber der Auftrag wurde noch nicht erstellt. Für die Verfolgung von Zwecken, nutzen Sie bitte die folgende Kasse ID-Nummer: ',
+        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED: 'Ihre Kasse wurde akzeptiert, aber der Auftrag wurde noch nicht erstellt. Für die Verfolgung von Zwecken, nutzen Sie bitte die folgende Kasse ID-Nummer: ',
         //XMSG
         YOUR_ORDER_WILL_BE_CREATED: 'Ihre Bestellung wird so schnell wie möglich erstellt werden.',
 

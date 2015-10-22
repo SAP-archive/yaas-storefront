@@ -271,7 +271,7 @@ angular.module('ds.i18n')
         //XFLD
         SKU: 'SKU',
         //XMSG
-        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED: 'Your checkout has been accepted, but the order has not been created. For tracking purposes, please use the following checkout ID number: ',
+        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED: 'Your checkout has been accepted, but the order has not been created. For tracking purposes, please use the following checkout ID number: ',
         //XMSG
         YOUR_ORDER_WILL_BE_CREATED: 'Your order will be created as soon as possible.',
 
