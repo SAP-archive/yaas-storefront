@@ -18,7 +18,8 @@ describe('ConfirmationCtrl Test', function () {
     var mockedOrderDetailSvc = {};
     var mockedProductSvc = {};
     mockedStateParams = {};
-    mockedStateParams.orderId = orderId;
+    mockedStateParams.id = orderId;
+    mockedStateParams.entity = 'order';
 
     //***********************************************************************
     // Common Setup
