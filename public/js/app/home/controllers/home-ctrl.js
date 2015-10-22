@@ -10,28 +10,48 @@
  * license agreement you entered into with hybris.
  */
 
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('ds.home')
+    angular.module('ds.home')
+        .controller('HomeCtrl', ['$scope', 'GlobalData', 'settings', '$state',
+            function ($scope, GlobalData, settings, $state) {
 
-    .controller('HomeCtrl', ['$scope',
-        function ($scope) {
+                $scope.carouselInterval = 5000;
 
-            $scope.carouselInterval = 5000;
+                $scope.init = function init() {
 
-            $scope.slides = [
-                {
-                    id: 'audioBanner',
-                    image: './img/homePg-hero-audio.jpg',
-                    state: 'base.category'
-                },
-                {
-                    id: 'officeBanner',
-                    image: './img/homePg-hero-office.jpg',
-                    state: 'base.category'
-                }
-            ];
+                    $scope.slidesLarge = [];
+                    $scope.slidesSmall = [];
+                    $scope.siteContent = GlobalData.getSiteBanners();
 
+                    if (!!$scope.siteContent) {
 
-        }]
-);
+                        for (var i = 0; i < $scope.siteContent.topImages.length; i++) {
+                            if (!!$scope.siteContent.topImages[i].large && $scope.siteContent.topImages[i].large.imageUrl !== '') {
+                                $scope.slidesLarge.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].large });
+                            }
+
+                            if (!!$scope.siteContent.topImages[i].small && $scope.siteContent.topImages[i].small.imageUrl !== '') {
+                                $scope.slidesSmall.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].small });
+                            }
+                        }
+                        $scope.banner1 = $scope.siteContent.banner1;
+                        $scope.banner2 = $scope.siteContent.banner2;
+                    }
+                    else {
+                        //Redirect to all products page
+                        $state.go(settings.allProductsState);
+                    }
+                };
+
+                //Init site content data
+                $scope.init();
+
+                //Listen for site change event
+                $scope.$on('site:updated', function siteUpdated() {
+                    $scope.init();
+                });
+
+            }]);
+})();

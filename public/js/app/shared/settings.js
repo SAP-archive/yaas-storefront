@@ -75,6 +75,7 @@ angular.module('ds.shared')
 
         homeState: 'base.home',
         checkoutState: 'base.checkout.details',
+        allProductsState: 'base.category',
 
         eventSource: {
             login: 'login',

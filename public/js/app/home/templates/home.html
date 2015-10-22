@@ -1,20 +1,37 @@
 <div class="homepageContainer" match-background>
     <div class="homepageCarouselContainer">
-        <carousel interval="carouselInterval">
-            <slide ng-repeat="slide in slides" active="slide.active">
-                <a data-ui-sref="{{slide.state}}">
-                    <img ng-src="{{slide.image}}" id="{{slide.id}}" class="banner">
-                </a>
+        <!-- Top Images Carousel - Large -->
+        <carousel interval="carouselInterval" class="visible-lg">
+            <slide ng-repeat="slide in slidesLarge" active="slide.active">
+                <site-content-image image="slide.image" image-id="{{slide.id}}"></site-content-image>
+            </slide>
+        </carousel>
+
+        <!-- Top Images Carousel - Small -->
+        <carousel interval="carouselInterval" class="hidden-lg">
+            <slide ng-repeat="slide in slidesSmall" active="slide.active">
+                <site-content-image image="slide.image" image-id="{{slide.id}}"></site-content-image>
             </slide>
         </carousel>
         <div class="carouselImages">
             <div class="content-container clearfix">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <img src="./img/homePg-banner3.jpg" alt="free gift" />
+
+                <!-- Banner 1 -->
+                <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
+                    <site-content-image image="banner1.large" image-id="banner1"></site-content-image>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <img src="./img/homePg-banner4.jpg" alt="flight collection" />
+                <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
+                    <site-content-image image="banner2.large" image-id="banner2"></site-content-image>
                 </div>
+
+                <!-- Banner 2 -->
+                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                    <site-content-image image="banner1.small" image-id="banner1"></site-content-image>
+                </div>
+                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                    <site-content-image image="banner2.small" image-id="banner2"></site-content-image>
+                </div>
+
             </div>
         </div>
     </div>
