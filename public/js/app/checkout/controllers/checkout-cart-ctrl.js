@@ -14,8 +14,8 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData',
-        function ($scope, $rootScope, cart, shippingCost, GlobalData) {
+    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData', 'CartSvc',
+        function ($scope, $rootScope, cart, shippingCost, GlobalData, CartSvc) {
 
             cart = $scope.cart;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
@@ -26,8 +26,9 @@ angular.module('ds.checkout')
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
-                $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
+                $scope.taxType = GlobalData.getTaxType();
                 $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+                $scope.calculateTax = CartSvc.getCalculateTax();
             });
 
             $scope.$on('$destroy', unbind);

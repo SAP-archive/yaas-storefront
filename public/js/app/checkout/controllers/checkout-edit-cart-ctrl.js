@@ -22,7 +22,9 @@ angular.module('ds.checkout')
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+                $scope.taxType = GlobalData.getTaxType();
                 $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+                $scope.calculateTax = CartSvc.getCalculateTax();
             });
 
             $scope.$on('$destroy', unbind);
