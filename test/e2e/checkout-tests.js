@@ -195,6 +195,45 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$30.96', '1');
         });
 
+        it('should display tax overide on cart checkout and order', function () {
+            tu.clickElement('id', tu.removeFromCart);
+            tu.clickElement('id', tu.contineShopping);
+            var category =  element(by.repeater('top_category in categories').row(2).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            browser.wait(function () {
+                return element(by.xpath(tu.rollerPen)).isPresent();
+            });
+            tu.clickElement('xpath', tu.rollerPen);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(5000);
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
+            browser.sleep(1000);
+            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(0)).getText()).toEqual('TAX $0.23');
+            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal();
+            //TODO Find out why protractor won't recognize binding and repeaters on checkout
+            expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td')).getText()).toEqual('10.01% FOR PROTRACTOR');
+            expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td[2]')).getText()).toEqual('$0.20');
+            tu.sendKeysById('email', 'mike@hybristest.com');
+            tu.sendKeysById('firstNameAccount', 'Mike');
+            tu.sendKeysById('lastNameAccount', 'Night');
+            fillCheckoutFormExceptEmail('Bill');
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            tu.clickElement('id', 'place-order-btn');
+            tu.verifyOrderConfirmation('mike@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$1.99');
+            expect(element(by.binding('taxLine.name')).getText()).toEqual('10.01% FOR PROTRACTOR');
+            expect(element(by.binding('taxLine.amount')).getText()).toEqual('$0.23');
+        });
+
+
         it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
