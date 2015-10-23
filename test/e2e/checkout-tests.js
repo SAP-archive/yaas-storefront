@@ -14,7 +14,6 @@ function continueAsGuest(){
 }
 
 function fillCheckoutFormExceptEmail(form) {
-    // tu.sendKeysById('contactName' + form, 'Mike Night');
     browser.wait(function () {
         return element(by.id('address1' + form)).isPresent();
     });
@@ -29,9 +28,9 @@ function fillCheckoutFormExceptEmail(form) {
 
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
-    expect(element(by.xpath('//div[2]/div/section[2]/div/div/div[2]/div[2]/span')).getText()).toContain(itemPrice); //item price
-    expect(element(by.xpath('//div[2]/div/section[3]/table/tfoot/tr/td[2]')).getText()).toContain(totalPrice);
-    expect(element(by.xpath("//div[2]/div/section[2]/div/div/div[2]/div[3]/div/span")).getText()).toContain(quantity);
+    expect(element(by.xpath('//div[2]/div/section[2]/div/div/div[2]/div[2]/span')).getText()).toContain(itemPrice); //xpath for price per first item
+    expect(element(by.xpath('//div[2]/div/section[3]/table/tfoot/tr/td[2]')).getText()).toContain(totalPrice); //xpath for complete price
+    expect(element(by.xpath("//div[2]/div/section[2]/div/div/div[2]/div[3]/div/span")).getText()).toContain(quantity); //xpath for quantity of first product
 
 }
 
@@ -39,16 +38,16 @@ function validateField(field, form, text, buttonType, button) {
     element(by.id(field + form)).clear();
     tu.clickElement(buttonType, button);
     browser.sleep(500);
-    browser.executeScript("document.getElementById('" + field + form + "').style.display='block';");
+    browser.executeScript("document.getElementById('" + field + form + "').style.display='block';"); //forces 2nd input to display after error
     browser.sleep(200);
     tu.sendKeysById(field + form, text);
 }
 
-function verifyValidationForEachField(form, buttonType, button) {
-    validateField('zipCode', form, '80301', buttonType, button);
-    validateField('contactName', form, 'Mike Night', buttonType, button);
-    validateField('address1', form, '123', buttonType, button);
-    validateField('city', form, 'Boulder', buttonType, button);
+function verifyValidationForEachField(form, elementType, button) {
+    validateField('zipCode', form, '80301', elementType, button);
+    validateField('contactName', form, 'Mike Night', elementType, button);
+    validateField('address1', form, '123', elementType, button);
+    validateField('city', form, 'Boulder', elementType, button);
 
 }
 
@@ -133,14 +132,12 @@ describe("checkout:", function () {
             browser.sleep(2000);
         });
 
-
-  // afterEach(function() {
-  //   browser.manage().logs().get('browser').then(function(browserLog) {
-  //     // expect(browserLog.length).toEqual(0);
-  //     // Uncomment to actually see the log.
-  //     console.log('log: ' + require('util').inspect(browserLog));
-  //   });
-  // });
+        //dumps logs, if there are failing services uncomment
+        // afterEach(function() {
+        //   browser.manage().logs().get('browser').then(function(browserLog) {
+        //     console.log('log: ' + require('util').inspect(browserLog));
+        //   });
+        // });
 
 
         it('should load one product into cart and move to checkout', function () {

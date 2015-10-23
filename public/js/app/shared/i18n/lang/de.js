@@ -258,6 +258,10 @@ angular.module('ds.i18n')
         ONE_MORE_STEP:'Nur ein weiterer Schritt zum Anlegen eines Kontos mit <strong>schneller Kaufabwicklung</strong> und einem <strong>einfachen Zugriff</strong> auf frühere Bestellungen',
         //XFLD  Stock Keeping Unit
         SKU:'Lagermengeneinheit',
+        //XMSG
+        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED: 'Ihre Kasse wurde akzeptiert, aber der Auftrag wurde noch nicht erstellt. Für die Verfolgung von Zwecken, nutzen Sie bitte die folgende Kasse ID-Nummer: ',
+        //XMSG
+        YOUR_ORDER_WILL_BE_CREATED: 'Ihre Bestellung wird so schnell wie möglich erstellt werden.',
 
         //XFLD
         //-------------------------------------------------

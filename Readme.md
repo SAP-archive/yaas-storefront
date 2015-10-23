@@ -50,7 +50,7 @@ Now, let's create a new project for your specific site so that you can modify yo
 
 ### 1.  Sign up for your a new store and configure it
 If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
-Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/createastorefront/index.html
+Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/setupastorefront/index.html
 
 ### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
 In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the CLIENT_ID and REDIRECT_URI gruntfile variables with the values set in the application associated with your project.
@@ -175,7 +175,7 @@ In the multi-project setup, instead of reading the project ID from bootstrap.js,
 
 ### DevPortal Security Documentation
 
-A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at https://devportal.yaas.io/overview/storefrontsecurity.html Below is a brief on a few or our recomendations.
+A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at https://devportal.yaas.io/overview/security/storefrontsecurity.html Below is a brief on a few or our recomendations.
 
 ### y-input
 
@@ -223,7 +223,7 @@ At the core of what AngularJS is getting right, right now, are modules and compo
 
 The nice thing about the structure of AngularJS is that it gives you the ability to differentiate your business requirements into the architecture without ever having to touch the original codebase. This is possible if you are replicating the pieces that you need in parallel with the existing structure - like a scaffolding. For example before you make any modifications to say the gruntfile or the package.json - you should really split the That way, pulling down advancements in the demostore can be isolated to files that you are never using in production. Admittedly, this parallel replication process is low ceremony, but it becomes really helpful in extending the codbase year after year of feature implementation and sales growth. All while having a fully updated hybris demostore supporting your advancement while you develop. Those topics and more are discussed at the following DevPortal location:
 
-    https://devportal.yaas.io/overview/extendingthestorefront.html
+    https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html
 
 
 # Resources

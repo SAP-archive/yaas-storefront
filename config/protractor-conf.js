@@ -2,6 +2,7 @@ var ScreenShotReporter = require('protractor-screenshot-reporter');
 
 exports.config = {
     allScriptsTimeout: 45000,
+    //comment out keys to run locally
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
@@ -19,16 +20,17 @@ exports.config = {
         'browserName': 'chrome',
         'maxInstances': 6,
         'shardTestFiles': true,
-        //comment out the following capabilities to run locally
+        //comment out the following Saucelabs capabilities to run locally
         'platform': 'OS X 10.8',
         'screen-resolution': '1280x1024',
         'record-video': false,
         'max-duration': 10800,
         'time-zone': 'Berlin',
-        
+        'name': 'storefront tests',
+
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
-        'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
+        // 'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
 
     },
 
