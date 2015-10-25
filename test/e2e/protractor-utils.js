@@ -1,16 +1,16 @@
 var fs = require('fs');
+var tu = require('./protractor-utils.js');
 
-var whiteCoffeeMug = exports.whiteCoffeeMug = "//a[contains(@href, '/products/55d76ce63a0eafb30e5540c8/')]";
+exports.whiteCoffeeMug = "//a[contains(@href, '/products/55d76ce63a0eafb30e5540c8/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/55d76cec264ebd7a318c236c/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/55d76cf53a0eafb30e5540cc/')]";
 exports.rollerPen = "//a[contains(@href, '/products/55d76d19264ebd7a318c237e/')]";
-var stressBallPath = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
-exports.beerBug = stressBallPath;
-var cartButtonId = exports.cartButtonId = 'full-cart-btn';
-var buyButton = exports.buyButton = "buy-button";
-var siteSelectorButton = exports.siteSelectorButton = 'siteSelectorButton'
+exports.beerBug = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";;
+exports.cartButtonId = 'full-cart-btn';
+exports.buyButton = "buy-button";
+exports.siteSelectorButton = 'siteSelectorButton'
 exports.contineShopping = "continue-shopping";
-var removeFromCart = exports.removeFromCart = "remove-product";
+exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
 exports.backToTopButton = 'to-top-btn';
 exports.cartQuantity = "(//input[@type='number'])[2]";
@@ -18,7 +18,7 @@ exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'bsdqa';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
-var waitForCart = exports.waitForCart = function(){
+exports.waitForCart = function(){
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
@@ -26,21 +26,21 @@ var waitForCart = exports.waitForCart = function(){
     browser.sleep(500);
 };
 
-var verifyCartAmount = exports.verifyCartAmount = function (amount) {
+exports.verifyCartAmount = function (amount) {
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
     expect(element(by.xpath("(//input[@type='number'])[2]")).getAttribute("value")).toEqual(amount);
 };
 
-var verifyCartTotal = exports.verifyCartTotal = function (total) {
+exports.verifyCartTotal = function (total) {
     browser.wait(function () {
         return element(by.binding('cart.totalPrice.amount')).isPresent();
     });
     expect(element(by.binding('cart.totalPrice.amount')).getText()).toEqual(total);
 };
 
-var verifyCartDiscount = exports.verifyCartDiscount = function (amount) {
+exports.verifyCartDiscount = function (amount) {
     browser.wait(function () {
         return element(by.css('span.error.ng-binding')).isPresent();
     });
@@ -59,7 +59,7 @@ exports.writeHtml = function (data, filename) {
     stream.end();
 };
 
-var clickElement = exports.clickElement = function (type, pageElement) {
+exports.clickElement = function (type, pageElement) {
     if (type === 'id') {
         element(by.id(pageElement)).click();
     } else if (type === 'xpath') {
@@ -81,7 +81,7 @@ exports.scrollToBottomOfProducts = function (end) {
         browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
         browser.sleep(500);
         count++;
-        if (element(by.xpath(stressBallPath)).isPresent()) {
+        if (element(by.xpath(tu.beerBug)).isPresent()) {
             deferred.fulfill();
         } else if (count === maxCount) {
             deferred.reject();
@@ -90,7 +90,7 @@ exports.scrollToBottomOfProducts = function (end) {
     return deferred.promise;
 };
 
-exports.getTextByRepeaterRow = function findProductByRepeaterRow(number) {
+exports.getTextByRepeaterRow = function (number) {
     expect(element(by.repeater('product in products').row(number).column('product.name')).getText());
 };
 
@@ -98,34 +98,19 @@ exports.clickByRepeaterRow = function (number) {
     element(by.repeater('product in products').row(number).column('product.name')).click();
 };
 
-var assertTextByRepeaterRow = exports.assertProductByRepeaterRow = function (number, productName) {
+exports.assertProductByRepeaterRow = function (number, productName) {
     expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
 };
 
-var selectOption = exports.selectOption = function (option) {
+exports.selectOption = function (option) {
     element(by.css('select option[value="' + option + '"]')).click()
 };
 
 exports.sortAndVerifyPagination = function (sort, product1, price1) {
-    selectOption(sort);
+    tu.selectOption(sort);
     browser.sleep(250);
-    assertTextByRepeaterRow(0, product1);
+    tu.assertProductByRepeaterRow(0, product1);
     expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual(price1);
-};
-
-exports.sendKeysByXpath = function (pageElement, keys) {
-    element(by.xpath(pageElement)).clear();
-    element(by.xpath(pageElement)).sendKeys(keys);
-};
-
-var sendKeysById = exports.sendKeysById = function (pageElement, keys) {
-    element(by.id(pageElement)).clear();
-    element(by.id(pageElement)).sendKeys(keys);
-};
-
-var sendKeysByCss = exports.sendKeysByCss = function (pageElement, keys) {
-    element(by.css(pageElement)).clear();
-    element(by.css(pageElement)).sendKeys(keys);
 };
 
 exports.selectLanguage = function (language) {
@@ -143,7 +128,7 @@ exports.selectLanguage = function (language) {
 
 
 
-var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
+exports.sendKeys = function (type, pageElement, keys) {
     if (type === 'id') {
         element(by.id(pageElement)).clear();
         element(by.id(pageElement)).sendKeys(keys);
@@ -163,11 +148,11 @@ var sendKeys = exports.sendKeys = function (type, pageElement, keys) {
 
 };
 
-var switchSite = exports.switchSite = function (site) {
+exports.switchSite = function (site) {
     if (site === 'Sushi Demo Store Germany') {
-        var siteRow = '2'
-    } else if (site === 'Avalara') {
         var siteRow = '1'
+    } else if (site === 'Avalara') {
+        var siteRow = '2'
     } else {
         var siteRow = '0'
     }    
@@ -189,82 +174,82 @@ exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
     browser.driver.actions().mouseMove(element(by.binding('SIGN_IN'))).perform();
     browser.sleep(200);
-    clickElement('id', 'login-btn');
+    tu.clickElement('id', 'login-btn');
     browser.wait(function () {
         return element(by.binding('SIGN_IN')).isPresent();
     });
-    sendKeys('id', 'usernameInput', userName);
-    sendKeys('id', 'passwordInput', password);
-    clickElement('id', 'sign-in-button');
+    tu.sendKeys('id', 'usernameInput', userName);
+    tu.sendKeys('id', 'passwordInput', password);
+    tu.clickElement('id', 'sign-in-button');
     browser.sleep(1000);
 }
 
 exports.loadProductIntoCart = function (cartAmount, cartTotal) {
     browser.wait(function () {
-        return element(by.xpath(whiteCoffeeMug)).isPresent();
+        return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
     });
     browser.sleep(500);
-    clickElement('xpath', whiteCoffeeMug);
+    tu.clickElement('xpath', tu.whiteCoffeeMug);
     browser.wait(function () {
-        return element(by.id(buyButton)).isPresent();
+        return element(by.id(tu.buyButton)).isPresent();
     });
-    clickElement('id', buyButton);
+    tu.clickElement('id', tu.buyButton);
     //wait for cart to close
     browser.sleep(5500);
     browser.wait(function () {
-        return element(by.id(cartButtonId)).isDisplayed();
+        return element(by.id(tu.cartButtonId)).isDisplayed();
     });
     browser.sleep(1000);
-    clickElement('id', cartButtonId);
-    waitForCart();
+    tu.clickElement('id', tu.cartButtonId);
+    tu.waitForCart();
     browser.sleep(2000);
-    verifyCartAmount(cartAmount);
-    verifyCartTotal(cartTotal);
+    tu.verifyCartAmount(cartAmount);
+    tu.verifyCartTotal(cartTotal);
 }
 
 //country is populated from localized-addresses.js
 exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
-    clickElement('id', "add-address-btn");
+    tu.clickElement('id', "add-address-btn");
     browser.sleep(1000);
     element(by.css('select option[value="' + country + '"]')).click();
-    sendKeysById('contactName', contact);
-    sendKeysById('street', street);
-    sendKeysById('streetAppendix', aptNumber);
-    sendKeysById('city', city);
+    tu.sendKeys('id', 'contactName', contact);
+    tu.sendKeys('id', 'street', street);
+    tu.sendKeys('id', 'streetAppendix', aptNumber);
+    tu.sendKeys('id', 'city', city);
     if (country === '0') {
         element(by.css('select option[value="' + state + '"]')).click();
     } else {
         element(by.id('state')).sendKeys(state);
     }    
     
-    sendKeysById('zipCode', zip);
-    sendKeysById('contactPhone', phone);
-    clickElement('id', 'save-address-btn');
+    tu.sendKeys('id', 'zipCode', zip);
+    tu.sendKeys('id', 'contactPhone', phone);
+    tu.clickElement('id', 'save-address-btn');
 }
 
 var timestamp = Number(new Date());
 
 exports.createAccount = function(emailAddress) {
-    clickElement('id', 'login-btn');
+    tu.clickElement('id', 'login-btn');
     browser.sleep(1000);
-    clickElement('binding', 'CREATE_ACCOUNT');
-    sendKeysById('emailInput', emailAddress + timestamp + '@hybristest.com');
-    sendKeysById('newPasswordInput', 'password');
-    clickElement('id', 'create-acct-btn');
+    tu.clickElement('binding', 'CREATE_ACCOUNT');
+    tu.sendKeys('id', 'emailInput', emailAddress + timestamp + '@hybristest.com');
+    tu.sendKeys('id', 'newPasswordInput', 'password');
+    tu.clickElement('id', 'create-acct-btn');
     browser.sleep(1000);
-    clickElement('id', 'my-account-dropdown');
-    clickElement('id', 'my-account');
+    tu.clickElement('id', 'my-account-dropdown');
+    tu.clickElement('id', 'my-account');
     browser.sleep(1000);
 }
 
-var fillCreditCardForm = exports.fillCreditCardForm = function(ccNumber, ccMonth, ccYear, cvcNumber) {
-    sendKeysById('ccNumber', ccNumber);
+exports.fillCreditCardForm = function(ccNumber, ccMonth, ccYear, cvcNumber) {
+    tu.sendKeys('id', 'ccNumber', ccNumber);
     element(by.id('expMonth')).sendKeys(ccMonth);
     element(by.id('expYear')).sendKeys(ccYear);
-    sendKeysById('cvc', cvcNumber);
+    tu.sendKeys('id', 'cvc', cvcNumber);
 }
 
-var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
+exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
     var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
@@ -278,7 +263,7 @@ var verifyOrderConfirmation = exports.verifyOrderConfirmation = function(account
 }
 
      exports.removeItemFromCart = function(){
-            clickElement('id', removeFromCart);
+            tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
                 return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
             });

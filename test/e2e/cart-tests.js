@@ -106,14 +106,14 @@ describe("cart:", function () {
             tu.verifyCartAmount('2');
             browser.sleep(2000);
             tu.verifyCartTotal('$26.33');
-            tu.sendKeysByXpath(tu.cartQuantity, '5');
+            tu.sendKeys('xpath', tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.verifyCartAmount("5");
             tu.verifyCartTotal("$60.58");
-            tu.sendKeysByXpath(tu.cartQuantity, '10');
+            tu.sendKeys('xpath', tu.cartQuantity, '10');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
