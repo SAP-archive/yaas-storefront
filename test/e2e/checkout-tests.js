@@ -222,9 +222,9 @@ describe("checkout:", function () {
             //TODO Find out why protractor won't recognize binding and repeaters on checkout
             expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td')).getText()).toEqual('10.01% FOR PROTRACTOR');
             expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td[2]')).getText()).toEqual('$0.20');
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'email', 'mike@hybristest.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             fillCheckoutFormExceptEmail('Bill');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             tu.clickElement('id', 'place-order-btn');
