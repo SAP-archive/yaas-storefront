@@ -70,10 +70,20 @@
             </div>
         </div>
     </section>
+
     <section class="gray">
-        <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
-        <div class="description">
-            {{product.product.description}}
+        <div class="row">
+            <div ng-class="{'col-md-6' : hasAnyOfAttributesSet(product.product)}">
+                <div class="headline">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+                <div class="description">
+                    {{product.product.description}}
+                </div>
+            </div>
+
+            <div class="col-md-6" ng-if="hasAnyOfAttributesSet(product.product)">
+                <div class="headline">{{'PRODUCT_DETAILS' | translate}}</div>
+                <product-attribute-groups product="product.product"></product-attribute-groups>
+            </div>
         </div>
     </section>
 </div>
