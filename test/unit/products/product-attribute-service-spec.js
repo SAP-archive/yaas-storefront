@@ -48,6 +48,42 @@ describe("ProductAttributeSvc", function () {
         });
     });
 
+    it("should return positive if has any of attributes set", function () {
+        var product = {
+            metadata: {
+                mixins: {}
+            },
+            mixins: {
+                attributegroup_1: {
+                    attr_1: "test",
+                    attr_2: null
+                },
+            }
+        };
+
+        var result = ProductAttributeSvc.hasAnyOfAttributesSet(product);
+
+        expect(result).toBe(true);
+    });
+
+    it("should return negative if has none of attributes set", function () {
+        var product = {
+            metadata: {
+                mixins: {}
+            },
+            mixins: {
+                attributegroup_1: {
+                    attr_1: null,
+                    attr_2: null
+                },
+            }
+        };
+
+        var result = ProductAttributeSvc.hasAnyOfAttributesSet(product);
+
+        expect(result).toBe(false);
+    });
+
     it("should define date formatting", function () {
         expect(ProductAttributeSvc.dateFormatting.date).toBeDefined();
         expect(ProductAttributeSvc.dateFormatting.time).toBeDefined();

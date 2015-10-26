@@ -17,6 +17,11 @@
                 </span>
             </span>
 
+            <span ng-switch-when="boolean">
+                <span ng-if="value" class="glyphicon glyphicon-ok"></span>
+                <span ng-if="!value" class="glyphicon glyphicon-remove"></span>
+            </span>
+
             <span ng-switch-default>{{value}}</span>
         </span>
     </div>

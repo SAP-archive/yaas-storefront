@@ -20,7 +20,7 @@
                     return Restangular.oneUrl('schema', schemaPath).get();
                 },
 
-                getAttributeGroups: function(product){
+                getAttributeGroups: function (product) {
                     var groups = [];
 
                     for (var prop in product.mixins) {
@@ -33,6 +33,24 @@
                     }
 
                     return groups;
+                },
+
+                hasAnyOfAttributesSet: function (product) {
+                    var groupsWithAtLeastOneAttributeSet = this.getAttributeGroups(product)
+                        .filter(function (group) {
+                            var hasAttributeSet = false;
+
+                            for (var prop in group.attributes) {
+                                if (group.attributes[prop] !== null) {
+                                    hasAttributeSet = true;
+                                    break;
+                                }
+                            }
+
+                            return hasAttributeSet;
+                        });
+
+                    return groupsWithAtLeastOneAttributeSet.length > 0;
                 },
 
                 dateFormatting: {
