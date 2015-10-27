@@ -1,4 +1,4 @@
-/* BTN */ 
+/* BTN */
 
 @border-radius-base:        0px;
 @border-radius-large:       0px;
@@ -108,17 +108,17 @@
 .placeholderstyle(@color){
 
 	.style{
-		color: @color; 
+		color: @color;
 	    opacity: 1;
 	    font-family: @font-family-serif, serif;
 	    font-style: italic;
 	    text-transform: none;
 	}
 
-	&::-moz-placeholder{ 
+	&::-moz-placeholder{
   			.style;
     } // Firefox
-  	&:-ms-input-placeholder       { 
+  	&:-ms-input-placeholder       {
   			.style;
   	} // Internet Explorer 10+
   	&::-webkit-input-placeholder{
@@ -144,7 +144,7 @@
 				font-style: italic;
 				line-height: 0.6;
 			}
-			
+
 		}
 	}
 }
@@ -186,7 +186,25 @@
   }
 }
 
-// == Modal 
+// == Modal
+.mobileLoginModal section{
+  padding: 50px;
+}
+
+.modal-backdrop.in{
+  opacity: 0;
+}
+
+.modal-content{
+  border: none;
+}
+
+.modal-content input:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  // background-color: #fff !important;
+}
+
+
 @modal-content-bg:@lightergrey;
 .modal-backdrop{
   position: fixed;

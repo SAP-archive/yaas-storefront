@@ -173,7 +173,7 @@
           <tbody>
               <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
                   <td>{{xrder.created | date: 'medium'}}</td>
-                  <td><a ui-sref="base.orderDetail({orderId: order.id})">{{xrder.id}}</a></td>
+                  <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
                   <td>{{xrder.entries|sumByKey:'amount'|showNoOfItems}}</td>
                   <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
                   <td><strong>{{xrder.status}}</strong></td>

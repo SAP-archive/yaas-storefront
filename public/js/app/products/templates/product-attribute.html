@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-xs-6">
+        <strong>{{definition.title}}</strong>
+    </div>
+
+    <div class="col-xs-6">
+        <span ng-switch="definition.type">
+            <span ng-switch-when="string">
+                <span ng-switch="definition.format">
+                    <span ng-switch-when="date">{{value | date:dateFormatting.date}}</span>
+
+                    <span ng-switch-when="time">{{value | date:dateFormatting.time}}</span>
+
+                    <span ng-switch-when="date-time">{{value | date:dateFormatting.dateTime}}</span>
+
+                    <span ng-switch-default>{{value}}</span>
+                </span>
+            </span>
+
+            <span ng-switch-when="boolean">
+                <span ng-if="value" class="glyphicon glyphicon-ok"></span>
+                <span ng-if="!value" class="glyphicon glyphicon-remove"></span>
+            </span>
+
+            <span ng-switch-default>{{value}}</span>
+        </span>
+    </div>
+</div>
