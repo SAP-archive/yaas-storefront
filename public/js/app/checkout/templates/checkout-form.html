@@ -14,13 +14,8 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title">
-                    <option value="Mr.">{{'MR' | translate}}</option>
-                    <option value="Ms.">{{'MS' | translate}}</option>
-                    <option value="Mrs.">{{'MRS' | translate}}</option>
-                    <option value="Dr.">{{'DR' | translate}}</option>
-                </select>
-            </div>
+                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
+           </div>
         </div>
         <div class="col-lg-6 col">
             <div class="form-group input-group"

@@ -231,7 +231,7 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
 
-        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO:'<p class=\"orderEmailedTo\">Eine Kopie Ihrer Bestelldetails wurde an <span ng-cloak><strong>{{emailAddress}}</strong></span></p> gesendet',
+        A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO:'<p class=\"orderEmailedTo\">Eine Kopie Ihrer Bestelldetails wurde an <span ng-cloak><strong>{{emailAddress}}</strong></span> gesendet</p>',
         //XMSG
         ENJOY_YOUR_ITEMS:'Viel Freude an Ihrem Einkauf!',
         //XMSG
@@ -239,7 +239,7 @@ angular.module('ds.i18n')
         //XMSG
         ITEMS_IN_YOUR_ORDER:'Positionen in Ihrer Bestellung',
         //XMSG
-        QUESTIONS:'<p class=\"support-box\">Bei Fragen kontaktieren Sie uns unter <strong>{{questionsContactInfo}}</strong>.</p>',
+        QUESTIONS:'<p class=\"support-box\">Bei Fragen kontaktieren Sie uns unter <strong>{{contactInfo}}</strong>.</p>',
         //XFLD
         ORDER:'Bestellung',
         //XBUT
@@ -361,13 +361,19 @@ angular.module('ds.i18n')
         //XFLD
         STREET_NUMBER:'Hausnummer',
         //XTIT
-        WELCOME:'Willkommen, <span ng-if=\"account.firstName || account.lastName\">,</span> <br/><strong>{{firstName}} {{middleName}} {{lastName}}</strong>',
+        WELCOME:'Willkommen',
         //XGRP
         ORDER_HISTORY:'Bestellhistorie',
         //XFLD
         ORDER_NUMBER:'Bestellnummer',
         //XFLD
-        ORDER_STATUS:'Bestellstatus',
+        ORDER_STATUS: 'Bestellstatus',
+
+        //XSEL
+        ORDER_ITEM_COUNT: '{{number}} Position',
+        //XSEL
+        ORDER_ITEMS_COUNT: '{{number}} Positionen',
+
         //XFLD
         SHIPPING_DETAILS:'VERSANDDETAILS',
         //XBUT
@@ -390,6 +396,8 @@ angular.module('ds.i18n')
         SHOW_ALL:'Alles anzeigen',
         //XFLD
         SHOW_LESS:'Weniger anzeigen',
+        //XFLD
+        ITEMS_IN_ORDER: 'Menge Artikel',
 
         //XBUT
         //-------------------------------------------------
@@ -542,7 +550,7 @@ angular.module('ds.i18n')
         // Search
         //-------------------------------------------------
 
-        FOUND_FOR:'<strong>0</strong> für <strong>{{searchString}}</strong> gefunden',
+        FOUND_FOR:'<strong>{{total}}</strong> für <strong>{{searchString}}</strong> gefunden',
         //XACT
         SEARCH:'Suchen',
         //XFLD
