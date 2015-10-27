@@ -272,12 +272,15 @@ angular.module('ds.cart')
                 /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
                  * from the API for consistency and in order to display the updated calculations (line item totals, etc).
                  * @return promise to signal success/failure*/
-                updateCartItem: function (item, qty, config) {
+                updateCartItemQty: function (item, qty, config) {
                     var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
                     var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
                     var updateDef = $q.defer();
                     if (qty > 0) {
-                        var cartItem = new Item(item.product, item.price, qty);
+                        //this is a partial update, so only quantity data is needed
+                        var cartItem = {
+                            quantity: qty
+                        };
                         CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id + '?partial=true').then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
                             updateDef.resolve();
@@ -324,7 +327,7 @@ angular.module('ds.cart')
                             item = cart.items[i];
                             if (product.id === item.product.id) {
                                 var qty = item.quantity + productDetailQty;
-                                return this.updateCartItem(item, qty, config);
+                                return this.updateCartItemQty(item, qty, config);
                             }
                         }
                         return createCartItem(product, prices, productDetailQty, config);
