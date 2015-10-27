@@ -17,7 +17,9 @@ angular.module('ds.checkout')
     .controller('CheckoutEditCartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData',
         function ($scope, $rootScope, CartSvc, GlobalData) {
 
+            $scope.taxType = GlobalData.getTaxType();
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+            $scope.calculateTax = CartSvc.getCalculateTax();
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;

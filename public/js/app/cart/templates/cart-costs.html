@@ -42,7 +42,7 @@
                 {{taxLine.amount | currency: currencySymbol}}
             </td>
         </tr>
-        <tr ng-show="calculateTax.taxCalculationApplied">
+        <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'">
             <td>{{'TAX' | translate}}</td>
             <td class="text-right">
                 {{cart.totalTax.amount | currency: currencySymbol}}
