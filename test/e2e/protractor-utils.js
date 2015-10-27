@@ -4,6 +4,7 @@ var tu = require('./protractor-utils.js');
 exports.whiteCoffeeMug = "//a[contains(@href, '/products/55d76ce63a0eafb30e5540c8/')]";
 exports.blackCoffeeMug = "//a[contains(@href, '/products/55d76cec264ebd7a318c236c/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/55d76cf53a0eafb30e5540cc/')]";
+exports.rollerPen = "//a[contains(@href, '/products/55d76d19264ebd7a318c237e/')]";
 exports.beerBug = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";;
 exports.cartButtonId = 'full-cart-btn';
 exports.buyButton = "buy-button";
