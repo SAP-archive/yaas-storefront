@@ -17,13 +17,13 @@ describe('product page', function () {
         });
 
 
-  // afterEach(function() {
-  //   browser.manage().logs().get('browser').then(function(browserLog) {
-  //     // expect(browserLog.length).toEqual(0);
-  //     // Uncomment to actually see the log.
-  //     console.log('log: ' + require('util').inspect(browserLog));
-  //   });
-  // });
+        // afterEach(function() {
+        //     browser.manage().logs().get('browser').then(function(browserLog) {
+        //         // expect(browserLog.length).toEqual(0);
+        //         // Uncomment to actually see the log.
+        //         console.log('log: ' + require('util').inspect(browserLog));
+        //     });
+        // });
 
         //crashes browser. to be address in STOR-1567
         xit('should scroll to load more products', function () {
@@ -170,7 +170,7 @@ describe('product page', function () {
                 return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
             });
 
-            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            tu.sendKeys('css', 'div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
             element(by.repeater('result in search.results').row(1)).click();
@@ -181,7 +181,7 @@ describe('product page', function () {
             browser.wait(function () {
                 return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
             });
-            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
+            tu.sendKeys('css', 'div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
 
@@ -190,7 +190,7 @@ describe('product page', function () {
             browser.wait(function () {
                 return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
             });
-            tu.sendKeysByCss('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            tu.sendKeys('css', 'div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
             // browser.pause();
             expect(element(by.binding('search.numberOfHits')).getText()).toEqual('See All 3 Results');
             tu.clickElement('binding', 'search.numberOfHits');
