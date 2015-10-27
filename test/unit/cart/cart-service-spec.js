@@ -237,7 +237,7 @@ describe('CartSvc Test', function () {
             it('should update qty of existing cart item if already in cart', function () {
                 var updatedCart = cartSvc.getLocalCart();
                 expect(updatedCart.items.length).toEqualData(1);
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId + '?partial=true', { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
@@ -251,7 +251,7 @@ describe('CartSvc Test', function () {
             });
 
             it('should return rejected promise if update fails', function () {
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId + '?partial=true', { "product": { "id": prodId }, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 3 })
                     .respond(500, {});
                 var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 1, {});
                 var failureSpy = jasmine.createSpy();
@@ -287,7 +287,7 @@ describe('CartSvc Test', function () {
         describe('updateCartItem()', function () {
             it('should update cart item if qty > 0', function () {
                 var item = cartSvc.getLocalCart().items[0];
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId + '?partial=true', { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
                 cartSvc.updateCartItem(item, 5, {});
@@ -302,7 +302,7 @@ describe('CartSvc Test', function () {
 
             it('should set item error if update fails', function () {
                 var item = cartSvc.getLocalCart().items[0];
-                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId, { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
+                mockBackend.expectPUT(cartUrl + '/' + cartId + '/items/' + itemId + '?partial=true', { "product": { "id": prodId}, "price": { "currency": "USD", "effectiveAmount": 5 }, "quantity": 5 })
                     .respond(500, {});
                 cartSvc.updateCartItem(item, 5, {});
                 mockBackend.flush();

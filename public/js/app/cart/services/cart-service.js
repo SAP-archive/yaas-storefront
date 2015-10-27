@@ -278,7 +278,7 @@ angular.module('ds.cart')
                     var updateDef = $q.defer();
                     if (qty > 0) {
                         var cartItem = new Item(item.product, item.price, qty);
-                        CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id).then(function () {
+                        CartREST.Cart.one('carts', cart.id).all('items').customPUT(cartItem, item.id + '?partial=true').then(function () {
                             refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
                             updateDef.resolve();
                         }, function () {
