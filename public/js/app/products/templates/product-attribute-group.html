@@ -1,0 +1,4 @@
+<product-attribute ng-repeat="(key, prop) in properties"
+                   ng-if="group.attributes[key]"
+                   definition="prop.oneOf[0]"
+                   value="group.attributes[key]"></product-attribute>

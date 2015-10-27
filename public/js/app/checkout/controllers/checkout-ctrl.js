@@ -367,8 +367,16 @@ angular.module('ds.checkout')
 
                 var piwikOrderDetails = {
                     orderId: order.orderId,
+                    checkoutId: order.checkoutId,
                     cart: $scope.cart
                 };
+                /**
+                 * It is possible for a checkout to go through, but the order placement itself will fail.  If this
+                 * is the case we still want to show the user the confirmation page, but instead of displaying
+                 * order details, it will let the user know that the checkout passed but the order was not placed.
+                 */
+                var entity = order.orderId ? 'order' : 'checkout';
+                var id = order.orderId ? order.orderId : order.checkoutId;
                 //Send data to piwik
                 $rootScope.$emit('order:placed', piwikOrderDetails);
 
@@ -376,7 +384,7 @@ angular.module('ds.checkout')
                 CheckoutSvc.resetCart();
 
                 modal.close();
-                $state.go('base.confirmation', {orderId: order.orderId});
+                $state.go('base.confirmation', {id: id, entity: entity});
             };
 
             /** Handles a failed "checkout"/order submission event. */

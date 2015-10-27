@@ -468,9 +468,12 @@ a.signout{
   }
 
   @media(max-width: @screen-xs-max) {
-    .fbLogin {
-      padding: 0 !important;
-      margin: 20px 0 !important;
+    .fbLogin, .googleSignIn {
+      width: 100%;
+    }
+
+    .signInTabs{
+      width: 100%;
     }
   }
 
@@ -542,6 +545,13 @@ a.signout{
     >a.active{
 
     }
+  }
+}
+
+@media(max-width: @screen-xs-max) {
+  .signInTabs{
+    width: 100%;
+    font-size: 12px;
   }
 }
 
