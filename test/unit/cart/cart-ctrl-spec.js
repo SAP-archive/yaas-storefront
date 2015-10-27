@@ -49,7 +49,7 @@ describe('CartCtrl Test', function () {
         // stubbing a service with callback
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
-            updateCartItem: jasmine.createSpy(),
+            updateCartItemQty: jasmine.createSpy(),
             getCart: jasmine.createSpy().andReturn(cart),
             getLocalCart: jasmine.createSpy().andReturn(cart),
             getCalculateTax: jasmine.createSpy().andReturn({
@@ -109,12 +109,12 @@ describe('CartCtrl Test', function () {
     describe('update line item', function () {
 
         it(' should call service update', function () {
-            $scope.updateCartItem({}, 1);
-            expect(stubbedCartSvc.updateCartItem).toHaveBeenCalled;
+            $scope.updateCartItemQty({}, 1);
+            expect(stubbedCartSvc.updateCartItemQty).toHaveBeenCalled;
         });
 
         it(' should remove item if qty is zero', function () {
-            $scope.updateCartItem({}, 0);
+            $scope.updateCartItemQty({}, 0);
             expect(stubbedCartSvc.removeProductFromCart).toHaveBeenCalled;
         });
 

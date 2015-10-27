@@ -17,12 +17,16 @@ angular.module('ds.checkout')
     .controller('CheckoutEditCartCtrl', ['$scope', '$rootScope', 'CartSvc', 'GlobalData',
         function ($scope, $rootScope, CartSvc, GlobalData) {
 
+            $scope.taxType = GlobalData.getTaxType();
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+            $scope.calculateTax = CartSvc.getCalculateTax();
 
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+                $scope.taxType = GlobalData.getTaxType();
                 $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+                $scope.calculateTax = CartSvc.getCalculateTax();
             });
 
             $scope.$on('$destroy', unbind);
@@ -38,10 +42,10 @@ angular.module('ds.checkout')
             /**
              *  Issues an "update cart" call to the service or removes the item if the quantity is undefined or zero.
              */
-            $scope.updateCartItem = function (item, itemQty, config) {
+            $scope.updateCartItemQty = function (item, itemQty, config) {
                 var promise;
                 if (itemQty > 0) {
-                    promise = CartSvc.updateCartItem(item, itemQty, config);
+                    promise = CartSvc.updateCartItemQty(item, itemQty, config);
                 }
                 else if (!itemQty || itemQty === 0) {
                     promise = CartSvc.removeProductFromCart(item.id);

@@ -18,12 +18,12 @@ function fillCheckoutFormExceptEmail(form) {
         return element(by.id('address1' + form)).isPresent();
     });
     browser.sleep(1000);
-    tu.sendKeysById('address1' + form, '123');
-    tu.sendKeysById('address2' + form, '321');
-    tu.sendKeysById('city' + form, 'Boulder');
+    tu.sendKeys('id', 'address1' + form, '123');
+    tu.sendKeys('id', 'address2' + form, '321');
+    tu.sendKeys('id', 'city' + form, 'Boulder');
     element(by.id('country' + form)).sendKeys('USA');
     element(by.id('state' + form)).sendKeys('colorado');
-    tu.sendKeysById('zipCode' + form, '80301');
+    tu.sendKeys('id', 'zipCode' + form, '80301');
 }
 
 
@@ -40,7 +40,7 @@ function validateField(field, form, text, buttonType, button) {
     browser.sleep(500);
     browser.executeScript("document.getElementById('" + field + form + "').style.display='block';"); //forces 2nd input to display after error
     browser.sleep(200);
-    tu.sendKeysById(field + form, text);
+    tu.sendKeys('id', field + form, text);
 }
 
 function verifyValidationForEachField(form, elementType, button) {
@@ -156,13 +156,13 @@ describe("checkout:", function () {
             browser.wait(function () {
                 return element(by.binding('BACK_TO_CHECKOUT')).isPresent();
             });          
-            tu.sendKeysByXpath("//input[@type='number']", '5');
+            tu.sendKeys('xpath', "//input[@type='number']", '5');
             tu.clickElement('binding', 'BACK_TO_CHECKOUT');
             verifyCartContents('$10.67', '$60.58', '5');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
-            tu.sendKeysByXpath(tu.cartQuantity, '2');
+            tu.sendKeys('xpath', tu.cartQuantity, '2');
             tu.clickElement('binding', 'CHECKOUT');         
             clickOnModal();
             browser.wait(function () {
@@ -195,18 +195,57 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$30.96', '1');
         });
 
+        it('should display tax overide on cart checkout and order', function () {
+            tu.clickElement('id', tu.removeFromCart);
+            tu.clickElement('id', tu.contineShopping);
+            var category =  element(by.repeater('top_category in categories').row(2).column('top_category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            browser.wait(function () {
+                return element(by.xpath(tu.rollerPen)).isPresent();
+            });
+            tu.clickElement('xpath', tu.rollerPen);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(5000);
+            tu.clickElement('id', tu.cartButtonId);
+            tu.waitForCart();
+            browser.sleep(1000);
+            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(0)).getText()).toEqual('TAX $0.23');
+            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
+            tu.clickElement('binding', 'CHECKOUT');
+            clickOnModal();
+            //TODO Find out why protractor won't recognize binding and repeaters on checkout
+            expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td')).getText()).toEqual('10.01% FOR PROTRACTOR');
+            expect(element(by.xpath('//div[2]/div/section[3]/table/tbody/tr[4]/td[2]')).getText()).toEqual('$0.20');
+            tu.sendKeys('id', 'email', 'mike@hybristest.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
+            fillCheckoutFormExceptEmail('Bill');
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            tu.clickElement('id', 'place-order-btn');
+            tu.verifyOrderConfirmation('mike@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$1.99');
+            expect(element(by.binding('taxLine.name')).getText()).toEqual('10.01% FOR PROTRACTOR');
+            expect(element(by.binding('taxLine.amount')).getText()).toEqual('$0.23');
+        });
+
+
         it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'email', 'mike@hybristest.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             browser.sleep(500);
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeysById('contactNameShip', 'Mike Night');
+            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
             fillCheckoutFormExceptEmail('Ship');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             tu.clickElement('id', 'place-order-btn');
@@ -218,19 +257,19 @@ describe("checkout:", function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
-            tu.sendKeysById('email', 'checkoutacct' + timestamp + '@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'email', 'checkoutacct' + timestamp + '@hybristest.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             browser.sleep(500);
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeysById('contactNameShip', 'Mike Night');
+            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
             fillCheckoutFormExceptEmail('Ship');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             tu.clickElement('id', 'place-order-btn');
             tu.verifyOrderConfirmation('checkoutacct', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
-            tu.sendKeysById('newPasswordInput', 'password');
+            tu.sendKeys('id', 'newPasswordInput', 'password');
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
@@ -242,9 +281,9 @@ describe("checkout:", function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             fillCheckoutFormExceptEmail('Bill');
-            tu.sendKeysById('email', 'mike@place.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'email', 'mike@place.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000')
             verifyValidationForEachField('Bill', 'id', 'place-order-btn');
@@ -252,7 +291,7 @@ describe("checkout:", function () {
             browser.sleep(500);
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeysById('contactNameShip', 'Mike Night');
+            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
             fillCheckoutFormExceptEmail('Ship');
             verifyValidationForEachField('Ship', 'id', 'place-order-btn');
             browser.sleep(200);
@@ -384,9 +423,9 @@ describe("mobile checkout:", function () {
             browser.sleep(2000);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            tu.sendKeysById('email', 'mike@hybristest.com');
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'email', 'mike@hybristest.com');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             fillCheckoutFormExceptEmail('Bill');
 
@@ -402,7 +441,7 @@ describe("mobile checkout:", function () {
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeysById('contactNameShip', 'Mike Night');
+            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
             fillCheckoutFormExceptEmail('Ship');
             tu.clickElement('xpath', continueButton2);
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000')
@@ -418,7 +457,7 @@ describe("mobile checkout:", function () {
             browser.sleep(500)
             expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeysById('contactNameShip', 'Mike Night');
+            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
             fillCheckoutFormExceptEmail('Ship');
             verifyValidationForEachField('Ship', 'xpath', continueButton2);
             tu.clickElement('xpath', continueButton2);
