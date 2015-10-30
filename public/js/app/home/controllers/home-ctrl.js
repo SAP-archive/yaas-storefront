@@ -25,15 +25,17 @@
                     $scope.slidesSmall = [];
                     $scope.siteContent = GlobalData.getSiteBanners();
 
-                    if (!!$scope.siteContent) {
+                    if ($scope.siteContentExists($scope.siteContent)) {
+                        if (!!$scope.siteContent.topImages && $scope.siteContent.topImages.length > 0) {
 
-                        for (var i = 0; i < $scope.siteContent.topImages.length; i++) {
-                            if (!!$scope.siteContent.topImages[i].large && $scope.siteContent.topImages[i].large.imageUrl !== '') {
-                                $scope.slidesLarge.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].large });
-                            }
+                            for (var i = 0; i < $scope.siteContent.topImages.length; i++) {
+                                if (!!$scope.siteContent.topImages[i].large && $scope.siteContent.topImages[i].large.imageUrl !== '') {
+                                    $scope.slidesLarge.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].large });
+                                }
 
-                            if (!!$scope.siteContent.topImages[i].small && $scope.siteContent.topImages[i].small.imageUrl !== '') {
-                                $scope.slidesSmall.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].small });
+                                if (!!$scope.siteContent.topImages[i].small && $scope.siteContent.topImages[i].small.imageUrl !== '') {
+                                    $scope.slidesSmall.push({ id: 'homeBanner', image: $scope.siteContent.topImages[i].small });
+                                }
                             }
                         }
                         $scope.banner1 = $scope.siteContent.banner1;
@@ -43,6 +45,26 @@
                         //Redirect to all products page
                         $state.go(settings.allProductsState);
                     }
+                };
+
+                $scope.siteContentExists = function siteContentExists(siteContent) {
+                    if (!siteContent) {
+                        return false;
+                    }
+                    if (!!siteContent.topImages) {
+                        for (var i = 0; i < siteContent.topImages.length; i++) {
+                            if (siteContent.topImages[i].large.imageUrl !== '' || siteContent.topImages[i].small.imageUrl !== '') {
+                                return true;
+                            }
+                        }
+                    }
+                    if (!!siteContent.banner1 && !!siteContent.banner1.large && (siteContent.banner1.large.imageUrl !== '' || siteContent.banner1.small.imageUrl !== '')) {
+                        return true;
+                    }
+                    if (!!siteContent.banner2 && !!siteContent.banner2.large && (siteContent.banner2.large.imageUrl !== '' || siteContent.banner2.small.imageUrl !== '')) {
+                        return true;
+                    }
+                    return false;
                 };
 
                 //Init site content data
