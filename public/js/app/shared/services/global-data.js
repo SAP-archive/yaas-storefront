@@ -311,7 +311,7 @@ angular.module('ds.shared')
                         }
 
                         //Emit site change for cart
-                        $rootScope.$emit('site:updated');
+                        $rootScope.$broadcast('site:updated');
                     }
                 },
 
@@ -358,10 +358,17 @@ angular.module('ds.shared')
                         return null;
                     }
                 },
-                
-                getEmailRegEx: function(){
+
+                getSiteBanners: function () {
+                    if (!!currentSite && !!currentSite.mixins) {
+                        return currentSite.mixins.siteContentDetails;
+                    }
+                    return null;
+                },
+
+                getEmailRegEx: function () {
                     return (/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i);
-                    
+
                 },
 
                 getUserTitles: function () {
