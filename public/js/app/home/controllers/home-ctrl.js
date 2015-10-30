@@ -25,7 +25,7 @@
                     $scope.slidesSmall = [];
                     $scope.siteContent = GlobalData.getSiteBanners();
 
-                    if (!!$scope.siteContent) {
+                    if ($scope.siteContentExists($scope.siteContent)) {
 
                         for (var i = 0; i < $scope.siteContent.topImages.length; i++) {
                             if (!!$scope.siteContent.topImages[i].large && $scope.siteContent.topImages[i].large.imageUrl !== '') {
@@ -43,6 +43,24 @@
                         //Redirect to all products page
                         $state.go(settings.allProductsState);
                     }
+                };
+
+                $scope.siteContentExists = function siteContentExists(siteContent) {
+                    if (!siteContent) {
+                        return false;
+                    }
+                    for (var i = 0; i < siteContent.topImages.length; i++) {
+                        if (siteContent.topImages[i].large.imageUrl !== '' || siteContent.topImages[i].small.imageUrl !== '') {
+                            return true;
+                        }
+                    }
+                    if (siteContent.banner1.large.imageUrl !== '' || siteContent.banner1.small.imageUrl !== '') {
+                        return true;
+                    }
+                    if (siteContent.banner2.large.imageUrl !== '' || siteContent.banner2.small.imageUrl !== '') {
+                        return true;
+                    }
+                    return false;
                 };
 
                 //Init site content data
