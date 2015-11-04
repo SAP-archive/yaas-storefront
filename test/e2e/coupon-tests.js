@@ -58,13 +58,12 @@ describe('coupons:', function () {
         it('should not allow user to add coupon if not logged in', function () {
         	tu.loadProductIntoCart('1', '$14.92');
         	tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeys('id', 'coupon-code', '10PERCENT');
+            tu.sendKeys('id', 'coupon-code', 'SIGNEDIN');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
         it('should not allow user to add coupon below minimum on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeys('id', 'coupon-code', '20MINIMUM');
@@ -76,7 +75,6 @@ describe('coupons:', function () {
         });
 
         it('should not allow user to add coupon with incorrect currency', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             browser.wait(function () {
                 return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
             });
@@ -110,7 +108,6 @@ describe('coupons:', function () {
         });
 
         it('should add percentage off coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'remove-coupon');
@@ -118,7 +115,6 @@ describe('coupons:', function () {
         });
 
         it('should add dollar off coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10DOLLAR', '$14.92');
             verifyCartDetails('1', '$4.22', '-$10.00');
             tu.clickElement('id', 'remove-coupon');
@@ -126,7 +122,6 @@ describe('coupons:', function () {
         });
 
         it('update coupon totals when item is added and removed from cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
@@ -157,7 +152,6 @@ describe('coupons:', function () {
         });
 
         it('should update coupon totals when quantity is changed', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.sendKeys('xpath', tu.cartQuantity, '5');
@@ -169,7 +163,6 @@ describe('coupons:', function () {
         });
     
         it('should remove coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'remove-coupon')
@@ -179,7 +172,6 @@ describe('coupons:', function () {
         });
 
         it('should not allow user to use expired coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED', '$14.92');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON HAS EXPIRED.');
             removeFromCart();

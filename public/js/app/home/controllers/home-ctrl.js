@@ -10,28 +10,36 @@
  * license agreement you entered into with hybris.
  */
 
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('ds.home')
+    angular.module('ds.home')
+        .controller('HomeCtrl', ['$scope', 'HomeSvc',
+            function ($scope, HomeSvc) {
 
-    .controller('HomeCtrl', ['$scope',
-        function ($scope) {
+                $scope.carouselInterval = 5000;
+                $scope.slidesLarge = [];
+                $scope.slidesSmall = [];
+                $scope.banner1 = {};
+                $scope.banner2 = {};
 
-            $scope.carouselInterval = 5000;
+                //Get site content data from service
+                $scope.getSiteContent = function getSiteContent() {
+                    var siteContent = HomeSvc.init();
 
-            $scope.slides = [
-                {
-                    id: 'audioBanner',
-                    image: './img/homePg-hero-audio.jpg',
-                    state: 'base.category'
-                },
-                {
-                    id: 'officeBanner',
-                    image: './img/homePg-hero-office.jpg',
-                    state: 'base.category'
-                }
-            ];
+                    $scope.slidesLarge = siteContent.slidesLarge;
+                    $scope.slidesSmall = siteContent.slidesSmall;
+                    $scope.banner1 = siteContent.banner1;
+                    $scope.banner2 = siteContent.banner2;
+                };
 
+                //Init site content data
+                $scope.getSiteContent();
 
-        }]
-);
+                //Listen for site change event
+                $scope.$on('site:updated', function siteUpdated() {
+                    $scope.getSiteContent();
+                });
+
+            }]);
+})();
