@@ -63,6 +63,7 @@ module.exports = function(config){
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
+        'public/js/app/home/services/home-svc.js',
 
         'public/js/app/search/search-index.js',
         'public/js/app/search/controllers/search-list-ctrl.js',

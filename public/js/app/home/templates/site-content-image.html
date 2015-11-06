@@ -1,0 +1,10 @@
+﻿
+<div ng-if="image.hyperlinkUrl !== ''">
+    <a ng-if="image.internal" href="{{image.hyperlinkUrl}}">
+        <img ng-src="{{image.imageUrl}}" id="{{id}}" class="banner" />
+    </a>
+    <a ng-if="!image.internal" href="{{image.hyperlinkUrl}}" target="_blank">
+        <img ng-src="{{image.imageUrl}}" id="{{id}}" class="banner" />
+    </a>
+</div>
+<img ng-if="image.hyperlinkUrl === ''" ng-src="{{image.imageUrl}}" id="{{id}}" class="banner" />
