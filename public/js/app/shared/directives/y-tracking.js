@@ -88,8 +88,8 @@ angular.module('ds.ytracking', [])
                 }
             };
         }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig',
+        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig) {
 
             var internalCart = {};
 
@@ -142,6 +142,12 @@ angular.module('ds.ytracking', [])
                     },
                     data: JSON.stringify(obj)
                 };
+
+                //work around if not going through Apigee proxy for a particular URL, such as while testing new services
+                if (url.indexOf('internal') >= 0) {
+                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
+                    req.headers['event-type'] = 'piwik';
+                }
 
                 $http(req).success(function () {
                         //Get all items that failed before and resend them to PIWIK server

@@ -89,7 +89,8 @@ angular.module('ds.shared')
                 },
 
                 tracking: {
-                    baseUrl: 'https://' + apiPath + '/hybris/piwik/b1/' + tenantId + '/events'
+                    baseUrl: 'http://edge-b1.us-east.internal.yaas.io/events'
+                    //baseUrl: 'https://' + apiPath + '/hybris/piwik/b1/' + tenantId + '/events'
                 },
 
                 indexing: {
