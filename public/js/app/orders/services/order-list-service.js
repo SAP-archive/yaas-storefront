@@ -18,7 +18,9 @@ angular.module('ds.orders')
         var getOrders = function (parms) {
             var ordersPromise = OrdersREST.Orders.all('orders').getList(parms);
             ordersPromise.then(function(response) {
-                GlobalData.orders.meta.total = parseInt(response.headers[settings.headers.paging.total], 10) || 0;
+                if (response.headers) {
+                    GlobalData.orders.meta.total = parseInt(response.headers[settings.headers.paging.total], 10) || 0;
+                }
             });
             return ordersPromise;
         };

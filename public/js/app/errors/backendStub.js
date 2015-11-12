@@ -277,7 +277,33 @@
 						  'currency' : 'USD'
 						}
 					); //end mock.
+					
 
+					
+					$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me')
+					.respond(
+						//MOCK-ERROR-STATUS-CODE
+						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
+						//MOCK-DATA-RESPONSE
+						500
+					);
+					/*
+					$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses?pageNumber=1&pageSize=6')
+					.respond(
+						//MOCK-ERROR-STATUS-CODE
+						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
+						//MOCK-DATA-RESPONSE
+						500
+					);*/
+
+					
+					/*$httpBackend.whenGET('https://api.yaas.io/hybris/order/b1/defaultproj/orders?pageSize=10')
+					.respond(
+						//MOCK-ERROR-STATUS-CODE
+						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
+						//MOCK-DATA-RESPONSE
+						500
+					);*/
 
 					/** MOCK-PASSTHROUGHS
 					  * - These are required for anything that is not mocked. The HTTPBackendProxy passes them through to the server.
@@ -288,6 +314,10 @@
 					// various passthroughs. these allow existing services to work, while some are mocked.
 					$httpBackend.whenGET('./js/app/auth/templates/signin.html').passThrough();
 					$httpBackend.whenGET('./js/app/auth/templates/signup.html').passThrough();
+					$httpBackend.whenGET('./js/app/account/templates/addresses.html').passThrough();
+					$httpBackend.whenGET('./js/app/cart/templates/cart-costs.html').passThrough();
+					$httpBackend.whenGET('./js/app/coupons/templates/coupon-apply.html').passThrough();
+					
 
 
 					// dont mock everything else, specify pass through to avoid error.

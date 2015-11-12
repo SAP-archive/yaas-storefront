@@ -368,6 +368,8 @@ angular.module('ds.i18n')
         ADDRESSBOOK: 'Addressbook',
         //XMSG
         NO_ADDRESSES: 'You have no addresses stored!',
+        //XMSG
+        FAIL_ADDRESSES: 'Addresses not available. Try again later.',
         //XBUT
         ADD_ADDRESS: 'Add Address',
         //XBUT
@@ -380,6 +382,8 @@ angular.module('ds.i18n')
         FULL_NAME: 'Full Name',
         //XFLD
         CONTACT_PHONE: 'Phone',
+        //XFLD
+        FAIL_CUSTOMER_DETAILS: 'Customer details not available. Try again later.',
         //XFLD
         DATE: 'Date',
         //XMSG
@@ -398,6 +402,8 @@ angular.module('ds.i18n')
         ORDER_NUMBER: 'Order Number',
         //XFLD
         ORDER_STATUS: 'Order Status',
+        //XFLD
+        FAIL_ORDER: 'Orders not available. Try again later.',
 
 	    //XSEL
         ORDER_ITEM_COUNT: '{{number}} Item',

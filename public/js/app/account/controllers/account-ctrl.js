@@ -16,10 +16,10 @@ angular.module('ds.account')
     .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
 
         function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
-
+            
             var modalInstance;
             var originalAccountData;
-            var customerNumber = account.customerNumber;
+            var customerNumber = account ? account.customerNumber : null;
             var notSet = '';
             $translate('NOT_SET').then(function(value){
                 notSet = value;

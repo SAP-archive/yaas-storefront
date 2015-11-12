@@ -133,7 +133,9 @@ angular.module('ds.shared')
 
                                         return account;
                                     }).then(function (account) {
-                                        CartSvc.refreshCartAfterLogin(account.id);
+                                        if(account) {
+                                            CartSvc.refreshCartAfterLogin(account.id);
+                                        }
                                     });
                                 } else {
                                     CategorySvc.getCategories().then(function () {

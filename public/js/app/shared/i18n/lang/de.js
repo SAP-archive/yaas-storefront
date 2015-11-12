@@ -346,6 +346,8 @@ angular.module('ds.i18n')
         ADDRESSBOOK:'Adressbuch',
         //XMSG
         NO_ADDRESSES:'Sie haben keine Adressen gespeichert.',
+        //XMSG
+        FAIL_ADDRESSES: 'Addresses not available. Try again later. ( Needs to be translated to german )',
         //XBUT
         ADD_ADDRESS:'Adresse hinzufügen',
         //XBUT
@@ -358,6 +360,8 @@ angular.module('ds.i18n')
         FULL_NAME:'Vollständiger Name',
         //XFLD
         CONTACT_PHONE:'Telefon',
+        //XFLD
+        FAIL_CUSTOMER_DETAILS: 'Customer details not available. Try again later. ( Needs to be translated to german )',
         //XFLD
         DATE:'Datum',
         //XMSG
@@ -374,7 +378,8 @@ angular.module('ds.i18n')
         ORDER_NUMBER:'Bestellnummer',
         //XFLD
         ORDER_STATUS: 'Bestellstatus',
-
+        //XFLD
+        FAIL_ORDER: 'Orders not available. Try again later. ( Needs to be translated to german )',
         //XSEL
         ORDER_ITEM_COUNT: '{{number}} Position',
         //XSEL
