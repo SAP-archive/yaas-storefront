@@ -16,7 +16,7 @@ angular.module('ds.account')
     .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
 
         function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
-
+            
             var modalInstance;
             var originalAccountData;
             var customerNumber = account.customerNumber;
@@ -80,15 +80,21 @@ angular.module('ds.account')
             };
 
 
-            var extractServerSideErrors = function (response) {
+            var extractServerSideErrors = function (response, action) {
                 var errors = [];
+                $scope.errorAddressId = response.config.url.split('/')[response.config.url.split('/').length - 1];
                 if (response.status === 400) {
                     if (response.data && response.data.details && response.data.details.length) {
                         errors = response.data.details;
                     }
-                } else if (response.status === 403 || response.status === 409 || response.status === 401 || response.status === 404 || response.status === 500) {
+                } else if (response.status === 403 || response.status === 409 || response.status === 401 || response.status === 404) {
                     if (response.data && response.data.message) {
                         errors.push({ message: response.data.message });
+                    }
+                } else if (response.status === 500) {
+                    $scope.action = action;
+                    if (action === 'save') {
+                        $scope.errorAddressId = null;
                     }
                 }
                 return errors;
@@ -110,7 +116,7 @@ angular.module('ds.account')
                             modalInstance.close();
                         },
                         function (response) {
-                            $scope.errors = extractServerSideErrors(response);
+                            $scope.errors = extractServerSideErrors(response, 'save');
                         }
                     );
                 } else {
@@ -174,7 +180,7 @@ angular.module('ds.account')
                                 $scope.refreshAddresses();
                             },
                             function (response) {
-                                $scope.errors = extractServerSideErrors(response);
+                                $scope.errors = extractServerSideErrors(response, 'remove');
                             }
                         );
                     }
@@ -199,7 +205,7 @@ angular.module('ds.account')
                         $scope.refreshAddresses();
                     },
                     function (response) {
-                        $scope.errors = extractServerSideErrors(response);
+                        $scope.errors = extractServerSideErrors(response, 'default');
                     }
                 );
             };

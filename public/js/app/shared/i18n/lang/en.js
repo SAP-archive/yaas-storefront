@@ -274,6 +274,12 @@ angular.module('ds.i18n')
         YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED: 'Your checkout has been accepted, but the order has not been created. For tracking purposes, please use the following checkout ID number: ',
         //XMSG
         YOUR_ORDER_WILL_BE_CREATED: 'Your order will be created as soon as possible.',
+        //XMSG
+        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates.',
+        //XMSG
+        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again.',
+        //XMSG
+        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again.',
 
 
         //XFLD
