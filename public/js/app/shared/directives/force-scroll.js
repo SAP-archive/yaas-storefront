@@ -10,20 +10,20 @@
  * license agreement you entered into with hybris.
  */
 (function () {
-	'use strict';
+    'use strict';
 
-	angular.module('ds.shared')
-		.directive('forceScroll', [function () {
-			return {
-				restrict: 'M',
-				scope: false,
-				controller: ['$rootScope', '$scope', function ($rootScope, $scope) {
-					$rootScope.forceScroll = true;
+    angular.module('ds.shared')
+        .directive('forceScroll', [function () {
+            return {
+                restrict: 'M',
+                scope: false,
+                controller: ['$rootScope', '$scope', function ($rootScope, $scope) {
+                    $rootScope.forceScroll = true;
 
-					$scope.$on('$destroy', function () {
-						$rootScope.forceScroll = false;
-					});
-				}]
-			};
-		}]);
+                    $scope.$on('$destroy', function () {
+                        $rootScope.forceScroll = false;
+                    });
+                }]
+            };
+        }]);
 })();
