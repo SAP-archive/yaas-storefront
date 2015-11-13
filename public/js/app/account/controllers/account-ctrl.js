@@ -205,6 +205,7 @@ angular.module('ds.account')
                         $scope.refreshAddresses();
                     },
                     function (response) {
+                        $scope.refreshAddresses();
                         $scope.errors = extractServerSideErrors(response, 'default');
                     }
                 );
