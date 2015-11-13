@@ -280,15 +280,15 @@
 					
 
 					
-					$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me')
+					/*$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
 						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
 						//MOCK-DATA-RESPONSE
 						500
-					);
-					/*
-					$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses?pageNumber=1&pageSize=6')
+					);*/
+					
+					/*$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses?pageNumber=1&pageSize=6')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
 						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.

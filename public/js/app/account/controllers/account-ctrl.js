@@ -19,7 +19,7 @@ angular.module('ds.account')
             
             var modalInstance;
             var originalAccountData;
-            var customerNumber = account ? account.customerNumber : null;
+            var customerNumber = account;
             var notSet = '';
             $translate('NOT_SET').then(function(value){
                 notSet = value;
@@ -33,6 +33,7 @@ angular.module('ds.account')
             $scope.errors = [];
             $scope.account = account;
             $scope.addresses = addresses;
+            console.log($scope.addresses);
             $scope.orders = orders;
             $scope.defaultAddress = getDefaultAddress();
 
