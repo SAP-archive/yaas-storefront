@@ -288,16 +288,16 @@
 						500
 					);
 
-					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/282f776717')
+					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/3af291947a')
 					.respond(500);
 
-					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/282f776717')
+					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/3af291947a')
 					.respond(500);
 
-					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/c77fc1ee59')
+					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/1ef631bd25')
 					.respond(500);
 
-					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/c77fc1ee59')
+					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/1ef631bd25')
 					.respond(500);
 
 
