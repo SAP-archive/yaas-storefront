@@ -94,7 +94,7 @@ angular.module('ds.account')
                 } else if (response.status === 500) {
                     $scope.action = action;
                     if (action === 'save') {
-                        $scope.errorAddressId = '';
+                        $scope.errorAddressId = null;
                     }
                 }
                 return errors;
