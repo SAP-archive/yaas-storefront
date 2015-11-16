@@ -123,7 +123,6 @@ angular.module('ds.ytracking', [])
                 });
             };
 
-
             //noinspection JSUnusedAssignment
             makeOptInRequest();
 
