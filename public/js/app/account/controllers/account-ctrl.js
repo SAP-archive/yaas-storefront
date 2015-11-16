@@ -33,7 +33,6 @@ angular.module('ds.account')
             $scope.errors = [];
             $scope.account = account;
             $scope.addresses = addresses;
-            console.log($scope.addresses);
             $scope.orders = orders;
             $scope.defaultAddress = getDefaultAddress();
 
