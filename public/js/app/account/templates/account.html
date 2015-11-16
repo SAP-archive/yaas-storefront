@@ -184,7 +184,8 @@
         </table>
       </div>
 
-      <p ng-if="!orders.length">{{'FAIL_ORDER' | translate}}</p>
+      <p ng-if="!orders.length && orders.headers">{{'NO_ORDERS' | translate}}</p>
+      <p ng-if="!orders.length && !orders.headers">{{'FAIL_ORDER' | translate}}</p>
 
       <div class="text-center" ng-if="showOrderButtons">
         <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>

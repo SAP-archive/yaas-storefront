@@ -404,7 +404,8 @@ angular.module('ds.i18n')
         ORDER_STATUS: 'Order Status',
         //XFLD
         FAIL_ORDER: 'Orders not available. Try again later.',
-
+        //XFLD
+        NO_ORDERS: 'You have no orders stored',
 	    //XSEL
         ORDER_ITEM_COUNT: '{{number}} Item',
 	    //XSEL

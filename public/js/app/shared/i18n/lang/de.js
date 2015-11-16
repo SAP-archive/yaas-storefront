@@ -380,6 +380,8 @@ angular.module('ds.i18n')
         ORDER_STATUS: 'Bestellstatus',
         //XFLD
         FAIL_ORDER: 'Orders not available. Try again later. ( Needs to be translated to german )',
+        //XFLD
+        NO_ORDERS: 'You have no orders stored. ( Needs to be translated to german)',
         //XSEL
         ORDER_ITEM_COUNT: '{{number}} Position',
         //XSEL
