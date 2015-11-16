@@ -16,7 +16,7 @@ angular.module('ds.account')
     .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
 
         function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
-            
+
             var modalInstance;
             var originalAccountData;
             var customerNumber = account.customerNumber;
@@ -94,7 +94,7 @@ angular.module('ds.account')
                 } else if (response.status === 500) {
                     $scope.action = action;
                     if (action === 'save') {
-                        $scope.errorAddressId = null;
+                        $scope.errorAddressId = '';
                     }
                 }
                 return errors;
