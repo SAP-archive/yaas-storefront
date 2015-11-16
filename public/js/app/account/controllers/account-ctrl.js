@@ -94,7 +94,18 @@ angular.module('ds.account')
                 } else if (response.status === 500) {
                     $scope.action = action;
                     if (action === 'save') {
+                        $translate('SAVE_ADDRESS_ERROR').then(function (translatedValue) {
+                            errors.push({ message: translatedValue });
+                        });
                         $scope.errorAddressId = null;
+                    }else if (action === 'remove') {
+                        $translate('REMOVE_ADDRESS_ERROR').then(function (translatedValue) {
+                            errors.push({ message: translatedValue });
+                        });
+                    }else if (action === 'default') {
+                        $translate('UPDATE_DEFAULT_ADDRESS_ERROR').then(function (translatedValue) {
+                            errors.push({ message: translatedValue });
+                        });
                     }
                 }
                 return errors;

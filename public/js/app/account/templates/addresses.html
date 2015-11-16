@@ -37,9 +37,8 @@
 
   </div>
   </div>
-  <ul ng-if="errorAddressId && address.id == errorAddressId" class="list-unstyled text-danger">
-    <li ng-if="action === 'remove'">{{'REMOVE_ADDRESS_ERROR' | translate}}</li>
-    <li ng-if="action === 'default'">{{'UPDATE_DEFAULT_ADDRESS_ERROR' | translate}}</li>
+  <ul ng-if="errors && errors.length && errorAddressId && address.id == errorAddressId" class="list-unstyled text-danger">
+    <li ng-repeat="error in errors">{{error.message}}</li>
   </ul>
 </div>
 <div class="col-sm-12" ng-if="!addresses.length">
