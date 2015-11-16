@@ -103,6 +103,9 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
+            // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
+            // to fetch the consent-reference.
             var makeOptInRequest = function() {
                 var req = {
                     method: 'POST',
