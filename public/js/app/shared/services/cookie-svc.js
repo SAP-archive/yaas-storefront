@@ -34,6 +34,13 @@ angular.module('ds.shared')
             };
         };
 
+        var ConsentReferenceCookie = function(consentReference) {
+            this.consentReference = consentReference;
+            this.getConsentReference = function () {
+                return this.consentReference;
+            };
+        };
+
         var CookieSvc = {
 
             setLanguageCookie: function (languageCode, expiresIn) {
@@ -59,6 +66,20 @@ angular.module('ds.shared')
                     return siteCookie.site;
                 }
                 return siteCookie;
+            },
+
+            setConsentReferenceCookie: function(consentReference, expiresIn) {
+                ipCookie.remove(settings.consentReferenceCookie);
+                var consentReferenceCookie = new ConsentReferenceCookie(consentReference);
+                ipCookie(settings.consentReferenceCookie, JSON.stringify(consentReferenceCookie), { expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds });
+            },
+
+            getConsentReferenceCookie: function() {
+                var consentReferenceCookie = ipCookie(settings.consentReferenceCookie);
+                if (consentReferenceCookie) {
+                    return consentReferenceCookie.consentReference;
+                }
+                return consentReferenceCookie;
             }
 
         };

@@ -29,6 +29,7 @@ angular.module('ds.shared')
         accessCookie: 'auth.user',
         languageCookie: 'languageCookie',
         siteCookie: 'siteCookie',
+        consentReferenceCookie: 'consentReferenceCookie',
 
         // header keys
         headers: {
