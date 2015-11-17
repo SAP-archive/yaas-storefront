@@ -17,9 +17,9 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter) {
-
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal) {
+            var modalInstance;
             $scope.product = product;
 
             // used by breadcrumb directive
@@ -72,6 +72,13 @@ angular.module('ds.products')
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
 
+            $scope.showShippingRates = function(){
+                
+                modalInstance = $modal.open({
+                    templateUrl: 'js/app/shared/templates/shipping-dialog.html',
+                    scope: $scope
+                });
+            }
 
             // scroll to top on load
             window.scrollTo(0, 0);
