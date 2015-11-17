@@ -133,23 +133,30 @@ angular.module('ds.ytracking', [])
             */
             var makeRequest = function (obj) {
 
-                var req = {
-                    method: 'POST',
-                    url: url,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    data: JSON.stringify(obj)
-                };
-
-                //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                if (url.indexOf('internal') >= 0) {
-                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
-                    req.headers['event-type'] = 'piwik';
+                /*
+                 TODO: this if/else is for task ARGO-337 and should not be in production
+                 */
+                if (!obj.action_name && !obj.search) {
+                    console.log('Edge endpoint currently only allows events that contain an action_name or are searches.');
                 }
+                else {
+                    var req = {
+                        method: 'POST',
+                        url: url,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        data: JSON.stringify(obj)
+                    };
 
-                $http(req).success(function () {
+                    //work around if not going through Apigee proxy for a particular URL, such as while testing new services
+                    if (url.indexOf('internal') >= 0) {
+                        req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
+                        req.headers['event-type'] = 'piwik';
+                    }
+
+                    $http(req).success(function () {
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
@@ -159,6 +166,8 @@ angular.module('ds.ytracking', [])
                         //Store request to localstorage so it can be sent again when possible
                         localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
                     });
+                }
+
             };
 
             /**
