@@ -42,7 +42,7 @@ angular.module('ds.shared')
             language: 'accept-language',
             hybrisAuthorization: 'Authorization',
             paging: {
-                total: 'hybris-Count'
+                total: 'hybris-count'
             },
             hybrisCurrency: 'hybris-currency'
         },
@@ -75,6 +75,7 @@ angular.module('ds.shared')
 
         homeState: 'base.home',
         checkoutState: 'base.checkout.details',
+        allProductsState: 'base.category',
 
         eventSource: {
             login: 'login',

@@ -1,8 +1,8 @@
-<div class="modal-header" ng-cloak>
+<div class="modal-header shippingZoneModalHeader" ng-cloak>
   <button type="button" class="close" ng-click="closeAddressDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
   <h4 class="modal-title" id="myModalLabel">{{'SHIPPING_INFORMATION' | translate}}</h4>
 </div>
-<div class="modal-body">
+<div class="shippingZoneModal modal-body">
   <div class="row">
     <div class="zoneparent col-xs-12">
         <p class="label">{{'SHIPPING_ZONE' | translate}} - &lt;ZONE&gt;
@@ -33,6 +33,7 @@
                 <p>&lt;price&gt; USD</p>                
             </div>
             <div class="col-xs-5 text-right">
+                <p class="title">{{'SHIPPING_RATE' | translate}}</p>
                 <p>&lt;Rate&gt; USD</p>
             </div>
         </div>
@@ -44,7 +45,7 @@
                 <p>&lt;shipping rate&gt;</p>                
             </div>
             <div class="col-xs-5 text-right">
-                <p class="label">{{'METHOD' | translate}} - &lt;ZONE&gt;
+                <p class="title">{{'SHIPPING_RATE' | translate}} - &lt;ZONE&gt;
                 <p>&lt;price&gt; USD</p>                
             </div>
         </div>
@@ -52,11 +53,11 @@
     <div class="col-xs-12">
         <div class="row">
             <div class="rangeCol col-xs-7">
-                <p class="label">{{'FREE_SHIPPING' | translate}} - &lt;ZONE&gt;
+                <p class="title">{{'SHIPPING_RATE' | translate}} - &lt;ZONE&gt;
                 <p>&lt;shipping rate&gt;</p>                
             </div>
             <div class="col-xs-5 text-right">
-                <p class="label">{{'METHOD' | translate}} - &lt;ZONE&gt;
+                <p class="title">{{'SHIPPING_RATE' | translate}} - &lt;ZONE&gt;
                 <p>&lt;price&gt; USD</p>                
             </div>
         </div>

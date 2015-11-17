@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible }">
+<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible, 'force-scroll': forceScroll }">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,6 +72,7 @@
     <script src="js/app/shared/directives/y-tracking.js"></script>
     <script src="js/app/shared/directives/y-search.js"></script>
     <script src="js/app/shared/directives/y-inputs-dir.js"></script>
+    <script src="js/app/shared/directives/force-scroll.js"></script>
     <script src="js/app/shared/services/cookie-svc.js"></script>
     <script src="js/app/shared/services/global-data.js"></script>
     <script src="js/app/shared/services/site-settings-rest.js"></script>
@@ -96,6 +97,8 @@
     <script src="js/app/orders/services/orders-rest.js"></script>
     <script src="js/app/home/home-index.js"></script>
     <script src="js/app/home/controllers/home-ctrl.js"></script>
+    <script src="js/app/home/directives/site-content-image-directive.js"></script>
+    <script src="js/app/home/services/home-svc.js"></script>
     <script src="js/app/products/products-index.js"></script>
     <script src="js/app/products/controllers/browse-products-ctrl.js"></script>
     <script src="js/app/products/controllers/product-detail-ctrl.js"></script>
@@ -103,6 +106,10 @@
     <script src="js/app/products/services/price-service.js"></script>
     <script src="js/app/products/services/price-product-rest.js"></script>
     <script src="js/app/products/services/category-service.js"></script>
+    <script src="js/app/products/services/product-attribute-service.js"></script>
+    <script src="js/app/products/directives/product-attribute-groups.js"></script>
+    <script src="js/app/products/directives/product-attribute-group.js"></script>
+    <script src="js/app/products/directives/product-attribute.js"></script>
     <script src="js/app/errors/controllers/errors-ctrl.js"></script>
     <script src="js/app/cart/cart-index.js"></script>
     <script src="js/app/cart/controllers/cart-ctrl.js"></script>

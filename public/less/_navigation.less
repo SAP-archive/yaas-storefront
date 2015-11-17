@@ -11,7 +11,7 @@
 
   .y-search{
     margin: 0;
-    
+
     #search{
       border: none;
       padding: 0 0 0 50px;
@@ -20,16 +20,16 @@
       outline: none;
       font-size: 23px;
     }
-    
+
     .y-search-unavailable{
       border-top: 1px solid #dedede;
-      
+
     }
 
     .right-inner-addon{
       height: 75px;
     }
-    
+
     .right-inner-addon i{
       left: 0;
       right: none;
@@ -68,7 +68,7 @@
       }
     }
   }
-  
+
   .social-icons{
     .clearfix;
     margin: 0 auto;
@@ -93,17 +93,17 @@
 
   .store-settings{
     margin: 20px 0 100px;
-    
+
     color:#636465;
 
     .selectContainer{
       margin: 0  10px;
       select{width: 100%; height:30px; margin: 20px 0 0; padding-left: 10px; }
     }
-    
+
     select{
       width: 100%;
-      
+
     }
 
 
@@ -267,7 +267,7 @@
   padding: 0;
   margin: 0;
   position: relative;
-  
+
   .quantity{
     color: @white;
     position: absolute;
@@ -286,14 +286,14 @@ a.signin{
   &:hover{
     text-decoration: none;
     color: #0079ff;
-    
+
   }
 }
 
 a.my-profile{
   height: 47px;
   display: inline-block;
-  
+
   &:hover{
     border-bottom: 3px solid #0079ff;
   }
@@ -302,7 +302,7 @@ a.my-profile{
 a.signout{
   color: @black;
   font-size: 11px;
-  
+
 }
 
 .top-navigation{
@@ -337,7 +337,7 @@ a.signout{
       margin:0;
     }
   }
-    
+
   a.logo{
     padding: 10px;
     display: inline-block;
@@ -373,12 +373,53 @@ a.signout{
   }
 }
 
+.seperatorLine{
+  margin: 10px 0 20px;
+  font-size: 16px;
+  overflow: hidden;
+
+  .lineContainer{
+    line-height: 20px;
+    text-align: center;
+
+    span{
+      display: inline-block;
+      position: relative;
+
+      &:before,
+      &:after{
+        content: "";
+        position: absolute;
+        height: 5px;
+        border-top: 1px solid #d4d5d5;
+        top: 0;
+        margin-top: 10px;
+        width: 600px;
+      }
+
+      &:before{
+        right: 100%;
+        margin-right: 15px;
+      }
+
+      &:after{
+        left: 100%;
+        margin-left: 15px;
+      }
+
+    }
+
+  }
+
+}
+
 .socialMediaSigninContainer{
-  margin:0 0 30px 0;
+  margin:0 0 15px 0;
+
 
   .googlePlusLogin{
     padding-right: 0 !important;
-
+    margin: 0 auto;
   }
 
   @media (max-width: @screen-sm-max){
@@ -390,12 +431,15 @@ a.signout{
   .googleSignIn{
     height: 43px;
     background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
+    width: 50%;
+    position: relative;
+    margin: 0 auto;
 
     .googleSignInLabel{
       color: #f2f3f8;
       position: absolute;
       z-index:200;
-      left: 67px;
+      left: 50px;
       top: 12px;
       font-size: 97%;
     }
@@ -403,7 +447,11 @@ a.signout{
 
   .fbLogin{
     cursor:pointer;
+    position: relative;
     padding-left: 0 !important;
+    margin: 0 auto;
+    width: 50%;
+
     .fbLoginButton{
       height: 43px;
       background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
@@ -420,9 +468,12 @@ a.signout{
   }
 
   @media(max-width: @screen-xs-max) {
-    .fbLogin {
-      padding: 0 !important;
-      margin: 20px 0 !important;
+    .fbLogin, .googleSignIn {
+      width: 100%;
+    }
+
+    .signInTabs{
+      width: 100%;
     }
   }
 
@@ -460,34 +511,47 @@ a.signout{
 }
 
 .forgot-password-btn{
+  margin: 20px 0 20px;
   font-size: 13px;
 }
 
 
 .signInTabs{
+  width: 55%;
+  font-size: 15px;
+  margin: 0 auto 30px auto;
+  text-transform: uppercase;
+
   &.nav-tabs > li.active > a,
   &.nav-tabs > li.active > a:hover,
   &.nav-tabs > li.active > a:focus {
     background-color: transparent ;
     border: none;
     font-weight: bold;
-    color: #2a6496;
+    color: #000;
 
   }
 
   &.nav-tabs > li > a,
   &.nav-tabs > li > a:hover,
   &.nav-tabs > li > a:focus {
-    padding: 0 20px;
+    // padding: 0 20px;
   }
 
   li.signInButton{
     border-right: 1px solid #838485;
 
     >a,
-    >a.active,{
-      padding-left: 0 !important;
+    >a.active{
+
     }
+  }
+}
+
+@media(max-width: @screen-xs-max) {
+  .signInTabs{
+    width: 100%;
+    font-size: 12px;
   }
 }
 
@@ -532,14 +596,14 @@ a.signout{
 }
 
 .desktopNav{
-  
+
   .logo{
     margin-top: 3px;
   }
-  
+
   .y-search{
     margin: 10px 0;
-    
+
     #search {
       margin-top: -24px;
       height: 73px;
@@ -551,7 +615,7 @@ a.signout{
       font-size: 24px;
       border-bottom: none;
     }
-    
+
     #search:focus{
       outline: none;
       box-shadow: none;
@@ -572,19 +636,19 @@ a.signout{
   .row.nav{
     border-bottom: 1px solid #d4d5d5;
   }
-  
+
   .signin-container{
     margin: 0 auto;
-    
+
     .open > .dropdown-menu{
       left: -31px;
       top: 55px;
       border-color: #d4d5d5;
       z-index: 9999;
     }
-    
+
   }
- 
+
 
 }
 
@@ -598,7 +662,7 @@ a.signout{
   box-shadow: none;
 
   .secondaryCategory{
-    color: @black;
+    color: @white;
     font-size: 14px;
     font-weight: bold;
     &:hover{
@@ -610,7 +674,7 @@ a.signout{
 
 .cart{
   margin-top: 7px;
-  
+
 }
 
 .yamm.navbar-default{
@@ -618,13 +682,13 @@ a.signout{
   border: none;
   margin-bottom: 0;
   min-height: 24px;
-  
+
   a{
     text-decoration: none;
-    
+
   }
-  
-  
+
+
   a.mainCategory{
     padding-top: 0;
     padding-bottom: 4px;
@@ -632,7 +696,7 @@ a.signout{
     color: @black;
     font-weight: 500;
   }
-  
+
   li.open{
     a.mainCategory.mactive,
     a.mainCategory:hover{
@@ -640,31 +704,31 @@ a.signout{
       color: #0079ff;
     }
   }
-  
+
   li{
     a.mainCategory.mactive{
       color: #0079ff;
-      
+
     }
-    
+
     a.mainCategory:hover{
       background-color: transparent !important;
       color: #0079ff;
     }
   }
-  
+
   .tertiaryCategory ul{
     list-style: none;
     margin-top: 12px;
     padding-left: 0;
     a{
       color: #7e8388;
-      
+
       &:hover{
         color: #0079ff;
       }
     }
-    
+
   }
 }
 
@@ -686,23 +750,23 @@ a.signout{
 
 .checkout-btn-container{
   border-left: 1px solid #d4d5d5;
-  
+
 }
 
 .mobileNav .top-navigation{
   border-bottom: 1px solid #d4d5d5;
-  
-  
+
+
 }
 
 .breadcrumb-container{
   background-color: #f6f6f7;
   height: 38px;
   padding: 10px 58px 0 58px;
-  
+
   a{
     color: #7d7e7f;
-    
+
   }
 
   .breadCrumbText{
@@ -710,10 +774,10 @@ a.signout{
     color: #7d7e7f;
     margin: 0 0 15px 0;
   }
-  
+
   .last{
     color: #000;
-    
+
   }
 }
 
@@ -721,53 +785,53 @@ a.signout{
   background-color: #5b5b5b;
   padding: 40px 58px;
   color: #fff;
-  
+
   .store-settings select{
     color: #636465;
     width: 170px;
   }
-  
+
   .socialIcons{
     font-size: 25px;
-    
+
   }
-  
+
   .socialIcons > a{
     color: #fff;
     margin-right: 45px;
-    
+
     &:last-child{
       margin-right: 0;
     }
   }
-  
-  
-  
+
+
+
   .links{
     padding-top: 8px;
-    
+
   }
-  
+
   a{
     color: #fff;
   }
-  
+
   .regionControls{
     position: relative;
-    
+
   }
-  
+
   .regionControls a{
     text-decoration: underline;
-    
+
     margin: 0 20px;
   }
-  
+
   .controlcontainer{
     display: inline-block;
     position: relative;
   }
-  
+
   .regionMenu{
     min-width: 260px;
     bottom: 20px;
@@ -779,7 +843,7 @@ a.signout{
     padding: 15px;
     color: #b3b8bb;
     background-color: #d6dbde;
-  
+
         .selected{
             color:@maxdarkgrey;
             font-weight:bold;
@@ -791,21 +855,21 @@ a.signout{
 }
 
 @media (max-width: @screen-md-min) {
-  
+
   .pageFooter{
     padding: 0;
-    
+
     .regionControls{
       padding: 38px 0;
       border-bottom: 1px solid #fff;
       margin-bottom: 20px;
     }
-    
+
     .socialIcons,.links{
       padding: 25px 0;
     }
-    
-    
+
+
   }
 }
 
@@ -818,7 +882,7 @@ a.signout{
   height: 60px;
   border-bottom: 1px solid #dedede;
   padding-top: 10px;
-  
+
   a{
     color: #000;
   }
@@ -826,13 +890,13 @@ a.signout{
 
 .logout-link{
   padding-top: 25px;
-  
+
   a.signout{
     font-size: 14px;
     text-transform: none;
     color: #000;
   }
-  
+
 }
 
 .regionControlList{
@@ -843,9 +907,13 @@ a.signout{
         color:@darkestgrey;
     }
 
-  
+
     .defaultLang::after{
       content: '*';
-      
+
     }
+}
+
+.yamm .dropdown.yamm-fw .dropdown-menu{
+    background-color: #333;
 }

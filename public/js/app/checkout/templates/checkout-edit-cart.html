@@ -59,7 +59,14 @@
                         {{cart.shippingCost.amount | currency: currencySymbol}}
                     </td>
                 </tr>
-                <tr ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax">
+                <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
+                    <td ng-if="taxLine.name">{{taxLine.name}}</td>
+                    <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
+                    <td class="text-right">
+                        {{taxLine.amount | currency: currencySymbol}}
+                    </td>
+                </tr>
+                <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'">
                     <td>{{'TAX' | translate}}</td>
                     <td class="text-right">
                         {{cart.totalTax.amount | currency: currencySymbol}}
@@ -87,7 +94,7 @@
 				<div class="clearfix">
 					<div class="input-group pull-left" ng-class="{error: item.error}">
 						<span class="input-group-addon">{{'QTY' | translate}}:</span>
-                        <input type="number" quantity-input ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItem(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control" pattern="\d*" step="1" min="0">
+                        <input type="number" quantity-input ng-blur="(!item.quantity || item.quantity === 0) &amp;&amp; removeProductFromCart(item.id)" ng-change="item.quantity &gt; 0 &amp;&amp; updateCartItemQty(item, item.quantity, {closeCartAfterTimeout: false, opencartAfterEdit: false })" ng-model="item.quantity" class="form-control" pattern="\d*" step="1" min="0">
 					</div>
 				</div>
 				<div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>

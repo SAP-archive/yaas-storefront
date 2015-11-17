@@ -270,6 +270,10 @@ angular.module('ds.i18n')
         ONE_MORE_STEP: 'One More Step to Create an Account for a <strong>Fast Checkout</strong> and <strong>Easy Access</strong> to Previous Orders',
         //XFLD
         SKU: 'SKU',
+        //XMSG
+        YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED: 'Your checkout has been accepted, but the order has not been created. For tracking purposes, please use the following checkout ID number: ',
+        //XMSG
+        YOUR_ORDER_WILL_BE_CREATED: 'Your order will be created as soon as possible.',
 
 
         //XFLD
@@ -290,12 +294,26 @@ angular.module('ds.i18n')
         // Product Detail Page
         //-------------------------------------------------
 
+
+        //XFLD
+        SHIPPING_INFORMATION: 'Shipping information',
+        //XFLD
+        SHIPPING_ZONE: 'Shipping Zone',
+
+        //XFLD
+        STANDARD_SHIPPING: 'Standard Shipping',
+        //XFLD
+        SHIPPING_RATE: 'Shipping Rate',
+        //XFLD
+        ZONE: 'Zone',
         //XBUT
         BUY: 'Buy',
         //XBUT
         ADD_TO_CART:'Add to Cart',
         //XTIT
         PRODUCT_DESCRIPTION: 'Product Description',
+        //XTIT
+        PRODUCT_DETAILS: 'Product Details',
         //XBUT
         OUT_OF_STOCK: 'out of stock',
         //XFLD

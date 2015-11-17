@@ -7,7 +7,7 @@ describe('coupons:', function () {
 	function addProductandApplyCoupon(couponCode, price) {
             tu.loadProductIntoCart('1', price);
             tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeysById('coupon-code', couponCode);
+            tu.sendKeys('id', 'coupon-code', couponCode);
             tu.clickElement('id', 'apply-coupon');
 	}
 
@@ -35,8 +35,8 @@ describe('coupons:', function () {
             browser.wait(function () {
                 return element(by.id("ccNumber")).isPresent();
             });
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
@@ -58,16 +58,15 @@ describe('coupons:', function () {
         it('should not allow user to add coupon if not logged in', function () {
         	tu.loadProductIntoCart('1', '$14.92');
         	tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeysById('coupon-code', '10PERCENT');
+            tu.sendKeys('id', 'coupon-code', 'SIGNEDIN');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
         it('should not allow user to add coupon below minimum on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeysById('coupon-code', '20MINIMUM');
+            tu.sendKeys('id', 'coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
             browser.sleep(1000);
@@ -76,7 +75,6 @@ describe('coupons:', function () {
         });
 
         it('should not allow user to add coupon with incorrect currency', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             browser.wait(function () {
                 return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
             });
@@ -89,7 +87,7 @@ describe('coupons:', function () {
             category.click();
             tu.loadProductIntoCart('1', '€18.89');
             tu.clickElement('linkText', 'COUPONCODE HINZUFÜGEN');
-            tu.sendKeysById('coupon-code', '10DOLLAR');
+            tu.sendKeys('id', 'coupon-code', '10DOLLAR');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNG FÜR COUPON UNGÜLTIG');
             browser.sleep(1000);
@@ -101,7 +99,7 @@ describe('coupons:', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeysById('coupon-code', 'SPECIFIC');
+            tu.sendKeys('id', 'coupon-code', 'SPECIFIC');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON NOT VALID');
             browser.sleep(1000);
@@ -110,7 +108,6 @@ describe('coupons:', function () {
         });
 
         it('should add percentage off coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'remove-coupon');
@@ -118,7 +115,6 @@ describe('coupons:', function () {
         });
 
         it('should add dollar off coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10DOLLAR', '$14.92');
             verifyCartDetails('1', '$4.22', '-$10.00');
             tu.clickElement('id', 'remove-coupon');
@@ -126,7 +122,6 @@ describe('coupons:', function () {
         });
 
         it('update coupon totals when item is added and removed from cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
@@ -157,10 +152,9 @@ describe('coupons:', function () {
         });
 
         it('should update coupon totals when quantity is changed', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
-            tu.sendKeysByXpath(tu.cartQuantity, '5');
+            tu.sendKeys('xpath', tu.cartQuantity, '5');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             verifyCartDetails('5', '$54.87', '-$5.34');
@@ -169,7 +163,6 @@ describe('coupons:', function () {
         });
     
         it('should remove coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'remove-coupon')
@@ -179,7 +172,6 @@ describe('coupons:', function () {
         });
 
         it('should not allow user to use expired coupon on cart', function () {
-            tu.loginHelper('coupon@hybristest.com', 'password');
             addProductandApplyCoupon('EXPIRED', '$14.92');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON HAS EXPIRED.');
             removeFromCart();
@@ -199,11 +191,11 @@ describe('coupons:', function () {
             browser.wait(function () {
                 return element(by.id("ccNumber")).isPresent();
             });
-            tu.sendKeysById('firstNameAccount', 'Mike');
-            tu.sendKeysById('lastNameAccount', 'Night');
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             tu.clickElement('linkText', 'Add Coupon Code');
-            tu.sendKeysById('coupon-code', '20MINIMUM');
+            tu.sendKeys('id', 'coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
             browser.wait(function () {
                 return element(by.binding('couponErrorMessage')).isPresent();

@@ -17,9 +17,10 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal) {
             var modalInstance;
+            
             $scope.product = product;
 
             // used by breadcrumb directive
@@ -71,14 +72,15 @@ angular.module('ds.products')
             //input default values must be defined in controller, not html, if tied to ng-model
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
-
+            
             $scope.showShippingRates = function(){
                 
                 modalInstance = $modal.open({
                     templateUrl: 'js/app/shared/templates/shipping-dialog.html',
                     scope: $scope
                 });
-            }
+            };
+
 
             // scroll to top on load
             window.scrollTo(0, 0);
@@ -121,5 +123,7 @@ angular.module('ds.products')
                 }
             };
 
-
+            $scope.hasAnyOfAttributesSet = function(product){
+                return ProductAttributeSvc.hasAnyOfAttributesSet(product);
+            };
 }]);

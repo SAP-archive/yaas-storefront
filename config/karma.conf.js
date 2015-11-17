@@ -60,9 +60,11 @@ module.exports = function(config){
         'public/js/app/shared/directives/y-tracking.js',
         'public/js/app/shared/directives/y-search.js',
         'public/js/app/shared/directives/y-inputs-dir.js',
+        'public/js/app/shared/directives/force-scroll.js',
 
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
+        'public/js/app/home/services/home-svc.js',
 
         'public/js/app/search/search-index.js',
         'public/js/app/search/controllers/search-list-ctrl.js',
@@ -74,6 +76,7 @@ module.exports = function(config){
         'public/js/app/products/services/price-service.js',
         'public/js/app/products/services/price-product-rest.js',
         'public/js/app/products/services/category-service.js',
+        'public/js/app/products/services/product-attribute-service.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',

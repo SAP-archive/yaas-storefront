@@ -26,7 +26,8 @@ exports.config = {
         'record-video': false,
         'max-duration': 10800,
         'time-zone': 'Berlin',
-        
+        'name': 'storefront tests',
+
         // not currently using phantomjs
         // 'browserName': 'phantomjs',
         // 'phantomjs.cli.args': ['--ignore-ssl-errors=true', '--web-security=false', '--ssl-protocol=any']
