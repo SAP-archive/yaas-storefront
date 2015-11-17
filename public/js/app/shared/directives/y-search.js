@@ -118,7 +118,7 @@ angular.module('ds.ysearch')
         scope.goToResultsPage = function () {
             if (scope.search && scope.search.text && scope.search.text.length) {
                 scope.hideSearchResults();
-                $state.go('base.search', { searchString: scope.search.text })
+                $state.go('base.search', { searchString: scope.search.text });
             }
         };
     }]);
