@@ -98,7 +98,6 @@ angular.module('ds.ytracking', [])
                 if (!!consentReferenceCookie) {
                     return consentReferenceCookie;
                 } else {
-                    makeOptInRequest();
                     return '';
                 }
             };
@@ -123,7 +122,7 @@ angular.module('ds.ytracking', [])
                 });
             };
 
-            if (!CookieSvc.getConsentReferenceCookie()) {
+            if (!getConsentReference()) {
                 //noinspection JSUnusedAssignment
                 makeOptInRequest();
             }
