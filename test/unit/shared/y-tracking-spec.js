@@ -36,7 +36,8 @@ describe('ytracking', function () {
         }
     };
     var mockedCookieSvc = {
-        setConsentReferenceCookie: jasmine.createSpy()
+        setConsentReferenceCookie: jasmine.createSpy(),
+        getConsentReferenceCookie: jasmine.createSpy()
     };
     var mockedLocalStorage = {};
 

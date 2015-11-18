@@ -123,8 +123,10 @@ angular.module('ds.ytracking', [])
                 });
             };
 
-            //noinspection JSUnusedAssignment
-            makeOptInRequest();
+            if (!CookieSvc.getConsentReferenceCookie()) {
+                //noinspection JSUnusedAssignment
+                makeOptInRequest();
+            }
 
             /**
             * Url for piwik service
