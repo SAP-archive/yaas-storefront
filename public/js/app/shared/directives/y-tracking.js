@@ -88,20 +88,54 @@ angular.module('ds.ytracking', [])
                 }
             };
         }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'CookieSvc',
+        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, CookieSvc) {
 
             var internalCart = {};
+
+            var getConsentReference = function () {
+                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
+                if (!!consentReferenceCookie) {
+                    return consentReferenceCookie;
+                } else {
+                    return '';
+                }
+            };
+
+            // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
+            // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
+            // to fetch the consent-reference.
+            var makeOptInRequest = function() {
+                var req = {
+                    method: 'POST',
+                    url: siteConfig.apis.trackingConsent.baseUrl,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                };
+
+                $http(req).success(function (response) {
+                    if (!!response.id) {
+                        CookieSvc.setConsentReferenceCookie(response.id);
+                    }
+                });
+            };
+
+            if (!getConsentReference()) {
+                //noinspection JSUnusedAssignment
+                makeOptInRequest();
+            }
 
             /**
             * Url for piwik service
             */
-            var url = siteConfig.apis.tracking.baseUrl;
+            var piwikUrl = siteConfig.apis.tracking.baseUrl;
 
             /**
             * Create object from piwik GET request
             */
-            var getQueryParameters = function (hash) {
+            var getPiwikQueryParameters = function (hash) {
                 var split = hash.split('&');
 
                 var obj = {};
@@ -119,26 +153,27 @@ angular.module('ds.ytracking', [])
             /**
             * Function that process piwik requests
             */
-            var processRequest = function (e) {
+            var processPiwikRequest = function (e) {
 
                 //Get object from query parameters
-                var obj = getQueryParameters(e);
+                var obj = getPiwikQueryParameters(e);
 
                 //Make post request to service
-                makeRequest(obj);
+                makePiwikRequest(obj);
             };
 
             /**
             * Function that creates POST request to CDM endpoint
             */
-            var makeRequest = function (obj) {
+            var makePiwikRequest = function (obj) {
 
                 var req = {
                     method: 'POST',
-                    url: url,
+                    url: piwikUrl,
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'consent-reference': getConsentReference()
                     },
                     data: JSON.stringify(obj)
                 };
@@ -147,7 +182,7 @@ angular.module('ds.ytracking', [])
                         //Get all items that failed before and resend them to PIWIK server
                         var items = localStorage.getAllItems(yTrackingLocalStorageKey);
                         for (var i = 0; i < items.length; i++) {
-                            makeRequest(items[i]);
+                            makePiwikRequest(items[i]);
                         }
                     }).error(function () {
                         //Store request to localstorage so it can be sent again when possible
@@ -162,7 +197,7 @@ angular.module('ds.ytracking', [])
                 $window._paq = $window._paq || [];
 
                 //Make requests to service custom
-                $window._paq.push(['setCustomRequestProcessing', processRequest]);
+                $window._paq.push(['setCustomRequestProcessing', processPiwikRequest]);
 
                 //Set document title
                 $window._paq.push(['setDocumentTitle', 'PageViewEvent']);
@@ -170,7 +205,7 @@ angular.module('ds.ytracking', [])
                 //Set user id to equal the user token
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
-                $window._paq.push(['setTrackerUrl', url]);
+                $window._paq.push(['setTrackerUrl', piwikUrl]);
 
                 //Add site code. It should be   <tenant>.<siteCode>
                 $window._paq.push(['setSiteId', GlobalData.store.tenant + '.' + GlobalData.getSiteCode()]);
