@@ -405,11 +405,11 @@ angular.module('ds.i18n')
         //XFLD
         ITEMS_IN_ORDER: 'Menge Artikel',
         //XMSG
-        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates. ( translate to german )',
+        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates.',
         //XMSG
-        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again. ( translate to german )',
+        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again.',
         //XMSG
-        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again. ( translate to german )',
+        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again.',
 
         //XBUT
         //-------------------------------------------------

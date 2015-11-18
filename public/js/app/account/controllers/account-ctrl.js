@@ -80,9 +80,8 @@ angular.module('ds.account')
             };
 
 
-            var extractServerSideErrors = function (response, action) {
+            var extractServerSideErrors = function (response) {
                 var errors = [];
-                $scope.errorAddressId = response.config.url.split('/')[response.config.url.split('/').length - 1];
                 if (response.status === 400) {
                     if (response.data && response.data.details && response.data.details.length) {
                         errors = response.data.details;
@@ -91,22 +90,14 @@ angular.module('ds.account')
                     if (response.data && response.data.message) {
                         errors.push({ message: response.data.message });
                     }
-                } else if (response.status === 500) {
-                    $scope.action = action;
-                    if (action === 'save') {
-                        $translate('SAVE_ADDRESS_ERROR').then(function (translatedValue) {
-                            errors.push({ message: translatedValue });
-                        });
-                        $scope.errorAddressId = null;
-                    }else if (action === 'remove') {
-                        $translate('REMOVE_ADDRESS_ERROR').then(function (translatedValue) {
-                            errors.push({ message: translatedValue });
-                        });
-                    }else if (action === 'default') {
-                        $translate('UPDATE_DEFAULT_ADDRESS_ERROR').then(function (translatedValue) {
-                            errors.push({ message: translatedValue });
-                        });
-                    }
+                }
+                return errors;
+            };
+
+            var extractAddressErrors = function (response, errorMsg) {
+                var errors = extractServerSideErrors(response);
+                if (response.status === 500) {
+                    errors.push({ message: errorMsg });
                 }
                 return errors;
             };
@@ -127,7 +118,8 @@ angular.module('ds.account')
                             modalInstance.close();
                         },
                         function (response) {
-                            $scope.errors = extractServerSideErrors(response, 'save');
+                            $scope.errorAddressId = null;
+                            $scope.errors = extractAddressErrors(response, $translate.instant('SAVE_ADDRESS_ERROR'));
                         }
                     );
                 } else {
@@ -183,7 +175,6 @@ angular.module('ds.account')
 
             $scope.removeAddress = function (address) {
                 address.account = customerNumber;
-
                 $translate('CONFIRM_ADDRESS_REMOVAL').then(function( msg){
                     if (window.confirm(msg)) {
                         AccountSvc.removeAddress(address).then(
@@ -191,7 +182,8 @@ angular.module('ds.account')
                                 $scope.refreshAddresses();
                             },
                             function (response) {
-                                $scope.errors = extractServerSideErrors(response, 'remove');
+                                $scope.errorAddressId = address.id;
+                                $scope.errors = extractAddressErrors(response, $translate.instant('REMOVE_ADDRESS_ERROR'));
                             }
                         );
                     }
@@ -217,7 +209,8 @@ angular.module('ds.account')
                     },
                     function (response) {
                         $scope.refreshAddresses();
-                        $scope.errors = extractServerSideErrors(response, 'default');
+                        $scope.errorAddressId = address.id;
+                        $scope.errors = extractAddressErrors(response, $translate.instant('UPDATE_DEFAULT_ADDRESS_ERROR'));
                     }
                 );
             };
