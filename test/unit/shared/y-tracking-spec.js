@@ -13,6 +13,16 @@
 describe('ytracking', function () {
 
     var $q, $httpBackend, $scope, $compile, $rootScope, $timeout, mockedYtrackingSvc, mockedLocalStorage, mockedYtrackingDirective;
+    var mockedSettings = {
+        headers: {
+            hybrisTenant: 'hybris-tenant'
+        }
+    };
+    var mockedAppConfig = {
+        storeTenant: function () {
+            return 'default';
+        }
+    };
     var mockedSiteConfig = {
         apis: {
             tracking: {
@@ -84,6 +94,8 @@ describe('ytracking', function () {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('SiteConfigSvc', mockedSiteConfig);
         $provide.value('localStorage', mockedLocalStorage);
+        $provide.value('settings', mockedSettings);
+        $provide.value('appConfig', mockedAppConfig);
     }));
 
     beforeEach(inject(function (_$httpBackend_, _$q_, _$rootScope_, _$window_, _$compile_, _$timeout_) {
