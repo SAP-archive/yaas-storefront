@@ -13,9 +13,11 @@
         <div class="col-xs-4 text-right">
             <div class="row">
                 <div class="col-xs-6">
-                    <site-selector></site-selector>
+                    <div class="pull-right">
+                        <site-selector cla></site-selector>
+                    </div>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-6 text-center">
                     <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn cart-button"
                             ng-click="toggleCart()">
                         <span class="shopping-bag">
@@ -44,7 +46,7 @@
             </div>
             <div class="col-xs-3 cart">
                 <div class="row">
-                    <div class="col-xs-6 col-md-8">
+                    <div class="col-xs-6 col-md-7">
                         <div class="text-center">
                             <a id="login-btn" ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
                                 <img src="./img/user-icon_small_active.png" class="user-avatar">
@@ -66,7 +68,7 @@
                             </div>
                         </div>
                     </div> 
-                    <div class="col-xs-3 col-md-2 text-center">
+                    <div class="col-xs-3 col-md-3 text-center">
                         <site-selector></site-selector>
                     </div>
                     <div class="col-xs-3 col-md-2 text-center checkout-btn-container">

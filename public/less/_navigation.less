@@ -896,9 +896,18 @@ a.signout{
 //// Site selector
 ///////////////////////
 
+.mobileNav .regionControls {
+    margin-top: 16px;
+
+    .regionMenu{
+        top: 55px;
+    }
+}
+
+    
 .regionControls {
     .controlcontainer{
-        display: inline-block;
+        display:  inline-block;
         position: relative;
     }
 
@@ -912,11 +921,11 @@ a.signout{
         max-height: 260px;
         overflow-y: auto;
         overflow-x: hidden;
-        top: 40px;
+        top: 50px;
         left: -220px;
         padding: 15px;
         color: #b3b8bb;
-        background-color: #d6dbde;
+        background-color: @white;
 
         .selected{
             color:@maxdarkgrey;
