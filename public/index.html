@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible }">
+<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible, 'force-scroll': forceScroll }">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,6 +72,7 @@
     <script src="js/app/shared/directives/y-tracking.js"></script>
     <script src="js/app/shared/directives/y-search.js"></script>
     <script src="js/app/shared/directives/y-inputs-dir.js"></script>
+    <script src="js/app/shared/directives/force-scroll.js"></script>
     <script src="js/app/shared/services/cookie-svc.js"></script>
     <script src="js/app/shared/services/global-data.js"></script>
     <script src="js/app/shared/services/site-settings-rest.js"></script>

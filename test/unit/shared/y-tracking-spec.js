@@ -23,10 +23,15 @@ describe('ytracking', function () {
             return 'default';
         }
     };
+    var consentReference = 'consent-reference';
+
     var mockedSiteConfig = {
         apis: {
             tracking: {
                 baseUrl: 'piwikUrl'
+            },
+            trackingConsent: {
+                baseUrl: 'optInUrl'
             }
         }
     };
@@ -40,6 +45,10 @@ describe('ytracking', function () {
         getSiteCode: function () {
             return 'site';
         }
+    };
+    var mockedCookieSvc = {
+        setConsentReferenceCookie: jasmine.createSpy(),
+        getConsentReferenceCookie: jasmine.createSpy()
     };
     var mockedLocalStorage = {};
 
@@ -96,6 +105,7 @@ describe('ytracking', function () {
         $provide.value('localStorage', mockedLocalStorage);
         $provide.value('settings', mockedSettings);
         $provide.value('appConfig', mockedAppConfig);
+        $provide.value('CookieSvc', mockedCookieSvc);
     }));
 
     beforeEach(inject(function (_$httpBackend_, _$q_, _$rootScope_, _$window_, _$compile_, _$timeout_) {
@@ -106,6 +116,8 @@ describe('ytracking', function () {
         $window = _$window_;
         $compile = _$compile_;
         $timeout = _$timeout_;
+
+        $httpBackend.whenPOST(mockedSiteConfig.apis.trackingConsent.baseUrl).respond(201, {id: consentReference});
 
         inject(function ($injector) {
             mockedYtrackingSvc = $injector.get('ytrackingSvc');
@@ -129,6 +141,11 @@ describe('ytracking', function () {
                 }
             }
             expect(containsCustomProcessing).toBe(true);
+        });
+
+        it('should acquire consent-reference from opt-in service', function() {
+            $httpBackend.flush();
+            expect(mockedCookieSvc.setConsentReferenceCookie).toHaveBeenCalledWith(consentReference);
         });
     });
 
