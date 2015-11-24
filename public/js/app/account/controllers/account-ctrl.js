@@ -19,7 +19,7 @@ angular.module('ds.account')
 
             var modalInstance;
             var originalAccountData;
-            var customerNumber = account.customerNumber;
+            var customerNumber = !!account ? account.customerNumber : null;
             var notSet = '';
             $translate('NOT_SET').then(function(value){
                 notSet = value;
