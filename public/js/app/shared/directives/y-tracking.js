@@ -178,14 +178,10 @@ angular.module('ds.ytracking', [])
                     data: JSON.stringify(obj)
                 };
 
-                //work around if not going through Apigee proxy for a particular URL, such as while testing new services
-                if (piwikUrl.indexOf('internal') >= 0) {
-                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
-                }
-
                 //pass 'piwik' as event type if the tracking endpoint is the edge endpoint
                 if (piwikUrl.indexOf('edge') >= 0) {
                     req.headers['event-type'] = 'piwik';
+                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
                 }
 
                 $http(req).success(function () {
