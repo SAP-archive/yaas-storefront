@@ -12,15 +12,14 @@
 
 
 (function () {
-
     'use strict';
+
     angular.module('ds.shared')
         .directive('siteSelector', function () {
             return {
                 restrict: 'E',
                 controller: 'SiteSelectorController',
-                templateUrl: 'js/app/shared/directives/site-selector/site-selector.html',
-                replace: true
+                templateUrl: 'js/app/shared/directives/site-selector/site-selector.html'
             };
         });
 
