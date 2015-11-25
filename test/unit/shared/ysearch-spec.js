@@ -12,7 +12,7 @@
 
 describe('ySearch Test', function () {
 
-    var $scope, $compile, $controller, $rootScope, $q, mockedSiteConfigSvc, deferredSearch;
+    var $scope, $compile, $controller, $rootScope, $q, mockedSiteConfigSvc, deferredSearch, mockedState;
     var $httpBackend, deferredConfig, ysearchREST;
     var mockedYSearchService;
     var templateHtml = '<div></div>';
@@ -30,6 +30,9 @@ describe('ySearch Test', function () {
             }
         }
     };
+    mockedState = {
+        go: jasmine.createSpy()
+    };
     var configResponse = {
         "algoliaCredentials": {
             "applicationId": "appID",
@@ -42,6 +45,7 @@ describe('ySearch Test', function () {
     beforeEach(module('ds.shared', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('SiteConfigSvc', mockedSiteConfigSvc);
+        $provide.value('$state', mockedState);
     }));
 
     beforeEach(module('restangular'));
