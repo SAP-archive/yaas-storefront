@@ -88,8 +88,8 @@ angular.module('ds.ytracking', [])
                 }
             };
         }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'CookieSvc',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, CookieSvc) {
+    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
+        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
             var internalCart = {};
 
@@ -178,16 +178,23 @@ angular.module('ds.ytracking', [])
                     data: JSON.stringify(obj)
                 };
 
+                //pass 'piwik' as event type if the tracking endpoint is the edge endpoint
+                if (piwikUrl.indexOf('edge') >= 0) {
+                    req.headers['event-type'] = 'piwik';
+                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
+                }
+
                 $http(req).success(function () {
-                        //Get all items that failed before and resend them to PIWIK server
-                        var items = localStorage.getAllItems(yTrackingLocalStorageKey);
-                        for (var i = 0; i < items.length; i++) {
-                            makePiwikRequest(items[i]);
-                        }
-                    }).error(function () {
-                        //Store request to localstorage so it can be sent again when possible
-                        localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
-                    });
+                    //Get all items that failed before and resend them to PIWIK server
+                    var items = localStorage.getAllItems(yTrackingLocalStorageKey);
+                    for (var i = 0; i < items.length; i++) {
+                        makePiwikRequest(items[i]);
+                    }
+                }).error(function () {
+                    //Store request to localstorage so it can be sent again when possible
+                    localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
+                });
+
             };
 
             /**

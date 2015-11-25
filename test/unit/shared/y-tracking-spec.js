@@ -13,7 +13,18 @@
 describe('ytracking', function () {
 
     var $q, $httpBackend, $scope, $compile, $rootScope, $timeout, mockedYtrackingSvc, mockedLocalStorage, mockedYtrackingDirective;
+    var mockedSettings = {
+        headers: {
+            hybrisTenant: 'hybris-tenant'
+        }
+    };
+    var mockedAppConfig = {
+        storeTenant: function () {
+            return 'default';
+        }
+    };
     var consentReference = 'consent-reference';
+
     var mockedSiteConfig = {
         apis: {
             tracking: {
@@ -92,6 +103,8 @@ describe('ytracking', function () {
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('SiteConfigSvc', mockedSiteConfig);
         $provide.value('localStorage', mockedLocalStorage);
+        $provide.value('settings', mockedSettings);
+        $provide.value('appConfig', mockedAppConfig);
         $provide.value('CookieSvc', mockedCookieSvc);
     }));
 
