@@ -89,7 +89,11 @@ angular.module('ds.shared')
                 },
 
                 tracking: {
-                    baseUrl: 'https://' + apiPath + '/hybris/piwik/b1/' + tenantId + '/events'
+                    baseUrl: 'https://' + apiPath + '/hybris/edge/b1/events'
+                },
+
+                trackingConsent: {
+                    baseUrl: 'https://' + apiPath + '/hybris/consent/b1/' + tenantId + '/consentReferences'
                 },
 
                 indexing: {

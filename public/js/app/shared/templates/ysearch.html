@@ -1,27 +1,29 @@
 <div class="y-search" ng-show="search.searchAvailable">
-    <div class="right-inner-addon">
-        <i ng-class="{'active': search.showSearchResults}" class="glyphicon glyphicon-search js-glyphicon"></i>
-        <input id="search" autocomplete="off" placeholder="{{'SEARCH' | translate}}" type="text" ng-model="search.text"
-               ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()"
-               class="y-input form-control input-md"/>
-    </div>
-    <div class="y-search-container" ng-show="search.showSearchResults && search.results.length > 0">
-        <a class="form-control y-search-results" ng-click="hideSearchResults()"
-           ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">
-            <div class="attribute">
+    <form name="searchForm" novalidate ng-submit="goToResultsPage()">
+        <div class="right-inner-addon">
+            <i ng-class="{'active': search.showSearchResults}" class="glyphicon glyphicon-search js-glyphicon"></i>
+            <input id="search" autocomplete="off" placeholder="{{'SEARCH' | translate}}" type="text" ng-model="search.text"
+                   ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()"
+                   class="y-input form-control input-md"/>
+        </div>
+        <div class="y-search-container" ng-show="search.showSearchResults && search.results.length > 0">
+            <a class="form-control y-search-results" ng-click="hideSearchResults()"
+               ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">
+                <div class="attribute">
                 <span class="y-search-result-name text-left"
                       ng-bind-html="result._highlightResult.name[0].value"></span>
-            </div>
-        </a>
-        <a class=" y-search-count text-center" ng-click="hideSearchResults()"
-           ui-sref="base.search({ searchString:search.text })">{{'SEE_ALL' | translate}} {{search.numberOfHits}}
-            {{'RESULTS' | translate}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
-    </div>
+                </div>
+            </a>
+            <a class=" y-search-count text-center" ng-click="hideSearchResults()"
+               ui-sref="base.search({ searchString:search.text })">{{'SEE_ALL' | translate}} {{search.numberOfHits}}
+                {{'RESULTS' | translate}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+        </div>
 
-    <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && search.searchError">
-        <div class="y-search-unavailable-text">{{'SEARCH_UNAVAILABLE' | translate}}</div>
-    </div> 
-    <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && !search.searchError && search.zeroResults">
-        <div class="y-search-unavailable-text">{{'NO_RESULTS_FOUND' | translate}}</div>
-    </div>
+        <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && search.searchError">
+            <div class="y-search-unavailable-text">{{'SEARCH_UNAVAILABLE' | translate}}</div>
+        </div>
+        <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && !search.searchError && search.zeroResults">
+            <div class="y-search-unavailable-text">{{'NO_RESULTS_FOUND' | translate}}</div>
+        </div>
+    </form>
 </div>
