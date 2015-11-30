@@ -168,8 +168,8 @@ describe("cart:", function () {
             tu.selectOption('US');
             tu.clickElement('id', 'apply-btn');
             // DR - This tax has changed, why?
-            //expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$0.69');
-            expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$1.23');
+            expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$0.69');
+            //expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$1.23');
 
         });
 
