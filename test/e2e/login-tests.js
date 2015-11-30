@@ -24,11 +24,14 @@ describe("login:", function () {
         beforeEach(function () {
             // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1000, 1100);
+            browser.driver.manage().window().setSize(1200, 1100);
             browser.get(tu.tenant + '/#!/ct');
             browser.switchTo().alert().then(
-                function (alert) { alert.dismiss(); },
-                function (err) { }
+                function (alert) {
+                    alert.dismiss();
+                },
+                function (err) {
+                }
             );
 
         });
@@ -124,7 +127,8 @@ describe("login:", function () {
         });
 
         //disabled until KIWIS-2024 can be fixed
-        xit('should not allow user to update their password with incorrect password', function () {
+        //DR - KIWIS-2024 is fixed now, re-enabled the test
+        it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
@@ -185,7 +189,7 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(1500);
-            tu.clickElement('id', 'my-account-dropdown')
+            tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('css', '#logout-btn > a.ng-binding');
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
@@ -204,7 +208,7 @@ describe("login:", function () {
             browser.sleep(1500);
         });
 
-        xit('should allow user to access order confirmation', function (){
+        xit('should allow user to access order confirmation', function () {
             browser.sleep(5000);
             browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
             browser.wait(function () {

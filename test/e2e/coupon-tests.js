@@ -4,60 +4,64 @@ var tu = require('./protractor-utils.js');
 
 describe('coupons:', function () {
 
-	function addProductandApplyCoupon(couponCode, price) {
-            tu.loadProductIntoCart('1', price);
-            tu.clickElement('linkText', 'ADD COUPON CODE');
-            tu.sendKeys('id', 'coupon-code', couponCode);
-            tu.clickElement('id', 'apply-coupon');
-	}
+    function addProductandApplyCoupon(couponCode, price) {
+        tu.loadProductIntoCart('1', price);
+        tu.clickElement('linkText', 'ADD COUPON CODE');
+        tu.sendKeys('id', 'coupon-code', couponCode);
+        tu.clickElement('id', 'apply-coupon');
+    }
 
-    function verifyCartDetails(cartAmount, totalAmount, discountAmount){
-            tu.verifyCartAmount(cartAmount);
-            tu.verifyCartTotal(totalAmount);
-            tu.verifyCartDiscount(discountAmount);
+    function verifyCartDetails(cartAmount, totalAmount, discountAmount) {
+        tu.verifyCartAmount(cartAmount);
+        tu.verifyCartTotal(totalAmount);
+        tu.verifyCartDiscount(discountAmount);
     }
 
     function removeFromCart() {
-            tu.clickElement('id', tu.removeFromCart);
-            browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
-            });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-    };
+        tu.clickElement('id', tu.removeFromCart);
+        browser.wait(function () {
+            return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+        });
+        expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+    }
 
     function couponCheckoutTest(couponCode, price) {
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            addProductandApplyCoupon(couponCode, price);
-            tu.clickElement('binding', 'CHECKOUT');
-            browser.wait(function () {
-                return element(by.id("ccNumber")).isPresent();
-            });
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            element(by.id('titleAccount')).sendKeys('Mr.');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
+        var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+        browser.driver.actions().mouseMove(category).perform();
+        browser.sleep(200);
+        category.click();
+        addProductandApplyCoupon(couponCode, price);
+        tu.clickElement('binding', 'CHECKOUT');
+        browser.wait(function () {
+            return element(by.id("ccNumber")).isPresent();
+            /**/
+        });
+        tu.sendKeys('id', 'firstNameAccount', 'Mike');
+        tu.sendKeys('id', 'lastNameAccount', 'Night');
+        element(by.id('titleAccount')).sendKeys('Mr.');
+        tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+        browser.sleep(500);
+        tu.clickElement('id', 'place-order-btn');
     }
 
     describe('verify coupons', function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1000, 1000);
+            browser.driver.manage().window().setSize(1200, 1000);
             browser.get(tu.tenant + '/#!/ct/');
             browser.switchTo().alert().then(
-                function (alert) { alert.accept(); },
-                function (err) { }
+                function (alert) {
+                    alert.accept();
+                },
+                function (err) {
+                }
             );
         });
 
         it('should not allow user to add coupon if not logged in', function () {
-        	tu.loadProductIntoCart('1', '$14.92');
-        	tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.loadProductIntoCart('1', '$14.92');
+            tu.clickElement('linkText', 'ADD COUPON CODE');
             tu.sendKeys('id', 'coupon-code', 'SIGNEDIN');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
@@ -81,7 +85,7 @@ describe('coupons:', function () {
             browser.sleep(500);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.switchSite('Sushi Demo Store Germany');
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -125,7 +129,7 @@ describe('coupons:', function () {
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
             tu.clickElement('id', 'continue-shopping');
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -161,11 +165,11 @@ describe('coupons:', function () {
             tu.clickElement('id', 'remove-coupon');
             removeFromCart();
         });
-    
+
         it('should remove coupon on cart', function () {
             addProductandApplyCoupon('10PERCENT', '$14.92');
             verifyCartDetails('1', '$13.77', '-$1.07');
-            tu.clickElement('id', 'remove-coupon')
+            tu.clickElement('id', 'remove-coupon');
             tu.verifyCartAmount('1');
             tu.verifyCartTotal('$14.92');
             removeFromCart();
@@ -182,7 +186,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontestmin1');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(1000);
-            var category =  element(by.repeater('top_category in categories').row(1).column('category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
