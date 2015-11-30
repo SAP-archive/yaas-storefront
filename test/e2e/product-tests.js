@@ -8,11 +8,14 @@ describe('product page', function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1000, 1000);
+            browser.driver.manage().window().setSize(1200, 1000);
             browser.get(tu.tenant + '/#!/ct/');
             browser.switchTo().alert().then(
-                function (alert) { alert.accept(); },
-                function (err) { }
+                function (alert) {
+                    alert.accept();
+                },
+                function (err) {
+                }
             );
         });
 
@@ -39,7 +42,7 @@ describe('product page', function () {
         it('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
             expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('1-');
-            tu.scrollToBottomOfProducts()
+            tu.scrollToBottomOfProducts();
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
             expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
@@ -47,7 +50,7 @@ describe('product page', function () {
         });
 
         it('should get product detail page', function () {
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -66,7 +69,7 @@ describe('product page', function () {
             // verify refreshing grabs correct config (STOR-1183)
             browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.');
-            expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');          
+            expect(element(by.binding('taxConfiguration.label')).getText()).toEqual('Inkl. 25% moms');
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('€7.99');
         });
 
@@ -110,7 +113,7 @@ describe('product page', function () {
             //price is not currently supported
             browser.sleep(3000);
             // tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -135,7 +138,7 @@ describe('product page', function () {
             //default load
             tu.getTextByRepeaterRow(0);
             browser.sleep(3000);
-            var category =  element(by.repeater('top_category in categories').row(0).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(0).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -152,7 +155,7 @@ describe('product page', function () {
             //default load
             tu.getTextByRepeaterRow(0);
             browser.sleep(3000);
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -167,10 +170,10 @@ describe('product page', function () {
 
         it('should search', function () {
             browser.wait(function () {
-                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+                return element(by.css('.col-xs-7 #search')).isPresent();
             });
-
-            tu.sendKeys('css', 'div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'beer');
+            browser.sleep(5000);
+            tu.sendKeys('css', '.col-xs-7 #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
             element(by.repeater('result in search.results').row(1)).click();
@@ -179,9 +182,9 @@ describe('product page', function () {
 
         it('not return search results', function () {
             browser.wait(function () {
-                return element(by.css('div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search')).isPresent();
+                return element(by.css('.col-xs-7 #search')).isPresent();
             });
-            tu.sendKeys('css', 'div.col-xs-7.search > div.y-search.ng-isolate-scope > div.right-inner-addon > #search', 'test1');
+            tu.sendKeys('css', '.col-xs-7 #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
 

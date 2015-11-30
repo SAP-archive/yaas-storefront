@@ -3,36 +3,38 @@ var tu = require('./protractor-utils.js');
 
 describe("cart:", function () {
 
-        beforeEach(function () {
-            browser.manage().deleteAllCookies();
-            // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
-            browser.driver.manage().window().setSize(1200, 1100);
-            browser.get(tu.tenant + '/#!/ct/');
-            // browser.switchTo().alert().then(
-            //     function (alert) { alert.dismiss(); },
-            //     function (err) { }
-            // );
-        });
+    beforeEach(function () {
+        browser.manage().deleteAllCookies();
+        // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
+        browser.driver.manage().window().setSize(1200, 1100);
+        browser.get(tu.tenant + '/#!/ct/');
+        // browser.switchTo().alert().then(
+        //     function (alert) { alert.dismiss(); },
+        //     function (err) { }
+        // );
+    });
 
-        afterEach(function () {
-            //dismisses any alerts left open
-            browser.switchTo().alert().then(
-                function (alert) { alert.dismiss(); },
-                function (err) { }
-            );
-        });
+    afterEach(function () {
+        //dismisses any alerts left open
+        browser.switchTo().alert().then(
+            function (alert) {
+                alert.dismiss();
+            },
+            function (err) {
+            }
+        );
+    });
 
     describe("verify cart functionality", function () {
-
 
 
         it('should load one product into cart', function () {
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('id', tu.removeFromCart);
             browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed(); //checks to see if cart text is displayed
+                return element(by.xpath("//*[@id='cart']/div/div[2]")).isDisplayed(); //checks to see if cart text is displayed
             });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+            expect(element(by.xpath("//*[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
         });
 
         it('should load one product into cart in Euros', function () {
@@ -42,7 +44,7 @@ describe("cart:", function () {
             browser.sleep(500);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.switchSite('Sushi Demo Store Germany');
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -69,7 +71,7 @@ describe("cart:", function () {
             tu.loadProductIntoCart('1', '$14.92');
             tu.clickElement('binding', 'CONTINUE_SHOPPING');
             // must hover before click
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -155,7 +157,7 @@ describe("cart:", function () {
             browser.sleep(500);
             tu.clickElement('xpath', tu.whiteCoffeeMug);
             tu.switchSite('Avalara');
-            var category =  element(by.repeater('top_category in categories').row(1).column('top_category.name'));
+            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
@@ -165,7 +167,9 @@ describe("cart:", function () {
             tu.clickElement('id', 'country');
             tu.selectOption('US');
             tu.clickElement('id', 'apply-btn');
+            // DR - This tax has changed, why?
             expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$0.69');
+            //expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$1.23');
 
         });
 
