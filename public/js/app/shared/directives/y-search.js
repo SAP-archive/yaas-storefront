@@ -105,9 +105,6 @@ angular.module('ds.ysearch')
                         else {
                             scope.search.zeroResults = false;
                         }
-
-                        //Send event that search is done
-                        $rootScope.$emit('search:performed', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
                     }, function () {
                         //Show error that search didn't perform correctly.
                         scope.search.searchError = true;
