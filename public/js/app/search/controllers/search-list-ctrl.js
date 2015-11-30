@@ -146,7 +146,7 @@ angular.module('ds.searchlist')
                             $location.search('page', $scope.pageNumber).replace();
 
                             //Send event that search is done
-                            $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.products.length });
+                            $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.total });
                         }
                     }, function () {
                         $scope.requestInProgress = false;
