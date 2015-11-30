@@ -117,7 +117,8 @@ angular.module('ds.shared')
                     clientId: appConfig.clientId(),
                     redirectURI: appConfig.redirectURI(),
                     name: '',
-                    logo: null
+                    logo: null,
+                    icon: null
                 },
 
                 user: {
@@ -280,12 +281,23 @@ angular.module('ds.shared')
                         }
 
                         //Set main image
-                        if (!!site.mixins && !!site.mixins.storeLogoImageKey && !!site.mixins.storeLogoImageKey.value) {
+                        if (!!site.mixins && !!site.mixins.storeLogoImageKey &&
+                            !!site.mixins.storeLogoImageKey.value) {
                             this.store.logo = site.mixins.storeLogoImageKey.value;
                         }
                         else {
                             //Delete this property and make store fallback to default
                             delete this.store.logo;
+                        }
+
+                        //Set site icon
+                        if (!!site.mixins && !!site.mixins.storeIconImageKey &&
+                            !!site.mixins.storeIconImageKey.value) {
+                            this.store.icon = site.mixins.storeIconImageKey.value;
+                        }
+                        else {
+                            //Delete this property and make store fallback to default
+                            delete this.store.icon;
                         }
 
                         //Create array

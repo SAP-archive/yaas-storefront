@@ -1,36 +1,42 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
-        <!-- mobile "hamburger" menu button-->
-        <div class="col-xs-3 ">
+        <div class="col-xs-4 ">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
             </button>
         </div>
-        <div class="col-xs-6 text-center">
+        <div class="col-xs-4 text-center">
             <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
-        
-        <div class="col-xs-3 text-right">
-            <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn cart-button"
-                    ng-click="toggleCart()">
-                <span class="shopping-bag">
-                    <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-                </span>
-            </button>
-        </div>
 
+        <div class="col-xs-4 text-right">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="pull-right">
+                        <site-selector id="siteSelectorSmall"></site-selector>
+                    </div>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn cart-button"
+                            ng-click="toggleCart()">
+                        <span class="shopping-bag">
+                            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
 </div>
-        
-        
-        
+
+
+
 <div class="desktopNav hidden-xs hidden-sm visible-md visible-lg">
     <div class="row info">
         <div class="content-container">
             <div class="col-xs-2 logo">
                 <a ui-sref="base.home" class="logo">
-                    <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}"  height="46" alt=""/>
-                    <!--<img ng-src="{{store.logo || 'img/logo.png'}}" widt alt=""/>-->
+                    <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
                 </a>
             </div>
             <div class="col-xs-7 search">
@@ -48,7 +54,7 @@
                         <div ng-if="user.isAuthenticated">
                             <div class="signin-container ">
                                 <div class="text-center dropdown">
-                                    <a class="my-profile dropdown-toggle"  title="{{'MY_ACCOUNT' | translate}}">
+                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}">
                                         <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
                                     </a>
                                     <ul class="dropdown-menu">
@@ -59,16 +65,19 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                    <div class="col-xs-6 col-md-5 text-center checkout-btn-container">
-                        <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-                        <span class="shopping-bag">
-                            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-                        </span>
-                        </button>
-                        
                     </div>
-                    
+                    <div class="col-xs-3 col-md-3 text-center">
+                        <site-selector id="siteSelectorLarge"></site-selector>
+                    </div>
+                    <div class="col-xs-3 col-md-2 text-center checkout-btn-container">
+                        <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+                            <span class="shopping-bag">
+                                <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                            </span>
+                        </button>
+
+                    </div>
+
                 </div>
                 <div class="cart-and-account-container">
                 </div>
@@ -80,17 +89,19 @@
         <div class="content-container">
             <div class="navbar yamm navbar-default">
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw"> <!-- class="has-sub" -->
+                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw">
+                        <!-- class="has-sub" -->
                         <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
                             {{ top_category.name  }}
                             <ul class="dropdown-menu js-flyoutMenu" ng-if="top_category.subcategories">
                                 <div ng-repeat="sub2 in top_category.subcategories" class="col-xs-2">
 
-                                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">{{sub2.name }}
+                                    <a data-ui-sref="base.category( {catName: sub2.slug} )" class="secondaryCategory categoryLevel" ng-class="{'noSubCategories': sub2.subcategories == undefined}">
+                                        {{sub2.name }}
                                         <div class="tertiaryCategory">
                                             <ul>
                                                 <li ng-repeat="sub3 in sub2.subcategories">
-                                                    <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )" >{{ sub3.name }}</a>
+                                                    <a class="tertiaryLevel categoryLevel" ui-sref="base.category( {catName: sub3.slug} )">{{ sub3.name }}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -103,5 +114,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>
