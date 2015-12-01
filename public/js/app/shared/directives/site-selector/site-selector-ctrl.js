@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.shared')
-    .controller('siteSelectorController', ['$rootScope', '$scope', 'GlobalData', 'SiteSelectorSvc',
-        function ($rootScope, $scope, GlobalData, SiteSelectorSvc) {
+    .controller('SiteSelectorController', ['$scope', 'GlobalData', 'SiteSelectorSvc',
+        function ($scope, GlobalData, SiteSelectorSvc) {
 
             $scope.sites = GlobalData.getSites();
             $scope.selectedSite = GlobalData.getSite();

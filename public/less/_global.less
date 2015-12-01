@@ -6,6 +6,14 @@ body.disable-scroll{
   }
 }
 
+html{
+  &:not(.disable-scroll){
+    &.force-scroll{
+      min-height: 101vh;
+    }
+  }
+}
+
 body{
   background: @white;
 
