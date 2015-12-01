@@ -144,6 +144,9 @@ angular.module('ds.searchlist')
 
                             //Set page parameter
                             $location.search('page', $scope.pageNumber).replace();
+
+                            //Send event that search is done
+                            $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.total });
                         }
                     }, function () {
                         $scope.requestInProgress = false;
