@@ -38,6 +38,9 @@
   </div>
   </div>
 </div>
-<div class="col-sm-12" ng-if="!addresses.length">
+<div class="col-sm-12" ng-if="!addresses.length && addresses.headers">
   <p>{{'NO_ADDRESSES' | translate}}</p>
+</div>
+<div class="col-sm-12" ng-if="!addresses.length && !addresses.headers">
+  <p>{{'FAIL_ADDRESSES' | translate}}</p>
 </div>

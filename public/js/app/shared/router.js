@@ -230,13 +230,27 @@ angular.module('ds.router', [])
                                 pageNumber: 1,
                                 pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
-                            return AccountSvc.getAddresses(query);
+                            return AccountSvc.getAddresses(query).then(
+                                function (response) {
+                                    return response;
+                                },
+                                function () {
+                                    return [];
+                                }
+                            );
                         }],
                         orders: ['OrderListSvc', function(OrderListSvc) {
                             var parms = {
                                 pageSize: 10
                             };
-                            return OrderListSvc.query(parms);
+                            return OrderListSvc.query(parms).then(
+                                function (response) {
+                                    return response;
+                                },
+                                function () {
+                                    return [];
+                                }
+                            );
                         }]
                     },
                     data: {
