@@ -84,6 +84,10 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/shippingcost/b1/' + tenantId
                 },
 
+                shippingZones: {
+                    baseUrl: 'https://' + apiPath + '/hybris/shipping/b0/' + tenantId
+                },
+
                 siteSettings: {
                     baseUrl: 'https://' + apiPath + '/hybris/site/b1/' + tenantId
                 },

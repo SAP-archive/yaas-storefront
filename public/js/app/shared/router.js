@@ -151,7 +151,25 @@ angular.module('ds.router', [])
                             else{
                                 return null;
                             }
-                        }
+                        },
+
+                        shippingZones: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
+                            if(initialized){
+                                return CheckoutSvc.getSiteShippingZones().then(
+                                    function (result) {
+                                        var zones = result;
+                                        return zones;
+                                    }
+                                ).then(function (zones) {
+                                    for (var i = 0; i < zones.length; i++) {
+                                        var zone = zones[i];
+                                        var methods = CheckoutSvc.getZoneShippingMethods(zones[i].id);
+                                        zone.methods = methods;
+                                    }
+                                    return zones;
+                                });
+                            }
+                        }]
 
                     }
                 })
@@ -173,6 +191,11 @@ angular.module('ds.router', [])
                         shippingCost: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return CheckoutSvc.getShippingCost();
+                            }
+                        }],
+                        shippingZones: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return CheckoutSvc.getSiteShippingZones();
                             }
                         }]
                     }

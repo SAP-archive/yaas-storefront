@@ -33,9 +33,11 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
-
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData) {
+            /*$http.get('https://api.yaas.io/hybris/shipping/b0/defaultproj/US/zones').success(function (response) {
+                console.log(response);
+            });*/
             $scope.order = order;
 
             $scope.titles = GlobalData.getUserTitles();
@@ -46,6 +48,7 @@ angular.module('ds.checkout')
             //With this implementation we are getting the cart object from service after it is loaded
             cart = $scope.cart;
 
+            $scope.shippingZones = shippingZones || 0;
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
@@ -121,7 +124,10 @@ angular.module('ds.checkout')
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
-                            populateBillTo(defaultAddress);
+                            if ($scope.isShipToCountry(defaultAddress.country)) {
+                                populateBillTo(defaultAddress);
+                            }
+                            updateShippingCost(defaultAddress.country);
                         }
                         /*
                          populate name if the user has no default address but does have a name saved to the account
@@ -505,6 +511,114 @@ angular.module('ds.checkout')
                     $scope.order.billTo.contactName = fullName;
                 }
             };
+
+            $scope.isShipToCountry = function (countryID) {
+                var counter = 0;
+                var shipTo;
+
+                for (var i = 0; i < $scope.shippingZones.length; i++) {
+                    shipTo = $scope.shippingZones[i].shipTo;
+                    for (var j = 0; j < shipTo.length; j++) {
+                        if (countryID === shipTo[j]) {
+                            counter++;
+                        }
+                    }
+                }
+
+                return counter > 0 ? true : false;
+            };
+
+            /*var updateShippingMethods = function() {
+                var zoneId;
+                console.log('From update shipping methods');
+                console.log($scope.shippingZones);
+                for (var i = 0; i < $scope.shippingZones.length; i++) {
+                    console.log('Usao u petlju');
+                    zoneId = $scope.shippingZones[i].id;
+                    var methods = CheckoutSvc.getZoneShippingMethods(zoneId);
+                    console.log(methods);
+                }
+            };*/
+
+            //updateShippingMethods();
+
+            $scope.ifShipAddressApplicable = function (addressCountry, address, target) {
+                var condition = $scope.isShipToCountry(addressCountry);
+                if (condition) {
+                    return $scope.selectAddress(address, target);
+                }
+            };
+
+            $scope.changeShippingCost = function () {
+                $scope.cart.shippingCost.amount = $scope.shippingMethod;
+                $scope.order.shippingCost = $scope.shippingMethod;
+            };
+
+            var updateShippingCost = function (siteId) {
+                var zone;
+                for (var i = 0; i < $scope.shippingZones.length; i++) {
+                    for (var j = 0; j < $scope.shippingZones[i].shipTo.length; j++) {
+                        if (siteId === $scope.shippingZones[i].shipTo[j]) {
+                            zone = $scope.shippingZones[i];
+                        }
+                    }
+                }
+                CheckoutSvc.getZoneShippingMethods(zone.id).then(
+                    attachShippingCosts
+                );
+            };
+
+            //This should be changed to include all zones
+            var attachShippingCosts = function (result) {
+                var unitsCost = $scope.cart.subTotalPrice.amount;
+                $rootScope.shippingCost = [];
+                $rootScope.fees = [];
+                var zones = result;
+                for (var i = 0; i < zones.length; i++) {
+                    for (var j = 0; j < zones[i].fees.length; j++) {
+                        $rootScope.fees.push(
+                            {
+                                name: zones[i].name,
+                                cost: zones[i].fees[j].cost.amount,
+                                minOrderValue: zones[i].fees[j].minOrderValue.amount
+                            }
+                        );
+                        var maxOrderValue = zones[i].fees[j + 1] ? zones[i].fees[j + 1].minOrderValue.amount : 10000;
+                        if (unitsCost > zones[i].fees[j].minOrderValue.amount && unitsCost < maxOrderValue) {
+                            var cost = {
+                                name: zones[i].name,
+                                cost: zones[i].fees[j].cost.amount,
+                                minOrderValue: zones[i].fees[j].minOrderValue.amount
+                            };
+                            $rootScope.shippingCost.push(cost);
+                        }
+                    }
+                }
+
+                console.log($rootScope.fees);
+                var shippingCostAmount;
+                for (var k = 0; k < $rootScope.shippingCost.length; k++) {
+                    if (shippingCostAmount) {
+                        if ($rootScope.shippingCost[k].cost < shippingCostAmount) {
+                            shippingCostAmount = $rootScope.shippingCost[k].cost;
+                        }
+                    }else {
+                        shippingCostAmount = $rootScope.shippingCost[k].cost;
+                    }
+                }
+                $scope.cart.shippingCost.amount = shippingCostAmount;
+                
+                /*CartSvc.getCart().then(
+                    function (result) {
+                        $scope.cart = result;
+                        console.log($scope.cart);
+                    }
+                );*/
+                //$scope.order.shippingCost = shippingCostAmount;
+                //$scope.cart.totalPrice.amount = 24.98 + shippingCostAmount;
+            };
+
+            //updateShippingCost(GlobalData.getSiteCode());
 
 
         }]);

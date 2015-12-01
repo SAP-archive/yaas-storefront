@@ -54,6 +54,8 @@ angular.module('ds.i18n')
         APPLY:'Anwenden',
         //XMSG
         ESTIMATE_TAX_ERROR:'Felder "Postleitzahl" und "Ländercode" sind erforderlich',
+        //XMSG
+        ADDITIONAL_SHIPPING_OPTIONS: 'Additional shipping options are available in checkout.',
 
         //XFLD
         //-------------------------------------------------
@@ -68,6 +70,8 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2:'Adresszeile 2',
         //XGRP
         BILLING_ADDRESS:'Rechnungsadresse',
+        //XGRP
+        CANT_BE_SHIPPED: 'Items cannot be shipped to this location',
         //XFLD
         CITY:'Ort',
         //XFLD: Is part of the Canadian and German address forms
@@ -303,6 +307,10 @@ angular.module('ds.i18n')
         QTY:'Menge',
         //XMSG
         ERROR_ADDING_TO_CART:'Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.',
+        //XMSG
+        INCLUDES: 'Includes',
+        //XMSG
+        NO_LIMIT: 'No Limit',
 
         //XLST
         //-------------------------------------------------

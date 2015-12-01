@@ -60,6 +60,8 @@ angular.module('ds.i18n')
         ESTIMATE_TAX_ERROR: 'Zip/Postal Code and Country Code fields are required',
         //XMSG
         SELECT_A_COUNTRY: 'Select a country',
+        //XMSG
+        ADDITIONAL_SHIPPING_OPTIONS: 'Additional shipping options are available in checkout.',
 
         //XFLD
         //-------------------------------------------------
@@ -74,6 +76,8 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2: 'Address Line 2',
         //XGRP
         BILLING_ADDRESS: 'Billing Address',
+        //XGRP
+        CANT_BE_SHIPPED: 'Items cannot be shipped to this location',
         //XFLD
         CITY: 'City',
         //XFLD
@@ -320,7 +324,10 @@ angular.module('ds.i18n')
         QTY: 'Qty',
         //XMSG
         ERROR_ADDING_TO_CART: 'Add to Cart was not successful.  Please try again.',
-
+        //XMSG
+        INCLUDES: 'Includes',
+        //XMSG
+        NO_LIMIT: 'No Limit',
 
         //XFLD
         //-------------------------------------------------

@@ -4,11 +4,24 @@
 </div>
 <div class="shippingZoneModal modal-body">
   <div class="row">
-    <div class="zoneparent col-xs-12">
-        <p class="label">{{'SHIPPING_ZONE' | translate}} - &lt;ZONE&gt;
-        <p> {{'INCLUDES' | translate}} <span>&lt;Country&gt;</span>
+    <div class="zoneparent col-xs-12" ng-repeat="zone in shippingZones">
+        <p class="label">{{'SHIPPING_ZONE' | translate}} - {{zone.name}};
+        <p> {{'INCLUDES' | translate}} - <span ng-repeat="country in zone.shipTo"><span ng-if="!$first">, </span>{{country}}</span>          
+        <div class="col-xs-12">
+            <div class="row">
+                <div ng-repeat="method in zone.methods.$$state.value" class="rangeCol col-xs-7">
+                    <p class="label">{{method.name}}
+                    <p ng-if="!$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{method.fees[$index + 1].minOrderValue.amount | currency : currencySymbol}} {{currencySymbol}}</p>
+                    <p ng-if="$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{'NO_LIMIT' | translate}}</p>                
+                </div>
+                <div class="col-xs-5 text-right">
+                    <p class="title">{{'SHIPPING_RATE' | translate}}</p>
+                    <p>&lt;Rate&gt; USD</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-xs-12">
+    <!--<div class="col-xs-12">
         <div class="row">
             <div class="rangeCol col-xs-7">
                 <p class="label">{{'STANDARD_SHIPPING' | translate}} - &lt;ZONE&gt;
@@ -25,20 +38,9 @@
                 <p>&lt;shipping rate&gt;</p>                
             </div>
         </div>
-    </div>
-    <div class="col-xs-12">
-        <div class="row">
-            <div class="rangeCol col-xs-7">
-                <p class="label">{{'METHOD' | translate}} - &lt;ZONE&gt;
-                <p>&lt;price&gt; USD</p>                
-            </div>
-            <div class="col-xs-5 text-right">
-                <p class="title">{{'SHIPPING_RATE' | translate}}</p>
-                <p>&lt;Rate&gt; USD</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12">
+    </div>-->
+
+    <!--<div class="col-xs-12">
         <div class="row">
             <div class="rangeCol col-xs-7">
                 <p class="label">{{'FREE_SHIPPING' | translate}} - &lt;ZONE&gt;
@@ -61,6 +63,6 @@
                 <p>&lt;price&gt; USD</p>                
             </div>
         </div>
-    </div>
+    </div>-->
   </div>
 </div>

@@ -215,6 +215,44 @@ angular.module('ds.checkout')
                 return deferred.promise;
             },
 
+            getSiteShippingZones: function () {
+                var deferred = $q.defer();
+                var shippingZones;
+                var site = GlobalData.getSiteCode();
+                CheckoutREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                    shippingZones = zones.length ? zones.plain() : [];
+                    deferred.resolve(shippingZones);
+                }, function(failure){
+                    console.log('From error');
+                    if (failure.status === 404) {
+                        deferred.resolve(shippingZones);
+                    } else {
+                        deferred.reject(failure);
+                    }
+                });
+
+                return deferred.promise;
+            },
+
+            getZoneShippingMethods: function (zoneId) {
+                var deferred = $q.defer();
+                var shippintMethods;
+                var site = GlobalData.getSiteCode();
+                CheckoutREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
+                    shippintMethods = methods.length ? methods.plain() : [];
+                    deferred.resolve(shippintMethods);
+                }, function(failure){
+                    console.log('From error');
+                    if (failure.status === 404) {
+                        deferred.resolve(shippintMethods);
+                    } else {
+                        deferred.reject(failure);
+                    }
+                });
+
+                return deferred.promise;
+            },
+
             resetCart: function () {
                 CartSvc.resetCart();
             }

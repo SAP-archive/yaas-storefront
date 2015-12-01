@@ -104,9 +104,10 @@
         <div class="col-lg-12">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
-                <select class="form-control" name="shipMethod" id="shipMethod">
+                <select class="form-control" name="shipMethod" id="shipMethod" ng-change="changeShippingCost()" ng-model="shippingMethod">
                     <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
-                    <option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
+                    <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
+                    <option ng-repeat="fee in $root.fees" ng-if="order.shippingCost > 0" value="{{fee.cost}}">{{fee.name}} - min order value: {{fee.minOrderValue}} - {{fee.cost | currency : order.shippingCurrencySymbol}}</option>
                 </select>
             </div>
         </div>

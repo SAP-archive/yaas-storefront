@@ -42,7 +42,21 @@ angular.module('ds.checkout')
                                     httpConfig: httpConfig
                                 };
                             });
+            }),
+
+            ShippingZones: Restangular.withConfig(function(RestangularConfigurer) {
+                            RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingZones.baseUrl);
+                            RestangularConfigurer.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+
+                                return {
+                                    element: element,
+                                    params: params,
+                                    headers: _.extend(headers, {'hybris-currency': GlobalData.getCurrencyId()}),
+                                    httpConfig: httpConfig
+                                };
+                            });
             })
+
         };
 
 

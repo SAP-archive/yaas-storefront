@@ -17,16 +17,35 @@
  **/
 
 angular.module('ds.addresses').
-	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData',
-		function($compile, $http, $templateCache, $rootScope, GlobalData) {
+	directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData', 'CheckoutSvc', '$q',
+		function($compile, $http, $templateCache, $rootScope, GlobalData, CheckoutSvc, $q) {
 
 		var selectionArray = [
 				{id: 'US', name:'USA'},
-				{id: 'CA', name:'CANADA'}];
-				// {id: 'GB', name:'GREAT BRITAIN'}, // feature toggle extra countries.
-				// {id: 'DE', name:'GERMANY'},
+				{id: 'CA', name:'CANADA'},
+				{id: 'GB', name:'GREAT BRITAIN'}, // feature toggle extra countries.
+				{id: 'DE', name:'GERMANY'}];
 				// {id: 'CN', name:'CHINA'},
 				// {id: 'JP', name:'JAPAN'}];
+
+		/*var getShipToCountries = function () {
+			var sites = GlobalData.getSites();
+			var shipToCountries = [];
+			var shipToCountry = {};
+			for (var i = 0; i < GlobalData.getSite().shipToCountries.length; i++) {
+				shipToCountry.id = GlobalData.getSite().shipToCountries[i];
+				for (var j = 0; j < sites.length; j++) {
+					if (shipToCountry.id === sites[j].code) {
+						shipToCountry.name = sites[j].name;
+					}
+				}
+				shipToCountries.push(shipToCountry);
+			}
+			return shipToCountries;
+		};
+
+		var selectionArray = getShipToCountries();*/
+
 
 		var initialize = function(scope, elem, viewType){
 			// init with default template type
@@ -119,7 +138,7 @@ angular.module('ds.addresses').
 
 			// localization selection handler
 			scope.changeLocale = function(locale){
-
+				var localId = locale.id;
 				loadTemplate(scope, element, locale.id, attrs.type);
 
 				// set dynamic datamodel
@@ -157,7 +176,46 @@ angular.module('ds.addresses').
 					default:
 						break;
 				}
+
+				updateShippingMethods(localId);
 			};
+
+			var updateShippingMethods = function (localId) {
+				var zonesPromise = CheckoutSvc.getSiteShippingZones();
+				var zone;
+				$q.all([zonesPromise]).then(function(data){
+					var zones = data[0];
+					for (var i = 0; i < zones.length; i++) {
+						for (var j = 0; j < zones[i].shipTo.length; j++) {
+							if (localId === zones[i].shipTo[j]) {
+								zone = zones[i];
+							}
+						}
+					}
+					if (zone) {
+						CheckoutSvc.getZoneShippingMethods(zone.id).then(
+							attachShippingCosts
+						);
+					}
+				});
+			};
+			//Order should be updated
+			var attachShippingCosts = function (result) {
+                var zones = result;
+                $rootScope.fees = [];
+                for (var i = 0; i < zones.length; i++) {
+                    for (var j = 0; j < zones[i].fees.length; j++) {
+						var fee = {
+							name: zones[i].name,
+							cost: zones[i].fees[j].cost.amount,
+							minOrderValue: zones[i].fees[j].minOrderValue.amount
+						};
+						$rootScope.fees.push(fee);
+					}
+                }
+            };
+
+            //updateShippingMethods(GlobalData.getSiteCode());
 
 			// event for loading addressbook change request
 			var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
