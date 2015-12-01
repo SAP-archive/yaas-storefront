@@ -21,24 +21,12 @@ describe('ytracking', function () {
     var mockedAppConfig = {
         storeTenant: function () {
             return 'default';
-        }
+        },
+        dynamicDomain: jasmine.createSpy().andReturn('api.yaas.io')
     };
     var consentReference = 'consent-reference';
 
-    var mockedSiteConfig = {
-        apis: {
-            tracking: {
-                baseUrl: 'piwikUrl'
-            },
-            trackingConsent: {
-                baseUrl: 'optInUrl'
-            }
-        }
-    };
     var mockedGlobalData = {
-        piwik: {
-            enabled: true
-        },
         store: {
             tenant: 'default'
         },
@@ -101,7 +89,6 @@ describe('ytracking', function () {
 
     beforeEach(angular.mock.module('ds.ytracking', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('SiteConfigSvc', mockedSiteConfig);
         $provide.value('localStorage', mockedLocalStorage);
         $provide.value('settings', mockedSettings);
         $provide.value('appConfig', mockedAppConfig);
@@ -117,7 +104,7 @@ describe('ytracking', function () {
         $compile = _$compile_;
         $timeout = _$timeout_;
 
-        $httpBackend.whenPOST(mockedSiteConfig.apis.trackingConsent.baseUrl).respond(201, {id: consentReference});
+        $httpBackend.whenPOST().respond(201, {id: consentReference});
 
         inject(function ($injector) {
             mockedYtrackingSvc = $injector.get('ytrackingSvc');

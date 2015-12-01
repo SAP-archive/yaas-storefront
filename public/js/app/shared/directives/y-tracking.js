@@ -88,10 +88,22 @@ angular.module('ds.ytracking', [])
                 }
             };
         }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
+    .factory('ytrackingSvc', ['yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
+        function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
             var internalCart = {};
+
+            /**
+            * Url for piwik service.
+            * appConfig dependency should be refactored out maybe and tenant and domain 
+            * should be provided for example as parameters to ytracking directive so this tracking
+            * can also work for any other storefront (not just this template)
+            */
+            var apiPath = appConfig.dynamicDomain();
+            var tenantId = appConfig.storeTenant();
+            
+            var piwikUrl = 'https://' + apiPath + '/hybris/edge/b1/events';
+            var consentUrl = 'https://' + apiPath + '/hybris/consent/b1/' + tenantId + '/consentReferences';
 
             var getConsentReference = function () {
                 var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
@@ -108,7 +120,7 @@ angular.module('ds.ytracking', [])
             var makeOptInRequest = function() {
                 var req = {
                     method: 'POST',
-                    url: siteConfig.apis.trackingConsent.baseUrl,
+                    url: consentUrl,
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -126,11 +138,6 @@ angular.module('ds.ytracking', [])
                 //noinspection JSUnusedAssignment
                 makeOptInRequest();
             }
-
-            /**
-            * Url for piwik service
-            */
-            var piwikUrl = siteConfig.apis.tracking.baseUrl;
 
             /**
             * Create object from piwik GET request
