@@ -22,7 +22,9 @@ angular.module('ds.orders')
                 RestangularConfigurer.setResponseInterceptor(function (data, operation, what, url, response) {
                     var headers = response.headers();
                     var result = response.data;
-                    result.headers = headers;
+                    if(result){
+                        result.headers = headers;
+                    }
                     return result;
                 });
                 RestangularConfigurer.setBaseUrl(siteConfig.apis.orders.baseUrl);

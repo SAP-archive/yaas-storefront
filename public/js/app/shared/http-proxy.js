@@ -101,11 +101,17 @@ angular.module('ds.httpproxy', [])
                             $injector.get('$state').go('errors', { errorId: '404' });
                         } else if (response.status === 500) {
                             //show error view with default message.
-                            if (response.config.url.indexOf('me') < 0) {
+                            if(response.config.url.indexOf('orders') < 0 && response.config.url.indexOf('me') < 0) {
                                 $injector.get('$state').go('errors');
                             }else {
-                                return $q.reject(response);
+                                if (response.config.url.indexOf('orders') > 0) {
+                                    return $q.when(response);
+                                }else if (response.config.url.indexOf('me') > 0) {
+                                    return $q.reject(response);
+                                }
                             }
+                            
+
                         }
 
                     }
