@@ -88,14 +88,6 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/site/v1/' + tenantId
                 },
 
-                tracking: {
-                    baseUrl: 'https://' + apiPath + '/hybris/edge/v1/events'
-                },
-
-                trackingConsent: {
-                    baseUrl: 'https://' + apiPath + '/hybris/consent/v1/' + tenantId + '/consentReferences'
-                },
-
                 indexing: {
                     baseUrl: 'https://' + apiPath + '/hybris/search-algolia/v1/' + tenantId
                 }
