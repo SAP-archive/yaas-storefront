@@ -278,9 +278,9 @@
 						}
 					); //end mock.
 					
-					$httpBackend.expectGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/28e7d417bc').respond(500);
+					$httpBackend.expectGET('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/28e7d417bc').respond(500);
 
-					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/28e7d417bc')
+					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/28e7d417bc')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
 						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
@@ -288,16 +288,19 @@
 						500
 					);
 
-					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/3af291947a')
+					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/28e7d417bc')
 					.respond(500);
 
-					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/3af291947a')
+					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/3af291947a')
 					.respond(500);
 
-					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/1ef631bd25')
+					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/3af291947a')
 					.respond(500);
 
-					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/b1/defaultproj/me/addresses/1ef631bd25')
+					$httpBackend.whenDELETE('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/1ef631bd25')
+					.respond(500);
+
+					$httpBackend.whenPUT('https://api.yaas.io/hybris/customer/v1/defaultproj/me/addresses/1ef631bd25')
 					.respond(500);
 					
 					/*$httpBackend.whenGET('https://api.yaas.io/hybris/customer/b1/defaultproj/me')
@@ -317,7 +320,7 @@
 					);*/
 
 					
-					$httpBackend.whenGET('https://api.yaas.io/hybris/order/b1/defaultproj/orders?pageSize=10')
+					$httpBackend.whenGET('https://api.yaas.io/hybris/order/v1/defaultproj/orders?pageSize=10')
 					.respond(
 						//MOCK-ERROR-STATUS-CODE
 						//401 //404 //500  //uncomment integer to mock status code. Int will hit error handler and mock error. Also comment out mock data.
