@@ -148,28 +148,21 @@ exports.sendKeys = function (type, pageElement, keys) {
 };
 
 exports.switchSite = function (site) {
-    if (site === 'Sushi Demo Store Germany') {
-        var siteRow = '2'
-    } else if (site === 'Avalara') {
-        var siteRow = '3'
-    } else {
-        var siteRow = '1'
-    }
 
     var siteSelector = element(by.css('#siteSelectorLarge .siteSelectorIcon'));
     browser.driver.actions().mouseMove(siteSelector).perform();
     siteSelector.click();
     browser.sleep(200);
-    var xPath = '//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li' + '[' + siteRow + ']';
-    var newSite = element(by.xpath(xPath));
-    browser.wait(function () {
-        return newSite.isPresent();
-    });
 
-    browser.driver.actions().mouseMove(newSite).perform();
-    expect(element(by.xpath(xPath)).getText()).toEqual(site);
-    newSite.click();
+    element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li')).each(function (currSite) {
+        currSite.getText().then(function (text) {
+            if (text == site) {
+                currSite.click();
+            }
+        });
+    });
 };
+
 
 exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover

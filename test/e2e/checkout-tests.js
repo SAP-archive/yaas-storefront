@@ -145,21 +145,21 @@ describe("checkout:", function () {
         it('should load one product into cart and move to checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$14.92', '1');
+            verifyCartContents('$10.67', '$11.42', '1');
         });
 
         it('should update cart quantity on checkout page', function () {
             var backToCheckoutButton = "//div[@id='cart']/div[2]/button";
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$14.92', '1');
+            verifyCartContents('$10.67', '$11.42', '1');
             tu.clickElement('id', 'checkout-cart-btn');
             browser.wait(function () {
                 return element(by.binding('BACK_TO_CHECKOUT')).isPresent();
             });
             tu.sendKeys('xpath', "//input[@type='number']", '5');
             tu.clickElement('binding', 'BACK_TO_CHECKOUT');
-            verifyCartContents('$10.67', '$60.58', '5');
+            verifyCartContents('$10.67', '$57.08', '5');
         });
 
         it('should load 2 of one product into cart and move to checkout', function () {
@@ -169,7 +169,7 @@ describe("checkout:", function () {
             browser.wait(function () {
                 return element(by.binding("ORDER_TOTAL")).isPresent();
             });
-            verifyCartContents('$10.67', '$26.33', '2');
+            verifyCartContents('$10.67', '$22.83', '2');
         });
 
         it('should load 2 different products into cart and move to checkout', function () {
@@ -193,7 +193,7 @@ describe("checkout:", function () {
             browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            verifyCartContents('$10.67', '$30.96', '1');
+            verifyCartContents('$10.67', '$27.46', '1');
         });
 
         it('should display tax overide on cart checkout and order', function () {
@@ -216,13 +216,13 @@ describe("checkout:", function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             browser.sleep(1000);
-            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(0)).getText()).toEqual('TAX $0.23');
-            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
+            //expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(0)).getText()).toEqual('TAX $0.23');
+            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(0)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
             //TODO Find out why protractor won't recognize binding and repeaters on checkout
-            expect(element(by.xpath('//div/div/div[1]/div/section[3]/table/tbody/tr[4]/td[1]')).getText()).toEqual('10.01% FOR PROTRACTOR');
-            expect(element(by.xpath('//div/div/div[1]/div/section[3]/table/tbody/tr[4]/td[2]')).getText()).toEqual('$0.20');
+            expect(element(by.xpath('//div/div/div[1]/div/section[3]/table/tbody/tr[3]/td[1]')).getText()).toEqual('10.01% FOR PROTRACTOR');
+            expect(element(by.xpath('//div/div/div[1]/div/section[3]/table/tbody/tr[3]/td[2]')).getText()).toEqual('$0.20');
             tu.sendKeys('id', 'email', 'mike@hybristest.com');
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
@@ -383,7 +383,7 @@ describe("checkout:", function () {
             });
             browser.sleep(1000);
             tu.clickElement('binding', 'CHECKOUT');
-            verifyCartContents('$10.67', '$30.96', '1');
+            verifyCartContents('$10.67', '$27.46', '1');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
