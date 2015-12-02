@@ -215,6 +215,31 @@ angular.module('ds.checkout')
                 return deferred.promise;
             },
 
+            getShipToCountries: function () {
+                var deferred = $q.defer();
+                var shippingZones;
+                var site = GlobalData.getSiteCode();
+                var shipToCountries = [];
+                CheckoutREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                    shippingZones = zones.length ? zones.plain() : [];
+                    for (var i = 0; i < shippingZones.length; i++) {
+                        for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
+                            shipToCountries.push(shippingZones[i].shipTo[j]);
+                        }
+                    }
+                    deferred.resolve(shipToCountries);
+                }, function(failure){
+                    console.log('From error');
+                    if (failure.status === 404) {
+                        deferred.resolve(shipToCountries);
+                    } else {
+                        deferred.reject(failure);
+                    }
+                });
+                
+                return deferred.promise;
+            },
+
             getSiteShippingZones: function () {
                 var deferred = $q.defer();
                 var shippingZones;

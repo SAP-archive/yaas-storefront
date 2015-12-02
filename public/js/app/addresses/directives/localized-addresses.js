@@ -126,11 +126,32 @@ angular.module('ds.addresses').
 			return locale;
 		};
 
+		var getShipToCountries = function (array) {
+			var shipToCountries = [];
+			for (var i = 0; i < selectionArray.length; i++) {
+				for (var j = 0; j < array.length; j++) {
+					if (selectionArray[i].id === array[j]) {
+						shipToCountries.push(selectionArray[i]);
+					}
+				}
+			}
+			return shipToCountries;
+		};
+
 		var templateLinker = function(scope, element, attrs) {
 
 			scope.viewTarget = attrs.type;
-			scope.localeSelections = selectionArray;
 
+			if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
+				CheckoutSvc.getShipToCountries().then(
+					function (response) {
+						scope.localeSelections = getShipToCountries(response);
+					}
+				);
+			} else {
+				scope.localeSelections = selectionArray;
+			}
+			
 			// localization selection handler
 			scope.initializeLocale = function(locale){
 				loadTemplate(scope, element, locale.id, attrs.type);
@@ -141,6 +162,7 @@ angular.module('ds.addresses').
 				var localId = locale.id;
 				loadTemplate(scope, element, locale.id, attrs.type);
 
+				$rootScope.updateShippingCost(localId);
 				// set dynamic datamodel
 				switch(scope.viewTarget){
 					case 'addAddress':
@@ -177,9 +199,10 @@ angular.module('ds.addresses').
 						break;
 				}
 
-				updateShippingMethods(localId);
+				//updateShippingMethods(localId);
 			};
 
+			//Maybe those two methods below can be removed because we created one unique in the rootScope
 			var updateShippingMethods = function (localId) {
 				var zonesPromise = CheckoutSvc.getSiteShippingZones();
 				var zone;

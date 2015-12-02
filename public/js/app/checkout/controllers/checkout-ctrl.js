@@ -127,7 +127,7 @@ angular.module('ds.checkout')
                             if ($scope.isShipToCountry(defaultAddress.country)) {
                                 populateBillTo(defaultAddress);
                             }
-                            updateShippingCost(defaultAddress.country);
+                            $rootScope.updateShippingCost(defaultAddress.country);
                         }
                         /*
                          populate name if the user has no default address but does have a name saved to the account
@@ -550,12 +550,18 @@ angular.module('ds.checkout')
             };
 
             $scope.changeShippingCost = function () {
-                $scope.cart.shippingCost.amount = $scope.shippingMethod;
-                $scope.order.shippingCost = $scope.shippingMethod;
+                //var shippingMethod = angular.fromJson($scope.shippingMethod);
+                var shippingCost = $scope.shippingMethod;
+                $scope.cart.shippingCost.amount = shippingCost;
+                $scope.order.shippingCost = shippingCost;
             };
 
-            var updateShippingCost = function (siteId) {
+            $rootScope.updateShippingCost = function (siteId) {
                 var zone;
+                var isShipTo = $scope.isShipToCountry(siteId);
+                if (!isShipTo) {
+                    siteId = GlobalData.getSiteCode();
+                }
                 for (var i = 0; i < $scope.shippingZones.length; i++) {
                     for (var j = 0; j < $scope.shippingZones[i].shipTo.length; j++) {
                         if (siteId === $scope.shippingZones[i].shipTo[j]) {
@@ -564,25 +570,31 @@ angular.module('ds.checkout')
                     }
                 }
                 CheckoutSvc.getZoneShippingMethods(zone.id).then(
-                    attachShippingCosts
+                    function (result) {
+                        attachShippingCosts(result, isShipTo);
+                    }
                 );
             };
 
             //This should be changed to include all zones
-            var attachShippingCosts = function (result) {
+            var attachShippingCosts = function (result, isShipTo) {
                 var unitsCost = $scope.cart.subTotalPrice.amount;
                 $rootScope.shippingCost = [];
                 $rootScope.fees = [];
                 var zones = result;
                 for (var i = 0; i < zones.length; i++) {
                     for (var j = 0; j < zones[i].fees.length; j++) {
-                        $rootScope.fees.push(
-                            {
-                                name: zones[i].name,
-                                cost: zones[i].fees[j].cost.amount,
-                                minOrderValue: zones[i].fees[j].minOrderValue.amount
-                            }
-                        );
+                        if (isShipTo){
+                            $rootScope.fees.push(
+                                {
+                                    name: zones[i].name,
+                                    cost: zones[i].fees[j].cost.amount,
+                                    minOrderValue: zones[i].fees[j].minOrderValue.amount
+                                }
+                            );
+                        }else {
+                            $rootScope.fees = [];
+                        }
                         var maxOrderValue = zones[i].fees[j + 1] ? zones[i].fees[j + 1].minOrderValue.amount : 10000;
                         if (unitsCost > zones[i].fees[j].minOrderValue.amount && unitsCost < maxOrderValue) {
                             var cost = {
@@ -595,17 +607,35 @@ angular.module('ds.checkout')
                     }
                 }
 
-                console.log($rootScope.fees);
                 var shippingCostAmount;
+                var shippingMethod;
                 for (var k = 0; k < $rootScope.shippingCost.length; k++) {
                     if (shippingCostAmount) {
                         if ($rootScope.shippingCost[k].cost < shippingCostAmount) {
                             shippingCostAmount = $rootScope.shippingCost[k].cost;
+                            shippingMethod = $rootScope.shippingCost[k];
                         }
                     }else {
                         shippingCostAmount = $rootScope.shippingCost[k].cost;
+                        shippingMethod = $rootScope.shippingCost[k];
                     }
                 }
+
+                for (var i = 0; i < $rootScope.fees.length; i++) {
+                    for (var j = 0; j < $rootScope.shippingCost.length; j++) {
+                        if ($rootScope.fees[i].name === $rootScope.shippingCost[j].name &&
+                            $rootScope.fees[i].cost === $rootScope.shippingCost[j].cost &&
+                            $rootScope.fees[i].minOrderValue === $rootScope.shippingCost[j].minOrderValue) {
+                            $rootScope.fees[i].default = true;
+                            if ($rootScope.fees[i].name === shippingMethod.name &&
+                            $rootScope.fees[i].cost === shippingMethod.cost &&
+                            $rootScope.fees[i].minOrderValue === shippingMethod.minOrderValue) {
+                                $rootScope.fees[i].selected = true;
+                            }
+                        }
+                    }
+                }
+                $scope.shippingMethod = shippingCostAmount;
                 $scope.cart.shippingCost.amount = shippingCostAmount;
                 
                 /*CartSvc.getCart().then(
