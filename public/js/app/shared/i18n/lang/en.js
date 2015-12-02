@@ -435,6 +435,12 @@ angular.module('ds.i18n')
         SHOW_LESS: 'Show less',
         //XFLD
         ITEMS_IN_ORDER: 'Items in Order',
+        //XMSG
+        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates.',
+        //XMSG
+        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again.',
+        //XMSG
+        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again.',
 
 
         //XFLD

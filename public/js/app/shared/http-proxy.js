@@ -104,9 +104,14 @@ angular.module('ds.httpproxy', [])
                             if(response.config.url.indexOf('orders') < 0 && response.config.url.indexOf('me') < 0) {
                                 $injector.get('$state').go('errors');
                             }else {
-                                return $q.when(response);
+                                if (response.config.url.indexOf('orders') > 0) {
+                                    return $q.when(response);
+                                }else if (response.config.url.indexOf('me') > 0) {
+                                    return $q.reject(response);
+                                }
                             }
                             
+
                         }
 
                     }
