@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q', 'GlobalData',
-        function (CheckoutREST, StripeJS, CartSvc, settings, $q, GlobalData) {
+    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q', 'GlobalData', 'ShippingREST',
+        function (CheckoutREST, StripeJS, CartSvc, settings, $q, GlobalData, ShippingREST) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {
@@ -207,69 +207,6 @@ angular.module('ds.checkout')
                 }, function(failure){
                     if (failure.status === 404) {
                         deferred.resolve(defaultCost);
-                    } else {
-                        deferred.reject(failure);
-                    }
-                });
-
-                return deferred.promise;
-            },
-
-            getShipToCountries: function () {
-                var deferred = $q.defer();
-                var shippingZones;
-                var site = GlobalData.getSiteCode();
-                var shipToCountries = [];
-                CheckoutREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
-                    shippingZones = zones.length ? zones.plain() : [];
-                    for (var i = 0; i < shippingZones.length; i++) {
-                        for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
-                            shipToCountries.push(shippingZones[i].shipTo[j]);
-                        }
-                    }
-                    deferred.resolve(shipToCountries);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shipToCountries);
-                    } else {
-                        deferred.reject(failure);
-                    }
-                });
-                
-                return deferred.promise;
-            },
-
-            getSiteShippingZones: function () {
-                var deferred = $q.defer();
-                var shippingZones;
-                var site = GlobalData.getSiteCode();
-                CheckoutREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
-                    shippingZones = zones.length ? zones.plain() : [];
-                    deferred.resolve(shippingZones);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippingZones);
-                    } else {
-                        deferred.reject(failure);
-                    }
-                });
-
-                return deferred.promise;
-            },
-
-            getZoneShippingMethods: function (zoneId) {
-                var deferred = $q.defer();
-                var shippintMethods;
-                var site = GlobalData.getSiteCode();
-                CheckoutREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
-                    shippintMethods = methods.length ? methods.plain() : [];
-                    deferred.resolve(shippintMethods);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippintMethods);
                     } else {
                         deferred.reject(failure);
                     }

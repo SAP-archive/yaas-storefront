@@ -33,9 +33,9 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData) {
-            /*$http.get('https://api.yaas.io/hybris/shipping/b0/defaultproj/US/zones').success(function (response) {
+    .controller('CheckoutCtrl', ['$http','$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries',
+        function ($http, $rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData, ShippingSvc, shippingCountries) {
+            /*$http.get('https://api.yaas.io/hybris/shipping/b0/defaultproj/US/quote').success(function (response) {
                 console.log(response);
             });*/
             $scope.order = order;
@@ -48,6 +48,7 @@ angular.module('ds.checkout')
             //With this implementation we are getting the cart object from service after it is loaded
             cart = $scope.cart;
 
+            $scope.shippingCountries = shippingCountries;
             $scope.shippingZones = shippingZones || 0;
             $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
@@ -461,6 +462,7 @@ angular.module('ds.checkout')
                     setShipToSameAsBillTo();
                 }
                 $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
+                $rootScope.updateShippingCost(address.country);
             };
 
             $scope.openAddressDialog = function(target) {
@@ -513,34 +515,8 @@ angular.module('ds.checkout')
             };
 
             $scope.isShipToCountry = function (countryID) {
-                var counter = 0;
-                var shipTo;
-
-                for (var i = 0; i < $scope.shippingZones.length; i++) {
-                    shipTo = $scope.shippingZones[i].shipTo;
-                    for (var j = 0; j < shipTo.length; j++) {
-                        if (countryID === shipTo[j]) {
-                            counter++;
-                        }
-                    }
-                }
-
-                return counter > 0 ? true : false;
+                return shippingCountries.indexOf(countryID) > -1;
             };
-
-            /*var updateShippingMethods = function() {
-                var zoneId;
-                console.log('From update shipping methods');
-                console.log($scope.shippingZones);
-                for (var i = 0; i < $scope.shippingZones.length; i++) {
-                    console.log('Usao u petlju');
-                    zoneId = $scope.shippingZones[i].id;
-                    var methods = CheckoutSvc.getZoneShippingMethods(zoneId);
-                    console.log(methods);
-                }
-            };*/
-
-            //updateShippingMethods();
 
             $scope.ifShipAddressApplicable = function (addressCountry, address, target) {
                 var condition = $scope.isShipToCountry(addressCountry);
@@ -550,105 +526,49 @@ angular.module('ds.checkout')
             };
 
             $scope.changeShippingCost = function () {
-                //var shippingMethod = angular.fromJson($scope.shippingMethod);
                 var shippingCost = $scope.shippingMethod;
                 $scope.cart.shippingCost.amount = shippingCost;
                 $scope.order.shippingCost = shippingCost;
             };
 
-            $rootScope.updateShippingCost = function (siteId) {
-                var zone;
-                var isShipTo = $scope.isShipToCountry(siteId);
-                if (!isShipTo) {
-                    siteId = GlobalData.getSiteCode();
+            $rootScope.updateShippingCost = function (countryCode) {
+                if (!$scope.isShipToCountry(countryCode)) {
+                    countryCode = GlobalData.getSiteCode();
                 }
-                for (var i = 0; i < $scope.shippingZones.length; i++) {
-                    for (var j = 0; j < $scope.shippingZones[i].shipTo.length; j++) {
-                        if (siteId === $scope.shippingZones[i].shipTo[j]) {
-                            zone = $scope.shippingZones[i];
-                        }
-                    }
-                }
-                CheckoutSvc.getZoneShippingMethods(zone.id).then(
+
+                ShippingSvc.getCountryShippingCosts(countryCode).then(
                     function (result) {
-                        attachShippingCosts(result, isShipTo);
+                        var unitsCost = $scope.cart.subTotalPrice.amount;
+                        var validCosts = [];
+                        $rootScope.fees = result;
+                        for (var i = 0; i < $rootScope.fees.length; i++) {
+                            var maxOrderValue = $rootScope.fees[i + 1] ? $rootScope.fees[i + 1].minOrderValue.amount : 10000;
+                            if (unitsCost > $rootScope.fees[i].minOrderValue.amount && unitsCost < maxOrderValue) {
+                                $rootScope.fees[i].valid = true;
+                                validCosts.push($rootScope.fees[i]);
+                            }
+                        }
+                        var preselectedCost = setShippingCost(validCosts);
+                        var index = $rootScope.fees.indexOf(validCosts[validCosts.indexOf(preselectedCost)]);
+                        if (index >= 0) {
+                            $rootScope.fees[index].selected = true;
+                        }
                     }
                 );
             };
 
-            //This should be changed to include all zones
-            var attachShippingCosts = function (result, isShipTo) {
-                var unitsCost = $scope.cart.subTotalPrice.amount;
-                $rootScope.shippingCost = [];
-                $rootScope.fees = [];
-                var zones = result;
-                for (var i = 0; i < zones.length; i++) {
-                    for (var j = 0; j < zones[i].fees.length; j++) {
-                        if (isShipTo){
-                            $rootScope.fees.push(
-                                {
-                                    name: zones[i].name,
-                                    cost: zones[i].fees[j].cost.amount,
-                                    minOrderValue: zones[i].fees[j].minOrderValue.amount
-                                }
-                            );
-                        }else {
-                            $rootScope.fees = [];
-                        }
-                        var maxOrderValue = zones[i].fees[j + 1] ? zones[i].fees[j + 1].minOrderValue.amount : 10000;
-                        if (unitsCost > zones[i].fees[j].minOrderValue.amount && unitsCost < maxOrderValue) {
-                            var cost = {
-                                name: zones[i].name,
-                                cost: zones[i].fees[j].cost.amount,
-                                minOrderValue: zones[i].fees[j].minOrderValue.amount
-                            };
-                            $rootScope.shippingCost.push(cost);
-                        }
-                    }
-                }
-
-                var shippingCostAmount;
-                var shippingMethod;
-                for (var k = 0; k < $rootScope.shippingCost.length; k++) {
-                    if (shippingCostAmount) {
-                        if ($rootScope.shippingCost[k].cost < shippingCostAmount) {
-                            shippingCostAmount = $rootScope.shippingCost[k].cost;
-                            shippingMethod = $rootScope.shippingCost[k];
-                        }
+            var setShippingCost = function (validCosts) {
+                var cost;
+                for (var i = 0; i < validCosts.length; i++) {
+                    if (cost) {
+                        cost = validCosts[i].cost.amount < cost.cost.amount ? cost = validCosts[i] : cost = cost;
                     }else {
-                        shippingCostAmount = $rootScope.shippingCost[k].cost;
-                        shippingMethod = $rootScope.shippingCost[k];
+                        cost = validCosts[i];
                     }
                 }
-
-                for (var i = 0; i < $rootScope.fees.length; i++) {
-                    for (var j = 0; j < $rootScope.shippingCost.length; j++) {
-                        if ($rootScope.fees[i].name === $rootScope.shippingCost[j].name &&
-                            $rootScope.fees[i].cost === $rootScope.shippingCost[j].cost &&
-                            $rootScope.fees[i].minOrderValue === $rootScope.shippingCost[j].minOrderValue) {
-                            $rootScope.fees[i].default = true;
-                            if ($rootScope.fees[i].name === shippingMethod.name &&
-                            $rootScope.fees[i].cost === shippingMethod.cost &&
-                            $rootScope.fees[i].minOrderValue === shippingMethod.minOrderValue) {
-                                $rootScope.fees[i].selected = true;
-                            }
-                        }
-                    }
-                }
-                $scope.shippingMethod = shippingCostAmount;
-                $scope.cart.shippingCost.amount = shippingCostAmount;
-                
-                /*CartSvc.getCart().then(
-                    function (result) {
-                        $scope.cart = result;
-                        console.log($scope.cart);
-                    }
-                );*/
-                //$scope.order.shippingCost = shippingCostAmount;
-                //$scope.cart.totalPrice.amount = 24.98 + shippingCostAmount;
+                $scope.shippingMethod = cost.cost.amount;
+                $scope.cart.shippingCost.amount = cost.cost.amount;
+                return cost;
             };
-
-            //updateShippingCost(GlobalData.getSiteCode());
-
 
         }]);

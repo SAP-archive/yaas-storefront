@@ -153,9 +153,9 @@ angular.module('ds.router', [])
                             }
                         },
 
-                        shippingZones: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
                             if(initialized){
-                                return CheckoutSvc.getSiteShippingZones().then(
+                                return ShippingSvc.getSiteShippingZones().then(
                                     function (result) {
                                         var zones = result;
                                         return zones;
@@ -163,7 +163,7 @@ angular.module('ds.router', [])
                                 ).then(function (zones) {
                                     for (var i = 0; i < zones.length; i++) {
                                         var zone = zones[i];
-                                        var methods = CheckoutSvc.getZoneShippingMethods(zones[i].id);
+                                        var methods = ShippingSvc.getZoneShippingMethods(zones[i].id);
                                         zone.methods = methods;
                                     }
                                     return zones;
@@ -193,9 +193,14 @@ angular.module('ds.router', [])
                                 return CheckoutSvc.getShippingCost();
                             }
                         }],
-                        shippingZones: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
-                                return CheckoutSvc.getSiteShippingZones();
+                                return ShippingSvc.getSiteShippingZones();
+                            }
+                        }],
+                        shippingCountries: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return ShippingSvc.getShipToCountries();
                             }
                         }]
                     }
