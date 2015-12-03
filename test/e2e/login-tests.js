@@ -37,7 +37,8 @@ describe("login:", function () {
         });
 
         //disabled until KIWIS-2024 can be fixed
-        xit('should not allow user to login', function () {
+        // DR - re-enable test as KIWIS-2024 has been fixed
+        it('should not allow user to login', function () {
             tu.loginHelper('bad@bad.com', 'bad');
             expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
         });
@@ -111,10 +112,12 @@ describe("login:", function () {
             expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual('Toronto, ON M4M 1H7');
             expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual('CA');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual('720-555-1234');
-            tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
+            //tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
+            tu.clickElement('xpath', '//*[@id="set-default-btn"]/span');
             browser.sleep(1500);
             expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('321 phony street, apt 420');
-            tu.clickElement('xpath', "(  //button[@id='set-default-btn'])[2]");
+            //tu.clickElement('xpath', "(  //button[@id='set-default-btn'])[2]");
+            tu.clickElement('xpath', '//*[@id="set-default-btn"]/span');
             browser.sleep(1000);
             expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
             tu.clickElement('id', 'delete-address-btn');
