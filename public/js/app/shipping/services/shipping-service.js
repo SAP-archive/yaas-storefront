@@ -19,10 +19,12 @@ angular.module('ds.checkout')
     .factory('ShippingSvc', ['ShippingREST', '$q', 'GlobalData',
         function (ShippingREST, $q, GlobalData) {
 
+            var site = GlobalData.getSiteCode();
+
             var getShipToCountries = function () {
                 var deferred = $q.defer();
                 var shippingZones;
-                var site = GlobalData.getSiteCode();
+                //var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
                 ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
@@ -44,11 +46,11 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
-            var getSiteShippingZones = function () {
+            var getSiteShippingZones = function (siteID) {
                 var deferred = $q.defer();
                 var shippingZones;
-                var site = GlobalData.getSiteCode();
-                ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                //var site = GlobalData.getSiteCode();
+                ShippingREST.ShippingZones.all(siteID).all('zones').getList().then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     deferred.resolve(shippingZones);
                 }, function(failure){
@@ -66,7 +68,7 @@ angular.module('ds.checkout')
             var getZoneShippingMethods = function (zoneId) {
                 var deferred = $q.defer();
                 var shippingMethods;
-                var site = GlobalData.getSiteCode();
+                //var site = GlobalData.getSiteCode();
                 ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
                     shippingMethods = methods.length ? methods.plain() : [];
                     deferred.resolve(shippingMethods);
@@ -126,7 +128,7 @@ angular.module('ds.checkout')
                 var deferred = $q.defer();
                 var shippingMethods;
                 var shippingCosts = [];
-                var site = GlobalData.getSiteCode();
+                //var site = GlobalData.getSiteCode();
 
                 ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
                     shippingMethods = methods.length ? methods.plain() : [];
@@ -149,14 +151,52 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
+            var getMinimumShippingCost = function (item) {
+                var deferred = $q.defer();
+                //var site = GlobalData.getSiteCode();
+                var minCost;
+                ShippingREST.ShippingZones.one(site).one('quote').all('minimum').post(item).then(function(result){
+                    minCost = result.plain();
+                    deferred.resolve(minCost);
+                }, function(failure){
+                    console.log('From error');
+                    if (failure.status === 404) {
+                        deferred.resolve(minCost);
+                    } else {
+                        deferred.reject(failure);
+                    }
+                });
+
+                return deferred.promise;
+            };
+
+            var getShippingCosts = function (item) {
+                var deferred = $q.defer();
+                var site = GlobalData.getSiteCode();
+                var shippingCosts;
+                ShippingREST.ShippingZones.one(site).all('quote').post(item).then(function(result){
+                    shippingCosts = result.plain();
+                    deferred.resolve(shippingCosts);
+                }, function(failure){
+                    console.log('From error');
+                    if (failure.status === 404) {
+                        deferred.resolve(shippingCosts);
+                    } else {
+                        deferred.reject(failure);
+                    }
+                });
+
+                return deferred.promise;
+            };
+
         return {
 
             getShipToCountries: function () {
                 return getShipToCountries();
             },
 
-            getSiteShippingZones: function () {
-                return getSiteShippingZones();
+            getSiteShippingZones: function (siteID) {
+                return getSiteShippingZones(siteID);
             },
 
             getZoneShippingMethods: function (zoneId) {
@@ -165,6 +205,14 @@ angular.module('ds.checkout')
 
             getCountryShippingCosts: function (siteCode) {
                 return getCountryShippingCosts(siteCode);
+            },
+
+            getShippingCosts: function (item) {
+                return getShippingCosts(item);
+            },
+
+            getMinimumShippingCost: function (item) {
+                return getMinimumShippingCost(item);
             }
 
         };

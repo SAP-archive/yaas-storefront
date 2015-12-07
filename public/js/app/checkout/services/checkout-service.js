@@ -16,8 +16,8 @@ angular.module('ds.checkout')
      /** The checkout service provides functions to pre-validate the credit card through Stripe,
       * and to create an order.
       */
-    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q', 'GlobalData', 'ShippingREST',
-        function (CheckoutREST, StripeJS, CartSvc, settings, $q, GlobalData, ShippingREST) {
+    .factory('CheckoutSvc', ['CheckoutREST', 'StripeJS', 'CartSvc', 'settings', '$q', 'GlobalData',
+        function (CheckoutREST, StripeJS, CartSvc, settings, $q, GlobalData) {
 
         /** CreditCard object prototype */
         var CreditCard = function () {

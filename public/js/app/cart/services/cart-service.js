@@ -296,6 +296,28 @@ angular.module('ds.cart')
                     return updateDef.promise;
                 },
 
+                updateCartShippingCost: function (cost) {
+                    var updateDef = $q.defer();
+                    if (cost.fee.amount > 0) {
+                        //this is a partial update, so only quantity data is needed
+                        var cartItem = {
+                            shipping: cost
+                        };
+                        CartREST.Cart.one('carts', cart.id).customPUT(cartItem).then(function () {
+                            //refreshCart(cart.id);
+                            updateDef.resolve();
+                        }, function () {
+                            /*angular.forEach(cart.items, function (it) {
+                                if (item.id === it.id) {
+                                    item.error = true;
+                                }
+                            });*/
+                            updateDef.reject();
+                        });
+                    }
+                    return updateDef.promise;
+                },
+
                 /**
                  * Removes a product from the cart, issues a PUT, and then a GET for the updated information.
                  * @param productId

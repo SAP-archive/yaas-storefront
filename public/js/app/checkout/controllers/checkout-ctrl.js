@@ -33,11 +33,9 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$http','$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries',
-        function ($http, $rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData, ShippingSvc, shippingCountries) {
-            /*$http.get('https://api.yaas.io/hybris/shipping/b0/defaultproj/US/quote').success(function (response) {
-                console.log(response);
-            });*/
+    .controller('CheckoutCtrl', ['$http','$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
+        function ($http, $rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
+            
             $scope.order = order;
 
             $scope.titles = GlobalData.getUserTitles();
@@ -128,7 +126,7 @@ angular.module('ds.checkout')
                             if ($scope.isShipToCountry(defaultAddress.country)) {
                                 populateBillTo(defaultAddress);
                             }
-                            $rootScope.updateShippingCost(defaultAddress.country);
+                            $rootScope.updateShippingCost(defaultAddress);
                         }
                         /*
                          populate name if the user has no default address but does have a name saved to the account
@@ -462,7 +460,10 @@ angular.module('ds.checkout')
                     setShipToSameAsBillTo();
                 }
                 $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
-                $rootScope.updateShippingCost(address.country);
+                console.log(address.country);
+                console.log(address);
+                console.log($scope.cart);
+                $rootScope.updateShippingCost(address);
             };
 
             $scope.openAddressDialog = function(target) {
@@ -526,49 +527,71 @@ angular.module('ds.checkout')
             };
 
             $scope.changeShippingCost = function () {
-                var shippingCost = $scope.shippingMethod;
-                $scope.cart.shippingCost.amount = shippingCost;
-                $scope.order.shippingCost = shippingCost;
+                var shippingCostObject = angular.fromJson($scope.shippingCost);
+                var shippingCost = {fee: {amount: shippingCostObject.fee.amount, currency: shippingCostObject.fee.currency}};
+                $scope.cart.shipping = shippingCost;
+                $scope.order.shippingCost = shippingCost.fee.amount;
+                updateShippingCosts(shippingCost);
             };
 
-            $rootScope.updateShippingCost = function (countryCode) {
-                if (!$scope.isShipToCountry(countryCode)) {
-                    countryCode = GlobalData.getSiteCode();
-                }
-
-                ShippingSvc.getCountryShippingCosts(countryCode).then(
-                    function (result) {
-                        var unitsCost = $scope.cart.subTotalPrice.amount;
-                        var validCosts = [];
-                        $rootScope.fees = result;
-                        for (var i = 0; i < $rootScope.fees.length; i++) {
-                            var maxOrderValue = $rootScope.fees[i + 1] ? $rootScope.fees[i + 1].minOrderValue.amount : 10000;
-                            if (unitsCost > $rootScope.fees[i].minOrderValue.amount && unitsCost < maxOrderValue) {
-                                $rootScope.fees[i].valid = true;
-                                validCosts.push($rootScope.fees[i]);
-                            }
-                        }
-                        var preselectedCost = setShippingCost(validCosts);
-                        var index = $rootScope.fees.indexOf(validCosts[validCosts.indexOf(preselectedCost)]);
-                        if (index >= 0) {
-                            $rootScope.fees[index].selected = true;
-                        }
+            var updateShippingCosts = function (shippingCost) {
+                CartSvc.updateCartShippingCost(shippingCost).then(
+                    function () {
+                        console.log($scope.cart);
+                    },
+                    function () {
+                        console.log(2);
                     }
                 );
             };
 
-            var setShippingCost = function (validCosts) {
-                var cost;
-                for (var i = 0; i < validCosts.length; i++) {
-                    if (cost) {
-                        cost = validCosts[i].cost.amount < cost.cost.amount ? cost = validCosts[i] : cost = cost;
-                    }else {
-                        cost = validCosts[i];
-                    }
+            console.log($scope.cart);
+
+            $rootScope.updateShippingCost = function (shipToAddress) {
+                var address = shipToAddress;
+                if (!$scope.isShipToCountry(shipToAddress.country)) {
+                    address = {
+                        country: GlobalData.getSiteCode(),
+                        zipCode: ''
+                    };
                 }
-                $scope.shippingMethod = cost.cost.amount;
-                $scope.cart.shippingCost.amount = cost.cost.amount;
-                return cost;
+
+                var data = {
+                    'cartTotal': {
+                        'amount': $scope.cart.subTotalPrice.amount,
+                        'currency': $scope.cart.subTotalPrice.currency
+                    },
+                    'shipToAddress': address
+                };
+
+                var costsPromise = ShippingSvc.getShippingCosts(data).then(
+                    function (result) {
+                        return result[0];
+                    }
+                );
+
+                var minCostPromise = ShippingSvc.getMinimumShippingCost(data).then(
+                    function (result) {
+                        return result;
+                    }
+                );
+
+                $q.all([costsPromise, minCostPromise]).then(function(data){
+                    $scope.shippingCosts = data[0].methods;
+                    var shippingCost = data[1];
+                    if($scope.isShipToCountry(shipToAddress.country)){
+                        for (var i = 0; i < $scope.shippingCosts.length; i++) {
+                            if ($scope.shippingCosts[i].fee.amount === shippingCost.fee.amount) {
+                                $scope.shippingCosts[i].preselect = true;
+                            }
+                        }
+                    } else {
+                        $scope.shippingCosts = [];
+                    }
+
+                    $scope.shippingCost = shippingCost;
+                    $scope.cart.shipping = shippingCost;
+                });
             };
 
         }]);

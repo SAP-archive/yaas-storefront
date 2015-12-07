@@ -140,10 +140,7 @@ angular.module('ds.addresses').
 
 			// localization selection handler
 			scope.changeLocale = function(locale){
-				var localId = locale.id;
 				loadTemplate(scope, element, locale.id, attrs.type);
-
-				$rootScope.updateShippingCost(localId);
 				// set dynamic datamodel
 				switch(scope.viewTarget){
 					case 'addAddress':
@@ -163,7 +160,7 @@ angular.module('ds.addresses').
                         scope.order.billTo.address2 = '';
                         scope.order.billTo.city = '';
 						scope.order.billTo.state = '';
-                        scope.order.billTo.zip = '';
+                        scope.order.billTo.zipCode = '';
                         scope.order.billTo.contactPhone = '';
 						break;
 					case 'shipping':
@@ -173,12 +170,16 @@ angular.module('ds.addresses').
                         scope.order.shipTo.address2 = '';
                         scope.order.shipTo.city = '';
                         scope.order.shipTo.state = '';
-                        scope.order.shipTo.zip = '';
+                        scope.order.billTo.zipCode = '';
                         scope.order.shipTo.contactPhone = '';
 						break;
 					default:
 						break;
 				}
+				//Here should be implmented logic for shipping address when is active
+				var addressToShip = scope.order.shipTo.zipCode ? scope.order.shipTo : scope.order.billTo;
+				
+				$rootScope.updateShippingCost(addressToShip);
 
 			};
 

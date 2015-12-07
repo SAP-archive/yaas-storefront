@@ -153,9 +153,9 @@ angular.module('ds.router', [])
                             }
                         },
 
-                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
                             if(initialized){
-                                return ShippingSvc.getSiteShippingZones().then(
+                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode()).then(
                                     function (result) {
                                         var zones = result;
                                         return zones;
@@ -193,9 +193,9 @@ angular.module('ds.router', [])
                                 return CheckoutSvc.getShippingCost();
                             }
                         }],
-                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
-                                return ShippingSvc.getSiteShippingZones();
+                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
                             }
                         }],
                         shippingCountries: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {

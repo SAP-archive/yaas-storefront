@@ -11,12 +11,12 @@
             <div class="row" ng-repeat="method in zone.methods.$$state.value">
                 <div class="rangeCol col-xs-7">
                     <p class="label">{{method.name}}
-                    <p ng-if="!$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{method.fees[$index + 1].minOrderValue.amount}} {{currencySymbol}}</p>
+                    <p ng-if="!$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{method.fees[$index + 1].minOrderValue.amount}} {{fee.cost.currency}}</p>
                     <p ng-if="$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{'NO_LIMIT' | translate}}</p>                
                 </div>
                 <div class="col-xs-5 text-right">
                     <p class="title">{{'SHIPPING_RATE' | translate}}</p>
-                    <p ng-repeat="fee in method.fees">{{fee.cost.amount}} USD</p>
+                    <p ng-repeat="fee in method.fees">{{fee.cost.amount}} {{fee.cost.currency}}</p>
                 </div>
             </div>
         </div>
