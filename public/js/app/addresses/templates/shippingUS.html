@@ -18,7 +18,7 @@
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
                 <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                      ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="countryShip" name="country" ng-required="!shipToSameAsBillTo">
-                        <option value=""></option>
+                        <option ng-if="$root.noShipCosts" ng-selected="true" value="">Please Select a Country</option>
                 </select>
             </div>
         </div>

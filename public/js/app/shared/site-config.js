@@ -52,7 +52,7 @@ angular.module('ds.shared')
                 },
 
                 checkout: {
-                    baseUrl: 'https://' + apiPath + '/hybris/checkout/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/checkout/v1/' + tenantId
                 },
 
                 coupon: {

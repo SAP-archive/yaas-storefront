@@ -19,12 +19,12 @@ angular.module('ds.checkout')
     .factory('ShippingSvc', ['ShippingREST', '$q', 'GlobalData',
         function (ShippingREST, $q, GlobalData) {
 
-            var site = GlobalData.getSiteCode();
+            //var site = GlobalData.getSiteCode();
 
             var getShipToCountries = function () {
                 var deferred = $q.defer();
                 var shippingZones;
-                //var site = GlobalData.getSiteCode();
+                var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
                 ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
@@ -46,11 +46,11 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
-            var getSiteShippingZones = function (siteID) {
+            var getSiteShippingZones = function () {
                 var deferred = $q.defer();
                 var shippingZones;
-                //var site = GlobalData.getSiteCode();
-                ShippingREST.ShippingZones.all(siteID).all('zones').getList().then(function(zones){
+                var site = GlobalData.getSiteCode();
+                ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     deferred.resolve(shippingZones);
                 }, function(failure){
@@ -68,7 +68,7 @@ angular.module('ds.checkout')
             var getZoneShippingMethods = function (zoneId) {
                 var deferred = $q.defer();
                 var shippingMethods;
-                //var site = GlobalData.getSiteCode();
+                var site = GlobalData.getSiteCode();
                 ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
                     shippingMethods = methods.length ? methods.plain() : [];
                     deferred.resolve(shippingMethods);
@@ -128,7 +128,7 @@ angular.module('ds.checkout')
                 var deferred = $q.defer();
                 var shippingMethods;
                 var shippingCosts = [];
-                //var site = GlobalData.getSiteCode();
+                var site = GlobalData.getSiteCode();
 
                 ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
                     shippingMethods = methods.length ? methods.plain() : [];
@@ -153,7 +153,7 @@ angular.module('ds.checkout')
 
             var getMinimumShippingCost = function (item) {
                 var deferred = $q.defer();
-                //var site = GlobalData.getSiteCode();
+                var site = GlobalData.getSiteCode();
                 var minCost;
                 ShippingREST.ShippingZones.one(site).one('quote').all('minimum').post(item).then(function(result){
                     minCost = result.plain();
@@ -195,8 +195,8 @@ angular.module('ds.checkout')
                 return getShipToCountries();
             },
 
-            getSiteShippingZones: function (siteID) {
-                return getSiteShippingZones(siteID);
+            getSiteShippingZones: function () {
+                return getSiteShippingZones();
             },
 
             getZoneShippingMethods: function (zoneId) {
