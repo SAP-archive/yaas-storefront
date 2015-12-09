@@ -1,49 +1,22 @@
 <div class="pageFooter">
     <div class="row">
-        <div class="col-xs-12 col-lg-3 pull-right regionControls text-center">
-            <div class="controlcontainer" ng-controller="siteSelectorController">
-                <div class="dropdown" ng-hide="sites.length == 1 && sites[0].languages.length == 1">
-                    <a class=" dropdown-toggle" id="siteSelectorButton" ng-click="setHoveredSite(selectedSite)">{{selectedSite.name}} | {{selectedLanguage() | translate}}</a>
-                    <div class="dropdown-menu regionMenu">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <ul class="list-unstyled regionControlList">
-                                    <li ng-repeat="site in sites" ng-class="{ 'selected':site.code === selectedSite.code, 'hovered': site.code === hoveredSite.code}"
-                                        ng-click="selectSiteAndLanguage(site, site.defaultLanguage)"
-                                        ng-mouseover="setHoveredSite(site)">{{site.name}}</li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-6">
-                                <ul class="list-unstyled languageMenu">
-                                    <li ng-repeat="lang in hoveredSite.languages" ng-click="selectSiteAndLanguage(hoveredSite, lang)"
-                                        ng-class="{ 'selected':(lang === selectedLanguage() && hoveredSite.code === selectedSite.code),
-                                                   'defaultLang': (lang === hoveredSite.defaultLanguage && hoveredSite.code !== selectedSite.code)  }">
-                                        {{lang | translate}}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-lg-3 socialIcons text-center">
+        <div class="col-xs-12 col-lg-6 socialIcons text-center">
             <a href="https://www.facebook.com/hybrissoftware"><span class="hyicon hyicon-social-facebook"></span></a>
             <a href="https://twitter.com/hybris_software"><span class="hyicon hyicon-social-twitter"></span></a>
             <a href="https://www.pinterest.com/cspieker/hybris/"><span class="hyicon hyicon-social-pinterest"></span></a>
         </div>
         <div class="col-xs-12 col-lg-6 links text-center">
 
-                <a href="#">&copy; hybris YaaS</a>
-                <span class="hidden">
-                    /
-                    <a href="#">{{'TERMS_AND_CONDITIONS' | translate}}</a>
-                    /
-                    <a href="#">{{'CONTACT_US' | translate}}</a>
-                    /
-                    <a href="#">{{'SITE_MAP' | translate}}</a>
-                </span>
+            <a href="#">&copy; hybris YaaS</a>
+            <span class="hidden">
+                /
+                <a href="#">{{'TERMS_AND_CONDITIONS' | translate}}</a>
+                /
+                <a href="#">{{'CONTACT_US' | translate}}</a>
+                /
+                <a href="#">{{'SITE_MAP' | translate}}</a>
+            </span>
         </div>
-    
+
     </div>
 </div>

@@ -31,7 +31,7 @@
       </div>
 
       <!-- desktop display -->
-      <div class="row userInfoRow hidden-xs desktopUserInfo">
+      <div class="row userInfoRow hidden-xs desktopUserInfo" ng-if="account">
 
         <div class="col-sm-1 editLinkContainer">
             <a ng-click="editAccountInfo('user')"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
@@ -59,7 +59,7 @@
       <!-- /desktop -->
 
       <!-- mobile display -->
-      <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg">
+      <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg" ng-if="account">
 
           <div class="col-xs-12">
             <span class="titleRow visible-xs hidden-md hidden-lg">
@@ -96,7 +96,9 @@
 
       </div>
       <!-- /mobile display -->
-
+      <div>
+        <p ng-if="!account">{{'FAIL_CUSTOMER_DETAILS' | translate}}</p>
+      </div>
 
 
     </div>
@@ -159,7 +161,7 @@
         </div>
       </div>
 
-      <div class="table-responsive hidden-sm hidden-xs">
+      <div ng-if="orders.length"  class="table-responsive hidden-sm hidden-xs">
         <table class="table">
           <thead>
             <tr>
@@ -182,10 +184,15 @@
         </table>
       </div>
 
+      <p ng-if="!orders.length && orders.headers">{{'NO_ORDERS' | translate}}</p>
+      <p ng-if="!orders.length && !orders.headers">{{'FAIL_ORDER' | translate}}</p>
+
       <div class="text-center" ng-if="showOrderButtons">
         <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
         <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
       </div>
+
+      
     </div>
 
   </section>

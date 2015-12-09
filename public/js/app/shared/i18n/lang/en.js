@@ -387,6 +387,8 @@ angular.module('ds.i18n')
         ADDRESSBOOK: 'Addressbook',
         //XMSG
         NO_ADDRESSES: 'You have no addresses stored!',
+        //XMSG
+        FAIL_ADDRESSES: 'Addresses not available. Try again later.',
         //XBUT
         ADD_ADDRESS: 'Add Address',
         //XBUT
@@ -399,6 +401,8 @@ angular.module('ds.i18n')
         FULL_NAME: 'Full Name',
         //XFLD
         CONTACT_PHONE: 'Phone',
+        //XFLD
+        FAIL_CUSTOMER_DETAILS: 'Customer details not available. Try again later.',
         //XFLD
         DATE: 'Date',
         //XMSG
@@ -417,7 +421,10 @@ angular.module('ds.i18n')
         ORDER_NUMBER: 'Order Number',
         //XFLD
         ORDER_STATUS: 'Order Status',
-
+        //XFLD
+        FAIL_ORDER: 'Orders not available. Try again later.',
+        //XFLD
+        NO_ORDERS: 'You have no orders stored',
 	    //XSEL
         ORDER_ITEM_COUNT: '{{number}} Item',
 	    //XSEL
@@ -447,6 +454,12 @@ angular.module('ds.i18n')
         SHOW_LESS: 'Show less',
         //XFLD
         ITEMS_IN_ORDER: 'Items in Order',
+        //XMSG
+        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates.',
+        //XMSG
+        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again.',
+        //XMSG
+        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again.',
 
 
         //XFLD

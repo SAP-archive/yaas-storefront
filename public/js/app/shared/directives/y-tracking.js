@@ -88,20 +88,61 @@ angular.module('ds.ytracking', [])
                 }
             };
         }])
-    .factory('ytrackingSvc', ['SiteConfigSvc', 'yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData',
-        function (siteConfig, yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData) {
+    .factory('ytrackingSvc', ['yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
+        function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
             var internalCart = {};
 
             /**
-            * Url for piwik service
+            * Url for piwik service.
+            * appConfig dependency should be refactored out maybe and tenant and domain 
+            * should be provided for example as parameters to ytracking directive so this tracking
+            * can also work for any other storefront (not just this template)
             */
-            var url = siteConfig.apis.tracking.baseUrl;
+            var apiPath = appConfig.dynamicDomain();
+            var tenantId = appConfig.storeTenant();
+            
+            var piwikUrl = 'https://' + apiPath + '/hybris/edge/b1/events';
+            var consentUrl = 'https://' + apiPath + '/hybris/consent/b1/' + tenantId + '/consentReferences';
+
+            var getConsentReference = function () {
+                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
+                if (!!consentReferenceCookie) {
+                    return consentReferenceCookie;
+                } else {
+                    return '';
+                }
+            };
+
+            // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
+            // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
+            // to fetch the consent-reference.
+            var makeOptInRequest = function() {
+                var req = {
+                    method: 'POST',
+                    url: consentUrl,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                };
+
+                $http(req).success(function (response) {
+                    if (!!response.id) {
+                        CookieSvc.setConsentReferenceCookie(response.id);
+                    }
+                });
+            };
+
+            if (!getConsentReference()) {
+                //noinspection JSUnusedAssignment
+                makeOptInRequest();
+            }
 
             /**
             * Create object from piwik GET request
             */
-            var getQueryParameters = function (hash) {
+            var getPiwikQueryParameters = function (hash) {
                 var split = hash.split('&');
 
                 var obj = {};
@@ -119,40 +160,48 @@ angular.module('ds.ytracking', [])
             /**
             * Function that process piwik requests
             */
-            var processRequest = function (e) {
+            var processPiwikRequest = function (e) {
 
                 //Get object from query parameters
-                var obj = getQueryParameters(e);
+                var obj = getPiwikQueryParameters(e);
 
                 //Make post request to service
-                makeRequest(obj);
+                makePiwikRequest(obj);
             };
 
             /**
             * Function that creates POST request to CDM endpoint
             */
-            var makeRequest = function (obj) {
+            var makePiwikRequest = function (obj) {
 
                 var req = {
                     method: 'POST',
-                    url: url,
+                    url: piwikUrl,
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'consent-reference': getConsentReference()
                     },
                     data: JSON.stringify(obj)
                 };
 
+                //pass 'piwik' as event type if the tracking endpoint is the edge endpoint
+                if (piwikUrl.indexOf('edge') >= 0) {
+                    req.headers['event-type'] = 'piwik';
+                    req.headers[settings.headers.hybrisTenant] = appConfig.storeTenant();
+                }
+
                 $http(req).success(function () {
-                        //Get all items that failed before and resend them to PIWIK server
-                        var items = localStorage.getAllItems(yTrackingLocalStorageKey);
-                        for (var i = 0; i < items.length; i++) {
-                            makeRequest(items[i]);
-                        }
-                    }).error(function () {
-                        //Store request to localstorage so it can be sent again when possible
-                        localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
-                    });
+                    //Get all items that failed before and resend them to PIWIK server
+                    var items = localStorage.getAllItems(yTrackingLocalStorageKey);
+                    for (var i = 0; i < items.length; i++) {
+                        makePiwikRequest(items[i]);
+                    }
+                }).error(function () {
+                    //Store request to localstorage so it can be sent again when possible
+                    localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
+                });
+
             };
 
             /**
@@ -162,7 +211,7 @@ angular.module('ds.ytracking', [])
                 $window._paq = $window._paq || [];
 
                 //Make requests to service custom
-                $window._paq.push(['setCustomRequestProcessing', processRequest]);
+                $window._paq.push(['setCustomRequestProcessing', processPiwikRequest]);
 
                 //Set document title
                 $window._paq.push(['setDocumentTitle', 'PageViewEvent']);
@@ -170,7 +219,7 @@ angular.module('ds.ytracking', [])
                 //Set user id to equal the user token
                 //$window._paq.push(['setUserId', TokenSvc.getToken().getAccessToken().toString()]);
 
-                $window._paq.push(['setTrackerUrl', url]);
+                $window._paq.push(['setTrackerUrl', piwikUrl]);
 
                 //Add site code. It should be   <tenant>.<siteCode>
                 $window._paq.push(['setSiteId', GlobalData.store.tenant + '.' + GlobalData.getSiteCode()]);

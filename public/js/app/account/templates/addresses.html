@@ -7,7 +7,7 @@
   <div class="panel" ng-class="{'defaultAddress': address.isDefault, disableAddressTest: !isShipToCountry(address.country) && isDialog}">
     <div class="panel-body" ng-if="!isDialog">
       <div class="btn-group-vertical pull-right states-toolbar">
-        <button id="set-default-btn" class="btn btn-link btn-lg"  ng-if="addresses.length > 1" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)"><span class="glyphicon glyphicon-star"></span></button>
+        <button id="set-default-btn" class="btn btn-link btn-lg"  ng-if="addresses.length > 1 && !address.isDefault" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)"><span class="glyphicon glyphicon-star"></span></button>
         <button class="btn btn-link btn-lg" ng-click="openAddressModal(address, target)"><span class="glyphicon glyphicon-pencil"></span></button>
         <button id="delete-address-btn" class="btn btn-link btn-lg delete" ng-if="!address.isDefault || addresses.length === 1" ng-click="removeAddress(address)"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
@@ -43,7 +43,13 @@
 
   </div>
   </div>
+  <ul ng-if="errors && errors.length && errorAddressId && address.id == errorAddressId" class="list-unstyled text-danger">
+    <li ng-repeat="error in errors">{{error.message}}</li>
+  </ul>
 </div>
-<div class="col-sm-12" ng-if="!addresses.length">
+<div class="col-sm-12" ng-if="!addresses.length && addresses.headers">
   <p>{{'NO_ADDRESSES' | translate}}</p>
+</div>
+<div class="col-sm-12" ng-if="!addresses.length && !addresses.headers">
+  <p>{{'FAIL_ADDRESSES' | translate}}</p>
 </div>

@@ -5,10 +5,10 @@ exports.whiteCoffeeMug = "//a[contains(@href, '/products/55d76ce63a0eafb30e5540c
 exports.blackCoffeeMug = "//a[contains(@href, '/products/55d76cec264ebd7a318c236c/')]";
 exports.whiteThermos = "//a[contains(@href, '/products/55d76cf53a0eafb30e5540cc/')]";
 exports.rollerPen = "//a[contains(@href, '/products/55d76d19264ebd7a318c237e/')]";
-exports.beerBug = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";;
+exports.beerBug = "//a[contains(@href, '/products/5436f9e75acee4d3c910c0b5/')]";
 exports.cartButtonId = 'full-cart-btn';
 exports.buyButton = "buy-button";
-exports.siteSelectorButton = 'siteSelectorButton'
+exports.siteSelectorButton = 'siteSelectorButton';
 exports.contineShopping = "continue-shopping";
 exports.removeFromCart = "remove-product";
 exports.productDescriptionBind = 'product.description';
@@ -18,7 +18,7 @@ exports.outOfStockButton = "//div[3]/button";
 exports.tenant = 'bsdqa';
 exports.accountWithOrderEmail = 'order@hybristest.com';
 
-exports.waitForCart = function(){
+exports.waitForCart = function () {
     browser.wait(function () {
         return element(by.binding('CHECKOUT')).isPresent();
     });
@@ -47,7 +47,7 @@ exports.verifyCartDiscount = function (amount) {
     expect(element(by.css('span.error.ng-binding')).getText()).toEqual(amount);
 };
 
-exports.waitForAccountPage = function(){
+exports.waitForAccountPage = function () {
     browser.wait(function () {
         return element(by.binding('ACCOUNT_DETAILS')).isPresent();
     });
@@ -127,7 +127,6 @@ exports.selectLanguage = function (language) {
 };
 
 
-
 exports.sendKeys = function (type, pageElement, keys) {
     if (type === 'id') {
         element(by.id(pageElement)).clear();
@@ -149,26 +148,21 @@ exports.sendKeys = function (type, pageElement, keys) {
 };
 
 exports.switchSite = function (site) {
-    if (site === 'Sushi Demo Store Germany') {
-        var siteRow = '1'
-    } else if (site === 'Avalara') {
-        var siteRow = '2'
-    } else {
-        var siteRow = '0'
-    }    
 
-    var siteSelector = element(by.id('siteSelectorButton'));
+    var siteSelector = element(by.css('#siteSelectorLarge .siteSelectorIcon'));
     browser.driver.actions().mouseMove(siteSelector).perform();
     siteSelector.click();
-    var newSite = element(by.repeater('site in sites').row(siteRow));
-    browser.wait(function () {
-        return newSite.isPresent();
+    browser.sleep(200);
+
+    element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li')).each(function (currSite) {
+        currSite.getText().then(function (text) {
+            if (text == site) {
+                currSite.click();
+            }
+        });
     });
-    
-    browser.driver.actions().mouseMove(newSite).perform();
-    expect(element(by.repeater('site in sites').row(siteRow)).getText()).toEqual(site);
-    newSite.click();
-}
+};
+
 
 exports.loginHelper = function (userName, password) {
     // need to activate link first in real browser via hover
@@ -182,7 +176,7 @@ exports.loginHelper = function (userName, password) {
     tu.sendKeys('id', 'passwordInput', password);
     tu.clickElement('id', 'sign-in-button');
     browser.sleep(1000);
-}
+};
 
 exports.loadProductIntoCart = function (cartAmount, cartTotal) {
     browser.wait(function () {
@@ -205,10 +199,10 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal) {
     browser.sleep(2000);
     tu.verifyCartAmount(cartAmount);
     tu.verifyCartTotal(cartTotal);
-}
+};
 
 //country is populated from localized-addresses.js
-exports.populateAddress = function(country, contact, street, aptNumber, city, state, zip, phone) {
+exports.populateAddress = function (country, contact, street, aptNumber, city, state, zip, phone) {
     tu.clickElement('id', "add-address-btn");
     browser.sleep(1000);
     element(by.css('select option[value="' + country + '"]')).click();
@@ -220,16 +214,16 @@ exports.populateAddress = function(country, contact, street, aptNumber, city, st
         element(by.css('select option[value="' + state + '"]')).click();
     } else {
         element(by.id('state')).sendKeys(state);
-    }    
-    
+    }
+
     tu.sendKeys('id', 'zipCode', zip);
     tu.sendKeys('id', 'contactPhone', phone);
     tu.clickElement('id', 'save-address-btn');
-}
+};
 
 var timestamp = Number(new Date());
 
-exports.createAccount = function(emailAddress) {
+exports.createAccount = function (emailAddress) {
     tu.clickElement('id', 'login-btn');
     browser.sleep(1000);
     tu.clickElement('binding', 'CREATE_ACCOUNT');
@@ -240,16 +234,16 @@ exports.createAccount = function(emailAddress) {
     tu.clickElement('id', 'my-account-dropdown');
     tu.clickElement('id', 'my-account');
     browser.sleep(1000);
-}
+};
 
-exports.fillCreditCardForm = function(ccNumber, ccMonth, ccYear, cvcNumber) {
+exports.fillCreditCardForm = function (ccNumber, ccMonth, ccYear, cvcNumber) {
     tu.sendKeys('id', 'ccNumber', ccNumber);
     element(by.id('expMonth')).sendKeys(ccMonth);
     element(by.id('expYear')).sendKeys(ccYear);
     tu.sendKeys('id', 'cvc', cvcNumber);
-}
+};
 
-exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, price) {
+exports.verifyOrderConfirmation = function (account, name, number, cityStateZip, price) {
     var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
@@ -260,12 +254,12 @@ exports.verifyOrderConfirmation = function(account, name, number, cityStateZip, 
     expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
     expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
-}
+};
 
-     exports.removeItemFromCart = function(){
-            tu.clickElement('id', tu.removeFromCart);
-            browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
-            });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
-    };
+exports.removeItemFromCart = function () {
+    tu.clickElement('id', tu.removeFromCart);
+    browser.wait(function () {
+        return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
+    });
+    expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+};

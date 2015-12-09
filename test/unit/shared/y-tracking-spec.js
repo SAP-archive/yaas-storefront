@@ -13,23 +13,30 @@
 describe('ytracking', function () {
 
     var $q, $httpBackend, $scope, $compile, $rootScope, $timeout, mockedYtrackingSvc, mockedLocalStorage, mockedYtrackingDirective;
-    var mockedSiteConfig = {
-        apis: {
-            tracking: {
-                baseUrl: 'piwikUrl'
-            }
+    var mockedSettings = {
+        headers: {
+            hybrisTenant: 'hybris-tenant'
         }
     };
-    var mockedGlobalData = {
-        piwik: {
-            enabled: true
+    var mockedAppConfig = {
+        storeTenant: function () {
+            return 'default';
         },
+        dynamicDomain: jasmine.createSpy().andReturn('api.yaas.io')
+    };
+    var consentReference = 'consent-reference';
+
+    var mockedGlobalData = {
         store: {
             tenant: 'default'
         },
         getSiteCode: function () {
             return 'site';
         }
+    };
+    var mockedCookieSvc = {
+        setConsentReferenceCookie: jasmine.createSpy(),
+        getConsentReferenceCookie: jasmine.createSpy()
     };
     var mockedLocalStorage = {};
 
@@ -82,8 +89,10 @@ describe('ytracking', function () {
 
     beforeEach(angular.mock.module('ds.ytracking', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('SiteConfigSvc', mockedSiteConfig);
         $provide.value('localStorage', mockedLocalStorage);
+        $provide.value('settings', mockedSettings);
+        $provide.value('appConfig', mockedAppConfig);
+        $provide.value('CookieSvc', mockedCookieSvc);
     }));
 
     beforeEach(inject(function (_$httpBackend_, _$q_, _$rootScope_, _$window_, _$compile_, _$timeout_) {
@@ -94,6 +103,8 @@ describe('ytracking', function () {
         $window = _$window_;
         $compile = _$compile_;
         $timeout = _$timeout_;
+
+        $httpBackend.whenPOST().respond(201, {id: consentReference});
 
         inject(function ($injector) {
             mockedYtrackingSvc = $injector.get('ytrackingSvc');
@@ -117,6 +128,11 @@ describe('ytracking', function () {
                 }
             }
             expect(containsCustomProcessing).toBe(true);
+        });
+
+        it('should acquire consent-reference from opt-in service', function() {
+            $httpBackend.flush();
+            expect(mockedCookieSvc.setConsentReferenceCookie).toHaveBeenCalledWith(consentReference);
         });
     });
 
