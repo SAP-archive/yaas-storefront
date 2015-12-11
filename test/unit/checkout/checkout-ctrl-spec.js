@@ -106,6 +106,44 @@ describe('CheckoutCtrl', function () {
                 ]
             },
             {
+                'id': 'ups-canada',
+                'name': 'UPS Canada',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '4',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0.89',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            }],
+            'name': 'Canada',
+            'shipTo': ['CA']
+        },
+        {
+            'default': false,
+            'id': 'us',
+            'methods': [
+            {
                 'id': 'fedex-2dayground',
                 'name': 'FedEx 2Day',
                 'active': true,
@@ -120,7 +158,7 @@ describe('CheckoutCtrl', function () {
                       'currency': 'USD'
                     },
                     'cost': {
-                      'amount': '3',
+                      'amount': '8.6',
                       'currency': 'USD'
                     }
                   },
@@ -130,14 +168,65 @@ describe('CheckoutCtrl', function () {
                       'currency': 'USD'
                     },
                     'cost': {
-                      'amount': '1.89',
+                      'amount': '3',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '100',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '1',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            },
+            {
+                'id': 'ups-standard',
+                'name': 'UPS Standard',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '8.76',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '2.99',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '200',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0',
                       'currency': 'USD'
                     }
                   }
                 ]
             }],
-            'name': 'Canada',
-            'shipTo': ['CA']
+            'name': 'USA',
+            'shipTo': ['US']
         }];
         shippingCountries = ['CA', 'US'];
         mockedCheckoutSvc =  {
@@ -269,7 +358,6 @@ describe('CheckoutCtrl', function () {
 
             $scope.$apply();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
-            expect($scope.isShipToCountry('US')).toBeTruthy();
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
         });
@@ -551,6 +639,22 @@ describe('CheckoutCtrl', function () {
             expect($scope.shipToSameAsBillTo).toEqualData(true);
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
+        });
+    });
+
+    describe('shipping zones', function() {
+        it('should detect if the country is ship to country', function() {
+            expect($scope.isShipToCountry('US')).toBeTruthy();
+            expect($scope.isShipToCountry('FR')).toBeFalsy();
+        });
+
+        it('should behave...', function() {
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, $rootScope: $rootScope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            addressDef.resolve(returnAddress);
+            $rootScope.updateShippingCost(returnAddress);
+            $scope.$digest();
+            expect($scope.shippingCost).toEqual(1);
+            expect($scope.shippingCosts).toEqual(2);
         });
     });
 

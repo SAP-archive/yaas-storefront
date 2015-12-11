@@ -23,7 +23,6 @@ angular.module('ds.products')
             
             $scope.product = product;
             $scope.shippingZones = shippingZones;
-            console.log(shippingZones);
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             // used by breadcrumb directive
             $scope.category = product.categories;

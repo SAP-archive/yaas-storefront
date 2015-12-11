@@ -584,7 +584,6 @@ angular.module('ds.checkout')
                     };
                     CartSvc.recalculateCart(data).then(
                         function (calculatedCart) {
-                            console.log(calculatedCart);
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
                             $scope.displayCart = true;
