@@ -47,6 +47,10 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/cart/v1/' + tenantId
                 },
 
+                cartcalculation: {
+                    baseUrl: 'https://' + apiPath + '/hybris/cartcalculation/v1/' + tenantId
+                },
+
                 categories: {
                     baseUrl: 'https://' + apiPath + '/hybris/category/v1/' + tenantId
                 },

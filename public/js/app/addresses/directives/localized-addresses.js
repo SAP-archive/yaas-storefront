@@ -183,6 +183,7 @@ angular.module('ds.addresses').
 				if (scope.viewTarget !== 'addAddress') {
 					var addressToShip = $rootScope.shipActive ? scope.order.shipTo : scope.order.billTo;
 					$rootScope.updateShippingCost(addressToShip);
+					$rootScope.closeCartOnCheckout();
 				}
 			};
 

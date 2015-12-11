@@ -187,11 +187,11 @@ angular.module('ds.checkout')
 
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = order.account.email;
-                console.log(newOrder);
                 delete newOrder.shippingCost;
+                console.log(order);
                 newOrder.shipping = {
-                    'methodId': 'fedex-2dayground',
-                    'amount': 10
+                    'methodId': order.shipping.id,
+                    'amount': order.shipping.fee.amount
                 };
                 return CheckoutREST.Checkout.all('checkouts').all('order').post(newOrder);
 

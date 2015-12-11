@@ -50,7 +50,7 @@ angular.module('ds.checkout')
                 var deferred = $q.defer();
                 var shippingZones;
                 var site = GlobalData.getSiteCode();
-                ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     deferred.resolve(shippingZones);
                 }, function(failure){

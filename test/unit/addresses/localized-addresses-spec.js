@@ -11,7 +11,8 @@
  */
 
 describe('LocalizedAddresses Test', function () {
-    var $compile, $rootScope, mockBackend, mockGlobalData;
+    var $compile, $rootScope, mockBackend, mockGlobalData, ShippingSvc;
+    module('ds.checkout');
 
     mockGlobalData = {
         getSite: jasmine.createSpy().andReturn({code: 'us'})
@@ -21,17 +22,17 @@ describe('LocalizedAddresses Test', function () {
         $provide.value('GlobalData', mockGlobalData);
     }));
 
-    beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_){
+    beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _ShippingSvc_){
         $compile = _$compile_;
         $rootScope = _$rootScope_;
         mockBackend = _$httpBackend_;
+        ShippingSvc = _ShippingSvc_;
     }));
 
   it('Replaces the element with content', function() {
 
     var template = '<div>Example Address Form</div>';
     mockBackend.expectGET('js/app/addresses/templates/addAddressUS.html').respond(template);
-
     var element = $compile("<localized-addresses type='addAddress'></localized-addresses>")($rootScope);
     $rootScope.$digest();
     expect(element.html()).toContain("");

@@ -10,7 +10,7 @@
             <p> {{'INCLUDES' | translate}} - <span ng-repeat="country in zone.shipTo"><span ng-if="!$first">, </span>{{country}}</span>          
         </div>
         <div class="col-xs-12 zoneinfo">
-            <div class="row" ng-repeat="method in zone.methods.$$state.value">
+            <div class="row" ng-repeat="method in zone.methods">
                 <div class="rangeCol col-xs-7">
                     <p class="label">{{method.name}}
                     <p ng-if="!$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{method.fees[$index + 1].minOrderValue.amount}} {{fee.cost.currency}}</p>

@@ -27,6 +27,18 @@ angular.module('ds.cart')
                         httpConfig: httpConfig
                     };
                 });
+            }),
+
+            CalculateCart: Restangular.withConfig(function (RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.cartcalculation.baseUrl);
+                RestangularConfigurer.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+                    return {
+                        element: element,
+                        params: params,
+                        headers: _.extend(headers, { 'hybris-site': GlobalData.getSiteCode() }),
+                        httpConfig: httpConfig
+                    };
+                });
             })
         };
 

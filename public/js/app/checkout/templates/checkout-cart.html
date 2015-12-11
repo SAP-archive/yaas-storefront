@@ -1,7 +1,7 @@
 <div class="CheckoutCartContainer">
 
     <h2>{{'ORDER_DETAILS' | translate}}
-        <span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>
+        <!--<span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>-->
     </h2>
     <section class="excerpt" ng-cloak>
         <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                     <td>{{'SHIPPING' | translate}}</td>
-                    <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
+                    <td class="text-right">{{ cart.shipping.fee.amount | currency: currencySymbol }}</td>
                 </tr>
                 <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
                     <td ng-if="taxLine.name">{{taxLine.name}}</td>

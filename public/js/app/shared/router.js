@@ -160,14 +160,7 @@ angular.module('ds.router', [])
                                         var zones = result;
                                         return zones;
                                     }
-                                ).then(function (zones) {
-                                    for (var i = 0; i < zones.length; i++) {
-                                        var zone = zones[i];
-                                        var methods = ShippingSvc.getZoneShippingMethods(zones[i].id);
-                                        zone.methods = methods;
-                                    }
-                                    return zones;
-                                });
+                                );
                             }
                         }]
 
@@ -209,7 +202,7 @@ angular.module('ds.router', [])
                 .state('base.checkout.details', {
                     url: '/checkout/',
                     views: {
-                        'checkoutcart': {
+                        'checkoutcart@base.checkout.details': {
                             templateUrl: 'js/app/checkout/templates/checkout-cart.html',
                             controller: 'CheckoutCartCtrl'
                         },

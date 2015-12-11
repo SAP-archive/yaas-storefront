@@ -99,6 +99,9 @@ module.exports = function(config){
         'public/js/app/checkout/services/checkout-rest.js',
         'public/js/app/checkout/services/checkout-service.js',
 
+        'public/js/app/shipping/services/shipping-service.js',
+        'public/js/app/shipping/services/shipping-rest.js',
+
         'public/js/app/confirmation/confirmation-index.js',
         'public/js/app/confirmation/controllers/confirmation-ctrl.js',
         'public/js/app/confirmation/services/order-details-svc.js',

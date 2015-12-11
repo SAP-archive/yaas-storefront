@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, cartDef,mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, shippingZones, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
         getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: "Includes Tax/VAT", included: false })
     };
@@ -53,6 +53,9 @@ describe('ProductDetailCtrl', function () {
 
     beforeEach(angular.mock.module('ds.products'));
 
+    beforeEach(module('ds.checkout', function($provide) {
+        $provide.value('shippingZones', shippingZones);
+    }));
 
     beforeEach(inject(function ($injector, _$rootScope_, _$controller_, _$q_) {
         $q = _$q_;
