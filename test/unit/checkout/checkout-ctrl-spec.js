@@ -648,14 +648,6 @@ describe('CheckoutCtrl', function () {
             expect($scope.isShipToCountry('FR')).toBeFalsy();
         });
 
-        it('should behave...', function() {
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, $rootScope: $rootScope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
-            addressDef.resolve(returnAddress);
-            $rootScope.updateShippingCost(returnAddress);
-            $scope.$digest();
-            expect($scope.shippingCost).toEqual(1);
-            expect($scope.shippingCosts).toEqual(2);
-        });
     });
 
 });
