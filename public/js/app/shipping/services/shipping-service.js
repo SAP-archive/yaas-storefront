@@ -19,8 +19,6 @@ angular.module('ds.checkout')
     .factory('ShippingSvc', ['ShippingREST', '$q', 'GlobalData',
         function (ShippingREST, $q, GlobalData) {
 
-            //var site = GlobalData.getSiteCode();
-
             var getShipToCountries = function () {
                 var deferred = $q.defer();
                 var shippingZones;

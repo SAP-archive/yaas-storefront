@@ -188,7 +188,6 @@ angular.module('ds.checkout')
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = order.account.email;
                 delete newOrder.shippingCost;
-                console.log(order);
                 newOrder.shipping = {
                     'methodId': order.shipping.id,
                     'amount': order.shipping.fee.amount

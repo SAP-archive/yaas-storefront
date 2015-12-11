@@ -11,22 +11,26 @@
  */
 
 describe('LocalizedAddresses Test', function () {
-    var $compile, $rootScope, mockBackend, mockGlobalData, ShippingSvc;
+    var $compile, $rootScope, mockBackend, mockGlobalData, mockShippingSvc;
     module('ds.checkout');
 
     mockGlobalData = {
         getSite: jasmine.createSpy().andReturn({code: 'us'})
     };
 
+    mockShippingSvc = {
+        getShipToCountries: function () {return true;}
+    };
+
     beforeEach(module('ds.addresses', function ($provide) {
         $provide.value('GlobalData', mockGlobalData);
+        $provide.value('ShippingSvc', mockShippingSvc);
     }));
 
-    beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _ShippingSvc_){
+    beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_){
         $compile = _$compile_;
         $rootScope = _$rootScope_;
         mockBackend = _$httpBackend_;
-        ShippingSvc = _ShippingSvc_;
     }));
 
   it('Replaces the element with content', function() {

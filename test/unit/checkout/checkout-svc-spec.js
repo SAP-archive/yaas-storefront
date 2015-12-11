@@ -56,6 +56,16 @@ describe('CheckoutSvc', function () {
         customAttributes: {}
     };
 
+    order.shipping = {
+        'id': 'ups-standard',
+        'name': 'UPS Standard',
+        'zoneId': 'us',
+        'fee': {
+            'amount': 8.76,
+            'currency': 'USD'
+        }
+    };
+
     order.creditCard = {};
 
     order.shippingCost = 4.5;
@@ -78,7 +88,7 @@ describe('CheckoutSvc', function () {
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"US","account":"bs@sushi.com","type":"SHIPPING"}],
         "customer":{"title":"Mr.", "firstName":"Michael", "middleName":"Jeffrey", "lastName":"Jordan","email":"bs@sushi.com"},
-        "totalPrice":7.79,"shippingCost": 4.5};
+        "totalPrice":7.79, "shipping":{"methodId":"ups-standard","amount":8.76}};
 
     mockedStripeJS = {};
     mockedCartSvc = {};
@@ -153,10 +163,12 @@ describe('CheckoutSvc', function () {
 
             it('should issue POST', function () {
                 checkoutSvc.checkout(order);
+                $httpBackend.flush();
             });
 
             it('should remove products from the cart after placing order', function () {
                 checkoutSvc.checkout(order);
+                $httpBackend.flush();
                 $rootScope.$digest();
                 checkoutSvc.resetCart();
                 expect(mockedCartSvc.resetCart).toHaveBeenCalled();
@@ -176,7 +188,7 @@ describe('CheckoutSvc', function () {
                     error500msg = 'Cannot process this order because the system is unavailable. Try again at a later time.';
 
                 checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
-                //$httpBackend.flush();
+                $httpBackend.flush();
                 $rootScope.$digest();
 
                 expect(onSuccessSpy).not.toHaveBeenCalled();
@@ -188,6 +200,21 @@ describe('CheckoutSvc', function () {
             beforeEach(function(){
                 $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson).respond(400, '');
             });
+
+            it('should display System Unavailable', function(){
+                var
+                    onSuccessSpy = jasmine.createSpy('success'),
+                    onErrorSpy = jasmine.createSpy('error'),
+                    error400msg = 'Order could not be processed. Status code: 400.';
+
+                checkoutSvc.checkout(order).then(onSuccessSpy, onErrorSpy);
+                $httpBackend.flush();
+                $rootScope.$digest();
+
+                expect(onSuccessSpy).not.toHaveBeenCalled();
+                expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.order, error: error400msg });
+            });
+
         });
 
     });
