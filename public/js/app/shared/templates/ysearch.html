@@ -2,7 +2,7 @@
     <div class="right-inner-addon">
         <i ng-class="{'active': search.showSearchResults}" class="glyphicon glyphicon-search js-glyphicon"></i>
         <input id="search" autocomplete="off" placeholder="{{'SEARCH' | translate}}" type="text" ng-model="search.text"
-               ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()"
+               ng-change="doSearch(search.text, search.page)" ng-focus="showSearchResults()" ng-keypress="keyPressed($event)"
                class="y-input form-control input-md"/>
     </div>
     <div class="y-search-container" ng-show="search.showSearchResults && search.results.length > 0">
