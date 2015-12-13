@@ -605,6 +605,8 @@ angular.module('ds.i18n')
         SEARCH_UNAVAILABLE:'Die Suche ist zurzeit nicht verfügbar.',
         //XMSG
         NO_RESULTS_FOUND:'Keine Ergebnisse gefunden.',
+        //XFLD
+        IN:'im',
 
         //XFLD
         //-------------------------------------------------
