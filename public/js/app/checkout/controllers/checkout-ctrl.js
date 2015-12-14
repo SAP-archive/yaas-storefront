@@ -586,9 +586,14 @@ angular.module('ds.checkout')
                     };
                     CartSvc.recalculateCart(data).then(
                         function (calculatedCart) {
+                            console.log($scope.cart);
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
-                            //$scope.cart.totalTax.amount =  calculatedCart.totalTax ? calculatedCart.totalTax.amount : 0;
+                            if (calculatedCart.totalTax) {
+                                $scope.cart.totalTax.amount =  calculatedCart.totalTax.amount;
+                            }else {
+                                $scope.cart.totalTax =  {amount: 0};
+                            }
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
