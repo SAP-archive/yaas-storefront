@@ -32,23 +32,23 @@ angular.module('ds.addresses').
 			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
             selectDefaultLocale(scope, viewType);
-            scope.changeLocale(scope.localeSelection);
 		};
 
         var selectDefaultLocale = function (scope, viewType) {
 
             var currentSite = GlobalData.getSite();
 
-            angular.forEach(selectionArray, function (selection) {
+            /*angular.forEach(selectionArray, function (selection) {
                 if (selection.id === currentSite.code) {
                     scope.localeSelection = selection;
                 }
-            });
+            });*/
 
             if (!scope.localeSelection) {
                 scope.localeSelection = selectionArray[0];
+                $rootScope.updateShippingCost({country: scope.localeSelection.id, zipCode: ''});
             }
-
+            console.log(scope.localeSelection);
             switch(viewType){
                 case 'addAddress':
                     if (scope.address) {
@@ -142,6 +142,7 @@ angular.module('ds.addresses').
 			// localization selection handler
 			scope.changeLocale = function(locale){
 				loadTemplate(scope, element, locale.id, attrs.type);
+				console.log(locale);
 				// set dynamic datamodel
 				switch(scope.viewTarget){
 					case 'addAddress':
