@@ -32,6 +32,7 @@ angular.module('ds.addresses').
 			// init with default template type
 			loadTemplate(scope, elem, '', viewType);
             selectDefaultLocale(scope, viewType);
+            scope.changeLocale(scope.localeSelection);
 		};
 
         var selectDefaultLocale = function (scope, viewType) {
