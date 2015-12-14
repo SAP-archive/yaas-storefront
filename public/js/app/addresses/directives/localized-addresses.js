@@ -187,6 +187,10 @@ angular.module('ds.addresses').
 				}
 			};
 
+			$rootScope.$on('noShippingCosts', function (){
+				scope.localeSelection = {id: '', name: ''};
+			});
+
 			// event for loading addressbook change request
 			var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
 				var locale = getLocaleSelection(name);

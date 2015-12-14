@@ -289,6 +289,7 @@ angular.module('ds.checkout')
                     clearShipTo();
                     $rootScope.shipActive = true;
                 }
+                $rootScope.closeCartOnCheckout();
             };
 
             /** Reset any error messaging related to the credit card expiration date.*/
@@ -440,7 +441,6 @@ angular.module('ds.checkout')
             };
 
             $scope.selectAddress = function(address, target) {
-                console.log(target);
                 $scope.displayCart = false;
                 if (target === $scope.order.billTo) {
                     selectedBillingAddress = address;
@@ -549,7 +549,7 @@ angular.module('ds.checkout')
             });
 
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
-                if (shipToFormValid && billToFormValid) {
+                if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
                     var items = [];
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
@@ -602,52 +602,54 @@ angular.module('ds.checkout')
             $rootScope.updateShippingCost = function (shipToAddress) {
                 var address = shipToAddress;
                 var cart = $scope.cart;
-                if (!$scope.isShipToCountry(shipToAddress.country)) {
-                    address = {
+                if ($scope.isShipToCountry(shipToAddress.country)) {
+                    /*address = {
                         country: GlobalData.getSiteCode(),
                         zipCode: ''
+                    };*/
+
+                    var data = {
+                        'cartTotal': {
+                            'amount': cart.subTotalPrice.amount,
+                            'currency': cart.subTotalPrice.currency
+                        },
+                        'shipToAddress': address
                     };
-                }
 
-                var data = {
-                    'cartTotal': {
-                        'amount': cart.subTotalPrice.amount,
-                        'currency': cart.subTotalPrice.currency
-                    },
-                    'shipToAddress': address
-                };
-
-                var costsPromise = ShippingSvc.getShippingCosts(data).then(
-                    function (result) {
-                        return result[0];
-                    }
-                );
-
-                var minCostPromise = ShippingSvc.getMinimumShippingCost(data).then(
-                    function (result) {
-                        return result;
-                    }
-                );
-
-                $q.all([costsPromise, minCostPromise]).then(function(data){
-                    $scope.shippingCosts = data[0].methods;
-                    var shippingCost = data[1];
-                    if($scope.isShipToCountry(shipToAddress.country)){
-                        for (var i = 0; i < $scope.shippingCosts.length; i++) {
-                            $scope.shippingCosts[i].zoneId = data[0].zone.id;
-                            if ($scope.shippingCosts[i].fee.amount === shippingCost.fee.amount) {
-                                shippingCost.zoneId = $scope.shippingCosts[i].zoneId;
-                                shippingCost.id = $scope.shippingCosts[i].id;
-                                shippingCost.name = $scope.shippingCosts[i].name;
-                                $scope.shippingCosts[i].preselect = true;
-                            }
+                    var costsPromise = ShippingSvc.getShippingCosts(data).then(
+                        function (result) {
+                            return result[0];
                         }
-                    } else {
-                        $scope.shippingCosts = [];
-                    }
+                    );
 
-                    $scope.shippingCost = shippingCost;
-                });
+                    var minCostPromise = ShippingSvc.getMinimumShippingCost(data).then(
+                        function (result) {
+                            return result;
+                        }
+                    );
+
+                    $q.all([costsPromise, minCostPromise]).then(function(data){
+                        $scope.shippingCosts = data[0].methods;
+                        var shippingCost = data[1];
+                        if($scope.isShipToCountry(shipToAddress.country)){
+                            for (var i = 0; i < $scope.shippingCosts.length; i++) {
+                                $scope.shippingCosts[i].zoneId = data[0].zone.id;
+                                if ($scope.shippingCosts[i].fee.amount === shippingCost.fee.amount) {
+                                    shippingCost.zoneId = $scope.shippingCosts[i].zoneId;
+                                    shippingCost.id = $scope.shippingCosts[i].id;
+                                    shippingCost.name = $scope.shippingCosts[i].name;
+                                    $scope.shippingCosts[i].preselect = true;
+                                }
+                            }
+                        } else {
+                            $scope.shippingCosts = [];
+                        }
+
+                        $scope.shippingCost = shippingCost;
+                    });
+                } else {
+                    $rootScope.$emit('noShippingCosts');
+                }
             };
 
         }]);
