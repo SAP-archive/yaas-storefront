@@ -610,7 +610,7 @@ angular.module('ds.checkout')
                     var data = {
                         'cartTotal': {
                             'amount': cart.subTotalPrice.amount,
-                            'currency': cart.subTotalPrice.currency
+                            'currency': GlobalData.getCurrency()
                         },
                         'shipToAddress': address
                     };
