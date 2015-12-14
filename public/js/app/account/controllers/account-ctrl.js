@@ -160,7 +160,6 @@ angular.module('ds.account')
                 modalInstance.opened.then(function() {
                     setTimeout(function() {
                         // once dialog is open initialize dynamic localized address.
-                        console.log(address);
                         $scope.$emit('localizedAddress:updated', address.country, 'addAddress');
                     }, 10);
                 });

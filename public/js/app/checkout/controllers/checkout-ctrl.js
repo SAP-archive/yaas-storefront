@@ -201,7 +201,6 @@ angular.module('ds.checkout')
 
             /** Mark mobile wizard step 1 "done" - bill-to address information has been entered.*/
             $scope.billToDone = function (billToFormValid, form) {
-                window.alert('s');
                 $scope.$broadcast('submitting:form', form);
                 if (billToFormValid) {
                     $scope.wiz.step1Done = true;

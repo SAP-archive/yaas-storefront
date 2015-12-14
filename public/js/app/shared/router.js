@@ -155,12 +155,7 @@ angular.module('ds.router', [])
 
                         shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
                             if(initialized){
-                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode()).then(
-                                    function (result) {
-                                        var zones = result;
-                                        return zones;
-                                    }
-                                );
+                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
                             }
                         }]
 
