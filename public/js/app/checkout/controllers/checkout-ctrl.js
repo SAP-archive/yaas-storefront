@@ -642,10 +642,8 @@ angular.module('ds.checkout')
                                 $scope.shippingCosts[i].preselect = true;
                             }
                         }
-                        $rootScope.noShipCosts = false;
                     } else {
                         $scope.shippingCosts = [];
-                        $rootScope.noShipCosts = true;
                     }
 
                     $scope.shippingCost = shippingCost;
