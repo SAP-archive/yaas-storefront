@@ -603,10 +603,6 @@ angular.module('ds.checkout')
                 var address = shipToAddress;
                 var cart = $scope.cart;
                 if ($scope.isShipToCountry(shipToAddress.country)) {
-                    /*address = {
-                        country: GlobalData.getSiteCode(),
-                        zipCode: ''
-                    };*/
 
                     var data = {
                         'cartTotal': {
