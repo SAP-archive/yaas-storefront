@@ -585,7 +585,6 @@ angular.module('ds.checkout')
                     };
                     CartSvc.recalculateCart(data).then(
                         function (calculatedCart) {
-                            console.log($scope.cart);
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
                             if (calculatedCart.totalTax) {
@@ -647,8 +646,6 @@ angular.module('ds.checkout')
 
                         $scope.shippingCost = shippingCost;
                     });
-                } else {
-                    $rootScope.$emit('noShippingCosts');
                 }
             };
 

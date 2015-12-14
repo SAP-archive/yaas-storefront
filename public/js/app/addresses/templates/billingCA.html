@@ -27,7 +27,6 @@
             <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" 
                 ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
                 inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
-                <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
             </select>
         </div>
     </div>
