@@ -259,4 +259,6 @@ angular.module('ds.account')
                 order.currencySymbol = GlobalData.getCurrencySymbol(order.currency);
             });
 
+            console.log($scope.account);
+
         }]);

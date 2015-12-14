@@ -9,6 +9,7 @@ describe('CheckoutCtrl', function () {
             isAuthenticated: '',
             user: null
         },
+        getCurrency: jasmine.createSpy().andReturn('USD'),
         getCurrencyId: jasmine.createSpy().andReturn('USD'),
         getCurrencySymbol: jasmine.createSpy().andReturn('$'),
         getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR']),
