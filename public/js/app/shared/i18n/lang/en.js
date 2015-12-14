@@ -41,6 +41,8 @@ angular.module('ds.i18n')
         //XFLD
         "EST_ORDER_TOTAL": "Est. order total",
         //XFLD
+        "PREVIEW_ORDER": "Preview Order",
+        //XFLD
         "FREE_SHIPPING": "Free Shipping and Returns in the US",
         //XFLD
         "ITEM": "Item",

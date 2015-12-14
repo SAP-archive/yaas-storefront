@@ -1,7 +1,7 @@
 describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd,
-        $modal, mockedModal, shippingCost, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
+        $modal, mockedModal, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
     var GlobalData = {
@@ -66,10 +66,6 @@ describe('CheckoutCtrl', function () {
         order.billTo = {};
         cart = {};
         order.creditCard = {};
-        shippingCost = {};
-        shippingCost.price = {
-            'USD': 4.99
-        };
         shippingZones = [{
             'default': true,
             'id': 'europe',
@@ -256,7 +252,6 @@ describe('CheckoutCtrl', function () {
         GlobalData.user.isAuthenticated = true;
         $provide.value('cart', cart);
         $provide.value('order', order);
-        $provide.value('shippingCost', shippingCost);
         $provide.value('shippingZones', shippingZones);
         $provide.value('shippingCountries', shippingCountries);
         $provide.value('$state', mockedState);

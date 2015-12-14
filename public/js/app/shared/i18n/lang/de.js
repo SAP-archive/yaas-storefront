@@ -35,6 +35,8 @@ angular.module('ds.i18n')
         //XFLD: Est. is short for Estimated
         EST_ORDER_TOTAL:'Geschätzte Bestellsumme',
         //XFLD
+        "PREVIEW_ORDER": "Preview Order",
+        //XFLD
         FREE_SHIPPING:'Versand und Rücksendung in den USA kostenlos',
         //XFLD
         ITEM:'Position',

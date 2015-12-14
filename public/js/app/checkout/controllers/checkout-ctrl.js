@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$http','$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
-        function ($http, $rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
+    .controller('CheckoutCtrl', ['$http','$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
+        function ($http, $rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -47,9 +47,7 @@ angular.module('ds.checkout')
             cart = $scope.cart;
             $scope.shippingCountries = shippingCountries;
             $scope.shippingZones = shippingZones || 0;
-            $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
-            $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
             var shouldAutoUpdateName = true;
@@ -546,7 +544,11 @@ angular.module('ds.checkout')
                 $scope.displayCart = false;
             };
 
-            $rootScope.previewOrder = function (shipToFormValid, billToFormValid) {
+            $rootScope.$on('preview:order', function () {
+                $scope.previewOrder(true, true);
+            });
+
+            $scope.previewOrder = function (shipToFormValid, billToFormValid) {
                 if (shipToFormValid && billToFormValid) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
                     var items = [];
@@ -586,6 +588,8 @@ angular.module('ds.checkout')
                         function (calculatedCart) {
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
+                            $scope.cart.totalTax.amount = calculatedCart.totalTax.amount;
+                            $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
                         }

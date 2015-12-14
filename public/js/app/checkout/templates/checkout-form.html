@@ -108,7 +108,7 @@
                 <select class="form-control" name="shipMethod" id="shipMethod" ng-change="changeShippingCost()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
                     <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
                     <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
-                    <option ng-repeat="cost in shippingCosts" ng-selected="cost.preselect" ng-if="order.shippingCost > 0" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
+                    <option ng-repeat="cost in shippingCosts" ng-selected="cost.preselect" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
                 </select>
             </div>
         </div>
@@ -124,7 +124,7 @@
     
 
 <button class="btn btn-primary btn-lg btn-block"
-        ng-click="$root.previewOrder(shipToForm.$valid, billToForm.$valid)">Preview Order
+        ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
 </button>
 <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
 </div>

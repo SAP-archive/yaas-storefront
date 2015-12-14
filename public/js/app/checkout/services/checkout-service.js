@@ -137,7 +137,10 @@ angular.module('ds.checkout')
                 newOrder.payment = order.payment;
                 newOrder.payment.customAttributes.token = token;
                 newOrder.currency = order.cart.currency;
-                newOrder.shippingCost = order.shippingCost;
+                newOrder.shipping = {
+                    'methodId': order.shipping.id,
+                    'amount': order.shipping.fee.amount
+                };
 
                 newOrder.totalPrice =  order.cart.totalPrice.amount;
                 newOrder.addresses = [];
@@ -187,11 +190,7 @@ angular.module('ds.checkout')
 
                 // Will be submitted as "hybris-user" request header
                 settings.hybrisUser = order.account.email;
-                delete newOrder.shippingCost;
-                newOrder.shipping = {
-                    'methodId': order.shipping.id,
-                    'amount': order.shipping.fee.amount
-                };
+
                 return CheckoutREST.Checkout.all('checkouts').all('order').post(newOrder);
 
             },

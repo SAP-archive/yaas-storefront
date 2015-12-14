@@ -63,92 +63,6 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
-            var getZoneShippingMethods = function (zoneId) {
-                var deferred = $q.defer();
-                var shippingMethods;
-                var site = GlobalData.getSiteCode();
-                ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
-                    shippingMethods = methods.length ? methods.plain() : [];
-                    deferred.resolve(shippingMethods);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippingMethods);
-                    } else {
-                        deferred.reject(failure);
-                    }
-                });
-
-                return deferred.promise;
-            };
-
-            var getCountryShippingCosts = function (countryCode) {
-                var deferred = $q.defer();
-
-                var isShipToPromise = getShipToCountries().then(
-                    function (result) {
-                        return result.indexOf(countryCode) > -1;
-                    }
-                );
-
-                var zonePromise = getSiteShippingZones().then(
-                    function (result) {
-                        var zoneId;
-                        var zones = result;
-                        for (var i = 0; i < zones.length; i++) {
-                            if (zones[i].shipTo.indexOf(countryCode) > -1) {
-                                zoneId = zones[i].id;
-                            }
-                        }
-                        return zoneId;
-                    }
-                );
-
-                $q.all([isShipToPromise, zonePromise]).then(function(data){
-                    
-                    var isShipTo = data[0];
-                    var zoneId = data[1];
-                    if (isShipTo) {
-                       getMethodCosts(zoneId).then(
-                            function (result) {
-                                deferred.resolve(result);
-                            }
-                       );
-                    }else {
-                        deferred.resolve([]);
-                    }
-                });
-                
-                return deferred.promise;
-            };
-
-            var getMethodCosts = function (zoneId) {
-                var deferred = $q.defer();
-                var shippingMethods;
-                var shippingCosts = [];
-                var site = GlobalData.getSiteCode();
-
-                ShippingREST.ShippingZones.all(site).all('zones').all(zoneId).all('methods').getList({ expand:'fees'}).then(function(methods){
-                    shippingMethods = methods.length ? methods.plain() : [];
-                    for (var i = 0; i < shippingMethods.length; i++) {
-                        for (var j = 0; j < shippingMethods[i].fees.length; j++) {
-                            shippingMethods[i].fees[j].name = shippingMethods[i].name;
-                            shippingCosts.push(shippingMethods[i].fees[j]);
-                        }
-                    }
-                    deferred.resolve(shippingCosts);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippingMethods);
-                    } else {
-                        deferred.reject(failure);
-                    }
-                });
-
-                return deferred.promise;
-            };
-
             var getMinimumShippingCost = function (item) {
                 var deferred = $q.defer();
                 var site = GlobalData.getSiteCode();
@@ -195,14 +109,6 @@ angular.module('ds.checkout')
 
             getSiteShippingZones: function () {
                 return getSiteShippingZones();
-            },
-
-            getZoneShippingMethods: function (zoneId) {
-                return getZoneShippingMethods(zoneId);
-            },
-
-            getCountryShippingCosts: function (siteCode) {
-                return getCountryShippingCosts(siteCode);
             },
 
             getShippingCosts: function (item) {

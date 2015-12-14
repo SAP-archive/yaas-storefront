@@ -78,7 +78,7 @@ angular.module('ds.checkout')
                     if (paymentFormValid) {
                         scope.wiz.step3Done = true;
                         // guarantee correct scrolling for mobile
-                        $rootScope.previewOrder(paymentFormValid, paymentFormValid);
+                        $rootScope.$emit('preview:order');
                         $location.hash('step4');
                         $anchorScroll();
                     } else {
