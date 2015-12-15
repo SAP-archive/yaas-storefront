@@ -57,7 +57,7 @@
 // Actual modal
 .modal-content {
   position: relative;
-  background-color: @modal-content-bg;
+  background-color: #fff;
   border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 1px solid @modal-content-border-color;
   border-radius: @border-radius-large;
@@ -66,7 +66,21 @@
   // Remove focus outline from opened modal
   outline: none;
 }
+.opacity(@val){
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@val)" !important;
 
+  /* IE 5-7 */
+  filter: alpha(opacity=@val) !important;
+
+  /* Netscape */
+  -moz-opacity: (@val/100) !important;
+
+  /* Safari 1.x */
+  -khtml-opacity: (@val/100) !important ;
+
+  /* Good browsers */
+  opacity: (@val/100) !important;
+}
 // Modal background
 .modal-backdrop {
   position: fixed;
@@ -75,10 +89,10 @@
   bottom: 0;
   left: 0;
   z-index: 10000 !important;
-  background-color: @modal-backdrop-bg;
+  background-color: #333;
   // Fade for backdrop
-  &.fade { .opacity(0); }
-  &.in { .opacity(@modal-backdrop-opacity); }
+  &.in { .opacity(65); }
+
 }
 
 // Modal header
@@ -96,6 +110,8 @@
 // Title text within header
 .modal-title {
   margin: 0;
+  font-size: 23px;
+  font-weight: bold;
   line-height: @modal-title-line-height;
 }
 
@@ -147,3 +163,5 @@
 @media (min-width: @screen-md-min) {
   .modal-lg { width: @modal-lg; }
 }
+
+

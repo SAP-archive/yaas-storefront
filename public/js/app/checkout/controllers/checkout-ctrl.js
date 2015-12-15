@@ -33,11 +33,11 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingCost', 'GlobalData',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingCost, GlobalData) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
 
             $scope.order = order;
-
+            $scope.displayCart = false;
             $scope.titles = GlobalData.getUserTitles();
 
             //Resolve in the ui.router state returns cart object, problem is when the user is loged in
@@ -45,13 +45,11 @@ angular.module('ds.checkout')
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
             cart = $scope.cart;
-
-            $scope.shippingCosts = shippingCost || 0; // temporary handling of shipping cost not being set - default to zero
+            $scope.shippingCountries = shippingCountries;
+            $scope.shippingZones = shippingZones || 0;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
-            $scope.order.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
             $scope.user = GlobalData.user;
             $scope.addresses = [];
-
             var shouldAutoUpdateName = true;
 
             var Wiz = function () {
@@ -88,6 +86,7 @@ angular.module('ds.checkout')
 
             var getDefaultAddress = function (addresses) {
                 return _.find(addresses, function (addr) {
+
                     return addr.isDefault;
                 });
             };
@@ -107,6 +106,7 @@ angular.module('ds.checkout')
                 $scope.order.billTo.city = address.city;
                 $scope.order.billTo.state = address.state;
                 $scope.order.billTo.zip = address.zipCode;
+                $scope.order.billTo.zipCode = address.zipCode;
                 $scope.order.billTo.contactPhone = address.contactPhone;
 
                 $scope.$emit('localizedAddress:updated', address.country, 'billing');
@@ -121,7 +121,10 @@ angular.module('ds.checkout')
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
-                            populateBillTo(defaultAddress);
+                            if ($scope.isShipToCountry(defaultAddress.country)) {
+                                populateBillTo(defaultAddress);
+                            }
+                            $rootScope.updateShippingCost(defaultAddress);
                         }
                         /*
                          populate name if the user has no default address but does have a name saved to the account
@@ -262,6 +265,7 @@ angular.module('ds.checkout')
                 angular.copy($scope.order.billTo, $scope.order.shipTo);
                 selectedShippingAddress = $scope.order.shipTo;
                 $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
+                $rootScope.updateShippingCost($scope.order.billTo);
             };
 
             var clearShipTo = function(){
@@ -270,15 +274,21 @@ angular.module('ds.checkout')
                 if ($scope.order.billTo.country) {
                     $scope.order.shipTo.country = $scope.order.billTo.country;
                 }
+                //$scope.order.shipTo.zipCode = '';
+                selectedShippingAddress = $scope.order.shipTo;
+                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
                 $scope.shipToSameAsBillTo = false;
             };
 
             $scope.toggleShipToSameAsBillTo = function(){
                 if($scope.shipToSameAsBillTo){
                     setShipToSameAsBillTo();
+                    $rootScope.shipActive = false;
                 } else {
                     clearShipTo();
+                    $rootScope.shipActive = true;
                 }
+                $rootScope.closeCartOnCheckout();
             };
 
             /** Reset any error messaging related to the credit card expiration date.*/
@@ -417,7 +427,7 @@ angular.module('ds.checkout')
                         setShipToSameAsBillTo();
                     }
                     $scope.order.cart = $scope.cart;
-
+                    $scope.order.shipping = angular.fromJson($scope.shippingCost);
                     CheckoutSvc.checkout($scope.order).then(checkoutSuccessHandler, checkoutErrorHandler);
 
                 } else {
@@ -430,12 +440,14 @@ angular.module('ds.checkout')
             };
 
             $scope.selectAddress = function(address, target) {
+                $scope.displayCart = false;
                 if (target === $scope.order.billTo) {
                     selectedBillingAddress = address;
                     $scope.$emit('localizedAddress:updated', address.country, 'billing');
                 }
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
+                    $rootScope.shipActive = true;
                     $scope.$emit('localizedAddress:updated', address.country, 'shipping');
                 }
                 addressModalInstance.close();
@@ -449,12 +461,15 @@ angular.module('ds.checkout')
                 target.city = address.city;
                 target.state = address.state;
                 target.zip = address.zipCode;
+                target.zipCode = address.zipCode;
                 target.contactPhone = address.contactPhone;
 
                 if(target === $scope.order.billTo && ($scope.shipToSameAsBillTo === true || _.isEmpty($scope.order.shipTo))){
                     setShipToSameAsBillTo();
                 }
                 $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
+                var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
+                $rootScope.updateShippingCost(addressToShip);
             };
 
             $scope.openAddressDialog = function(target) {
@@ -506,5 +521,132 @@ angular.module('ds.checkout')
                 }
             };
 
+            $scope.isShipToCountry = function (countryID) {
+                return shippingCountries.indexOf(countryID) > -1;
+            };
+
+            $scope.ifShipAddressApplicable = function (addressCountry, address, target) {
+                var condition = $scope.isShipToCountry(addressCountry);
+                if (condition) {
+                    return $scope.selectAddress(address, target);
+                }
+            };
+            $scope.changeShippingCost = function () {
+                $scope.displayCart = false;
+            };
+
+            $rootScope.openCartOnCheckout = function () {
+                $scope.displayCart = true;
+            };
+
+            $rootScope.closeCartOnCheckout = function () {
+                $scope.displayCart = false;
+            };
+
+            $rootScope.$on('preview:order', function () {
+                $scope.previewOrder(true, true);
+            });
+
+            $scope.previewOrder = function (shipToFormValid, billToFormValid) {
+                if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
+                    var shippingCostObject = angular.fromJson($scope.shippingCost);
+                    var items = [];
+                    var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
+                    for (var i = 0; i < $scope.cart.items.length; i++) {
+                        var item = {
+                            itemId: $scope.cart.items[i].id,
+                            productId: $scope.cart.items[i].product.id,
+                            quantity: $scope.cart.items[i].quantity,
+                            unitPrice:{
+                                amount: $scope.cart.items[i].price.originalAmount,
+                                currency: $scope.cart.items[i].price.currency
+                            }
+                        };
+                        items.push(item);
+                    }
+                    $scope.cart.shipping.fee.amount = shippingCostObject.fee.amount;
+                    var data = {
+                        cartId: $scope.cart.id,
+                        siteCode: GlobalData.getSiteCode(),
+                        currency: GlobalData.getCurrency(),
+                        shipping: {
+                            calculationType: 'QUOTATION',
+                            methodId: shippingCostObject.id,
+                            zoneId: shippingCostObject.zoneId
+                        },
+                        items: items,
+                        addresses: [
+                        {
+                          type: 'SHIP_TO',
+                          zipCode: addressToShip.zip ? addressToShip.zip : '123',
+                          country: addressToShip.country
+                        }
+                      ]
+                    };
+                    CartSvc.recalculateCart(data).then(
+                        function (calculatedCart) {
+                            $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
+                            $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
+                            if (calculatedCart.totalTax) {
+                                $scope.cart.totalTax.amount =  calculatedCart.totalTax.amount;
+                            }else {
+                                $scope.cart.totalTax =  {amount: 0};
+                            }
+                            $rootScope.$emit('order:previewed');
+                            $scope.displayCart = true;
+                            $scope.showPristineErrors = false;
+                        }
+                    );
+                } else {
+                    $scope.showPristineErrors = true;
+                }
+            };
+
+            $rootScope.updateShippingCost = function (shipToAddress) {
+                var address = shipToAddress;
+                var cart = $scope.cart;
+                if ($scope.isShipToCountry(shipToAddress.country)) {
+
+                    var data = {
+                        'cartTotal': {
+                            'amount': cart.subTotalPrice.amount,
+                            'currency': GlobalData.getCurrency()
+                        },
+                        'shipToAddress': address
+                    };
+
+                    var costsPromise = ShippingSvc.getShippingCosts(data).then(
+                        function (result) {
+                            return result[0];
+                        }
+                    );
+
+                    var minCostPromise = ShippingSvc.getMinimumShippingCost(data).then(
+                        function (result) {
+                            return result;
+                        }
+                    );
+
+                    $q.all([costsPromise, minCostPromise]).then(function(data){
+                        $scope.shippingCosts = data[0].methods;
+                        var shippingCost = data[1];
+                        if($scope.isShipToCountry(shipToAddress.country)){
+                            for (var i = 0; i < $scope.shippingCosts.length; i++) {
+                                $scope.shippingCosts[i].zoneId = data[0].zone.id;
+                                if ($scope.shippingCosts[i].fee.amount === shippingCost.fee.amount) {
+                                    shippingCost.zoneId = $scope.shippingCosts[i].zoneId;
+                                    shippingCost.id = $scope.shippingCosts[i].id;
+                                    shippingCost.name = $scope.shippingCosts[i].name;
+                                    $scope.shippingCosts[i].preselect = true;
+                                }
+                            }
+                        } else {
+                            $scope.shippingCosts = [];
+                        }
+
+                        $scope.shippingCost = shippingCost;
+                    });
+                }
+            };
 
         }]);

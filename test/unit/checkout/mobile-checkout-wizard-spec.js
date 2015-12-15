@@ -1,7 +1,8 @@
 describe('directive: mobile-checkout-wizard', function() {
     var scope,
         elem,
-        compiled;
+        compiled,
+        $rootScope;
 
     beforeEach(function (){
         module('ds.checkout');
@@ -14,8 +15,9 @@ describe('directive: mobile-checkout-wizard', function() {
 
         elem = angular.element('<div mobile-checkout-wizard></div>');
 
-        inject(function($compile, $rootScope) {
-            scope = $rootScope.$new();
+        inject(function($compile, _$rootScope_) {
+            scope = _$rootScope_.$new();
+            $rootScope = _$rootScope_;
 
             scope.order = {};
 
@@ -23,6 +25,8 @@ describe('directive: mobile-checkout-wizard', function() {
 
             compiled(scope);
         });
+
+        $rootScope.previewOrder = function () {};
     });
 
 

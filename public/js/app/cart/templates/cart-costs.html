@@ -23,7 +23,11 @@
         </tr>
         <tr>
             <td>{{'SHIPPING' | translate}}</td>
-            <td class="text-right">{{ cart.shippingCost.amount | currency: currencySymbol }}</td>
+            <td class="text-right">{{ cart.shipping.fee.amount | currency: currencySymbol }}</td>
+        </tr>
+
+        <tr>
+            <td class="additionalshipinfo">{{'ADDITIONAL_SHIPPING_OPTIONS' | translate}}</td>
         </tr>
 
         <tr ng-show="!!taxType && taxType !== 'FLATRATE'">
@@ -42,6 +46,7 @@
                 {{taxLine.amount | currency: currencySymbol}}
             </td>
         </tr>
+        
         <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'">
             <td>{{'TAX' | translate}}</td>
             <td class="text-right">

@@ -19,7 +19,7 @@ angular.module('ds.account')
 
             var modalInstance;
             var originalAccountData;
-            var customerNumber = account.customerNumber;
+            var customerNumber = !!account ? account.customerNumber : null;
             var notSet = '';
             $translate('NOT_SET').then(function(value){
                 notSet = value;
@@ -86,10 +86,18 @@ angular.module('ds.account')
                     if (response.data && response.data.details && response.data.details.length) {
                         errors = response.data.details;
                     }
-                } else if (response.status === 403 || response.status === 409 || response.status === 401 || response.status === 404 || response.status === 500) {
+                } else if (response.status === 403 || response.status === 409 || response.status === 401 || response.status === 404) {
                     if (response.data && response.data.message) {
                         errors.push({ message: response.data.message });
                     }
+                }
+                return errors;
+            };
+
+            var extractAddressErrors = function (response, errorMsg) {
+                var errors = extractServerSideErrors(response);
+                if (response.status === 500) {
+                    errors.push({ message: errorMsg });
                 }
                 return errors;
             };
@@ -110,7 +118,8 @@ angular.module('ds.account')
                             modalInstance.close();
                         },
                         function (response) {
-                            $scope.errors = extractServerSideErrors(response);
+                            $scope.errorAddressId = null;
+                            $scope.errors = extractAddressErrors(response, $translate.instant('SAVE_ADDRESS_ERROR'));
                         }
                     );
                 } else {
@@ -166,7 +175,6 @@ angular.module('ds.account')
 
             $scope.removeAddress = function (address) {
                 address.account = customerNumber;
-
                 $translate('CONFIRM_ADDRESS_REMOVAL').then(function( msg){
                     if (window.confirm(msg)) {
                         AccountSvc.removeAddress(address).then(
@@ -174,7 +182,8 @@ angular.module('ds.account')
                                 $scope.refreshAddresses();
                             },
                             function (response) {
-                                $scope.errors = extractServerSideErrors(response);
+                                $scope.errorAddressId = address.id;
+                                $scope.errors = extractAddressErrors(response, $translate.instant('REMOVE_ADDRESS_ERROR'));
                             }
                         );
                     }
@@ -199,7 +208,9 @@ angular.module('ds.account')
                         $scope.refreshAddresses();
                     },
                     function (response) {
-                        $scope.errors = extractServerSideErrors(response);
+                        $scope.refreshAddresses();
+                        $scope.errorAddressId = address.id;
+                        $scope.errors = extractAddressErrors(response, $translate.instant('UPDATE_DEFAULT_ADDRESS_ERROR'));
                     }
                 );
             };

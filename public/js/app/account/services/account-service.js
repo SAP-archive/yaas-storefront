@@ -29,7 +29,9 @@ angular.module('ds.account')
             account: function() {
                 var promise = AuthREST.Customers.all('me').customGET();
                 promise.then(function(success){
-                   GlobalData.customerAccount = success.plain();
+                    if (success) {
+                        GlobalData.customerAccount = success.plain();
+                    }
                 });
                 return promise;
             },
@@ -44,7 +46,9 @@ angular.module('ds.account')
             getAddresses: function(query) {
                 var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList(query);
                 addressesPromise.then(function(response) {
-                    GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                    if (response.headers) {
+                        GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                    }
                 });
                 return addressesPromise;
             },
@@ -77,6 +81,7 @@ angular.module('ds.account')
              * Save addresses within logged in customer's address book.
              */
             saveAddress: function(address) {
+                address.zip = '60656';
                 var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
                 return promise;
             },

@@ -14,11 +14,11 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'shippingCost', 'GlobalData', 'CartSvc',
-        function ($scope, $rootScope, cart, shippingCost, GlobalData, CartSvc) {
+    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'GlobalData', 'CartSvc',
+        function ($scope, $rootScope, cart, GlobalData, CartSvc) {
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
-            $scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
+            //$scope.shippingCost = shippingCost.price[GlobalData.getCurrencyId()];
 
             $scope.taxType = GlobalData.getTaxType();
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
@@ -30,6 +30,10 @@ angular.module('ds.checkout')
                 $scope.taxType = GlobalData.getTaxType();
                 $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
                 $scope.calculateTax = CartSvc.getCalculateTax();
+            });
+
+            $rootScope.$on('order:previewed', function (){
+                $scope.calculateTax.taxCalculationApplied = true;
             });
 
             $scope.$on('$destroy', unbind);

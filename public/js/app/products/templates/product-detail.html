@@ -64,6 +64,9 @@
                                 <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
+                            <div class="col-xs-12">
+                                <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>
+                            </div>
                         </div>
                     </form>
                 </div> 

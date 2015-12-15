@@ -1,0 +1,27 @@
+<div class="modal-header shippingZoneModalHeader" ng-cloak>
+  <button type="button" class="close" ng-click="closeAddressDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
+  <h4 class="modal-title" id="myModalLabel">{{'SHIPPING_INFORMATION' | translate}}</h4>
+</div>
+<div class="shippingZoneModal modal-body">
+  <div class="row">
+    <div class="zoneparent col-xs-12" ng-repeat="zone in shippingZones">
+        <div class="zonetitle">
+            <p class="label">{{'SHIPPING_ZONE' | translate}} - {{zone.name}};
+            <p> {{'INCLUDES' | translate}} - <span ng-repeat="country in zone.shipTo"><span ng-if="!$first">, </span>{{country}}</span>          
+        </div>
+        <div class="col-xs-12 zoneinfo">
+            <div class="row" ng-repeat="method in zone.methods">
+                <div class="rangeCol col-xs-7">
+                    <p class="label">{{method.name}}
+                    <p ng-if="!$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{method.fees[$index + 1].minOrderValue.amount}} {{fee.cost.currency}}</p>
+                    <p ng-if="$last" ng-repeat="fee in method.fees">{{fee.minOrderValue.amount}} - {{'NO_LIMIT' | translate}}</p>                
+                </div>
+                <div class="col-xs-5 text-right">
+                    <p class="title">{{'SHIPPING_RATE' | translate}}</p>
+                    <p ng-repeat="fee in method.fees">{{fee.cost.amount}} {{fee.cost.currency}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

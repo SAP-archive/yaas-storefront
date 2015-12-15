@@ -37,63 +37,67 @@ angular.module('ds.shared')
 
             this.apis = {
                 account: {
-                    baseUrl: 'https://' + apiPath + '/hybris/account/b1',
+                    baseUrl: 'https://' + apiPath + '/hybris/account/v1',
                     addresses: {
                         initialPageSize: 6
                     }
                 },
 
                 cart: {
-                    baseUrl: 'https://' + apiPath + '/hybris/cart/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/cart/v1/' + tenantId
+                },
+
+                cartcalculation: {
+                    baseUrl: 'https://' + apiPath + '/hybris/cartcalculation/v1/' + tenantId
                 },
 
                 categories: {
-                    baseUrl: 'https://' + apiPath + '/hybris/category/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/category/v1/' + tenantId
                 },
 
                 checkout: {
-                    baseUrl: 'https://' + apiPath + '/hybris/checkout/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/checkout/v1/' + tenantId
                 },
 
                 coupon: {
-                    baseUrl: 'https://' + apiPath + '/hybris/coupon/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/coupon/v1/' + tenantId
                 },
 
                 customers: {
-                    baseUrl: 'https://' + apiPath + '/hybris/customer/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/customer/v1/' + tenantId
                 },
 
                 orders: {
-                    baseUrl: 'https://' + apiPath + '/hybris/order/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/order/v1/' + tenantId
                 },
 
                 prices: {
-                    baseUrl: 'https://' + apiPath + '/hybris/price/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/price/v1/' + tenantId
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/hybris/product/b1/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/hybris/product/v1/' + tenantId,
                     pageSize: 10
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/hybris/productdetails/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/productdetails/v1/' + tenantId
                 },
 
                 shippingCosts: {
-                    baseUrl: 'https://' + apiPath + '/hybris/shippingcost/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/shippingcost/v1/' + tenantId
+                },
+
+                shippingZones: {
+                    baseUrl: 'https://' + apiPath + '/hybris/shipping/v1/' + tenantId
                 },
 
                 siteSettings: {
-                    baseUrl: 'https://' + apiPath + '/hybris/site/b1/' + tenantId
-                },
-
-                tracking: {
-                    baseUrl: 'https://' + apiPath + '/hybris/piwik/b1/' + tenantId + '/events'
+                    baseUrl: 'https://' + apiPath + '/hybris/site/v1/' + tenantId
                 },
 
                 indexing: {
-                    baseUrl: 'https://' + apiPath + '/hybris/search-algolia/b1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/search-algolia/v1/' + tenantId
                 }
             };
 

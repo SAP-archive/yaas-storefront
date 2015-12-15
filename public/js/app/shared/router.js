@@ -151,7 +151,13 @@ angular.module('ds.router', [])
                             else{
                                 return null;
                             }
-                        }
+                        },
+
+                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
+                            if(initialized){
+                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
+                            }
+                        }]
 
                     }
                 })
@@ -170,9 +176,14 @@ angular.module('ds.router', [])
                         order: ['CheckoutSvc', function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         }],
-                        shippingCost: ['CheckoutSvc', 'initialized', function (CheckoutSvc, initialized) {
+                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
-                                return CheckoutSvc.getShippingCost();
+                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
+                            }
+                        }],
+                        shippingCountries: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if (initialized) {  // parent resolve - if-check to make usage explicit
+                                return ShippingSvc.getShipToCountries();
                             }
                         }]
                     }
@@ -181,7 +192,7 @@ angular.module('ds.router', [])
                 .state('base.checkout.details', {
                     url: '/checkout/',
                     views: {
-                        'checkoutcart': {
+                        'checkoutcart@base.checkout.details': {
                             templateUrl: 'js/app/checkout/templates/checkout-cart.html',
                             controller: 'CheckoutCartCtrl'
                         },
@@ -230,13 +241,27 @@ angular.module('ds.router', [])
                                 pageNumber: 1,
                                 pageSize: siteConfig.apis.account.addresses.initialPageSize
                             };
-                            return AccountSvc.getAddresses(query);
+                            return AccountSvc.getAddresses(query).then(
+                                function (response) {
+                                    return response;
+                                },
+                                function () {
+                                    return [];
+                                }
+                            );
                         }],
                         orders: ['OrderListSvc', function(OrderListSvc) {
                             var parms = {
                                 pageSize: 10
                             };
-                            return OrderListSvc.query(parms);
+                            return OrderListSvc.query(parms).then(
+                                function (response) {
+                                    return response;
+                                },
+                                function () {
+                                    return [];
+                                }
+                            );
                         }]
                     },
                     data: {

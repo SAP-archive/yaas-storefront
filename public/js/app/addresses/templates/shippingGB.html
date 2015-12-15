@@ -8,7 +8,7 @@
                 <label class="input-group-addon control-label" for="contactNameShip">{{'NAME' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                        class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
-                       ng-required="!shipToSameAsBillTo" autocomplete="on">
+                       ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -16,7 +16,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
                 <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
-                    <option value=""></option>
+                    <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
                 </select>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="companyNameShip">{{'COMPANY_NAME' | translate}}</label>
                 <input type="text" class="form-control" id="companyNameShip" name="companyName" ng-model="order.shipTo.companyName"
-                       autocomplete="on" placeholder="(Optional)">
+                       autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 <label class="input-group-addon control-label" for="address1Ship">{{'ADDRESS' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                        class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                ng-required="!shipToSameAsBillTo" autocomplete="on">
+                ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -43,7 +43,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="address2Ship">{{'ADDRESS' | translate}} 2</label>
                 <input type="text" class="form-control" placeholder="(Optional)" id="address2Ship" name="address2"
-                ng-model="order.shipTo.address2" autocomplete="on">
+                ng-model="order.shipTo.address2" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                 ng-class="{'has-error': shipToForm.city.$invalid && (shipToForm.city.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="cityShip">{{'CITY' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control"
-                        id="cityShip" name="city" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.city" autocomplete="on">
+                        id="cityShip" name="city" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.city" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -62,7 +62,7 @@
                 <label class="input-group-addon control-label" for="zipCodeShip">{{'POSTAL_CODE' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                 class="form-control" id="zipCodeShip" name="zip" required autocomplete="on"
-                ng-model="order.shipTo.zip">
+                ng-model="order.shipTo.zip" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -70,7 +70,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label>
                 <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="postal" id="contactPhoneShip" autocomplete="on"
-                        placeholder="(Optional)">
+                        placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 

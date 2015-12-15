@@ -35,6 +35,8 @@ angular.module('ds.i18n')
         //XFLD: Est. is short for Estimated
         EST_ORDER_TOTAL:'Geschätzte Bestellsumme',
         //XFLD
+        "PREVIEW_ORDER": "Preview Order",
+        //XFLD
         FREE_SHIPPING:'Versand und Rücksendung in den USA kostenlos',
         //XFLD
         ITEM:'Position',
@@ -54,6 +56,8 @@ angular.module('ds.i18n')
         APPLY:'Anwenden',
         //XMSG
         ESTIMATE_TAX_ERROR:'Felder "Postleitzahl" und "Ländercode" sind erforderlich',
+        //XMSG
+        ADDITIONAL_SHIPPING_OPTIONS: 'Additional shipping options are available in checkout.',
 
         //XFLD
         //-------------------------------------------------
@@ -68,6 +72,8 @@ angular.module('ds.i18n')
         ADDRESS_LINE_2:'Adresszeile 2',
         //XGRP
         BILLING_ADDRESS:'Rechnungsadresse',
+        //XGRP
+        CANT_BE_SHIPPED: 'Items cannot be shipped to this location',
         //XFLD
         CITY:'Ort',
         //XFLD: Is part of the Canadian and German address forms
@@ -278,7 +284,18 @@ angular.module('ds.i18n')
         // Product Detail Page
         //-------------------------------------------------
 
+        //XFLD
+        SHIPPING_INFORMATION: 'Versandinformationen',
+        //XFLD
+        SHIPPING_ZONE: 'Versandzone',
 
+        //XFLD
+        STANDARD_SHIPPING: 'Standardversand',
+        //XFLD
+        SHIPPING_RATE: 'Liefergeschwindigkeit',
+        //XFLD
+        ZONE: 'Zone',
+        
         BUY:'Kaufen',
         //XBUT
         ADD_TO_CART:'In den Warenkorb',
@@ -292,6 +309,10 @@ angular.module('ds.i18n')
         QTY:'Menge',
         //XMSG
         ERROR_ADDING_TO_CART:'Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.',
+        //XMSG
+        INCLUDES: 'Includes',
+        //XMSG
+        NO_LIMIT: 'No Limit',
 
         //XLST
         //-------------------------------------------------
@@ -346,6 +367,8 @@ angular.module('ds.i18n')
         ADDRESSBOOK:'Adressbuch',
         //XMSG
         NO_ADDRESSES:'Sie haben keine Adressen gespeichert.',
+        //XMSG
+        FAIL_ADDRESSES: 'Addresses not available. Try again later.',
         //XBUT
         ADD_ADDRESS:'Adresse hinzufügen',
         //XBUT
@@ -358,6 +381,8 @@ angular.module('ds.i18n')
         FULL_NAME:'Vollständiger Name',
         //XFLD
         CONTACT_PHONE:'Telefon',
+        //XFLD
+        FAIL_CUSTOMER_DETAILS: 'Customer details not available. Try again later.',
         //XFLD
         DATE:'Datum',
         //XMSG
@@ -374,7 +399,10 @@ angular.module('ds.i18n')
         ORDER_NUMBER:'Bestellnummer',
         //XFLD
         ORDER_STATUS: 'Bestellstatus',
-
+        //XFLD
+        FAIL_ORDER: 'Orders not available. Try again later.',
+        //XFLD
+        NO_ORDERS: 'You have no orders stored.',
         //XSEL
         ORDER_ITEM_COUNT: '{{number}} Position',
         //XSEL
@@ -404,6 +432,12 @@ angular.module('ds.i18n')
         SHOW_LESS:'Weniger anzeigen',
         //XFLD
         ITEMS_IN_ORDER: 'Menge Artikel',
+        //XMSG
+        SAVE_ADDRESS_ERROR: 'An error occured and updates not saved. Save updates.',
+        //XMSG
+        REMOVE_ADDRESS_ERROR: 'Deleting address failed. Please try again.',
+        //XMSG
+        UPDATE_DEFAULT_ADDRESS_ERROR: 'Updating default address failed. Please try again.',
 
         //XBUT
         //-------------------------------------------------

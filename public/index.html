@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible }">
+<html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible, 'force-scroll': forceScroll }">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,11 +21,11 @@
     <![endif]-->
 </head>
 <body ng-class="{'fixedLayout': showCart }">
-    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas"  >
-        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation" ></div>
+    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation"></div>
         <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
-            <div ui-view="topNavigation" ></div>
-            <div class="main" >
+            <div ui-view="topNavigation"></div>
+            <div class="main">
                 <div ui-view="main"></div>
                 <!--<div class="content-mask" ng-click="closeOffcanvas()"></div>-->
             </div>
@@ -54,7 +54,7 @@
     <script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
     <script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
-    <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script> 
+    <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/vendor/spin.js/spin.js"></script>
     <script src="js/app/shared/shared-index.js"></script>
@@ -72,6 +72,7 @@
     <script src="js/app/shared/directives/y-tracking.js"></script>
     <script src="js/app/shared/directives/y-search.js"></script>
     <script src="js/app/shared/directives/y-inputs-dir.js"></script>
+    <script src="js/app/shared/directives/force-scroll.js"></script>
     <script src="js/app/shared/services/cookie-svc.js"></script>
     <script src="js/app/shared/services/global-data.js"></script>
     <script src="js/app/shared/services/site-settings-rest.js"></script>
@@ -79,8 +80,11 @@
     <script src="js/app/shared/services/http-queue.js"></script>
     <script src="js/app/shared/services/event-service.js"></script>
     <script src="js/app/shared/services/local-storage.js"></script>
-    <script src="js/app/shared/services/site-selector-service.js"></script>
-    <script src="js/app/shared/controllers/site-selector-ctrl.js"></script>
+
+    <script src="js/app/shared/directives/site-selector/site-selector-directive.js"></script>
+    <script src="js/app/shared/directives/site-selector/site-selector-ctrl.js"></script>
+    <script src="js/app/shared/directives/site-selector/site-selector-service.js"></script>
+
     <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
     <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
     <script src="js/app/shared/filters/filters.js"></script>
@@ -126,6 +130,8 @@
     <script src="js/app/checkout/directives/mobile-checkout-wizard.js"></script>
     <script src="js/app/checkout/services/checkout-rest.js"></script>
     <script src="js/app/checkout/services/checkout-service.js"></script>
+    <script src="js/app/shipping/services/shipping-rest.js"></script>
+    <script src="js/app/shipping/services/shipping-service.js"></script>
     <script src="js/app/confirmation/confirmation-index.js"></script>
     <script src="js/app/confirmation/controllers/confirmation-ctrl.js"></script>
     <script src="js/app/confirmation/services/order-details-svc.js"></script>
@@ -164,7 +170,6 @@
     <script src="js/vendor-static/jquery.menu-aim.js"></script>
     <script src="js/app/app.js"></script>
     <!-- endbuild -->
-
     <!-- static script resources -->
     <script src="js/app/shared/router.js"></script>
     <script src="https://js.stripe.com/v2/"></script>

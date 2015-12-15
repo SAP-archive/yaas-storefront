@@ -1,7 +1,7 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, checkoutCtrl, order, cart, checkoutDfd,
-        $modal, mockedModal, shippingCost, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd,
+        $modal, mockedModal, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
     var GlobalData = {
@@ -9,9 +9,13 @@ describe('CheckoutCtrl', function () {
             isAuthenticated: '',
             user: null
         },
+        getCurrency: jasmine.createSpy().andReturn('USD'),
         getCurrencyId: jasmine.createSpy().andReturn('USD'),
         getCurrencySymbol: jasmine.createSpy().andReturn('$'),
-        getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR'])
+        getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR']),
+        getSiteCode: function () {
+            return 'US';
+        }
     };
     var CouponSvc = {
     };
@@ -63,11 +67,174 @@ describe('CheckoutCtrl', function () {
         order.billTo = {};
         cart = {};
         order.creditCard = {};
-        shippingCost = {};
-        shippingCost.price = {
-            'USD': 4.99
-        };
+        shippingZones = [{
+            'default': true,
+            'id': 'europe',
+            'methods': [
+            {
+                'id': 'fedex-2dayground',
+                'name': 'FedEx 2Day',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '3',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '1.89',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            },
+            {
+                'id': 'ups-canada',
+                'name': 'UPS Canada',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '4',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0.89',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            }],
+            'name': 'Canada',
+            'shipTo': ['CA']
+        },
+        {
+            'default': false,
+            'id': 'us',
+            'methods': [
+            {
+                'id': 'fedex-2dayground',
+                'name': 'FedEx 2Day',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '8.6',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '3',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '100',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '1',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            },
+            {
+                'id': 'ups-standard',
+                'name': 'UPS Standard',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '8.76',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '2.99',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '200',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            }],
+            'name': 'USA',
+            'shipTo': ['US']
+        }];
+        shippingCountries = ['CA', 'US'];
         mockedCheckoutSvc =  {
+            ERROR_TYPES: ERROR_TYPES
+        };
+
+        mockedShippingSvc = {
+            ERROR_TYPES: ERROR_TYPES
+        };
+
+        mockedCartSvc = {
             ERROR_TYPES: ERROR_TYPES
         };
         mockedModal = {
@@ -86,7 +253,8 @@ describe('CheckoutCtrl', function () {
         GlobalData.user.isAuthenticated = true;
         $provide.value('cart', cart);
         $provide.value('order', order);
-        $provide.value('shippingCost', shippingCost);
+        $provide.value('shippingZones', shippingZones);
+        $provide.value('shippingCountries', shippingCountries);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
     }));
@@ -109,9 +277,17 @@ describe('CheckoutCtrl', function () {
 
     beforeEach(function () {
         checkoutDfd = $q.defer();
-
+        shippingDfd = $q.defer();
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
+        });
+
+        mockedShippingSvc.getShippingCosts = jasmine.createSpy('shipping').andCallFake(function() {
+            return shippingDfd.promise;
+        });
+
+        mockedShippingSvc.getMinimumShippingCost = jasmine.createSpy('shipping').andCallFake(function() {
+            return shippingDfd.promise;
         });
 
         returnAccount = {
@@ -126,7 +302,7 @@ describe('CheckoutCtrl', function () {
             contactName: 'Mike',
             street: '123 Main St',
             streetAppendix: 'Apt 2',
-            country: 'USA',
+            country: 'US',
             city: 'Boulder',
             state: 'CO',
             zipCode: '80302',
@@ -161,7 +337,7 @@ describe('CheckoutCtrl', function () {
          },
         id: null
         };
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
     });
 
     describe('initialization', function () {
@@ -173,7 +349,7 @@ describe('CheckoutCtrl', function () {
 
         it('should retrieve addresses for authenticated user', function(){
 
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
             addressDef.resolve(returnAddress);
 
             $scope.$apply();
@@ -189,7 +365,7 @@ describe('CheckoutCtrl', function () {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
             GlobalData.user.isAuthenticated = true;
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
             $rootScope.$broadcast('user:signedin');
             $scope.$apply();
             expect(MockedAccountSvc.account).toHaveBeenCalled();
@@ -204,7 +380,7 @@ describe('CheckoutCtrl', function () {
             MockedAuthSvc = {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
 
             expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
@@ -223,7 +399,7 @@ describe('CheckoutCtrl', function () {
                 }),
                 getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
 
             $scope.$digest();
 
@@ -460,6 +636,14 @@ describe('CheckoutCtrl', function () {
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
         });
+    });
+
+    describe('shipping zones', function() {
+        it('should detect if the country is ship to country', function() {
+            expect($scope.isShipToCountry('US')).toBeTruthy();
+            expect($scope.isShipToCountry('FR')).toBeFalsy();
+        });
+
     });
 
 });

@@ -28,7 +28,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     });
 
 angular.module('ds.ysearch')
-    .controller('ysearchController', ['$scope', '$rootScope', 'ysearchSvc', function (scope, $rootScope, ysearchSvc) {
+    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', function (scope, $rootScope, $state, ysearchSvc) {
 
         if (!scope.page) {
             scope.page = 0;
@@ -105,13 +105,17 @@ angular.module('ds.ysearch')
                         else {
                             scope.search.zeroResults = false;
                         }
-
-                        //Send event that search is done
-                        $rootScope.$emit('search:performed', { searchTerm: scope.search.text, numberOfResults: scope.search.numberOfHits });
                     }, function () {
                         //Show error that search didn't perform correctly.
                         scope.search.searchError = true;
                     });
+            }
+        };
+
+        scope.goToResultsPage = function () {
+            if (scope.search && scope.search.text && scope.search.text.length) {
+                scope.hideSearchResults();
+                $state.go('base.search', { searchString: scope.search.text });
             }
         };
     }]);

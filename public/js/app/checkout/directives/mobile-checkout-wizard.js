@@ -24,7 +24,7 @@ angular.module('ds.checkout')
  * the missing fields will be highlighted as errors, and the user cannot advance until the necessary information
  * has been provided.
  */
-    .directive('mobileCheckoutWizard',['$location', '$anchorScroll', function($location, $anchorScroll){
+    .directive('mobileCheckoutWizard',['$location', '$anchorScroll', '$rootScope', function($location, $anchorScroll, $rootScope){
         return {
             restrict: 'A',
             link: function(scope) {
@@ -78,6 +78,7 @@ angular.module('ds.checkout')
                     if (paymentFormValid) {
                         scope.wiz.step3Done = true;
                         // guarantee correct scrolling for mobile
+                        $rootScope.$emit('preview:order');
                         $location.hash('step4');
                         $anchorScroll();
                     } else {

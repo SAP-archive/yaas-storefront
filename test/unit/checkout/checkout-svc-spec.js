@@ -56,6 +56,16 @@ describe('CheckoutSvc', function () {
         customAttributes: {}
     };
 
+    order.shipping = {
+        'id': 'ups-standard',
+        'name': 'UPS Standard',
+        'zoneId': 'us',
+        'fee': {
+            'amount': 8.76,
+            'currency': 'USD'
+        }
+    };
+
     order.creditCard = {};
 
     order.shippingCost = 4.5;
@@ -78,7 +88,7 @@ describe('CheckoutSvc', function () {
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"US","account":"bs@sushi.com","type":"SHIPPING"}],
         "customer":{"title":"Mr.", "firstName":"Michael", "middleName":"Jeffrey", "lastName":"Jordan","email":"bs@sushi.com"},
-        "totalPrice":7.79,"shippingCost": 4.5};
+        "totalPrice":7.79, "shipping":{"methodId":"ups-standard","amount":8.76}};
 
     mockedStripeJS = {};
     mockedCartSvc = {};
@@ -204,6 +214,7 @@ describe('CheckoutSvc', function () {
                 expect(onSuccessSpy).not.toHaveBeenCalled();
                 expect(onErrorSpy).toHaveBeenCalledWith({ type: checkoutSvc.ERROR_TYPES.order, error: error400msg });
             });
+
         });
 
     });

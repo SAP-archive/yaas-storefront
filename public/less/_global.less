@@ -6,6 +6,14 @@ body.disable-scroll{
   }
 }
 
+html{
+  &:not(.disable-scroll){
+    &.force-scroll{
+      min-height: 101vh;
+    }
+  }
+}
+
 body{
   background: @white;
 
@@ -219,4 +227,48 @@ section{
     margin-right: 7px;
   }
 }
+
+.shippingZoneModalHeader{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+    
+.shippingZoneModal{
+    padding-top: 0;
+    padding-bottom: 50px;
+
+    > .row > div{
+        border-bottom: 1px solid #ccc;
+        padding: 0px 0px;
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+    
+    .zoneparent{
+        padding-top: 10px;
+        border-bottom: none !important;
+        background-color: #ebeced; 
+    }
+
+    .zonetitle{
+        padding: 15px 50px;
+    }
+
+    .zoneinfo{
+        padding: 15px 50px;
+        background-color: white;
+    }
+
+    .label{
+        margin-left:0;
+        padding-left:0;
+        font-size: 14px;
+        color: @black;
+        font-weight: bold;
+
+    }
+}
+
 

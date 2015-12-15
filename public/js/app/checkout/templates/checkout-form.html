@@ -101,12 +101,14 @@
         <div class="col-lg-12">
             <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
         </div>
+
         <div class="col-lg-12">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
-                <select class="form-control" name="shipMethod" id="shipMethod">
+                <select class="form-control" name="shipMethod" id="shipMethod" ng-change="changeShippingCost()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
                     <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
-                    <option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
+                    <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
+                    <option ng-repeat="cost in shippingCosts" ng-selected="cost.preselect" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
                 </select>
             </div>
         </div>
@@ -117,7 +119,18 @@
 </div>
 </div>
 </ng-form>
-<ng-form name="paymentForm" novalidate autocomplete="on" ng-cloak>
+
+<div class=" hidden-xs hidden-sm">
+    
+
+<button class="btn btn-primary btn-lg btn-block"
+        ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
+</button>
+<div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
+</div>
+
+
+<ng-form ng-class="{'hidden-lg hidden-md': !displayCart}" name="paymentForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
 <a id="step3">
     <h2>{{'STEP_3_PAYMENT' | translate}} <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
@@ -125,11 +138,11 @@
 </a>
 <div class="row step-detail">
 
-    <!-- Apply Coupon -->
+    <!-- Apply Coupon 
     <div class="couponWrap">
-        <!-- Apply Coupon -->
+        
         <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
-    </div>
+    </div>-->
 
     <div class="col-lg-12">
         <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
@@ -211,7 +224,7 @@
 </div>
 </div>
 </ng-form>
-<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done}" ng-cloak>
+<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
 <a id="step4">
     <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
 </a>
@@ -222,7 +235,7 @@
 </div>
 
 <div class="row step-detail" ng-class="{'has-error': message }">
-    <div class="hidden-lg" ui-view="checkoutcartmobile"></div>
+    <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
     <div class="col-xs-6 hidden-sm hidden-xs">
         <span class="description">{{'TOTAL' | translate}}</span>
     </div>

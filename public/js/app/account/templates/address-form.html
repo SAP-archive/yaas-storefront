@@ -5,15 +5,16 @@
     <h4 class="modal-title" id="myModalLabel">{{'ADD_ADDRESS' | translate}}</h4>
   </div>
   <div class="modal-body">
-    <!-- Errors -->
-    <ul ng-if="errors && errors.length" class="list-unstyled text-danger">
-      <li ng-repeat="error in errors">{{error.message}}</li>
-    </ul>
 
       <input type="hidden" name="id" ng-model="address.id">
       <input type="hidden" name="account" ng-model="address.account">
 
       <localized-addresses type="addAddress"></localized-addresses>
+
+    <!-- Errors -->
+    <ul ng-if="errors && errors.length" class="list-unstyled text-danger">
+      <li ng-repeat="error in errors">{{error.message}}</li>
+    </ul>
 
   </div>
 

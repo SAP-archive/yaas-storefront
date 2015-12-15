@@ -364,8 +364,11 @@ angular.module('ds.cart')
                     return CartREST.Cart.one('carts', cartId).customPUT({ zipCode: zipCode, countryCode: countryCode }, '').then(function () {
                         refreshCart(cartId, 'manual');
                     });
-                }
+                },
 
+                recalculateCart: function (data) {
+                    return CartREST.CalculateCart.all('calculation').customPOST(data, '');
+                }
 
             };
 
