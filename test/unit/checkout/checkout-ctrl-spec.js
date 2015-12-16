@@ -1,6 +1,6 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd,
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd, cartDfd,
         $modal, mockedModal, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
@@ -278,6 +278,7 @@ describe('CheckoutCtrl', function () {
     beforeEach(function () {
         checkoutDfd = $q.defer();
         shippingDfd = $q.defer();
+        cartDfd = $q.defer();
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
         });
@@ -289,6 +290,10 @@ describe('CheckoutCtrl', function () {
         mockedShippingSvc.getMinimumShippingCost = jasmine.createSpy('shipping').andCallFake(function() {
             return shippingDfd.promise;
         });
+
+        mockedCartSvc.recalculateCart = jasmine.createSpy('cartcalculation').andCallFake(function (){
+            return cartDfd.promise;
+        })
 
         returnAccount = {
             contactEmail: 'mike@hybris.com',
@@ -335,7 +340,12 @@ describe('CheckoutCtrl', function () {
         totalPrice : {
             value:0
          },
-        id: null
+        id: null,
+        shipping : {
+            fee: {
+                amount: 0
+            }
+        }
         };
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
     });
@@ -642,6 +652,21 @@ describe('CheckoutCtrl', function () {
         it('should detect if the country is ship to country', function() {
             expect($scope.isShipToCountry('US')).toBeTruthy();
             expect($scope.isShipToCountry('FR')).toBeFalsy();
+        });
+
+        it('should hide cart and payment display', function() {
+            $scope.closeCartOnCheckout();
+            expect($scope.displayCart).toBeFalsy();
+        });
+
+        it('should preview order', function() {
+            $scope.cart.id = '566fe8c5452e61c47f141239';
+            $scope.order.shipTo = returnAddress;
+            $scope.order.billTo = returnAddress;
+            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
+            $scope.shippingCost = {'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true};
+            $scope.previewOrder(true, true);
+            expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
         });
 
     });

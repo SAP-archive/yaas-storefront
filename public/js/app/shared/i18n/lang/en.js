@@ -145,6 +145,8 @@ angular.module('ds.i18n')
         //XMSG
         "PLEASE_CORRECT_ERRORS": "Please correct the errors above before placing your order.",
         //XMSG
+        "PLEASE_CORRECT_ERRORS_PREVIEW": "Please correct the errors above before previewing your order.",
+        //XMSG
         "PLEASE_ENTER_VALID_CC": "Please enter a valid credit card number",
         //XMSG
         "PLEASE_ENTER_VALID_CODE": "Please enter a valid code",

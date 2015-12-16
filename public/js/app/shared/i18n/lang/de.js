@@ -35,7 +35,7 @@ angular.module('ds.i18n')
         //XFLD: Est. is short for Estimated
         EST_ORDER_TOTAL:'Geschätzte Bestellsumme',
         //XFLD
-        "PREVIEW_ORDER": "Preview Order",
+        PREVIEW_ORDER: 'Preview Order',
         //XFLD
         FREE_SHIPPING:'Versand und Rücksendung in den USA kostenlos',
         //XFLD
@@ -136,6 +136,8 @@ angular.module('ds.i18n')
         PLACED_AT:'Bestellt am',
         //XMSG
         PLEASE_CORRECT_ERRORS:'Korrigieren Sie vor dem Bestellen die oben aufgeführten Fehler.',
+        //XMSG
+        PLEASE_CORRECT_ERRORS_PREVIEW: 'Please correct the errors above before previewing your order.',
         //XMSG
         PLEASE_ENTER_VALID_CC:'Geben Sie eine gültige Kreditkartennummer ein',
         //XMSG

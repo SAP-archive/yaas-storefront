@@ -166,7 +166,8 @@ module.exports = function(config){
         'test/unit/orders/*.js',
         'test/unit/products/*.js',
         'test/unit/search/*.js',
-        'test/unit/shared/**/*.js'
+        'test/unit/shared/**/*.js',
+        'test/unit/shipping/**/*.js'
 
     ],
 

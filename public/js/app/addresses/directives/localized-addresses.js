@@ -36,19 +36,12 @@ angular.module('ds.addresses').
 
         var selectDefaultLocale = function (scope, viewType) {
 
-            var currentSite = GlobalData.getSite();
-
-            /*angular.forEach(selectionArray, function (selection) {
-                if (selection.id === currentSite.code) {
-                    scope.localeSelection = selection;
-                }
-            });*/
-
             if (!scope.localeSelection) {
                 scope.localeSelection = selectionArray[0];
-                $rootScope.updateShippingCost({country: scope.localeSelection.id, zipCode: ''});
+                if (viewType !== 'addAddress') {
+					$rootScope.$emit('updateShippingCost', {shipToAddress: {country: scope.localeSelection.id, zipCode: ''}});
+                }
             }
-            console.log(scope.localeSelection);
             switch(viewType){
                 case 'addAddress':
                     if (scope.address) {
@@ -142,7 +135,6 @@ angular.module('ds.addresses').
 			// localization selection handler
 			scope.changeLocale = function(locale){
 				loadTemplate(scope, element, locale.id, attrs.type);
-				console.log(locale);
 				// set dynamic datamodel
 				switch(scope.viewTarget){
 					case 'addAddress':
@@ -152,7 +144,6 @@ angular.module('ds.addresses').
                         scope.address.streetAppendix = '';
                         scope.address.city = '';
                         scope.address.state = '';
-                        scope.address.zip = '';
                         scope.address.zipCode = '';
                         scope.address.contactPhone = '';
 						break;
@@ -163,7 +154,6 @@ angular.module('ds.addresses').
                         scope.order.billTo.address2 = '';
                         scope.order.billTo.city = '';
 						scope.order.billTo.state = '';
-						scope.order.billTo.zip = '';
                         scope.order.billTo.zipCode = '';
                         scope.order.billTo.contactPhone = '';
 						break;
@@ -174,7 +164,6 @@ angular.module('ds.addresses').
                         scope.order.shipTo.address2 = '';
                         scope.order.shipTo.city = '';
                         scope.order.shipTo.state = '';
-                        scope.order.shipTo.zip = '';
                         scope.order.shipTo.zipCode = '';
                         scope.order.shipTo.contactPhone = '';
 						break;
@@ -184,8 +173,8 @@ angular.module('ds.addresses').
 				//Here should be implmented logic for shipping address when is active
 				if (scope.viewTarget !== 'addAddress') {
 					var addressToShip = $rootScope.shipActive ? scope.order.shipTo : scope.order.billTo;
-					$rootScope.updateShippingCost(addressToShip);
 					$rootScope.closeCartOnCheckout();
+					$rootScope.$emit('updateShippingCost', {shipToAddress: addressToShip});
 				}
 			};
 
