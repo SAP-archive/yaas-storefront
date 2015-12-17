@@ -39,7 +39,7 @@ angular.module('ds.addresses').
             if (!scope.localeSelection) {
                 scope.localeSelection = selectionArray[0];
                 if (viewType !== 'addAddress') {
-					$rootScope.$emit('updateShippingCost', {shipToAddress: {country: scope.localeSelection.id, zipCode: ''}});
+					//$rootScope.$emit('updateShippingCost', {shipToAddress: {country: scope.localeSelection.id, zipCode: ''}});
                 }
             }
             switch(viewType){

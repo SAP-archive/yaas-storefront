@@ -528,8 +528,8 @@ angular.module('ds.checkout')
                 return shippingCountries.indexOf(countryID) > -1;
             };
 
-            $scope.ifShipAddressApplicable = function (addressCountry, address, target) {
-                var condition = $scope.isShipToCountry(addressCountry);
+            $scope.ifShipAddressApplicable = function (address, target) {
+                var condition = $scope.isShipToCountry(address.country);
                 if (condition) {
                     return $scope.selectAddress(address, target);
                 }
@@ -539,49 +539,21 @@ angular.module('ds.checkout')
                 $scope.displayCart = false;
             };
 
-            $rootScope.$on('preview:order', function () {
-                $scope.previewOrder(true, true);
+            $rootScope.$on('preview:order', function (eve, eveObj) {
+                $scope.previewOrder(eveObj.shipToDone, eveObj.billToDone);
+            });
+
+            $rootScope.$on('site:changed', function () {
+                $scope.cart = CartSvc.getLocalCart();
             });
 
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
                 $scope.messagePreviewOrder = null;
                 if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
-                    var items = [];
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                    for (var i = 0; i < $scope.cart.items.length; i++) {
-                        var item = {
-                            itemId: $scope.cart.items[i].id,
-                            productId: $scope.cart.items[i].product.id,
-                            quantity: $scope.cart.items[i].quantity,
-                            unitPrice:{
-                                amount: $scope.cart.items[i].price.originalAmount,
-                                currency: $scope.cart.items[i].price.currency
-                            }
-                        };
-                        items.push(item);
-                    }
                     $scope.cart.shipping.fee.amount = shippingCostObject.fee.amount;
-                    var data = {
-                        cartId: $scope.cart.id,
-                        siteCode: GlobalData.getSiteCode(),
-                        currency: GlobalData.getCurrency(),
-                        shipping: {
-                            calculationType: 'QUOTATION',
-                            methodId: shippingCostObject.id,
-                            zoneId: shippingCostObject.zoneId
-                        },
-                        items: items,
-                        addresses: [
-                        {
-                          type: 'SHIP_TO',
-                          zipCode: addressToShip.zipCode,
-                          country: addressToShip.country
-                        }
-                      ]
-                    };
-
-                    CartSvc.recalculateCart(data).then(
+                    CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
                         function (calculatedCart) {
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;

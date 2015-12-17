@@ -138,8 +138,8 @@ angular.module('ds.checkout')
                 newOrder.payment.customAttributes.token = token;
                 newOrder.currency = order.cart.currency;
                 newOrder.shipping = {
-                    'methodId': order.shipping.id,
-                    'amount': order.shipping.fee.amount
+                    methodId: order.shipping.id,
+                    amount: order.shipping.fee.amount
                 };
 
                 newOrder.totalPrice =  order.cart.totalPrice.amount;

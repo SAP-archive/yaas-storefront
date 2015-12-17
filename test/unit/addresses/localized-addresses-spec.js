@@ -38,9 +38,6 @@ describe('LocalizedAddresses Test', function () {
 
     var template = '<div>Example Address Form</div>';
     scope.localeSelection = {id:'US'};
-    // scope.address = {
-    //     country: 'US'
-    // };
     scope.order = {
 
     };

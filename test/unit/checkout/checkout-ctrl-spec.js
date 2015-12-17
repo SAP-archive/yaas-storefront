@@ -293,7 +293,9 @@ describe('CheckoutCtrl', function () {
 
         mockedCartSvc.recalculateCart = jasmine.createSpy('cartcalculation').andCallFake(function (){
             return cartDfd.promise;
-        })
+        });
+
+        mockedCartSvc.reformatCartItems = jasmine.createSpy();
 
         returnAccount = {
             contactEmail: 'mike@hybris.com',
