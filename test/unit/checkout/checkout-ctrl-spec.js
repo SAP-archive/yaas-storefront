@@ -291,9 +291,7 @@ describe('CheckoutCtrl', function () {
             return shippingDfd.promise;
         });
 
-        mockedCartSvc.recalculateCart = jasmine.createSpy('cartcalculation').andCallFake(function (){
-            return cartDfd.promise;
-        });
+        
 
         mockedCartSvc.reformatCartItems = jasmine.createSpy();
 
@@ -342,7 +340,7 @@ describe('CheckoutCtrl', function () {
         totalPrice : {
             value:0
          },
-        id: null,
+        id: '566fe8c5452e61c47f141239',
         shipping : {
             fee: {
                 amount: 0
@@ -496,6 +494,8 @@ describe('CheckoutCtrl', function () {
             $scope.checkoutForm.paymentForm.expMonth.$setValidity = setValidityMock;
             $scope.checkoutForm.paymentForm.expYear = {};
             $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
+
+            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
 
             errorMsg = 'msg';
 
@@ -651,6 +651,15 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('shipping zones', function() {
+        beforeEach(function(){
+            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
+            $scope.shippingCost = {'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true};
+            mockedCartSvc.recalculateCart = jasmine.createSpy('recalculateCart').andCallFake(function (){
+                return cartDfd.promise;
+            });
+        });
+        
+
         it('should detect if the country is ship to country', function() {
             expect($scope.isShipToCountry('US')).toBeTruthy();
             expect($scope.isShipToCountry('FR')).toBeFalsy();
@@ -662,11 +671,8 @@ describe('CheckoutCtrl', function () {
         });
 
         it('should preview order', function() {
-            $scope.cart.id = '566fe8c5452e61c47f141239';
             $scope.order.shipTo = returnAddress;
             $scope.order.billTo = returnAddress;
-            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
-            $scope.shippingCost = {'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true};
             $scope.previewOrder(true, true);
             expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
         });

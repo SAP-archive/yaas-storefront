@@ -86,11 +86,6 @@ describe('ShippingSvc', function() {
             $httpBackend.flush();
         });
 
-		/*it('should return ship to countries', function() {
-			$httpBackend
-			expect(shippingSvc.getShipToCountries()).toEqual(1);
-		});*/
-
     });
 
 });
