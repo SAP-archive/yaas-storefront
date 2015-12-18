@@ -312,6 +312,8 @@ angular.module('ds.i18n')
         //XMSG
         INCLUDES: 'Includes',
         //XMSG
+        DESTINATION_COUNTRY: 'Destination country(s)',
+        //XMSG
         NO_LIMIT: 'No Limit',
 
         //XLST

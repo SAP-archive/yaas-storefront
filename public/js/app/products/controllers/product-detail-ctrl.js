@@ -23,6 +23,7 @@ angular.module('ds.products')
             
             $scope.product = product;
             $scope.shippingZones = shippingZones;
+            $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             // used by breadcrumb directive
             $scope.category = product.categories;
@@ -49,6 +50,16 @@ angular.module('ds.products')
                             $scope.breadcrumbData = cat;
                         });
                 }
+            }
+
+            if ($scope.shippingZones.length) {
+                for (var j = 0; j < $scope.shippingZones.length; j++) {
+                    if ($scope.shippingZones[j].methods.length) {
+                        $scope.noShippingRates = false;
+                    }
+                }
+            } else {
+                $scope.noShippingRates = true;
             }
 
             //Event that product is loaded
@@ -82,6 +93,9 @@ angular.module('ds.products')
                 });
             };
 
+            $scope.closeAddressDialog = function () {
+                modalInstance.close();
+            };
 
             // scroll to top on load
             window.scrollTo(0, 0);
