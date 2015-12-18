@@ -21,7 +21,7 @@ angular.module('ds.account')
             var originalAccountData;
             var customerNumber = !!account ? account.customerNumber : null;
             var notSet = '';
-            $translate('NOT_SET').then(function(value){
+            $translate('NOT_SET').then(function (value) {
                 notSet = value;
             });
             var getDefaultAddress = function () {
@@ -50,7 +50,7 @@ angular.module('ds.account')
 
             $scope.titles = GlobalData.getUserTitles();
 
-            $scope.editAccountInfo = function(mtype){
+            $scope.editAccountInfo = function (mtype) {
                 $scope.mtype = mtype;
                 originalAccountData = angular.copy($scope.account);
 
@@ -60,13 +60,13 @@ angular.module('ds.account')
                 });
             };
 
-            $scope.closeEditUserDialog = function(){
-               $scope.account = originalAccountData;
-               modalInstance.close();
+            $scope.closeEditUserDialog = function () {
+                $scope.account = originalAccountData;
+                modalInstance.close();
             };
 
-            $scope.updateUserInfo = function(){
-              var account = angular.copy($scope.account);
+            $scope.updateUserInfo = function () {
+                var account = angular.copy($scope.account);
 
                 var emailRegexp = GlobalData.getEmailRegEx();
 
@@ -74,9 +74,9 @@ angular.module('ds.account')
                     return $translate('PLEASE_ENTER_VALID_EMAIL');
                 }
 
-              AccountSvc.updateAccount(account).then(function(){
-                  modalInstance.close();
-              });
+                AccountSvc.updateAccount(account).then(function () {
+                    modalInstance.close();
+                });
             };
 
 
@@ -157,8 +157,8 @@ angular.module('ds.account')
                     backdrop: 'static'
                 });
 
-                modalInstance.opened.then(function() {
-                    setTimeout(function() {
+                modalInstance.opened.then(function () {
+                    setTimeout(function () {
                         // once dialog is open initialize dynamic localized address.
                         $scope.$emit('localizedAddress:updated', address.country, 'addAddress');
                     }, 10);
@@ -175,20 +175,22 @@ angular.module('ds.account')
 
             $scope.removeAddress = function (address) {
                 address.account = customerNumber;
-                $translate('CONFIRM_ADDRESS_REMOVAL').then(function( msg){
-                    if (window.confirm(msg)) {
-                        AccountSvc.removeAddress(address).then(
-                            function () {
+
+                $modal.open({
+                    templateUrl: 'js/app/account/templates/dialogs/address-remove-dialog.html',
+                    controller: 'AddressRemoveDialogCtrl'
+                }).result.then(function (deleteAddress) {
+
+                    if (deleteAddress) {
+                        AccountSvc.removeAddress(address)
+                            .then(function () {
                                 $scope.refreshAddresses();
-                            },
-                            function (response) {
+                            }, function (response) {
                                 $scope.errorAddressId = address.id;
                                 $scope.errors = extractAddressErrors(response, $translate.instant('REMOVE_ADDRESS_ERROR'));
-                            }
-                        );
+                            });
                     }
                 });
-
             };
 
             $scope.refreshAddresses = function () {
@@ -196,7 +198,7 @@ angular.module('ds.account')
                     $scope.addresses = addresses;
                     $scope.defaultAddress = getDefaultAddress();
                     $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
-                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter-1);
+                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter - 1);
                 });
             };
 

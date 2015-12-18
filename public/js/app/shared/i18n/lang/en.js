@@ -401,8 +401,10 @@ angular.module('ds.i18n')
         "CLOSE": "Close",
         //XFLD
         "COMPANY_NAME": "Company",
+	    //XTIT
+        "CONFIRM_DELETE_ADDRESS_TITLE": "Delete Address",
         //XMSG
-        "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to remove the address?",
+        "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to delete this address?",
         //XFLD
         "FULL_NAME": "Full Name",
         //XFLD

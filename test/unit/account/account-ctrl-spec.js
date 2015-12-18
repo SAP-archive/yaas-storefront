@@ -191,15 +191,20 @@ describe('AccountCtrl Test', function () {
 
         it("should remove address by executing removeAddress with confirmation", function() {
             address.id = 'address123';
-            spyOn(window, 'confirm').andReturn(true);
+
             $scope.removeAddress(address);
+            expect(mockedModal.open).toHaveBeenCalled();
+
+            modalPromise.resolve(true);
+
             $scope.$digest();
             expect(AccountSvc.removeAddress).toHaveBeenCalled();
         });
 
         it("should not remove address by executing removeAddress without confirmation", function() {
-            spyOn(window, 'confirm').andReturn(false);
             $scope.removeAddress(address);
+            expect(mockedModal.open).toHaveBeenCalled();
+            
             $scope.$digest();
             expect(AccountSvc.removeAddress).not.toHaveBeenCalled();
         });
