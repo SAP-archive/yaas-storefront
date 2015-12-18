@@ -61,9 +61,9 @@ angular.module('ds.i18n')
         //XFLD
         "APPLY": "Anwenden",
         //XFLD
-        "ESTIMATE_TAX_ERROR": "Zip/Postal Code and Country Code fields are required",
-        //XFLD
         "ESTIMATE_TAX_ERROR": "Felder \"Postleitzahl\" und \"Ländercode\" sind erforderlich",
+        //XMSG
+        "ADDITIONAL_SHIPPING_OPTIONS": 'Additional shipping options are available in checkout.',
         //XMSG
         "SELECT_A_COUNTRY": "Land auswählen",
 
