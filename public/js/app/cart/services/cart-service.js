@@ -398,6 +398,9 @@ angular.module('ds.cart')
                         addresses: [
                             {
                               type: 'SHIP_TO',
+                              addressLine1: addressToShip.address1,
+                              city: addressToShip.city,
+                              state: addressToShip.state,
                               zipCode: addressToShip.zipCode,
                               country: addressToShip.country
                             }

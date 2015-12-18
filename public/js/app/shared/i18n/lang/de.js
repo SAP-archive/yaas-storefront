@@ -139,6 +139,8 @@ angular.module('ds.i18n')
         //XMSG
         PLEASE_CORRECT_ERRORS_PREVIEW: 'Please correct the errors above before previewing your order.',
         //XMSG
+        PLEASE_CORRECT_ERRORS_ADDRESS: 'Please correct the address details before previewing your order.',
+        //XMSG
         PLEASE_ENTER_VALID_CC:'Geben Sie eine gültige Kreditkartennummer ein',
         //XMSG
         PLEASE_ENTER_VALID_CODE:'Geben Sie einen gültigen Code ein',

@@ -565,6 +565,12 @@ angular.module('ds.checkout')
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
+                        },
+                        function (error) {
+                            if (error.status === 400 && error.data.details[0].field === 'addresses') {
+                                $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
+                                $scope.showPristineErrors = true;
+                            }
                         }
                     );
                 } else {
