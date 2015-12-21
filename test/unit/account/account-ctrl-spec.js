@@ -170,8 +170,6 @@ describe('AccountCtrl Test', function () {
             expect($scope.refreshAddresses).toBeDefined();
             expect($scope.setAddressAsDefault).toBeDefined();
             expect($scope.showAllOrders).toBeDefined();
-            expect($scope.updateUserInfo).toBeDefined();
-            expect($scope.updatePassword).toBeDefined();
         });
 
         it("should save address if form is valid", function() {
@@ -232,23 +230,6 @@ describe('AccountCtrl Test', function () {
             expect(mockedModal.close).toHaveBeenCalled();
         });
 
-        it("should delegate call to AuthDialogManager's showUpdatePassword method", function() {
-            $scope.updatePassword();
-            expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
-        });
-
-
-        describe('updateAccount()', function() {
-
-            
-            it('should update account by executing updateUserInfo', function () {
-                $scope.updateUserInfo();
-                expect(AccountSvc.updateAccount).toHaveBeenCalled();
-            });
-
-
-        });
-
         describe('saveOnEnter', function(){
 
             var formValid = true;
@@ -273,7 +254,5 @@ describe('AccountCtrl Test', function () {
         });
 
     });
-
-
 
 });

@@ -13,17 +13,13 @@
 
 angular.module('ds.account')
 
-    .controller('AccountCtrl', ['$scope', '$state', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', '$filter', 'GlobalData', '$translate', 'AuthDialogManager',
+    .controller('AccountCtrl', ['$scope', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', 'GlobalData', '$translate',
 
-        function ($scope, $state, addresses, account, orders, OrderListSvc, AccountSvc, $modal, $filter, GlobalData, $translate, AuthDialogManager) {
+        function ($scope, addresses, account, orders, OrderListSvc, AccountSvc, $modal, GlobalData, $translate) {
 
             var modalInstance;
-            var originalAccountData;
             var customerNumber = !!account ? account.customerNumber : null;
-            var notSet = '';
-            $translate('NOT_SET').then(function(value){
-                notSet = value;
-            });
+
             var getDefaultAddress = function () {
                 return _.find($scope.addresses, function (addr) {
                     return addr.isDefault;
@@ -47,38 +43,6 @@ angular.module('ds.account')
             $scope.showAllOrdersButton = true;
             $scope.showOrderButtons = ($scope.orders.length >= $scope.showOrdersDefault);
             $scope.showOrdersFilter = $scope.showOrdersDefault;
-
-            $scope.titles = GlobalData.getUserTitles();
-
-            $scope.editAccountInfo = function(mtype){
-                $scope.mtype = mtype;
-                originalAccountData = angular.copy($scope.account);
-
-                modalInstance = $modal.open({
-                    templateUrl: 'js/app/account/templates/editUser-dialog.html',
-                    scope: $scope
-                });
-            };
-
-            $scope.closeEditUserDialog = function(){
-               $scope.account = originalAccountData;
-               modalInstance.close();
-            };
-
-            $scope.updateUserInfo = function(){
-              var account = angular.copy($scope.account);
-
-                var emailRegexp = GlobalData.getEmailRegEx();
-
-                if ($scope.mtype === 'email' && !emailRegexp.test(account.contactEmail)) {
-                    return $translate('PLEASE_ENTER_VALID_EMAIL');
-                }
-
-              AccountSvc.updateAccount(account).then(function(){
-                  modalInstance.close();
-              });
-            };
-
 
             var extractServerSideErrors = function (response) {
                 var errors = [];
@@ -120,8 +84,7 @@ angular.module('ds.account')
                         function (response) {
                             $scope.errorAddressId = null;
                             $scope.errors = extractAddressErrors(response, $translate.instant('SAVE_ADDRESS_ERROR'));
-                        }
-                    );
+                        });
                 } else {
                     $scope.showPristineErrors = true;
                 }
@@ -244,12 +207,6 @@ angular.module('ds.account')
                     $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
                     $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
                 });
-            };
-
-
-
-            $scope.updatePassword = function () {
-                AuthDialogManager.showUpdatePassword();
             };
 
             /*
