@@ -1,7 +1,7 @@
 /*
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -11,16 +11,9 @@
  */
 
 describe('CustomerDetailsCtrl', function () {
-    var $scope, $controller, $q, authModel, mockBackend,
-        account, modalPromise, deferredAccount;
-    
-    var mockedGlobalData = {
-        getCurrencySymbol: function () { return '$' },
-        getEmailRegEx: function () { return (/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i) },
-        getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR'])
-    };
+    var $scope, $controller, $q, mockBackend,
+        account, modalPromise;
 
-    var AccountSvc = {};
     var mockedModal = {};
 
     var updatePasswordDfd;
@@ -31,7 +24,6 @@ describe('CustomerDetailsCtrl', function () {
     };
 
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$modal', mockedModal);
     }));
 
@@ -47,23 +39,8 @@ describe('CustomerDetailsCtrl', function () {
         mockedModal.opened = { then: function () { } };
         updatePasswordDfd = $q.defer();
 
-        this.addMatchers({
-            toEqualData: function (expected) {
-                return angular.equals(this.actual, expected);
-            }
-        });
-
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
-
-        deferredAccount = $q.defer();
-        deferredAccount.resolve({ 'id': 'account123' });
-        AccountSvc.updateAccount = jasmine.createSpy('updateAccount').andReturn(deferredAccount.promise);
-
-        authModel = {
-            email: 'some.user@hybris.com',
-            password: 'secret'
-        };
     }));
 
     describe('', function () {
@@ -71,40 +48,36 @@ describe('CustomerDetailsCtrl', function () {
         beforeEach(function () {
             $controller('CustomerDetailsCtrl',
                 {
-                    $scope: $scope, 'AccountSvc': AccountSvc,
-                    'AuthDialogManager': mockedAuthDialogManager, '$modal': mockedModal, 'GlobalData': mockedGlobalData
+                    $scope: $scope, 'AuthDialogManager': mockedAuthDialogManager, '$modal': mockedModal
                 });
         });
 
         it('should expose correct scope interface', function () {
-            expect($scope.updateUserInfo).toBeDefined();
+            expect($scope.editUserName).toBeDefined();
+            expect($scope.editUserEmail).toBeDefined();
             expect($scope.updatePassword).toBeDefined();
         });
 
-        it('should open modal when editAccountInfo() is called', function () {
-            $scope.editAccountInfo('type1');
+        it('should open modal when editUserName() is called', function () {
+            $scope.editUserName();
 
-            expect($scope.mtype).toEqual('type1');
             expect(mockedModal.open).toHaveBeenCalled();
-        });
 
-        it('should close modal when closeEditUserDialog() is called', function () {
-            $scope.modalInstance = mockedModal;
-            $scope.closeEditUserDialog();
-
-            expect(mockedModal.close).toHaveBeenCalled();
-        });
-
-        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and close modal when success', function () {
-            $scope.modalInstance = mockedModal;
-            $scope.updateUserInfo();
-
-            expect(AccountSvc.updateAccount).toHaveBeenCalled();
-            deferredAccount.resolve({});
-
+            modalPromise.resolve({ id: 1 });
             $scope.$digest();
 
-            expect(mockedModal.close).toHaveBeenCalled();
+            expect($scope.account.id).toBe(1);
+        });
+
+        it('should open modal when editUserEmail() is called', function () {
+            $scope.editUserEmail();
+
+            expect(mockedModal.open).toHaveBeenCalled();
+
+            modalPromise.resolve({ id: 1 });
+            $scope.$digest();
+
+            expect($scope.account.id).toBe(1);
         });
 
         it('should delegate call to AuthDialogManager\'s showUpdatePassword method', function () {
@@ -112,19 +85,15 @@ describe('CustomerDetailsCtrl', function () {
             expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
         });
 
-        it('should update account by executing updateUserInfo', function () {
-            $scope.updateUserInfo();
-            expect(AccountSvc.updateAccount).toHaveBeenCalled();
-        });
-
         it('should check if modal instance exists on $destroy', function () {
+            $scope.modalInstance = null;
             $scope.$destroy();
 
             expect(mockedModal.close).not.toHaveBeenCalled();
         });
 
         it('should check if modal instance exists on $destroy and dismiss it if exists', function () {
-            $scope.modalInstance = mockedModal;
+            $scope.editUserName();
             $scope.$destroy();
 
             expect(mockedModal.dismiss).toHaveBeenCalled();

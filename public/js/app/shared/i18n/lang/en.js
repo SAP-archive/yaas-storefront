@@ -381,8 +381,10 @@ angular.module('ds.i18n')
         // Account Page
         //-------------------------------------------------
 
-        //XFLD
-        "ACCOUNT_DETAILS": "Account details",
+        //XTIT
+        "UPDATE_ACCOUNT_DETAILS": "Update Account details",
+	    //XTIT
+        "UPDATE_EMAIL": "Update Email",
         //XBUT
         "ADD": "Add",
         //XFLD

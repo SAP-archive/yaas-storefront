@@ -382,7 +382,9 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
         //XFLD
-        "ACCOUNT_DETAILS": "Kontodetails",
+        "UPDATE_ACCOUNT_DETAILS": "Kontodetails aktualisieren",
+        //TIT
+        "UPDATE_EMAIL": "E-Mail aktualisieren",
         //XBUT
         "ADD": "Hinzufügen",
         //XFLD

@@ -14,39 +14,42 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('CustomerDetailsCtrl', ['$scope', 'AccountSvc', 'AuthDialogManager', '$modal', 'GlobalData',
-            function ($scope, AccountSvc, AuthDialogManager, $modal, GlobalData) {
+        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal',
+            function ($scope, AuthDialogManager, $modal) {
 
-                var originalAccountData;
                 $scope.modalInstance = {};
-                $scope.titles = GlobalData.getUserTitles();
 
-                $scope.editAccountInfo = function (mtype) {
-                    $scope.mtype = mtype;
-                    originalAccountData = angular.copy($scope.account);
-
+                $scope.editUserName = function (account) {
                     $scope.modalInstance = $modal.open({
-                        templateUrl: 'js/app/account/templates/editUser-dialog.html',
-                        scope: $scope
+                        templateUrl: 'js/app/account/templates/modals/edit-user-name-dialog.html',
+                        controller: 'EditUserNameDialogCtrl',
+                        resolve: {
+                            account: function () {
+                                return account;
+                            }
+                        },
+                        backdrop: 'static'
+                    });
+
+                    $scope.modalInstance.result.then(function (result) {
+                        $scope.account = result;
                     });
                 };
 
-                $scope.closeEditUserDialog = function () {
-                    $scope.account = originalAccountData;
-                    $scope.modalInstance.close();
-                };
+                $scope.editUserEmail = function (account) {
+                    $scope.modalInstance = $modal.open({
+                        templateUrl: 'js/app/account/templates/modals/edit-user-email-dialog.html',
+                        controller: 'EditUserEmailDialogCtrl',
+                        resolve: {
+                            account: function () {
+                                return account;
+                            }
+                        },
+                        backdrop: 'static'
+                    });
 
-                $scope.updateUserInfo = function () {
-                    var account = angular.copy($scope.account);
-
-                    var emailRegexp = GlobalData.getEmailRegEx();
-
-                    if ($scope.mtype === 'email' && !emailRegexp.test(account.contactEmail)) {
-                        //return $translate('PLEASE_ENTER_VALID_EMAIL');
-                    }
-
-                    AccountSvc.updateAccount(account).then(function () {
-                        $scope.modalInstance.close();
+                    $scope.modalInstance.result.then(function (result) {
+                        $scope.account = result;
                     });
                 };
 
