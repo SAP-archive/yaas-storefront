@@ -466,7 +466,6 @@ angular.module('ds.checkout')
                 target.state = address.state;
                 target.zipCode = address.zipCode;
                 target.contactPhone = address.contactPhone;
-
                 if(target === $scope.order.billTo && ($scope.shipToSameAsBillTo === true || _.isEmpty($scope.order.shipTo))){
                     setShipToSameAsBillTo(true);
                 }
@@ -567,9 +566,12 @@ angular.module('ds.checkout')
                             $scope.showPristineErrors = false;
                         },
                         function (error) {
-                            if (error.status === 400 && error.data.details[0].field === 'addresses') {
-                                $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
-                                $scope.showPristineErrors = true;
+                            if (error.status === 400) {
+                                if (error.data.details[0].field === 'addresses') {
+                                    $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
+                                    $scope.showPristineErrors = true;
+                                }
+                                
                             }
                         }
                     );
