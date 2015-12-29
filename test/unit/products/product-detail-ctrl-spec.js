@@ -12,10 +12,169 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, shippingZones, cartDef,mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedShippingZones, shippingZones, cartDef,mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
         getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: "Includes Tax/VAT", included: false })
     };
+
+    mockedShippingZones = [{
+            'default': true,
+            'id': 'europe',
+            'methods': [
+            {
+                'id': 'fedex-2dayground',
+                'name': 'FedEx 2Day',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '3',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '1.89',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            },
+            {
+                'id': 'ups-canada',
+                'name': 'UPS Canada',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '4',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0.89',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            }],
+            'name': 'Canada',
+            'shipTo': ['CA']
+        },
+        {
+            'default': false,
+            'id': 'us',
+            'methods': [
+            {
+                'id': 'fedex-2dayground',
+                'name': 'FedEx 2Day',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '8.6',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '3',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '100',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '1',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            },
+            {
+                'id': 'ups-standard',
+                'name': 'UPS Standard',
+                'active': true,
+                'maxOrderValue': {
+                  'amount': '200',
+                  'currency': 'USD'
+                },
+                'fees': [
+                  {
+                    'minOrderValue': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '8.76',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '50',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '2.99',
+                      'currency': 'USD'
+                    }
+                  },
+                  {
+                    'minOrderValue': {
+                      'amount': '200',
+                      'currency': 'USD'
+                    },
+                    'cost': {
+                      'amount': '0',
+                      'currency': 'USD'
+                    }
+                  }
+                ]
+            }],
+            'name': 'USA',
+            'shipTo': ['US']
+        }];
 
     var mockProduct = {
         product:{
@@ -81,7 +240,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
        it('should set the category for the breadcrumb', function(){
@@ -97,7 +256,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
         it('should add to cart from detail page', function () {
@@ -132,7 +291,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -152,7 +311,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
             $scope.error = 'error';
             $scope.addToCartFromDetailPage();
             $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
@@ -187,7 +346,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
         it('should list main image first', function(){
@@ -222,7 +381,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
         it('should list first image first', function(){
