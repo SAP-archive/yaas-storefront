@@ -308,16 +308,16 @@ angular.module('ds.i18n')
 
 
         //XFLD
-        SHIPPING_INFORMATION: 'Shipping information',
+        "SHIPPING_INFORMATION": "Shipping information",
         //XFLD
-        SHIPPING_ZONE: 'Shipping Zone',
+        "SHIPPING_ZONE": "Shipping Zone",
+        //XFLD
+        "STANDARD_SHIPPING": "Standard Shipping",
+        //XFLD
+        "SHIPPING_RATE": "Shipping Rate",
+        //XFLD
+        "ZONE": "Zone",
 
-        //XFLD
-        STANDARD_SHIPPING: 'Standard Shipping',
-        //XFLD
-        SHIPPING_RATE: 'Shipping Rate',
-        //XFLD
-        ZONE: 'Zone',
         //XBUT
         "BUY": "Buy",
         //XBUT

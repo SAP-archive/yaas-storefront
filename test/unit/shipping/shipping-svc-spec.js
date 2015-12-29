@@ -34,7 +34,8 @@ describe('ShippingSvc', function() {
             user: null
         },
         getSiteCode: jasmine.createSpy().andReturn('US'),
-        getCurrencyId: jasmine.createSpy().andReturn('USD')
+        getCurrencyId: jasmine.createSpy().andReturn('USD'),
+        getAcceptLanguages: jasmine.createSpy().andReturn('en')
     };
 
     beforeEach(function () {

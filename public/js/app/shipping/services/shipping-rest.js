@@ -24,7 +24,7 @@ angular.module('ds.checkout')
                                 return {
                                     element: element,
                                     params: params,
-                                    headers: _.extend(headers, {'hybris-currency': GlobalData.getCurrencyId()}),
+                                    headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
                                     httpConfig: httpConfig
                                 };
                             });
