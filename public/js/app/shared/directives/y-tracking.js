@@ -101,9 +101,9 @@ angular.module('ds.ytracking', [])
             */
             var apiPath = appConfig.dynamicDomain();
             var tenantId = appConfig.storeTenant();
-            
-            var piwikUrl = 'https://' + apiPath + '/hybris/edge/b1/events';
-            var consentUrl = 'https://' + apiPath + '/hybris/consent/b1/' + tenantId + '/consentReferences';
+
+            var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/b1/events';
+            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/b1/' + tenantId + '/consentReferences';
 
             var getConsentReference = function () {
                 var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
@@ -127,17 +127,8 @@ angular.module('ds.ytracking', [])
                     }
                 };
 
-                $http(req).success(function (response) {
-                    if (!!response.id) {
-                        CookieSvc.setConsentReferenceCookie(response.id);
-                    }
-                });
+                return $http(req);
             };
-
-            if (!getConsentReference()) {
-                //noinspection JSUnusedAssignment
-                makeOptInRequest();
-            }
 
             /**
             * Create object from piwik GET request
@@ -165,8 +156,25 @@ angular.module('ds.ytracking', [])
                 //Get object from query parameters
                 var obj = getPiwikQueryParameters(e);
 
-                //Make post request to service
-                makePiwikRequest(obj);
+
+                /*
+                 if no consent reference cookie present, we must get the consent reference before making the
+                 first call to the tracking endpoint
+                 */
+                if (!getConsentReference()) {
+                    //noinspection JSUnusedAssignment
+                    makeOptInRequest().success(function (response) {
+                        if (!!response.id) {
+                            CookieSvc.setConsentReferenceCookie(response.id);
+                        }
+                        //Make post request to service
+                        makePiwikRequest(obj);
+                    });
+                }
+                else {
+                    //Make post request to service
+                    makePiwikRequest(obj);
+                }
             };
 
             /**

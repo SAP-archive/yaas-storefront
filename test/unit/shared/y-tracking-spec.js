@@ -130,7 +130,8 @@ describe('ytracking', function () {
             expect(containsCustomProcessing).toBe(true);
         });
 
-        it('should acquire consent-reference from opt-in service', function() {
+        //ignored because this no longer happens on init - only before a tracking request is made
+        xit('should acquire consent-reference from opt-in service for the first request', function() {
             $httpBackend.flush();
             expect(mockedCookieSvc.setConsentReferenceCookie).toHaveBeenCalledWith(consentReference);
         });
