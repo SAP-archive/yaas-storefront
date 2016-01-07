@@ -121,7 +121,7 @@ angular.module('ds.auth')
 
                     AuthenticationService.socialLogin('google', gToken).then(function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: true});
-                        try {
+                        /*try {
                             window.gapi.client.load('plus', 'v1').then(function () {
                                 window.gapi.client.plus.people.get({
                                     'userId': 'me'
@@ -138,7 +138,7 @@ angular.module('ds.auth')
                             });
                         } catch (error) {
                             console.error('Unable to load Google+ user profile');
-                        }
+                        }*/
                     }, function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: false});
                     });

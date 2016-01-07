@@ -34,6 +34,13 @@ angular.module('ds.auth')
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
+            $scope.options = {
+                onsuccess: function(response) {
+                    console.log(response);
+                    AuthSvc.onGoogleLogIn(response.hg.access_token);
+                },
+                longtitle: true
+            };
             // determines "continue as guest" button:
             $scope.showAsGuest = showAsGuest;
 

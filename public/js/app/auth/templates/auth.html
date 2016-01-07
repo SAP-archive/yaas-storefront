@@ -26,12 +26,7 @@
             </div>
           </div>
           <div class="socialMediaSigninContainer">
-            <div ng-if="googleClientId"  class="googlePlusLogin">
-                <div class="googleSignIn">
-                    <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
-                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
-                </div>
-            </div>
+            <google-sign-in-button button-id="googleSigninButton" options="options"></google-sign-in-button>
           </div>
         </div>
       </div>
