@@ -56,6 +56,7 @@ angular.module('ds.products')
                 for (var j = 0; j < $scope.shippingZones.length; j++) {
                     if ($scope.shippingZones[j].methods.length) {
                         $scope.noShippingRates = false;
+                        break;
                     }
                 }
             } else {

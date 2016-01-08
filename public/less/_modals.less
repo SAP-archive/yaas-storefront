@@ -66,21 +66,7 @@
   // Remove focus outline from opened modal
   outline: none;
 }
-.opacity(@val){
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@val)" !important;
 
-  /* IE 5-7 */
-  filter: alpha(opacity=@val) !important;
-
-  /* Netscape */
-  -moz-opacity: (@val/100) !important;
-
-  /* Safari 1.x */
-  -khtml-opacity: (@val/100) !important ;
-
-  /* Good browsers */
-  /*opacity: (@val/100) !important;*/
-}
 // Modal background
 .modal-backdrop {
   position: fixed;
@@ -163,5 +149,3 @@
 @media (min-width: @screen-md-min) {
   .modal-lg { width: @modal-lg; }
 }
-
-
