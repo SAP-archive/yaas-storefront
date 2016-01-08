@@ -566,12 +566,12 @@ angular.module('ds.checkout')
                             $scope.showPristineErrors = false;
                         },
                         function (error) {
-                            if (error.status === 400) {
-                                if (error.data.details[0].field === 'addresses') {
-                                    $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
-                                    $scope.showPristineErrors = true;
-                                }
-                                
+                            if (error.data.details[0].field.indexOf('addresses') > -1) {
+                                $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
+                                $scope.showPristineErrors = true;
+                            } else {
+                                $scope.messagePreviewOrder = 'PLEASE_CORRECT_MESSAGE_ERRORS';
+                                $scope.showPristineErrors = true;
                             }
                         }
                     );

@@ -41,7 +41,9 @@ angular.module('ds.i18n')
         //XFLD
         "EST_ORDER_TOTAL": "Geschätzte Bestellsumme",
         //XFLD
-        PREVIEW_ORDER: 'Preview Order',
+        "PREVIEW_ORDER": "Preview Order",
+        //XFLD
+        "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
         //XFLD
         "FREE_SHIPPING": "Versand und Rücksendung in den USA kostenlos",
         //XFLD

@@ -43,6 +43,8 @@ angular.module('ds.i18n')
         //XFLD
         "PREVIEW_ORDER": "Preview Order",
         //XFLD
+        "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
+        //XFLD
         "FREE_SHIPPING": "Free Shipping and Returns in the US",
         //XFLD
         "ITEM": "Item",
