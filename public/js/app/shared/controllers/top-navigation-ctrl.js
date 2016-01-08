@@ -59,6 +59,37 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
+                var meta = document.createElement('meta');
+                meta.name = 'google-signin-scope';
+                meta.content = 'profile email';
+                document.getElementsByTagName('head')[0].appendChild(meta);
+
+                meta.name = 'google-signin-client_id';
+                meta.content = settings.googleClientId;
+                document.getElementsByTagName('head')[0].appendChild(meta);
+
+                var s, r, t;
+                r = false;
+                s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.src = 'https://apis.google.com/js/platform.js';
+                s.onload = s.onreadystatechange = function() {
+                    if ( !r && (!this.readyState || this.readyState === 'complete')) {
+                        r = true;
+                        window.gapi.load('auth2', function() {
+                            var GoogleAuth  = window.gapi.auth2.getAuthInstance();
+                            console.log(GoogleAuth);
+                            GoogleAuth.signOut().then(function () {
+                                console.log('User signed out.');
+                            });
+                        });
+                        
+                    }
+                };
+                t = document.getElementsByTagName('script')[0];
+                t.parentNode.insertBefore(s, t);
+
+
                 AuthSvc.signOut();
             };
             

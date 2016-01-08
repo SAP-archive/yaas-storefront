@@ -36,7 +36,6 @@ angular.module('ds.auth')
             $scope.googleClientId = settings.googleClientId;
             $scope.options = {
                 onsuccess: function(response) {
-                    console.log(response);
                     AuthSvc.onGoogleLogIn(response.hg.access_token);
                 },
                 longtitle: true

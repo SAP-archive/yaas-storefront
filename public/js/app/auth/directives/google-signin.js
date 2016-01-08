@@ -19,7 +19,6 @@ angular.module('ds.checkout', [])
                 meta.content = settings.googleClientId;
                 document.getElementsByTagName('head')[0].appendChild(meta);
 
-
                 var div = element.find('div')[0];
                 div.id = attrs.buttonId;
                 div.class = 'googleSigninButton';
@@ -32,12 +31,6 @@ angular.module('ds.checkout', [])
                     if ( !r && (!this.readyState || this.readyState === 'complete')) {
                         r = true;
                         window.gapi.signin2.render(div.id, scope.options());
-
-                        window.gapi.load('auth2', function() {
-                            var GoogleAuth  = window.gapi.auth2.getAuthInstance();//get's a GoogleAuth instance with your client-id, needs to be called after gapi.auth2.init
-                            console.log(GoogleAuth);
-                        });
-                        
                     }
                 };
                 t = document.getElementsByTagName('script')[0];
