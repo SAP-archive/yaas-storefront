@@ -10,25 +10,25 @@
  * license agreement you entered into with hybris.
  */
 describe('ShippingSvc', function() {
-	
-	var $scope, $rootScope, shippingSvc, mockedGlobalData;
 
-	var item = {
-		'cartTotal': {
-			'amount': 100.34,
-			'currency': 'USD'
-		},
-			'shipToAddress': {
-			'street': '6 W Street',
-			'streetNumber': '1',
-			'zipCode': '60656',
-			'city': 'Chicago',
-			'state': 'IL',
-			'country': 'US'
-		}
-	}
+    var $scope, $rootScope, shippingSvc, mockedGlobalData;
 
-	mockedGlobalData = {
+    var item = {
+        'cartTotal': {
+            'amount': 100.34,
+            'currency': 'USD'
+        },
+            'shipToAddress': {
+            'street': '6 W Street',
+            'streetNumber': '1',
+            'zipCode': '60656',
+            'city': 'Chicago',
+            'state': 'IL',
+            'country': 'US'
+        }
+    }
+
+    mockedGlobalData = {
         user: {
             isAuthenticated: '',
             user: null
@@ -39,16 +39,16 @@ describe('ShippingSvc', function() {
     };
 
     beforeEach(function () {
-    	module('restangular');
-    	module('ds.checkout');
+        module('restangular');
+        module('ds.checkout');
     });
 
     beforeEach(module('ds.shared', function($provide) {
         $provide.value('appConfig', {
-        	dynamicDomain: function () {
-        		return 'api.yaas.io';
-        	},
-        	storeTenant: function () {}
+            dynamicDomain: function () {
+                return 'api.yaas.io';
+            },
+            storeTenant: function () {}
         });
     }));
 
@@ -58,31 +58,31 @@ describe('ShippingSvc', function() {
 
     describe('ShippingSvc', function() {
 
-		beforeEach(function () {
+        beforeEach(function () {
 
-	        inject(function (_$httpBackend_, _$rootScope_, _ShippingSvc_, _$q_, SiteConfigSvc) {
-	            $rootScope = _$rootScope_;
-	            $scope = _$rootScope_.$new();
-	            $httpBackend = _$httpBackend_;
-	            shippingSvc = _ShippingSvc_;
-	            siteConfig = SiteConfigSvc;
-	            siteConfig.apis.shippingZones.baseUrl + 'shipping';
-	            $q = _$q_;
-	        });
+            inject(function (_$httpBackend_, _$rootScope_, _ShippingSvc_, _$q_, SiteConfigSvc) {
+                $rootScope = _$rootScope_;
+                $scope = _$rootScope_.$new();
+                $httpBackend = _$httpBackend_;
+                shippingSvc = _ShippingSvc_;
+                siteConfig = SiteConfigSvc;
+                siteConfig.apis.shippingZones.baseUrl + 'shipping';
+                $q = _$q_;
+            });
 
-	        $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
-	        
-	        
-	    });
+            $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
 
-	    it('should issue POST', function () {
-	    	$httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote').respond({});
+
+        });
+
+        it('should issue POST', function () {
+            .expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
             $httpBackend.flush();
         });
 
-	    it('should issue POST', function () {
-	    	$httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote/minimum').respond({});
+        it('should issue POST', function () {
+            $httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote/minimum').respond({});
             shippingSvc.getMinimumShippingCost(item);
             $httpBackend.flush();
         });
