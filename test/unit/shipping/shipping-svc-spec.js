@@ -18,7 +18,7 @@ describe('ShippingSvc', function() {
             'amount': 100.34,
             'currency': 'USD'
         },
-            'shipToAddress': {
+        'shipToAddress': {
             'street': '6 W Street',
             'streetNumber': '1',
             'zipCode': '60656',
@@ -76,7 +76,7 @@ describe('ShippingSvc', function() {
         });
 
         it('should issue POST', function () {
-            .expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote').respond({});
+            $httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
             $httpBackend.flush();
         });

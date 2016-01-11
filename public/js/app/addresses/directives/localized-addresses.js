@@ -41,7 +41,7 @@ angular.module('ds.addresses').
             if (!scope.localeSelection) {
                 scope.localeSelection = selectionArray[0];
                 if (viewType !== 'addAddress') {
-					scope.localeSelection = {id: '', name: ''};
+                    scope.localeSelection = {id: '', name: ''};
                 }
             }
             switch(viewType){
@@ -81,13 +81,13 @@ angular.module('ds.addresses').
 			baseUrl = 'js/app/addresses/templates/';
 
 			// when locale is not recognized set default template
-			if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
-				if (viewType === 'addAddress') {
-					locale = 'US';
+            if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
+                if (viewType === 'addAddress') {
+                    locale = 'US';
                 } else {
-					locale = 'Default';
-				}
-			}
+                    locale = 'Default';
+                }
+            }
 
 			// set dynamic template url and return promise
 			templateUrl = baseUrl + viewType + locale + '.html';
