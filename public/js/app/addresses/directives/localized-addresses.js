@@ -36,14 +36,6 @@ angular.module('ds.addresses').
 
         var selectDefaultLocale = function (scope, viewType) {
 
-            var currentSite = GlobalData.getSite();
-
-            /*angular.forEach(selectionArray, function (selection) {
-                if (selection.id === currentSite.code) {
-                    scope.localeSelection = selection;
-                }
-            });*/
-
             if (!scope.localeSelection) {
                 scope.localeSelection = selectionArray[0];
                 $rootScope.updateShippingCost({country: scope.localeSelection.id, zipCode: ''});
