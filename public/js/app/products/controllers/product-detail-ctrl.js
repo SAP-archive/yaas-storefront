@@ -94,7 +94,7 @@ angular.module('ds.products')
                 });
             };
 
-            $scope.closeAddressDialog = function () {
+            $scope.closeShippingZonesDialog = function () {
                 modalInstance.close();
             };
 
