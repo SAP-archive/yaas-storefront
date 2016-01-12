@@ -37,7 +37,7 @@ angular.module('ds.shared')
                 if (previousCode !== $scope.selectedSite.code) {
                     //Update cart and etc. and use choosen language
                     SiteSelectorSvc.changeSite(site, language);
-                    $rootScope.$emit('site:changed');
+                    $rootScope.$broadcast('site:changed');
                 }
                 else {
                     //If site is not changed, only change language

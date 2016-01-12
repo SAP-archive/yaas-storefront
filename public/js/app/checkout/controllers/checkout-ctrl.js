@@ -542,7 +542,7 @@ angular.module('ds.checkout')
                 $scope.previewOrder(eveObj.shipToDone, eveObj.billToDone);
             });
 
-            $rootScope.$on('site:changed', function () {
+            $scope.$on('site:changed', function () {
                 $scope.cart = CartSvc.getLocalCart();
             });
 
