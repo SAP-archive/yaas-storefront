@@ -13,17 +13,16 @@ module.exports = function (grunt) {
 
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
-        // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123
+        // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
         PROJECT_ID = grunt.option('pid') || 'defaultproj',
         CLIENT_ID = grunt.option('cid') || 'hkpWzlQnCIe4MSTi1Ud94Q7O36aRrRrO',
-        REDIRECT_URI = 'http://example.com',
+        REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
 
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         PROD_DOMAIN = 'api.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
-        TEST_DOMAIN = 'api.yaas.ninja',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
-        DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
+        DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:prod [:stage] to specify.';
 
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-text-replace');
@@ -184,14 +183,6 @@ module.exports = function (grunt) {
         },
 
         replace: {
-            test: {
-                src: [ API_DOMAIN_PATH ],
-                overwrite: true,
-                replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \''+ TEST_DOMAIN +'\' /*EndDynamicDomain'
-                }]
-            },
             stage: {
                 src: [ API_DOMAIN_PATH ],
                 overwrite: true,
@@ -377,9 +368,6 @@ module.exports = function (grunt) {
     // Read build parameter and set the dynamic domain for environment or give warning message.
     function runDomainReplace(domainParam){
         switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam ) {
-            case 'test':
-                grunt.task.run('replace:test');
-                break;
             case 'stage':
                 grunt.task.run('replace:stage');
                 break;

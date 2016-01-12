@@ -15,7 +15,7 @@ Install node and npm:
 
 	$ brew install node	# on MacOS
 
-[Or download from the Node site] (http://nodejs.org/)
+[Or download from the Node site](http://nodejs.org/)
 
 Install grunt:
 
@@ -27,12 +27,13 @@ Install bower:
 
 ### 2. Project requirements
 
-Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod. **Develop** will change frequently, and may contain experimental features and code changes against services that are only available in development and test environments.
+Create a fork of the repository, clone it to your machine, and ensure you are on the 'master' branch.  **Master** will be kept in sync with service dependencies deployed to prod.
 
 To locally install the project, execute:
 
-	$ npm install
-	$ npm update 
+    $ npm install
+    $ npm update 
+    $ bower install
 
 
 ### 3. Project startup
@@ -50,13 +51,13 @@ Now, let's create a new project for your specific site so that you can modify yo
 
 ### 1.  Sign up for your a new store and configure it
 If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
-Follow the steps outlined in the Dev Portal https://devportal.yaas.io/gettingstarted/setupastorefront/index.html
+Follow the steps outlined in the [Dev Portal](https://devportal.yaas.io/gettingstarted/setupastorefront/index.html).
 
 ### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
-In gruntfile.js, set the PROJECT_ID to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the CLIENT_ID and REDIRECT_URI gruntfile variables with the values set in the application associated with your project.
+In gruntfile.js, set the **PROJECT_ID** to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the **CLIENT_ID** and **REDIRECT_URI** gruntfile variables with the values set in the application associated with your project.
 
 ### 3.  Launch a new session 
-Execute command "npm start" and open your browser at http://localhost:9000.  You should now see your customized store.
+Execute command **"npm start"** and open your browser at http://localhost:9000.  You should now see your customized store.
 
 ### 4.  Customize the style or logic of your storefront as desired
 You can now modify the style or logic of your storefront.  Any new JS scripts or CSS files need to be added to index.html.
@@ -74,13 +75,13 @@ Preparing project for deployment (concatenation/minification/revisioning):
 
 The :prod parameter specifies which dynamic domain to connect with the api services.  If this domain is not specified with the parameter, a warning will appear in the build output and the default setting will be applied for the api url's, which is also set to the prod api domain in the gruntfile.
 
-**npm start** is configured to run **grunt build:prod**. Other options are **:stage** and **:test** and can be configured in the gruntfile.
+**npm start** is configured to run **grunt build:prod**. Other option is **:stage** and can be configured in the gruntfile.
 
-Credential parameters also exist for automated build environments. With NPM 2.0, it is possible to pass in a Client_Id and Project_Id from npm run-script command line. For example, we can further automate the build system with these parameters (pid and cid) like this: 
+Credential parameters also exist for automated build environments. With NPM 2.0, it is possible to pass in a Client_Id, Project_Id and Redirect_URI from npm run-script command line. For example, we can further automate the build system with these parameters (pid, cid and ruri) like this: 
 
-$ npm run-script singleProd -- --pid=abc --cid=123
+    $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com
 
-This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id and Project_Id will be set by default to the build configuration variables in the gruntfile.
+This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id, Project_Id and Redirect_URI will be set by default to the build configuration variables in the gruntfile.
 
 
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
@@ -89,15 +90,12 @@ This allows for many different projects with many different clients to be config
 ### 6.  Deploy application to server
 
 You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single project mode (default),
-you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack) that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file static-manifest.yml (see http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
+you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack) that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file **static-manifest.yml** (see [http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
 
-cf push -f static-manifest.yml
+    cf push -f static-manifest.yml
 
 #  About This Project
 
-## Limitations in the current service layer
-
-- Limited tax support - consult APIs for details.
 
 ## Project Organization
 
@@ -113,7 +111,7 @@ From here, angular will load the "ds.app" module which comprises file public/js/
 is further configured before it is loaded.
 
 The app-config.js file provides dynamic configuration for the application which allows you to set application variables without persisting 
-them in your get repository. For example, if you are running with multiple project id's changing between these environments will cause git to indicate an update. This scenario is avoided in app-config as it is included in .gitignore. Another example of non-persisted dynamic configuration is in the URL path to the API. Should this need to change, you will not need to persist it in git.
+them in your git repository. For example, if you are running with multiple project id's changing between these environments will cause git to indicate an update. This scenario is avoided in app-config as it is included in .gitignore. Another example of non-persisted dynamic configuration is in the URL path to the API. Should this need to change, you will not need to persist it in git.
 
 
 ## Application Events
@@ -124,13 +122,11 @@ The following application events are used to communicate state changes that affe
     - event object:
         - cart - current cart instance
         - source - source event of the update (manual | currency | language | merge | reset)
+- **'cart:closeNow'** - when fired will close cart that is shown on the right side
+- **'authtoken:obtained'** - fired when auth token is obtained
 - **'language:updated'** - fired when the store's language has changed
     - event object:
         - languageCode: new language code
-        - source: source of the event
-- **'currency:updated'** - fired when the store's currency has changed
-    - event object:
-        - currencyId: new currency id
         - source: source of the event
 - **'categories:updated'** - fired when categories have been reloaded
     - event object:
@@ -142,16 +138,17 @@ The following application events are used to communicate state changes that affe
     - event object:
         - loggedIn: true/false
 - **'category:selected'** - signals that a given category was navigated to.  Event object has property 'category' to indicate selection.
+- **'product:opened'** - signals that a given product was navigated to. Event object has properties 'product', 'category' and 'price'.
+- **'checkout:opened'** - signals that checkout page is navigated to. Event object has property 'cart'.
+- **'order:placed'** - signals that order is placed. Event object has properties 'orderId' and 'cart'.
 
 ## Running Against Different Environments
 
 The service endpoint domains can be configured for a specific environment by specifying the desired target in the npm/grunt commands. The endpoint URLs are configured in public/js/app/shared/site-config.js.  When running grunt, the domain is injected into this configuration file via String replacement. The default environment is "prod", so you can simply invoke **grunt build** and **npm start** to build or build and run the application against the services in the **prod** environment.
 
-Additional api environments supported by the script are:
-    - test
-    - stage
+Additional api environment supported by the script is **stage**.
 
-To build against an environment other than **prod**, append **:[env]** to the grunt task you're calling. For instance, to invoke the build for **test**, you issue the command **grunt build:test**.  To build and run the app via NPM against **stage**, you'll call **grunt build:stage**.
+To build against an environment other than **prod**, append **:[env]** to the grunt task you're calling. To build and run the app via NPM against **stage**, you'll call **grunt build:stage**.
 
 ## Testing
 
@@ -169,13 +166,13 @@ This project contains the capability to run the same deployed store template aga
 
 In the multi-project setup, instead of reading the project ID from bootstrap.js, the project-id is the first path segment in the URL. For example, to run the store against project "myproject" you would use the URL: 
 
-    http://localhost:9000/myproject.
+    http://localhost:9000/myproject
 
 ## Security
 
 ### DevPortal Security Documentation
 
-A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at https://devportal.yaas.io/overview/security/storefrontsecurity.html Below is a brief on a few or our recomendations.
+A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at [https://devportal.yaas.io/overview/security/storefrontsecurity.html](https://devportal.yaas.io/overview/security/storefrontsecurity.html) Below is a brief on a few or our recomendations.
 
 ### y-input
 
@@ -184,16 +181,16 @@ One personalized security choice you have is for the custom data wrapper directi
 ### Angular Version
 
 It is a good idea to ensure your Angular version dependencies are above 1.2 to gain the $SCE (strict contextual escaping) that is added by default in that version. For example, you should specify your angular build version in some variety(latest) greater than 1.2 like so:
-  "dependencies": {
-    "angular": "~1.3.0"
-
+```  
+"dependencies": {
+   "angular": "~1.4.0"
+}
+```
 
 ### Click-Jacking
 
 It is recommended that you configure your deployment HTTP server to send the X-FRAME-OPTIONS header to restrict others from hosting your site inside an IFrame.
-See [OWASP Click-Jacking]
-
-    (https://www.owasp.org/index.php/Clickjacking).
+See [OWASP Click-Jacking](https://www.owasp.org/index.php/Clickjacking).
 
 ### HTTPS
 
@@ -204,7 +201,7 @@ We strongly recommend domains that are encrypted into a Secure Socket Layer (SSL
 
 For more information on any of these topics see OWASP. For starters, here is a good checklist of guidlines and an industry resource for Information Security best practices:
 
-    https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet
+[https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet](https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet)
 
 ## Optimization
 
@@ -215,7 +212,7 @@ A short list of the performance optimizations available are: JS & CSS minificati
 
 ## Modularity
 
-At the core of what AngularJS is getting right, right now, are modules and components. The storefront architecture was design in best-practice manner to allow extensibility along any folder in the physical architecture. This is done by grouping files by Component first, then by language Type. So for example, a 'SomeFeature' folder that contains controllers, directives, services, templates. This structure allows reuse in the ability to add and differentiate any number of similar but different html, controllers, directives, etc. All the way up to the very top of the application in the bootstrap.js file. Where it is possible to partition and run in parallel separate variations of the codebase through manual variation of the base module in the angular.bootstrap parameter:
+At the core of what AngularJS is getting right, right now, are modules and components. The storefront architecture was designed in best-practice manner to allow extensibility along any folder in the physical architecture. This is done by grouping files by Component first, then by language Type. So for example, a 'SomeFeature' folder that contains controllers, directives, services, templates. This structure allows reuse in the ability to add and differentiate any number of similar but different html, controllers, directives, etc. All the way up to the very top of the application in the bootstrap.js file. Where it is possible to partition and run in parallel separate variations of the codebase through manual variation of the base module in the angular.bootstrap parameter:
 
     angular.bootstrap( document, ['ds.app'] );
 
@@ -223,14 +220,12 @@ At the core of what AngularJS is getting right, right now, are modules and compo
 
 The nice thing about the structure of AngularJS is that it gives you the ability to differentiate your business requirements into the architecture without ever having to touch the original codebase. This is possible if you are replicating the pieces that you need in parallel with the existing structure - like a scaffolding. For example before you make any modifications to say the gruntfile or the package.json - you should really split the That way, pulling down advancements in the demostore can be isolated to files that you are never using in production. Admittedly, this parallel replication process is low ceremony, but it becomes really helpful in extending the codbase year after year of feature implementation and sales growth. All while having a fully updated hybris demostore supporting your advancement while you develop. Those topics and more are discussed at the following DevPortal location:
 
-    https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html
+[https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html](https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html)
 
 
 # Resources
 
-For in-depth API documentation, please visit:
-
-    https://devportal.yaas.io/
+For in-depth API documentation, please visit [Dev Portal](https://devportal.yaas.io/).
 
 ## About this Project
 
@@ -273,7 +268,7 @@ between modules.
 
 ### About Contributions
  
-We encourage contributions in the form of pull requests against the master branch of this repository.  Your pull request will be reviewed by a member of the hybris organization.
+We encourage contributions in the form of pull requests against the master branch of this repository.  Your pull request will be reviewed by a member of the hybris organization. 
 
 ### License
  
