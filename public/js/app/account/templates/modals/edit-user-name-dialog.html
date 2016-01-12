@@ -1,0 +1,51 @@
+<div class="modal-header" ng-cloak>
+    <button type="button" class="close" ng-click="closeEditUserDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">
+        {{'UPDATE_ACCOUNT_DETAILS' | translate}}
+    </h4>
+</div>
+<form name="updateUserInfoForm" ng-submit="updateUserInfo()" novalidate>
+    <div class="modal-body">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="form-group input-group">
+                    <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
+                    <select class="form-control" ng-model="account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
+                </div>
+            </div>
+            <div class="col-lg-12 col">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': updateUserInfoForm.firstNameAccount.$invalid && (updateUserInfoForm.firstNameAccount.$dirty  || showPristineErrors)}">
+                    <label class="input-group-addon control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label>
+                    <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                           type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
+                           ng-model="account.firstName" required autocomplete="on">
+                </div>
+            </div>
+            <div class="col-lg-12 col">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': updateUserInfoForm.middleNameAccount.$invalid && (updateUserInfoForm.middleNameAccount.$dirty  || showPristineErrors)}">
+                    <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
+                    <input type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
+                           ng-model="account.middleName" autocomplete="on" placeholder="(Optional)">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group input-group"
+                     ng-class="{'has-error': updateUserInfoForm.lastNameAccount.$invalid && (updateUserInfoForm.lastNameAccount.$dirty  || showPristineErrors)}">
+                    <label class="input-group-addon control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label>
+                    <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                           class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="account.lastName"
+                           required autocomplete="on">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" ng-click="closeEditUserDialog()" id="cancel-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
+            <button type="submit" id="save-btn" class="btn btn-primary btn-lg">{{'SAVE' | translate}}</button>
+        </div>
+    </div>
+</form>

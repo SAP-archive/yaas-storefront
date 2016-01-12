@@ -388,7 +388,9 @@ angular.module('ds.i18n')
         //-------------------------------------------------
 
         //XFLD
-        "ACCOUNT_DETAILS": "Kontodetails",
+        "UPDATE_ACCOUNT_DETAILS": "Kontodetails aktualisieren",
+        //TIT
+        "UPDATE_EMAIL": "E-Mail aktualisieren",
         //XBUT
         "ADD": "Hinzufügen",
         //XFLD
@@ -407,8 +409,10 @@ angular.module('ds.i18n')
         "CLOSE": "Schließen",
         //XFLD
         "COMPANY_NAME": "Unternehmen",
+        //XTIT
+        "CONFIRM_DELETE_ADDRESS_TITLE": "Delete Address",
         //XMSG
-        "CONFIRM_ADDRESS_REMOVAL": "Möchten Sie die Adresse wirklich entfernen?",
+        "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to delete this address?",
         //XFLD
         "FULL_NAME": "Vollständiger Name",
         //XFLD
