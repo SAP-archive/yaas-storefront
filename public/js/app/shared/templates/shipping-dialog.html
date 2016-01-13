@@ -1,13 +1,13 @@
 <div class="modal-header shippingZoneModalHeader" ng-cloak>
-  <button type="button" class="close" ng-click="closeAddressDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
+  <button type="button" class="close" ng-click="closeShippingZonesDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
   <h4 class="modal-title" id="myModalLabel">{{'SHIPPING_INFORMATION' | translate}}</h4>
 </div>
 <div class="shippingZoneModal modal-body">
   <div class="row">
-    <div class="zoneparent col-xs-12" ng-repeat="zone in shippingZones">
+    <div ng-if="zone.methods.length" class="zoneparent col-xs-12" ng-repeat="zone in shippingZones">
         <div class="zonetitle">
-            <p class="label">{{'SHIPPING_ZONE' | translate}} - {{zone.name}};
-            <p> {{'INCLUDES' | translate}} - <span ng-repeat="country in zone.shipTo"><span ng-if="!$first">, </span>{{country}}</span>          
+            <p class="label">{{zone.name}}
+            <p>{{'DESTINATION_COUNTRY' | translate}} - <span>{{zone.shipTo.join(', ')}}</span></p>
         </div>
         <div class="col-xs-12 zoneinfo">
             <div class="row" ng-repeat="method in zone.methods">

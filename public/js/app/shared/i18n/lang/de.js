@@ -331,6 +331,8 @@ angular.module('ds.i18n')
         //XMSG
         "NO_LIMIT": 'No Limit',
         //XMSG
+        "DESTINATION_COUNTRY": 'Destination country(s)',
+        //XMSG
         "ERROR_ADDING_TO_CART": "Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.",
 
         //XFLD
