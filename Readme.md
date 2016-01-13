@@ -218,7 +218,7 @@ At the core of what AngularJS is getting right, right now, are modules and compo
 
 ### Extensibility Plan
 
-The nice thing about the structure of AngularJS is that it gives you the ability to differentiate your business requirements into the architecture without ever having to touch the original codebase. This is possible if you are replicating the pieces that you need in parallel with the existing structure - like a scaffolding. For example before you make any modifications to say the gruntfile or the package.json - you should really split the That way, pulling down advancements in the demostore can be isolated to files that you are never using in production. Admittedly, this parallel replication process is low ceremony, but it becomes really helpful in extending the codbase year after year of feature implementation and sales growth. All while having a fully updated hybris demostore supporting your advancement while you develop. Those topics and more are discussed at the following DevPortal location:
+The nice thing about the structure of AngularJS is that it gives you the ability to differentiate your business requirements into the architecture without ever having to touch the original codebase. This is possible if you are replicating the pieces that you need in parallel with the existing structure - like a scaffolding. Those topics and more are discussed at the following DevPortal location:
 
 [https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html](https://devportal.yaas.io/overview/extensibility/extendingthestorefront.html)
 
