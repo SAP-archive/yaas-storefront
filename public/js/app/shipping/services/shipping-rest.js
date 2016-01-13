@@ -16,7 +16,7 @@
 angular.module('ds.checkout')
     .factory('ShippingREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
         return {
-            /** Configures main checkout API endpoint.*/
+            /** Configures main shipping API endpoint.*/
 
             ShippingZones: Restangular.withConfig(function(RestangularConfigurer) {
                             RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingZones.baseUrl);

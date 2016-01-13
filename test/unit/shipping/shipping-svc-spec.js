@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2014 hybris AG
+ * Copyright (c) 2000-2016 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -12,6 +12,8 @@
 describe('ShippingSvc', function() {
 
     var $scope, $rootScope, shippingSvc, mockedGlobalData;
+
+    var baseUrl = 'https://api.yaas.io/hybris/shipping/v1';
 
     var item = {
         'cartTotal': {
@@ -26,7 +28,7 @@ describe('ShippingSvc', function() {
             'state': 'IL',
             'country': 'US'
         }
-    }
+    };
 
     mockedGlobalData = {
         user: {
@@ -60,29 +62,24 @@ describe('ShippingSvc', function() {
 
         beforeEach(function () {
 
-            inject(function (_$httpBackend_, _$rootScope_, _ShippingSvc_, _$q_, SiteConfigSvc) {
+            inject(function (_$httpBackend_, _$rootScope_, _ShippingSvc_, ShippingREST) {
                 $rootScope = _$rootScope_;
                 $scope = _$rootScope_.$new();
                 $httpBackend = _$httpBackend_;
                 shippingSvc = _ShippingSvc_;
-                siteConfig = SiteConfigSvc;
-                siteConfig.apis.shippingZones.baseUrl + 'shipping';
-                $q = _$q_;
+                ShippingREST.ShippingZones.setBaseUrl(baseUrl);
             });
-
-            $httpBackend.whenGET(/^[A-Za-z-/]*\.html/).respond({});
-
 
         });
 
         it('should issue POST', function () {
-            $httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote').respond({});
+            $httpBackend.expectPOST(baseUrl + '/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
             $httpBackend.flush();
         });
 
         it('should issue POST', function () {
-            $httpBackend.expectPOST('https://api.yaas.io/hybris/shipping/v1/US/quote/minimum').respond({});
+            $httpBackend.expectPOST(baseUrl + '/US/quote/minimum').respond({});
             shippingSvc.getMinimumShippingCost(item);
             $httpBackend.flush();
         });
