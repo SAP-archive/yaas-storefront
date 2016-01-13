@@ -129,11 +129,6 @@ describe('ytracking', function () {
             }
             expect(containsCustomProcessing).toBe(true);
         });
-
-        it('should acquire consent-reference from opt-in service', function() {
-            $httpBackend.flush();
-            expect(mockedCookieSvc.setConsentReferenceCookie).toHaveBeenCalledWith(consentReference);
-        });
     });
 
     describe('yTracking events', function () {
