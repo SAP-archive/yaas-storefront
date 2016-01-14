@@ -335,6 +335,8 @@ angular.module('ds.i18n')
         //XMSG
         "INCLUDES": 'Includes',
         //XMSG
+        "DESTINATION_COUNTRY": 'Destination country(s)',
+        //XMSG
         "NO_LIMIT": 'No Limit',
         //XMSG
         "ERROR_ADDING_TO_CART": "Add to Cart was not successful.  Please try again.",

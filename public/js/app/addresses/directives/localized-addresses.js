@@ -81,7 +81,7 @@ angular.module('ds.addresses')
                 baseUrl = 'js/app/addresses/templates/';
 
                 // when locale is not recognized set default template
-                if( !_.contains(_.pluck(selectionArray, 'id'), locale) ){
+                if( !_.contains(_.pluck(selectionArray, 'id'), locale)){
                     if (viewType === 'addAddress') {
                         locale = 'US';
                     } else {
@@ -184,6 +184,9 @@ angular.module('ds.addresses')
                     //Here should be implmented logic for shipping address when is active
                     if (scope.viewTarget !== 'addAddress') {
                         var addressToShip = $rootScope.shipActive ? scope.order.shipTo : scope.order.billTo;
+                        if (!addressToShip.zipCode) {
+                            addressToShip.zipCode = '';
+                        }
                         $rootScope.closeCartOnCheckout();
                         $rootScope.$emit('updateShippingCost', {shipToAddress: addressToShip});
                     }

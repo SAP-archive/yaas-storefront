@@ -75,6 +75,7 @@ angular.module('ds.account')
 
             $scope.save = function (address, formValid, form /*,formObj*/) {
                 // console.log('AddrForm', formObj.$error.required); // Important debug for dynamic form validation.
+                console.log(address);
                 $scope.$broadcast('submitting:form', form);
                 if (formValid) {
                     AccountSvc.saveAddress(address).then(
@@ -98,6 +99,7 @@ angular.module('ds.account')
             };
 
             $scope.openAddressModal = function (address) {
+                console.log(address);
                 var fullName = '';
                 if ($scope.account.firstName) {
                     fullName = fullName + $scope.account.firstName + ' ';
@@ -108,10 +110,12 @@ angular.module('ds.account')
                 if ($scope.account.lastName) {
                     fullName = fullName + $scope.account.lastName;
                 }
+                console.log(address);
                 $scope.address = angular.copy(address || {
                     account: customerNumber,
                     contactName: fullName
                 });
+                console.log($scope.address);
                 $scope.showPristineErrors = false;
                 $scope.errors = [];
                 modalInstance = $modal.open({

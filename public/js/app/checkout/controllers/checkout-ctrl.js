@@ -543,7 +543,7 @@ angular.module('ds.checkout')
             });
 
             $scope.$on('site:updated', function () {
-                $scope.cart = CartSvc.getLocalCart();
+                $scope.cart = CartSvc.getCart();
             });
 
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
@@ -566,7 +566,7 @@ angular.module('ds.checkout')
                             $scope.showPristineErrors = false;
                         },
                         function (error) {
-                            if (error.status === 400 && error.data.details[0].field === 'addresses') {
+                            if (error.status === 400 && error.data.details && error.data.details[0].field === 'addresses') {
                                 $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_ADDRESS';
                                 $scope.showPristineErrors = true;
                             } else {

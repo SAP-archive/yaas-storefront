@@ -69,9 +69,8 @@
     <div class="col-lg-6">
     	<div class="form-group input-group"
             ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="cityBill">{{'STATE' | translate}}</label>
-            <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-            class="form-control" id="stateBill" name="state" required autocomplete="on"
+            <label class="input-group-addon control-label" for="stateBill">{{'STATE' | translate}}</label>
+            <input type="text" class="form-control" id="stateBill" name="state" autocomplete="on"
             ng-model="order.billTo.state" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
