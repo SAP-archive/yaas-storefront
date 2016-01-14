@@ -82,11 +82,7 @@ angular.module('ds.addresses')
 
                 // when locale is not recognized set default template
                 if( !_.contains(_.pluck(selectionArray, 'id'), locale)){
-                    if (viewType === 'addAddress') {
-                        locale = 'US';
-                    } else {
-                        locale = 'Default';
-                    }
+                    locale = 'DEFAULT';
                 }
 
                 // set dynamic template url and return promise
@@ -96,15 +92,9 @@ angular.module('ds.addresses')
                 return templateLoader;
             };
 
-            var getLocaleSelection = function(id, target) {
+            var getLocaleSelection = function(id) {
                 var locale = {};
-                var selectionCountries;
-                if (target === 'billing' || target === 'shipping') {
-                    selectionCountries = allCountries;
-                } else {
-                    selectionCountries = selectionArray;
-                }
-                angular.forEach(selectionCountries, function(item){
+                angular.forEach(allCountries, function(item){
                     if (item.id === id){
                         locale = item;
                     }
@@ -135,7 +125,7 @@ angular.module('ds.addresses')
                         }
                     );
                 } else {
-                    scope.localeSelections = selectionArray;
+                    scope.localeSelections = allCountries;
                 }
 
                 // localization selection handler
@@ -198,7 +188,7 @@ angular.module('ds.addresses')
 
                 // event for loading addressbook change request
                 var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
-                    var locale = getLocaleSelection(name, target);
+                    var locale = getLocaleSelection(name);
                     if( scope.viewTarget === target){
                         scope.localeSelection = locale;
                         scope.initializeLocale(locale);
