@@ -59,7 +59,7 @@
 
                 // handle dialog dismissal if user select back button, etc
                 $scope.$on('$destroy', function () {
-                    if ($scope.modalInstance) {
+                    if ($scope.modalInstance && $scope.modalInstance.dismiss) {
                         $scope.modalInstance.dismiss('cancel');
                     }
                 });

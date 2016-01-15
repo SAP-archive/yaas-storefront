@@ -43,6 +43,8 @@ angular.module('ds.i18n')
         //XFLD
         "PREVIEW_ORDER": "Preview Order",
         //XFLD
+        "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
+        //XFLD
         "FREE_SHIPPING": "Free Shipping and Returns in the US",
         //XFLD
         "ITEM": "Item",
@@ -144,6 +146,10 @@ angular.module('ds.i18n')
         "PLACED_AT": "Placed At",
         //XMSG
         "PLEASE_CORRECT_ERRORS": "Please correct the errors above before placing your order.",
+        //XMSG
+        "PLEASE_CORRECT_ERRORS_PREVIEW": "Please correct the errors above before previewing your order.",
+        //XMSG
+        "PLEASE_CORRECT_ERRORS_ADDRESS": "Please correct the address details before previewing your order.",
         //XMSG
         "PLEASE_ENTER_VALID_CC": "Please enter a valid credit card number",
         //XMSG

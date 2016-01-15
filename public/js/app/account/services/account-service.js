@@ -81,7 +81,6 @@ angular.module('ds.account')
              * Save addresses within logged in customer's address book.
              */
             saveAddress: function(address) {
-                address.zip = '60656';
                 var promise = address.id ? AuthREST.Customers.all('me').all('addresses').customPUT(address, address.id) : AuthREST.Customers.all('me').all('addresses').customPOST(address);
                 return promise;
             },

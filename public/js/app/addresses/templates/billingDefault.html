@@ -15,8 +15,8 @@
              ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
-                   required autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+            class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
+            required autocomplete="on" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
 
@@ -24,7 +24,7 @@
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-            <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" 
+            <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections"
                 ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
                 inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
             </select>
@@ -35,7 +35,7 @@
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
             <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
-                   autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+            autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
     <div class="col-lg-6">
@@ -43,7 +43,7 @@
             ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="address1Bill">{{'ADDRESS' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                   class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
+            class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
             required autocomplete="on" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
@@ -67,16 +67,25 @@
     </div>
 
     <div class="col-lg-6">
+    	<div class="form-group input-group"
+            ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
+            <label class="input-group-addon control-label" for="stateBill">{{'STATE' | translate}}</label>
+            <input type="text" class="form-control" id="stateBill" name="state" autocomplete="on"
+            ng-model="order.billTo.state" ng-change="$root.closeCartOnCheckout()">
+        </div>
+    </div>
+
+    <div class="col-lg-6">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
+            <label class="input-group-addon control-label" for="zipCodeBill">{{'ZIP' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
             class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
             ng-model="order.billTo.zipCode" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label>
             <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
