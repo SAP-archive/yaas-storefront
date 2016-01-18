@@ -558,9 +558,12 @@ angular.module('ds.checkout')
                             $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
                             if (calculatedCart.totalTax) {
                                 $scope.cart.totalTax.amount =  calculatedCart.totalTax.amount;
-                            }else {
+                            }
+                            else {
                                 $scope.cart.totalTax =  {amount: 0};
                             }
+                            $scope.cart.taxAggregate = angular.copy(calculatedCart.taxAggregate);
+
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
