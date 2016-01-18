@@ -202,7 +202,8 @@ angular.module('ds.cart')
                         unitPrice:{
                             amount: cart.items[i].price.originalAmount,
                             currency: cart.items[i].price.currency
-                        }
+                        },
+                        taxCode:cart.items[i].taxCode
                     };
                     items.push(item);
                 }
