@@ -107,14 +107,14 @@ describe("login:", function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
             tu.createAccount('addresstest');
-            tu.populateAddress('0', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            tu.populateAddress('United States', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             // expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
             expect(element(by.repeater('address in addresses').row(0).column('address.city')).getText()).toEqual('Boulder, CO 80301');
             expect(element(by.repeater('address in addresses').row(0).column('address.country')).getText()).toEqual('US');
             expect(element(by.repeater('address in addresses').row(0).column('address.contactPhone')).getText()).toEqual('303-303-3333');
-            tu.populateAddress('1', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
+            tu.populateAddress('Canada', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual('321 phony street, apt 420');
             expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual('Toronto, ON M4M 1H7');

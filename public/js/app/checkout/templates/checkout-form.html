@@ -127,7 +127,7 @@
         </small>
     </div>
     <button class="btn btn-primary btn-lg btn-block"
-            ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
+            id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
     </button>
     <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
 </div>
