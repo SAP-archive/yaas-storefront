@@ -45,7 +45,7 @@ describe('LocalizedAddresses Test', function () {
     scope.initializeLocale = jasmine.createSpy();
     $rootScope.updateShippingCost = jasmine.createSpy();
     mockGlobalData.getAllCountries = jasmine.createSpy();
-    mockBackend.expectGET('js/app/addresses/templates/addAddressDEFAULT.html').respond(template);
+    mockBackend.expectGET('js/app/addresses/templates/addAddressDefault.html').respond(template);
     var element = $compile("<localized-addresses type='addAddress'></localized-addresses>")($rootScope);
     $rootScope.$digest();
     expect(element.html()).toContain("");
