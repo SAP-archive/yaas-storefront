@@ -82,7 +82,7 @@ angular.module('ds.addresses')
 
                 // when locale is not recognized set default template
                 if( !_.contains(_.pluck(selectionArray, 'id'), locale)){
-                    locale = 'DEFAULT';
+                    locale = 'Default';
                 }
 
                 // set dynamic template url and return promise
