@@ -10,6 +10,7 @@ module.exports = function (grunt) {
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
+        TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
 
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
@@ -35,6 +36,10 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
+            translations: {
+                files: [TRANSLATIONS_DIR + '/**'],
+                tasks: ['compileTranslations']
+            },
             js: {
                 files: [JS_DIR + '/**'],
                 tasks: ['jshint:all']

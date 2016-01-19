@@ -1,6 +1,4 @@
 {
-
-
     //XFLD
     "en": "English",
     //XFLD
@@ -27,6 +25,8 @@
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD
     "PREVIEW_ORDER": "Preview Order",
+    //XFLD
+    "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
     //XFLD
     "FREE_SHIPPING": "Free Shipping and Returns in the US",
     //XFLD
@@ -64,7 +64,7 @@
     //XFLD
     "ADDRESS_LINE_2": "Address Line 2",
     //XGRP
-    "CANT_BE_SHIPPED": "Items cannot be shipped  to this location",
+    "CANT_BE_SHIPPED": "Items cannot be shipped to this location",
     //XGRP
     "BILLING_ADDRESS": "Billing Address",
     //XFLD
@@ -129,6 +129,10 @@
     "PLACED_AT": "Placed At",
     //XMSG
     "PLEASE_CORRECT_ERRORS": "Please correct the errors above before placing your order.",
+    //XMSG
+    "PLEASE_CORRECT_ERRORS_PREVIEW": "Please correct the errors above before previewing your order.",
+    //XMSG
+    "PLEASE_CORRECT_ERRORS_ADDRESS": "Please correct the address details before previewing your order.",
     //XMSG
     "PLEASE_ENTER_VALID_CC": "Please enter a valid credit card number",
     //XMSG
@@ -631,6 +635,8 @@
     "SEARCH_UNAVAILABLE": "Search is currently unavailable.",
     //XMSG
     "NO_RESULTS_FOUND": "No results found.",
+    //XFLD
+    "IN": "in",
 
     //XFLD
     //-------------------------------------------------
