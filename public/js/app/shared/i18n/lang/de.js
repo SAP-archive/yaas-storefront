@@ -654,6 +654,9 @@ angular.module('ds.i18n')
         "NO_RESULTS_FOUND": "Keine Ergebnisse gefunden.",
 
         //XFLD
+        "IN":"im",
+
+        //XFLD
         //-------------------------------------------------
         // FOOTER
         //-------------------------------------------------

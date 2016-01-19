@@ -16,7 +16,10 @@ describe('ySearch Test', function () {
     var $httpBackend, deferredConfig, ysearchREST;
     var mockedYSearchService;
     var templateHtml = '<div></div>';
-    var mockedGlobalData = {};
+    var mockedGlobalData = {
+        getCurrency: jasmine.createSpy().andReturn('USD'),
+        getCurrencySymbol: jasmine.createSpy().andReturn('$')
+    };
     var algoliaUrl = 'https://api.yaas.io/hybris/algolia-search/b1/';
     var searchResult = {
         query: 'text',
@@ -59,7 +62,7 @@ describe('ySearch Test', function () {
         $httpBackend.whenGET('js/app/shared/templates/ysearch.html').respond(200, templateHtml);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_, _$q_, ysearchREST, ysearchSvc) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_, _$q_, ysearchREST, ysearchSvc, GlobalData) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $compile = _$compile_;
@@ -125,6 +128,27 @@ describe('ySearch Test', function () {
 
         beforeEach(function () {
             $scope.doSearch = jasmine.createSpy('scope.doSearch');
+        });
+
+        it('should reload the currency as soon as showSearchResults is called', function () {
+            $scope.showSearchResults();
+            expect(mockedGlobalData.getCurrency).toHaveBeenCalled();
+            expect(mockedGlobalData.getCurrencySymbol).toHaveBeenCalled();
+            expect(mockedGlobalData.getCurrency.calls.length).toEqual(1);
+            expect(mockedGlobalData.getCurrencySymbol.calls.length).toEqual(1);
+            expect($scope.currency).toEqual('USD');
+            expect($scope.currencySymbol).toEqual('$');
+
+            // simulate a currency change
+            mockedGlobalData.getCurrency.andReturn('EUR');
+            mockedGlobalData.getCurrencySymbol.andReturn('€');
+
+            // second call should update the currency
+            $scope.showSearchResults();
+            expect(mockedGlobalData.getCurrency.calls.length).toEqual(2);
+            expect(mockedGlobalData.getCurrencySymbol.calls.length).toEqual(2);
+            expect($scope.currency).toEqual('EUR');
+            expect($scope.currencySymbol).toEqual('€');
         });
 
         it('should showSearchResults when search text is not empty and returned search results length === 0 and do search', function () {
