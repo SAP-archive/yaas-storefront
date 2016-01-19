@@ -118,6 +118,11 @@ module.exports = function(config){
         'public/js/app/account/account-index.js',
         'public/js/app/account/controllers/account-ctrl.js',
         'public/js/app/account/controllers/account-order-detail-ctrl.js',
+        'public/js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js',
+        'public/js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js',
+        'public/js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js',
+        'public/js/app/account/directives/customer-details/customer-details-directive.js',
+        'public/js/app/account/directives/customer-details/customer-details-ctrl.js',
         'public/js/app/account/services/account-service.js',
 
         'public/js/app/addresses/addresses-index.js',
@@ -154,9 +159,9 @@ module.exports = function(config){
 
         'test/unit/*.js',
         'test/unit/account/*.js',
+        'test/unit/account/**/*.js',
         'test/unit/addresses/*.js',
         'test/unit/auth/*.js',
-        'test/unit/account/*.js',
         'test/unit/cart/*.js',
         'test/unit/checkout/*.js',
         'test/unit/confirmation/*.js',
@@ -166,7 +171,8 @@ module.exports = function(config){
         'test/unit/orders/*.js',
         'test/unit/products/*.js',
         'test/unit/search/*.js',
-        'test/unit/shared/**/*.js'
+        'test/unit/shared/**/*.js',
+        'test/unit/shipping/**/*.js'
 
     ],
 

@@ -16,7 +16,7 @@
 angular.module('ds.checkout')
     .factory('ShippingREST', ['Restangular', 'SiteConfigSvc', 'GlobalData', function(Restangular, siteConfig, GlobalData){
         return {
-            /** Configures main checkout API endpoint.*/
+            /** Configures main shipping API endpoint.*/
 
             ShippingZones: Restangular.withConfig(function(RestangularConfigurer) {
                             RestangularConfigurer.setBaseUrl(siteConfig.apis.shippingZones.baseUrl);
@@ -24,7 +24,7 @@ angular.module('ds.checkout')
                                 return {
                                     element: element,
                                     params: params,
-                                    headers: _.extend(headers, {'hybris-currency': GlobalData.getCurrencyId()}),
+                                    headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
                                     httpConfig: httpConfig
                                 };
                             });
