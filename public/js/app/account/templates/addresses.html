@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="panel-body" ng-click="ifShipAddressApplicable(address.country, address, target)" ng-if="isDialog">
+    <div class="panel-body" ng-click="ifShipAddressApplicable(address, target)" ng-if="isDialog">
       <div class="btn-group-vertical pull-right states-toolbar">
         <button class="btn btn-link btn-lg" ng-class="{ 'active': address.selected, 'defaultAddress': address.isDefault }" ng-if="address.selected"><span class="glyphicon glyphicon-check"></span></button>
       </div>

@@ -43,6 +43,8 @@ angular.module('ds.i18n')
         //XFLD
         "PREVIEW_ORDER": "Preview Order",
         //XFLD
+        "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
+        //XFLD
         "FREE_SHIPPING": "Versand und Rücksendung in den USA kostenlos",
         //XFLD
         "ITEM": "Position",
@@ -144,6 +146,10 @@ angular.module('ds.i18n')
         "PLACED_AT": "Bestellt am",
         //XMSG
         "PLEASE_CORRECT_ERRORS": "Korrigieren Sie vor dem Bestellen die oben aufgeführten Fehler.",
+        //XMSG
+        "PLEASE_CORRECT_ERRORS_PREVIEW": 'Please correct the errors above before previewing your order.',
+        //XMSG
+        "PLEASE_CORRECT_ERRORS_ADDRESS": 'Please correct the address details before previewing your order.',
         //XMSG
         "PLEASE_ENTER_VALID_CC": "Geben Sie eine gültige Kreditkartennummer ein",
         //XMSG
@@ -646,6 +652,9 @@ angular.module('ds.i18n')
         "SEARCH_UNAVAILABLE": "Die Suche ist zurzeit nicht verfügbar.",
         //XMSG
         "NO_RESULTS_FOUND": "Keine Ergebnisse gefunden.",
+
+        //XFLD
+        "IN":"im",
 
         //XFLD
         //-------------------------------------------------
