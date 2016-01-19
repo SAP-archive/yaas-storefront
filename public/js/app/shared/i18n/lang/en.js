@@ -652,7 +652,9 @@ angular.module('ds.i18n')
         "SEARCH_UNAVAILABLE": "Search is currently unavailable.",
         //XMSG
         "NO_RESULTS_FOUND":"No results found.",
-        
+        //XFLD
+        "IN":"in",
+
         //XFLD
         //-------------------------------------------------
         // FOOTER
