@@ -22,7 +22,6 @@ describe('ErrorsCtrl Test', function () {
     }
 
     beforeEach(module('ds.errors', function ($provide) {
-        $provide.value('$translate', mockedTranslate);
         $provide.value('$state', mockedState);
     }));
 
