@@ -367,7 +367,7 @@ angular.module('ds.i18n')
         //XBUT
         "SIGN_IN_WITH_FACEBOOK": "Über Facebook anmelden",
         //XBUT
-        "LOG_IN_WITH_GOOGLE_PLUS": "Über Google+ anmelden",
+        "LOG_IN_WITH_GOOGLE": "Über Google anmelden",
         //XBUT
         "MY_ACCOUNT": "Mein Konto",
         //XBUT

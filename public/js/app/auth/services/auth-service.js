@@ -117,28 +117,24 @@ angular.module('ds.auth')
                 },
 
 
-                onGoogleLogIn: function (gToken) {
+                onGoogleLogIn: function (gToken, user) {
 
                     AuthenticationService.socialLogin('google', gToken).then(function () {
-                        $rootScope.$emit('user:socialLogIn', {loggedIn: true});
-                        /*try {
-                            window.gapi.client.load('plus', 'v1').then(function () {
-                                window.gapi.client.plus.people.get({
-                                    'userId': 'me'
-                                }).then(function (response) {
-                                    if (response.result) {
-                                        SessionSvc.afterSocialLogin({
-                                            email: response.result.emails[0].value,
-                                            firstName: response.result.name.givenName,
-                                            lastName: response.result.name.familyName
-                                        });
-                                    }
-
-                                });
+                        $rootScope.$emit('user:socialLogIn', {loggedIn: true, socialImg: user.image, provider: 'google'});
+                        try {
+                            GlobalData.customerAccount = {
+                                contactEmail: user.email,
+                                firstName: user.firstname,
+                                lastName: user.lastname
+                            };
+                            SessionSvc.afterSocialLogin({
+                                email: user.email,
+                                firstName: user.firstname,
+                                lastName: user.lastname
                             });
                         } catch (error) {
                             console.error('Unable to load Google+ user profile');
-                        }*/
+                        }
                     }, function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: false});
                     });
@@ -202,6 +198,7 @@ angular.module('ds.auth')
                     // unset token after logout - new anonymous token will be generated for next request automatically
                     TokenSvc.unsetToken(settings.accessCookie);
                     SessionSvc.afterLogOut();
+                    $rootScope.$emit('user:socialLogOut');
                 },
 
                 /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/

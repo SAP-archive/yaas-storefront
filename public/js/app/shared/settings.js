@@ -84,5 +84,7 @@ angular.module('ds.shared')
             unknown: 'unknown',
             languageUpdate: 'languageUpdate',
             siteUpdate: 'siteUpdate'
-        }
+        },
+
+        avatarImagePlaceholder: './img/user-icon_small_active.png'
     });

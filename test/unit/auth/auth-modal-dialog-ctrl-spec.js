@@ -15,7 +15,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
 
-        deferredSignIn, deferredSignUp, deferredSocialLogin;
+        deferredSignIn, deferredSignUp, deferredSocialLogin, Google;
     var mockedForm = {};
 
     var mockedState = {
@@ -113,7 +113,7 @@ describe('AuthModalDialogCtrl Test', function () {
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, AuthSvc: MockedAuthSvc,
-                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false, $state: mockedState}
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false, $state: mockedState, Google: Google}
        );
     });
 
@@ -224,33 +224,6 @@ describe('AuthModalDialogCtrl Test', function () {
             var token = 'token';
             $scope.fbLogin();
             expect(MockedAuthSvc.faceBookLogin).toHaveBeenCalled();
-        });
-    });
-
-
-    describe('onGoogleLogin', function(){
-       it('should invoke social login for non-auto login', function(){
-           var token = 'token';
-           var eventObj = {
-               access_token: token,
-                status:{method: 'whatever'}
-           };
-           $rootScope.$broadcast('event:google-plus-signin-success', eventObj );
-           deferredSocialLogin.resolve();
-           $scope.$apply();
-           expect(MockedAuthSvc.onGoogleLogIn).toHaveBeenCalled();
-       });
-
-        it('should NOT invoke social login for auto login', function(){
-            var token = 'token';
-            var eventObj = {
-                access_token: token,
-                status:{method: 'AUTO'}
-            };
-            $rootScope.$broadcast('event:google-plus-signin-success', eventObj );
-            deferredSocialLogin.resolve();
-            $scope.$apply();
-            expect(MockedAuthSvc.socialLogin).not.toHaveBeenCalled();
         });
     });
 

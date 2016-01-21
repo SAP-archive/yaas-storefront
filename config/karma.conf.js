@@ -136,6 +136,7 @@ module.exports = function(config){
         'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
         'public/js/app/auth/services/session-service.js',
+        'public/js/app/auth/services/google-provider.js',
 
         'public/js/app/shared/router.js',
         'public/js/app/shared/http-proxy.js',

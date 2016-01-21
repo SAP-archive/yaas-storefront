@@ -14,15 +14,34 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings', 'Google',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings, Google) {
 
             $scope.GlobalData = GlobalData;
             $scope.categories = CategorySvc.getCategoriesFromCache();
 
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
+
+            function resetAvatarImg () {
+                $scope.userAvatar = settings.avatarImagePlaceholder;
+            }
+
+            if (GlobalData.customerAccount  && GlobalData.customerAccount.accounts[0].providerId === 'google') {
+                Google.getUser().then(function (user) {
+                    if (user.image) {
+                        $scope.userAvatar = user.image;
+                    } else {
+                        resetAvatarImg();
+                    }
+                });
+                $scope.googleSignedIn = true;
+            } else {
+                Google.loadData();
+                $scope.googleSignedIn = false;
+                resetAvatarImg();
+            }
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
                 if(!$scope.categories || obj.source === settings.eventSource.languageUpdate){
@@ -36,8 +55,23 @@ angular.module('ds.shared')
                 $scope.cart = eveObj.cart;
             });
 
+            var unbindSocialLogin = $rootScope.$on('user:socialLogIn', function(eve, eveObj){
+                if (eveObj.socialImg) {
+                    $scope.userAvatar = eveObj.socialImg;
+                }
+                if (eveObj.provider === 'google') {
+                    $scope.googleSignedIn = true;
+                }
+            });
+
+            var unbindSocialLogout = $rootScope.$on('user:socialLogOut', function () {
+                resetAvatarImg();
+            });
+
             $scope.$on('$destroy', unbind);
             $scope.$on('$destroy', unbindCats);
+            $scope.$on('$destroy', unbindSocialLogin);
+            $scope.$on('$destroy', unbindSocialLogout);
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */
@@ -59,37 +93,9 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
-                var meta = document.createElement('meta');
-                meta.name = 'google-signin-scope';
-                meta.content = 'profile email';
-                document.getElementsByTagName('head')[0].appendChild(meta);
-
-                meta.name = 'google-signin-client_id';
-                meta.content = settings.googleClientId;
-                document.getElementsByTagName('head')[0].appendChild(meta);
-
-                var s, r, t;
-                r = false;
-                s = document.createElement('script');
-                s.type = 'text/javascript';
-                s.src = 'https://apis.google.com/js/platform.js';
-                s.onload = s.onreadystatechange = function() {
-                    if ( !r && (!this.readyState || this.readyState === 'complete')) {
-                        r = true;
-                        window.gapi.load('auth2', function() {
-                            var GoogleAuth  = window.gapi.auth2.getAuthInstance();
-                            console.log(GoogleAuth);
-                            GoogleAuth.signOut().then(function () {
-                                console.log('User signed out.');
-                            });
-                        });
-                        
-                    }
-                };
-                t = document.getElementsByTagName('script')[0];
-                t.parentNode.insertBefore(s, t);
-
-
+                if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
+                    Google.logout();
+                }
                 AuthSvc.signOut();
             };
             
