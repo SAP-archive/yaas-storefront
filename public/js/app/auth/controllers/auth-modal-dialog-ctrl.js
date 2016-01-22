@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state', 'Google',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state, Google) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state', 'YGoogleSignin',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state, YGoogleSignin) {
 
             $scope.user = {
                 signup: {},
@@ -94,7 +94,7 @@ angular.module('ds.auth')
             };
 
             $scope.googleLogin = function () {
-                Google.login();
+                YGoogleSignin.login();
             };
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){

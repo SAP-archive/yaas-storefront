@@ -1,4 +1,4 @@
-angular.module('google', []).provider('Google', [ function() {
+angular.module('ds.ygooglesignin', []).provider('YGoogleSignin', [ function() {
 
     'use strict';
 

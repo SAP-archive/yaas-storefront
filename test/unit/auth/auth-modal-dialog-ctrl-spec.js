@@ -15,7 +15,7 @@ describe('AuthModalDialogCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
 
-        deferredSignIn, deferredSignUp, deferredSocialLogin, Google;
+        deferredSignIn, deferredSignUp, deferredSocialLogin, YGoogleSignin;
     var mockedForm = {};
 
     var mockedState = {
@@ -113,7 +113,7 @@ describe('AuthModalDialogCtrl Test', function () {
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, AuthSvc: MockedAuthSvc,
-                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false, $state: mockedState, Google: Google}
+                settings: mockedSettings, AuthDialogManager: mockedAuthDialogManager, loginOpts: mockedLoginOpts, showAsGuest: false, $state: mockedState, YGoogleSignin: YGoogleSignin}
        );
     });
 

@@ -92,7 +92,7 @@ describe('TopNavigationCtrl', function () {
     beforeEach(function () {
         navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc,
             GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:mockAuthDialogManager,
-            CategorySvc: mockedCategorySvc, Google: mockedGoogle});
+            CategorySvc: mockedCategorySvc, YGoogleSignin: mockedGoogle});
     });
 
     describe('initialization', function(){

@@ -14,9 +14,9 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings', 'Google',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings', 'YGoogleSignin',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings, Google) {
+        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings, YGoogleSignin) {
 
             $scope.GlobalData = GlobalData;
             $scope.categories = CategorySvc.getCategoriesFromCache();
@@ -29,7 +29,7 @@ angular.module('ds.shared')
             }
 
             if (GlobalData.customerAccount  && GlobalData.customerAccount.accounts[0].providerId === 'google') {
-                Google.getUser().then(function (user) {
+                YGoogleSignin.getUser().then(function (user) {
                     if (user.image) {
                         $scope.userAvatar = user.image;
                     } else {
@@ -38,7 +38,7 @@ angular.module('ds.shared')
                 });
                 $scope.googleSignedIn = true;
             } else {
-                Google.loadData();
+                YGoogleSignin.loadData();
                 $scope.googleSignedIn = false;
                 resetAvatarImg();
             }
@@ -94,7 +94,7 @@ angular.module('ds.shared')
 
             $scope.logout = function() {
                 if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
-                    Google.logout();
+                    YGoogleSignin.logout();
                 }
                 AuthSvc.signOut();
             };
