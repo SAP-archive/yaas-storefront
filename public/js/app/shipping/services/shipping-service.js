@@ -24,11 +24,13 @@ angular.module('ds.checkout')
                 var shippingZones;
                 var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
-                ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     for (var i = 0; i < shippingZones.length; i++) {
                         for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
-                            shipToCountries.push(shippingZones[i].shipTo[j]);
+                            if (shippingZones[i].methods.length) {
+                                shipToCountries.push(shippingZones[i].shipTo[j]);
+                            }
                         }
                     }
                     deferred.resolve(shipToCountries);
