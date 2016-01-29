@@ -536,6 +536,7 @@ angular.module('ds.checkout')
 
             $rootScope.closeCartOnCheckout = function () {
                 $scope.displayCart = false;
+                $location.hash('');
             };
 
             $rootScope.$on('preview:order', function (eve, eveObj) {
@@ -545,6 +546,10 @@ angular.module('ds.checkout')
             $scope.$on('site:updated', function () {
                 $scope.cart = CartSvc.getCart();
             });
+
+            if ($location.hash() === 'preview-order') {
+                $location.hash('');
+            }
 
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
                 $scope.messagePreviewOrder = null;
@@ -567,6 +572,8 @@ angular.module('ds.checkout')
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
+                            $location.hash('preview-order');
+                            $anchorScroll();
                         },
                         function (error) {
                             if (error.status === 400 && error.data.details && error.data.details[0].field === 'addresses') {
