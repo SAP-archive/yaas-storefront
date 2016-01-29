@@ -31,12 +31,15 @@
                         <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                         <div>
-                            <span class='css-select-moz'>
-                                <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                    <option value="name">A-Z</option>
-                                    <option value="name:desc">Z-A</option>
-                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
-                                </select>
+                            <span>
+                                <ui-select ng-model="$parent.sort" on-select="setSortedPage($item.id)">
+                                    <ui-select-match>
+                                        {{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item.id as item in (sortParams | filter: $select.search)">
+                                        <span ng-bind="item.name"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </span>
                         </div>
                     </div>

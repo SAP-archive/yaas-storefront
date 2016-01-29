@@ -15,9 +15,14 @@
         <div class="col-lg-12">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
-                    <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
-                </select>
+                <ui-select ng-model="$parent.localeSelection" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                        <span ng-bind="item.name"></span>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 
@@ -59,22 +64,14 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': !shipToSameAsBillTo && shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'PROVINCE' | translate}}</label>
-                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="!shipToSameAsBillTo && shipToForm.country.$viewValue.id === 'CA'" ng-model="order.shipTo.state" id="stateShip" name="state" ng-change="$root.closeCartOnCheckout()">
-                    <option value=""></option> 
-                    <option value="AB">Alberta</option> 
-                    <option value="BC">British Columbia</option> 
-                    <option value="MB">Manitoba</option> 
-                    <option value="NB">New Brunswick</option> 
-                    <option value="NL">Newfoundland and Labrador</option> 
-                    <option value="NS">Nova Scotia</option> 
-                    <option value="NT">Northwest Territories</option> 
-                    <option value="NU">Nunavut</option> 
-                    <option value="ON">Ontario</option> 
-                    <option value="PE">Prince Edward Island</option> 
-                    <option value="QC">Quebec</option> 
-                    <option value="SK">Saskatchewan</option> 
-                    <option value="YT">Yukon</option>
-                </select>
+                <ui-select ng-model="order.shipTo.state" id="stateShip" name="state" required>
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="item.id as item in (caProvinces | filter: $select.search)">
+                        <span ng-bind="item.name"></span>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 

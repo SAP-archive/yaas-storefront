@@ -32,6 +32,7 @@ angular.module('ds.searchlist')
             $scope.prices = {};
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+            $scope.sortParams = GlobalData.getSearchRefinements();
 
             $scope.pagination = {
                 productsFrom: 1,

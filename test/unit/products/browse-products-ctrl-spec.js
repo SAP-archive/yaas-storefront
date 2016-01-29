@@ -10,6 +10,7 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.products.meta.total = 10;
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
+    mockedGlobalData.getProductRefinements = jasmine.createSpy('getProductRefinements').andReturn([{id: 'name', name: 'A-Z'}]);
     mockedCategory.id = 123;
     mockedCategory.assignments = [
         {

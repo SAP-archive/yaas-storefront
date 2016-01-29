@@ -278,7 +278,6 @@ angular.module('ds.checkout')
                 if ($scope.order.billTo.country) {
                     $scope.order.shipTo.country = $scope.order.billTo.country;
                 }
-                //$scope.order.shipTo.zipCode = '';
                 selectedShippingAddress = $scope.order.shipTo;
                 $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
                 $scope.shipToSameAsBillTo = false;
@@ -590,6 +589,9 @@ angular.module('ds.checkout')
 
             var updateShippingCost = function (shipToAddress) {
                 var address = shipToAddress;
+                if (!address.zipCode) {
+                    address.zipCode = '';
+                }
                 var cart = $scope.cart;
                 if ($scope.isShipToCountry(shipToAddress.country)) {
 

@@ -457,6 +457,14 @@ angular.module('ds.shared')
 
                 getUserTitles: function () {
                     return ['', 'MR', 'MS', 'MRS', 'DR'];
+                },
+
+                getProductRefinements: function () {
+                    return [{id: 'name', name: 'A-Z'}, {id: 'name:desc', name: 'Z-A'}, {id: 'metadata.createdAt:desc', name: $translate.instant('NEWEST')}];
+                },
+
+                getSearchRefinements: function () {
+                    return [{id:'mostRelevant', name: $translate.instant('MOST_RELEVANT')}];
                 }
 
             };

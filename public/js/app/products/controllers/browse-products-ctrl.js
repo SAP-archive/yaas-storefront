@@ -28,6 +28,7 @@ angular.module('ds.products')
             $scope.prices = {};
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+            $scope.sortParams = GlobalData.getProductRefinements();
 
             $scope.pagination = {
                 productsFrom: 1,

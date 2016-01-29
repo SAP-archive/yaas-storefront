@@ -14,10 +14,14 @@
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-            <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" 
-                ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
-                inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
-            </select>
+            <ui-select ng-model="$parent.localeSelection" on-select="changeLocale($item)">
+                <ui-select-match>
+                    <span ng-bind="$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                    <span ng-bind="item.name"></span>
+                </ui-select-choices>
+            </ui-select>
         </div>
     </div>
 

@@ -11,7 +11,7 @@ describe('SearchListCtrl', function () {
     mockedGlobalData.products.meta.total = 0;
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
-
+    mockedGlobalData.getSearchRefinements = jasmine.createSpy('getProductRefinements').andReturn([{id:'mostRelevant', name: 'Most Relevant'}]);
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 

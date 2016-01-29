@@ -17,8 +17,8 @@
  **/
 
 angular.module('ds.addresses')
-    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData', 'ShippingSvc',
-        function($compile, $http, $templateCache, $rootScope, GlobalData, ShippingSvc) {
+    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'ShippingSvc', 'countries',
+        function($compile, $http, $templateCache, $rootScope, ShippingSvc, countries) {
 
             var selectionArray = [
                 {id: 'US', name:'USA'},
@@ -28,7 +28,7 @@ angular.module('ds.addresses')
                 // {id: 'CN', name:'CHINA'},
                 // {id: 'JP', name:'JAPAN'}];
 
-            var allCountries = GlobalData.getAllCountries();
+            var allCountries = countries.world.countries;
 
             var initialize = function(scope, elem, viewType){
                 // init with default template type
@@ -39,25 +39,22 @@ angular.module('ds.addresses')
             var selectDefaultLocale = function (scope, viewType) {
 
                 if (!scope.localeSelection) {
-                    scope.localeSelection = selectionArray[0];
-                    if (viewType !== 'addAddress') {
-                        scope.localeSelection = {id: '', name: ''};
-                    }
+                    scope.localeSelection = {};
                 }
                 switch(viewType){
                     case 'addAddress':
                         if (scope.address) {
-                            scope.address.country = scope.localeSelection.id;
+                            scope.address.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     case 'billing':
                         if (scope.order.billTo) {
-                            scope.order.billTo.country = scope.localeSelection.id;
+                            scope.order.billTo.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     case 'shipping':
                         if (scope.order.shipTo) {
-                            scope.order.shipTo.country = scope.localeSelection.id;
+                            scope.order.shipTo.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     default:
@@ -117,6 +114,8 @@ angular.module('ds.addresses')
             var templateLinker = function(scope, element, attrs) {
 
                 scope.viewTarget = attrs.type;
+                scope.usStates = countries.us.states;
+                scope.caProvinces = countries.canada.provinces;
 
                 if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(

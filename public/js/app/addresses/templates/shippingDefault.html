@@ -14,12 +14,16 @@
 
         <div class="col-lg-12">
             <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.country.$invalid && ( shipToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                     ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="countryShip" name="country" ng-required="!shipToSameAsBillTo">
-                        <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
-                </select>
+                ng-class="{'has-error': !shipToForm.country.$viewValue.id && ( shipToForm.country.$dirty || showPristineErrors) }">
+                <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
+                <ui-select ng-model="$parent.localeSelection" on-select="changeLocale($item)" ng-required="true" id="countryShip" name="country">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                        <span ng-bind="item.name"></span>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 
@@ -61,7 +65,7 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="stateShip" name="state" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.state" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                <input type="text" class="form-control" id="stateShip" name="state" ng-model="order.shipTo.state" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
