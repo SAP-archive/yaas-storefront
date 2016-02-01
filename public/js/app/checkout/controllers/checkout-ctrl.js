@@ -546,6 +546,11 @@ angular.module('ds.checkout')
                 $scope.cart = CartSvc.getCart();
             });
 
+            $rootScope.$on('language:updated', function () {
+                var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
+                updateShippingCost(addressToShip);
+            });
+
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
                 $scope.messagePreviewOrder = null;
                 if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
@@ -589,6 +594,9 @@ angular.module('ds.checkout')
             });
 
             var updateShippingCost = function (shipToAddress) {
+                if (!shipToAddress.zipCode) {
+                    shipToAddress.zipCode = '';
+                }
                 var address = shipToAddress;
                 var cart = $scope.cart;
                 if ($scope.isShipToCountry(shipToAddress.country)) {
