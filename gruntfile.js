@@ -24,7 +24,7 @@ module.exports = function (grunt) {
         STAGE_DOMAIN = 'api.stage.yaas.io',
         TEST_DOMAIN = 'api.yaas.ninja',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
-        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang-*.json',
+        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:test [:stage or :prod] to specify.';
 
     require('load-grunt-tasks')(grunt);
@@ -174,7 +174,7 @@ module.exports = function (grunt) {
                         src: ['*.json'],
                         dest: 'public/js/app/shared/i18n/lang/',
                         rename: function (dest, src) {
-                            return dest + src.replace(/^dev-/, 'lang-');
+                            return dest + src.replace(/^dev_/, 'lang_');
                         }
                     }
                 ]

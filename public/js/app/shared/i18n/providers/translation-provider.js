@@ -18,7 +18,7 @@ angular.module('ds.i18n')
 		function TranslationProvider($translateProvider, translateSettings) {
 
 			$translateProvider.useStaticFilesLoader({
-			    prefix: '/js/app/shared/i18n/lang/lang-',
+			    prefix: '/js/app/shared/i18n/lang/lang_',
 			    suffix: '.json'
 			});
 
