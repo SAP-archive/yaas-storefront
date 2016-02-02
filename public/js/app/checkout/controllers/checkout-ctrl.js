@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc', '$timeout',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc, $timeout) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -536,7 +536,6 @@ angular.module('ds.checkout')
 
             $rootScope.closeCartOnCheckout = function () {
                 $scope.displayCart = false;
-                $location.hash('');
             };
 
             $rootScope.$on('preview:order', function (eve, eveObj) {
@@ -547,9 +546,13 @@ angular.module('ds.checkout')
                 $scope.cart = CartSvc.getCart();
             });
 
-            if ($location.hash() === 'preview-order') {
-                $location.hash('');
-            }
+            $scope.scrollTo = function (id, yOffset) {
+                $anchorScroll.yOffset = yOffset;
+                var old = $location.hash();
+                $location.hash(id);
+                $anchorScroll();
+                $location.hash(old);
+            };
 
             $scope.previewOrder = function (shipToFormValid, billToFormValid) {
                 $scope.messagePreviewOrder = null;
@@ -572,8 +575,9 @@ angular.module('ds.checkout')
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
-                            $location.hash('preview-order');
-                            $anchorScroll();
+                            $timeout(function () {
+                                $scope.scrollTo('preview-order', 20);
+                            }, 1);
                         },
                         function (error) {
                             if (error.status === 400 && error.data.details && error.data.details[0].field === 'addresses') {
