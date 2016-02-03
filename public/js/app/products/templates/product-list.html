@@ -1,67 +1,108 @@
 <!-- directive: force-scroll -->
 <div ng-cloak>
+    
+    <!-- hero spot -->
     <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
         <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
         </blockquote>
     </div>
-    <ybreadcrumb yitem="category" size="large"></ybreadcrumb>
-    <section class="white">
-        <div class="refine-section">
 
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 class="pageTitle"><span ng-if="category.name">{{ category.name }}</span><span ng-if="!category.name">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
-                </div>
-                <div class="col-sm-offset-6 col-md-offset-6 col-sm-6 col-md-6">
-                    <div class="viewingContainer">
-                        <div class="name">{{'VIEWING' | translate}}:</div>
-                        <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
-                                translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- refinement section -->
+    <div class="refine-section">
         <div class="row">
-             <div class="clearfix visible-sm"></div>
-            <div class="col-sm-7 col-md-6 col-lg-3">
-                <div class="sortContainer">
-                    <div class="name">{{'SORT_BY' | translate}}:</div>
-                    <div class="form-group">
-                        <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
+            <div class="content-container">
 
-                        <div>
-                            <span class='css-select-moz'>
-                                <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                    <option value="name">A-Z</option>
-                                    <option value="name:desc">Z-A</option>
-                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
-                                </select>
-                            </span>
+                <div class="clearfix visible-sm"></div>
+                
+                <!-- sort control -->
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
+                    <div class="sortContainer">
+                        <div class="name">{{'SORT_BY' | translate}}:</div>
+                        <div class="form-group">
+                            <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
+
+                            <div>
+                                <span class='css-select-moz'>
+                                    <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
+                                        <option value="name">A-Z</option>
+                                        <option value="name:desc">Z-A</option>
+                                        <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
+                                    </select>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- pagination control -->
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3 pull-right">
+                    <div class="viewingContainer">
+                        <span class="name">{{'VIEWING' | translate}}</span>
+                        <span class="page-indicator" 
+                             translate="PRODUCTS_FROM_TO" 
+                             translate-compile
+                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- bread crumbs -->
+    <ybreadcrumb yitem="category" size="large"></ybreadcrumb>
+
+    <section class="white">
+
+        <!-- page title -->
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h1 class="pageTitle productListTitle"><span ng-if="category.name">{{ category.name }}</span><span ng-if="!category.name">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
             </div>
         </div>
 
-        <div id="refineAffix" class=" refine-section responsive-fixed">
+        <!-- sticky refinements bar -->
+        <div id="refineAffix" class="refine-section responsive-fixed">
             <div class="row">
+                <div class="content-container">
 
-                <div class="col-xs-12">
-                    <div class="viewingContainer">
-                        <div class="name">{{'VIEWING' | translate}}:</div>
-                        <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
-                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
+                    <!-- sort control -->
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
+                        <div class="sortContainer">
+                            <div class="name">{{'SORT_BY' | translate}}:</div>
+                            <div class="form-group">
+                                <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
+                                <div>
+                                    <span class='css-select-moz'>
+                                        <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
+                                            <option value="name">A-Z</option>
+                                            <option value="name:desc">Z-A</option>
+                                            <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- pagination control -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3 pull-right">
+                        <div class="viewingContainer">
+                            <div class="name">{{'VIEWING' | translate}}</div>
+                            <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
+                                 translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <!-- Note:  infinite-scroll directive must not be combined with ng-repeat:  http://binarymuse.github.io/ngInfiniteScroll/faq.html  -->
 
-    <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
+        <div class="row product-grid" infinite-scroll="addMore()" infinite-scroll-distance="0"
          infinite-scroll-immediate-check="false"
          infinite-scroll-data="pagination" ng-cloak
          infinite-scroll-visible-items>
@@ -72,7 +113,6 @@
 
                 <div class="thumb">
                     <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
-
                 </div>
                 <div class="productInfoContainer text-center">
                     <div class="name">{{ product.product.name }}</div>
@@ -88,10 +128,13 @@
                 </div>
             </a>
         </div>
+        </div>
 
+        <!-- back to top button -->
         <button type="button" id="to-top-btn" ng-click="backToTop()" class="btn btn-link back-to-top-button pull-left menu">
             <span class="hyicon hyicon-chevron-bold-up" />
         </button>
+
     </section>
 </div>
 
