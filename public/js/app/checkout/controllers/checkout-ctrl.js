@@ -539,7 +539,7 @@ angular.module('ds.checkout')
             };
 
             $rootScope.$on('preview:order', function (eve, eveObj) {
-                $scope.previewOrder(eveObj.shipToDone, eveObj.billToDone);
+                previewOrder(eveObj.shipToDone, eveObj.billToDone);
             });
 
             $scope.$on('site:updated', function () {
@@ -554,7 +554,16 @@ angular.module('ds.checkout')
                 $location.hash(old);
             };
 
-            $scope.previewOrder = function (shipToFormValid, billToFormValid) {
+            $scope.previewOrderDesktop = function (shipToValid, billToValid) {
+                previewOrder(shipToValid, billToValid).then(function () {
+                    $timeout(function () {
+                        $scope.scrollTo('preview-order', 20);
+                    }, 1);
+                });
+            };
+
+            function previewOrder (shipToFormValid, billToFormValid) {
+                var deferred = $q.defer();
                 $scope.messagePreviewOrder = null;
                 if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
@@ -575,9 +584,7 @@ angular.module('ds.checkout')
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
-                            $timeout(function () {
-                                $scope.scrollTo('preview-order', 20);
-                            }, 1);
+                            deferred.resolve();
                         },
                         function (error) {
                             if (error.status === 400 && error.data.details && error.data.details[0].field === 'addresses') {
@@ -587,13 +594,16 @@ angular.module('ds.checkout')
                                 $scope.messagePreviewOrder = 'PLEASE_CORRECT_MESSAGE_ERRORS';
                                 $scope.showPristineErrors = true;
                             }
+                            deferred.reject();
                         }
                     );
                 } else {
                     $scope.showPristineErrors = true;
                     $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_PREVIEW';
+                    deferred.reject();
                 }
-            };
+                return deferred.promise;
+            }
 
             $rootScope.$on('updateShippingCost', function (eve, eveObj) {
                 updateShippingCost(eveObj.shipToAddress);
