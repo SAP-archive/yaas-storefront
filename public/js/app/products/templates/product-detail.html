@@ -1,7 +1,12 @@
+
+<!-- bread crumbs -->
 <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
+
 <div class="productDetailsContainer">
     <section class="white " ng-cloak>
         <div class="row">
+
+            <!-- product gallery -->
             <div class="col-md-6">
                 <div class="gallery product-gallery">
                     <div class="row">
@@ -22,26 +27,40 @@
                     </div>
                 </div>
             </div>
+
+            <!-- product details -->
             <div class="col-md-6">
                 <div class="product-details text-center">
-                    <h1 class="pageTitle">
-                        {{product.product.name}}
-                    </h1>
+                    
+                    <!-- product name -->
+                    <h1 class="pageTitle">{{product.product.name}}</h1>
+
+                    <!-- product sale price -->
                     <div ng-if="product.prices[0].salePrice" class="price">
                         <span class="price originalPrice"><strike>{{ product.prices[0].originalAmount | currency: currencySymbol }}</strike></span>
                         <span class="price salesPrice">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
                         <span class="priceUnit salesPrice" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                     </div>
+
+                    <!-- product price -->
                     <div ng-if="!product.prices[0].salePrice" class="price">
                         <span class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
                         <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                     </div>
+                    
+                    <!-- product detials -->
+                    <div class="col-md-6" ng-if="hasAnyOfAttributesSet(product.product)">
+                        <product-attribute-groups product="product.product"></product-attribute-groups>
+                    </div>
     
+                    <!-- product tax -->
                     <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
                         {{taxConfiguration.label}}
                     </div>
-
+                    
                     <form action="" class="cartPanel">
+
+                        <!-- product quantity -->
                         <div class="row" >
                             <div class="col-md-4 col-md-offset-4">
                                 <div class="form-group input-group qty">
@@ -53,6 +72,8 @@
                         </div>  
     
                         <div class="row">
+
+                            <!-- error notification -->
                             <div ng-if="error" class="col-md-12 col-lg-12">
                                 <div class="error" >
                                     <small class="help-inline has-error">
@@ -60,33 +81,37 @@
                                     </small>
                                 </div>
                             </div>
+
+                            <!-- add to cart -->
                             <div  class="col-md-12 col-lg-12 buyButton">
                                 <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
-                            <div class="col-xs-12" ng-if="!noShippingRates">
+                            
+                            <!-- shipping rates -->
+                            <div class="col-xs-12 shipping-rate" ng-if="!noShippingRates">
                                 <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>
                             </div>
                         </div>
                     </form>
                 </div> 
             </div>
+
         </div>
     </section>
 
     <section class="gray">
         <div class="row">
+
+            <!-- product description -->
+                <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
             <div ng-class="{'col-md-6' : hasAnyOfAttributesSet(product.product)}">
-                <div class="headline">{{'PRODUCT_DESCRIPTION' | translate}}</div>
                 <div class="description">
                     {{product.product.description}}
                 </div>
             </div>
+            
 
-            <div class="col-md-6" ng-if="hasAnyOfAttributesSet(product.product)">
-                <div class="headline">{{'PRODUCT_DETAILS' | translate}}</div>
-                <product-attribute-groups product="product.product"></product-attribute-groups>
-            </div>
         </div>
     </section>
 </div>

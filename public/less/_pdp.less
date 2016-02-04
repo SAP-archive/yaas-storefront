@@ -1,18 +1,17 @@
 .productDetailsContainer{
   .product-details{
     padding-top: 30px;
-
-
+    
     .category{
       color: #0079ff;
       font: italic 14px/30px @font-family-serif, sans-serif;
 
     }
-
+    
     .form-group{
       width: 91px !important;
       margin: 0 auto;
-
+    
       .form-control{
         font-size: 13px;
         height: auto;
@@ -42,11 +41,9 @@
       margin: 0 0 20px 0;
     }
 
-
     .quantity{
       width: 40px;
     }
-
 
     .buyButton{
       margin: 22px 0 0 0;
@@ -56,11 +53,12 @@
     }
 
     .cartPanel{
-
-      &.qty{
-
+      .shipping-rate{
+        a{
+          display: block;
+          margin-top: 10px;
+        }
       }
-
 
     }
 
@@ -79,7 +77,6 @@
       border-top:1px solid #d2d2d2;
       li{
         float: left;
-
         border-right:1px solid #d2d2d2;
 
         &:first-child{
@@ -90,6 +87,7 @@
           margin-right: 0;
           border:0;
         }
+
         a{
           padding:  0 5px;
           text-align: center;
@@ -143,7 +141,6 @@
       margin: 20px 0 0 0;
       line-height: 19px;
       color: #5b5b5b;
-
       height:105px;
       -webkit-column-count: 2;
       -moz-column-count: 2;
@@ -167,6 +164,7 @@
       top: 0;
       color:#999;
     }
+
     img{
       width: 100%;
       height:auto;
@@ -202,6 +200,5 @@
       }
     }
   }
-  
   
 }
