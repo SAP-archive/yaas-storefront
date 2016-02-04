@@ -16,12 +16,12 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.country.$invalid && ( shipToForm.country.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <ui-select ng-model="$parent.localeSelection" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="!shipToSameAsBillTo">
+                <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="!shipToSameAsBillTo">
                     <ui-select-match>
-                        <span ng-bind="$select.selected.name"></span>
+                        {{$select.selected.name}}
                     </ui-select-match>
                     <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
-                        <span ng-bind="item.name"></span>
+                        {{item.name}}
                     </ui-select-choices>
                 </ui-select>
             </div>
@@ -67,10 +67,10 @@
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
                 <ui-select ng-model="order.shipTo.state" id="stateShip" name="state" required>
                     <ui-select-match>
-                        <span ng-bind="$select.selected.name"></span>
+                        {{$select.selected.name}}
                     </ui-select-match>
                     <ui-select-choices repeat="item.id as item in (usStates | filter: $select.search)">
-                        <span ng-bind="item.name"></span>
+                        {{item.name}}
                     </ui-select-choices>
                 </ui-select>
             </div>

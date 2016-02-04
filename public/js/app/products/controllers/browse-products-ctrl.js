@@ -21,7 +21,7 @@ angular.module('ds.products')
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = '';
+            $scope.sort = {selected: ''};
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
@@ -193,9 +193,8 @@ angular.module('ds.products')
                             // we only want to show published products on this list
                             q: qSpec
                         };
-
                         if ($scope.sort) {
-                            query.sort = $scope.sort;
+                            query.sort = $scope.sort.selected;
                         }
 
                         $scope.requestInProgress = true;
@@ -247,7 +246,7 @@ angular.module('ds.products')
             if (!!$location.search().page) {
                 $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
-                $scope.sort = GlobalData.products.lastSort;
+                $scope.sort = GlobalData.products.lastSort || {selected: ''};
                 $scope.loadMorePages = true;
             }
 
@@ -280,7 +279,7 @@ angular.module('ds.products')
                     pageNumber: $scope.setSortedPageNumber,
                     pageSize: $scope.setSortedPageSize,
                     expand: 'media',
-                    sort: $scope.sort
+                    sort: $scope.sort.selected
                 };
 
                 //we only want to show published products on this list

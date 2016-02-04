@@ -24,12 +24,12 @@
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-            <ui-select ng-model="$parent.localeSelection" on-select="changeLocale($item)">
+            <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)">
                 <ui-select-match>
-                    <span ng-bind="$select.selected.name"></span>
+                    {{$select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
-                    <span ng-bind="item.name"></span>
+                    {{item.name}}
                 </ui-select-choices>
             </ui-select>
         </div>

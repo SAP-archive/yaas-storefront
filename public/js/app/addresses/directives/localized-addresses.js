@@ -39,7 +39,7 @@ angular.module('ds.addresses')
             var selectDefaultLocale = function (scope, viewType) {
 
                 if (!scope.localeSelection) {
-                    scope.localeSelection = {};
+                    scope.localeSelection = {selected: {id: '', name: ''}};
                 }
                 switch(viewType){
                     case 'addAddress':
@@ -182,14 +182,16 @@ angular.module('ds.addresses')
                 };
 
                 $rootScope.$on('noShippingCosts', function (){
-                    scope.localeSelection = {id: '', name: ''};
+                    scope.localeSelection = {selected: {id: '', name: ''}};
                 });
 
                 // event for loading addressbook change request
                 var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
                     var locale = getLocaleSelection(name);
                     if( scope.viewTarget === target){
-                        scope.localeSelection = locale;
+                        scope.localeSelection = {
+                            selected: locale
+                        };
                         scope.initializeLocale(locale);
                     }
                 });
