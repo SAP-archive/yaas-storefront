@@ -1,255 +1,280 @@
+
+<!-- checkout heading -->
 <h1>
-<small class="visible-lg visible-md">{{'SIMPLE_3_STEP_CHECKOUT' | translate}}</small>
-<small class="visible-xs visible-sm">{{'SIMPLE_4_STEP_CHECKOUT' | translate}}</small>
-{{'SECURE_CHECKOUT' | translate}}
+    <small class="visible-lg visible-md">{{'SIMPLE_3_STEP_CHECKOUT' | translate}}</small>
+    <small class="visible-xs visible-sm">{{'SIMPLE_4_STEP_CHECKOUT' | translate}}</small>
+
+    {{'SECURE_CHECKOUT' | translate}}
 </h1>
+
 <ng-form name="checkoutForm" mobile-checkout-wizard novalidate autocomplete="on">
-<ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
-<div class="step step-1" ng-class="{'done': wiz.step1Done}">
-    <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
-    ng-click="editBillTo()"></span></h2>
 
-    <div class="row step-detail">
-        <div class="col-lg-6">
-            <div class="form-group input-group"
-                 ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
-           </div>
-        </div>
-        <div class="col-lg-6 col">
-            <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
-                <label class="input-group-addon control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label>
-                <input ng-change="updateAddressName()" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
-                       type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
-                ng-model="order.account.firstName" required autocomplete="on">
-            </div>
-        </div>
-        <div class="col-lg-6 col">
-            <div class="form-group input-group"
-                 ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
-                <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
-                <input ng-change="updateAddressName()" type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
-                       ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label>
-                <input ng-change="updateAddressName()" type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                        class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
-                required autocomplete="on">
-            </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
-                <small class="help-inline has-error">
-                <span class="error">{{'PLEASE_ENTER_VALID_EMAIL' | translate}}</span>
-                </small>
-            </div>
-            <div class="form-group input-group"
-                ng-class="{ 'has-error': !billToForm.email.focused && billToForm.email.$invalid &&  ( billToForm.email.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="email">{{'EMAIL' | translate}}</label>
-                <input type="email" inline-error-input builder-input="email"
-                       inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="email"
-                       name="email" ng-model="order.account.email"
-                       required autocomplete="on"
-                       ng-focus="billToForm.email.focused=true"
-                       ng-blur="billToForm.email.focused=false">
-            </div>
-        </div>
+    <!-- step 1 -->
+    <ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
+        <div class="step step-1" ng-class="{'done': wiz.step1Done}">
+            <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
+            ng-click="editBillTo()"></span></h2>
 
-        <localized-addresses type="billing"></localized-addresses>
+            <div class="row step-detail">
+                
+                <!-- <div class="col-lg-6">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
+                        <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
+                        <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
+                   </div>
+                </div> -->
+                
+                <div class="col-lg-7 col">
+                    <div class="form-group input-group"
+                        ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
+                        <label class="input-group-addon control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label>
+                        <input ng-change="updateAddressName()" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
+                               type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
+                        ng-model="order.account.firstName" required autocomplete="on">
+                    </div>
+                </div>
+                
+                <!-- <div class="col-lg-6 col">
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
+                        <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
+                        <input ng-change="updateAddressName()" type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
+                               ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
+                    </div>
+                </div> -->
+                
+                <div class="col-lg-7">
+                    <div class="form-group input-group"
+                        ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
+                        <label class="input-group-addon control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label>
+                        <input ng-change="updateAddressName()" type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                                class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
+                        required autocomplete="on">
+                    </div>
+                </div>
+                
+                <div class="col-lg-10">
+                    <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
+                        <small class="help-inline has-error">
+                        <span class="error">{{'PLEASE_ENTER_VALID_EMAIL' | translate}}</span>
+                        </small>
+                    </div>
+                    <div class="form-group input-group"
+                        ng-class="{ 'has-error': !billToForm.email.focused && billToForm.email.$invalid &&  ( billToForm.email.$dirty || showPristineErrors) }">
+                        <label class="input-group-addon control-label" for="email">{{'EMAIL' | translate}}</label>
+                        <input type="email" inline-error-input builder-input="email"
+                               inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="email"
+                               name="email" ng-model="order.account.email"
+                               required autocomplete="on"
+                               ng-focus="billToForm.email.focused=true"
+                               ng-blur="billToForm.email.focused=false">
+                    </div>
+                </div>
 
-        <div class="col-lg-12">
-            <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
-            ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
-            class="hyicon hyicon-chevron-thin-right"></span></button>
+                <localized-addresses type="billing"></localized-addresses>
+
+                <div class="col-lg-10">
+                    <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
+                    ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
+                    class="hyicon hyicon-chevron-thin-right"></span></button>
+                </div>
+            </div>
         </div>
+    </ng-form>
+
+    <!-- step 2 -->
+    <ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
+        <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
+            <a id="step2">
+                <h2> {{'STEP_2_SHIPPING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editShipTo()"></span></h2>
+            </a>
+            <div class="row step-detail">
+                <div class="col-lg-10">
+                    <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
+                </div>
+                <div class="col-lg-10" ng-if="user.isAuthenticated && (addresses.length > 1)">
+                    <div class="form-group">
+                        <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
+                            <span class="option">{{'SAME_AS_BILLING_ADDRESS' | translate}}</span>
+                            <span class="adress" ng-show="shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <localized-addresses type="shipping"></localized-addresses>
+
+                <div class="col-lg-10">
+                    <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="form-group input-group">
+                        <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
+                        <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
+                            <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
+                            <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
+                            <option ng-repeat="cost in shippingCosts" ng-selected="cost.preselect" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
+                        </select>
+                    </div>
+                </div>
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
+                class="hyicon hyicon-chevron-thin-right"></span></button>
+            </div>
+        </div>
+        </div>
+    </ng-form>
+
+    <div class=" hidden-xs hidden-sm">
+        <div class="error text-center" ng-if="messagePreviewOrder" >
+            <small class="help-inline has-error">
+            <span class="error text-center">{{messagePreviewOrder | translate}}</span>
+            </small>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block"
+                id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
+        </button>
+        <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
     </div>
-</div>
-</ng-form>
-<ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
-<div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
-    <a id="step2">
-        <h2> {{'STEP_2_SHIPPING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editShipTo()"></span></h2>
+
+    <!-- step 3 -->
+    <ng-form ng-class="{'hidden-lg hidden-md': !displayCart}" name="paymentForm" novalidate autocomplete="on" ng-cloak>
+        <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
+            
+            <a id="step3">
+                <h2>{{'STEP_3_PAYMENT' | translate}} <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
+                ng-click="editPayment()"></span></h2>
+            </a>
+            
+            <div class="row step-detail">
+
+                <!-- Apply Coupon 
+                <div class="couponWrap">
+                    <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
+                </div>-->
+
+                <div class="col-lg-12">
+                    <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
+                </div>
+                <div class="cc-details" >
+
+                    <div class="col-lg-12">
+                        <div class="form-group input-group">
+                            <img src="img/creditcard.png" alt="creditcard"/>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-12">
+                        <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
+                            || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" >
+                            <small class="help-inline has-error">
+                            <span class="error">{{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}</span>
+                            </small>
+                        </div>
+                        <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
+                            (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
+                            <label class="input-group-addon control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label><!-- validate-card-number-->
+                            <input type="text" class="form-control" name="ccNumber" id="ccNumber"
+                                   ng-model="order.creditCard.number" inline-error-input validate-card-number ng-required="order.paymentMethod === 'creditCard'"
+                            inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                            ng-focus="paymentForm.ccNumber.focused=true"
+                            ng-blur="paymentForm.ccNumber.focused=false"
+                            ng-change="paymentForm.ccNumber.msg && resetErrorMsg(paymentForm.ccNumber)"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-12" ng-if="paymentForm.expDateMsg">
+                        <div class="error" ng-show="paymentForm.expDateMsg" >
+                            <small class="help-inline has-error">
+                            <span class="error">{{paymentForm.expDateMsg}}</span>
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-6">
+                        <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
+                            <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
+                            <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
+                                ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                                ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
+                            </select>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-6">
+                        <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
+                            <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
+                            <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
+                                ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" data-stripe="expYear"
+                                ng-options="year for year in wiz.years" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
+                            </select>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-9">
+                        <div class="error" ng-show="!paymentForm.cvc.focused && (paymentForm.cvc.msg
+                            || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))">
+                            <small class="help-inline has-error">
+                            <span class="error">{{paymentForm.cvc.msg ? paymentForm.cvc.msg : 'PLEASE_ENTER_VALID_CODE' | translate}}</span>
+                            </small>
+                        </div>
+                        <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
+                            && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
+                            <label class="input-group-addon control-label" for="cvc">{{'CVC_NUMBER' | translate}}</label>
+                            <input type="text" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
+                                   inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-model="order.creditCard.cvc" validate-cvc
+                            ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false"
+                            ng-change="paymentForm.cvc.msg && resetErrorMsg(paymentForm.cvc)">
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-3">
+                        <img src="img/cvv.png" alt=""/>
+                    </div>
+                
+                </div>
+            
+                <div class="col-xs-12">
+                    <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">{{'CONTINUE' | translate}} <span
+                    class="hyicon hyicon-chevron-thin-right"></span></button>
+                </div>
+
+            </div>
+        </div>
+    </ng-form>
+
+    <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
+    <a id="step4">
+        <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
     </a>
-    <div class="row step-detail">
-        <div class="col-lg-12">
-            <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
-        </div>
-        <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
-            <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
-                    <span class="option">{{'SAME_AS_BILLING_ADDRESS' | translate}}</span>
-                    <span class="adress" ng-show="shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
-                </label>
-            </div>
-        </div>
-        
-        <localized-addresses type="shipping"></localized-addresses>
-
-        <div class="col-lg-12">
-            <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="form-group input-group">
-                <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
-                <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
-                    <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
-                    <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
-                    <option ng-repeat="cost in shippingCosts" ng-selected="cost.preselect" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
-                </select>
-            </div>
-        </div>
-    <div class="col-lg-12">
-        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
-        class="hyicon hyicon-chevron-thin-right"></span></button>
-    </div>
-</div>
-</div>
-</ng-form>
-
-<div class=" hidden-xs hidden-sm">
-    <div class="error text-center" ng-if="messagePreviewOrder" >
+    <div class="error" ng-if="message" >
         <small class="help-inline has-error">
-        <span class="error text-center">{{messagePreviewOrder | translate}}</span>
+        <span class="error">{{message | translate}}</span>
         </small>
     </div>
-    <button class="btn btn-primary btn-lg btn-block"
-            id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
-    </button>
-    <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
-</div>
 
-
-<ng-form ng-class="{'hidden-lg hidden-md': !displayCart}" name="paymentForm" novalidate autocomplete="on" ng-cloak>
-<div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
-<a id="step3">
-    <h2>{{'STEP_3_PAYMENT' | translate}} <span ng-show="wiz.step3Done" class="glyphicon glyphicon-pencil"
-    ng-click="editPayment()"></span></h2>
-</a>
-<div class="row step-detail">
-
-    <!-- Apply Coupon 
-    <div class="couponWrap">
-        
-        <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
-    </div>-->
-
-    <div class="col-lg-12">
-        <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
-    </div>
-    <div class="cc-details" >
-        <div class="col-lg-12">
-            <div class="form-group input-group">
-                <img src="img/creditcard.png" alt="creditcard"/>
-            </div>
+    <div class="row step-detail" ng-class="{'has-error': message }">
+        <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
+        <div class="col-xs-6 hidden-sm hidden-xs">
+            <span class="description">{{'TOTAL' | translate}}</span>
         </div>
-        <div class="col-lg-12">
-            <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
-                || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" >
-                <small class="help-inline has-error">
-                <span class="error">{{paymentForm.ccNumber.msg ? paymentForm.ccNumber.msg : 'PLEASE_ENTER_VALID_CC' | translate}}</span>
-                </small>
-            </div>
-            <div class="form-group input-group" ng-class="{'has-error': !paymentForm.ccNumber.focused &&
-                (paymentForm.ccNumber.$invalid && ( paymentForm.ccNumber.$dirty || showPristineErrors)) }">
-                <label class="input-group-addon control-label" for="ccNumber">{{'CREDIT_CARD_NUMBER' | translate}}</label><!-- validate-card-number-->
-                <input type="text" class="form-control" name="ccNumber" id="ccNumber"
-                       ng-model="order.creditCard.number" inline-error-input validate-card-number ng-required="order.paymentMethod === 'creditCard'"
-                inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                ng-focus="paymentForm.ccNumber.focused=true"
-                ng-blur="paymentForm.ccNumber.focused=false"
-                ng-change="paymentForm.ccNumber.msg && resetErrorMsg(paymentForm.ccNumber)"
-                >
-            </div>
+        <div class="col-xs-6 text-right hidden-sm hidden-xs">
+            <span class="value">{{cart.totalPrice.amount | currency: currencySymbol}}</span>
         </div>
-        <div class="col-lg-12" ng-if="paymentForm.expDateMsg">
-            <div class="error" ng-show="paymentForm.expDateMsg" >
-                <small class="help-inline has-error">
-                <span class="error">{{paymentForm.expDateMsg}}</span>
-                </small>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
-                    ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" data-stripe="expYear"
-                    ng-options="year for year in wiz.years" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
-            </div>
-        </div>
-        <div class="col-xs-9">
-            <div class="error" ng-show="!paymentForm.cvc.focused && (paymentForm.cvc.msg
-                || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))">
-                <small class="help-inline has-error">
-                <span class="error">{{paymentForm.cvc.msg ? paymentForm.cvc.msg : 'PLEASE_ENTER_VALID_CODE' | translate}}</span>
-                </small>
-            </div>
-            <div class="form-group input-group" ng-class="{'has-error': paymentForm.cvc.$invalid
-                && !paymentForm.cvc.focused && (paymentForm.cvc.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="cvc">{{'CVC_NUMBER' | translate}}</label>
-                <input type="text" class="form-control" name="cvc" id="cvc" ng-required="order.paymentMethod === 'creditCard'"
-                       inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-model="order.creditCard.cvc" validate-cvc
-                ng-focus="paymentForm.cvc.focused=true" ng-blur="paymentForm.cvc.focused=false"
-                ng-change="paymentForm.cvc.msg && resetErrorMsg(paymentForm.cvc)">
-            </div>
-        </div>
-        <div class="col-xs-3">
-            <img src="img/cvv.png" alt=""/>
+        <div class="col-xs-12">
+            <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
+            ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)" ng-disabled="submitIsDisabled">{{'PLACE_ORDER' | translate}}
+            </button>
         </div>
     </div>
-    <div class="col-xs-12">
-        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">{{'CONTINUE' | translate}} <span
-        class="hyicon hyicon-chevron-thin-right"></span></button>
     </div>
-</div>
-</div>
-</ng-form>
-<div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
-<a id="step4">
-    <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
-</a>
-<div class="error" ng-if="message" >
-    <small class="help-inline has-error">
-    <span class="error">{{message | translate}}</span>
-    </small>
-</div>
-
-<div class="row step-detail" ng-class="{'has-error': message }">
-    <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
-    <div class="col-xs-6 hidden-sm hidden-xs">
-        <span class="description">{{'TOTAL' | translate}}</span>
-    </div>
-    <div class="col-xs-6 text-right hidden-sm hidden-xs">
-        <span class="value">{{cart.totalPrice.amount | currency: currencySymbol}}</span>
-    </div>
-    <div class="col-xs-12">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-        ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)" ng-disabled="submitIsDisabled">{{'PLACE_ORDER' | translate}}
-        </button>
-    </div>
-</div>
-</div>
 </ng-form>

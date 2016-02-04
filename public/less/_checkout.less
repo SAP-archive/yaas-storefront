@@ -18,15 +18,16 @@
 
 		small{
 			color: @defaultblue;
-			font: italic 14px/30px @font-family-serif, sans-serif;
+			font-size: 14px;
 			text-transform: none;
 			display: block;
 		}
 	}
 
 	h2{
-		font: italic bold 19px/30px @font-family-serif, sans-serif;
+		font-size:19px;
 		color: @darkestgrey;
+        text-transform: uppercase;
 
 		.glyphicon-pencil{
 			.hidden-lg;
@@ -46,6 +47,19 @@
         .step{
             .clearfix;
             margin: 15px 0;
+            label{
+                text-transform: uppercase;
+            }
+            input{
+                font-weight: bold;
+                text-transform: uppercase;
+
+            }
+
+            select{
+                font-weight: bold;
+                text-transform: uppercase;
+            }
         }
 
         .checkbox{
