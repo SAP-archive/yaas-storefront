@@ -1,5 +1,5 @@
 #cart{
-	background: @lightergrey;
+	background: @white;
 
     .cartContainer{
       height: 100%;
@@ -31,7 +31,7 @@
 		text-transform: uppercase;
 	}
 	.summary{
-		padding: 10px 15px 0;
+		// padding: 10px 15px 0;
 
 
 	}
@@ -48,7 +48,6 @@
 		}
 	}
 }
-
 
 /* CART ITEM */
 .cart-item{
@@ -169,6 +168,21 @@
           padding-bottom: 21px;
           padding-top: 0;
       }
+    .cart-header{
+	    th{
+	    	border-bottom: none!important;
+	    	color:@black;
+	    	padding:20px;
+	    	font-weight: bold;
+	    }
+    }
+    .cart-cost{
+    	background: @gray-lighter;
+    	padding:10px 0;
+    	td{
+    		padding:10px 20px;
+    	}
+    }
 	.zip-input{
 	  display: inline;
 	}

@@ -10,25 +10,30 @@
   ~ license agreement you entered into with hybris.
   -->
 <div cart-auto-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">
-    <div class="btn-group btn-group-justified">
-        <div class="btn-group continue">
-            <button id="continue-shopping" ng-click="toggleCart()" class="btn  btn-default continue">
-                <span class="hyicon hyicon-chevron-thin-left"></span>
-                <span class="hidden-xs">{{'CONTINUE_SHOPPING' | translate}}</span>
-                <span class="hidden-sm hidden-md hidden-lg">{{'SHOP' | translate}}</span>
-
-            </button>
-        </div>
-        <div class="btn-group checkout">
-            <button ng-if="cart.items.length" ng-click="toCheckoutDetails()" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
-            </button>
-            <button ng-if="!cart.items.length" ng-class="{ disabled: !cart.items.length }" class="btn">{{'CHECKOUT' | translate}}
-            </button>
-        </div>
+    
+  <!-- shop or checkout -->
+  <div class="btn-group btn-group-justified">
+    <div class="btn-group continue">
+      <button id="continue-shopping" ng-click="toggleCart()" class="btn  btn-default continue">
+          <span class="hyicon hyicon-chevron-thin-left"></span>
+          <span class="hidden-xs">{{'CONTINUE_SHOPPING' | translate}}</span>
+          <span class="hidden-sm hidden-md hidden-lg">{{'SHOP' | translate}}</span>
+      </button>
     </div>
+    <div class="btn-group checkout">
+        <button ng-if="cart.items.length" ng-click="toCheckoutDetails()" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
+        </button>
+        <button ng-if="!cart.items.length" ng-class="{ disabled: !cart.items.length }" class="btn">{{'CHECKOUT' | translate}}
+        </button>
+    </div>
+  </div>
+    
+    <!-- empty cart message -->
     <div ng-if="!cart.error && !cart.items.length" class="empty-cart-text text-center">
         {{'CART_EMPTY' | translate}}
     </div>
+
+    <!-- cart unavialable message  -->
     <div ng-if="cart.error" class="error text-center">
         {{'CART_UNAVAILABLE' | translate}}
     </div>
