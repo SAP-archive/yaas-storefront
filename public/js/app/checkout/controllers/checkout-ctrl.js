@@ -570,10 +570,9 @@ angular.module('ds.checkout')
             function previewOrder (shipToFormValid, billToFormValid) {
                 var deferred = $q.defer();
                 $scope.messagePreviewOrder = null;
-                if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
+                if (shipToFormValid && billToFormValid) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                    $scope.cart.shipping.fee.amount = shippingCostObject.fee.amount;
                     CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
                         function (calculatedCart) {
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
