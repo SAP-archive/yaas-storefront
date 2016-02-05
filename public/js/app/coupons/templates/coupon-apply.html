@@ -1,7 +1,7 @@
 <div class="couponApplyContainer">
 
     <!-- add coupon link -->
-    <a class="highlight addCouponLink" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length" href="#">{{'COUPON_CODE' | translate}}</a>
+    <a class="highlight addCouponLink" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length && couponCollapsed" href="#">{{'COUPON_CODE' | translate}}</a>
 
     <!-- coupon wrapper -->
     <div ng-show="!couponCollapsed && !cart.discounts.length" class="couponContainer">
@@ -21,7 +21,7 @@
                 <!-- coupon input -->
                 <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' ng-disabled="cart.discounts.length" placeholder="ADD COUPON CODE">
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <!-- apply btn -->
                 <button id="apply-coupon" class="btn btn-link pull-left couponInputBtn" ng-click="applyCoupon(couponCode); couponCode = null" ng-disabled="cart.discounts.length || !couponCode.length">
                 {{'COUPON_APPLY' | translate}}

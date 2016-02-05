@@ -46,6 +46,16 @@
 	}
 }
 
+// cart view overlay
+.content-overlay{ 
+  background:@black; 
+  opacity: .65; 
+  position: absolute;
+  width:100%;
+  height: 100%;
+  z-index: 10000;
+}
+
 /* CART ITEM */
 .cart-item{
 	border-bottom: 1px solid @grey-border;
@@ -225,11 +235,13 @@
   }
   
   .addCouponLink{
-    padding-left: 25px;
+    display: block;
+    padding: 7px 0 0 25px;
+    height: 34px;
   }
   
   .couponApplyContainer{
-    padding:0 0 20px 15px;
+    padding:0 0 25px 15px;
     border-bottom: 1px solid @grey-border;
 
     input{
