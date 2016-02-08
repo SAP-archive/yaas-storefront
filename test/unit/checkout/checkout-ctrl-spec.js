@@ -515,7 +515,7 @@ describe('CheckoutCtrl', function () {
         it('should preview order', function() {
             $scope.order.shipTo = returnAddress;
             $scope.order.billTo = returnAddress;
-            $scope.previewOrder(true, true);
+            $scope.previewOrderDesktop(true, true);
             expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
         });
 

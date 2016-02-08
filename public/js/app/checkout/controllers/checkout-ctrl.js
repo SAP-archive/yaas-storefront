@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc', '$timeout',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc, $timeout) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -539,19 +539,40 @@ angular.module('ds.checkout')
             };
 
             $rootScope.$on('preview:order', function (eve, eveObj) {
-                $scope.previewOrder(eveObj.shipToDone, eveObj.billToDone);
+                previewOrder(eveObj.shipToDone, eveObj.billToDone);
             });
 
             $scope.$on('site:updated', function () {
                 $scope.cart = CartSvc.getCart();
             });
 
-            $scope.previewOrder = function (shipToFormValid, billToFormValid) {
+            $rootScope.$on('language:updated', function () {
+                var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
+                updateShippingCost(addressToShip);
+            });
+
+            $scope.scrollTo = function (id, yOffset) {
+                $anchorScroll.yOffset = yOffset;
+                var old = $location.hash();
+                $location.hash(id);
+                $anchorScroll();
+                $location.hash(old);
+            };
+
+            $scope.previewOrderDesktop = function (shipToValid, billToValid) {
+                previewOrder(shipToValid, billToValid).then(function () {
+                    $timeout(function () {
+                        $scope.scrollTo('preview-order', 20);
+                    }, 1);
+                });
+            };
+
+            function previewOrder (shipToFormValid, billToFormValid) {
+                var deferred = $q.defer();
                 $scope.messagePreviewOrder = null;
-                if (shipToFormValid && billToFormValid && $scope.shippingCosts) {
+                if (shipToFormValid && billToFormValid) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                    $scope.cart.shipping.fee.amount = shippingCostObject.fee.amount;
                     CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
                         function (calculatedCart) {
                             $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
@@ -567,6 +588,7 @@ angular.module('ds.checkout')
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
+                            deferred.resolve();
                         },
                         function (error) {
                             if (error.status === 400 && error.data.details && error.data.details[0].field === 'addresses') {
@@ -576,19 +598,25 @@ angular.module('ds.checkout')
                                 $scope.messagePreviewOrder = 'PLEASE_CORRECT_MESSAGE_ERRORS';
                                 $scope.showPristineErrors = true;
                             }
+                            deferred.reject();
                         }
                     );
                 } else {
                     $scope.showPristineErrors = true;
                     $scope.messagePreviewOrder = 'PLEASE_CORRECT_ERRORS_PREVIEW';
+                    deferred.reject();
                 }
-            };
+                return deferred.promise;
+            }
 
             $rootScope.$on('updateShippingCost', function (eve, eveObj) {
                 updateShippingCost(eveObj.shipToAddress);
             });
 
             var updateShippingCost = function (shipToAddress) {
+                if (!shipToAddress.zipCode) {
+                    shipToAddress.zipCode = '';
+                }
                 var address = shipToAddress;
                 var cart = $scope.cart;
                 if ($scope.isShipToCountry(shipToAddress.country)) {

@@ -121,7 +121,11 @@ angular.module('ds.addresses')
                 if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(
                         function (response) {
-                            scope.localeSelections = getShipToCountries(response);
+                            if (response.length) {
+                                scope.localeSelections = getShipToCountries(response);
+                            } else {
+                                scope.localeSelections = allCountries;
+                            }
                         }
                     );
                 } else {
