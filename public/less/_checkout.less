@@ -1,5 +1,5 @@
 .checkout{
-	background: @lightestgrey;
+	background: @darkgrey;
 
 	.section{
 		margin: 0;
@@ -72,7 +72,7 @@
             }
             .adress{
 
-                font: italic 14px @font-family-serif, sans-serif;
+                font-size: 14px;
                 color: @darkgrey;
             }
         }
@@ -121,9 +121,13 @@
 			margin:   0 -15px;
 
 			@media (min-width: 768px){
-				margin-top: 156px;
+				margin-top: 75px;
 			}
-		}
+
+        }
+        section.cartItems{
+            padding:10px 30px;
+        }
 
 		.cart-item.row{
 			margin: 0 -30px;
@@ -131,9 +135,10 @@
 		}
 
 		.excerpt{
-			border-bottom: 1px solid #bebebe;
+			border-bottom: 1px solid @defaultgrey;
 			overflow: hidden;
-			padding-top: 4px;
+			padding-top: 10px;
+            font-size: 21px;
 		}
 
 		.price{margin-bottom: 0;}
@@ -148,17 +153,22 @@
 		}
 	}
 
-	.confirm.step-detail{
-        padding: 15px;
-        background: @lightgrey;
+	.confirm{
+        padding: 15px; 
 
-        .description, .value{
-            display: inline-block;
-            padding: 0 10px 10px;
-            font-size: 16px;
-            text-transform: uppercase;
+        .step-detail{
+            padding: 15px;
+            background: @offblack;
+            color:@white;
+
+            .description, .value{
+                display: inline-block;
+                padding: 0 10px 10px;
+                font-size: 31px;
+                text-transform: uppercase;
+            }
         }
-	}
+    }
 }
 
 #place-order-btn{

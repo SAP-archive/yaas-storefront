@@ -17,14 +17,16 @@
 
             <div class="row step-detail">
                 
-                <!-- <div class="col-lg-6">
+                <!-- title -->
+                <div class="col-lg-7">
                     <div class="form-group input-group"
                          ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                         <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
                         <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
                    </div>
-                </div> -->
+                </div>
                 
+                <!-- first name  -->
                 <div class="col-lg-7 col">
                     <div class="form-group input-group"
                         ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
@@ -35,15 +37,17 @@
                     </div>
                 </div>
                 
-                <!-- <div class="col-lg-6 col">
+                <!-- middle name -->
+                <div class="col-lg-7 col">
                     <div class="form-group input-group"
                          ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
                         <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
                         <input ng-change="updateAddressName()" type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
                                ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
                     </div>
-                </div> -->
+                </div>
                 
+                <!-- last name -->
                 <div class="col-lg-7">
                     <div class="form-group input-group"
                         ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
@@ -54,6 +58,7 @@
                     </div>
                 </div>
                 
+                <!-- email -->
                 <div class="col-lg-10">
                     <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
                         <small class="help-inline has-error">
@@ -72,8 +77,10 @@
                     </div>
                 </div>
 
+                <!-- billing address -->
                 <localized-addresses type="billing"></localized-addresses>
 
+                
                 <div class="col-lg-10">
                     <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
                     ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
@@ -83,7 +90,7 @@
         </div>
     </ng-form>
 
-    <!-- step 2 -->
+    <!-- step 2  shipping info -->
     <ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
         <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
             <a id="step2">
@@ -142,10 +149,10 @@
         <button class="btn btn-primary btn-lg btn-block"
                 id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
         </button>
-        <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
+        <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
     </div>
 
-    <!-- step 3 -->
+    <!-- step 3  payment method -->
     <ng-form ng-class="{'hidden-lg hidden-md': !displayCart}" name="paymentForm" novalidate autocomplete="on" ng-cloak>
         <div class="step step-3" ng-class="{'disabled' : !wiz.step2Done, 'done': wiz.step3Done}">
             
@@ -252,6 +259,7 @@
         </div>
     </ng-form>
 
+    <!-- step 4 review order -->
     <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
     <a id="step4">
         <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
@@ -264,7 +272,7 @@
 
     <div class="row step-detail" ng-class="{'has-error': message }">
         <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
-        <div class="col-xs-6 hidden-sm hidden-xs">
+        <div class="col-xs-6 hidden-sm hidden-xs text-left">
             <span class="description">{{'TOTAL' | translate}}</span>
         </div>
         <div class="col-xs-6 text-right hidden-sm hidden-xs">
