@@ -164,8 +164,8 @@
         </div>
     </ng-form>
 
-    <!-- preview order button -->
     <div class="row">
+        <!-- preview order button -->
         <div class="col-md-4 hidden-xs hidden-sm">
             <div class="error text-center" ng-if="messagePreviewOrder" >
                 <small class="help-inline has-error">
@@ -175,8 +175,8 @@
             <button class="btn btn-primary btn-lg btn-block"
                     id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
             </button>
-            <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
         </div>
+
     </div>
 
     <!-- step 3  payment method -->
@@ -193,20 +193,25 @@
                 <!-- Apply Coupon 
                 <div class="couponWrap">
                     <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
-                </div>-->
-
+                </div> -->
+                
+                <!-- payment heading -->
                 <div class="col-md-12">
                     <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
                 </div>
-                <div class="cc-details" >
 
+                <!-- cc details -->
+                <div class="cc-details" >
+                    
+                    <!-- cc image -->
                     <div class="col-md-12">
                         <div class="form-group input-group">
                             <img src="img/creditcard.png" alt="creditcard"/>
                         </div>
                     </div>
                 
-                    <div class="col-md-12">
+                    <!-- cc number -->
+                    <div class="col-md-4">
                         <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
                             || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" >
                             <small class="help-inline has-error">
@@ -226,7 +231,8 @@
                         </div>
                     </div>
                 
-                    <div class="col-md-12" ng-if="paymentForm.expDateMsg">
+                    <!-- cc error message -->
+                    <div class="col-md-2" ng-if="paymentForm.expDateMsg">
                         <div class="error" ng-show="paymentForm.expDateMsg" >
                             <small class="help-inline has-error">
                             <span class="error">{{paymentForm.expDateMsg}}</span>
@@ -234,7 +240,8 @@
                         </div>
                     </div>
                 
-                    <div class="col-md-6">
+                    <!-- cc expiry month -->
+                    <div class="col-md-2">
                         <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                             <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
                             <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
@@ -244,7 +251,8 @@
                         </div>
                     </div>
                 
-                    <div class="col-md-6">
+                    <!-- cc expiry year -->
+                    <div class="col-md-2">
                         <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                             <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
                             <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
@@ -254,7 +262,8 @@
                         </div>
                     </div>
                 
-                    <div class="col-xs-9">
+                    <!-- cc cvc code -->
+                    <div class="col-md-2">
                         <div class="error" ng-show="!paymentForm.cvc.focused && (paymentForm.cvc.msg
                             || (paymentForm.cvc.$invalid && paymentForm.cvc.$dirty))">
                             <small class="help-inline has-error">
@@ -271,12 +280,14 @@
                         </div>
                     </div>
                 
-                    <div class="col-xs-3">
+                    <!-- cc cvc image -->
+                    <div class="col-md-2">
                         <img src="img/cvv.png" alt=""/>
                     </div>
                 
                 </div>
             
+                <!-- continue button for sm -->
                 <div class="col-xs-12">
                     <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">{{'CONTINUE' | translate}} <span
                     class="hyicon hyicon-chevron-thin-right"></span></button>
@@ -286,29 +297,33 @@
         </div>
     </ng-form>
 
+    <!-- cart preview -->
+    <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
+
     <!-- step 4 review order -->
     <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
     <a id="step4">
         <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
     </a>
-    <div class="error" ng-if="message" >
-        <small class="help-inline has-error">
-        <span class="error">{{message | translate}}</span>
-        </small>
-    </div>
+
 
     <div class="row step-detail" ng-class="{'has-error': message }">
+
         <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
-        <div class="col-xs-6 hidden-sm hidden-xs text-left">
-            <span class="description">{{'TOTAL' | translate}}</span>
-        </div>
-        <div class="col-xs-6 text-right hidden-sm hidden-xs">
-            <span class="value">{{cart.totalPrice.amount | currency: currencySymbol}}</span>
-        </div>
-        <div class="col-xs-12">
+        
+        <div class="col-md-4">
+        
+            <!-- error message -->
+            <div class="error" ng-if="message" >
+                <small class="help-inline has-error">
+                <span class="error">{{message | translate}}</span>
+                </small>
+            </div>
+
             <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
             ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)" ng-disabled="submitIsDisabled">{{'PLACE_ORDER' | translate}}
             </button>
+
         </div>
     </div>
     </div>
