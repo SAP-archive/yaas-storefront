@@ -1,9 +1,11 @@
 
 <!-- checkout heading -->
 <h1>
+    <!-- not sure if this is needed anymore
     <small class="visible-lg visible-md">{{'SIMPLE_3_STEP_CHECKOUT' | translate}}</small>
     <small class="visible-xs visible-sm">{{'SIMPLE_4_STEP_CHECKOUT' | translate}}</small>
-
+    -->
+    
     {{'SECURE_CHECKOUT' | translate}}
 </h1>
 
@@ -12,13 +14,15 @@
     <!-- step 1 -->
     <ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
         <div class="step step-1" ng-class="{'done': wiz.step1Done}">
+
+            <!-- section heading -->
             <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
             ng-click="editBillTo()"></span></h2>
 
             <div class="row step-detail">
                 
                 <!-- title -->
-                <div class="col-lg-7">
+                <div class="col-md-4">
                     <div class="form-group input-group"
                          ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                         <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
@@ -27,7 +31,7 @@
                 </div>
                 
                 <!-- first name  -->
-                <div class="col-lg-7 col">
+                <div class="col-md-4">
                     <div class="form-group input-group"
                         ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
                         <label class="input-group-addon control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label>
@@ -38,7 +42,7 @@
                 </div>
                 
                 <!-- middle name -->
-                <div class="col-lg-7 col">
+                <div class="col-md-4">
                     <div class="form-group input-group"
                          ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
                         <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
@@ -48,7 +52,7 @@
                 </div>
                 
                 <!-- last name -->
-                <div class="col-lg-7">
+                <div class="col-md-4">
                     <div class="form-group input-group"
                         ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
                         <label class="input-group-addon control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label>
@@ -59,7 +63,7 @@
                 </div>
                 
                 <!-- email -->
-                <div class="col-lg-10">
+                <div class="col-md-8">
                     <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
                         <small class="help-inline has-error">
                         <span class="error">{{'PLEASE_ENTER_VALID_EMAIL' | translate}}</span>
@@ -80,8 +84,8 @@
                 <!-- billing address -->
                 <localized-addresses type="billing"></localized-addresses>
 
-                
-                <div class="col-lg-10">
+                <!-- continue btn for sm -->
+                <div class="col-md-10">
                     <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
                     ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
                     class="hyicon hyicon-chevron-thin-right"></span></button>
@@ -93,20 +97,31 @@
     <!-- step 2  shipping info -->
     <ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
         <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
+            
+            <!-- section heading -->
             <a id="step2">
                 <h2> {{'STEP_2_SHIPPING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editShipTo()"></span></h2>
             </a>
+            
             <div class="row step-detail">
-                <div class="col-lg-10">
+                
+                <!-- shipping section heading -->
+                <div class="col-md-10">
                     <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
                 </div>
-                <div class="col-lg-10" ng-if="user.isAuthenticated && (addresses.length > 1)">
+
+                <!-- select from address book -->
+                <div class="col-md-4" ng-if="user.isAuthenticated && (addresses.length > 1)">
                     <div class="form-group">
                         <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
                     </div>
                 </div>
 
-                <div class="col-lg-10">
+                <!-- clear the row -->
+                <div class="clearfix"></div>
+                
+                <!-- same address checkbox -->
+                <div class="col-md-4">
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
@@ -116,13 +131,16 @@
                     </div>
                 </div>
                 
+                <!-- shipping address -->
                 <localized-addresses type="shipping"></localized-addresses>
 
-                <div class="col-lg-10">
+                <!-- delivery heading -->
+                <div class="col-md-10">
                     <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
                 </div>
 
-                <div class="col-lg-12">
+                <!-- delivery method -->
+                <div class="col-md-4">
                     <div class="form-group input-group">
                         <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
                         <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
@@ -132,24 +150,33 @@
                         </select>
                     </div>
                 </div>
-            <div class="col-lg-12">
-                <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
-                class="hyicon hyicon-chevron-thin-right"></span></button>
+                
+                <!-- clear the row -->
+                <div class="clearfix"></div>
+
+                <!-- continue btn for sm -->
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
+                    class="hyicon hyicon-chevron-thin-right"></span></button>
+                </div>
+
             </div>
-        </div>
         </div>
     </ng-form>
 
-    <div class=" hidden-xs hidden-sm">
-        <div class="error text-center" ng-if="messagePreviewOrder" >
-            <small class="help-inline has-error">
-            <span class="error text-center">{{messagePreviewOrder | translate}}</span>
-            </small>
+    <!-- preview order button -->
+    <div class="row">
+        <div class="col-md-4 hidden-xs hidden-sm">
+            <div class="error text-center" ng-if="messagePreviewOrder" >
+                <small class="help-inline has-error">
+                <span class="error text-center">{{messagePreviewOrder | translate}}</span>
+                </small>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block"
+                    id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
+            </button>
+            <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
         </div>
-        <button class="btn btn-primary btn-lg btn-block"
-                id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
-        </button>
-        <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
     </div>
 
     <!-- step 3  payment method -->
@@ -168,18 +195,18 @@
                     <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl"></div>
                 </div>-->
 
-                <div class="col-lg-12">
+                <div class="col-md-12">
                     <span class="form-block-headline">{{'PAYMENT' | translate}}</span>
                 </div>
                 <div class="cc-details" >
 
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <div class="form-group input-group">
                             <img src="img/creditcard.png" alt="creditcard"/>
                         </div>
                     </div>
                 
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <div class="error" ng-show="!paymentForm.ccNumber.focused && (paymentForm.ccNumber.msg
                             || (paymentForm.ccNumber.$invalid && paymentForm.ccNumber.$dirty))" >
                             <small class="help-inline has-error">
@@ -199,7 +226,7 @@
                         </div>
                     </div>
                 
-                    <div class="col-lg-12" ng-if="paymentForm.expDateMsg">
+                    <div class="col-md-12" ng-if="paymentForm.expDateMsg">
                         <div class="error" ng-show="paymentForm.expDateMsg" >
                             <small class="help-inline has-error">
                             <span class="error">{{paymentForm.expDateMsg}}</span>
@@ -207,7 +234,7 @@
                         </div>
                     </div>
                 
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                             <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
                             <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
@@ -217,7 +244,7 @@
                         </div>
                     </div>
                 
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                             <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
                             <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
