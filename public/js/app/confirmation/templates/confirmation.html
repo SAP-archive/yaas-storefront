@@ -12,7 +12,7 @@
     <div class="text-center order-details" ng-if="entity === 'order'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
+                <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})">{{ orderInfo.orderId }}</a></h2>
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
                  <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
@@ -22,9 +22,9 @@
                     <address>
                         <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
                         <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
-                        <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}</span>
                         <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
-                        <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}</span>
                         <span ng-cloak>{{confirmationDetails.shippingAddressCountry}}<br></span>
                     </address>
                 </div>
@@ -94,14 +94,31 @@
     <div class="order-items" ng-if="entity === 'order'">
         <!-- only 1 product in the order -->
         <div class="row">
+
+            <div class="col-md-8 col-md-offset-2">
+                <table>
+                    <tr ng-repeat="entry in confirmationDetails.entries">
+                        <td><a ui-sref="base.product.detail( {productId: product.id} )">
+                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive"/>
+                        </a></td>
+                        <td>{{entry.product.name}}</td>
+                        <td>{{entry.product.sku}}</td>
+                        <td>{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td>{{entry.amount}}</td>
+                        <td>{{entry.totalPrice |currency: currencySymbol}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="row">
             
-            <div class="cart-item" 
-                ng-class="(confirmationDetails.entries.length === 1)? 'col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12' : 'col-xs-12 col-sm-6 col-md-4'"
-                    ng-repeat="entry in confirmationDetails.entries">
+            <div class="cart-item" ng-repeat="entry in confirmationDetails.entries">
                 <div class="row">
                     <div class="col-xs-4 col-md-4 text-center img-col">
                         <a ui-sref="base.product.detail( {productId: product.id} )">
-                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive"/>
+                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive" style="width:100px;" />
                         </a>
                     </div>
                     <div class="col-xs-8 col-md-8  detail-col text-left text-uppercase">
