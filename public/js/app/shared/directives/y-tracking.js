@@ -76,7 +76,7 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.cartUpdated(obj.cart);
                     });
 
-                    // This should be maybe changed, and user should put ng-click to all banners that we want to look for 
+                    // This should be maybe changed, and user should put ng-click to all banners that we want to look for
                     // or say to user to give to all banners that they want to follow specific class
                     $document.on('click', '.banner', function () {
                         var element = angular.element(this);
@@ -95,7 +95,7 @@ angular.module('ds.ytracking', [])
 
             /**
             * Url for piwik service.
-            * appConfig dependency should be refactored out maybe and tenant and domain 
+            * appConfig dependency should be refactored out maybe and tenant and domain
             * should be provided for example as parameters to ytracking directive so this tracking
             * can also work for any other storefront (not just this template)
             */
@@ -103,7 +103,7 @@ angular.module('ds.ytracking', [])
             var tenantId = appConfig.storeTenant();
 
             var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/b1/events';
-            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/b1/' + tenantId + '/consentReferences';
+            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/b2/' + tenantId + '/consentReferences';
 
             var getConsentReference = function () {
                 var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
