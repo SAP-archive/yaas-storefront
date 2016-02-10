@@ -24,7 +24,7 @@
             <tr ng-repeat="item in cart.items track by $index">
                 <td class="img-col">                    
                     <a ui-sref="base.product.detail( {productId: item.product.id} )">
-                        <img ng-src="{{ item && item.product.images[0].url || ''}}"/>
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
                     </a>
                 </td>
                 <td>{{item.product.name}}</td>
