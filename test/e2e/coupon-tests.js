@@ -107,7 +107,9 @@ describe('coupons:', function () {
             tu.clickElement('linkText', 'COUPONCODE HINZUFÜGEN');
             tu.sendKeys('id', 'coupon-code', '10DOLLAR');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNG FÜR COUPON UNGÜLTIG');
+            //
+            //expect(element(by.binding('couponErrorMessage')).getText()).toEqual('WÄHRUNG FÜR COUPON UNGÜLTIG');
+            expect(element.all(by.css('.error')).first().getText()).toEqual('WÄHRUNG FÜR COUPON UNGÜLTIG');
             browser.sleep(1000);
             tu.clickElement('id', tu.removeFromCart);
             browser.sleep(500);
