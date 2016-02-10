@@ -1,36 +1,36 @@
 /* BTN */
 
-@border-radius-base:        0px;
-@border-radius-large:       0px;
-@border-radius-small:       0px;
+@border-radius-base:            0px;
+@border-radius-large:           0px;
+@border-radius-small:           0px;
 
-@btn-default-color:              #fff;
-@btn-default-bg:                 @darkgrey;
-@btn-default-border:           	 @btn-default-bg;
+@btn-default-color:             #fff;
+@btn-default-bg:                @gray;
+@btn-default-border:           	@gray;
 
-@btn-primary-color:              #fff;
-@btn-primary-bg:                 @defaultblue;
+@btn-primary-color:             #fff;
+@btn-primary-bg:                @defaultblue;
 
-@state-success-text:             #fff;
-@state-success-bg:               @defaultgreen;
+@state-success-text:            #fff;
+@state-success-bg:              @defaultgreen;
 
 /*WELL */
-@well-bg:                     @lightgrey;
-@well-border:                 @lightgrey;
+@well-bg:                       @lightgrey;
+@well-border:                   @lightgrey;
 
 //== Pagination
-@pagination-color:                     @darkestgrey;
-@pagination-bg:                        #fff;
-@pagination-border:                    @lightgrey;
-@pagination-hover-color:               @link-hover-color;
-@pagination-hover-bg:                  @gray-lighter;
-@pagination-hover-border:              #ddd;
-@pagination-active-color:              @lightblue;
-@pagination-active-bg:                 @pagination-bg;
-@pagination-active-border:             @pagination-border;
-@pagination-disabled-color:            @gray-light;
-@pagination-disabled-bg:               #fff;
-@pagination-disabled-border:           #ddd;
+@pagination-color:              @darkestgrey;
+@pagination-bg:                 #fff;
+@pagination-border:             @lightgrey;
+@pagination-hover-color:        @link-hover-color;
+@pagination-hover-bg:           @gray-lighter;
+@pagination-hover-border:       #ddd;
+@pagination-active-color:       @lightblue;
+@pagination-active-bg:          @pagination-bg;
+@pagination-active-border:      @pagination-border;
+@pagination-disabled-color:     @gray-light;
+@pagination-disabled-bg:        #fff;
+@pagination-disabled-border:    #ddd;
 
 .btn{
   text-transform: uppercase;
@@ -109,10 +109,12 @@
 
 	.style{
 		color: @color;
-	    opacity: 1;
-	    font-family: @font-family-serif, serif;
-	    font-style: italic;
-	    text-transform: none;
+    opacity: 1;
+    // font-family: @font-family-serif, serif;
+    // font-style: italic;
+    text-transform: uppercase;
+    font-weight: normal;
+
 	}
 
 	&::-moz-placeholder{

@@ -12,7 +12,7 @@
     <div class="text-center order-details" ng-if="entity === 'order'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})" class="highlight">{{ orderInfo.orderId }}</a></h2>
+                <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})">{{ orderInfo.orderId }}</a></h2>
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
                  <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
@@ -22,9 +22,9 @@
                     <address>
                         <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
                         <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
-                        <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}</span>
                         <span ng-cloak ng-if="confirmationDetails.shippingAddressStreetLine2">{{confirmationDetails.shippingAddressStreetLine2}}<br></span>
-                        <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}<br></span>
+                        <span ng-cloak>{{confirmationDetails.shippingAddressCityStateZip}}</span>
                         <span ng-cloak>{{confirmationDetails.shippingAddressCountry}}<br></span>
                     </address>
                 </div>
@@ -92,71 +92,139 @@
     </div>
 
     <div class="order-items" ng-if="entity === 'order'">
+
         <!-- only 1 product in the order -->
         <div class="row">
-            
-            <div class="cart-item" 
-                ng-class="(confirmationDetails.entries.length === 1)? 'col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12' : 'col-xs-12 col-sm-6 col-md-4'"
-                    ng-repeat="entry in confirmationDetails.entries">
-                <div class="row">
-                    <div class="col-xs-4 col-md-4 text-center img-col">
-                        <a ui-sref="base.product.detail( {productId: product.id} )">
-                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="img-responsive"/>
-                        </a>
-                    </div>
-                    <div class="col-xs-8 col-md-8  detail-col text-left text-uppercase">
 
-                        <div class="name">{{entry.product.name}}</div>
-                        <div class="sku item-attr">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
-                        <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{entry.unitPrice | currency: currencySymbol}}</span></div>
-                        <div class="variants row item-attr">
-                            <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{entry.amount}}</span></div>
-                        </div>
-                        <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{entry.totalPrice |currency: currencySymbol}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-        </div>
-        <div class="summary row" ng-cloak>
-            <div summary-align productcount="{{confirmationDetails.entries.length}}">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td>{{'SUBTOTAL' | translate}}</td>
+            <div class="item-list col-md-12">
+                <table class="table table-responsive">
+                    <tr class="hidden-sm hidden-xs">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">{{'ITEM_PRICE' | translate}}</th>
+                        <th class="text-center">{{'QTY' | translate}}</th>
+                        <th class="text-right">{{'TOTAL_PRICE' | translate}}</th>
+                        <th></th>
+                    </tr>
 
-                        <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                    <!-- desktop tablet view -->
+                    <tr ng-repeat="entry in confirmationDetails.entries" class="hidden-sm hidden-xs">
+                        <td class="margin-cell"></td>
+                        <td><a ui-sref="base.product.detail( {productId: product.id} )">
+                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
+                        </a></td>
+                        <td>{{entry.product.name}}</td>
+                        <td>{{entry.product.sku}}</td>
+                        <td class="text-right">{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td class="text-center">{{entry.amount}}</td>
+                        <td class="text-right"><strong>{{entry.totalPrice |currency: currencySymbol}}</strong></td>
+                        <td class="margin-cell"></td>
                     </tr>
-                    <tr>
-                        <td>{{'SHIPPING' | translate}}</td>
-                        <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: currencySymbol }}</td>
+
+                    <tr class="summary-row hidden-sm hidden-xs">
+                        <td colspan="5"></td>
+                        <td colspan="2">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td class="text-left">{{'SUBTOTAL' | translate}}</td>
+                                                        
+                                    <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">{{'SHIPPING' | translate}}</td>
+                                    <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: currencySymbol }}</td>
+                                </tr>
+                                <tr ng-if="confirmationDetails.discountAmount != 0">
+                                    <td class="text-left">{{'DISCOUNT' | translate}}</td>
+                                    <td class="text-right">
+                                        <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
+                                    <td ng-if="taxLine.name">{{taxLine.name}}</td>
+                                    <td ng-if="!taxLine.name" class="text-left">{{'TAX' | translate}}</td>
+                                    <td class="text-right">
+                                        {{taxLine.amount | currency: currencySymbol}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr class="order-total">
+                                    <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
+                                    <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
+                                <tr>
+                                                        
+                                </tfoot>
+                            </table>
+                        </td>
+                        <td class="margin-cell"></td>
                     </tr>
-                    <tr ng-if="confirmationDetails.discountAmount != 0">
-                        <td>{{'DISCOUNT' | translate}}</td>
+
+                    <!-- mobile view -->
+                    <tr ng-repeat="entry in confirmationDetails.entries" class="visible-sm visible-xs">
                         <td class="text-right">
-                            <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                            <a ui-sref="base.product.detail( {productId: product.id} )">
+                            <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
+                            </a>
+                        </td>
+                        <td colspan="7" class="text-left product-details-mobile">
+                            {{entry.product.name}} <br>
+                            {{'SKU' | translate}}: {{entry.product.sku}} <br>
+                            {{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}} <br>
+                            {{'QTY' | translate}}: {{entry.amount}} <br>
+                            <strong>{{'TOTAL_PRICE' | translate}}: {{entry.totalPrice |currency: currencySymbol}}</strong>
                         </td>
                     </tr>
-                    <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
-                        <td ng-if="taxLine.name">{{taxLine.name}}</td>
-                        <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
-                        <td class="text-right">
-                            {{taxLine.amount | currency: currencySymbol}}
+                    <tr class="summary-row visible-sm visible-xs">
+                        <td colspan="8">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td class="text-left">{{'SUBTOTAL' | translate}}</td>
+                                                        
+                                    <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">{{'SHIPPING' | translate}}</td>
+                                    <td class="text-right">{{ confirmationDetails.shipping.total.amount | currency: currencySymbol }}</td>
+                                </tr>
+                                <tr ng-if="confirmationDetails.discountAmount != 0">
+                                    <td class="text-left">{{'DISCOUNT' | translate}}</td>
+                                    <td class="text-right">
+                                        <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
+                                    <td ng-if="taxLine.name">{{taxLine.name}}</td>
+                                    <td ng-if="!taxLine.name" class="text-left">{{'TAX' | translate}}</td>
+                                    <td class="text-right">
+                                        {{taxLine.amount | currency: currencySymbol}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr class="order-total">
+                                    <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
+                                    <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
+                                <tr>
+                                                        
+                                </tfoot>
+                            </table>
+
                         </td>
                     </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td>{{'ORDER_TOTAL' | translate}}</td>
-                        <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
-                    <tr>
 
-                    </tfoot>
                 </table>
             </div>
+
         </div>
+
+        <!-- movbile view -->
+
+
         
         
         

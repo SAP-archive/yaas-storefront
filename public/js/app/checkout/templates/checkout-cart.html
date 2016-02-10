@@ -3,71 +3,100 @@
     <h2>{{'ORDER_DETAILS' | translate}}
         <!--<span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>-->
     </h2>
-    <section class="excerpt" ng-cloak>
-        <div class="pull-left" ng-if="cart.totalUnitsCount > 1">{{cart.totalUnitsCount}} {{'ITEMS' | translate}}</div>
-        <div class="pull-left" ng-if="cart.totalUnitsCount <= 1">{{cart.totalUnitsCount}} {{'ITEM' | translate}}</div>
-        <div class="pull-right">{{'TOTAL' | translate}}: {{cart.totalPrice.amount | currency: currencySymbol}}</div>
-    </section>
+    
+    <!-- cart items -->
     <section class="cartItems" ng-cloak>
-        <div ng-repeat="item in cart.items track by $index">
-            <div class="cart-item row">
-                <div class="col-xs-4 col-md-4 text-center img-col">
+        
+        <table class="table table-striped cart-items-table">
+            <!-- desktop view -->
+            <tr  class="hidden-sm hidden-xs">
+                <th colspan="2">
+                   <div ng-cloak>
+                        <span ng-if="cart.totalUnitsCount > 1">{{'TOTAL' | translate}} ({{cart.totalUnitsCount}} {{'ITEMS' | translate}}) </span>
+                        <span  ng-if="cart.totalUnitsCount <= 1">{{'TOTAL' | translate}} ({{cart.totalUnitsCount}} {{'ITEM' | translate}}) </span>
+                        <span >{{cart.totalPrice.amount | currency: currencySymbol}}</span>
+                    </div> 
+                </th>
+                <th class="text-right item-price-col">{{'ITEM_PRICE' | translate}}:</th>
+                <th class="text-center qty-col">{{'QTY' | translate}}:</th>
+                <th class="text-right total-col">{{'TOTAL_PRICE' | translate}}: </th>
+                <th></th>
+            </tr>
+
+            <tr ng-repeat="item in cart.items track by $index" class="hidden-sm hidden-xs">
+                <td class="img-col">                    
                     <a ui-sref="base.product.detail( {productId: item.product.id} )">
-                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="img-responsive"/>
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
                     </a>
-                </div>
-                <div class="col-xs-8 col-md-8  detail-col">
-                    <div class="name">{{item.product.name}}</div>
-                    <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span></div>
-                    <div class="variants row item-attr">
-                        <div class="variant col-md-6 ">{{'QTY' | translate}}: <span>{{ item.quantity }}</span></div>
-                    </div>
-                    <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ (item.itemPrice.amount) | currency: currencySymbol}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </td>
+                <td>{{item.product.name}}</td>
+                <td class="text-right">{{item.price.effectiveAmount | currency: currencySymbol}}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right"><strong>{{ (item.itemPrice.amount) | currency: currencySymbol}}</strong></td>
+                <td></td>
+            </tr>
+
+            <!-- mobile view -->
+            <tr ng-repeat="item in cart.items track by $index" class="visible-sm visible-xs">
+                <td class="img-col">                    
+                    <a ui-sref="base.product.detail( {productId: item.product.id} )">
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
+                    </a>
+                </td>
+                <td colspan="5">
+                    {{item.product.name}} <br>
+                    {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <br>
+                    {{'QTY' | translate}}:{{ item.quantity }} <br>
+                    <strong>{{'TOTAL_PRICE' | translate}}: {{ (item.itemPrice.amount) | currency: currencySymbol}}</strong>
+                </td>
+            </tr>
+
+        </table>
+
     </section>
+
     <section class="summary" ng-cloak>
         <!-- CHECKOUT-CART -->
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>{{'SUBTOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.subTotalPrice.amount | currency: currencySymbol}}</td>
-                </tr>
-                <tr ng-if="cart.totalDiscount.amount > 0">
-                    <td>{{'DISCOUNT' | translate}}</td>
-                    <td class="text-right">
-                        <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{'SHIPPING' | translate}}</td>
-                    <td class="text-right">{{ cart.shipping.fee.amount | currency: currencySymbol }}</td>
-                </tr>
-                <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
-                    <td ng-if="taxLine.name">{{taxLine.name}}</td>
-                    <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
-                    <td class="text-right">
-                        {{taxLine.amount | currency: currencySymbol}}
-                    </td>
-                </tr>
-                <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'">
-                    <td>{{'TAX' | translate}}</td>
-                    <td class="text-right">
-                        {{cart.totalTax.amount | currency: currencySymbol}}
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>{{'ORDER_TOTAL' | translate}}</td>
-                    <td class="text-right">{{cart.totalPrice.amount | currency: currencySymbol}}</td>
-                <tr>
-
-            </tfoot>
-        </table>
+        <div class="col-md-4">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>{{'SUBTOTAL' | translate}}</td>
+                        <td class="text-right">{{cart.subTotalPrice.amount | currency: currencySymbol}}</td>
+                    </tr>
+                    <tr ng-if="cart.totalDiscount.amount > 0">
+                        <td>{{'DISCOUNT' | translate}}</td>
+                        <td class="text-right">
+                            <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{'SHIPPING' | translate}}</td>
+                        <td class="text-right">{{ cart.shipping.fee.amount | currency: currencySymbol }}</td>
+                    </tr>
+                    <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
+                        <td ng-if="taxLine.name">{{taxLine.name}}</td>
+                        <td ng-if="!taxLine.name">{{'TAX' | translate}}</td>
+                        <td class="text-right">
+                            {{taxLine.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                    <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'">
+                        <td>{{'TAX' | translate}}</td>
+                        <td class="text-right">
+                            {{cart.totalTax.amount | currency: currencySymbol}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>{{'ORDER_TOTAL' | translate}}</td>
+                        <td class="text-right">{{cart.totalPrice.amount | currency: currencySymbol}}</td>
+                    <tr>
+                </tfoot>
+            </table>
+        </div>
+        
     </section>
     <div ui-view="editCart"></div>
 </div>
