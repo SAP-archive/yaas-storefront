@@ -13,7 +13,8 @@
 
 		color: @darkestgrey;
 		text-transform: uppercase;
-		font-weight: normal;
+		font-weight: bold;
+        font-size: 49px;
 
 		small{
 			color: @defaultblue;
@@ -27,6 +28,7 @@
 		font-size:19px;
 		color: @darkestgrey;
         text-transform: uppercase;
+        font-weight: bold;
 
 		.glyphicon-pencil{
 			.hidden-lg;
@@ -131,6 +133,7 @@
                 th, td{
                     border: none;
                     font-weight: normal;
+                    vertical-align: middle;
                 }
 
                 tr:nth-child(even) {
@@ -146,7 +149,7 @@
                 }
 
                 .qty-col, .total-col, .item-price-col{
-                    width: 100px;
+                    width: 150px;
                 }
             }
         }
@@ -175,7 +178,6 @@
 	}
 
 	.confirm{
-        padding: 15px; 
 
         .step-detail{
 
@@ -186,6 +188,10 @@
                 text-transform: uppercase;
             }
         }
+    }
+
+    .cvc-example{
+        padding-bottom: 20px;
     }
 }
 

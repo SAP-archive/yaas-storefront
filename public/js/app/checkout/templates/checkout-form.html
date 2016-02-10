@@ -282,7 +282,7 @@
                 
                     <!-- cc cvc image -->
                     <div class="col-md-2">
-                        <img src="img/cvv.png" alt=""/>
+                        <img src="img/cvv.png" alt="cvc example" class="cvc-example" />
                     </div>
                 
                 </div>
@@ -297,34 +297,39 @@
         </div>
     </ng-form>
 
-    <!-- cart preview -->
+    <!-- cart items preview -->
     <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
 
     <!-- step 4 review order -->
-    <div class="step step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
-    <a id="step4">
-        <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
-    </a>
-
-
-    <div class="row step-detail" ng-class="{'has-error': message }">
-
-        <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
+    <div class="step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
         
-        <div class="col-md-4">
-        
-            <!-- error message -->
-            <div class="error" ng-if="message" >
-                <small class="help-inline has-error">
-                <span class="error">{{message | translate}}</span>
-                </small>
+        <!-- seciton heading -->
+        <a id="step4">
+            <h2 class="visible-sm visible-xs">{{'STEP_4_REVIEW_ORDER' | translate}}</h2>
+        </a>
+
+        <div class="row step-detail" ng-class="{'has-error': message }">
+
+            <!-- total summary -->
+            <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div>
+            
+            <div class="col-md-4">
+
+                <!-- error message -->
+                <div class="error" ng-if="message" >
+                    <small class="help-inline has-error">
+                    <span class="error">{{message | translate}}</span>
+                    </small>
+                </div>
+
+                <!-- pale order button -->
+                <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
+                ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)" ng-disabled="submitIsDisabled">{{'PLACE_ORDER' | translate}}
+                </button>
+
             </div>
 
-            <button class="btn btn-primary btn-lg btn-block" type="submit" id="place-order-btn"
-            ng-click="placeOrder(checkoutForm.$valid, checkoutForm.$name)" ng-disabled="submitIsDisabled">{{'PLACE_ORDER' | translate}}
-            </button>
-
         </div>
-    </div>
+
     </div>
 </ng-form>
