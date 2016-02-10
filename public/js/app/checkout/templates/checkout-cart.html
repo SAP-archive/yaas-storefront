@@ -8,7 +8,8 @@
     <section class="cartItems" ng-cloak>
         
         <table class="table table-striped cart-items-table">
-            <tr>
+            <!-- desktop view -->
+            <tr  class="hidden-sm hidden-xs">
                 <th colspan="2">
                    <div ng-cloak>
                         <span ng-if="cart.totalUnitsCount > 1">{{'TOTAL' | translate}} ({{cart.totalUnitsCount}} {{'ITEMS' | translate}}) </span>
@@ -21,7 +22,8 @@
                 <th class="text-right total-col">{{'TOTAL_PRICE' | translate}}: </th>
                 <th></th>
             </tr>
-            <tr ng-repeat="item in cart.items track by $index">
+
+            <tr ng-repeat="item in cart.items track by $index" class="hidden-sm hidden-xs">
                 <td class="img-col">                    
                     <a ui-sref="base.product.detail( {productId: item.product.id} )">
                         <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
@@ -33,6 +35,22 @@
                 <td class="text-right"><strong>{{ (item.itemPrice.amount) | currency: currencySymbol}}</strong></td>
                 <td></td>
             </tr>
+
+            <!-- mobile view -->
+            <tr ng-repeat="item in cart.items track by $index" class="visible-sm visible-xs">
+                <td class="img-col">                    
+                    <a ui-sref="base.product.detail( {productId: item.product.id} )">
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
+                    </a>
+                </td>
+                <td colspan="5">
+                    {{item.product.name}} <br>
+                    {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <br>
+                    {{'QTY' | translate}}:{{ item.quantity }} <br>
+                    <strong>{{'TOTAL_PRICE' | translate}}: {{ (item.itemPrice.amount) | currency: currencySymbol}}</strong>
+                </td>
+            </tr>
+
         </table>
 
     </section>

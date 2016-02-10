@@ -300,6 +300,8 @@
     <!-- cart items preview -->
     <div class="row checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
 
+    <!-- <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div> -->
+
     <!-- step 4 review order -->
     <div class="step-4 confirm" ng-class="{'disabled' : !wiz.step3Done, 'hidden-lg hidden-md': !displayCart}" ng-cloak>
         
@@ -311,7 +313,7 @@
         <div class="row step-detail" ng-class="{'has-error': message }">
 
             <!-- total summary -->
-            <!-- <div class="hidden-lg hidden-md" ui-view="checkoutcartmobile"></div> -->
+
             
             <div class="col-md-4">
 
