@@ -357,7 +357,7 @@ angular.module('ds.i18n')
         //XLST
         "PRICE_LOW_HIGH": "Preis (niedrigster - höchster)",
         //XFLD
-        "SORT_BY": "Sortieren nach",
+        "SORT_BY": "Sortieren",
         //XFLD
         "VIEWING": "Anzeigen",
         //XFLD
