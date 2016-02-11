@@ -279,13 +279,24 @@
 }
 
 a.signin{
+  text-transform: uppercase;
+  font-weight: bold;
+  display: block;
+  cursor:pointer;
   padding-left: 0;
-  padding-top: 4px;
+  padding-top: 10px;
   padding-right: 7px;
   color: @black;
   &:hover{
     text-decoration: none;
-    color: #0079ff;
+    color: @brand-primary;
+
+  }
+}
+
+.signinContainer-sidebar{
+  .my-account-link{
+    padding-top: 0;
 
   }
 }
@@ -293,16 +304,26 @@ a.signin{
 a.my-profile{
   height: 47px;
   display: inline-block;
+  cursor: pointer;
 
   &:hover{
     border-bottom: 3px solid #0079ff;
+    text-decoration: none;
   }
 }
 
 a.signout{
   color: @black;
   font-size: 11px;
+  :hover{
+    border-bottom: 3px solid #0079ff;
+    text-decoration: none;
+  }
 
+}
+
+a.siteSelectorIcon{
+  cursor:pointer;
 }
 
 .top-navigation{
@@ -342,7 +363,8 @@ a.signout{
     padding: 10px;
     display: inline-block;
     img{
-      height: 55px;
+      max-width: 100%;
+      padding-top: 10px;
     }
   }
 
@@ -653,7 +675,7 @@ a.signout{
 }
 
 .yamm .dropdown.yamm-fw .dropdown-menu{
-  background-color: #d6dbde;
+  background-color: @gray-dark;
   margin-left: -45px;
   margin-right: -45px;
   margin-top: 9px;
@@ -662,11 +684,11 @@ a.signout{
   box-shadow: none;
 
   .secondaryCategory{
-    color: @black;
+    color: @white;
     font-size: 14px;
     font-weight: bold;
     &:hover{
-      color: @lightblue;
+      color: @brand-primary;
     }
 
   }
@@ -695,25 +717,26 @@ a.signout{
     background-color: transparent;
     color: @black;
     font-weight: 500;
+    border-bottom: 2px solid transparent;
   }
 
   li.open{
     a.mainCategory.mactive,
     a.mainCategory:hover{
       background-color: transparent !important;
-      color: #0079ff;
+      
     }
   }
 
   li{
     a.mainCategory.mactive{
-      color: #0079ff;
+      color: @brand-primary;
 
     }
 
     a.mainCategory:hover{
       background-color: transparent !important;
-      color: #0079ff;
+      border-bottom: 2px solid @brand-primary;
     }
   }
 
@@ -722,10 +745,10 @@ a.signout{
     margin-top: 12px;
     padding-left: 0;
     a{
-      color: #7e8388;
+      color: lighten(@gray-base, 60%);
 
       &:hover{
-        color: #0079ff;
+        color: @brand-primary;
       }
     }
 
@@ -748,10 +771,13 @@ a.signout{
   display: block;
 }
 
-.checkout-btn-container{
+
+.checkout-btn-container, .site-selector-container{
   border-left: 1px solid #d4d5d5;
 
 }
+
+
 
 .mobileNav .top-navigation{
   border-bottom: 1px solid #d4d5d5;
@@ -770,7 +796,7 @@ a.signout{
   }
 
   .breadCrumbText{
-    font:13px @font-family-serif;
+    font:13px;
     color: #7d7e7f;
     margin: 0 0 15px 0;
   }
@@ -871,6 +897,10 @@ a.signout{
     font-size: 14px;
     text-transform: none;
     color: #000;
+    cursor: pointer;
+    &:hover{
+      text-decoration: none;
+    }
   }
 
 }

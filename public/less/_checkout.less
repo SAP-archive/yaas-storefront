@@ -1,5 +1,4 @@
 .checkout{
-	background: @lightestgrey;
 
 	.section{
 		margin: 0;
@@ -14,19 +13,22 @@
 
 		color: @darkestgrey;
 		text-transform: uppercase;
-		font-weight: normal;
+		font-weight: bold;
+        font-size: 49px;
 
 		small{
 			color: @defaultblue;
-			font: italic 14px/30px @font-family-serif, sans-serif;
+			font-size: 14px;
 			text-transform: none;
 			display: block;
 		}
 	}
 
 	h2{
-		font: italic bold 19px/30px @font-family-serif, sans-serif;
+		font-size:19px;
 		color: @darkestgrey;
+        text-transform: uppercase;
+        font-weight: bold;
 
 		.glyphicon-pencil{
 			.hidden-lg;
@@ -46,6 +48,19 @@
         .step{
             .clearfix;
             margin: 15px 0;
+            label{
+                text-transform: uppercase;
+            }
+            input{
+                font-weight: bold;
+                text-transform: uppercase;
+
+            }
+
+            select{
+                font-weight: bold;
+                text-transform: uppercase;
+            }
         }
 
         .checkbox{
@@ -58,7 +73,7 @@
             }
             .adress{
 
-                font: italic 14px @font-family-serif, sans-serif;
+                font-size: 14px;
                 color: @darkgrey;
             }
         }
@@ -107,9 +122,41 @@
 			margin:   0 -15px;
 
 			@media (min-width: 768px){
-				margin-top: 156px;
+				// margin-top: 75px;
 			}
-		}
+
+        }
+        section.cartItems{
+            padding:10px 30px;
+
+            .cart-items-table{
+                th, td{
+                    border: none;
+                    font-weight: normal;
+                    vertical-align: middle;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #ebeced;
+                }
+
+                .img-col{
+                    width:120px;
+
+                    img{
+                        max-width: 90px;
+                    }
+                }
+
+                .qty-col, .total-col, .item-price-col{
+                    width: 150px;
+                }
+            }
+
+            .product-img{
+                width:120px;
+            }
+        }
 
 		.cart-item.row{
 			margin: 0 -30px;
@@ -117,9 +164,9 @@
 		}
 
 		.excerpt{
-			border-bottom: 1px solid #bebebe;
 			overflow: hidden;
-			padding-top: 4px;
+            padding:30px 0 0 30px;
+            text-transform: uppercase;
 		}
 
 		.price{margin-bottom: 0;}
@@ -130,21 +177,26 @@
 		}
 
 		.summary{
-			padding: 30px 20px;
+			padding: 0 20px;
 		}
 	}
 
-	.confirm.step-detail{
-        padding: 15px;
-        background: @lightgrey;
+	.confirm{
 
-        .description, .value{
-            display: inline-block;
-            padding: 0 10px 10px;
-            font-size: 16px;
-            text-transform: uppercase;
+        .step-detail{
+
+            .description, .value{
+                display: inline-block;
+                padding: 0 10px 10px;
+                font-size: 31px;
+                text-transform: uppercase;
+            }
         }
-	}
+    }
+
+    .cvc-example{
+        padding-bottom: 20px;
+    }
 }
 
 #place-order-btn{
