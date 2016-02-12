@@ -142,4 +142,5 @@ angular.module('ds.products')
             $scope.hasAnyOfAttributesSet = function(product){
                 return ProductAttributeSvc.hasAnyOfAttributesSet(product);
             };
+
 }]);

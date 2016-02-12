@@ -43,6 +43,8 @@ angular.module('ds.i18n')
         //XFLD
         "PREVIEW_ORDER": "Preview Order",
         //XFLD
+        //XFLD
+        "PAYMENT_REVIEW": "Payment & Review",
         "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
         //XFLD
         "FREE_SHIPPING": "Versand und Rücksendung in den USA kostenlos",
@@ -355,7 +357,7 @@ angular.module('ds.i18n')
         //XLST
         "PRICE_LOW_HIGH": "Preis (niedrigster - höchster)",
         //XFLD
-        "SORT_BY": "Sortieren nach",
+        "SORT_BY": "Sortieren",
         //XFLD
         "VIEWING": "Anzeigen",
         //XFLD
