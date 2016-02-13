@@ -15,7 +15,7 @@
 //Used for determing the current visible items indexes
 //It is checking if the details (name and price) part of item is visible
 angular.module('ds.shared')
-    .directive('stopEvent', ['$window', function ($window) {
+    .directive('stopEvent', [function () {
         return {
           restrict: 'A',
           link: function (scope, element, attr) {
@@ -24,5 +24,5 @@ angular.module('ds.shared')
             });
           }
 
-        }
-    );
+        };
+    }]);
