@@ -24,7 +24,7 @@ angular.module('ds.checkout')
                 var shippingZones;
                 var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
-                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
+                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     for (var i = 0; i < shippingZones.length; i++) {
                         for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
