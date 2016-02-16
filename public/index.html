@@ -24,10 +24,10 @@
     <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
         <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation"></div>
         <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
+            <div class="content-overlay" ng-if="showCart" ng-click="closeOffcanvas()"></div>
             <div ui-view="topNavigation"></div>
             <div class="main">
                 <div ui-view="main"></div>
-                <!--<div class="content-mask" ng-click="closeOffcanvas()"></div>-->
             </div>
             <div ui-view="footer"></div>
 

@@ -120,14 +120,14 @@
 </div>
 </ng-form>
 
-<div class=" hidden-xs hidden-sm">
+<div id="preview-order" class=" hidden-xs hidden-sm">
     <div class="error text-center" ng-if="messagePreviewOrder" >
         <small class="help-inline has-error">
         <span class="error text-center">{{messagePreviewOrder | translate}}</span>
         </small>
     </div>
     <button class="btn btn-primary btn-lg btn-block"
-            id="preview-order-btn" ng-click="previewOrder(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
+            id="preview-order-btn" ng-click="previewOrderDesktop(shipToForm.$valid, billToForm.$valid)">{{'PREVIEW_ORDER' | translate}}
     </button>
     <div class="col-md-12 col-sm-12 checkout-cart" ng-show="displayCart" ui-view="checkoutcart"></div>
 </div>
