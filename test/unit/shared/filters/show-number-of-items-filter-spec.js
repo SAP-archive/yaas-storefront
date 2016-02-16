@@ -18,6 +18,7 @@ describe('ShowNumberOfItemsFilter filter', function () {
     var $filter;
 
     beforeEach(function () {
+        module('ngSanitize');
         module('ds.shared');
 
         inject(function (_$filter_) {
