@@ -94,7 +94,9 @@ angular.module('ds.auth')
             };
 
             $scope.googleLogin = function () {
-                YGoogleSignin.login();
+                YGoogleSignin.login().then(function (user) {
+                    AuthSvc.onGoogleLogIn(user);
+                });
             };
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){

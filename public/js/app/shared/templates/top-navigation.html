@@ -55,7 +55,7 @@
                             <div class="signin-container ">
                                 <div class="text-center dropdown">
                                     <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}">
-                                        <img id="my-account-dropdown" ng-src="{{userAvatar}}" class="user-avatar" ng-class="{'socialAvatar': googleSignedIn}">
+                                        <img id="my-account-dropdown" ng-src="{{GlobalData.customerAccount.image}}" class="user-avatar socialAvatar">
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li id="my-account" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>

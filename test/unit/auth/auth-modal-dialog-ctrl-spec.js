@@ -13,9 +13,10 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
 
-    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={},
+    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={}, deferredSignIn, deferredSignUp, deferredSocialLogin;
+    var googleLoginDfd;
+    var YGoogleSignin;
 
-        deferredSignIn, deferredSignUp, deferredSocialLogin, YGoogleSignin;
     var mockedForm = {};
 
     var mockedState = {
@@ -90,6 +91,7 @@ describe('AuthModalDialogCtrl Test', function () {
         deferredSignIn = $q.defer();
         deferredSignUp = $q.defer();
         deferredSocialLogin = $q.defer();
+        googleLoginDfd = $q.defer();
 
         MockedAuthSvc = {
 
@@ -110,6 +112,12 @@ describe('AuthModalDialogCtrl Test', function () {
             onGoogleLogIn: jasmine.createSpy('onGoogleLogIn'),
             faceBookLogin: jasmine.createSpy('faceBookLogin'),
             socialLogin: jasmine.createSpy('socialLogin')
+        };
+
+        YGoogleSignin = {
+            login: jasmine.createSpy('login').andCallFake(function(){
+                return googleLoginDfd.promise;
+            }),
         };
 
         AuthModalDialogCtrl = $controller('AuthModalDialogCtrl', {$scope: $scope, AuthSvc: MockedAuthSvc,
@@ -224,6 +232,15 @@ describe('AuthModalDialogCtrl Test', function () {
             var token = 'token';
             $scope.fbLogin();
             expect(MockedAuthSvc.faceBookLogin).toHaveBeenCalled();
+        });
+    });
+
+    describe('googleLogin', function() {
+
+        it('should invoke google login', function() {
+            var token = 'token';
+            $scope.googleLogin();
+            expect(YGoogleSignin.login).toHaveBeenCalled();
         });
     });
 

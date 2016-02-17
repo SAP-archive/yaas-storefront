@@ -24,23 +24,17 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
 
-            function resetAvatarImg () {
-                $scope.userAvatar = settings.avatarImagePlaceholder;
-            }
-
             if (GlobalData.customerAccount  && GlobalData.customerAccount.accounts[0].providerId === 'google') {
-                YGoogleSignin.getUser().then(function (user) {
+                YGoogleSignin.getUser(settings.googleClientId).then(function (user) {
                     if (user.image) {
-                        $scope.userAvatar = user.image;
+                        GlobalData.customerAccount.image = user.image;
                     } else {
-                        resetAvatarImg();
+                        GlobalData.customerAccount.image = settings.avatarImagePlaceholder;
                     }
                 });
-                $scope.googleSignedIn = true;
             } else {
-                YGoogleSignin.loadData();
-                $scope.googleSignedIn = false;
-                resetAvatarImg();
+                YGoogleSignin.loadData(settings.googleClientId);
+                GlobalData.customerAccount = {image: settings.avatarImagePlaceholder};
             }
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
@@ -55,23 +49,8 @@ angular.module('ds.shared')
                 $scope.cart = eveObj.cart;
             });
 
-            var unbindSocialLogin = $rootScope.$on('user:socialLogIn', function(eve, eveObj){
-                if (eveObj.socialImg) {
-                    $scope.userAvatar = eveObj.socialImg;
-                }
-                if (eveObj.provider === 'google') {
-                    $scope.googleSignedIn = true;
-                }
-            });
-
-            var unbindSocialLogout = $rootScope.$on('user:socialLogOut', function () {
-                resetAvatarImg();
-            });
-
             $scope.$on('$destroy', unbind);
             $scope.$on('$destroy', unbindCats);
-            $scope.$on('$destroy', unbindSocialLogin);
-            $scope.$on('$destroy', unbindSocialLogout);
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */
@@ -93,9 +72,6 @@ angular.module('ds.shared')
             };
 
             $scope.logout = function() {
-                if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
-                    YGoogleSignin.logout();
-                }
                 AuthSvc.signOut();
             };
             

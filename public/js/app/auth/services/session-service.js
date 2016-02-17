@@ -45,10 +45,10 @@ angular.module('ds.auth')
              * - targetState - state to navigate to once additional configuration has taken place
              * - targetStateParams - state params to go with the targetState
              * */
-            afterLogIn: function (context) {
+            afterLogIn: function (context, img) {
 
                 // there must be an account
-                AccountSvc.account().then(function (account) {
+                AccountSvc.account(img).then(function (account) {
                     //Customer login event
                     $rootScope.$emit('customer:login', {});
                     return account;

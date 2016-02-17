@@ -16,8 +16,8 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window',
-        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window) {
+    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window', 'YGoogleSignin',
+        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window, YGoogleSignin) {
 
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
@@ -117,23 +117,17 @@ angular.module('ds.auth')
                 },
 
 
-                onGoogleLogIn: function (gToken, user) {
-
-                    AuthenticationService.socialLogin('google', gToken).then(function () {
-                        $rootScope.$emit('user:socialLogIn', {loggedIn: true, socialImg: user.image, provider: 'google'});
+                onGoogleLogIn: function (user) {
+                    AuthenticationService.socialLogin('google', user.token, user.image).then(function () {
+                        $rootScope.$emit('user:socialLogIn', {loggedIn: true});
                         try {
-                            GlobalData.customerAccount = {
-                                contactEmail: user.email,
-                                firstName: user.firstname,
-                                lastName: user.lastname
-                            };
                             SessionSvc.afterSocialLogin({
                                 email: user.email,
                                 firstName: user.firstname,
                                 lastName: user.lastname
                             });
                         } catch (error) {
-                            console.error('Unable to load Google+ user profile');
+                            console.error('Unable to load Google user profile');
                         }
                     }, function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: false});
@@ -194,11 +188,13 @@ angular.module('ds.auth')
 
                 /** Logs the customer out and removes the token cookie. */
                 signOut: function () {
+                    if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
+                        YGoogleSignin.logout();
+                    }
                     AuthREST.Customers.all('logout').customGET('', {accessToken: TokenSvc.getToken().getAccessToken()});
                     // unset token after logout - new anonymous token will be generated for next request automatically
                     TokenSvc.unsetToken(settings.accessCookie);
                     SessionSvc.afterLogOut();
-                    $rootScope.$emit('user:socialLogOut');
                 },
 
                 /** Returns true if there is a user specific OAuth token cookie for the current tenant.*/
@@ -238,11 +234,11 @@ angular.module('ds.auth')
                 },
 
                 /** Performs login logic following login through social media login.*/
-                socialLogin: function (providerId, token) {
+                socialLogin: function (providerId, token, image) {
                     return AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
                         // passing static username to trigger 'is authenticated' validation of token
                         TokenSvc.setToken(response.accessToken, 'social');
-                        SessionSvc.afterLogIn();
+                        SessionSvc.afterLogIn('', image);
                     });
                 }
 
