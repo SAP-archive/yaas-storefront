@@ -387,11 +387,12 @@ angular.module('ds.cart')
                 recalculateCart: function (cart, addressToShip, shippingCostObject) {
                     var items = reformatCartItems(cart);
                     var discounts = [];
-                    angular.forEach(cart.discounts, function(discont){
+                    angular.forEach(cart.discounts, function(discount){
                         discounts.push({
-                            amount: discont.amount,
-                            currency: discont.currency,
-                            calculationType: discont.calculationType
+                            discountRate: discount.discountRate,
+                            amount: discount.amount,
+                            currency: discount.currency,
+                            calculationType: discount.calculationType
                         });
                     });
                     var data = {
