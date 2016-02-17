@@ -17,7 +17,7 @@ angular.module('ds.i18n')
 	.provider('Translation', ['$translateProvider', 'translateSettings',
 		function TranslationProvider($translateProvider, translateSettings) {
 
-		    $translateProvider.useSanitizeValueStrategy('sanitize');
+		    $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 
 			$translateProvider.useStaticFilesLoader({
 			    prefix: 'js/app/shared/i18n/lang/lang_',
