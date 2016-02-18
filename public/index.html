@@ -24,10 +24,10 @@
     <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
         <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation"></div>
         <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
+            <div class="content-overlay" ng-if="showCart" ng-click="closeOffcanvas()"></div>
             <div ui-view="topNavigation"></div>
             <div class="main">
                 <div ui-view="main"></div>
-                <!--<div class="content-mask" ng-click="closeOffcanvas()"></div>-->
             </div>
             <div ui-view="footer"></div>
 
@@ -47,6 +47,7 @@
     <script src="js/vendor/restangular/dist/restangular.min.js"></script>
     <script src="js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="js/vendor/angular-translate/angular-translate.min.js"></script>
+    <script src="js/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
     <script src="js/vendor/lodash/dist/lodash.compat.min.js"></script>
     <script src="js/vendor/angular-stripe-js/build/angular-stripe-js.min.js"></script>
     <script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
@@ -92,8 +93,6 @@
     <script src="js/app/shared/filters/sum-by-key-filter.js"></script>
     <script src="js/app/shared/i18n/i18-index.js"></script>
     <script src="js/app/shared/i18n/i18-constants.js"></script>
-    <script src="js/app/shared/i18n/lang/en.js"></script>
-    <script src="js/app/shared/i18n/lang/de.js"></script>
     <script src="js/app/shared/i18n/providers/translation-provider.js"></script>
     <script src="js/app/orders/orders-index.js"></script>
     <script src="js/app/orders/services/order-list-service.js"></script>
@@ -146,6 +145,11 @@
     <script src="js/app/account/account-index.js"></script>
     <script src="js/app/account/controllers/account-ctrl.js"></script>
     <script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
+    <script src="js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js"></script>
+    <script src="js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js"></script>
+    <script src="js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js"></script>
+    <script src="js/app/account/directives/customer-details/customer-details-ctrl.js"></script>
+    <script src="js/app/account/directives/customer-details/customer-details-directive.js"></script>
     <script src="js/app/account/services/account-service.js"></script>
     <script src="js/app/auth/auth-index.js"></script>
     <script src="js/app/auth/controllers/auth-modal-dialog-ctrl.js"></script>

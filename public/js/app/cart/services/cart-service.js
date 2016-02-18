@@ -192,6 +192,24 @@ angular.module('ds.cart')
                 return createItemDef.promise;
             }
 
+            function reformatCartItems(cart) {
+                var items = [];
+                for (var i = 0; i < cart.items.length; i++) {
+                    var item = {
+                        itemId: cart.items[i].id,
+                        productId: cart.items[i].product.id,
+                        quantity: cart.items[i].quantity,
+                        unitPrice:{
+                            amount: cart.items[i].price.originalAmount,
+                            currency: cart.items[i].price.currency
+                        },
+                        taxCode:cart.items[i].taxCode
+                    };
+                    items.push(item);
+                }
+                return items;
+            }
+
             /*
              TODO:
              this function is only necessary because the cart mashup does not directly consume the coupon as
@@ -366,7 +384,31 @@ angular.module('ds.cart')
                     });
                 },
 
-                recalculateCart: function (data) {
+                recalculateCart: function (cart, addressToShip, shippingCostObject) {
+                    var items = reformatCartItems(cart);
+                    var data = {
+                        cartId: cart.id,
+                        siteCode: GlobalData.getSiteCode(),
+                        currency: GlobalData.getCurrency(),
+                        items: items,
+                        addresses: [
+                            {
+                              type: 'SHIP_TO',
+                              addressLine1: addressToShip.address1,
+                              city: addressToShip.city,
+                              state: addressToShip.state,
+                              zipCode: addressToShip.zipCode,
+                              country: addressToShip.country
+                            }
+                        ]
+                    };
+                    if (shippingCostObject) {
+                        data.shipping = {
+                            calculationType: 'QUOTATION',
+                            methodId: shippingCostObject.id,
+                            zoneId: shippingCostObject.zoneId
+                        };
+                    }
                     return CartREST.CalculateCart.all('calculation').customPOST(data, '');
                 }
 

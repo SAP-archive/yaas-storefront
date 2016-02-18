@@ -94,7 +94,6 @@ describe('AccountCtrl Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$modal', mockedModal);
-        $provide.value('$translate', mockedTranslate);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_, _$q_) {
@@ -170,8 +169,6 @@ describe('AccountCtrl Test', function () {
             expect($scope.refreshAddresses).toBeDefined();
             expect($scope.setAddressAsDefault).toBeDefined();
             expect($scope.showAllOrders).toBeDefined();
-            expect($scope.updateUserInfo).toBeDefined();
-            expect($scope.updatePassword).toBeDefined();
         });
 
         it("should save address if form is valid", function() {
@@ -191,15 +188,20 @@ describe('AccountCtrl Test', function () {
 
         it("should remove address by executing removeAddress with confirmation", function() {
             address.id = 'address123';
-            spyOn(window, 'confirm').andReturn(true);
+
             $scope.removeAddress(address);
+            expect(mockedModal.open).toHaveBeenCalled();
+
+            modalPromise.resolve(true);
+
             $scope.$digest();
             expect(AccountSvc.removeAddress).toHaveBeenCalled();
         });
 
         it("should not remove address by executing removeAddress without confirmation", function() {
-            spyOn(window, 'confirm').andReturn(false);
             $scope.removeAddress(address);
+            expect(mockedModal.open).toHaveBeenCalled();
+            
             $scope.$digest();
             expect(AccountSvc.removeAddress).not.toHaveBeenCalled();
         });
@@ -232,23 +234,6 @@ describe('AccountCtrl Test', function () {
             expect(mockedModal.close).toHaveBeenCalled();
         });
 
-        it("should delegate call to AuthDialogManager's showUpdatePassword method", function() {
-            $scope.updatePassword();
-            expect(mockedAuthDialogManager.showUpdatePassword).toHaveBeenCalled();
-        });
-
-
-        describe('updateAccount()', function() {
-
-            
-            it('should update account by executing updateUserInfo', function () {
-                $scope.updateUserInfo();
-                expect(AccountSvc.updateAccount).toHaveBeenCalled();
-            });
-
-
-        });
-
         describe('saveOnEnter', function(){
 
             var formValid = true;
@@ -273,7 +258,5 @@ describe('AccountCtrl Test', function () {
         });
 
     });
-
-
 
 });

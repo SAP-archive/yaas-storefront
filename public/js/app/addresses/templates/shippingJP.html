@@ -1,8 +1,10 @@
+<!-- shipping jp -->
 <div>
 
     <div id="ship-to-fields" ng-hide="shipToSameAsBillTo">
 
-        <div class="col-lg-12">
+        <!-- name -->
+        <div class="col-md-8">
             <div class="form-group input-group"
                  ng-class="{'has-error': !shipToSameAsBillTo && shipToForm.contactName.$invalid && (shipToForm.contactName.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="contactNameShip">{{'NAME' | translate}}</label>
@@ -12,7 +14,8 @@
             </div>
         </div>
 
-        <div class="col-lg-12">
+        <!-- country -->
+        <div class="col-md-4">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
                 <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
@@ -21,7 +24,8 @@
             </div>
         </div>
 
-        <div class="col-lg-12">
+        <!-- company name -->
+        <div class="col-md-4">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="companyNameShip">{{'COMPANY_NAME' | translate}}</label>
                 <input type="text" class="form-control" id="companyNameShip" name="companyName" ng-model="order.shipTo.companyName"
@@ -29,15 +33,17 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- postal code -->
+        <div class="col-md-4">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.zip.$invalid && ( shipToForm.zip.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="zipCodeShip">{{'POSTAL_CODE' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zip" name="zip" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo" ng-change="$root.closeCartOnCheckout()">
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" ng-model="order.shipTo.zipCode" name="zip" id="zipCodeShip" autocomplete="on" ng-required="!shipToSameAsBillTo" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- prefecture -->
+        <div class="col-md-4">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'PREFECTURE' | translate}}</label>
@@ -45,7 +51,8 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- city village -->
+        <div class="col-md-4">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.city.$invalid && (shipToForm.city.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="cityShip">{{'CITY_VILLAGE' | translate}}</label>
@@ -53,7 +60,8 @@
             </div>
         </div>
 
-        <div class="col-lg-6"
+        <!-- subarea -->
+        <div class="col-md-4"
             ng-class="{'has-error': shipToForm.address2.$invalid && (shipToForm.address2.$dirty || showPristineErrors) }">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="address2Ship">{{'SUBAREA' | translate}}</label>
@@ -63,7 +71,8 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- further subarea -->
+        <div class="col-md-4">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.address1.$invalid && (shipToForm.address1.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="address1Ship">{{'FURTHER_SUBAREA' | translate}}</label>
@@ -73,7 +82,8 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- contact phone  -->
+        <div class="col-md-4">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label>
                 <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="phoneShip" id="contactPhoneShip" autocomplete="on" placeholder="(Optional)" 

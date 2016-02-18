@@ -1,6 +1,6 @@
 describe('CheckoutCtrl', function () {
 
-    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd,
+    var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd, cartDfd,
         $modal, mockedModal, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
@@ -67,164 +67,6 @@ describe('CheckoutCtrl', function () {
         order.billTo = {};
         cart = {};
         order.creditCard = {};
-        shippingZones = [{
-            'default': true,
-            'id': 'europe',
-            'methods': [
-            {
-                'id': 'fedex-2dayground',
-                'name': 'FedEx 2Day',
-                'active': true,
-                'maxOrderValue': {
-                  'amount': '200',
-                  'currency': 'USD'
-                },
-                'fees': [
-                  {
-                    'minOrderValue': {
-                      'amount': '0',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '3',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '50',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '1.89',
-                      'currency': 'USD'
-                    }
-                  }
-                ]
-            },
-            {
-                'id': 'ups-canada',
-                'name': 'UPS Canada',
-                'active': true,
-                'maxOrderValue': {
-                  'amount': '200',
-                  'currency': 'USD'
-                },
-                'fees': [
-                  {
-                    'minOrderValue': {
-                      'amount': '0',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '4',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '50',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '0.89',
-                      'currency': 'USD'
-                    }
-                  }
-                ]
-            }],
-            'name': 'Canada',
-            'shipTo': ['CA']
-        },
-        {
-            'default': false,
-            'id': 'us',
-            'methods': [
-            {
-                'id': 'fedex-2dayground',
-                'name': 'FedEx 2Day',
-                'active': true,
-                'maxOrderValue': {
-                  'amount': '200',
-                  'currency': 'USD'
-                },
-                'fees': [
-                  {
-                    'minOrderValue': {
-                      'amount': '0',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '8.6',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '50',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '3',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '100',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '1',
-                      'currency': 'USD'
-                    }
-                  }
-                ]
-            },
-            {
-                'id': 'ups-standard',
-                'name': 'UPS Standard',
-                'active': true,
-                'maxOrderValue': {
-                  'amount': '200',
-                  'currency': 'USD'
-                },
-                'fees': [
-                  {
-                    'minOrderValue': {
-                      'amount': '0',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '8.76',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '50',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '2.99',
-                      'currency': 'USD'
-                    }
-                  },
-                  {
-                    'minOrderValue': {
-                      'amount': '200',
-                      'currency': 'USD'
-                    },
-                    'cost': {
-                      'amount': '0',
-                      'currency': 'USD'
-                    }
-                  }
-                ]
-            }],
-            'name': 'USA',
-            'shipTo': ['US']
-        }];
         shippingCountries = ['CA', 'US'];
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
@@ -278,6 +120,7 @@ describe('CheckoutCtrl', function () {
     beforeEach(function () {
         checkoutDfd = $q.defer();
         shippingDfd = $q.defer();
+        cartDfd = $q.defer();
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
         });
@@ -289,6 +132,10 @@ describe('CheckoutCtrl', function () {
         mockedShippingSvc.getMinimumShippingCost = jasmine.createSpy('shipping').andCallFake(function() {
             return shippingDfd.promise;
         });
+
+        
+
+        mockedCartSvc.reformatCartItems = jasmine.createSpy();
 
         returnAccount = {
             contactEmail: 'mike@hybris.com',
@@ -335,7 +182,12 @@ describe('CheckoutCtrl', function () {
         totalPrice : {
             value:0
          },
-        id: null
+        id: '566fe8c5452e61c47f141239',
+        shipping : {
+            fee: {
+                amount: 0
+            }
+        }
         };
         checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
     });
@@ -484,6 +336,8 @@ describe('CheckoutCtrl', function () {
             $scope.checkoutForm.paymentForm.expMonth.$setValidity = setValidityMock;
             $scope.checkoutForm.paymentForm.expYear = {};
             $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
+
+            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
 
             errorMsg = 'msg';
 
@@ -639,9 +493,30 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('shipping zones', function() {
+        beforeEach(function(){
+            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
+            $scope.shippingCost = {'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true};
+            mockedCartSvc.recalculateCart = jasmine.createSpy('recalculateCart').andCallFake(function (){
+                return cartDfd.promise;
+            });
+        });
+        
+
         it('should detect if the country is ship to country', function() {
             expect($scope.isShipToCountry('US')).toBeTruthy();
             expect($scope.isShipToCountry('FR')).toBeFalsy();
+        });
+
+        it('should hide cart and payment display', function() {
+            $scope.closeCartOnCheckout();
+            expect($scope.displayCart).toBeFalsy();
+        });
+
+        it('should preview order', function() {
+            $scope.order.shipTo = returnAddress;
+            $scope.order.billTo = returnAddress;
+            $scope.previewOrderDesktop(true, true);
+            expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
         });
 
     });

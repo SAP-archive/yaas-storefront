@@ -1,0 +1,18 @@
+<div class="modal-header" ng-cloak>
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">{{'CLOSE' | translate}}</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">{{'CONFIRM_DELETE_ADDRESS_TITLE' | translate}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            {{'CONFIRM_ADDRESS_REMOVAL'|translate}}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" ng-click="close()" id="cancel-delete-address-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
+    <button type="button" ng-click="delete()" id="confirm-delete-address-btn" class="btn btn-primary btn-lg">{{'DELETE' | translate}}</button>
+</div>

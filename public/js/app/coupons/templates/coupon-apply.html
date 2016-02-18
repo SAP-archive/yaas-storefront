@@ -1,20 +1,38 @@
 <div class="couponApplyContainer">
 
-    <a class="highlight" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length">{{'COUPON_CODE' | translate}}</a>
+    <!-- add coupon link -->
+    <a class="highlight addCouponLink" ng-click="couponCollapsed = !couponCollapsed" ng-show="!cart.discounts.length && couponCollapsed" href="#">{{'COUPON_CODE' | translate}}</a>
 
+    <!-- coupon wrapper -->
     <div ng-show="!couponCollapsed && !cart.discounts.length" class="couponContainer">
+
+        <!-- coupon minimum error message -->
         <div ng-if="coupon.restrictions.minOrderValue.amount > cart.totalPrice.amount" class="error">
             {{'COUPON_MINIMUM_NOT_MET' | translate}}
         </div>
+    
+        <!-- coupon error message -->
         <div ng-if="couponErrorMessage" class="error">
             {{couponErrorMessage}}
         </div>
-        <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' ng-disabled="cart.discounts.length">
-        <button id="apply-coupon" class="btn btn-primary btn-sm pull-left couponInputBtn" ng-click="applyCoupon(couponCode); couponCode = null" ng-disabled="cart.discounts.length || !couponCode.length">
-        {{'COUPON_APPLY' | translate}}
-        </button>
+        
+        <div class="row">
+            <div class="col-xs-9">
+                <!-- coupon input -->
+                <input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' ng-disabled="cart.discounts.length" placeholder="ADD COUPON CODE">
+            </div>
+            <div class="col-xs-3">
+                <!-- apply btn -->
+                <button id="apply-coupon" class="btn btn-link pull-left couponInputBtn" ng-click="applyCoupon(couponCode); couponCode = null" ng-disabled="cart.discounts.length || !couponCode.length">
+                {{'COUPON_APPLY' | translate}}
+                </button>
+            </div>
+        </div>
+        
+    
     </div>
 
+    <!-- show discount -->
     <div ng-if="cart.discounts.length" class="row">
         <div ng-repeat="discount in cart.discounts" class="col-xs-8 col-md-8 img-col">
             {{discount.code}}

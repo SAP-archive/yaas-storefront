@@ -17,24 +17,4 @@ angular.module('ds.i18n')
     .constant('translateSettings', {
         defaultLanguageCode: 'en',
         supportedLanguages: ['en', 'de']
-    })
-/** Provides access to the dictionaries.*/
-    .provider('i18nConstants', ['TranslationsEN', 'TranslationsDE',
-        function i18nConstantsProvider(TranslationsEN, TranslationsDE) {
-
-            this.$get = [function () {
-                return this;
-            }];
-
-            this.languages = {
-                en: {
-                    code: 'en',
-                    translations: TranslationsEN
-                },
-                de: {
-                    code: 'de',
-                    translations: TranslationsDE
-                }
-            };
-        }
-    ]);
+    });

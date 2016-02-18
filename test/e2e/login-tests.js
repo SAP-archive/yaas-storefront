@@ -15,6 +15,16 @@ function waitForAccountPage() {
     });
 }
 
+function clickOnModalDeleteAddress() {
+    browser.switchTo().defaultContent();
+    browser.sleep(1000);
+    browser.waitForAngular();
+    browser.wait(function () {
+        return element(by.css('.modal-content')).isPresent();
+    });
+    tu.clickElement('id', 'confirm-delete-address-btn');
+}
+
 
 describe("login:", function () {
 
@@ -36,8 +46,6 @@ describe("login:", function () {
 
         });
 
-        //disabled until KIWIS-2024 can be fixed
-        // DR - re-enable test as KIWIS-2024 has been fixed
         it('should not allow user to login', function () {
             tu.loginHelper('bad@bad.com', 'bad');
             expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
@@ -99,14 +107,14 @@ describe("login:", function () {
             //dismisses pop-ups in phantomjs
             browser.executeScript('window.confirm = function(){return true;}');
             tu.createAccount('addresstest');
-            tu.populateAddress('0', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            tu.populateAddress('United States', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             browser.sleep(500);
             // expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
             expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
             expect(element(by.repeater('address in addresses').row(0).column('address.city')).getText()).toEqual('Boulder, CO 80301');
             expect(element(by.repeater('address in addresses').row(0).column('address.country')).getText()).toEqual('US');
             expect(element(by.repeater('address in addresses').row(0).column('address.contactPhone')).getText()).toEqual('303-303-3333');
-            tu.populateAddress('1', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
+            tu.populateAddress('Canada', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
             expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
             expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual('321 phony street, apt 420');
             expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual('Toronto, ON M4M 1H7');
@@ -121,16 +129,18 @@ describe("login:", function () {
             browser.sleep(1000);
             expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
             tu.clickElement('id', 'delete-address-btn');
+            // Confirm delete address
+            clickOnModalDeleteAddress();
             browser.wait(function () {
                 return element(by.id('delete-address-btn')).isPresent();
             });
             tu.clickElement('id', 'delete-address-btn');
+            // Confirm delete address
+            clickOnModalDeleteAddress();
             expect(element(by.id('delete-address-btn')).isPresent()).toBe(false);
 
         });
 
-        //disabled until KIWIS-2024 can be fixed
-        //DR - KIWIS-2024 is fixed now, re-enabled the test
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
@@ -180,7 +190,7 @@ describe("login:", function () {
         });
 
         it('should allow user to update their password', function () {
-            tu.loginHelper('password@hybristest.com', 'password');
+            tu.loginHelper('password@yaastest.com', 'password');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
@@ -197,7 +207,7 @@ describe("login:", function () {
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
             browser.sleep(1000);
-            tu.loginHelper('password@hybristest.com', 'password2');
+            tu.loginHelper('password@yaastest.com', 'password2');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
@@ -217,7 +227,7 @@ describe("login:", function () {
             browser.wait(function () {
                 return element(by.binding('SIGN_IN')).isPresent();
             });
-            tu.sendKeys('id', 'usernameInput', 'order@hybristest.com');
+            tu.sendKeys('id', 'usernameInput', 'order@yaastest.com');
             tu.sendKeys('id', 'passwordInput', 'password');
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);

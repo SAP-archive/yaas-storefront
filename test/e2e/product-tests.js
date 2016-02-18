@@ -174,8 +174,8 @@ describe('product page', function () {
             });
             browser.sleep(5000);
             tu.sendKeys('css', '.col-xs-7 #search', 'beer');
-            expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
-            expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
+            expect(element(by.repeater('result in search.results').row(0)).getText()).toContain('Beer Mug w/Helles');
+            expect(element(by.repeater('result in search.results').row(1)).getText()).toContain('Beer Mug');
             element(by.repeater('result in search.results').row(1)).click();
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });

@@ -76,7 +76,7 @@ angular.module('ds.ytracking', [])
                         ytrackingSvc.cartUpdated(obj.cart);
                     });
 
-                    // This should be maybe changed, and user should put ng-click to all banners that we want to look for 
+                    // This should be maybe changed, and user should put ng-click to all banners that we want to look for
                     // or say to user to give to all banners that they want to follow specific class
                     $document.on('click', '.banner', function () {
                         var element = angular.element(this);
@@ -95,15 +95,15 @@ angular.module('ds.ytracking', [])
 
             /**
             * Url for piwik service.
-            * appConfig dependency should be refactored out maybe and tenant and domain 
+            * appConfig dependency should be refactored out maybe and tenant and domain
             * should be provided for example as parameters to ytracking directive so this tracking
             * can also work for any other storefront (not just this template)
             */
             var apiPath = appConfig.dynamicDomain();
             var tenantId = appConfig.storeTenant();
-            
-            var piwikUrl = 'https://' + apiPath + '/hybris/edge/b1/events';
-            var consentUrl = 'https://' + apiPath + '/hybris/consent/b1/' + tenantId + '/consentReferences';
+
+            var piwikUrl = 'https://' + apiPath + '/hybris/profile-piwik/b2/' + tenantId + '/events';
+            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/b2/' + tenantId + '/consentReferences';
 
             var getConsentReference = function () {
                 var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
@@ -127,17 +127,8 @@ angular.module('ds.ytracking', [])
                     }
                 };
 
-                $http(req).success(function (response) {
-                    if (!!response.id) {
-                        CookieSvc.setConsentReferenceCookie(response.id);
-                    }
-                });
+                return $http(req);
             };
-
-            if (!getConsentReference()) {
-                //noinspection JSUnusedAssignment
-                makeOptInRequest();
-            }
 
             /**
             * Create object from piwik GET request
@@ -165,8 +156,25 @@ angular.module('ds.ytracking', [])
                 //Get object from query parameters
                 var obj = getPiwikQueryParameters(e);
 
-                //Make post request to service
-                makePiwikRequest(obj);
+
+                /*
+                 if no consent reference cookie present, we must get the consent reference before making the
+                 first call to the tracking endpoint
+                 */
+                if (!getConsentReference()) {
+                    //noinspection JSUnusedAssignment
+                    makeOptInRequest().success(function (response) {
+                        if (!!response.id) {
+                            CookieSvc.setConsentReferenceCookie(response.id);
+                        }
+                        //Make post request to service
+                        makePiwikRequest(obj);
+                    });
+                }
+                else {
+                    //Make post request to service
+                    makePiwikRequest(obj);
+                }
             };
 
             /**

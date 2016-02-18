@@ -24,21 +24,16 @@ angular.module('ds.checkout')
                 var shippingZones;
                 var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
-                ShippingREST.ShippingZones.all(site).all('zones').getList().then(function(zones){
+                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     for (var i = 0; i < shippingZones.length; i++) {
                         for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
-                            shipToCountries.push(shippingZones[i].shipTo[j]);
+                            if (shippingZones[i].methods.length) {
+                                shipToCountries.push(shippingZones[i].shipTo[j]);
+                            }
                         }
                     }
                     deferred.resolve(shipToCountries);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shipToCountries);
-                    } else {
-                        deferred.reject(failure);
-                    }
                 });
                 
                 return deferred.promise;
@@ -51,13 +46,6 @@ angular.module('ds.checkout')
                 ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     deferred.resolve(shippingZones);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippingZones);
-                    } else {
-                        deferred.reject(failure);
-                    }
                 });
 
                 return deferred.promise;
@@ -70,13 +58,6 @@ angular.module('ds.checkout')
                 ShippingREST.ShippingZones.one(site).one('quote').all('minimum').post(item).then(function(result){
                     minCost = result.plain();
                     deferred.resolve(minCost);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(minCost);
-                    } else {
-                        deferred.reject(failure);
-                    }
                 });
 
                 return deferred.promise;
@@ -89,13 +70,6 @@ angular.module('ds.checkout')
                 ShippingREST.ShippingZones.one(site).all('quote').post(item).then(function(result){
                     shippingCosts = result.plain();
                     deferred.resolve(shippingCosts);
-                }, function(failure){
-                    console.log('From error');
-                    if (failure.status === 404) {
-                        deferred.resolve(shippingCosts);
-                    } else {
-                        deferred.reject(failure);
-                    }
                 });
 
                 return deferred.promise;

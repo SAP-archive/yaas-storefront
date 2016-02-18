@@ -1,0 +1,95 @@
+﻿<section class="white" ng-cloak>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-headline hidden-xs">
+                <h1>
+                    <small>{{'MY_ACCOUNT' | translate}}</small>
+                    <span class="welcomeTxt pull-left">{{'WELCOME' | translate}} <span ng-if="account.firstName">{{account.firstName}}</span></span>
+                    <img src="./img/user-icon_big.png" class="img-circle pull-left " />
+                </h1>
+            </div>
+            <div class="page-headline mobile hidden-sm hidden-md hidden-lg">
+                <h1>
+                    <small>{{'MY_ACCOUNT' | translate}}</small>
+                    <div>
+                        <img src="./img/user-icon_big.png" class="img-circle" />
+                    </div>
+                    <span class="welcomeTxt pull-left">{{'WELCOME' | translate}} <span ng-if="account.firstName">{{account.firstName}}</span></span>
+
+                </h1>
+            </div>
+        </div>
+
+        <!-- desktop display -->
+        <div class="row userInfoRow hidden-xs desktopUserInfo" ng-if="account">
+
+            <div class="col-sm-1 editLinkContainer">
+                <a ng-click="editUserName(account)"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <span class="dataLabel">{{'NAME' | translate}}</span>
+                {{account.title|translate}} {{account.firstName}} {{account.middleName}} {{account.lastName}}
+            </div>
+            <div class="col-sm-1 editLinkContainer">
+                <a ng-click="editUserEmail(account)"><span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div class="col-sm-3">
+                <span class="dataLabel">{{'EMAIL' | translate}}</span>
+                {{account.contactEmail}}
+            </div>
+
+            <div class="col-sm-1 editLinkContainer">
+                <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            <div class="col-sm-3">
+                <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+                &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+            </div>
+        </div>
+        <!-- /desktop -->
+
+        <!-- mobile display -->
+        <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg" ng-if="account">
+
+            <div class="col-xs-12">
+                <span class="titleRow visible-xs hidden-md hidden-lg">
+                    {{'ACCOUNT_DETAILS' | translate}}
+                </span>
+            </div>
+            <div class="col-xs-8">
+                <div class="mobileDataSection">
+                    <span class="dataLabel locale">{{'NAME' | translate}}</span>
+                    {{account.title|translate}} {{account.firstName}} {{account.middleName}} {{account.lastName}}
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn btn-secondary btn-md pull-right" ng-click="editUserName(account)">{{'EDIT' | translate}}</button>
+            </div>
+            <div class="col-xs-8">
+                <div class="mobileDataSection">
+                    <span class="dataLabel locale">{{'EMAIL' | translate}}</span>
+                    {{showLanguageLocale()}}
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn btn-secondary btn-md pull-right" ng-click="editUserEmail(account)">{{'EDIT' | translate}}</button>
+            </div>
+            <div class="col-xs-8">
+                <div class="mobileDataSection">
+                    <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+                    &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>
+            </div>
+
+        </div>
+        <!-- /mobile display -->
+
+        <div>
+            <p ng-if="!account">{{'FAIL_CUSTOMER_DETAILS' | translate}}</p>
+        </div>
+
+    </div>
+</section>

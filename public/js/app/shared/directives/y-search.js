@@ -28,7 +28,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     });
 
 angular.module('ds.ysearch')
-    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', function (scope, $rootScope, $state, ysearchSvc) {
+    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', 'GlobalData', function (scope, $rootScope, $state, ysearchSvc, GlobalData) {
 
         if (!scope.page) {
             scope.page = 0;
@@ -54,6 +54,10 @@ angular.module('ds.ysearch')
         });
 
         scope.showSearchResults = function () {
+            // load the currency before displaying the search results
+            // to ensure we get the current site's one
+            scope.currency = GlobalData.getCurrency();
+            scope.currencySymbol = GlobalData.getCurrencySymbol();
 
             scope.search.showSearchResults = true;
             if (scope.search.text !== '') {
