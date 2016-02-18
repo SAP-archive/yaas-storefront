@@ -15,8 +15,8 @@
 angular.module('ds.router', [])
 
    /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider', 'settings',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig, settings) {
 
 
             // States definition
@@ -31,7 +31,12 @@ angular.module('ds.router', [])
                         },
                         'topNavigation@': {
                             templateUrl: 'js/app/shared/templates/top-navigation.html',
-                            controller: 'TopNavigationCtrl'
+                            controller: 'TopNavigationCtrl',
+                            resolve: {
+                                userImage: ['YGoogleSignin', function (YGoogleSignin) {
+                                    return YGoogleSignin.getUser(settings.googleClientId);
+                                }]
+                            }
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',

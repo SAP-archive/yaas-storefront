@@ -18,10 +18,12 @@ describe('TopNavigationCtrl', function () {
     var mockedGlobalData = {
         customerAccount: {
             accounts: [{providerId: 'google'}]
-        }
+        },
+        user: {isAuthenticated: true, username: null, image: 'example.png'}
     };
     var $q;
     var mockedGoogle;
+    var mockedUserImage;
     var deferredUser;
     var mockedState = {
         go: jasmine.createSpy('go')
@@ -87,12 +89,14 @@ describe('TopNavigationCtrl', function () {
             }),
             logout: function () {}
         };
+        mockedUserImage = {firstName: 'John', lastName: 'Doe', email: 'johndoe@example.com', image: 'example.png'};
     });
 
     beforeEach(function () {
+        $scope.user = {isAuthenticated: true, username: null, image: 'example.png'};
         navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc,
             GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:mockAuthDialogManager,
-            CategorySvc: mockedCategorySvc, YGoogleSignin: mockedGoogle});
+            CategorySvc: mockedCategorySvc, YGoogleSignin: mockedGoogle, userImage: mockedUserImage});
     });
 
     describe('initialization', function(){

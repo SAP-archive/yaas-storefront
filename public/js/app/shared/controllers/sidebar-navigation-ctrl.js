@@ -29,7 +29,7 @@ angular.module('ds.shared')
 
             $scope.user = GlobalData.user;
             $scope.categories = CategorySvc.getCategoriesFromCache();
-
+            $scope.GlobalData = GlobalData;
             // binds logo in sidebar
             $scope.store = GlobalData.store;
 

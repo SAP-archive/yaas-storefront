@@ -118,9 +118,12 @@ angular.module('ds.auth')
 
 
                 onGoogleLogIn: function (user) {
-                    AuthenticationService.socialLogin('google', user.token, user.image).then(function () {
+                    AuthenticationService.socialLogin('google', user.token).then(function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: true});
                         try {
+                            if (user.image) {
+                                GlobalData.user.image = user.image;
+                            }
                             SessionSvc.afterSocialLogin({
                                 email: user.email,
                                 firstName: user.firstname,
@@ -189,6 +192,7 @@ angular.module('ds.auth')
                 /** Logs the customer out and removes the token cookie. */
                 signOut: function () {
                     if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
+                        GlobalData.user.image = settings.avatarImagePlaceholder;
                         YGoogleSignin.logout();
                     }
                     AuthREST.Customers.all('logout').customGET('', {accessToken: TokenSvc.getToken().getAccessToken()});
@@ -234,11 +238,11 @@ angular.module('ds.auth')
                 },
 
                 /** Performs login logic following login through social media login.*/
-                socialLogin: function (providerId, token, image) {
+                socialLogin: function (providerId, token) {
                     return AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
                         // passing static username to trigger 'is authenticated' validation of token
                         TokenSvc.setToken(response.accessToken, 'social');
-                        SessionSvc.afterLogIn('', image);
+                        SessionSvc.afterLogIn();
                     });
                 }
 

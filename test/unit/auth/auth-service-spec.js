@@ -21,7 +21,7 @@ describe('AuthSvc Test', function () {
     var YGoogleSignin = {
         logout: jasmine.createSpy('logout')
     };
-    var mockedGlobalData = {store: {tenant: storeTenant}, customerAccount: {accounts: [{providerId: 'google'}]}};
+    var mockedGlobalData = {store: {tenant: storeTenant}, customerAccount: {accounts: [{providerId: 'google'}]}, user: {image: 'example.jpg'}};
     var accessToken = 123;
     var username = 'some.user@hybris.com';
     var appConfig = {

@@ -26,16 +26,11 @@ angular.module('ds.account')
              * Retrieves the account details of logged-in customer and stores the result in the GlobalData service.
              * Returns a promise of the result.
              */
-            account: function(img) {
+            account: function() {
                 var promise = AuthREST.Customers.all('me').customGET();
                 promise.then(function(success){
                     if (success) {
                         GlobalData.customerAccount = success.plain();
-                        if (img) {
-                            GlobalData.customerAccount.image = img;
-                        } else {
-                            GlobalData.customerAccount.image = settings.avatarImagePlaceholder;
-                        }
                     }
                 });
                 return promise;
