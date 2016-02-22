@@ -519,6 +519,46 @@ describe('CheckoutCtrl', function () {
             expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
         });
 
+        describe('ShipTo countries and selecting address', function () {
+
+            beforeEach(function () {
+                spyOn($scope, 'selectAddress');
+                addressDef.resolve(returnAddress);
+                $scope.$apply();
+                $scope.openAddressDialog();
+            });
+
+            it('should select address if country is shipTo', function() {
+                $scope.shippingConfigured = true;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+            it('should not select address if country is not shipTo', function() {
+                returnAddress.country = 'FR';
+                $scope.shippingConfigured = true;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).not.toHaveBeenCalled();
+            });
+
+            it('should select address if country is shipTo and shipping is not configured', function() {
+                $scope.shippingConfigured = false;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+            it('should select address even if country is not shipTo but shipping is not configured', function() {
+                returnAddress.country = 'FR';
+                $scope.shippingConfigured = false;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+        });
+
     });
 
 });

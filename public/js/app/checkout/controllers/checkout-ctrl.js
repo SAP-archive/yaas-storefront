@@ -177,6 +177,17 @@ angular.module('ds.checkout')
 
             $scope.submitIsDisabled = false;
 
+            var isShippingConfigured = function (zones) {
+                for (var i = 0; i < zones.length; i++) {
+                    if (zones[i].methods.length) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            $scope.shippingConfigured = isShippingConfigured($scope.shippingZones);
+
             // Configure modal "spinner" to block input during checkout processing
             var ssClass = 'order-processing-dialog',
                 modal = {
@@ -528,8 +539,11 @@ angular.module('ds.checkout')
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
-                var condition = $scope.isShipToCountry(address.country);
-                if (condition) {
+                if ($scope.shippingConfigured) {
+                    if ($scope.isShipToCountry(address.country)) {
+                        return $scope.selectAddress(address, target);
+                    }
+                } else {
                     return $scope.selectAddress(address, target);
                 }
             };
