@@ -50,7 +50,7 @@ exports.verifyCartDiscount = function (amount) {
 
 exports.waitForAccountPage = function () {
     browser.wait(function () {
-        return element(by.binding('ACCOUNT_DETAILS')).isPresent();
+        return element(by.binding('account.contactEmail')).isPresent();
     });
 };
 
@@ -74,7 +74,7 @@ exports.clickElement = function (type, pageElement) {
     }
 };
 
-exports.scrollToBottomOfProducts = function (end) {
+exports.scrollToProduct = function (prodEl) {
     var deferred = protractor.promise.defer();
     var maxCount = 10;
     var count = 0;
@@ -82,7 +82,7 @@ exports.scrollToBottomOfProducts = function (end) {
         browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
         browser.sleep(500);
         count++;
-        if (element(by.xpath(tu.beerBug)).isPresent()) {
+        if (element(by.xpath(prodEl)).isPresent()) {
             deferred.fulfill();
         } else if (count === maxCount) {
             deferred.reject();
