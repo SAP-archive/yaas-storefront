@@ -44,7 +44,6 @@ angular.module('ds.checkout')
             //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
-            cart = $scope.cart;
             $scope.shippingCountries = shippingCountries;
             $scope.shippingZones = shippingZones || 0;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
@@ -609,7 +608,7 @@ angular.module('ds.checkout')
                 return deferred.promise;
             }
 
-            $rootScope.$on('updateShippingCost', function (eve, eveObj) {
+            $scope.$on('event:shipping-cost-updated', function (eve, eveObj) {
                 updateShippingCost(eveObj.shipToAddress);
             });
 
