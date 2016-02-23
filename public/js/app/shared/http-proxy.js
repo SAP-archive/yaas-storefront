@@ -101,7 +101,7 @@ angular.module('ds.httpproxy', [])
                             $injector.get('$state').go('errors', { errorId: '404' });
                         } else if (response.status === 404 && $location.url().indexOf('checkout') > -1) {
                             $rootScope.showCart = true;
-                            $injector.get('$state').go(settings.allProductsState, {openCart: true});
+                            $injector.get('$state').go(settings.allProductsState);
                         } else if (response.status === 500) {
                             //show error view with default message.
                             if(response.config.url.indexOf('orders') < 0 && response.config.url.indexOf('me') < 0) {
