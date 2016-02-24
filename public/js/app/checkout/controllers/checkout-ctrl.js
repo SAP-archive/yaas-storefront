@@ -580,7 +580,7 @@ angular.module('ds.checkout')
                             $scope.cart.totalPrice = calculatedCart.totalPrice;
                             $scope.cart.totalUnitsCount = calculatedCart.totalUnitsCount;
                             $scope.cart.shipping = calculatedCart.shipping;
-
+                            $scope.cart.totalDiscount = calculatedCart.totalDiscount;
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
