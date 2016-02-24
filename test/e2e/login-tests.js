@@ -54,8 +54,8 @@ describe("login:", function () {
         it('should allow existing user to login', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account');
+            // tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'login-btn');
             browser.sleep(1000);
             expect(element(by.binding("account.firstName")).getText()).toEqual('JOE');
             // tu.clickElement('id', 'logout-btn');
@@ -65,7 +65,7 @@ describe("login:", function () {
         it('should allow user to update account info', function () {
             tu.loginHelper('cool@cool.com', 'coolio');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(2000);
             expect(element(by.binding("account.lastName")).getText()).toContain('Joe C Cool');
@@ -96,11 +96,9 @@ describe("login:", function () {
             tu.sendKeys('id', 'newPasswordInput', 'password');
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account');
+            // tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'login-btn');
             expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
-
-
         });
 
         it('should allow existing user to manage addresses', function () {
@@ -144,7 +142,7 @@ describe("login:", function () {
         it('should not allow user to update their password with incorrect password', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'update-password');
@@ -161,7 +159,7 @@ describe("login:", function () {
         it('should not allow user to update their password if it less than 6 chars', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'update-password');
@@ -177,7 +175,7 @@ describe("login:", function () {
         it('should not allow user to update their password if it does not match confirmation', function () {
             tu.loginHelper('badpassword@test.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'update-password');
@@ -192,7 +190,7 @@ describe("login:", function () {
         it('should allow user to update their password', function () {
             tu.loginHelper('password@yaastest.com', 'password');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             waitForAccountPage();
             tu.clickElement('id', 'update-password');
@@ -202,14 +200,14 @@ describe("login:", function () {
             browser.sleep(500);
             tu.clickElement('id', 'update-password-btn');
             browser.sleep(1500);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('css', '#logout-btn > a.ng-binding');
             browser.sleep(500);
             browser.get(tu.tenant + '/#!/ct');
             browser.sleep(1000);
             tu.loginHelper('password@yaastest.com', 'password2');
             browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
+            // tu.clickElement('id', 'my-account-dropdown');
             tu.clickElement('id', 'my-account');
             browser.sleep(1000);
             tu.clickElement('id', 'update-password');

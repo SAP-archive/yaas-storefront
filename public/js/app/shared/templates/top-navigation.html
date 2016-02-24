@@ -46,14 +46,14 @@
                 <div class="row">
                     <div class="col-xs-6 col-md-4">
                         <div class="text-center">
-                            <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})">
+                            <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
                                 {{'SIGN_IN' | translate}}
                             </a>
                         </div>
                         <div ng-if="user.isAuthenticated">
                             <div class="signin-container ">
                                 <div class="text-center dropdown">
-                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}">
+                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
                                         <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
                                     </a>
                                     <ul class="dropdown-menu">
