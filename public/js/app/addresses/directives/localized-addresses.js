@@ -182,7 +182,7 @@ angular.module('ds.addresses')
                             addressToShip.zipCode = '';
                         }
                         $rootScope.closeCartOnCheckout();
-                        $rootScope.$emit('updateShippingCost', {shipToAddress: addressToShip});
+                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: addressToShip});
                     }
                 };
 
