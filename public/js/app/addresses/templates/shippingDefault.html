@@ -66,10 +66,9 @@
 
         <!-- state -->
         <div class="col-md-4">
-            <div class="form-group input-group"
-                ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
+            <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="stateShip" name="state" ng-required="!shipToSameAsBillTo" ng-model="order.shipTo.state" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                <input type="text" class="form-control" id="stateShip" name="state" ng-model="order.shipTo.state" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
