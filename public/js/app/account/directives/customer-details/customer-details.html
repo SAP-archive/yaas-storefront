@@ -51,11 +51,6 @@
         <!-- mobile display -->
         <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg" ng-if="account">
 
-            <div class="col-xs-12">
-                <span class="titleRow visible-xs hidden-md hidden-lg">
-                    {{'ACCOUNT_DETAILS' | translate}}
-                </span>
-            </div>
             <div class="col-xs-8">
                 <div class="mobileDataSection">
                     <span class="dataLabel locale">{{'NAME' | translate}}</span>
@@ -68,7 +63,7 @@
             <div class="col-xs-8">
                 <div class="mobileDataSection">
                     <span class="dataLabel locale">{{'EMAIL' | translate}}</span>
-                    {{showLanguageLocale()}}
+                    {{account.contactEmail}}
                 </div>
             </div>
             <div class="col-xs-4">
