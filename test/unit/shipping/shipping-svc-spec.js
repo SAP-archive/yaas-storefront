@@ -72,13 +72,25 @@ describe('ShippingSvc', function() {
 
         });
 
-        it('should issue POST', function () {
+        it('should issue GET shipping costs', function () {
+            $httpBackend.expectGET(baseUrl + '/US/zones?activeMethods=true&expand=methods,fees').respond([]);
+            shippingSvc.getSiteShippingZones();
+            $httpBackend.flush();
+        });
+
+        it('should issue GET shipping costs', function () {
+            $httpBackend.expectGET(baseUrl + '/US/zones?activeMethods=true&expand=methods').respond([]);
+            shippingSvc.getShipToCountries();
+            $httpBackend.flush();
+        });
+
+        it('should issue POST shipping costs', function () {
             $httpBackend.expectPOST(baseUrl + '/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
             $httpBackend.flush();
         });
 
-        it('should issue POST', function () {
+        it('should issue POST shippint cost min', function () {
             $httpBackend.expectPOST(baseUrl + '/US/quote/minimum').respond({});
             shippingSvc.getMinimumShippingCost(item);
             $httpBackend.flush();

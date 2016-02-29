@@ -17,10 +17,10 @@ angular.module('ds.shared')
 
 
     .controller('SidebarNavigationCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'GlobalData',
-        'i18nConstants', 'AuthSvc', 'AuthDialogManager','CategorySvc', '$translate', '$q', 'settings',
+        'AuthSvc', 'AuthDialogManager','CategorySvc', '$translate', '$q', 'settings',
 
-        function ($scope, $state, $stateParams, $rootScope, GlobalData, i18nConstants,
-                  AuthSvc, AuthDialogManager, CategorySvc, $translate, $q, settings) {
+        function ($scope, $state, $stateParams, $rootScope, GlobalData,
+            AuthSvc, AuthDialogManager, CategorySvc, $translate, $q, settings) {
 
             $scope.tenantId = GlobalData.store.tenant;
 

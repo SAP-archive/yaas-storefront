@@ -94,7 +94,6 @@ describe('AccountCtrl Test', function () {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
         $provide.value('$modal', mockedModal);
-        $provide.value('$translate', mockedTranslate);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_, _$q_) {

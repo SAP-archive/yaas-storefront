@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "grunt-contrib-watch": "^0.5.3",
+    "grunt-json-minify": "^0.4.0",
     "istanbul": "0.3.0",
     "jasmine-reporters": "^1.0.0",
     "karma": "^0.12.31",

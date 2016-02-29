@@ -62,37 +62,6 @@ describe('Checkout InlineErrorInput directive Test', function () {
             expect(cloneInputLen).toEqual(0);
         });
 
-        it("should set cloned element value to a default error message on form submittion event", function() {
-            var input = element.find('input[name="firstName"]:first-child'),
-                clonedInput = element.find('input.error-input[name="firstName"]');
-
-            expect(clonedInput.val()).toEqual('');
-            $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
-        });
-
-        it("shouldn't set cloned element value if correct value was entered", function() {
-            var input = element.find('input[name="firstName"]:first-child'),
-                clonedInput = element.find('input.error-input[name="firstName"]'),
-                controller = input.controller('ngModel');
-
-            // Initially no error
-            expect(clonedInput.val()).toEqual('');
-            
-            // Submitting show pristine error
-            input.val('');
-            controller.$setViewValue('');
-            $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
-
-            // Setting valid value - no errors
-            var value = 'Test';
-            input.val(value);
-            controller.$setViewValue(value);
-            $scope.$broadcast('submitting:form', 'billToForm');
-            expect(clonedInput.val()).toEqual('Field is required!');
-        });        
-
     });
 
 });

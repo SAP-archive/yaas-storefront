@@ -8,10 +8,10 @@ exports.config = {
 
     specs: [
 
-        //'../test/e2e/cart-tests.js',
-        //'../test/e2e/checkout-tests.js',
+        '../test/e2e/cart-tests.js',
+        '../test/e2e/checkout-tests.js',
         '../test/e2e/coupon-tests.js',
-        //'../test/e2e/login-tests.js',
+        '../test/e2e/login-tests.js',
         '../test/e2e/product-tests.js'
     ],
 
