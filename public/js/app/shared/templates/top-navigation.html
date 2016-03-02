@@ -57,9 +57,13 @@
                                         <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li id="my-account" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+                                        <li role="presentation">
+                                            <a role="menuitem" id="my-account-link" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
+                                        </li>
                                         <li class="divider"></li>
-                                        <li id="logout-btn" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                                        <li  role="presentation" >
+                                            <a  role="menuitem" id="logout-btn" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
