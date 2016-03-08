@@ -524,7 +524,7 @@ angular.module('ds.checkout')
                 $scope.displayCart = false;
             };
 
-            $rootScope.$on('preview:order', function (eve, eveObj) {
+            var unbindPreviewOrder = $rootScope.$on('preview:order', function (eve, eveObj) {
                 previewOrder(eveObj.shipToDone, eveObj.billToDone);
             });
 
@@ -535,6 +535,8 @@ angular.module('ds.checkout')
             $rootScope.$on('language:updated', function () {
                 updateShippingCost($scope.order.shipTo);
             });
+
+            $scope.$on('$destroy', unbindPreviewOrder);
 
             $scope.scrollTo = function (id, yOffset) {
                 $anchorScroll.yOffset = yOffset;
