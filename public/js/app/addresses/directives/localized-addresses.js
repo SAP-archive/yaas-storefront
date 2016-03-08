@@ -176,13 +176,11 @@ angular.module('ds.addresses')
                             break;
                     }
                     //Here should be implmented logic for shipping address when is active
+                    if (scope.viewTarget === 'shipping') {
+                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: scope.order.shipTo});
+                    }
                     if (scope.viewTarget !== 'addAddress') {
-                        var addressToShip = $rootScope.shipActive ? scope.order.shipTo : scope.order.billTo;
-                        if (!addressToShip.zipCode) {
-                            addressToShip.zipCode = '';
-                        }
                         $rootScope.closeCartOnCheckout();
-                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: addressToShip});
                     }
                 };
 

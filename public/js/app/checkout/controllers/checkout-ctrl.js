@@ -89,23 +89,23 @@ angular.module('ds.checkout')
             };
 
             var populateBillTo = function(address){
-                $scope.order.billTo.id = address.id;
-                $scope.order.billTo.contactName = address.contactName;
-                $scope.order.billTo.companyName = address.companyName;
-                $scope.order.billTo.address1 = address.street;
-                $scope.order.billTo.address2 = address.streetAppendix;
+                $scope.order.shipTo.id = address.id;
+                $scope.order.shipTo.contactName = address.contactName;
+                $scope.order.shipTo.companyName = address.companyName;
+                $scope.order.shipTo.address1 = address.street;
+                $scope.order.shipTo.address2 = address.streetAppendix;
 
                 //checkout requires 2 character country codes
                 if (address.country === 'USA') {
                     address.country = 'US';
                 }
-                $scope.order.billTo.country = address.country;
-                $scope.order.billTo.city = address.city;
-                $scope.order.billTo.state = address.state;
-                $scope.order.billTo.zipCode = address.zipCode;
-                $scope.order.billTo.contactPhone = address.contactPhone;
+                $scope.order.shipTo.country = address.country;
+                $scope.order.shipTo.city = address.city;
+                $scope.order.shipTo.state = address.state;
+                $scope.order.shipTo.zipCode = address.zipCode;
+                $scope.order.shipTo.contactPhone = address.contactPhone;
 
-                $scope.$emit('localizedAddress:updated', address.country, 'billing');
+                $scope.$emit('localizedAddress:updated', address.country, 'shipping');
             };
 
             var getAddresses = function() {
@@ -257,37 +257,28 @@ angular.module('ds.checkout')
             };
 
             /** Copy bill-to information to the ship-to properties.*/
-            var setShipToSameAsBillTo = function (updateCost) {
-                if (updateCost) {
-                    if (!$scope.order.billTo.zipCode) {
-                        $scope.order.billTo.zipCode = '';
-                    }
-                    updateShippingCost($scope.order.billTo);
-                }
-                angular.copy($scope.order.billTo, $scope.order.shipTo);
-                selectedShippingAddress = $scope.order.shipTo;
-                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
+            var setBillToSameAsShipTo = function () {
+                angular.copy($scope.order.shipTo, $scope.order.billTo);
+                selectedBillingAddress = $scope.order.billTo;
+                $scope.$emit('localizedAddress:updated', selectedBillingAddress.country, 'billing');
             };
 
-            var clearShipTo = function(){
-                selectedShippingAddress = {};
-                $scope.order.shipTo = {};
-                if ($scope.order.billTo.country) {
-                    $scope.order.shipTo.country = $scope.order.billTo.country;
+            var clearBillTo = function(){
+                selectedBillingAddress = {};
+                $scope.order.billTo = {};
+                if ($scope.order.shipTo.country) {
+                    $scope.order.billTo.country = $scope.order.shipTo.country;
                 }
-                //$scope.order.shipTo.zipCode = '';
-                selectedShippingAddress = $scope.order.shipTo;
-                $scope.$emit('localizedAddress:updated', selectedShippingAddress.country, 'shipping');
+                selectedBillingAddress = $scope.order.billTo;
+                $scope.$emit('localizedAddress:updated', selectedBillingAddress.country, 'billing');
                 $scope.shipToSameAsBillTo = false;
             };
 
-            $scope.toggleShipToSameAsBillTo = function(){
+            $scope.toggleBillToSameAsShipTo = function(){
                 if($scope.shipToSameAsBillTo){
-                    setShipToSameAsBillTo(true);
-                    $rootScope.shipActive = false;
+                    setBillToSameAsShipTo();
                 } else {
-                    clearShipTo();
-                    $rootScope.shipActive = true;
+                    clearBillTo();
                 }
                 $rootScope.closeCartOnCheckout();
             };
@@ -425,7 +416,7 @@ angular.module('ds.checkout')
 
                     $scope.submitIsDisabled = true;
                     if ($scope.shipToSameAsBillTo) {
-                        setShipToSameAsBillTo(false);
+                        setBillToSameAsShipTo();
                     }
                     $scope.order.cart = $scope.cart;
                     $scope.order.shipping = angular.fromJson($scope.shippingCost);
@@ -448,8 +439,8 @@ angular.module('ds.checkout')
                 }
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
-                    $rootScope.shipActive = true;
                     $scope.$emit('localizedAddress:updated', address.country, 'shipping');
+                    updateShippingCost($scope.order.shipTo);
                 }
                 addressModalInstance.close();
 
@@ -463,12 +454,10 @@ angular.module('ds.checkout')
                 target.state = address.state;
                 target.zipCode = address.zipCode;
                 target.contactPhone = address.contactPhone;
-                if(target === $scope.order.billTo && ($scope.shipToSameAsBillTo === true || _.isEmpty($scope.order.shipTo))){
-                    setShipToSameAsBillTo(true);
+                if(target === $scope.order.shipTo && ($scope.shipToSameAsBillTo === true || _.isEmpty($scope.order.billTo))){
+                    setBillToSameAsShipTo();
                 }
-                $scope.shipToSameAsBillTo = _.isEqual($scope.order.billTo, $scope.order.shipTo);
-                var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                updateShippingCost(addressToShip);
+                $scope.shipToSameAsBillTo = _.isEqual($scope.order.shipTo, $scope.order.billTo);
             };
 
             $scope.openAddressDialog = function(target) {
@@ -503,7 +492,7 @@ angular.module('ds.checkout')
             });
 
             $scope.updateAddressName = function () {
-                $scope.$broadcast('myDetails:change', $scope.billToForm);
+                $scope.$broadcast('myDetails:change', $scope.shipToForm);
                 if (shouldAutoUpdateName) {
                     var fullName = '';
                     if ($scope.order.account.firstName) {
@@ -516,7 +505,7 @@ angular.module('ds.checkout')
                         fullName = fullName + $scope.order.account.lastName;
                     }
 
-                    $scope.order.billTo.contactName = fullName;
+                    $scope.order.shipTo.contactName = fullName;
                 }
             };
 
@@ -544,8 +533,7 @@ angular.module('ds.checkout')
             });
 
             $rootScope.$on('language:updated', function () {
-                var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                updateShippingCost(addressToShip);
+                updateShippingCost($scope.order.shipTo);
             });
 
             $scope.scrollTo = function (id, yOffset) {
@@ -565,12 +553,12 @@ angular.module('ds.checkout')
             };
 
             function previewOrder (shipToFormValid, billToFormValid) {
+                var countryFulfilled = $scope.order.shipTo.country && ($scope.shipToSameAsBillTo || $scope.order.billTo.country);
                 var deferred = $q.defer();
                 $scope.messagePreviewOrder = null;
-                if (shipToFormValid && billToFormValid) {
+                if (shipToFormValid && billToFormValid && countryFulfilled) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
-                    var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
-                    CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
+                    CartSvc.recalculateCart($scope.cart, $scope.order.shipTo, shippingCostObject).then(
                         function (calculatedCart) {
                             $scope.cart.currency = calculatedCart.currency;
                             $scope.cart.totalTax = calculatedCart.totalTax;
