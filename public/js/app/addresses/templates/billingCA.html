@@ -1,16 +1,23 @@
+<!-- billing ca -->
 <div>
-
-    <div class="col-lg-12">
+    
+    <!-- seciton heading -->
+    <div class="col-md-12">
         <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
     </div>
 
-    <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
+    <!-- select from address book -->
+    <div class="col-md-4" ng-if="user.isAuthenticated && (addresses.length > 1)">
         <div class="form-group">
             <button class="btn btn-default btn-lg btn-block" id="select-address-btn-1" ng-click="openAddressDialog(order.billTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!-- clear the row -->
+    <div class="clearfix"></div>
+
+    <!-- full name -->
+    <div class="col-md-8">
         <div class="form-group input-group"
              ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
@@ -20,7 +27,8 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!-- country -->
+    <div class="col-md-4">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
@@ -35,14 +43,17 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!-- comany name -->
+    <!-- <div class="col-md-4">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
             <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
                    autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
         </div>
-    </div>
-    <div class="col-lg-6">
+    </div> -->
+
+    <!-- address 1 -->
+    <div class="col-md-4">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.address1.$invalid && (billToForm.address1.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="address1Bill">{{'ADDRESS' | translate}}</label>
@@ -52,7 +63,8 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- addresss 2 -->
+    <div class="col-md-4">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="address2Bill">{{'ADDRESS' | translate}} 2</label>
             <input type="text" class="form-control" placeholder="(Optional)" id="address2Bill" name="address2"
@@ -60,7 +72,8 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- city -->
+    <div class="col-md-4">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.city.$invalid && (billToForm.city.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="cityBill">{{'CITY' | translate}}</label>
@@ -70,7 +83,8 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- province -->
+    <div class="col-md-4">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="state">{{'PROVINCE' | translate}}</label>
@@ -85,7 +99,8 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- postal code -->
+    <div class="col-md-4">
         <div class="form-group input-group"
             ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="zipCodeBill">{{'POSTAL_CODE' | translate}}</label>
@@ -95,7 +110,8 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <!-- contact phone -->
+    <div class="col-md-4">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label>
             <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"

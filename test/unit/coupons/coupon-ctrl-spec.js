@@ -30,9 +30,7 @@ describe('CouponCtrl Test', function () {
     }
 
     beforeEach(angular.mock.module('ds.coupon'));
-    beforeEach(module('ds.account', function ($provide) {
-        $provide.value('$translate', mockedTranslate);
-    }));
+    beforeEach(angular.mock.module('ds.account'));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
 

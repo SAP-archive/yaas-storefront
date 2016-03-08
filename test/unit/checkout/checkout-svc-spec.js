@@ -88,7 +88,7 @@ describe('CheckoutSvc', function () {
             {"contactName":"Amy Willis","street":"Ship Lane 56","city":"Arvada","state":"CO","zipCode":"80005",
                 "country":"US","account":"bs@sushi.com","type":"SHIPPING"}],
         "customer":{"title":"Mr.", "firstName":"Michael", "middleName":"Jeffrey", "lastName":"Jordan","email":"bs@sushi.com"},
-        "totalPrice":7.79, "shipping":{"methodId":"ups-standard","amount":8.76}};
+        "totalPrice":7.79, "shipping":{"methodId":"ups-standard","amount":8.76, "zoneId":"us"}};
 
     mockedStripeJS = {};
     mockedCartSvc = {};

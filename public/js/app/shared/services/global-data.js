@@ -18,8 +18,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'i18nConstants', 'translateSettings', 'settings',
-        function (appConfig, $translate, CookieSvc, $rootScope, i18nConstants, translateSettings, settings) {
+    .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'translateSettings', 'settings',
+        function (appConfig, $translate, CookieSvc, $rootScope, translateSettings, settings) {
 
 
             var sites, currentSite;

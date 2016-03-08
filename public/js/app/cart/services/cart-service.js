@@ -200,7 +200,7 @@ angular.module('ds.cart')
                         productId: cart.items[i].product.id,
                         quantity: cart.items[i].quantity,
                         unitPrice:{
-                            amount: cart.items[i].price.originalAmount,
+                            amount: cart.items[i].price.effectiveAmount,
                             currency: cart.items[i].price.currency
                         },
                         taxCode:cart.items[i].taxCode
@@ -386,16 +386,21 @@ angular.module('ds.cart')
 
                 recalculateCart: function (cart, addressToShip, shippingCostObject) {
                     var items = reformatCartItems(cart);
+                    var discounts = [];
+                    angular.forEach(cart.discounts, function(discount){
+                        discounts.push({
+                            discountRate: discount.discountRate,
+                            amount: discount.amount,
+                            currency: discount.currency,
+                            calculationType: discount.calculationType
+                        });
+                    });
                     var data = {
                         cartId: cart.id,
                         siteCode: GlobalData.getSiteCode(),
                         currency: GlobalData.getCurrency(),
-                        shipping: {
-                            calculationType: 'QUOTATION',
-                            methodId: shippingCostObject.id,
-                            zoneId: shippingCostObject.zoneId
-                        },
                         items: items,
+                        discounts: discounts,
                         addresses: [
                             {
                               type: 'SHIP_TO',
@@ -407,6 +412,13 @@ angular.module('ds.cart')
                             }
                         ]
                     };
+                    if (shippingCostObject) {
+                        data.shipping = {
+                            calculationType: 'QUOTATION',
+                            methodId: shippingCostObject.id,
+                            zoneId: shippingCostObject.zoneId
+                        };
+                    }
                     return CartREST.CalculateCart.all('calculation').customPOST(data, '');
                 }
 
