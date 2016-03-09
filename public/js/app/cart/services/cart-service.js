@@ -329,7 +329,7 @@ angular.module('ds.cart')
                         });
                     });
                 },
-
+                
                 /*
                  *   Adds a product to the cart, updates the cart (PUT) and then retrieves the updated
                  *   cart information (GET).

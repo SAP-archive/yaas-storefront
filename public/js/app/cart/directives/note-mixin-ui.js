@@ -7,6 +7,6 @@ angular.module('ds.cart')
     .directive('noteMixinUi',['$rootScope', function($rootScope){
         return {
             restrict: 'E',
-            template: "<h1>Future home of the Add Note Mixin UI </h1>"
+            //template: "<h1>Future home of the Add Note Mixin UI </h1>"
         }
     }]);
