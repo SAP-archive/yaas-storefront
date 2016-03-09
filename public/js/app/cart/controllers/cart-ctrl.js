@@ -102,29 +102,4 @@ angular.module('ds.cart')
                 }
 
             };
-
-            // Add NOTE mixin
-            $scope.note = {
-                noteCollapsed: true,
-                content: "",
-                onBlur: function(){
-                    if (this.content == ""){
-                        this.collapseNote();
-                    }
-                    else {
-                        // save first and then collapseNote
-                    }
-                },
-                collapseNote: function() {
-                    this.noteCollapsed = true;
-                },
-                expandNote: function() {
-                    this.noteCollapsed = false;
-                },
-                submit: function(item){
-                    //alert("ERROR: Save functionality not yet implemented");
-                    CartNoteMixinSvc.updateNote(item, this.content);
-                }
-            }
-
         }]);

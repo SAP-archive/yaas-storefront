@@ -58,7 +58,9 @@
         <section>
 
             <!-- Cart Item -->
-            <div ng-repeat="item in cart.items">
+            <div 
+            ng-repeat="item in cart.items"
+            ng-controller="CartNoteMixinCtrl">
 
                 <!-- error message -->
                 <div ng-if="item.error" class="error col-xs-12 col-md-12">
