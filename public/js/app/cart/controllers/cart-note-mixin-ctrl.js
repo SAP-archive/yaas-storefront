@@ -23,9 +23,8 @@ angular.module('ds.cart')
                 noteCollapsed: true,
                 oldContent: "",
                 content: "",
+                /*
                 onBlur: function(item) {
-                    if (this.content == "")
-                        this.collapseNote();
                     /*
                     if (this.content == this.oldContent) {
                         this.collapseNote();
@@ -50,8 +49,8 @@ angular.module('ds.cart')
                         }
 
                     }
-                    */
                 },
+                */
                 collapseNote: function() {
                     //this.content = "";
                     this.noteCollapsed = true;
@@ -63,14 +62,12 @@ angular.module('ds.cart')
                 },
                 submit: function(item) {
                     var self = this;
-                    console.log("note.submit");
                    // if (!(this.oldContent == this.content)) {
                         CartNoteMixinSvc.updateNote(item, this.content)
                             .then(function() {
-                                alert("Saved success!");
                             },
                             function() {
-                                alert("Fail");
+                                alert("Note save failed");
                             })
                             .finally(function() {
                                 self.collapseNote();
