@@ -15,30 +15,68 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartNoteMixinCtrl', ['$scope', '$state', '$rootScope', 'CartSvc', 'CartNoteMixinSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
-        function($scope, $state, $rootScope, CartSvc, CartNoteMixinSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
-            
+    .controller('CartNoteMixinCtrl', ['$scope', '$state', '$q', '$rootScope', 'CartSvc', 'CartNoteMixinSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
+        function($scope, $state, $q, $rootScope, CartSvc, CartNoteMixinSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
+
             // Add NOTE mixin
             $scope.note = {
                 noteCollapsed: true,
+                oldContent: "",
                 content: "",
-                onBlur: function(){
-                    if (this.content == ""){
+                onBlur: function(item) {
+                    if (this.content == "")
+                        this.collapseNote();
+                    /*
+                    if (this.content == this.oldContent) {
                         this.collapseNote();
                     }
                     else {
-                        // save first and then collapseNote
+                        // If note changed, submit it
+                        var submitPromise = this.submit(item);
+                        if (submitPromise) {
+                            submitPromise
+                            .then(function() {
+                                alert("Saved success!");
+                            },
+                            function() {
+                                alert("Fail");
+                            })
+                            .finally(function(){
+                                this.collapseNote();
+                            });
+                        }
+                        else {
+                            this.collapseNote();
+                        }
+
                     }
+                    */
                 },
                 collapseNote: function() {
+                    //this.content = "";
                     this.noteCollapsed = true;
                 },
-                expandNote: function() {
+                expandNote: function(savedNote) {
+                    //this.oldContent = savedNote || "";
+                    //this.content = this.oldContent;
                     this.noteCollapsed = false;
                 },
-                submit: function(item){
-                    //alert("ERROR: Save functionality not yet implemented");
-                    CartNoteMixinSvc.updateNote(item, this.content);
+                submit: function(item) {
+                    var self = this;
+                    console.log("note.submit");
+                   // if (!(this.oldContent == this.content)) {
+                        CartNoteMixinSvc.updateNote(item, this.content)
+                            .then(function() {
+                                alert("Saved success!");
+                            },
+                            function() {
+                                alert("Fail");
+                            })
+                            .finally(function() {
+                                self.collapseNote();
+                            });
+                    //}
+
                 }
             }
         }
