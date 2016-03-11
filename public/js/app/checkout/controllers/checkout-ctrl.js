@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc', '$timeout',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc, $timeout) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', 'shippingCountries', '$q', 'CartSvc', '$timeout',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, shippingCountries, $q, CartSvc, $timeout) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -44,8 +44,6 @@ angular.module('ds.checkout')
             //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
-            cart = $scope.cart;
-            $scope.shippingCountries = shippingCountries;
             $scope.shippingZones = shippingZones || 0;
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.user = GlobalData.user;
@@ -589,16 +587,14 @@ angular.module('ds.checkout')
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
                     CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
                         function (calculatedCart) {
-                            $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
-                            $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
-                            if (calculatedCart.totalTax) {
-                                $scope.cart.totalTax.amount =  calculatedCart.totalTax.amount;
-                            }
-                            else {
-                                $scope.cart.totalTax =  {amount: 0};
-                            }
-                            $scope.cart.taxAggregate = angular.copy(calculatedCart.taxAggregate);
-
+                            $scope.cart.currency = calculatedCart.currency;
+                            $scope.cart.totalTax = calculatedCart.totalTax;
+                            $scope.cart.taxAggregate = calculatedCart.taxAggregate;
+                            $scope.cart.subTotalPrice = calculatedCart.subTotalPrice;
+                            $scope.cart.totalPrice = calculatedCart.totalPrice;
+                            $scope.cart.totalUnitsCount = calculatedCart.totalUnitsCount;
+                            $scope.cart.shipping = calculatedCart.shipping;
+                            $scope.cart.totalDiscount = calculatedCart.totalDiscount;
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
@@ -623,7 +619,7 @@ angular.module('ds.checkout')
                 return deferred.promise;
             }
 
-            $rootScope.$on('updateShippingCost', function (eve, eveObj) {
+            $scope.$on('event:shipping-cost-updated', function (eve, eveObj) {
                 updateShippingCost(eveObj.shipToAddress);
             });
 

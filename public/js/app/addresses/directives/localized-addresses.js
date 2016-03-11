@@ -179,7 +179,7 @@ angular.module('ds.addresses')
                     if (scope.viewTarget !== 'addAddress') {
                         var addressToShip = scope.shipToSameAsBillTo ? scope.order.billTo : scope.order.shipTo;
                         $rootScope.closeCartOnCheckout();
-                        $rootScope.$emit('updateShippingCost', {shipToAddress: addressToShip});
+                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: addressToShip});
                     }
                 };
 

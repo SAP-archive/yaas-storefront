@@ -4,7 +4,7 @@
     <button class="close" ng-click="closeAddressModal()"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
     <h4 class="modal-title" id="myModalLabel">{{'ADD_ADDRESS' | translate}}</h4>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" stop-event="touchend">
 
       <input type="hidden" name="id" ng-model="address.id">
       <input type="hidden" name="account" ng-model="address.account">

@@ -337,8 +337,6 @@ describe('CheckoutCtrl', function () {
             $scope.checkoutForm.paymentForm.expYear = {};
             $scope.checkoutForm.paymentForm.expYear.$setValidity = setValidityMock;
 
-            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
-
             errorMsg = 'msg';
 
             stripeError = {};
@@ -494,13 +492,9 @@ describe('CheckoutCtrl', function () {
 
     describe('shipping zones', function() {
         beforeEach(function(){
-            $scope.shippingCosts = [{'id':'fedex-2dayground','name':'FedEx 2Day','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true},{'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.76,'currency':'USD'},'zoneId':'us'}];
-            $scope.shippingCost = {'id':'ups-standard','name':'UPS Standard','fee':{'amount':8.6,'currency':'USD'},'zoneId':'us','preselect':true};
-            mockedCartSvc.recalculateCart = jasmine.createSpy('recalculateCart').andCallFake(function (){
-                return cartDfd.promise;
-            });
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            mockedCartSvc.recalculateCart = jasmine.createSpy().andReturn(cartDfd.promise);
         });
-        
 
         it('should detect if the country is ship to country', function() {
             expect($scope.isShipToCountry('US')).toBeTruthy();
@@ -512,11 +506,18 @@ describe('CheckoutCtrl', function () {
             expect($scope.displayCart).toBeFalsy();
         });
 
-        it('should preview order', function() {
+        it('should preview order correctly', function() {
             $scope.order.shipTo = returnAddress;
             $scope.order.billTo = returnAddress;
             $scope.previewOrderDesktop(true, true);
             expect(mockedCartSvc.recalculateCart).toHaveBeenCalled();
+            expect($scope.showPristineErrors).toBeFalsy();
+        });
+
+        it('should preview order not correctly', function() {
+            $scope.previewOrderDesktop(true, false);
+            expect($scope.showPristineErrors).toBeTruthy();
+            expect($scope.messagePreviewOrder).toEqual('PLEASE_CORRECT_ERRORS_PREVIEW');
         });
 
         describe('ShipTo countries and selecting address', function () {

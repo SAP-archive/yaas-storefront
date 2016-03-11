@@ -258,7 +258,7 @@ exports.createAccount = function (emailAddress) {
     tu.clickElement('id', 'create-acct-btn');
     browser.sleep(1000);
     tu.clickElement('id', 'my-account-dropdown');
-    tu.clickElement('id', 'my-account');
+    tu.clickElement('id', 'my-account-link');
     browser.sleep(1000);
 };
 
