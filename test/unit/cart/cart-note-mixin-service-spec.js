@@ -10,19 +10,25 @@
  * license agreement you entered into with hybris.
  */
 
-describe('CartNoteMixinSvc Test', function() {
+xdescribe('CartNoteMixinSvc Test', function() {
 
     beforeEach(function(){
-       
+       module('restangular');
+       module('ds.products');
+       module('ds.shared',
+       function($provide){
+           $provide.value('appConfig', {});
+       });
+       module('ds.cart');
     });
     
      
-    beforeEach(inject(function() {
+    beforeEach(inject(function(CartSvc, SiteConfigSvc) {
         
     }));
     
     
-    it('should persist note', function() {
+    it('should persist the note', function() {
         
     });
 });
