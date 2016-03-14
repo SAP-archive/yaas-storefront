@@ -15,37 +15,31 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartNoteMixinCtrl', ['$scope', '$state', '$q', '$rootScope', 'CartSvc', 'CartNoteMixinSvc', 'GlobalData', 'settings', 'AuthSvc', 'AuthDialogManager',
-        function($scope, $state, $q, $rootScope, CartSvc, CartNoteMixinSvc, GlobalData, settings, AuthSvc, AuthDialogManager) {
+    .controller('CartNoteMixinCtrl', ['$scope', '$q', '$rootScope', 'CartSvc', 'CartNoteMixinSvc',
+        function($scope, $q, $rootScope, CartSvc, CartNoteMixinSv) {
 
-            // Add NOTE mixin
+            // NOTE mixin
             $scope.note = {
                 noteCollapsed: true,
                 oldContent: "",
                 content: "",
                 collapseNote: function() {
-                    //this.content = "";
                     this.noteCollapsed = true;
                 },
                 expandNote: function(savedNote) {
-                    //this.oldContent = savedNote || "";
-                    //this.content = this.oldContent;
                     this.noteCollapsed = false;
                 },
                 submit: function(item) {
                     var self = this;
-                   // if (!(this.oldContent == this.content)) {
-                        CartNoteMixinSvc.updateNote(item, this.content)
-                            .then(function() {
-                            },
-                            function() {
-                                alert("Note save failed");
-                            })
-                            .finally(function() {
-                                self.collapseNote();
-                            });
-                    //}
-
+                    CartNoteMixinSvc.updateNote(item, this.content)
+                        .then(function() {
+                        },
+                        function() {
+                            alert("Note save failed");
+                        })
+                        .finally(function() {
+                            self.collapseNote();
+                        });
                 }
             }
         }
