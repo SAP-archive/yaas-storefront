@@ -44,7 +44,7 @@ angular.module('ds.checkout')
             //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
-            $scope.shippingZones = shippingZones || 0;
+            $scope.shippingZones = shippingZones || [];
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.user = GlobalData.user;
             $scope.addresses = [];
@@ -175,16 +175,7 @@ angular.module('ds.checkout')
 
             $scope.submitIsDisabled = false;
 
-            var isShippingConfigured = function (zones) {
-                for (var i = 0; i < zones.length; i++) {
-                    if (zones[i].methods.length) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            $scope.shippingConfigured = isShippingConfigured($scope.shippingZones);
+            $scope.shippingConfigured = ShippingSvc.isShippingConfigured($scope.shippingZones);
 
             // Configure modal "spinner" to block input during checkout processing
             var ssClass = 'order-processing-dialog',
@@ -532,6 +523,14 @@ angular.module('ds.checkout')
                 }
             };
 
+            $scope.disableAddress = function (country) {
+                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
             $scope.isShipToCountry = function (countryID) {
                 return shippingCountries.indexOf(countryID) > -1;
             };
@@ -539,10 +538,10 @@ angular.module('ds.checkout')
             $scope.ifShipAddressApplicable = function (address, target) {
                 if ($scope.shippingConfigured) {
                     if ($scope.isShipToCountry(address.country)) {
-                        return $scope.selectAddress(address, target);
+                        $scope.selectAddress(address, target);
                     }
                 } else {
-                    return $scope.selectAddress(address, target);
+                    $scope.selectAddress(address, target);
                 }
             };
 

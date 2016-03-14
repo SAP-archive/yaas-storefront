@@ -133,7 +133,7 @@ describe('CheckoutCtrl', function () {
             return shippingDfd.promise;
         });
 
-        
+        mockedShippingSvc.isShippingConfigured = jasmine.createSpy('isShippingConfigured').andReturn(true);
 
         mockedCartSvc.reformatCartItems = jasmine.createSpy();
 
@@ -556,6 +556,31 @@ describe('CheckoutCtrl', function () {
                 $scope.ifShipAddressApplicable(returnAddress, returnAddress);
                 expect($scope.selectAddress).toHaveBeenCalled();
                 expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+        });
+
+        describe('Disable address class method', function () {
+
+            it('disableAddress should depend on country if it is shipTo', function() {
+                $scope.shippingConfigured = true;
+                $scope.isDialog = true;
+                expect($scope.disableAddress('FR')).toBeTruthy();
+                expect($scope.disableAddress('US')).toBeFalsy();
+            });
+
+            it('disableAddress should depend on isDialog', function() {
+                $scope.shippingConfigured = true;
+                $scope.isDialog = false;
+                expect($scope.disableAddress('FR')).toBeFalsy();
+                expect($scope.disableAddress('US')).toBeFalsy();
+            });
+
+            it('disableAddress should depend on if shipping configured', function() {
+                $scope.shippingConfigured = false;
+                $scope.isDialog = true;
+                expect($scope.disableAddress('FR')).toBeFalsy();
+                expect($scope.disableAddress('US')).toBeFalsy();
             });
 
         });
