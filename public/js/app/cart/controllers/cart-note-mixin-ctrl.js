@@ -23,34 +23,6 @@ angular.module('ds.cart')
                 noteCollapsed: true,
                 oldContent: "",
                 content: "",
-                /*
-                onBlur: function(item) {
-                    /*
-                    if (this.content == this.oldContent) {
-                        this.collapseNote();
-                    }
-                    else {
-                        // If note changed, submit it
-                        var submitPromise = this.submit(item);
-                        if (submitPromise) {
-                            submitPromise
-                            .then(function() {
-                                alert("Saved success!");
-                            },
-                            function() {
-                                alert("Fail");
-                            })
-                            .finally(function(){
-                                this.collapseNote();
-                            });
-                        }
-                        else {
-                            this.collapseNote();
-                        }
-
-                    }
-                },
-                */
                 collapseNote: function() {
                     //this.content = "";
                     this.noteCollapsed = true;

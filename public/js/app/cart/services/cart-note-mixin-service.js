@@ -14,20 +14,6 @@ angular.module('ds.cart')
                     console.log("UpdateNote called");
                     var updatePromise = $q.defer();
                     
-                    /*
-                    console.log(cartItem);
-                    
-                    cartItem.metadata = cartItem.metadata || {};
-                    cartItem.metadata.mixins = cartItem.metadata.mixins || {};
-                    cartItem.metadata.mixins.note = noteMixinMetadata;
-                    
-                    cartItem.mixins = cartItem.mixins || {};
-                    cartItem.mixins.note = note;
-                    cartItem.mixins.note.code = noteContent; 
-
-                    
-                    console.log(cartItem);
-                    */
                     var noteMixin = {
                         metadata: {
                             mixins: {
@@ -57,13 +43,6 @@ angular.module('ds.cart')
                             updatePromise.resolve();
                         }, 
                         function () {
-                            /*
-                            angular.forEach(cart.items, function (it) {
-                                if (item.id === it.id) {
-                                    item.error = true;
-                                }
-                            });
-                            */
                             updatePromise.reject();
                         }
                     );
