@@ -77,7 +77,6 @@ angular.module('ds.checkout')
 
             var isShippingConfigured = function (zones) {
                 if (zones) {
-                    console.log(zones);
                     for (var i = 0; i < zones.length; i++) {
                         if (zones[i].methods && zones[i].methods.length) {
                             return true;
