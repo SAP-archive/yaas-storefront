@@ -11,7 +11,6 @@ angular.module('ds.cart')
             
             return {
                 updateNote: function(cartItem, noteContent){
-                    console.log("UpdateNote called");
                     var updatePromise = $q.defer();
                     
                     var noteMixin = {
@@ -31,9 +30,6 @@ angular.module('ds.cart')
                     var cart = CartSvc.getLocalCart();
                     var cartUpdateMode = 'auto';
                     var closeCartAfterTimeout = undefined;
-                    
-                    console.log(cart.id);
-                    console.log(cartItem);
                     
                     CartREST.Cart.one('carts', cart.id)
                     .all('items')
