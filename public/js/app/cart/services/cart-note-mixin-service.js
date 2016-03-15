@@ -3,7 +3,9 @@ angular.module('ds.cart')
         function ($rootScope, CartSvc, CartREST, $q, GlobalData) {
             
             // To be added to cart item's Metadata property
+            // TODO TP-4285 we will create our own schema or use inline mixins
             var noteMixinMetadata = "https://api.yaas.io/hybris/schema/v1/kiwistest/example-schema.json";
+            
             // The actual note
             var note = {
                 code: ""
@@ -16,7 +18,7 @@ angular.module('ds.cart')
                     var noteMixin = {
                         metadata: {
                             mixins: {
-                                note: "https://api.yaas.io/hybris/schema/v1/kiwistest/example-schema.json"
+                                note: noteMixinMetadata
                             }
                         },
                         mixins: {
