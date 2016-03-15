@@ -1,6 +1,6 @@
 angular.module('ds.cart')
-    .factory('CartNoteMixinSvc', ['$rootScope', 'CartSvc', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData',
-        function ($rootScope, CartSvc, CartREST, ProductSvc, AccountSvc, $q, GlobalData) {
+    .factory('CartNoteMixinSvc', ['$rootScope', 'CartSvc', 'CartREST', '$q', 'GlobalData',
+        function ($rootScope, CartSvc, CartREST, $q, GlobalData) {
             
             // To be added to cart item's Metadata property
             var noteMixinMetadata = "https://api.yaas.io/hybris/schema/v1/kiwistest/example-schema.json";

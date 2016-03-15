@@ -10,25 +10,53 @@
  * license agreement you entered into with hybris.
  */
 
-xdescribe('CartNoteMixinSvc Test', function() {
+describe('CartNoteMixinSvc Test', function() {
 
-    beforeEach(function(){
-       module('restangular');
-       module('ds.products');
-       module('ds.shared',
-       function($provide){
-           $provide.value('appConfig', {});
-       });
-       module('ds.cart');
+    var mockedCartSvc, mockedCartItem, mockedNoteContent, cartUrl;
+
+    beforeEach(function() {
+        
+        // Mock GlobalData
+        mockedGlobalData = {
+            getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA'),
+            getCurrencyId: jasmine.createSpy('getCurrencyId').andReturn('USD'),
+            getAcceptLanguages: jasmine.createSpy('getAcceptLanguages').andReturn('en'),
+            getSiteCode: jasmine.createSpy('getSiteCode').andReturn('europe123')
+        };
+        
+        mockedCartSvc = {
+            refreshCart: jasmine.createSpy('refreshCart').andReturn({}),
+            getLocalCart: jasmine.createSpy('refreshCart').andReturn({id: "123"})
+        };
+        
+        module('restangular');
+        module('ds.products');
+        module('ds.cart', function($provide) {
+            $provide.value('CartSvc', mockedCartSvc);
+            $provide.value('GlobalData', mockedGlobalData);
+            $provide.value('appConfig', {});
+        });
     });
-    
-     
-    beforeEach(inject(function(CartSvc, SiteConfigSvc) {
+
+    beforeEach(inject(function(_$httpBackend_, CartNoteMixinSvc, SiteConfigSvc) {
+        mockedBackend = _$httpBackend_;
+        cartNoteMixinSvc = CartNoteMixinSvc;
+        siteConfig = SiteConfigSvc;
         
+        cartUrl = siteConfig.apis.cart.baseUrl + 'carts';
+
+        mockedCartItem = {
+            id: '123'
+        };
+        mockedNoteContent = "A mocked note";
     }));
-    
-    
+
+
     it('should persist the note', function() {
+        var cartUrlRegex = new RegExp(cartUrl);
+        mockedBackend.expectPUT(cartUrlRegex).respond(200, {});
         
+        cartNoteMixinSvc.updateNote(mockedCartItem, mockedNoteContent);
+        mockedBackend.flush();
     });
 });

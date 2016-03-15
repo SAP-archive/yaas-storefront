@@ -85,7 +85,6 @@ angular.module('ds.cart')
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
-
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
 
