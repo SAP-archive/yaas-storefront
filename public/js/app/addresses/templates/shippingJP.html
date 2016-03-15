@@ -3,21 +3,6 @@
 
     <div id="ship-to-fields">
 
-        <!-- section heading -->
-        <div class="col-md-12">
-            <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
-        </div>
-
-        <!-- select from address book -->
-        <div class="col-md-4" ng-if="user.isAuthenticated && (addresses.length > 1)">
-            <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-1" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
-            </div>
-        </div>
-        
-        <!-- clear the row -->
-        <div class="clearfix"></div>
-
         <!-- full name  -->
         <div class="col-md-8">
             <div class="form-group input-group"
