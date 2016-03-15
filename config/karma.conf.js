@@ -21,6 +21,7 @@ module.exports = function(config){
         'public/js/vendor/restangular/dist/restangular.min.js',
         'public/js/vendor/angular-ui-router/release/angular-ui-router.min.js',
         'public/js/vendor/angular-translate/angular-translate.min.js',
+        'public/js/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
         'public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
         'public/js/vendor/angular-stripe-js/build/angular-stripe-js.min.js',
         'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
@@ -56,8 +57,6 @@ module.exports = function(config){
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
         'public/js/app/shared/i18n/i18-index.js',
         'public/js/app/shared/i18n/i18-constants.js',
-        'public/js/app/shared/i18n/lang/en.js',
-        'public/js/app/shared/i18n/lang/de.js',
         'public/js/app/shared/i18n/providers/translation-provider.js',
 
         'public/js/app/shared/directives/y-breadcrumb.js',
@@ -177,7 +176,6 @@ module.exports = function(config){
     ],
 
     exclude : [
-
     ],
 
     preprocessors : {

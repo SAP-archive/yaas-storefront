@@ -1,11 +1,11 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
-        <div class="col-xs-4 ">
+        <div class="col-xs-3 ">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
             </button>
         </div>
-        <div class="col-xs-4 text-center">
+        <div class="col-xs-5 text-center">
             <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
 
@@ -44,29 +44,32 @@
             </div>
             <div class="col-xs-3 cart">
                 <div class="row">
-                    <div class="col-xs-6 col-md-7">
+                    <div class="col-xs-6 col-md-4">
                         <div class="text-center">
-                            <a id="login-btn" ng-if="!user.isAuthenticated" class=" signin" ng-click="login({windowClass:'mobileLoginModal'})">
-                                <img src="./img/user-icon_small_active.png" class="user-avatar">
+                            <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
                                 {{'SIGN_IN' | translate}}
                             </a>
                         </div>
                         <div ng-if="user.isAuthenticated">
                             <div class="signin-container ">
                                 <div class="text-center dropdown">
-                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}">
+                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
                                         <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li id="my-account" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
+                                        <li role="presentation">
+                                            <a role="menuitem" id="my-account-link" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
+                                        </li>
                                         <li class="divider"></li>
-                                        <li id="logout-btn" role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
+                                        <li  role="presentation" >
+                                            <a  role="menuitem" id="logout-btn" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-3 col-md-3 text-center">
+                    <div class="col-xs-3 col-md-3 text-center site-selector-container">
                         <site-selector id="siteSelectorLarge"></site-selector>
                     </div>
                     <div class="col-xs-3 col-md-2 text-center checkout-btn-container">

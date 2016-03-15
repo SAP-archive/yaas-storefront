@@ -32,7 +32,7 @@ describe('product page', function () {
         xit('should scroll to load more products', function () {
             expect(browser.getTitle()).toEqual('Süshi Démo Støre');
             tu.getTextByRepeaterRow(0);
-            tu.scrollToBottomOfProducts().then(function () {
+            tu.scrollToProduct(tu.beerBug).then(function () {
                 tu.getTextByRepeaterRow(30); //verify last product has loaded
                 tu.clickElement('id', tu.backToTopButton);
                 tu.clickElement('xpath', tu.blackCoffeeMug);
@@ -41,11 +41,12 @@ describe('product page', function () {
 
         it('should show the user how many products loaded', function () {
             tu.getTextByRepeaterRow(0);
-            expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('1-');
-            tu.scrollToBottomOfProducts();
+            var viewProdCount = element(by.css('div.viewingContainer')).$('span.page-indicator.ng-scope').$('div.ng-scope');
+            expect(viewProdCount.getText()).toContain('1-');
+            tu.scrollToProduct(tu.beerBug);
             tu.getTextByRepeaterRow(36); //verify last product has loaded
             browser.sleep(500);
-            expect(element(by.css('div.page-indicator.ng-scope > div.ng-scope')).getText()).toContain('-38 of 38'); //should be # of 31, but won't work in phantomjs
+            expect(viewProdCount.getText()).toContain('-38 OF 38'); //should be # of 31, but won't work in phantomjs
 
         });
 
@@ -112,12 +113,12 @@ describe('product page', function () {
             tu.getTextByRepeaterRow(0);
             //price is not currently supported
             browser.sleep(3000);
-            // tu.clickElement('linkText', 'COMPUTER ACCESSORIES');
             var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
+            // Now the results are sorted by name:asc by default
+            //tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
             tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'WATER BOTTLE', '$24.99');
@@ -126,7 +127,7 @@ describe('product page', function () {
             browser.get(tu.tenant + '/#!/ct/office~23050496');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
-            tu.assertProductByRepeaterRow(0, 'EXECUTIVE PEN');
+            //tu.assertProductByRepeaterRow(0, 'EXECUTIVE PEN');
             tu.sortAndVerifyPagination('name', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
             browser.sleep(750);
             tu.sortAndVerifyPagination('name:desc', 'TIGHT GRIP PEN', '$2.49');
@@ -142,10 +143,10 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(3, 'LIPBALM');
-            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$1.49');
-            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
-            element(by.repeater('product in products').row(3).column('product.name')).click();
+            tu.assertProductByRepeaterRow(4, 'LIPBALM');
+            expect(element(by.repeater('product in products').row(4).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$1.49');
+            expect(element(by.repeater('product in products').row(4).column('prices[product.product.id].measurementUnit.quantity')).getText()).toEqual('1000 g');
+            element(by.repeater('product in products').row(4).column('product.name')).click();
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$1.49');
             expect(element(by.binding('product.prices[0].measurementUnit.quantity')).getText()).toEqual('1000 g');
 
@@ -159,10 +160,10 @@ describe('product page', function () {
             browser.driver.actions().mouseMove(category).perform();
             browser.sleep(200);
             category.click();
-            tu.assertProductByRepeaterRow(3, 'BEER MUG');
-            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$3.99');
-            expect(element(by.repeater('product in products').row(3).column('prices[product.product.id].originalAmount')).getText()).toEqual('$6.99');
-            element(by.repeater('product in products').row(3).column('product.name')).click();
+            tu.assertProductByRepeaterRow(0, 'BEER MUG');
+            expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual('$3.99');
+            expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].originalAmount')).getText()).toEqual('$6.99');
+            element(by.repeater('product in products').row(0).column('product.name')).click();
             expect(element(by.binding('product.prices[0].effectiveAmount')).getText()).toEqual('$3.99');
             expect(element(by.binding('product.prices[0].originalAmount')).getText()).toEqual('$6.99');
 
@@ -174,8 +175,8 @@ describe('product page', function () {
             });
             browser.sleep(5000);
             tu.sendKeys('css', '.col-xs-7 #search', 'beer');
-            expect(element(by.repeater('result in search.results').row(0)).getText()).toEqual('Beer Mug w/Helles');
-            expect(element(by.repeater('result in search.results').row(1)).getText()).toEqual('Beer Mug');
+            expect(element(by.repeater('result in search.results').row(0)).getText()).toContain('Beer Mug w/Helles');
+            expect(element(by.repeater('result in search.results').row(1)).getText()).toContain('Beer Mug');
             element(by.repeater('result in search.results').row(1)).click();
             expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
         });

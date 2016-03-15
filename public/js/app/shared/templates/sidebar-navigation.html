@@ -50,7 +50,7 @@
                 </a>
             </div>
             <div class="col-xs-offset-3 col-xs-9 logout-link text-left">
-                <a ng-click="logout()" id="logout-btn" class="signout">{{'SIGN_OUT' | translate}}</a>
+                <a ng-click="logout()" class="signout">{{'SIGN_OUT' | translate}}</a>
             </div>
         </div>
         
@@ -58,11 +58,8 @@
     </div>
 
     <div ng-if="!user.isAuthenticated">
-        <div class="signinContainer">
-            <div class="col-xs-3 text-right">
-                <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
-            </div>
-            <div class="col-xs-9 my-account-link">
+        <div class="signinContainer signinContainer-sidebar">
+            <div class="my-account-link">
                 <a class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
                     {{'SIGN_IN' | translate}}
                 </a>
