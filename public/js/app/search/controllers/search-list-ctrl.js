@@ -25,7 +25,7 @@ angular.module('ds.searchlist')
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = {selected: 'mostRelevant'};
+            $scope.sort = {selected: GlobalData.getSearchRefinements()[0].id};
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
