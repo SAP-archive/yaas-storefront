@@ -83,7 +83,9 @@
                                 <div class="name">{{item.product.name}}</div>
 
                                 <!-- product price -->
-                                <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span>                                    </div>
+                                <div class="price item-attr">
+                                    {{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span>
+                                </div>
 
                                 <!-- product quantity -->
                                 <div class="clearfix">
@@ -104,7 +106,7 @@
                                         <p><em>{{item.mixins.note.code}}</em></p>
                                     </div>
                                     <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? "EDIT NOTE" : "ADD NOTE"}}</a>
-                                    <a ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="highlight" href="#">CANCEL</a>
+                                    
                                 </div>
 
                             </div>
@@ -116,25 +118,25 @@
                         </div>
                     </div>
 
+                    <div class="clearfix"></div>
+
                     <!-- Note Mixin -->
-                    <div class="col-xs-12 col-md-12">
-                        <div ng-show="!note.noteCollapsed">
-                            <form 
-                            ng-submit="note.submit(item)" 
-                            ng-init="note.content = item.mixins.note.code || ''"
-                            style="margin-top:10px"
-                            >
-                                <textarea ng-model="note.content" class="form-control" rows="3" style="resize: none;"></textarea>
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 10px">
-                                    SAVE
-                                </button>
+                    <div ng-show="!note.noteCollapsed" class="cart-item-note">
+                        <div class="col-md-12">
+                            <form ng-submit="note.submit(item)" ng-init="note.content = item.mixins.note.code || ''">
+                                <label>Note</label>
+                                <textarea ng-model="note.content" class="form-control" rows="3" ></textarea>
+                                <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link pull-left" href="#">CANCEL</button>
+                                <button class="btn btn-primary pull-right" type="submit">SAVE</button>
                             </form>
                         </div>
+
+                        <div class="clearfix"></div>
+
                     </div>
                 </div>
             </div>
+        </section>
     </div>
     <!-- /Cart Item -->
-    </section>
-</div>
 </div>
