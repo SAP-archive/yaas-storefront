@@ -101,9 +101,9 @@
 
                                 <div id="noteMixin" style="margin-top:20px"> 
                                     <div>
-                                        <p><em>{{item.mixins.note.code}}</em></p>
+                                        <p><em>{{item.mixins.note.comment}}</em></p>
                                     </div>
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? "EDIT NOTE" : "ADD NOTE"}}</a>
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? "EDIT NOTE" : "ADD NOTE"}}</a>
                                     <a ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="highlight" href="#">CANCEL</a>
                                 </div>
 
@@ -121,7 +121,7 @@
                         <div ng-show="!note.noteCollapsed">
                             <form 
                             ng-submit="note.submit(item)" 
-                            ng-init="note.content = item.mixins.note.code || ''"
+                            ng-init="note.content = item.mixins.note.comment || ''"
                             style="margin-top:10px"
                             >
                                 <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3" style="resize: none;"></textarea>

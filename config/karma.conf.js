@@ -84,6 +84,7 @@ module.exports = function(config){
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
         'public/js/app/cart/controllers/cart-note-mixin-ctrl.js',
+        'public/js/app/cart/directives/note-mixin-ui.js',
         'public/js/app/cart/directives/cart-auto-toggle.js',
         'public/js/app/cart/services/cart-service.js',
         'public/js/app/cart/services/cart-rest.js',
