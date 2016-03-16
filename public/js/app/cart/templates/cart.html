@@ -103,9 +103,10 @@
 
                                 <div id="noteMixin" style="margin-top:20px"> 
                                     <div>
-                                        <p><em>{{item.mixins.note.code}}</em></p>
+                                        <p><em>{{item.mixins.note.comment}}</em></p>
                                     </div>
-                                    <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? "EDIT NOTE" : "ADD NOTE"}}</a>
+
+                                    <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? "EDIT NOTE" : "ADD NOTE"}}</a>
                                     
                                 </div>
 
@@ -115,6 +116,7 @@
                             <div class="col-xs-2 text-right">
                                 <button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn btn-link removeCartItem"><span class="hyicon hyicon-remove"></span></button>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -123,11 +125,16 @@
                     <!-- Note Mixin -->
                     <div ng-show="!note.noteCollapsed" class="cart-item-note">
                         <div class="col-md-12">
-                            <form ng-submit="note.submit(item)" ng-init="note.content = item.mixins.note.code || ''">
+                            <form ng-submit="note.submit(item)" ng-init="note.content = item.mixins.note.comment || ''">
+
                                 <label>Note</label>
-                                <textarea ng-model="note.content" class="form-control" rows="3" ></textarea>
+
+                                <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3"></textarea>
+
                                 <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">CANCEL</button>
-                                <button class="btn btn-primary btn-lg pull-right" type="submit">SAVE</button>
+                                
+                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right" type="submit">SAVE</button>
+
                             </form>
                         </div>
 

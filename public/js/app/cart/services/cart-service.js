@@ -287,7 +287,7 @@ angular.module('ds.cart')
                 },
                 
                 // Exposed for use in mixin services, like cart-note-mixin-service.js
-                refreshCart: refreshCart, 
+                refreshCart:refreshCart,
 
                 /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
                  * from the API for consistency and in order to display the updated calculations (line item totals, etc).

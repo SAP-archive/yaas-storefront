@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2015 hybris AG
+ * Copyright (c) 2000-2016 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -21,26 +21,20 @@ angular.module('ds.cart')
             // NOTE mixin
             $scope.note = {
                 noteCollapsed: true,
-                oldContent: "",
-                content: "",
+                oldContent: '',
+                content: '',
                 collapseNote: function() {
                     this.noteCollapsed = true;
                 },
-                expandNote: function(savedNote) {
+                expandNote: function() {
                     this.noteCollapsed = false;
                 },
                 submit: function(item) {
-                    var self = this;
                     CartNoteMixinSvc.updateNote(item, this.content)
-                        .then(function() {
-                        },
-                        function() {
-                            alert("Note save failed");
-                        })
                         .finally(function() {
-                            self.collapseNote();
+                            this.collapseNote();
                         });
                 }
-            }
+            };
         }
     ]);
