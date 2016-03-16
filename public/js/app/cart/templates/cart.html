@@ -103,7 +103,7 @@
                                     <div>
                                         <p><em>{{item.mixins.note.code}}</em></p>
                                     </div>
-                                    <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? "EDIT NOTE" : "ADD NOTE"}}</a>
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? "EDIT NOTE" : "ADD NOTE"}}</a>
                                     <a ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="highlight" href="#">CANCEL</a>
                                 </div>
 
@@ -124,8 +124,8 @@
                             ng-init="note.content = item.mixins.note.code || ''"
                             style="margin-top:10px"
                             >
-                                <textarea ng-model="note.content" class="form-control" rows="3" style="resize: none;"></textarea>
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 10px">
+                                <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3" style="resize: none;"></textarea>
+                                <button id="saveCartItemNote" class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 10px">
                                     SAVE
                                 </button>
                             </form>
