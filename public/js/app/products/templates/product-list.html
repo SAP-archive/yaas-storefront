@@ -17,12 +17,12 @@
 
                 <!-- sort control -->
                 <div class="col-xs-7 col-sm-6 col-md-4 col-lg-3">
-                    <div class="sortContainer">
+                    <div class="sortContainer product-list-sort">
                         <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
                         <div class="form-group pull-left">
                             <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
-                            <div>
+                            <div class="custom-select-container">
                                 <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
                                     <ui-select-match>
                                         {{$select.selected.name}}
@@ -67,16 +67,17 @@
         <div id="refineAffix" class="refine-section responsive-fixed">
             <div class="row">
                 <div class="content-container">
+                    <div class="clearfix visible-sm"></div>
 
                     <!-- sort control -->
                     <div class="col-xs-7 col-sm-6 col-md-4 col-lg-2">
-                        <div class="sortContainer">
-                            <div class="name">{{'SORT_BY' | translate}}:</div>
-                            <div class="form-group">
+                        <div class="sortContainer product-list-sort">
+                            <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
+                            <div class="form-group pull-left">
                                 <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                                 <div>
-                                    <span class='css-select-moz'>
+                                    <span class="custom-select-container">
                                         <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
                                             <ui-select-match>
                                                 {{$select.selected.name}}

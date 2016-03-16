@@ -4,11 +4,11 @@
         {{'UPDATE_ACCOUNT_DETAILS' | translate}}
     </h4>
 </div>
-<form name="updateUserInfoForm" ng-submit="updateUserInfo()" novalidate>
+<form name="updateUserInfoForm" ng-submit="updateUserInfo()" novalidate stop-event="touchend">
     <div class="modal-body">
         <div class="row">
 
-            <div class="col-lg-12">
+            <div class="col-lg-12 custom-select-container checkout-selector">
                 <div class="form-group input-group">
                     <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
                     <ui-select ng-model="account.title">

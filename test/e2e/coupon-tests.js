@@ -5,7 +5,7 @@ var tu = require('./protractor-utils.js');
 describe('coupons:', function () {
 
     function addProductandApplyCoupon(couponCode, price) {
-        tu.loadProductIntoCart('1', price, false);
+        tu.loadProductIntoCart('1', price);
         tu.clickElement('linkText', 'ADD COUPON CODE');
         tu.sendKeys('id', 'coupon-code', couponCode);
         tu.clickElement('id', 'apply-coupon');
@@ -25,12 +25,13 @@ describe('coupons:', function () {
         expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
     }
 
-    function couponCheckoutTest(couponCode, price) {
+    function couponCheckoutTest(couponCode, price, discount) {
         var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
         browser.driver.actions().mouseMove(category).perform();
         browser.sleep(200);
         category.click();
         addProductandApplyCoupon(couponCode, price);
+        verifyCartDetails('1', price, discount);
         tu.clickElement('binding', 'CHECKOUT');
         browser.wait(function () {
             return element(by.id("ccNumber")).isPresent();
@@ -39,16 +40,16 @@ describe('coupons:', function () {
         tu.sendKeys('id', 'firstNameAccount', 'Mike');
         tu.sendKeys('id', 'lastNameAccount', 'Night');
         element(by.id('titleAccount')).sendKeys('Mr.');
-        //tu.sendKeys('id', 'address1Bill', 'test');
-        //tu.sendKeys('id', 'cityBill', 'Seattle');
-        //element(by.id('stateBill')).sendKeys('Washington');
-        //tu.sendKeys('id', 'contactNameBill', "Test Account");
-        //tu.sendKeys('id', 'zipCodeBill', '98101');
 
         browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
             browser.sleep(2000);
             tu.clickElement('id', 'preview-order-btn');
         });
+
+        // Verify the price and discount on the checkout page
+        expect(element(by.binding('cart.totalPrice.amount')).getText()).toContain(price);
+        expect(element(by.binding('cart.totalDiscount.amount')).getText()).toContain(discount);
+
 
         browser.sleep(2000);
         browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
@@ -227,7 +228,7 @@ describe('coupons:', function () {
         it('should allow purchase over minimum', function () {
             tu.createAccount('coupontestmin2');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('MINIMUM', '$19.27');
+            couponCheckoutTest('MINIMUM', '$20.05', '-$0.53');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
         });
@@ -235,7 +236,7 @@ describe('coupons:', function () {
         it('should allow coupon larger than purchase price', function () {
             tu.createAccount('coupontestmax2');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('20DOLLAR', '$11.42');
+            couponCheckoutTest('20DOLLAR', '$9.20', '-$10.67');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
@@ -243,7 +244,7 @@ describe('coupons:', function () {
         it('should allow percentage off on checkout', function () {
             tu.createAccount('coupontestpercent');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('10PERCENT', '$11.42');
+            couponCheckoutTest('10PERCENT', '$19.47', '-$1.07');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
         });
@@ -251,14 +252,14 @@ describe('coupons:', function () {
         it('should allow dollar off on checkout', function () {
             tu.createAccount('coupontestdollar');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            couponCheckoutTest('10DOLLAR', '$11.42');
+            couponCheckoutTest('10DOLLAR', '$9.92', '-$10.00');
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
         xit('should allow customer to use specific coupon', function () {
             tu.loginHelper('specific@hybristest.com', 'password');
-            couponCheckoutTest('SPECIFIC', '$11.42');
+            couponCheckoutTest('SPECIFIC', '$11.42', 0);
             tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '$10.67');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$2.13');
         });
@@ -267,7 +268,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontesteuro');
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             tu.selectCurrency('EURO');
-            couponCheckoutTest('5EURO', '€7.99');
+            couponCheckoutTest('5EURO', '€7.99', 0);
             tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '€7.99');
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-€5.00');
         });
