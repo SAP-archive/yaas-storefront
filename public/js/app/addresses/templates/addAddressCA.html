@@ -7,17 +7,19 @@
         ng-required="addressForm.country.$viewValue.id === 'CA'">
       </div>
 
-      <div class="form-group input-group custom-select-container">
-          <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-          <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)">
-              <ui-select-match>
-                  {{$select.selected.name}}
-              </ui-select-match>
-              <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
-                  {{item.name}}
-              </ui-select-choices>
-          </ui-select>
-      </div>
+      <div class="checkout-selector">
+        <div class="form-group input-group custom-select-container">
+            <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
+            <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)">
+                <ui-select-match>
+                    {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                    {{item.name}}
+                </ui-select-choices>
+            </ui-select>
+        </div>
+      <div class="checkout-selector">
 
       <div class="form-group input-group">
           <label class="input-group-addon control-label" for="companyName">{{'COMPANY_NAME' | translate}}</label>
