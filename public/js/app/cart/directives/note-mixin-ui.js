@@ -1,12 +1,25 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2016 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+'use strict';
+
 angular.module('ds.cart')
 /**
  * note-mixin-ui
  * This directive the Add Note UI and functionality
  * @return {Object}
  */
-    .directive('noteMixinUi',['$rootScope', function($rootScope){
-        return {
-            restrict: 'E',
-            //template: "<h1>Future home of the Add Note Mixin UI </h1>"
-        }
-    }]);
+.directive('noteMixinUi',[function(){
+	return {
+		restrict: 'E',
+	};
+}]);
