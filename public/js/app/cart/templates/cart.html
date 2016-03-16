@@ -126,8 +126,8 @@
                             <form ng-submit="note.submit(item)" ng-init="note.content = item.mixins.note.code || ''">
                                 <label>Note</label>
                                 <textarea ng-model="note.content" class="form-control" rows="3" ></textarea>
-                                <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link pull-left" href="#">CANCEL</button>
-                                <button class="btn btn-primary pull-right" type="submit">SAVE</button>
+                                <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">CANCEL</button>
+                                <button class="btn btn-primary btn-lg pull-right" type="submit">SAVE</button>
                             </form>
                         </div>
 
