@@ -20,7 +20,7 @@ angular.module('ds.shared')
  *
  * @type {Object}
  */
-    .constant('countries', {
+    .constant('Countries', {
 
         world: {
             countries: [{ name: 'Albania', id: 'AL' }, { name: 'Algeria', id: 'DZ' }, { name: 'American Samoa', id: 'AS' },

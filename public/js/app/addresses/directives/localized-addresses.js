@@ -17,8 +17,8 @@
  **/
 
 angular.module('ds.addresses')
-    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'ShippingSvc', 'countries',
-        function($compile, $http, $templateCache, $rootScope, ShippingSvc, countries) {
+    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'ShippingSvc', 'Countries',
+        function($compile, $http, $templateCache, $rootScope, ShippingSvc, Countries) {
 
             var selectionArray = [
                 {id: 'US', name:'USA'},
@@ -28,7 +28,7 @@ angular.module('ds.addresses')
                 // {id: 'CN', name:'CHINA'},
                 // {id: 'JP', name:'JAPAN'}];
 
-            var allCountries = countries.world.countries;
+            var allCountries = Countries.world.countries;
 
             var initialize = function(scope, elem, viewType){
                 // init with default template type
@@ -114,8 +114,8 @@ angular.module('ds.addresses')
             var templateLinker = function(scope, element, attrs) {
 
                 scope.viewTarget = attrs.type;
-                scope.usStates = countries.us.states;
-                scope.caProvinces = countries.canada.provinces;
+                scope.usStates = Countries.us.states;
+                scope.caProvinces = Countries.canada.provinces;
 
                 if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(

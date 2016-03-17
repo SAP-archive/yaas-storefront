@@ -39,7 +39,7 @@ describe('LocalizedAddresses Test', function () {
     beforeEach(module('ds.addresses', function ($provide) {
         $provide.value('GlobalData', mockGlobalData);
         $provide.value('ShippingSvc', mockShippingSvc);
-        $provide.value('countries', mockedCountries);
+        $provide.value('Countries', mockedCountries);
     }));
 
     beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_){

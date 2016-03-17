@@ -14,7 +14,7 @@
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                <ui-select ng-model="order.account.title" theme="bootstrap">
+                <ui-select ng-model="order.account.title">
                     <ui-select-match>
                         {{$select.selected}}
                     </ui-select-match>
@@ -195,7 +195,7 @@
         <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
-                <ui-select ng-model="order.creditCard.expMonth" theme="bootstrap" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expMonth" name="expMonth" required>
+                <ui-select ng-model="order.creditCard.expMonth" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expMonth" name="expMonth" required>
                     <ui-select-match>
                         {{$select.selected}}
                     </ui-select-match>
@@ -208,7 +208,7 @@
         <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
-                <ui-select ng-model="order.creditCard.expYear" theme="bootstrap" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expYear" name="expYear" required>
+                <ui-select ng-model="order.creditCard.expYear" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expYear" name="expYear" required>
                     <ui-select-match>
                         {{$select.selected}}
                     </ui-select-match>

@@ -393,6 +393,10 @@ angular.module('ds.shared')
 
                 getSearchRefinements: function () {
                     return [{id:'mostRelevant', name: $translate.instant('MOST_RELEVANT')}];
+                },
+
+                getTaxableCountries: function () {
+                    return [{id:'US', name: 'USA'}, {id:'CA', name: 'CANADA'}];
                 }
 
             };
