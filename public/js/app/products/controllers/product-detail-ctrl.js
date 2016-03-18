@@ -124,9 +124,12 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: true }).then(function () { },
-                function(){
+                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
+                .then(function(){
+                    $rootScope.$emit('product:activateSlideDownBox', $scope.productDetailQty );
+                }, function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
+                }).finally(function() {
                     $scope.buyButtonEnabled = true;
                 });
             };

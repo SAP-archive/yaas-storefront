@@ -14,9 +14,9 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', '$timeout', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
 
-        function ($scope, $rootScope, $state, $controller, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
+        function ($scope, $rootScope, $state, $controller, $timeout, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
 
             $scope.GlobalData = GlobalData;
             $scope.categories = CategorySvc.getCategoriesFromCache();
@@ -36,8 +36,19 @@ angular.module('ds.shared')
                 $scope.cart = eveObj.cart;
             });
 
+            $scope.displaySlideDownBox = false;
+            $scope.displaySlideDownBoxMessage = '';
+
             $scope.$on('$destroy', unbind);
             $scope.$on('$destroy', unbindCats);
+
+            $rootScope.$on('product:activateSlideDownBox', function (event, message) {
+                $scope.displaySlideDownBoxMessage = message;
+                $scope.displaySlideDownBox = true;
+                $timeout(function() {
+                    $scope.displaySlideDownBox = false;
+                }, 3000);
+            });
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */
