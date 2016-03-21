@@ -101,7 +101,7 @@
 
                                 <div id="noteMixin_area" class="noteMixin"> 
                                     <div>
-                                        <p><em>{{item.mixins.note.code}}</em></p>
+                                        <p><em>{{item.mixins.note.comment}}</em></p>
                                     </div>
                                     <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.code)" class="highlight" href="#">{{item.mixins.note.code ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
                                     <a ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="highlight" href="#">{{'CANCEL' | translate | uppercase}}</a>
@@ -119,9 +119,7 @@
                     <!-- Note Mixin -->
                     <div class="noteMixin col-xs-12 col-md-12">
                         <div ng-show="!note.noteCollapsed">
-                            <form 
-                            ng-submit="note.submit(item)"
-                            >
+                            <form ng-submit="note.submit(item)">
                                 <textarea ng-model="note.content" class="form-control" rows="3"></textarea>
                                 <button class="btn btn-primary btn-lg btn-block" type="submit">
                                     {{'SAVE' | translate | uppercase}}

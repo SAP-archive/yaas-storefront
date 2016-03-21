@@ -38,7 +38,7 @@ angular.module('ds.cart')
                             $state.go('errors', { errorId : '404', errorMessage: 'Failed while saving note'});
                         })
                         .finally(function() {
-                            self.collapseNote();
+                            this.collapseNote();
                         });
                 }
             };
