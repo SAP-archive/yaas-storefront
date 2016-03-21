@@ -10,10 +10,10 @@
  * license agreement you entered into with hybris.
  */
 
-describe('CartNoteMixinCtrl', function () {
+describe('CartNoteMixinCtrl Test', function () {
 
     var $scope, $rootScope, $controller, $injector, cartNoteMixinCtrl;
-
+    
     beforeEach(angular.mock.module('ds.cart'));
     
     beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
@@ -23,8 +23,8 @@ describe('CartNoteMixinCtrl', function () {
                 return angular.equals(this.actual, expected);
             }
         });
-        $rootScope =  _$rootScope_;
-        $scope = _$rootScope_.$new();
+        $rootScope = _$rootScope_;
+        $scope = $rootScope.$new();
         
         this.deferred = $q.defer();
         
@@ -38,14 +38,15 @@ describe('CartNoteMixinCtrl', function () {
         
         cartNoteMixinCtrl = _$controller_('CartNoteMixinCtrl', {
             $scope: $scope,
+            $state: {},
             CartSvc: mockedCartSvc,
             CartNoteMixinSvc: mockedCartNoteMixinSvc
         });
         
-        
     }));
     
     it('should expand the note input section', function(){
+        console.log($scope.note);
         $scope.note.expandNote();
         expect($scope.note.noteCollapsed).toBeFalsy();
     });

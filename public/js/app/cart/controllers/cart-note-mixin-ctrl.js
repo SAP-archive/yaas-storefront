@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2015 hybris AG
+ * Copyright (c) 2000-2016 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -15,32 +15,32 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartNoteMixinCtrl', ['$scope', 'CartSvc', 'CartNoteMixinSvc',
-        function($scope, CartSvc, CartNoteMixinSvc) {
+    .controller('CartNoteMixinCtrl', ['$scope', '$state', 'CartSvc', 'CartNoteMixinSvc',
+        function($scope, $state, CartSvc, CartNoteMixinSvc) {
 
             // NOTE mixin
             $scope.note = {
                 noteCollapsed: true,
-                oldContent: "",
-                content: "",
+                oldContent: '',
+                content: '',
                 collapseNote: function() {
                     this.noteCollapsed = true;
                 },
-                expandNote: function(savedNote) {
+                expandNote: function() {
                     this.noteCollapsed = false;
                 },
                 submit: function(item) {
                     var self = this;
-                    CartNoteMixinSvc.updateNote(item, this.content)
+                    CartNoteMixinSvc.updateNote(item, self.content)
                         .then(function() {
                         },
                         function() {
-                            alert("Note save failed");
+                            $state.go('errors', { errorId : '404', errorMessage: 'Failed while saving note'});
                         })
                         .finally(function() {
                             self.collapseNote();
                         });
                 }
-            }
+            };
         }
     ]);
