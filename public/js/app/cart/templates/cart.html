@@ -106,7 +106,7 @@
                                         <p><em>{{item.mixins.note.comment}}</em></p>
                                     </div>
 
-                                    <a ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? "EDIT NOTE" : "ADD NOTE"}}</a>
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? "EDIT NOTE" : "ADD NOTE"}}</a>
                                     
                                 </div>
 
@@ -147,3 +147,4 @@
     </div>
     <!-- /Cart Item -->
 </div>
+
