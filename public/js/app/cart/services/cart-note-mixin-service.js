@@ -13,45 +13,39 @@
 'use strict';
 
 angular.module('ds.cart')
-    .factory('CartNoteMixinSvc', ['CartSvc', 'CartREST', '$q', 'SiteConfigSvc',
-        function (CartSvc, CartREST, $q, siteConfigSvc) {
-           
-            return {
-                updateNote: function(cartItem, noteContent){
-                    var updatePromise = $q.defer();
-                    
-                    var noteMixin = {
-                        metadata: {
-                            mixins: {
-                                // TODO TP-4285 we will create our own schema or use inline mixins
-                                note: siteConfigSvc.schemas.noteMixinMetadata
-                            }
-                        },
-                        mixins: {
-                            note: {
-                                code: noteContent
-                            }
-                        }
-                    };
-                    
-                    // Get cart info from CartSvc
-                    var cart = CartSvc.getLocalCart();
-                    var cartUpdateMode = 'auto';
-                    
-                    CartREST.Cart.one('carts', cart.id)
-                    .all('items')
-                    .customPUT(noteMixin, cartItem.id + '?partial=true')
-                    .then(function () {
-                            CartSvc.refreshCart(cart.id, cartUpdateMode);
-                            updatePromise.resolve();
-                        },
-                        function () {
-                            updatePromise.reject();
-                        }
-                    );
-                    
-                    return updatePromise.promise;
-                }
-            };
-        }
-    ]);
+.factory('CartNoteMixinSvc', ['CartSvc', 'CartREST', '$q', 'SiteConfigSvc',
+	function (CartSvc, CartREST, $q, siteConfigSvc) {
+
+		return {
+			updateNote: function(cartItem, noteContent){
+				var updatePromise = $q.defer();
+				var noteMixin = {
+					metadata: {
+						mixins: {
+							note: siteConfigSvc.schemas.noteMixinMetadata
+						}
+					},
+					mixins: {
+						note: {
+							comment: noteContent
+						}
+					}
+				};
+
+				// Get cart info from CartSvc
+				var cart = CartSvc.getLocalCart();
+
+				CartREST.Cart.one('carts', cart.id).all('items').customPUT(noteMixin, cartItem.id + '?partial=true')
+					.then(function () {
+						CartSvc.refreshCart(cart.id, 'auto');
+						updatePromise.resolve();
+					},
+					function () {
+						updatePromise.reject();
+					}
+				);
+
+				return updatePromise.promise;
+			}
+		};
+}]);
