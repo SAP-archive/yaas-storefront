@@ -96,6 +96,37 @@ describe('ShippingSvc', function() {
             $httpBackend.flush();
         });
 
+        describe('isShippingConfigured', function () {
+
+            var zones;
+
+            it('isShippingConfigured should return false if zones are not configured', function() {
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return false if zones are not configured', function() {
+                zones = [];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return false if methods are not configured', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE']}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return true if methods are disabled', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE'], 'methods': []}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return true if shipping are configured', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE'], 'methods': [{'id': 'fedex-2dayground'}]}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeTruthy();
+            });
+
+
+        });
+
     });
 
 });

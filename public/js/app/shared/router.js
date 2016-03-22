@@ -180,6 +180,11 @@ angular.module('ds.router', [])
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return ShippingSvc.getShipToCountries();
                             }
+                        }],
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if (initialized) {
+                                return ShippingSvc.getSiteShippingZones();
+                            }
                         }]
                     }
                 })

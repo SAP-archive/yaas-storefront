@@ -75,6 +75,17 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
+            var isShippingConfigured = function (zones) {
+                if (zones) {
+                    for (var i = 0; i < zones.length; i++) {
+                        if (zones[i].methods && zones[i].methods.length) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
         return {
 
             getShipToCountries: function () {
@@ -91,6 +102,10 @@ angular.module('ds.checkout')
 
             getMinimumShippingCost: function (item) {
                 return getMinimumShippingCost(item);
+            },
+
+            isShippingConfigured: function (zones) {
+                return isShippingConfigured(zones);
             }
 
         };
