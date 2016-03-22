@@ -1,5 +1,6 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
+        
         <div class="col-xs-3 ">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
@@ -33,22 +34,25 @@
 
 <div class="desktopNav hidden-xs hidden-sm visible-md visible-lg">
     <div class="row info">
-        <div class="content-container">
-            <div class="col-xs-2 logo">
+        <!--<div class="content-container">-->
+            <div>
+            <div class="col-xs-2 logo navbar-padding navbar-padding-left">
                 <a ui-sref="base.home" class="logo">
                     <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
                 </a>
             </div>
-            <div class="col-xs-7 search">
+            <div class="col-xs-7 search navbar-padding navbar-padding-left" style="padding-right: 0px">
                 <ysearch></ysearch>
             </div>
-
+            
             <!-- Black Box -->
-            <div id="slideDownBox" class="col-xs-3" ng-show="displaySlideDownBox" style="float: right;background:#004a80; color:white; text-align:center; line-height:3.80;">
-                <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
+            <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox col-xs-3" >
+                <row>
+                    <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
+                </row>
             </div>
 
-            <div class="col-xs-3 cart" ng-show="!displaySlideDownBox">
+            <div class="col-xs-3 cart navbar-padding navbar-padding-right" ng-class="{'faded': displaySlideDownBox}">
                 <div class="row">
                     <div class="col-xs-6 col-md-4">
                         <div class="text-center">

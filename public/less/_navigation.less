@@ -671,6 +671,40 @@ a.siteSelectorIcon{
 
   }
 
+  .navbar-padding {
+     padding-top: 10px; 
+     padding-bottom: 10px; 
+  }
+  .navbar-padding-left {
+      padding-left: 58px;
+  }
+  .navbar-padding-right {
+      padding-right: 58px;
+  }
+  
+  .slideDownBox {
+      background-color: #000;
+      float: right;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      color:white;
+      text-align:center;
+      opacity: 0;
+      max-height: 0;
+      -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
+      transition: opacity linear 0.5s, max-height linear 0.5s;
+      
+        &.expanded{
+            opacity: 1;
+            display:block;
+            height: 100%;
+            max-height: 200px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
+            transition: opacity linear 0.5s, max-height linear 0.5s;
+        }
+  }
 
 }
 
@@ -695,8 +729,20 @@ a.siteSelectorIcon{
 }
 
 .cart{
-  margin-top: 7px;
+  /* margin-top: 7px; */
+  
+  display: block;
+  
+  opacity: 1;
+  transition: opacity linear 0.5s, visibility 0s;
+  transition-delay: 0s;
 
+  &.faded {
+      opacity: 0;
+      display: none;
+      transition: opacity linear 0.5s, visibility 0s;
+      transition-delay: 5s;
+  }
 }
 
 .yamm.navbar-default{
