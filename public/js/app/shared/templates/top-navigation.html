@@ -1,16 +1,22 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
         
-        <div class="col-xs-3 ">
+        <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox col-xs-12" >
+            <row>
+                <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
+            </row>
+        </div>
+            
+        <div class="col-xs-3" ng-class="{'faded' : displaySlideDownBox}">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
             </button>
         </div>
-        <div class="col-xs-5 text-center">
+        <div class="col-xs-5 text-center" ng-class="{'faded' : displaySlideDownBox}">
             <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
 
-        <div class="col-xs-4 text-right">
+        <div class="col-xs-4 text-right" ng-class="{'faded' : displaySlideDownBox}">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="pull-right">
@@ -45,7 +51,7 @@
                 <ysearch></ysearch>
             </div>
             
-            <!-- Black Box -->
+            <!-- SlideDownBox -->
             <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox col-xs-3" >
                 <row>
                     <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
