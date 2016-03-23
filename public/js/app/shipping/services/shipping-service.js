@@ -24,7 +24,7 @@ angular.module('ds.checkout')
                 var shippingZones;
                 var site = GlobalData.getSiteCode();
                 var shipToCountries = [];
-                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
+                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods', activeMethods: true}).then(function(zones){
                     shippingZones = zones.length ? zones.plain() : [];
                     for (var i = 0; i < shippingZones.length; i++) {
                         for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
@@ -75,6 +75,17 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
+            var isShippingConfigured = function (zones) {
+                if (zones) {
+                    for (var i = 0; i < zones.length; i++) {
+                        if (zones[i].methods && zones[i].methods.length) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
         return {
 
             getShipToCountries: function () {
@@ -91,6 +102,10 @@ angular.module('ds.checkout')
 
             getMinimumShippingCost: function (item) {
                 return getMinimumShippingCost(item);
+            },
+
+            isShippingConfigured: function (zones) {
+                return isShippingConfigured(zones);
             }
 
         };

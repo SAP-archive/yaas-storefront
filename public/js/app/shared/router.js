@@ -176,14 +176,14 @@ angular.module('ds.router', [])
                         order: ['CheckoutSvc', function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         }],
-                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
-                            if (initialized) {  // parent resolve - if-check to make usage explicit
-                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
-                            }
-                        }],
                         shippingCountries: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return ShippingSvc.getShipToCountries();
+                            }
+                        }],
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if (initialized) {
+                                return ShippingSvc.getSiteShippingZones();
                             }
                         }]
                     }

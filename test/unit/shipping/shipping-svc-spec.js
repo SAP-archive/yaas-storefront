@@ -72,16 +72,59 @@ describe('ShippingSvc', function() {
 
         });
 
-        it('should issue POST', function () {
+        it('should issue GET shipping costs', function () {
+            $httpBackend.expectGET(baseUrl + '/US/zones?activeMethods=true&expand=methods,fees').respond([]);
+            shippingSvc.getSiteShippingZones();
+            $httpBackend.flush();
+        });
+
+        it('should issue GET shipping costs', function () {
+            $httpBackend.expectGET(baseUrl + '/US/zones?activeMethods=true&expand=methods').respond([]);
+            shippingSvc.getShipToCountries();
+            $httpBackend.flush();
+        });
+
+        it('should issue POST shipping costs', function () {
             $httpBackend.expectPOST(baseUrl + '/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
             $httpBackend.flush();
         });
 
-        it('should issue POST', function () {
+        it('should issue POST shippint cost min', function () {
             $httpBackend.expectPOST(baseUrl + '/US/quote/minimum').respond({});
             shippingSvc.getMinimumShippingCost(item);
             $httpBackend.flush();
+        });
+
+        describe('isShippingConfigured', function () {
+
+            var zones;
+
+            it('isShippingConfigured should return false if zones are not configured', function() {
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return false if zones are not configured', function() {
+                zones = [];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return false if methods are not configured', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE']}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return true if methods are disabled', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE'], 'methods': []}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeFalsy();
+            });
+
+            it('isShippingConfigured should return true if shipping are configured', function() {
+                zones = [{'id': 'europe','name': 'Europe','default': true,'shipTo': ['DE'], 'methods': [{'id': 'fedex-2dayground'}]}];
+                expect(shippingSvc.isShippingConfigured(zones)).toBeTruthy();
+            });
+
+
         });
 
     });

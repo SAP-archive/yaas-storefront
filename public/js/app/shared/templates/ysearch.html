@@ -15,7 +15,7 @@
                 <div class="y-search-result-attributes">
                     <div class="y-search-result-name text-left"
                           ng-bind-html="result._highlightResult.name[0].value"></div>
-                    <div class="y-search-result-category text-left">{{'IN' | translate}} {{result.categories.join(', ')}}</div>
+                    <div ng-if="result.categories && result.categories.length > 0" class="y-search-result-category text-left">{{'IN' | translate}} {{result.categories.join(', ')}}</div>
                     <div class="y-search-result-price text-left">{{result.prices[currency] | currency: currencySymbol }}</div>
                 </div>
             </a>

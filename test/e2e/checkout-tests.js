@@ -106,7 +106,7 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.clickElement('id', tu.contineShopping);
     tu.loginHelper(account, 'password');
     tu.clickElement('id', 'my-account-dropdown');
-    tu.clickElement('id', 'my-account');
+    tu.clickElement('id', 'my-account-link');
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
@@ -301,7 +301,7 @@ describe("checkout:", function () {
             tu.clickElement('id', 'create-acct-btn');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account');
+            tu.clickElement('id', 'my-account-link');
             expect(element(by.binding("account.contactEmail")).getText()).toContain('checkoutacct');
         });
 
@@ -403,42 +403,42 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€12.99');
         });
 
-        //it('should merge carts and checkout for logged in user', function () {
-        //    tu.clickElement('id', tu.contineShopping);
-        //    tu.loginHelper('checkout@hybristest.com', 'password');
-        //    browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(1).column('top_category.name'))).perform();
-        //    browser.sleep(200);
-        //    element(by.repeater('top_category in categories').row(1).column('top_category.name')).click();
-        //    tu.clickElement('xpath', tu.whiteThermos);
-        //    browser.wait(function () {
-        //        return element(by.id(tu.buyButton)).isPresent();
-        //    });
-        //    tu.clickElement('id', tu.buyButton);
-        //    //wait for cart to close
-        //    browser.sleep(6500);
-        //    browser.wait(function () {
-        //        return element(by.id(tu.cartButtonId)).isDisplayed();
-        //    });
-        //    browser.sleep(1000);
-        //    tu.clickElement('id', tu.cartButtonId);
-        //    browser.wait(function () {
-        //        return element(by.binding('CHECKOUT')).isPresent();
-        //    });
-        //    browser.sleep(1000);
-        //    tu.clickElement('binding', 'CHECKOUT');
-        //    //verifyCartContents('$10.67', '$27.46', '1'); -- commented out for now, need to evaluate if needed
-        //    browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-        //        browser.sleep(2000);
-        //        tu.clickElement('id', 'preview-order-btn');
-        //    });
-        //    tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-        //    browser.sleep(500);
-        //    tu.clickElement('id', 'place-order-btn');
-        //    tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$25.66');
-        //    tu.clickElement('binding', 'orderInfo.orderId');
-        //    expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
-        //    // tu.clickElement('id', "logout-btn");
-        //});
+        it('should merge carts and checkout for logged in user', function () {
+            tu.clickElement('id', tu.contineShopping);
+            tu.loginHelper('checkout@hybristest.com', 'password');
+            browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(1).column('top_category.name'))).perform();
+            browser.sleep(200);
+            element(by.repeater('top_category in categories').row(1).column('top_category.name')).click();
+            tu.clickElement('xpath', tu.whiteThermos);
+            browser.wait(function () {
+                return element(by.id(tu.buyButton)).isPresent();
+            });
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(6500);
+            browser.wait(function () {
+                return element(by.id(tu.cartButtonId)).isDisplayed();
+            });
+            browser.sleep(1000);
+            tu.clickElement('id', tu.cartButtonId);
+            browser.wait(function () {
+                return element(by.binding('CHECKOUT')).isPresent();
+            });
+            browser.sleep(1000);
+            tu.clickElement('binding', 'CHECKOUT');
+            //verifyCartContents('$10.67', '$27.46', '1'); -- commented out for now, need to evaluate if needed
+            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
+                browser.sleep(2000);
+                tu.clickElement('id', 'preview-order-btn');
+            });
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            browser.sleep(500);
+            tu.clickElement('id', 'place-order-btn');
+            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$25.66');
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
+            // tu.clickElement('id', "logout-btn");
+        });
 
     });
 });
