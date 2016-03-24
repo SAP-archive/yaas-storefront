@@ -684,27 +684,25 @@ a.siteSelectorIcon{
   
   .slideDownBox {
       background-color: #000;
-      float: right;
-      padding-top: 0px;
-      padding-bottom: 0px;
+      padding:25px 10px;
       color:white;
       text-align:center;
+      margin: -100px -145px -10px 0px;
+      position: absolute;
+      z-index: 1;
+      width:100%;
       opacity: 0;
-      max-height: 0;
-      -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
-      transition: opacity linear 0.5s, max-height linear 0.5s;
+      -webkit-transition: all linear 0.25s, max-height linear 0.25s;
+      transition: all linear 0.25s, max-height linear 0.25s;
       
         &.expanded{
+            margin-top: -10px;
             opacity: 1;
-            display:block;
-            height: 100%;
-            max-height: 200px;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
-            transition: opacity linear 0.5s, max-height linear 0.5s;
+            -webkit-transition: all linear 0.25s, max-height linear 0.25s;
+            transition: all linear 0.25s, max-height linear 0.25s;
         }
   }
+
 
 }
 
@@ -729,20 +727,10 @@ a.siteSelectorIcon{
 }
 
 .cart{
-  /* margin-top: 7px; */
-  
   display: block;
-  
   opacity: 1;
   transition: opacity linear 0.5s, visibility 0s;
   transition-delay: 0s;
-
-  &.faded {
-      opacity: 0;
-      display: none;
-      transition: opacity linear 0.5s, visibility 0s;
-      transition-delay: 5s;
-  }
 }
 
 .yamm.navbar-default{
@@ -826,32 +814,23 @@ a.siteSelectorIcon{
 .mobileNav {
     .slideDownBox {
       background-color: #000;
-      float: right;
-      padding-top: 0px;
-      padding-bottom: 0px;
       color:white;
       text-align:center;
       opacity: 0;
-      max-height: 0;
-      -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
-      transition: opacity linear 0.5s, max-height linear 0.5s;
+      margin-top: -75px;
+      position: absolute;
+      width:100%; 
+      padding: 27px 10px;
+      z-index: 1;
+      -webkit-transition: all linear 0.2s, max-height linear 0.2s;
+      transition: all linear 0.2s, max-height linear 0.2s;
       
         &.expanded{
+            margin-top: 0;          
             opacity: 1;
-            display:block;
-            height: 100%;
-            max-height: 200px;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            -webkit-transition: opacity linear 0.5s, max-height linear 0.5s;
-            transition: opacity linear 0.5s, max-height linear 0.5s;
+            -webkit-transition: all linear 0.2s, max-height linear 0.2s;
+            transition: all linear 0.2s, max-height linear 0.2s;
         }
-  }
-  .faded {
-      opacity: 0;
-      display: none;
-      transition: opacity linear 0.5s, visibility 0s;
-      transition-delay: 5s;
   }
 }
 

@@ -1,22 +1,20 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
         
-        <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox col-xs-12" >
-            <row>
-                <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
-            </row>
+        <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox" >
+            <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
         </div>
             
-        <div class="col-xs-3" ng-class="{'faded' : displaySlideDownBox}">
+        <div class="col-xs-3">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
             </button>
         </div>
-        <div class="col-xs-5 text-center" ng-class="{'faded' : displaySlideDownBox}">
+        <div class="col-xs-5 text-center">
             <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
 
-        <div class="col-xs-4 text-right" ng-class="{'faded' : displaySlideDownBox}">
+        <div class="col-xs-4 text-right">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="pull-right">
@@ -51,15 +49,16 @@
                 <ysearch></ysearch>
             </div>
             
-            <!-- SlideDownBox -->
-            <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox col-xs-3" >
-                <row>
-                    <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
-                </row>
-            </div>
 
-            <div class="col-xs-3 cart navbar-padding navbar-padding-right" ng-class="{'faded': displaySlideDownBox}">
+
+            <div class="col-xs-3 cart navbar-padding navbar-padding-right">
                 <div class="row">
+
+                    <!-- SlideDownBox -->
+                    <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox" >
+                        <span>{{displaySlideDownBoxMessage}} product(s) successfully added to your cart</span>
+                    </div>
+
                     <div class="col-xs-6 col-md-4">
                         <div class="text-center">
                             <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
