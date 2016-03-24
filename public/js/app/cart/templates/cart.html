@@ -131,6 +131,8 @@
 
                                 <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3"></textarea>
 
+                                <p class="error" ng-show="note.saveFailed">Unable to save note</p>
+                                
                                 <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">CANCEL</button>
                                 
                                 <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right" type="submit">SAVE</button>

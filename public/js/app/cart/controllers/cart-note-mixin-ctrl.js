@@ -21,18 +21,24 @@ angular.module('ds.cart')
             // NOTE mixin
             $scope.note = {
                 noteCollapsed: true,
+                saveFailed: false,
                 oldContent: '',
                 content: '',
                 collapseNote: function() {
+                    // reset the variable, if user tries again
+                    this.saveFailed = false;
                     this.noteCollapsed = true;
                 },
                 expandNote: function() {
                     this.noteCollapsed = false;
                 },
                 submit: function(item) {
+                    var self = this;
                     CartNoteMixinSvc.updateNote(item, this.content)
-                        .finally(function() {
-                            this.collapseNote();
+                        .then(function(){
+                           self.collapseNote(); 
+                        }, function(){
+                            self.saveFailed = true;
                         });
                 }
             };
