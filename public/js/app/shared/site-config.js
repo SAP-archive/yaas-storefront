@@ -106,6 +106,10 @@ angular.module('ds.shared')
                     return new SiteConfigSvcProvider(appConfig);
                 }
             ];
+            
+            this.schemas = {
+                noteMixinMetadata: 'https://api.yaas.io/hybris/schema/v1/hybriscommerce/cart-item-note-1.0.0'
+            };
 
         }
     ]);

@@ -15,8 +15,8 @@
 angular.module('ds.cart')
     /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
      * and will refresh the scope's cart instance when the event is received. */
-    .controller('CartNoteMixinCtrl', ['$scope', 'CartSvc', 'CartNoteMixinSvc',
-        function($scope, CartSvc, CartNoteMixinSvc) {
+    .controller('CartNoteMixinCtrl', ['$scope', '$state', 'CartSvc', 'CartNoteMixinSvc',
+        function($scope, $state, CartSvc, CartNoteMixinSvc) {
 
             // NOTE mixin
             $scope.note = {

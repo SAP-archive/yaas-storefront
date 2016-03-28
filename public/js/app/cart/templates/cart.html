@@ -101,13 +101,11 @@
                                 <!-- total price -->
                                 <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
 
-                                <div id="noteMixin" style="margin-top:20px"> 
+                                <div id="noteMixin_area" class="noteMixin"> 
                                     <div>
                                         <p><em>{{item.mixins.note.comment}}</em></p>
                                     </div>
-
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? "EDIT NOTE" : "ADD NOTE"}}</a>
-                                    
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.code ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
                                 </div>
 
                             </div>
@@ -133,10 +131,9 @@
 
                                 <p class="error" ng-show="note.saveFailed">Unable to save note</p>
                                 
-                                <button ng-show="!note.noteCollapsed" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">CANCEL</button>
+                                <button ng-show="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">{{'CANCEL' | translate | uppercase}}</button>
                                 
-                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right" type="submit">SAVE</button>
-
+                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right" type="submit">{{'SAVE' | translate | uppercase}}</button>
                             </form>
                         </div>
 

@@ -12,10 +12,9 @@
 
 'use strict';
 
-angular.module('ds.cart').factory('CartNoteMixinSvc', ['$rootScope', 'CartSvc', 'CartREST', '$q',
-	function ($rootScope, CartSvc, CartREST, $q) {
-		// To be added to cart item's Metadata property
-		var noteMixinMetadata = 'https://api.yaas.io/hybris/schema/v1/hybriscommerce/cart-item-note-1.0.0';
+angular.module('ds.cart')
+.factory('CartNoteMixinSvc', ['CartSvc', 'CartREST', '$q', 'SiteConfigSvc',
+	function (CartSvc, CartREST, $q, siteConfigSvc) {
 
 		return {
 			updateNote: function(cartItem, noteContent){
@@ -23,7 +22,7 @@ angular.module('ds.cart').factory('CartNoteMixinSvc', ['$rootScope', 'CartSvc', 
 				var noteMixin = {
 					metadata: {
 						mixins: {
-							note: noteMixinMetadata
+							note: siteConfigSvc.schemas.noteMixinMetadata
 						}
 					},
 					mixins: {

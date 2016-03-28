@@ -15,12 +15,18 @@
 
     //XBUT
     "BACK_TO_CHECKOUT": "Back to checkout",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CHECKOUT": "Checkout",
     //XBUT
     "CONTINUE_SHOPPING": "Continue shopping",
     //XBUT
     "SHOP": "Shop",
+    //XFLD
+    "ADD NOTE": "Add Note",
+    //XFLD
+    "EDIT NOTE": "Edit Note",
     //XFLD
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD
