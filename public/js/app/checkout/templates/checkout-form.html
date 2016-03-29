@@ -52,8 +52,8 @@
             <div class="form-group input-group"
                 ng-class="{ 'has-error': !shipToForm.email.focused && shipToForm.email.$invalid &&  ( shipToForm.email.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="email">{{'EMAIL' | translate}}</label>
-                <input type="email" inline-error-input builder-input="email"
-                       inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="email"
+                <input type="email" builder-input="email"
+                    class="form-control" id="email"
                        name="email" ng-model="order.account.email"
                        required autocomplete="on"
                        ng-focus="shipToForm.email.focused=true"

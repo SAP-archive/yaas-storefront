@@ -29,7 +29,7 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="companyNameShip">{{'COMPANY_NAME' | translate}}</label>
                 <input type="text" class="form-control" id="companyNameShip" name="companyName" ng-model="order.shipTo.companyName"
-                    autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+                    autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -86,7 +86,7 @@
         <div class="col-md-4">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="contactPhoneShip">{{'CONTACT_PHONE' | translate}}</label>
-                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="phoneShip" id="contactPhoneShip" autocomplete="on" placeholder="(Optional)" 
+                <input type="text" class="form-control" ng-model="order.shipTo.contactPhone" name="phoneShip" id="contactPhoneShip" autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" 
                 ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>

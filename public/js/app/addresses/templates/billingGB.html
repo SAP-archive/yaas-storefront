@@ -31,7 +31,7 @@
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
             <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
-                   autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+                   autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div> -->
 
@@ -50,7 +50,7 @@
     <div class="col-md-4">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="address2Bill">{{'ADDRESS' | translate}} 2</label>
-            <input type="text" class="form-control" placeholder="(Optional)" id="address2Bill" name="address2"
+            <input type="text" class="form-control" placeholder="({{'OPTIONAL' | translate}})" id="address2Bill" name="address2"
             ng-model="order.billTo.address2" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
@@ -82,7 +82,7 @@
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label>
             <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
-                   autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+                   autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
 
