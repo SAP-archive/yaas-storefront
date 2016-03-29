@@ -36,7 +36,7 @@ angular.module('ds.cart')
                     var self = this;
                     CartNoteMixinSvc.updateNote(item, this.content)
                         .then(function(){
-                           self.collapseNote(); 
+                           self.collapseNote();
                         }, function(){
                             self.saveFailed = true;
                         });
