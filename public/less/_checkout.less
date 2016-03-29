@@ -176,6 +176,16 @@
 
 		.summary{
 			padding: 0 20px;
+            .order-total-details{
+                color: #3c3c3c;
+                font-size: 15px;
+                font-weight: 400;
+                border-width: 1px;
+                padding: 12px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border-top: 1px solid #dddddd;
+            }
 		}
 	}
 
@@ -194,6 +204,28 @@
 
     .cvc-example{
         padding-bottom: 20px;
+    }
+
+    .checkout-item-mobile {
+        border-top: none;
+
+        .img-col {
+            width: 120px;
+            border: none;
+
+            .product-img {
+                max-width: 90px;
+            }
+        }
+
+        tr:nth-child(even) {
+            background-color: #ebeced;
+        }
+
+        .mobile-cart-item-details {
+            width: 100%;
+            border: none;
+        }
     }
 }
 
