@@ -136,6 +136,11 @@ angular.module('ds.addresses')
                     loadTemplate(scope, element, locale.id, attrs.type);
                 };
 
+                scope.setLocale = function (item) {
+                    scope.localeSelection.selected = item;
+                    scope.changeLocale(item);
+                };
+
                 // localization selection handler
                 scope.changeLocale = function(locale){
                     loadTemplate(scope, element, locale.id, attrs.type);
