@@ -38,10 +38,11 @@ describe('CartNoteMixinCtrl Test', function () {
         
         cartNoteMixinCtrl = _$controller_('CartNoteMixinCtrl', {
             $scope: $scope,
-            $state: {},
+            $state: {}, 
             CartSvc: mockedCartSvc,
             CartNoteMixinSvc: mockedCartNoteMixinSvc
         });
+        
         
     }));
     
@@ -57,11 +58,21 @@ describe('CartNoteMixinCtrl Test', function () {
     });
     
     it('should call updateNote in the CartNoteMixinSvc on submit/save', function(){
+        $scope.note.content = "A placeholder note";
         $scope.note.submit({});
         // Resolve the promise of updateNote
         this.deferred.resolve();
         $rootScope.$digest();
         
         expect(mockedCartNoteMixinSvc.updateNote).toHaveBeenCalled();
+    });
+    
+    it('should call removeNote when a blank note is saved (submitted)', function(){
+        spyOn($scope.note, 'removeNote').andReturn({});
+        
+        $scope.note.content = "";
+        $scope.note.submit({});
+        
+        expect($scope.note.removeNote).toHaveBeenCalled();
     });
 });
