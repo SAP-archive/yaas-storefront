@@ -42,15 +42,17 @@
                         controller: 'EditUserEmailDialogCtrl',
                         resolve: {
                             account: function () {
-                                return account;
+                                return {
+                                    email: account.accounts[0].id || account.contactEmail
+                                };
                             }
                         },
-                        backdrop: 'static'
+                        //backdrop: 'static'
                     });
 
-                    $scope.modalInstance.result.then(function (result) {
-                        $scope.account = result;
-                    });
+                    //$scope.modalInstance.result.then(function (result) {
+                    //    $scope.account = result;
+                    //});
                 };
 
                 $scope.updatePassword = function () {

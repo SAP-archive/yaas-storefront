@@ -384,6 +384,8 @@
     "REGION_PREFERENCES": "Regionspräferenzen",
     //XFLD
     "NEW_EMAIL": "Neue E-Mail",
+    //XFLD
+    "CURRENT_EMAIL": "Current Email",
     //XGRP
     "ADDRESSBOOK": "Adressbuch",
     //XMSG
@@ -496,6 +498,8 @@
     "CHECK_EMAIL": "Überprüfen Sie Ihre E-Mail",
     //XMSG
     "CHECK_EMAIL_INSTRUCT": "... und wählen Sie den Link, um Ihr Kennwort zurückzusetzen. Der Link ist 24 Stunden gültig.",
+    //XMSG
+    "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
     //XMSG
     "PASSWORD_REQUIRED": "Das Kennwort muss mindestens 6 Zeichen haben.",
     //XMSG
