@@ -44,7 +44,7 @@ angular.module('ds.cart')
                 },
                 submit: function(item) {
                     // Saving a blank comment is equivalent to removing the comment
-                    if (this.content == ''){
+                    if (this.content === ''){
                         this.removeNote(item);
                     }
                     else {
