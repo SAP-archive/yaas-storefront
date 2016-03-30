@@ -31,13 +31,13 @@
                         $scope.step = 2;
                     }, function (error) {
                         if (error.status === 401) {
-                            $scope.error = 'Password is not correct.';
+                            $scope.error = 'Password is not correct. Try again';
                         }
                         else if(error.status === 409) {
-                            $scope.error = 'There is already a user using the wanted email address.';
+                            $scope.error = 'This email is already in use. Try again';
                         }
                         else {
-                            $scope.error = 'Something went wrong, please try again.';
+                            $scope.error = 'Something went wrong. Try again';
                         }
                     });
                 };

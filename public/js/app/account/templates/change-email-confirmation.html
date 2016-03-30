@@ -1,27 +1,30 @@
 <div ng-if="!error">
     <div ng-if="!confirmed" class="text-center">
-        <h1>Please wait we are trying to confirm</h1>
+        <h1>Your email is being updated...</h1>
     </div>
 
     <div ng-if="confirmed">
-        <section class="white" match-background ng-cloak>
-            <h2>Email updated</h2>
+        <section class="white text-center" match-background ng-cloak>
+            <h2>Email sucessfully updated</h2>
             <p>
-                Your email is now changed
+                Your email has been changed
             </p>
 
             <div class="actionButton clearfix">
-                <button class="btn btn-secondary btn-g" ng-click="redirect()">
+                <button class="btn btn-secondary btn-lg" ng-click="redirect()">
                     Home
                 </button>
             </div>
 
         </section>
     </div>
+
 </div>
 
-<div ng-if="error">
-    <h3 class="text-center">
-        {{error}}
-    </h3>
+<div ng-if="error" class="text-center">
+        <h2>Oops!</h2>
+        <p>
+            Something went wrong. Please reset your email again (link to account page, reset email should be the link)
+        </p>
 </div>
+
