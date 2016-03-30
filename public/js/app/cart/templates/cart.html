@@ -113,7 +113,8 @@
                                     <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note" href="#">{{item.mixins.note.comment ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
                                     
                                     <!-- note delete button -->
-                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed"> | 
+                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed"> 
+                                        &nbsp; | &nbsp;
                                         <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note">DELETE NOTE</a>
                                     </span>
                                     
