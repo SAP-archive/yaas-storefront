@@ -26,13 +26,16 @@ describe('CartNoteMixinCtrl Test', function () {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
         
-        this.deferred = $q.defer();
+        this.deferred1 = $q.defer();
+        this.deferred2 = $q.defer();
         
         mockedCartNoteMixinSvc = {
-            updateNote: function () {}
+            updateNote: function () {},
+            removeNote: function () {}
         }
         
-        spyOn(mockedCartNoteMixinSvc, "updateNote").andReturn(this.deferred.promise);
+        spyOn(mockedCartNoteMixinSvc, "updateNote").andReturn(this.deferred1.promise);
+        spyOn(mockedCartNoteMixinSvc, "removeNote").andReturn(this.deferred2.promise);
         
         mockedCartSvc = {};
         
@@ -61,7 +64,7 @@ describe('CartNoteMixinCtrl Test', function () {
         $scope.note.content = "A placeholder note";
         $scope.note.submit({});
         // Resolve the promise of updateNote
-        this.deferred.resolve();
+        this.deferred1.resolve();
         $rootScope.$digest();
         
         expect(mockedCartNoteMixinSvc.updateNote).toHaveBeenCalled();
@@ -74,5 +77,13 @@ describe('CartNoteMixinCtrl Test', function () {
         $scope.note.submit({});
         
         expect($scope.note.removeNote).toHaveBeenCalled();
+    });
+    it('should call removeNote in the CartNoteMixinSvc on note remove', function(){
+        $scope.note.removeNote({});
+        // Resolve the promise of updateNote
+        this.deferred2.resolve();
+        $rootScope.$digest();
+        
+        expect(mockedCartNoteMixinSvc.removeNote).toHaveBeenCalled();
     });
 });
