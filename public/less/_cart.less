@@ -369,16 +369,28 @@
 }
 
 .noteMixin {
-    #noteMixin_area {
-        margin-top: 20px;
+
+    .note-display{
+      margin-top: 10px;
+      font-style: italic;
     }
+    
     form {
         margin-top: 10px;
+    
         textarea {
             resize: none;
         }
+    
         button {
             margin-top: 10px;
         }
+    }
+    
+    .modify-note{
+      margin-top: 5px;
+      font-style: normal;
+      display: inline-block;
+      font-size: 10px;
     }
 }

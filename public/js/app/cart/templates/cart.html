@@ -100,13 +100,23 @@
 
                                 <!-- total price -->
                                 <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
-
+                                
+                                <!-- note display -->
                                 <div id="noteMixin_area" class="noteMixin"> 
-                                    <div>
-                                        <p><em>{{item.mixins.note.comment}} {{note.hasSavedContent}}</em><span ng-if="item.mixins.note.comment" ng-click="note.removeNote(item)" class="hyicon hyicon-remove"></span></p>
+                                    
+                                    <!-- display the note -->
+                                    <div class="note-display">
+                                        {{item.mixins.note.comment}} {{note.hasSavedContent}}
                                     </div>
                                     
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
+                                    <!-- note edit button -->
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note" href="#">{{item.mixins.note.comment ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
+                                    
+                                    <!-- note delete button -->
+                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed"> | 
+                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note">DELETE NOTE</a>
+                                    </span>
+                                    
                                 </div>
 
                             </div>
