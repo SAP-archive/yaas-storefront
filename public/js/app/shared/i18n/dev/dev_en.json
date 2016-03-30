@@ -216,6 +216,8 @@
     "COUPON_APPLY": "Apply",
     //XFLD
     "COUPON_APPLIED": "Applied",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
     //XMSG

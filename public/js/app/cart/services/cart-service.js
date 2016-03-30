@@ -367,6 +367,12 @@ angular.module('ds.cart')
                     });
                 },
 
+                removeCoupon: function (cartId, couponId) {
+                    return CartREST.Cart.one('carts', cartId).one('discounts', couponId).remove().then(function () {
+                        refreshCart(cartId, 'manual');
+                    });
+                },
+
                 getCalculateTax: function () {
                     if (!!cart && !!cart.countryCode && !!cart.zipCode) {
                         return {

@@ -53,10 +53,15 @@ angular.module('ds.coupon')
                 });
             };
 
+            $scope.removeCoupon = function(couponId) {
+                CartSvc.removeCoupon($scope.cart.id, couponId).then(function () {
+                    removeErrorBlock();
+                });
+            };
+
             $scope.removeAllCoupons = function() {
                 CartSvc.removeAllCoupons($scope.cart.id).then(function () {
-                    $scope.coupon.error = '';
-                    $scope.couponErrorMessage = '';
+                    removeErrorBlock();
                 });
             };
 
@@ -88,6 +93,16 @@ angular.module('ds.coupon')
                 $scope.coupon.error = couponError;
                 if (couponError.status === 400) {
                     $scope.couponErrorMessage = couponError.data.details[0].message;
+                }
+            };
+
+            var removeErrorBlock = function () {
+                if($scope.coupon.error) {
+                    $scope.coupon.error = '';
+                }
+
+                if($scope.couponErrorMessage) {
+                    $scope.couponErrorMessage = '';
                 }
             };
 

@@ -23,7 +23,7 @@ angular.module('ds.appconfig', [])
 
         dynamicDomain: function(){
             // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            return /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
+            return /*StartDynamicDomain*/ 'api.stage.yaas.io' /*EndDynamicDomain*/;
         },
 
         storeTenant: function(){
@@ -35,14 +35,14 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartProjectId*/ 'defaultproj' /*EndProjectId*/;
+                tenantId = /*StartProjectId*/ 'checkoutsmoke' /*EndProjectId*/;
             }
             return tenantId;
         },
 
         clientId: function() {
             // Dynamic ClientId is configured and replaced by build script, see gruntfile.
-            return /*StartClientId*/ 'hkpWzlQnCIe4MSTi1Ud94Q7O36aRrRrO' /*EndClientId*/;
+            return /*StartClientId*/ 'VLyJ3CbMTfIlrYoAvsoHL1IQuPtGpuUU' /*EndClientId*/;
         },
 
         redirectURI: function() {
