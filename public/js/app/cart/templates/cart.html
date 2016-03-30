@@ -103,9 +103,10 @@
 
                                 <div id="noteMixin_area" class="noteMixin"> 
                                     <div>
-                                        <p><em>{{item.mixins.note.comment}}</em></p>
+                                        <p><em>{{item.mixins.note.comment}} {{note.hasSavedContent}}</em><span ng-if="item.mixins.note.comment" ng-click="note.removeNote(item)" class="hyicon hyicon-remove"></span></p>
                                     </div>
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.comment ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
+                                    
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="highlight" href="#">{{item.mixins.note.code ? ("EDIT NOTE" | translate | uppercase) : ("ADD NOTE" | translate | uppercase)}}</a>
                                 </div>
 
                             </div>

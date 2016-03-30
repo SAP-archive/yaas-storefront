@@ -22,6 +22,7 @@ angular.module('ds.cart')
             $scope.note = {
                 noteCollapsed: true,
                 saveFailed: false,
+                removeNoteFailed: false,
                 oldContent: '',
                 content: '',
                 collapseNote: function() {
@@ -32,14 +33,29 @@ angular.module('ds.cart')
                 expandNote: function() {
                     this.noteCollapsed = false;
                 },
-                submit: function(item) {
+                removeNote: function(item) {
                     var self = this;
-                    CartNoteMixinSvc.updateNote(item, this.content)
-                        .then(function(){
-                           self.collapseNote();
-                        }, function(){
+                    CartNoteMixinSvc.removeNote(item)
+                    .then(function() {
+                            self.content = '';
+                        }, function() {
+                            self.removeNoteFailed = true;
+                        });
+                },
+                submit: function(item) {
+                    // Saving a blank comment is equivalent to removing the comment
+                    if (this.content == ''){
+                        this.removeNote(item);
+                    }
+                    else {
+                        var self = this;
+                        CartNoteMixinSvc.updateNote(item, this.content)
+                        .then(function() {
+                            self.collapseNote();
+                        }, function() {
                             self.saveFailed = true;
                         });
+                    }
                 }
             };
         }

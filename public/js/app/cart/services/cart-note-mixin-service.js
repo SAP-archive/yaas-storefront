@@ -46,6 +46,30 @@ angular.module('ds.cart')
 				);
 
 				return updatePromise.promise;
-			}
+			},
+            removeNote: function(cartItem){
+                var removeNotePromise = $q.defer();
+                var nulledNoteMixin = {
+					metadata: {
+						mixins: null
+					},
+					mixins: {
+						note: null
+					}
+				};
+                // Get cart info from CartSvc
+				var cart = CartSvc.getLocalCart();
+                
+                CartREST.Cart.one('carts', cart.id).all('items').customPUT(nulledNoteMixin, cartItem.id + '?partial=true')
+					.then(function () {
+						CartSvc.refreshCart(cart.id, 'auto');
+						removeNotePromise.resolve();
+					},
+					function () {
+						removeNotePromise.reject();
+					}
+				);
+                return removeNotePromise;
+            }
 		};
 }]);
