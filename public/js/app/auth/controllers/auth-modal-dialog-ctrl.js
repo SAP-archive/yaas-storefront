@@ -100,14 +100,6 @@ angular.module('ds.auth')
                 });
             };
 
-            $scope.onSignIn = function(googleUser) {
-                console.log(googleUser);
-            };
-            $scope.onSignInFailure = function() {
-                console.log('Google Signin Failure');
-            };
-
-
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
                 if(obj.loggedIn){
                     $scope.closeDialog();
