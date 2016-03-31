@@ -44,7 +44,8 @@ describe('TopNavigationCtrl', function () {
 
     var mockedAuthSvc = {
         signOut: jasmine.createSpy('signout'),
-        getToken: jasmine.createSpy('getToken').andReturn(mockedToken)
+        getToken: jasmine.createSpy('getToken').andReturn(mockedToken),
+        isGoogleLoggedIn: jasmine.createSpy('isGoogleLoggedIn').andReturn(true)
     };
     var mockAuthDialogManager = {
         isOpened: jasmine.createSpy('isOpened'),

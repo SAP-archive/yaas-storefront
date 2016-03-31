@@ -38,6 +38,7 @@ angular.module('ds.auth')
             $scope.showAsGuest = showAsGuest;
 
             AuthSvc.initFBAPI();
+            AuthSvc.initGoogleAPI();
 
             $scope.$on('authlogin:error', function(){
                 var response = { status: 0 };
@@ -98,6 +99,14 @@ angular.module('ds.auth')
                     AuthSvc.onGoogleLogIn(user);
                 });
             };
+
+            $scope.onSignIn = function(googleUser) {
+                console.log(googleUser);
+            };
+            $scope.onSignInFailure = function() {
+                console.log('Google Signin Failure');
+            };
+
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){
                 if(obj.loggedIn){

@@ -138,6 +138,27 @@ angular.module('ds.auth')
 
                 },
 
+                initGoogleAPI: function () {
+                    YGoogleSignin.loadData(settings.googleClientId).then(function () {
+                        
+                    },
+                    function () {
+                        
+                    });
+                },
+
+                isGoogleLoggedIn: function (customer) {
+                    if (customer && customer.accounts) {
+                        for (var i = 0; i < customer.accounts.length; i++) {
+                            if (customer.accounts[i].providerId === 'google') {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    return false;
+                },
+
                 fbParse: function () {
                     if (typeof FB !== 'undefined') {
                         FB.XFBML.parse();

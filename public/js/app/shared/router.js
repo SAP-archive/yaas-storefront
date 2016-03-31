@@ -15,8 +15,8 @@
 angular.module('ds.router', [])
 
    /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider', 'settings',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig, settings) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
 
 
             // States definition
@@ -32,11 +32,6 @@ angular.module('ds.router', [])
                         'topNavigation@': {
                             templateUrl: 'js/app/shared/templates/top-navigation.html',
                             controller: 'TopNavigationCtrl',
-                            resolve: {
-                                userImage: ['YGoogleSignin', function (YGoogleSignin) {
-                                    return YGoogleSignin.getUser(settings.googleClientId);
-                                }]
-                            }
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',
@@ -181,14 +176,14 @@ angular.module('ds.router', [])
                         order: ['CheckoutSvc', function (CheckoutSvc) {
                             return CheckoutSvc.getDefaultOrder();
                         }],
-                        shippingZones: ['ShippingSvc', 'initialized', 'GlobalData', function (ShippingSvc, initialized, GlobalData) {
-                            if (initialized) {  // parent resolve - if-check to make usage explicit
-                                return ShippingSvc.getSiteShippingZones(GlobalData.getSiteCode());
-                            }
-                        }],
                         shippingCountries: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
                             if (initialized) {  // parent resolve - if-check to make usage explicit
                                 return ShippingSvc.getShipToCountries();
+                            }
+                        }],
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if (initialized) {
+                                return ShippingSvc.getSiteShippingZones();
                             }
                         }]
                     }

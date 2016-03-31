@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'shippingZones', 'GlobalData', 'ShippingSvc', 'shippingCountries', '$q', 'CartSvc', '$timeout',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, shippingZones, GlobalData, ShippingSvc, shippingCountries, $q, CartSvc, $timeout) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', 'shippingCountries', '$q', 'CartSvc', '$timeout',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, shippingCountries, $q, CartSvc, $timeout) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -44,9 +44,7 @@ angular.module('ds.checkout')
             //Then in the configuration service the   CartSvc.refreshCartAfterLogin(account.id); is called, and
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
-            cart = $scope.cart;
-            $scope.shippingCountries = shippingCountries;
-            $scope.shippingZones = shippingZones || 0;
+            $scope.shippingZones = shippingZones || [];
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.user = GlobalData.user;
             $scope.addresses = [];
@@ -176,6 +174,8 @@ angular.module('ds.checkout')
             $scope.message = null;
 
             $scope.submitIsDisabled = false;
+
+            $scope.shippingConfigured = ShippingSvc.isShippingConfigured($scope.shippingZones);
 
             // Configure modal "spinner" to block input during checkout processing
             var ssClass = 'order-processing-dialog',
@@ -523,14 +523,25 @@ angular.module('ds.checkout')
                 }
             };
 
+            $scope.disableAddress = function (country) {
+                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
             $scope.isShipToCountry = function (countryID) {
                 return shippingCountries.indexOf(countryID) > -1;
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
-                var condition = $scope.isShipToCountry(address.country);
-                if (condition) {
-                    return $scope.selectAddress(address, target);
+                if ($scope.shippingConfigured) {
+                    if ($scope.isShipToCountry(address.country)) {
+                        $scope.selectAddress(address, target);
+                    }
+                } else {
+                    $scope.selectAddress(address, target);
                 }
             };
 
@@ -575,16 +586,14 @@ angular.module('ds.checkout')
                     var addressToShip = $rootScope.shipActive ? $scope.order.shipTo : $scope.order.billTo;
                     CartSvc.recalculateCart($scope.cart, addressToShip, shippingCostObject).then(
                         function (calculatedCart) {
-                            $scope.cart.subTotalPrice.amount = calculatedCart.subTotalPrice.amount;
-                            $scope.cart.totalPrice.amount = calculatedCart.totalPrice.amount;
-                            if (calculatedCart.totalTax) {
-                                $scope.cart.totalTax.amount =  calculatedCart.totalTax.amount;
-                            }
-                            else {
-                                $scope.cart.totalTax =  {amount: 0};
-                            }
-                            $scope.cart.taxAggregate = angular.copy(calculatedCart.taxAggregate);
-
+                            $scope.cart.currency = calculatedCart.currency;
+                            $scope.cart.totalTax = calculatedCart.totalTax;
+                            $scope.cart.taxAggregate = calculatedCart.taxAggregate;
+                            $scope.cart.subTotalPrice = calculatedCart.subTotalPrice;
+                            $scope.cart.totalPrice = calculatedCart.totalPrice;
+                            $scope.cart.totalUnitsCount = calculatedCart.totalUnitsCount;
+                            $scope.cart.shipping = calculatedCart.shipping;
+                            $scope.cart.totalDiscount = calculatedCart.totalDiscount;
                             $rootScope.$emit('order:previewed');
                             $scope.displayCart = true;
                             $scope.showPristineErrors = false;
@@ -609,7 +618,7 @@ angular.module('ds.checkout')
                 return deferred.promise;
             }
 
-            $rootScope.$on('updateShippingCost', function (eve, eveObj) {
+            $scope.$on('event:shipping-cost-updated', function (eve, eveObj) {
                 updateShippingCost(eveObj.shipToAddress);
             });
 
@@ -631,7 +640,7 @@ angular.module('ds.checkout')
 
                     var costsPromise = ShippingSvc.getShippingCosts(data).then(
                         function (result) {
-                            return result[0];
+                            return result;
                         }
                     );
 
@@ -642,23 +651,22 @@ angular.module('ds.checkout')
                     );
 
                     $q.all([costsPromise, minCostPromise]).then(function(data){
-                        $scope.shippingCosts = data[0].methods;
-                        var shippingCost = data[1];
-                        if($scope.isShipToCountry(shipToAddress.country)){
-                            for (var i = 0; i < $scope.shippingCosts.length; i++) {
-                                $scope.shippingCosts[i].zoneId = data[0].zone.id;
-                                if ($scope.shippingCosts[i].fee.amount === shippingCost.fee.amount) {
-                                    shippingCost.zoneId = $scope.shippingCosts[i].zoneId;
-                                    shippingCost.id = $scope.shippingCosts[i].id;
-                                    shippingCost.name = $scope.shippingCosts[i].name;
-                                    $scope.shippingCosts[i].preselect = true;
+                        var shippingCosts = data[0];
+                        $scope.shippingCosts = [];
+                        $scope.shippingCost = data[1];
+                        for(var j = 0; j < shippingCosts.length; j++){
+                            for (var i = 0; i < shippingCosts[j].methods.length; i++) {
+                                var shippingCostObject = {};
+                                angular.copy(shippingCosts[j].methods[i], shippingCostObject);
+                                shippingCostObject.zoneId = shippingCosts[j].zone.id;
+                                $scope.shippingCosts.push(shippingCostObject);
+                                if (shippingCosts[j].methods[i].fee.amount === $scope.shippingCost.fee.amount) {
+                                    $scope.shippingCost.zoneId = shippingCosts[j].zone.id;
+                                    $scope.shippingCost.id = shippingCosts[j].methods[i].id;
+                                    $scope.shippingCost.name = shippingCosts[j].methods[i].name;
                                 }
                             }
-                        } else {
-                            $scope.shippingCosts = [];
                         }
-
-                        $scope.shippingCost = shippingCost;
                     });
                 }
             };

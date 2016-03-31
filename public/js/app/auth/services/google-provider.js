@@ -21,44 +21,65 @@ angular.module('ds.ygooglesignin', [])
             var user;
             var url = 'https://apis.google.com/js/client:platform.js?onload=onLoad';
 
-            function loadData (googleClientId) {
-                var deferred = $q.defer();
-                var meta = document.createElement('meta');
-                meta.name = 'google-signin-scope';
-                meta.content = 'profile email';
-                document.getElementsByTagName('head')[0].appendChild(meta);
-
-                meta.name = 'google-signin-client_id';
-                meta.content = googleClientId;
-                document.getElementsByTagName('head')[0].appendChild(meta);
-
-                var s, r, t;
-                r = false;
-                s = document.createElement('script');
-                s.type = 'text/javascript';
-                s.src = url;
-                t = document.getElementsByTagName('script')[0];
-                t.parentNode.insertBefore(s, t);
-                s.onload /*= s.onreadystatechange*/ = function() {
-                    if (!r && (!this.readyState || this.readyState === 'complete')) {
-                        r = true;
-                        window.gapi.load('auth2', function() {
-                            window.gapi.auth2.init().then(function () {
-                                deferred.resolve('This is response');
-                            });
-                        });
+            function isScriptExist () {
+                var scripts = document.getElementsByTagName('script');
+                for (var i = 0; i < scripts.length; i++) {
+                    if (scripts[i].src === url) {
+                        return true;
                     }
-                };
-                return deferred.promise;
+                }
+                return false;
             }
 
             GoogleObject.prototype.loadData = function (googleClientId) {
-                loadData(googleClientId);
+                var deferred = $q.defer();
+                if (!isScriptExist()) {
+                    var meta = document.createElement('meta');
+                    meta.name = 'google-signin-scope';
+                    meta.content = 'profile email';
+                    document.getElementsByTagName('head')[0].appendChild(meta);
+
+                    meta.name = 'google-signin-client_id';
+                    meta.content = googleClientId;
+                    document.getElementsByTagName('head')[0].appendChild(meta);
+
+                    var params = {
+                        /* jshint ignore:start */
+                        client_id: googleClientId,
+                        cookie_policy: 'single_host_origin'
+                        /* jshint ignore:end */
+                    };
+
+                    var s, r, t;
+                    r = false;
+                    s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.src = url;
+                    t = document.getElementsByTagName('script')[0];
+                    t.parentNode.insertBefore(s, t);
+                    s.onload = s.onreadystatechange = function() {
+                        if (!r && (!this.readyState || this.readyState === 'complete')) {
+                            r = true;
+                            window.gapi.load('auth2', function() {
+                                window.gapi.auth2.init(params).then(function () {
+                                    // window.gapi.signin2.render();
+                                    deferred.resolve();
+                                });
+                            });
+                        }
+                    };
+                }
+
+                return deferred.promise;
             };
+
+            // GoogleObject.prototype.loadData = function (googleClientId) {
+            //     loadData(googleClientId);
+            // };
 
             GoogleObject.prototype.getUser = function (googleClientId) {
                 var deferred = $q.defer();
-                loadData(googleClientId).then(function () {
+                this.loadData(googleClientId).then(function () {
                     var auth2 = window.gapi.auth2.getAuthInstance();
                     if (auth2.isSignedIn.get()) {
                         var profile = auth2.currentUser.get().getBasicProfile();
@@ -76,17 +97,32 @@ angular.module('ds.ygooglesignin', [])
                 return deferred.promise;
             };
 
+            GoogleObject.prototype.preLogin = function () {
+                var deferred = $q.defer();
+                window.gapi.load('auth2', function() {
+                    window.gapi.auth2.init().then(function () {
+                        deferred.resolve();
+                    });
+                });
+                return deferred.promise;
+            };
+
             GoogleObject.prototype.login = function () {
+                var params = {
+                    scope: 'profile email'
+                };
                 var deferred = $q.defer();
                 window.gapi.load('auth2', function() {
                     var auth2 = window.gapi.auth2.getAuthInstance();
-                    auth2.signIn().then(function (response) {
+                    auth2.signIn(params).then(function (response) {
                         user = {
                             firstname: response.wc.Za,
                             lastname: response.wc.Na,
                             email: response.wc.hg,
                             image: response.wc.Ph,
+                            /* jshint ignore:start */
                             token: response.hg.access_token
+                            /* jshint ignore:end */
                         };
                         deferred.resolve(user);
                     });
@@ -95,8 +131,12 @@ angular.module('ds.ygooglesignin', [])
             };
 
             GoogleObject.prototype.logout = function () {
+                var deferred = $q.defer();
                 var auth2 = window.gapi.auth2.getAuthInstance();
-                auth2.signOut();
+                auth2.signOut().then(function () {
+                    deferred.resolve();
+                });
+                return deferred.promise;
             };
 
             return new GoogleObject();

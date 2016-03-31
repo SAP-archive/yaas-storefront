@@ -108,6 +108,9 @@ describe('AuthModalDialogCtrl Test', function () {
             initFBAPI: jasmine.createSpy('initFBAPI').andCallFake(function(){
                 return deferredSocialLogin.promise;
             }),
+            initGoogleAPI: jasmine.createSpy('initGoogleAPI').andCallFake(function () {
+                return deferredSocialLogin.promise;
+            }),
 
             onGoogleLogIn: jasmine.createSpy('onGoogleLogIn'),
             faceBookLogin: jasmine.createSpy('faceBookLogin'),

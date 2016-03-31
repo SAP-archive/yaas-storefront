@@ -140,7 +140,8 @@ angular.module('ds.checkout')
                 if (order.shipping) {
                     newOrder.shipping = {
                         methodId: order.shipping.id,
-                        amount: order.shipping.fee.amount
+                        amount: order.shipping.fee.amount,
+                        zoneId: order.shipping.zoneId
                     };
                 }
 
