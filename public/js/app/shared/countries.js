@@ -13,18 +13,11 @@
 'use strict';
 
 angular.module('ds.shared')
-
-
-/**
- * Provides default settings (constants) for the application.
- *
- * @type {Object}
- */
     .constant('Countries', {
 
         world: {
-            countries: [{ name: 'Albania', id: 'AL' }, { name: 'Algeria', id: 'DZ' }, { name: 'American Samoa', id: 'AS' },
-                { name: 'Andorra', id: 'AD' }, { name: 'Angola', id: 'AO' }, { name: 'Anguilla', id: 'AI' },
+            countries: [{ name: 'Afghanistan', code: 'AF' }, { name: 'Aland Islands', code: 'AX' },{ name: 'Albania', id: 'AL' }, { name: 'Algeria', id: 'DZ' }, 
+                { name: 'American Samoa', id: 'AS' },{ name: 'Andorra', id: 'AD' }, { name: 'Angola', id: 'AO' }, { name: 'Anguilla', id: 'AI' },
                 { name: 'Antarctica', id: 'AQ' }, { name: 'Antigua and Barbuda', id: 'AG' }, { name: 'Argentina', id: 'AR' },
                 { name: 'Armenia', id: 'AM' }, { name: 'Aruba', id: 'AW' }, { name: 'Australia', id: 'AU' }, { name: 'Austria', id: 'AT' },
                 { name: 'Azerbaijan', id: 'AZ' }, { name: 'Bahamas', id: 'BS' }, { name: 'Bahrain', id: 'BH' },
