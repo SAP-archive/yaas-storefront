@@ -13,43 +13,46 @@
 'use strict';
 
 angular.module('ds.cart')
-    /** This controller manages the interactions of the cart view. The controller is listening to the 'cart:udpated' event
-     * and will refresh the scope's cart instance when the event is received. */
     .controller('CartNoteMixinCtrl', ['$scope', '$state', 'CartSvc', 'CartNoteMixinSvc',
         function($scope, $state, CartSvc, CartNoteMixinSvc) {
 
             // NOTE mixin
             $scope.note = {
-                noteCollapsed: true,
                 saveFailed: false,
                 removeNoteFailed: false,
                 oldContent: '',
                 content: '',
+
                 collapseNote: function() {
                     // reset the variable, if user tries again
                     this.saveFailed = false;
-                    this.noteCollapsed = true;
+                    CartNoteMixinSvc.toggleNoteCollapsed();
                 },
+
                 expandNote: function() {
-                    this.noteCollapsed = false;
+                    CartNoteMixinSvc.toggleNoteCollapsed();
                 },
+
+                isNoteCollapsed: function() {
+                    return CartNoteMixinSvc.isNoteCollapsed();
+                },
+
                 removeNote: function(item) {
-                    var self = this;
-                    CartNoteMixinSvc.removeNote(item)
-                    .then(function() {
-                            self.content = '';
-                        }, function() {
-                            self.removeNoteFailed = true;
-                        });
+                    CartNoteMixinSvc.removeNote(item).then(function() {
+                        this.content = '';
+                    }, function() {
+                        this.removeNoteFailed = true;
+                    });
                 },
+
                 submit: function(item) {
+                    var self = this;
+
                     // Saving a blank comment is equivalent to removing the comment
-                    if (this.content === ''){
+                    if (this.content === '') {
                         this.removeNote(item);
-                    }
-                    else {
-                        var self = this;
-                        CartNoteMixinSvc.updateNote(item, this.content)
+                    } else {
+                        CartNoteMixinSvc.updateNote(item, self.content)
                         .then(function() {
                             self.collapseNote();
                         }, function() {

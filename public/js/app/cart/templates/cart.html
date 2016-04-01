@@ -110,12 +110,12 @@
                                     </div>
                                     
                                     <!-- note edit button -->
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note" href="#">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate | uppercase) : ("ADD_NOTE" | translate | uppercase)}}</a>
+                                    <a id="addEditNote" ng-show="note.isNoteCollapsed()" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="#">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
                                     
                                     <!-- note delete button -->
-                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed"> 
+                                    <span ng-if="item.mixins.note.comment" ng-show="note.isNoteCollapsed()">
                                         &nbsp; | &nbsp;
-                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note">{{'DELETE_NOTE' | translate | uppercase}}</a>
+                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
                                     </span>
                                     
                                 </div>
@@ -133,9 +133,9 @@
                     <div class="clearfix"></div>
 
                     <!-- Note Mixin -->
-                    <div ng-show="!note.noteCollapsed" class="cart-item-note">
+                    <div ng-show="!note.isNoteCollapsed()" class="cart-item-note">
                         <div class="col-md-12">
-                            <form ng-submit="note.submit(item)" ng-init="note.content = item.mixins.note.comment || ''">
+                            <form ng-submit="note.submit(item)">
 
                                 <label>{{'NOTE' | translate}}</label>
 
@@ -143,9 +143,9 @@
 
                                 <p class="error" ng-show="note.saveFailed">{{'UNABLE_TO_SAVE_NOTE' | translate}}</p>
                                 
-                                <button ng-show="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left" href="#">{{'CANCEL' | translate | uppercase}}</button>
+                                <button ng-if="!note.isNoteCollapsed()" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="#">{{'CANCEL' | translate}}</button>
                                 
-                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right" type="submit">{{'SAVE' | translate | uppercase}}</button>
+                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right text-uppercase" type="submit">{{'SAVE' | translate}}</button>
                             </form>
                         </div>
 

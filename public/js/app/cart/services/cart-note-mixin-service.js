@@ -14,62 +14,68 @@
 
 angular.module('ds.cart')
 .factory('CartNoteMixinSvc', ['CartSvc', 'CartREST', '$q', 'SiteConfigSvc',
-	function (CartSvc, CartREST, $q, siteConfigSvc) {
+    function (CartSvc, CartREST, $q, siteConfigSvc) {
 
-		return {
-			updateNote: function(cartItem, noteContent){
-				var updatePromise = $q.defer();
-				var noteMixin = {
-					metadata: {
-						mixins: {
-							note: siteConfigSvc.schemas.noteMixinMetadata
-						}
-					},
-					mixins: {
-						note: {
-							comment: noteContent
-						}
-					}
-				};
+        var noteCollapsed = true;
 
-				// Get cart info from CartSvc
-				var cart = CartSvc.getLocalCart();
+        return {
+            updateNote: function(cartItem, noteContent) {
+                var updatePromise = $q.defer();
+                var noteMixin = {
+                    metadata: {
+                        mixins: {
+                            note: siteConfigSvc.schemas.noteMixinMetadata
+                        }
+                    },
+                    mixins: {
+                        note: {
+                            comment: noteContent
+                        }
+                    }
+                };
 
-				CartREST.Cart.one('carts', cart.id).all('items').customPUT(noteMixin, cartItem.id + '?partial=true')
-					.then(function () {
-						CartSvc.refreshCart(cart.id, 'auto');
-						updatePromise.resolve();
-					},
-					function () {
-						updatePromise.reject();
-					}
-				);
+                // Get cart info from CartSvc
+                var cart = CartSvc.getLocalCart();
 
-				return updatePromise.promise;
-			},
-            removeNote: function(cartItem){
+                CartREST.Cart.one('carts', cart.id).all('items').customPUT(noteMixin, cartItem.id + '?partial=true').then(function () {
+                    CartSvc.refreshCart(cart.id, 'auto');
+                    updatePromise.resolve();
+                }, function () {
+                    updatePromise.reject();
+                });
+
+                return updatePromise.promise;
+            },
+
+            removeNote: function(cartItem) {
                 var removeNotePromise = $q.defer();
                 var nulledNoteMixin = {
-					metadata: {
-						mixins: null
-					},
-					mixins: {
-						note: null
-					}
-				};
+                    metadata: {
+                        mixins: null
+                    },
+                    mixins: {
+                        note: null
+                    }
+                };
                 // Get cart info from CartSvc
-				var cart = CartSvc.getLocalCart();
-                
-                CartREST.Cart.one('carts', cart.id).all('items').customPUT(nulledNoteMixin, cartItem.id + '?partial=true')
-					.then(function () {
-						CartSvc.refreshCart(cart.id, 'auto');
-						removeNotePromise.resolve();
-					},
-					function () {
-						removeNotePromise.reject();
-					}
-				);
-                return removeNotePromise;
+                var cart = CartSvc.getLocalCart();
+
+                CartREST.Cart.one('carts', cart.id).all('items').customPUT(nulledNoteMixin, cartItem.id + '?partial=true').then(function () {
+                    CartSvc.refreshCart(cart.id, 'auto');
+                    removeNotePromise.resolve();
+                }, function () {
+                    removeNotePromise.reject();
+                });
+
+                return removeNotePromise.promise;
+            },
+
+            isNoteCollapsed: function() {
+                return noteCollapsed;
+            },
+
+            toggleNoteCollapsed: function() {
+                noteCollapsed = !noteCollapsed;
             }
-		};
+        };
 }]);
