@@ -62,7 +62,6 @@ angular.module('ds.ygooglesignin', [])
                             r = true;
                             window.gapi.load('auth2', function() {
                                 window.gapi.auth2.init(params).then(function () {
-                                    // window.gapi.signin2.render();
                                     deferred.resolve();
                                 });
                             });
