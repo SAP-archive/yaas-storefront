@@ -24,9 +24,15 @@
     //XBUT
     "SHOP": "Shop",
     //XFLD
-    "ADD NOTE": "Add Note",
+    "NOTE": "Note",
     //XFLD
-    "EDIT NOTE": "Edit Note",
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XFLD
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD
