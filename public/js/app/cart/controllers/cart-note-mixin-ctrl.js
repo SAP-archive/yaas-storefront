@@ -18,6 +18,7 @@ angular.module('ds.cart')
 
             // NOTE mixin
             $scope.note = {
+                noteCollapsed: true,
                 saveFailed: false,
                 removeNoteFailed: false,
                 oldContent: '',
@@ -26,22 +27,19 @@ angular.module('ds.cart')
                 collapseNote: function() {
                     // reset the variable, if user tries again
                     this.saveFailed = false;
-                    CartNoteMixinSvc.toggleNoteCollapsed();
+                    this.noteCollapsed = true;
                 },
 
                 expandNote: function() {
-                    CartNoteMixinSvc.toggleNoteCollapsed();
-                },
-
-                isNoteCollapsed: function() {
-                    return CartNoteMixinSvc.isNoteCollapsed();
+                    this.noteCollapsed = false;
                 },
 
                 removeNote: function(item) {
+                    var self = this;
                     CartNoteMixinSvc.removeNote(item).then(function() {
-                        this.content = '';
+                        self.content = '';
                     }, function() {
-                        this.removeNoteFailed = true;
+                        self.removeNoteFailed = true;
                     });
                 },
 
@@ -49,8 +47,8 @@ angular.module('ds.cart')
                     var self = this;
 
                     // Saving a blank comment is equivalent to removing the comment
-                    if (this.content === '') {
-                        this.removeNote(item);
+                    if (self.content === ''){
+                        self.removeNote(item);
                     } else {
                         CartNoteMixinSvc.updateNote(item, self.content)
                         .then(function() {

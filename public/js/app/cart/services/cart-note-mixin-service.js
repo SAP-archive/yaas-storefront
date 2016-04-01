@@ -16,8 +16,6 @@ angular.module('ds.cart')
 .factory('CartNoteMixinSvc', ['CartSvc', 'CartREST', '$q', 'SiteConfigSvc',
     function (CartSvc, CartREST, $q, siteConfigSvc) {
 
-        var noteCollapsed = true;
-
         return {
             updateNote: function(cartItem, noteContent) {
                 var updatePromise = $q.defer();
@@ -68,14 +66,6 @@ angular.module('ds.cart')
                 });
 
                 return removeNotePromise.promise;
-            },
-
-            isNoteCollapsed: function() {
-                return noteCollapsed;
-            },
-
-            toggleNoteCollapsed: function() {
-                noteCollapsed = !noteCollapsed;
             }
         };
 }]);
