@@ -232,7 +232,8 @@
     "COUPON_MINIMUM_NOT_MET": "Aktuelle Bestellsumme entspricht nicht der erforderlichen Mindestsumme für diesen Coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon nicht gültig",
-
+    //XTIT
+    "COUPONS": "Coupons",
 
     //XFLD
     //-------------------------------------------------

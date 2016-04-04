@@ -1,5 +1,7 @@
 <div class="couponApplyContainer">
 
+	<div>{{'COUPONS' | translate}}</div>
+
 	<!-- add coupon link -->
 	<a class="highlight addCouponLink" ng-click="couponCollapsed = !couponCollapsed" ng-show="couponCollapsed" href="#">{{'COUPON_CODE' | translate}}</a>
 
@@ -10,9 +12,9 @@
 				<!-- coupon input -->
 				<input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' placeholder="ADD COUPON CODE">
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-4">
 				<!-- apply btn -->
-				<button id="apply-coupon" class="btn btn-link pull-left couponInputBtn" ng-click="applyCoupon(couponCode); couponCode = null">
+				<button id="apply-coupon" class="btn btn-lg btn-default" ng-click="applyCoupon(couponCode); couponCode = null">
 					{{'COUPON_APPLY' | translate}}
 				</button>
 			</div>
@@ -24,20 +26,33 @@
 		</div>
 
 		<!-- coupon error message -->
-		<div ng-if="couponErrorMessage" class="error">
+		<div id="coupon-error-message" ng-if="couponErrorMessage" class="error">
 			{{couponErrorMessage}}
+			<button ng-click="removeErrorBlock()" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
 		</div>
 	</div>
+	<br/>
 
 	<!-- show discount -->
 	<div ng-if="cart.discounts.length">
-		<button id="remove-coupon" ng-click="removeAllCoupons()" class="btn delete btn-link">Remove all Coupons</button>
-
-		<div ng-repeat="discount in cart.discounts">
-			{{discount.code}}
-			<span ng-if="!discount.discountValidationDetails">{{'COUPON_APPLIED' | translate}}</span>
-			<span ng-if="discount.discountValidationDetails">{{'COUPON_NOT_APPLIED' | translate}} <br>{{discount.discountValidationDetails.details[0]}} </span>
-			<button id="remove-coupon" ng-click="removeCoupon(discount.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
-		</div>
+		<table class="table table-striped table-hover techne-table">
+			<tbody>
+			<tr ng-repeat="discount in cart.discounts" class="techne-table-xs-right techne-table-xs-left">
+				<td class="techne-table-xs-left-slot">
+					{{discount.code}}
+				</td>
+				<td>
+					<span ng-if="!discount.discountValidationDetails">{{'COUPON_APPLIED' | translate}}</span>
+					<span ng-if="discount.discountValidationDetails">{{'COUPON_NOT_APPLIED' | translate}} <br>{{discount.discountValidationDetails.details[0]}} </span>
+				</td>
+				<td class="techne-table-xs-right-slot">
+					<button id="remove-coupon" ng-click="removeCoupon(discount.id)" class="btn delete btn-link"><span class="hyicon hyicon-remove"></span></button>
+				</td>
+			</tr>
+			<tbody>
+		</table>
+		<center>
+			<button ng-if="cart.discounts.length>=2" id="remove-all-coupon" class="btn btn-lg btn-default" ng-click="removeAllCoupons()">Remove all coupons</button>
+		</center>
 	</div>
 </div>

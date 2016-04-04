@@ -36,6 +36,7 @@ angular.module('ds.coupon')
 
             /** get coupon and apply it to the cart */
             $scope.applyCoupon = function(couponCode) {
+                $scope.removeErrorBlock();
                 $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponGetResponse) {
                     if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
                         getCouponError({status: 'CURR'});
@@ -55,14 +56,24 @@ angular.module('ds.coupon')
 
             $scope.removeCoupon = function(couponId) {
                 CartSvc.removeCoupon($scope.cart.id, couponId).then(function () {
-                    removeErrorBlock();
+                    $scope.removeErrorBlock();
                 });
             };
 
             $scope.removeAllCoupons = function() {
                 CartSvc.removeAllCoupons($scope.cart.id).then(function () {
-                    removeErrorBlock();
+                    $scope.removeErrorBlock();
                 });
+            };
+
+            $scope.removeErrorBlock = function () {
+                if($scope.coupon && $scope.coupon.error) {
+                    $scope.coupon.error = '';
+                }
+
+                if($scope.couponErrorMessage) {
+                    $scope.couponErrorMessage = '';
+                }
             };
 
             var getCouponError = function(couponError) {
@@ -93,16 +104,6 @@ angular.module('ds.coupon')
                 $scope.coupon.error = couponError;
                 if (couponError.status === 400) {
                     $scope.couponErrorMessage = couponError.data.details[0].message;
-                }
-            };
-
-            var removeErrorBlock = function () {
-                if($scope.coupon.error) {
-                    $scope.coupon.error = '';
-                }
-
-                if($scope.couponErrorMessage) {
-                    $scope.couponErrorMessage = '';
                 }
             };
 
