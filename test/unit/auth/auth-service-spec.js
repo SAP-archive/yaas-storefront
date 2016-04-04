@@ -19,7 +19,9 @@ describe('AuthSvc Test', function () {
     };
     var storeTenant = '121212';
     var YGoogleSignin = {
-        logout: jasmine.createSpy('logout')
+        logout: jasmine.createSpy().andReturn({
+            then: jasmine.createSpy()
+        })
     };
     var mockedGlobalData = {store: {tenant: storeTenant}, customerAccount: {accounts: [{providerId: 'google'}]}, user: {image: 'example.jpg'}};
     var accessToken = 123;

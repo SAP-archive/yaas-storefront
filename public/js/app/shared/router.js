@@ -31,7 +31,7 @@ angular.module('ds.router', [])
                         },
                         'topNavigation@': {
                             templateUrl: 'js/app/shared/templates/top-navigation.html',
-                            controller: 'TopNavigationCtrl',
+                            controller: 'TopNavigationCtrl'
                         },
                         'cart@': {
                             templateUrl: 'js/app/cart/templates/cart.html',

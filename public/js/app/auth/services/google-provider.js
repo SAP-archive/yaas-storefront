@@ -72,10 +72,6 @@ angular.module('ds.ygooglesignin', [])
                 return deferred.promise;
             };
 
-            // GoogleObject.prototype.loadData = function (googleClientId) {
-            //     loadData(googleClientId);
-            // };
-
             GoogleObject.prototype.getUser = function (googleClientId) {
                 var deferred = $q.defer();
                 this.loadData(googleClientId).then(function () {
@@ -92,16 +88,6 @@ angular.module('ds.ygooglesignin', [])
                         user = {};
                     }
                     deferred.resolve(user);
-                });
-                return deferred.promise;
-            };
-
-            GoogleObject.prototype.preLogin = function () {
-                var deferred = $q.defer();
-                window.gapi.load('auth2', function() {
-                    window.gapi.auth2.init().then(function () {
-                        deferred.resolve();
-                    });
                 });
                 return deferred.promise;
             };

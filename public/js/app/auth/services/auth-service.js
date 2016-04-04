@@ -139,12 +139,7 @@ angular.module('ds.auth')
                 },
 
                 initGoogleAPI: function () {
-                    YGoogleSignin.loadData(settings.googleClientId).then(function () {
-                        
-                    },
-                    function () {
-                        
-                    });
+                    YGoogleSignin.loadData(settings.googleClientId);
                 },
 
                 isGoogleLoggedIn: function (customer) {
@@ -213,8 +208,9 @@ angular.module('ds.auth')
                 /** Logs the customer out and removes the token cookie. */
                 signOut: function () {
                     if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
-                        GlobalData.user.image = settings.avatarImagePlaceholder;
-                        YGoogleSignin.logout();
+                        YGoogleSignin.logout().then(function () {
+                            GlobalData.user.image = settings.avatarImagePlaceholder;
+                        });
                     }
                     AuthREST.Customers.all('logout').customGET('', {accessToken: TokenSvc.getToken().getAccessToken()});
                     // unset token after logout - new anonymous token will be generated for next request automatically
