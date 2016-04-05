@@ -30,7 +30,8 @@ angular.module('ds.cart')
                     this.noteCollapsed = true;
                 },
 
-                expandNote: function() {
+                expandNote: function(comment) {
+                    this.content = comment;
                     this.noteCollapsed = false;
                 },
 
