@@ -28,7 +28,7 @@
     "bower": "latest",
     "compression": "1.4.1",
     "express": "~4.4.2",
-    "grunt": "latest",
+    "grunt": "~0.4.0",
     "grunt-angular-templates": "0.5.7",
     "grunt-cli": "latest",
     "grunt-concurrent": "~0.4.3",
