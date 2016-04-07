@@ -112,6 +112,7 @@
 		font-size: 16px;
 	}
 
+
 	.item-attr{
 		color: @darkergrey;
 
@@ -140,6 +141,21 @@
 			}
 		}
 	}
+}
+
+.cart-item-note{
+  background: @gray-lighter;
+  padding:10px 0;
+  margin-bottom: 0;
+
+  label{
+    font-weight: normal;
+  }
+
+  textarea{
+    resize:none;
+    margin-bottom: 10px;
+  }
 }
 
 
@@ -350,4 +366,31 @@
 
   }
 
+}
+
+.noteMixin {
+
+    .note-display{
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    form {
+        margin-top: 10px;
+    
+        textarea {
+            resize: none;
+        }
+    
+        button {
+            margin-top: 10px;
+        }
+    }
+    
+    .modify-note{
+      margin-top: 5px;
+      font-style: normal;
+      display: inline-block;
+      font-size: 12px;
+    }
 }
