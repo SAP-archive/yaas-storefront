@@ -255,46 +255,71 @@
     .additionalshipinfo {
       text-transform: capitalize !important;
       color: #C1C1C1;
-	 }
+	  }
 
   }
   
-  // .addCouponLink{
-  //   display: block;
-  //   padding: 7px 0 0 25px;
-  //   height: 34px;
-
-  //   @media (max-width: @screen-xs){
-  //     padding-left:0;
-  //   }
-  // }
-  
+  // coupons 
   .couponApplyContainer{
-    padding:0 0 25px 15px;
+    padding:0;
     border-bottom: 1px solid @grey-border;
     
     .coupon-bar{
-      margin-bottom: 20px;
-    input{
-      width: 100%;
-      border-right-width: ;
-      border-left-width: 1px;
-      height: 46px;
+      margin-bottom: 10px;
+      padding:0 40px;
+
+      input{
+        width: 100%;
+        border-right-width: ;
+        border-left-width: 1px;
+        height: 34px;
+        padding:13px 6px 13px 7px;
+
+        &:focus{
+          padding:13px 6px 13px 7px;
+        }
+      }
+
+      .error{
+        padding:10px 15px;
+        margin-top: 10px;
+
+        .delete{
+          margin-top: -8px;
+          margin-right: -15px;
+        }
+      }
+    }   
+
+    .coupon-list-table{
+      margin-bottom: 10px; 
       
-      // @media (max-width: @screen-xs){
-      //   padding-left:0;
-      // }
-    }
+      tr{
+        padding:0 40px;
+      }
+      
+      td{
+        padding:5px;
+        vertical-align: middle;
+      }
+      
+      td.dicsount-code{
+        padding-left: 40px;
+      }
+
+      td.remove-coupon{
+        padding-right: 40px;
+        text-align: right;
+      }
+      .text-success{
+        color: @defaultgreen;
+      }
 
     }
-    
-    .couponInputBtn{
-      // height: 34px;
-      // width: 100%;
-    }
+
   }
+  
 }
-
 
 .edit-cart{
   position: fixed;
