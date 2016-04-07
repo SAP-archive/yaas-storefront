@@ -5,8 +5,9 @@
       height: 100%;
     }
 
-	section{
-		padding: 10px 0;
+	.summary{
+		padding:0;
+    margin-top: 0;
 	}
 
 	/* TOP BUTTON ROW */
@@ -278,16 +279,19 @@
         &:focus{
           padding:13px 6px 13px 7px;
         }
+
+        &.error{
+          padding:13px 6px 13px 7px; 
+          margin-bottom: 5px;
+        }
       }
 
-      .error{
+      div.error{
         padding:10px 15px;
-        margin-top: 10px;
+        margin-bottom: 5px;
+        font-weight: normal;
+        font-size: 14px;
 
-        .delete{
-          margin-top: -8px;
-          margin-right: -15px;
-        }
       }
     }   
 
@@ -395,6 +399,7 @@
 
 }
 
+// cart line item note mixin
 .noteMixin {
 
     .note-display{
