@@ -1,22 +1,23 @@
 <div class="couponApplyContainer">
 
-	<div>{{'COUPONS' | translate}}</div>
-
-	<!-- add coupon link -->
-	<a class="highlight addCouponLink" ng-click="couponCollapsed = !couponCollapsed" ng-show="couponCollapsed" href="#">{{'COUPON_CODE' | translate}}</a>
+	<!-- coupon label -->
+	<!-- <div>{{'COUPONS' | translate}}</div> -->
 
 	<!-- coupon wrapper -->
-	<div ng-show="!couponCollapsed" class="couponContainer">
-		<div class="row">
-			<div class="col-xs-8">
-				<!-- coupon input -->
-				<input id="coupon-code" type="text" class="form-control pull-left couponInput" ng-model='couponCode' placeholder="ADD COUPON CODE">
-			</div>
-			<div class="col-xs-4">
-				<!-- apply btn -->
-				<button id="apply-coupon" class="btn btn-lg btn-default" ng-click="applyCoupon(couponCode); couponCode = null">
-					{{'COUPON_APPLY' | translate}}
-				</button>
+	<div class="couponContainer">
+
+		<div class="col-md-12 coupon-bar">
+			<div class="input-group">
+
+				<input id="coupon-code" type="text" class="form-control couponInput" ng-model='couponCode' placeholder="ADD COUPON CODE">
+				
+				<span class="input-group-btn">
+					<!-- apply btn -->
+					<button id="apply-coupon" class="btn btn-lg btn-default" ng-click="applyCoupon(couponCode); couponCode = null">
+						{{'COUPON_APPLY' | translate}}
+					</button>
+				</span>
+		
 			</div>
 		</div>
 
