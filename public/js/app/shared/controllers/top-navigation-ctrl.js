@@ -47,7 +47,7 @@ angular.module('ds.shared')
                 $scope.displaySlideDownBox = true;
                 $timeout(function() {
                     $scope.displaySlideDownBox = false;
-                }, 2000);
+                }, 3000);
             });
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
