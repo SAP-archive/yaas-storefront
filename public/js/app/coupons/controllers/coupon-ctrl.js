@@ -35,7 +35,8 @@ angular.module('ds.coupon')
             $scope.$on('$destroy', unbindSignIn);
 
             /** get coupon and apply it to the cart */
-            $scope.applyCoupon = function(couponCode) {
+            $scope.applyCoupon = function(code) {
+                var couponCode = code.replace(/\s+/g, '');
                 $scope.removeErrorBlock();
                 $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponGetResponse) {
                     if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
