@@ -17,8 +17,20 @@
     "BACK_TO_CHECKOUT": "Zurück zur Kasse",
     //XBUT
     "CHECKOUT": "Kasse",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CONTINUE_SHOPPING": "Einkauf fortsetzen",
+    //XFLD
+    "NOTE": "Note",
+    //XFLD
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XBUT
     "SHOP": "Einkaufen",
     //XFLD

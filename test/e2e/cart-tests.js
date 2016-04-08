@@ -172,6 +172,26 @@ describe("cart:", function () {
 
         });
 
+        it('should add and modify the note in cart item after adding an item to cart', function () {
+            var noteText = "The item should be gift wrapped";
+            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
+            tu.clickElement('id', 'addEditNote');
+            tu.sendKeys('id', 'cartItemNote', noteText);
+            tu.clickElement('id', 'saveCartItemNote');
+
+            browser.wait(function () {
+                return element(by.id('addEditNote')).isDisplayed();
+            });
+
+            tu.clickElement('id', 'addEditNote');
+            tu.sendKeys('id', 'cartItemNote', noteText + ",please.");
+            return tu.clickElement('id', 'saveCartItemNote');
+            browser.wait(function () {
+                return element(by.id('addEditNote')).isDisplayed();
+            });
+            expect(element(by.id("cartItemNote")).getText()).toEqual(noteText + ",please.");
+        });
+
         xit('should automatically close when mousing off', function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();

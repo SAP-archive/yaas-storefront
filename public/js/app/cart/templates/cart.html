@@ -10,29 +10,29 @@
   ~ license agreement you entered into with hybris.
   -->
 <div cart-auto-toggle class="cartContainer" ng-mouseenter="cartHover()" ng-mouseleave="cartUnHover()">
-    
-  <!-- shop or checkout -->
-  <div class="btn-group btn-group-justified">
-  
-    <!-- continue shopping button -->
-    <div class="btn-group continue">
-      <button id="continue-shopping" ng-click="toggleCart()" class="btn  btn-default continue">
-          <span class="hyicon hyicon-chevron-thin-left"></span>
-          <span class="hidden-xs">{{'CONTINUE_SHOPPING' | translate}}</span>
-          <span class="hidden-sm hidden-md hidden-lg">{{'SHOP' | translate}}</span>
-      </button>
+
+    <!-- shop or checkout -->
+    <div class="btn-group btn-group-justified">
+
+        <!-- continue shopping button -->
+        <div class="btn-group continue">
+            <button id="continue-shopping" ng-click="toggleCart()" class="btn  btn-default continue">
+                <span class="hyicon hyicon-chevron-thin-left"></span>
+                <span class="hidden-xs">{{'CONTINUE_SHOPPING' | translate}}</span>
+                <span class="hidden-sm hidden-md hidden-lg">{{'SHOP' | translate}}</span>
+            </button>
+        </div>
+
+        <!-- checkout button -->
+        <div class="btn-group checkout">
+            <button ng-if="cart.items.length" ng-click="toCheckoutDetails()" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
+            </button>
+            <button ng-if="!cart.items.length" ng-class="{ disabled: !cart.items.length }" class="btn">{{'CHECKOUT' | translate}}
+            </button>
+        </div>
+
     </div>
-   
-   <!-- checkout button -->
-    <div class="btn-group checkout">
-        <button ng-if="cart.items.length" ng-click="toCheckoutDetails()" class="btn  btn-primary ">{{'CHECKOUT' | translate}} <span class="hyicon hyicon-chevron-thin-right"></span>
-        </button>
-        <button ng-if="!cart.items.length" ng-class="{ disabled: !cart.items.length }" class="btn">{{'CHECKOUT' | translate}}
-        </button>
-    </div>
-  
-  </div>
-    
+
     <!-- empty cart message -->
     <div ng-if="!cart.error && !cart.items.length" class="empty-cart-text text-center">
         {{'CART_EMPTY' | translate}}
@@ -45,78 +45,117 @@
 
     <div ng-if="cart.items.length">
 
-			<section class="summary">
+        <section class="summary">
 
-        <!-- cart cost -->
-        <div ng-include="'./js/app/cart/templates/cart-costs.html'"></div>
-        
-				<!-- Apply Coupon -->
-				<div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl" class="couponWrapper"></div>
+            <!-- cart cost -->
+            <div ng-include="'./js/app/cart/templates/cart-costs.html'"></div>
 
-			</section>
-      
-      <section>
+            <!-- Apply Coupon -->
+            <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl" class="couponWrapper"></div>
 
-				<!-- Cart Item -->
-				<div ng-repeat="item in cart.items">
+        </section>
 
-          <!-- error message -->
-          <div ng-if="item.error" class="error col-xs-12 col-md-12">
-              <span class="error">{{'CART_ITEM_UPDATE_ERROR' | translate}}</span>
-          </div>
-				
-        	<div class="cart-item row">
-				
-            <!-- product img -->
-        		<div class="col-xs-3 col-md-4 text-center img-col">
-							<img ng-src="{{ item && item.product.images[0].url || ''}}" class="img-responsive"/>
-            </div>
-				
+        <section>
 
-        		<div class="col-xs-8 col-md-8  detail-col">
-              <div class="row">
-                <div class="col-xs-10">
+            <!-- Cart Item -->
+            <div 
+            ng-repeat="item in cart.items"
+            ng-controller="CartNoteMixinCtrl">
 
-                  <!-- product name -->
-                  <div class="name">{{item.product.name}}</div>
-                  
-                  <!-- product price -->
-                  <div class="price item-attr">{{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span> </div>
+                <!-- error message -->
+                <div ng-if="item.error" class="error col-xs-12 col-md-12">
+                    <span class="error">{{'CART_ITEM_UPDATE_ERROR' | translate}}</span>
+                </div>
 
-                  <!-- product quantity -->
-                  <div class="clearfix">
-                    <div class="input-group pull-left" ng-class="{error: item.error}">
-                      <label class="input-group-addon" for="qtyCart">{{'QTY' | translate}}:</label>
-                      <form ng-submit="updateCartItemQty(item, item.quantity,{opencartAfterEdit: false})">
-                        <input 
-                          quantity-input 
-                          type="number" 
-                          min="0" 
-                          step="1" 
-                          pattern="\d*" 
-                          class="form-control" 
-                          id="qtyCart" 
-                          ng-model="item.quantity"
-                          ng-blur="updateCartItemQty(item, item.quantity,{opencartAfterEdit: false})"/>
-                      </form>
+                <div class="cart-item row">
+
+                    <!-- product img -->
+                    <div class="col-xs-3 col-md-4 text-center img-col">
+                        <img ng-src="{{ item && item.product.images[0].url || ''}}" class="img-responsive" />
                     </div>
-                  </div>
 
-                  <!-- total price -->
-                  <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
+
+                    <div class="col-xs-8 col-md-8  detail-col">
+                        <div class="row">
+                            <div class="col-xs-10">
+
+                                <!-- product name -->
+                                <div class="name">{{item.product.name}}</div>
+
+                                <!-- product price -->
+                                <div class="price item-attr">
+                                    {{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span>
+                                </div>
+
+                                <!-- product quantity -->
+                                <div class="clearfix">
+                                    <div class="input-group pull-left" ng-class="{error: item.error}">
+                                        <label class="input-group-addon" for="qtyCart">{{'QTY' | translate}}:</label>
+                                        <form ng-submit="updateCartItemQty(item, item.quantity,{opencartAfterEdit: false})">
+                                            <input quantity-input type="number" min="0" step="1" pattern="\d*" class="form-control" id="qtyCart" ng-model="item.quantity"
+                                            ng-blur="updateCartItemQty(item, item.quantity,{opencartAfterEdit: false})" />
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- total price -->
+                                <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
+                                
+                                <!-- note display -->
+                                <div id="noteMixin_area" class="noteMixin"> 
                                     
+                                    <!-- display the note -->
+                                    <div class="note-display">
+                                        {{item.mixins.note.comment}}
+                                    </div>
+                                    
+                                    <!-- note edit button -->
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="#">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
+                                    
+                                    <!-- note delete button -->
+                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed">
+                                        &nbsp; | &nbsp;
+                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
+                                    </span>
+                                    
+                                </div>
+
+                            </div>
+
+                            <!-- delete button -->
+                            <div class="col-xs-2 text-right">
+                                <button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn btn-link removeCartItem"><span class="hyicon hyicon-remove"></span></button>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- Note Mixin -->
+                    <div ng-show="!note.noteCollapsed" class="cart-item-note">
+                        <div class="col-md-12">
+                            <form ng-submit="note.submit(item)">
+
+                                <label>{{'NOTE' | translate}}</label>
+
+                                <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3"></textarea>
+
+                                <p class="error" ng-show="note.saveFailed">{{'UNABLE_TO_SAVE_NOTE' | translate}}</p>
+                                
+                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="#">{{'CANCEL' | translate}}</button>
+                                
+                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right text-uppercase" type="submit">{{'SAVE' | translate}}</button>
+                            </form>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                    </div>
                 </div>
-                  
-                <!-- delete button -->
-                <div class="col-xs-2 text-right">
-                    <button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn btn-link removeCartItem"><span class="hyicon hyicon-remove"></span></button>
-                </div>
-							
-              </div>
-						</div>
-					</div>
-				</div>
-				<!-- /Cart Item -->
-			</section>
-	</div>
+            </div>
+        </section>
+    </div>
+    <!-- /Cart Item -->
 </div>
+

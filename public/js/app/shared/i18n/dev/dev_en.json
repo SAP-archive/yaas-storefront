@@ -15,12 +15,24 @@
 
     //XBUT
     "BACK_TO_CHECKOUT": "Back to checkout",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CHECKOUT": "Checkout",
     //XBUT
     "CONTINUE_SHOPPING": "Continue shopping",
     //XBUT
     "SHOP": "Shop",
+    //XFLD
+    "NOTE": "Note",
+    //XFLD
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XFLD
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD

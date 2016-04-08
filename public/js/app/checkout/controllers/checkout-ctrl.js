@@ -118,7 +118,7 @@ angular.module('ds.checkout')
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
-                            if ($scope.isShipToCountry(defaultAddress.country)) {
+                            if ($scope.isShipToCountry(defaultAddress.country) || !$scope.shippingConfigured) {
                                 populateBillTo(defaultAddress);
                             }
                             updateShippingCost(defaultAddress);
