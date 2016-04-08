@@ -50,7 +50,17 @@ This will launch a storefront for an existing project against the "prod" environ
 Now, let's create a new project for your specific site so that you can modify your store and product offering as you see fit.
 
 ### 1.  Sign up for your a new store and configure it
-If you haven't done so already, create a new storefront project and obtain subscriptions for the services.
+If you haven't done so already, create a new storefront project and obtain subscriptions to all the commerce packages in order to enable and ensure that the storefront works end to end.
+The commerce packages are:
+
+- **Cart**
+- **Checkout**
+- **Coupon Management**
+- **Customer Accounts**
+- **Order Management**
+- **Product Content**
+- **Site Management**
+
 Follow the steps outlined in the [Dev Portal](https://devportal.yaas.io/gettingstarted/setupastorefront/index.html).
 
 ### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
