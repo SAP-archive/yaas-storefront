@@ -24,7 +24,7 @@ angular.module('ds.cart')
         $scope.showTaxEstimation = false;
 
         $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
-      
+
         $scope.couponCollapsed = true;
         $scope.taxType = GlobalData.getTaxType();
 
