@@ -118,7 +118,7 @@ angular.module('ds.addresses')
 
                 scope.viewTarget = attrs.type;
 
-                if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
+                if (scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(
                         function (response) {
                             if (response.length) {

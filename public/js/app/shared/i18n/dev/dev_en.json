@@ -156,7 +156,7 @@
     //XACT
     "REQUIRED": "Required",
     //XCKL
-    "SAME_AS_BILLING_ADDRESS": "Same As Billing Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
     //XTIT
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
