@@ -36,23 +36,24 @@ angular.module('ds.coupon')
 
             /** get coupon and apply it to the cart */
             $scope.applyCoupon = function(code) {
-                var couponCode = code.replace(/\s+/g, '');
-                $scope.removeErrorBlock();
-                $scope.coupon = CouponSvc.getCoupon(couponCode).then(function (couponGetResponse) {
-                    if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
-                        getCouponError({status: 'CURR'});
-                    }
-                    else {
-                        CartSvc.redeemCoupon(couponGetResponse, $scope.cart.id).then(function () {
-                            //success
-                        }, function (couponRedeemError) {
-                            //error
-                            redeemCouponError(couponRedeemError);
-                        });
-                    }
-                }, function (couponGetError) {
-                    getCouponError(couponGetError);
-                });
+                if( isValidCouponCode(code) ) {
+                    $scope.removeErrorBlock();
+                    $scope.coupon = CouponSvc.getCoupon(code).then(function (couponGetResponse) {
+                        if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
+                            getCouponError({status: 'CURR'});
+                        }
+                        else {
+                            CartSvc.redeemCoupon(couponGetResponse, $scope.cart.id).then(function () {
+                                //success
+                            }, function (couponRedeemError) {
+                                //error
+                                redeemCouponError(couponRedeemError);
+                            });
+                        }
+                    }, function (couponGetError) {
+                        getCouponError(couponGetError);
+                    });
+                }
             };
 
             $scope.removeCoupon = function(couponId) {
@@ -106,6 +107,16 @@ angular.module('ds.coupon')
                 if (couponError.status === 400) {
                     $scope.couponErrorMessage = couponError.data.details[0].message;
                 }
+            };
+
+            var isValidCouponCode = function (code) {
+                if ( code.indexOf(' ') > -1) {
+                    $translate('COUPON_NOT_VALID').then(function (response) {
+                         $scope.couponErrorMessage = response;
+                    });
+                    return false;
+                }
+                return true;
             };
 
         }]);
