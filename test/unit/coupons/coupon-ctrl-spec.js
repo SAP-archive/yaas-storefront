@@ -97,7 +97,8 @@ describe('CouponCtrl Test', function () {
             mockCartSvc = {
                 getLocalCart: jasmine.createSpy().andReturn(mockCart),
                 redeemCoupon: jasmine.createSpy().andReturn(deferredCoupon.promise),
-                removeAllCoupons: jasmine.createSpy().andReturn(deferredCart.promise)
+                removeAllCoupons: jasmine.createSpy().andReturn(deferredCart.promise),
+                removeCoupon: jasmine.createSpy().andReturn(deferredCart.promise)
             };
 
             couponCtrl = $controller('CouponCtrl', {$scope: $scope,$rootScope: $rootScope, 'CartSvc': mockCartSvc,
@@ -131,6 +132,12 @@ describe('CouponCtrl Test', function () {
             $scope.removeAllCoupons();
 
             expect(mockCartSvc.removeAllCoupons).toHaveBeenCalledWith($scope.cart.id);
+        });
+
+        it('should remove a coupon', function () {
+            var couponId = 'abc';
+            $scope.removeCoupon(couponId);
+            expect(mockCartSvc.removeCoupon).toHaveBeenCalledWith($scope.cart.id, couponId);
         });
 
         it('should update cart and currency symbol when the cart is updated', function () {

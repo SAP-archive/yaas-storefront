@@ -6,7 +6,7 @@ describe('coupons:', function () {
 
     function addProductandApplyCoupon(couponCode, price) {
         tu.loadProductIntoCart('1', price);
-        tu.clickElement('linkText', 'ADD COUPON CODE');
+        tu.clickElement('id', 'coupon-code');
         tu.sendKeys('id', 'coupon-code', couponCode);
         tu.clickElement('id', 'apply-coupon');
     }
@@ -76,7 +76,7 @@ describe('coupons:', function () {
 
         it('should not allow user to add coupon if not logged in', function () {
             tu.loadProductIntoCart('1', '$11.42');
-            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', 'SIGNEDIN');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
@@ -84,7 +84,7 @@ describe('coupons:', function () {
 
         it('should not allow user to add coupon below minimum on cart', function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
@@ -105,7 +105,7 @@ describe('coupons:', function () {
             browser.sleep(200);
             category.click();
             tu.loadProductIntoCartAndVerifyCart('1', '€12.99');
-            tu.clickElement('linkText', 'COUPONCODE HINZUFÜGEN');
+            tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', '10DOLLAR');
             tu.clickElement('id', 'apply-coupon');
             //
@@ -119,7 +119,7 @@ describe('coupons:', function () {
         it('should not allow other customers to use specific coupon', function () {
             tu.loginHelper('coupon@hybristest.com', 'password');
             tu.loadProductIntoCart('1', '$11.42');
-            tu.clickElement('linkText', 'ADD COUPON CODE');
+            tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', 'SPECIFIC');
             tu.clickElement('id', 'apply-coupon');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON NOT VALID');
