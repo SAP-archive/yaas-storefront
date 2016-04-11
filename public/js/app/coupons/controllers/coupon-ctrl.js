@@ -111,9 +111,7 @@ angular.module('ds.coupon')
 
             var isValidCouponCode = function (code) {
                 if ( code.indexOf(' ') > -1) {
-                    $translate('COUPON_NOT_VALID').then(function (response) {
-                         $scope.couponErrorMessage = response;
-                    });
+                    $scope.couponErrorMessage = $translate.instant('COUPON_NOT_VALID');
                     return false;
                 }
                 return true;
