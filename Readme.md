@@ -1,4 +1,4 @@
-### TP-4298 Branch
+### TP-4298-B Branch
 In this branch a generalized notification service will be implemented, in place of the specific slidedownbox implemented in 4298
 
 # hybris Store Template for the Cloud-based Commerce Services
