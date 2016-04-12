@@ -109,7 +109,7 @@
                     <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
                         <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
                         <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
-                        <option ng-repeat="cost in shippingCosts" ng-selected="cost.fee.amount === shippingCost.fee.amount" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
+                        <option ng-repeat="cost in shippingCosts" ng-selected="cost.fee.amount === shippingCost.fee.amount" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : cost.fee.currencySymbol}}</option>
                     </select>
                 </div>
             </div>
