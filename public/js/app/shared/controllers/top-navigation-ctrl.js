@@ -36,19 +36,9 @@ angular.module('ds.shared')
                 $scope.cart = eveObj.cart;
             });
 
-            $scope.displaySlideDownBox = false;
-            $scope.displaySlideDownBoxMessage = '';
 
             $scope.$on('$destroy', unbind);
             $scope.$on('$destroy', unbindCats);
-
-            $rootScope.$on('product:activateSlideDownBox', function (event, message) {
-                $scope.displaySlideDownBoxMessage = message;
-                $scope.displaySlideDownBox = true;
-                $timeout(function() {
-                    $scope.displaySlideDownBox = false;
-                }, 3000);
-            });
 
             /** Toggles the "show cart view" state as the cart icon is clicked. Note that this is the
              * actual cart details display, not the icon. */

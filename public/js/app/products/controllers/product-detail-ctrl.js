@@ -17,8 +17,8 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'Notification',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, Notification) {
             var modalInstance;
             
             $scope.product = product;
@@ -126,7 +126,8 @@ angular.module('ds.products')
                 $scope.buyButtonEnabled = false;
                 CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
                 .then(function(){
-                    $rootScope.$emit('product:activateSlideDownBox', $scope.productDetailQty );
+                    var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
+                    Notification.success({message: $scope.productDetailQty + " " + productsAddedToCart, delay: 3000});
                 }, function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
                 }).finally(function() {
