@@ -88,8 +88,8 @@ describe('ProductDetailCtrl', function () {
     var mockedSettings = {
         placeholderImage: dummyImg
     };
-
-
+    var mockedNotification = {};
+    
     beforeEach(angular.mock.module('ds.products'));
 
     beforeEach(module('ds.checkout', function($provide) {
@@ -120,7 +120,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
        it('should set the category for the breadcrumb', function(){
