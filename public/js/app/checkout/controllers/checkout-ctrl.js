@@ -659,7 +659,7 @@ angular.module('ds.checkout')
                                 var shippingCostObject = {};
                                 angular.copy(shippingCosts[j].methods[i], shippingCostObject);
                                 shippingCostObject.zoneId = shippingCosts[j].zone.id;
-                                shippingCostObject.fee.currencySymbol = GlobalData.getCurrencySymbol(shippingCostObject.fee.currency)
+                                shippingCostObject.fee.currencySymbol = GlobalData.getCurrencySymbol(shippingCostObject.fee.currency);
                                 $scope.shippingCosts.push(shippingCostObject);
                                 if (shippingCosts[j].methods[i].fee.amount === $scope.shippingCost.fee.amount) {
                                     $scope.shippingCost.zoneId = shippingCosts[j].zone.id;
