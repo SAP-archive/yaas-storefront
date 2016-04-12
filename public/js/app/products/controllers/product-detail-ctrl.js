@@ -115,7 +115,6 @@ angular.module('ds.products')
                     }
                     $scope.buyButtonEnabled = true;
                 }
-
             });
 
             $scope.$on('$destroy', unbind);
@@ -127,7 +126,7 @@ angular.module('ds.products')
                 CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
                 .then(function(){
                     var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
-                    Notification.success({message: $scope.productDetailQty + " " + productsAddedToCart, delay: 3000});
+                    Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToCart, delay: 3000});
                 }, function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
                 }).finally(function() {
