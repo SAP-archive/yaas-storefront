@@ -228,6 +228,8 @@
     "COUPON_APPLY": "Apply",
     //XFLD
     "COUPON_APPLIED": "Applied",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
     //XMSG
@@ -242,6 +244,8 @@
     "COUPON_MINIMUM_NOT_MET": "Current order total does not meet the required minimum for this coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon Not Valid",
+    //XTIT
+    "COUPONS": "Coupon Code",
 
 
     //XFLD
