@@ -15,12 +15,24 @@
 
     //XBUT
     "BACK_TO_CHECKOUT": "Back to checkout",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CHECKOUT": "Checkout",
     //XBUT
     "CONTINUE_SHOPPING": "Continue shopping",
     //XBUT
     "SHOP": "Shop",
+    //XFLD
+    "NOTE": "Note",
+    //XFLD
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XFLD
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD
@@ -144,11 +156,13 @@
     //XACT
     "REQUIRED": "Required",
     //XCKL
-    "SAME_AS_BILLING_ADDRESS": "Same As Billing Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
     //XTIT
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Select from address book",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Shipping",
     //XGRP
@@ -162,7 +176,7 @@
     //XGRP
     "STEP_1_MY_DETAILS": "Step 1. My Details",
     //XGRP
-    "STEP_2_SHIPPING_INFORMATION": "Step 2. Shipping Information",
+    "STEP_2_BILLING_INFORMATION": "Step 2. Billing Information",
     //XGRP
     "STEP_3_PAYMENT": "Step 3. Payment",
     //XGRP
@@ -216,6 +230,8 @@
     "COUPON_APPLY": "Apply",
     //XFLD
     "COUPON_APPLIED": "Applied",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
     //XMSG
@@ -230,6 +246,8 @@
     "COUPON_MINIMUM_NOT_MET": "Current order total does not meet the required minimum for this coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon Not Valid",
+    //XTIT
+    "COUPONS": "Coupon Code",
 
 
     //XFLD

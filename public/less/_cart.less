@@ -5,8 +5,9 @@
       height: 100%;
     }
 
-	section{
-		padding: 10px 0;
+	.summary{
+		padding:0;
+    margin-top: 0;
 	}
 
 	/* TOP BUTTON ROW */
@@ -112,6 +113,7 @@
 		font-size: 16px;
 	}
 
+
 	.item-attr{
 		color: @darkergrey;
 
@@ -140,6 +142,21 @@
 			}
 		}
 	}
+}
+
+.cart-item-note{
+  background: @gray-lighter;
+  padding:10px 0;
+  margin-bottom: 0;
+
+  label{
+    font-weight: normal;
+  }
+
+  textarea{
+    resize:none;
+    margin-bottom: 10px;
+  }
 }
 
 
@@ -239,44 +256,74 @@
     .additionalshipinfo {
       text-transform: capitalize !important;
       color: #C1C1C1;
-	 }
+	  }
 
   }
   
-  .addCouponLink{
-    display: block;
-    padding: 7px 0 0 25px;
-    height: 34px;
-
-    @media (max-width: @screen-xs){
-      padding-left:0;
-    }
-  }
-  
+  // coupons 
   .couponApplyContainer{
-    padding:0 0 25px 15px;
-
+    padding:0;
     border-bottom: 1px solid @grey-border;
+    
+    .coupon-bar{
+      margin-bottom: 10px;
+      padding:0 40px;
 
-    input{
-      width: 100%;
-      box-shadow: none;
-      border: none;
-      padding-left: 25px;
+      input{
+        width: 100%;
+        border-right-width: ;
+        border-left-width: 1px;
+        height: 34px;
+        padding:13px 6px 13px 7px;
+
+        &:focus{
+          padding:13px 6px 13px 7px;
+        }
+
+        &.error{
+          padding:13px 6px 13px 7px; 
+          margin-bottom: 5px;
+        }
+      }
+
+      div.error{
+        padding:10px 15px;
+        margin-bottom: 5px;
+        font-weight: normal;
+        font-size: 14px;
+
+      }
+    }   
+
+    .coupon-list-table{
+      margin-bottom: 10px; 
       
-      @media (max-width: @screen-xs){
-        padding-left:0;
+      tr{
+        padding:0 40px;
+      }
+      
+      td{
+        padding:5px;
+        vertical-align: middle;
+      }
+      
+      td.dicsount-code{
+        padding-left: 40px;
+      }
+
+      td.remove-coupon{
+        padding-right: 40px;
+        text-align: right;
+      }
+      .text-success{
+        color: @defaultgreen;
       }
 
     }
-    
-    .couponInputBtn{
-      height: 34px;
-      width: 100%;
-    }
-  }
-}
 
+  }
+  
+}
 
 .edit-cart{
   position: fixed;
@@ -350,4 +397,32 @@
 
   }
 
+}
+
+// cart line item note mixin
+.noteMixin {
+
+    .note-display{
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    form {
+        margin-top: 10px;
+    
+        textarea {
+            resize: none;
+        }
+    
+        button {
+            margin-top: 10px;
+        }
+    }
+    
+    .modify-note{
+      margin-top: 5px;
+      font-style: normal;
+      display: inline-block;
+      font-size: 12px;
+    }
 }

@@ -206,7 +206,7 @@ describe('CheckoutCtrl', function () {
 
             $scope.$apply();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
-            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
         });
 
@@ -263,7 +263,7 @@ describe('CheckoutCtrl', function () {
             $scope.order.account.middleName = 'R';
             $scope.order.account.lastName = 'ODonnell';
             $scope.updateAddressName();
-            expect($scope.order.billTo.contactName).toEqualData('Mike R ODonnell');
+            expect($scope.order.shipTo.contactName).toEqualData('Mike R ODonnell');
         });
     });
 
@@ -272,7 +272,7 @@ describe('CheckoutCtrl', function () {
         it('should copy billing to shipping if true', function(){
             $scope.shipToSameAsBillTo = true;
             $scope.order.billTo = mockBillTo;
-            $scope.toggleShipToSameAsBillTo();
+            $scope.toggleBillToSameAsShipTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
         });
 
@@ -280,8 +280,8 @@ describe('CheckoutCtrl', function () {
             $scope.shipToSameAsBillTo = false;
             $scope.order.billTo = mockBillTo;
             $scope.order.shipTo = mockBillTo;
-            $scope.toggleShipToSameAsBillTo();
-            expect($scope.order.shipTo).toEqualData({});
+            $scope.toggleBillToSameAsShipTo();
+            expect($scope.order.billTo).toEqualData({});
         });
     });
 
@@ -466,23 +466,23 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('select address', function(){
-        it('should open the modal dialog and select the address for shipTo', function(){
+        it('should open the modal dialog and select the address for billTo', function(){
             addressDef.resolve(returnAddress);
             $scope.$apply();
             $scope.openAddressDialog();
 
-            $scope.selectAddress(returnAddress, $scope.order.shipTo);
+            $scope.selectAddress(returnAddress, $scope.order.billTo);
             expect($scope.shipToSameAsBillTo).toEqualData(true);
 
-            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             $scope.openAddressDialog();
             $scope.closeAddressDialog();
         });
 
-        it('should open the modal dialog and select the address for billTo', function(){
+        it('should open the modal dialog and select the address for shipTo', function(){
             $scope.order.shipTo = {};
             $scope.openAddressDialog();
-            $scope.selectAddress(returnAddress, $scope.order.billTo);
+            $scope.selectAddress(returnAddress, $scope.order.shipTo);
             $scope.$apply();
             expect($scope.shipToSameAsBillTo).toEqualData(true);
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);

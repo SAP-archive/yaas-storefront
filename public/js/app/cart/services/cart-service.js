@@ -1,7 +1,7 @@
 /**
  * [y] hybris Platform
  *
- * Copyright (c) 2000-2015 hybris AG
+ * Copyright (c) 2000-2016 hybris AG
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of hybris
@@ -85,7 +85,6 @@ angular.module('ds.cart')
             /** Retrieves the current cart state from the service, updates the local instance
              * and fires the 'cart:updated' event.*/
             function refreshCart(cartId, updateSource, closeCartAfterTimeout) {
-
                 var defCart = $q.defer();
                 var defCartTemp = $q.defer();
 
@@ -286,6 +285,9 @@ angular.module('ds.cart')
                         }
                     });
                 },
+                
+                // Exposed for use in mixin services, like cart-note-mixin-service.js
+                refreshCart: refreshCart,
 
                 /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
                  * from the API for consistency and in order to display the updated calculations (line item totals, etc).
@@ -329,7 +331,7 @@ angular.module('ds.cart')
                         });
                     });
                 },
-
+                
                 /*
                  *   Adds a product to the cart, updates the cart (PUT) and then retrieves the updated
                  *   cart information (GET).
@@ -363,6 +365,12 @@ angular.module('ds.cart')
 
                 removeAllCoupons: function (cartId) {
                     return CartREST.Cart.one('carts', cartId).all('discounts').remove().then(function () {
+                        refreshCart(cartId, 'manual');
+                    });
+                },
+
+                removeCoupon: function (cartId, couponId) {
+                    return CartREST.Cart.one('carts', cartId).one('discounts', couponId).remove().then(function () {
                         refreshCart(cartId, 'manual');
                     });
                 },

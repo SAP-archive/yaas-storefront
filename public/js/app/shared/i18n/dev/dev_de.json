@@ -17,8 +17,20 @@
     "BACK_TO_CHECKOUT": "Zurück zur Kasse",
     //XBUT
     "CHECKOUT": "Kasse",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CONTINUE_SHOPPING": "Einkauf fortsetzen",
+    //XFLD
+    "NOTE": "Note",
+    //XFLD
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XBUT
     "SHOP": "Einkaufen",
     //XFLD
@@ -149,6 +161,8 @@
     "SECURE_CHECKOUT": "Sichere Kaufabwicklung",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Aus Adressbuch auswählen",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Versand",
     //XGRP
@@ -162,7 +176,7 @@
     //XGRP
     "STEP_1_MY_DETAILS": "Schritt 1: Meine Details",
     //XGRP
-    "STEP_2_SHIPPING_INFORMATION": "Schritt 2: Versandinformationen",
+    "STEP_2_BILLING_INFORMATION": "Schritt 2: Billing Information",
     //XGRP
     "STEP_3_PAYMENT": "Schritt 3: Zahlung",
     //XGRP
@@ -216,6 +230,8 @@
     "COUPON_APPLY": "Anwenden",
     //XFLD
     "COUPON_APPLIED": "Angewendet",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Couponcode hinzufügen",
     //XMSG
@@ -230,6 +246,8 @@
     "COUPON_MINIMUM_NOT_MET": "Aktuelle Bestellsumme entspricht nicht der erforderlichen Mindestsumme für diesen Coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon nicht gültig",
+    //XTIT
+    "COUPONS": "Coupon Code",
 
 
     //XFLD
