@@ -96,7 +96,7 @@
         </div>
         <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
             <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.billTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.billTo, 'billing')">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
             </div>
         </div>
 

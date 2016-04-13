@@ -463,7 +463,7 @@ angular.module('ds.checkout')
                 $scope.shipToSameAsBillTo = _.isEqual($scope.order.shipTo, $scope.order.billTo);
             };
 
-            $scope.openAddressDialog = function(target) {
+            $scope.openAddressDialog = function(target, addType) {
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
@@ -475,6 +475,7 @@ angular.module('ds.checkout')
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;
                                 $scope.target = target;
+                                $scope.addType = addType;
                             });
                         }]
                     }
@@ -513,7 +514,7 @@ angular.module('ds.checkout')
             };
 
             $scope.disableAddress = function (country) {
-                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog) {
+                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog && $scope.addType !== 'billing') {
                     return true;
                 } else {
                     return false;
@@ -525,7 +526,7 @@ angular.module('ds.checkout')
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
-                if ($scope.shippingConfigured) {
+                if ($scope.shippingConfigured && $scope.addType !== 'billing') {
                     if ($scope.isShipToCountry(address.country)) {
                         $scope.selectAddress(address, target);
                     }

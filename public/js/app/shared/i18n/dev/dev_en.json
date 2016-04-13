@@ -161,6 +161,8 @@
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Select from address book",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Shipping",
     //XGRP

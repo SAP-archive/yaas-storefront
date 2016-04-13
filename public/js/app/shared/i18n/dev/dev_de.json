@@ -161,6 +161,8 @@
     "SECURE_CHECKOUT": "Sichere Kaufabwicklung",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Aus Adressbuch auswählen",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Versand",
     //XGRP
