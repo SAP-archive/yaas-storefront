@@ -30,6 +30,6 @@ angular.module('ds.account')
                 }, function (error) {
                     console.log(error);
                     //Message that there is error, and to try again or etc?
-                    $scope.error = $translate.instant('EDIT_EMAIL_SOMETHING_WENT_WRONG');//'Something went wrong, please try again.';
+                    $scope.error = $translate.instant('EDIT_EMAIL_SOMETHING_WENT_WRONG');
                 });
         }]);

@@ -32,7 +32,7 @@ describe('EditUserEmailDialogCtrl', function () {
         $controller = _$controller_;
 
         deferredAccount = $q.defer();
-        AccountSvc.updateAccount = jasmine.createSpy('updateAccount').andReturn(deferredAccount.promise);
+        AccountSvc.updateEmail = jasmine.createSpy('updateEmail').andReturn(deferredAccount.promise);
     }));
 
     describe('', function () {
@@ -50,15 +50,74 @@ describe('EditUserEmailDialogCtrl', function () {
             expect($scope.closeEditUserDialog).toBeDefined();
         });
 
-        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and close modal when success', function () {
+        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and change to step 2 when success', function () {
+
+            $scope.step = 1;
             $scope.modalInstance = mockedModal;
+
             $scope.updateUserInfo();
 
-            expect(AccountSvc.updateAccount).toHaveBeenCalled();
+            expect(AccountSvc.updateEmail).toHaveBeenCalled();
             deferredAccount.resolve({});
 
             $scope.$digest();
 
+            expect($scope.step).toBe(2);
+        });
+
+        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and show error message when failed with 401', function () {
+
+            $scope.step = 1;
+            $scope.modalInstance = mockedModal;
+
+            //401
+
+            $scope.updateUserInfo();
+
+            expect(AccountSvc.updateEmail).toHaveBeenCalled();
+            deferredAccount.reject({status: 401});
+
+            $scope.$digest();
+
+            expect($scope.error).toBe('EDIT_EMAIL_PASSWORD_NOT_CORRECT');
+        });
+
+        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and show error message when failed with 409', function () {
+
+            $scope.step = 1;
+            $scope.modalInstance = mockedModal;
+
+            //409
+
+            $scope.updateUserInfo();
+
+            expect(AccountSvc.updateEmail).toHaveBeenCalled();
+            deferredAccount.reject({ status: 409 });
+
+            $scope.$digest();
+
+            expect($scope.error).toBe('EDIT_EMAIL_ALREADY_IN_USE');
+        });
+
+        it('should call AccountSvc.updateAccount() when updateUserInfo() is called and show error message when failed', function () {
+
+            $scope.step = 1;
+            $scope.modalInstance = mockedModal;
+
+            //500
+
+            $scope.updateUserInfo();
+
+            expect(AccountSvc.updateEmail).toHaveBeenCalled();
+            deferredAccount.reject({ status: 500 });
+
+            $scope.$digest();
+
+            expect($scope.error).toBe('EDIT_EMAIL_SOMETHING_WENT_WRONG');
+        });
+
+        it('should dismiss modal when $scope.confirm() is called', function () {
+            $scope.confirm();
             expect(mockedModal.close).toHaveBeenCalled();
         });
 
