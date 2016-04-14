@@ -14,8 +14,8 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('EditUserEmailDialogCtrl', ['$scope', 'account', 'AccountSvc', '$modalInstance',
-            function ($scope, account, AccountSvc, $modalInstance) {
+        .controller('EditUserEmailDialogCtrl', ['$scope', 'account', 'AccountSvc', '$modalInstance', '$translate',
+            function ($scope, account, AccountSvc, $modalInstance, $translate) {
 
                 $scope.account = account;
                 $scope.error = '';
@@ -27,17 +27,20 @@
 
                 $scope.updateUserInfo = function () {
                     
+                    //Force sync of email address
+                    $scope.account.syncContactEmail = true;
+
                     AccountSvc.updateEmail($scope.account).then(function () {
                         $scope.step = 2;
                     }, function (error) {
                         if (error.status === 401) {
-                            $scope.error = 'Password is not correct. Try again';
+                            $scope.error = $translate.instant('EDIT_EMAIL_PASSWORD_NOT_CORRECT');
                         }
                         else if(error.status === 409) {
-                            $scope.error = 'This email is already in use. Try again';
+                            $scope.error = $translate.instant('EDIT_EMAIL_ALREADY_IN_USE');
                         }
                         else {
-                            $scope.error = 'Something went wrong. Try again';
+                            $scope.error = $translate.instant('EDIT_EMAIL_SOMETHING_WENT_WRONG');
                         }
                     });
                 };

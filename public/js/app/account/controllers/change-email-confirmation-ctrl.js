@@ -13,20 +13,23 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('ChangeEmailConfirmationCtrl', ['$scope', '$stateParams', 'AccountSvc',
-        function ($scope, $stateParams, AccountSvc) {
+    .controller('ChangeEmailConfirmationCtrl', ['$scope', '$stateParams', 'AccountSvc', 'AuthSvc', '$translate',
+        function ($scope, $stateParams, AccountSvc, AuthSvc, $translate) {
 
             $scope.token = $stateParams.token;
             $scope.confirmed = false;
 
             AccountSvc.confirmEmailUpdate($scope.token)
-                .then(function (result) {
-                    console.log(result);
-                    //Message that email is changed successfully, button to redirect to home?
+                .then(function () {
+                    
+                    //Sign out user
+                    AuthSvc.signOut();
+
+                    //Message that email is changed successfully
                     $scope.confirmed = true;
                 }, function (error) {
                     console.log(error);
                     //Message that there is error, and to try again or etc?
-                    $scope.error = 'Something went wrong, please try again.';
+                    $scope.error = $translate.instant('EDIT_EMAIL_SOMETHING_WENT_WRONG');//'Something went wrong, please try again.';
                 });
         }]);

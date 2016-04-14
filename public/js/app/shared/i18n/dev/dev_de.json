@@ -484,6 +484,26 @@
     //XMSG
     "UPDATE_DEFAULT_ADDRESS_ERROR": "Aktualisieren der Standardadresse fehlgeschlagen. Versuchen Sie es noch einmal.",
 
+    //XTIT
+    "EDIT_EMAIL_UPDATED": "Your email is being updated...",
+    //XTIT
+    "EDIT_EMAIL_SUCESSFULLY_UPDATED": "Email sucessfully updated",
+    //XMSG
+    "EDIT_EMAIL_CHANGED_MSG": "Your email has been changed",
+
+    //XMSG
+    "OOPS_MSG": "Oops!",
+    //XMSG
+    "EDIT_EMAIL_CHANGE_FAILED":  "Something went wrong. Please reset your email again",
+
+
+    //XMSG
+    "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Password is not correct. Try again",
+    //XMSG
+    "EDIT_EMAIL_ALREADY_IN_USE": "This email is already in use. Try again",
+    //XMSG
+    "EDIT_EMAIL_SOMETHING_WENT_WRONG": "Something went wrong. Try again",
+
 
     //XFLD
     //-------------------------------------------------

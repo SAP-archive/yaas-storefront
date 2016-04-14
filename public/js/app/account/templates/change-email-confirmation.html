@@ -1,18 +1,16 @@
 <div ng-if="!error">
     <div ng-if="!confirmed" class="text-center">
-        <h1>Your email is being updated...</h1>
+        <h1>{{'EDIT_EMAIL_UPDATED'|translate}}</h1>
     </div>
 
     <div ng-if="confirmed">
         <section class="white text-center" match-background ng-cloak>
-            <h2>Email sucessfully updated</h2>
-            <p>
-                Your email has been changed
-            </p>
+            <h2>{{'EDIT_EMAIL_SUCESSFULLY_UPDATED'|translate}}</h2>
+            <p>{{'EDIT_EMAIL_CHANGED_MSG'|translate}}</p>
 
             <div class="actionButton clearfix">
-                <button class="btn btn-secondary btn-lg" ng-click="redirect()">
-                    Home
+                <button class="btn btn-secondary btn-lg" ui-sref="base.home">
+                    {{'HOME'|translate}}
                 </button>
             </div>
 
@@ -21,10 +19,17 @@
 
 </div>
 
-<div ng-if="error" class="text-center">
-        <h2>Oops!</h2>
+<div ng-if="error">
+    <section class="white text-center" match-background ng-cloak>
+        <h2>{{'OOPS_MSG'|translate}}</h2>
         <p>
-            Something went wrong. Please reset your email again (link to account page, reset email should be the link)
+            {{'EDIT_EMAIL_CHANGE_FAILED'|translate}}
         </p>
+        <div class="actionButton clearfix">
+            <button class="btn btn-secondary btn-lg" ui-sref="base.account">
+                {{'RESET'|translate}}
+            </button>
+        </div>
+    </section>
 </div>
 
