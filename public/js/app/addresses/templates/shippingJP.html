@@ -18,7 +18,7 @@
         <div class="col-md-4 custom-select-container">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="!shipToSameAsBillTo">
+                <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="true">
                     <ui-select-match>
                         {{$select.selected.name}}
                     </ui-select-match>
@@ -72,7 +72,7 @@
                 <label class="input-group-addon control-label" for="address2Ship">{{'SUBAREA' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                     class="form-control" id="address2Ship" name="address2"
-                    ng-model="order.shipTo.address2" ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                    ng-model="order.shipTo.address2" ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -83,7 +83,7 @@
                 <label class="input-group-addon control-label" for="address1Ship">{{'FURTHER_SUBAREA' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                     class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                    ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                    ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 

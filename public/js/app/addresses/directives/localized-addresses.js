@@ -204,6 +204,9 @@ angular.module('ds.addresses')
                         };
                         scope.initializeLocale(locale);
                     }
+                    if (target === 'addAddress') {
+                        scope.address.country = locale.id;
+                    }
                 });
                 scope.$on('$destroy', unbind);
 
