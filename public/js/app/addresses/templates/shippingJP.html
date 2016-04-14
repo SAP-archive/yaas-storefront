@@ -72,7 +72,7 @@
                 <label class="input-group-addon control-label" for="address2Ship">{{'SUBAREA' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                     class="form-control" id="address2Ship" name="address2"
-                    ng-model="order.shipTo.address2" ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                    ng-model="order.shipTo.address2" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 
@@ -83,7 +83,7 @@
                 <label class="input-group-addon control-label" for="address1Ship">{{'FURTHER_SUBAREA' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                     class="form-control" name="address1" id="address1Ship" ng-model="order.shipTo.address1"
-                    ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+                    autocomplete="on" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
 

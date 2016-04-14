@@ -73,7 +73,7 @@
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'STATE' | translate}}</label>
-                <ui-select ng-model="order.shipTo.state" id="stateShip" name="state" ng-required="true">
+                <ui-select ng-model="order.shipTo.state" id="stateShip" name="state" ng-required="shipToForm.country.$invalid || shipToForm.country.$viewValue.id === 'US'">
                     <ui-select-match>
                         {{$select.selected.name}}
                     </ui-select-match>

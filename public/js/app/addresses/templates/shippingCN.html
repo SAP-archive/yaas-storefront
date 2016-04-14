@@ -53,7 +53,7 @@
                 ng-class="{'has-error': shipToForm.streetShip.$invalid && (shipToForm.streetShip$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="address3Ship">{{'STREET_NAME' | translate}}</label>
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    class="form-control" id="address3Ship" name="streetShip" required  autocomplete="on" 
+                    class="form-control" id="address3Ship" name="streetShip" autocomplete="on" 
                     ng-model="order.shipTo.address1" ng-required="true" ng-change="$root.closeCartOnCheckout()">
             </div>
         </div>
