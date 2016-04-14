@@ -44,9 +44,9 @@ angular.module('ds.checkout')
                 scope.wiz = new Wiz();
 
                 /** Mark mobile wizard step 1 "done" - bill-to address information has been entered.*/
-                scope.billToDone = function (billToFormValid, form) {
+                scope.shipToDone = function (shipToFormValid, form, shipToCountry) {
                     scope.$broadcast('submitting:form', form);
-                    if (billToFormValid) {
+                    if (shipToFormValid && shipToCountry) {
                         scope.wiz.step1Done = true;
                         scope.showPristineErrors = false;
                         // guarantee correct scrolling for mobile
@@ -58,10 +58,10 @@ angular.module('ds.checkout')
                 };
 
                 /** Mark mobile wizard step 2 "done" - the ship-to address has been entered.*/
-                scope.shipToDone = function (shipToFormValid, form) {
+                scope.billToDone = function (billToFormValid, form) {
                     scope.$broadcast('submitting:form', form);
                     // if the ship to form fields are hidden, angular considers them empty - work around that:
-                    if (shipToFormValid || scope.shipToSameAsBillTo) {
+                    if (billToFormValid || scope.shipToSameAsBillTo) {
                         scope.wiz.step2Done = true;
                         scope.showPristineErrors = false;
                         // guarantee correct scrolling for mobile

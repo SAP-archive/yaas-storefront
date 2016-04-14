@@ -4,6 +4,7 @@ applications:
   command: npm run-script multiStage
   buildpack: https://github.com/heroku/heroku-buildpack-nodejs.git
   memory: 1024M
+  disk: 256M
   host: shops
   domain: stage.yaas.io
   instances: 1
