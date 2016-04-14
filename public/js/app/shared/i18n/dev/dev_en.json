@@ -158,11 +158,13 @@
     //XACT
     "REQUIRED": "Required",
     //XCKL
-    "SAME_AS_BILLING_ADDRESS": "Same As Billing Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
     //XTIT
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Select from address book",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Shipping",
     //XGRP
@@ -176,7 +178,7 @@
     //XGRP
     "STEP_1_MY_DETAILS": "Step 1. My Details",
     //XGRP
-    "STEP_2_SHIPPING_INFORMATION": "Step 2. Shipping Information",
+    "STEP_2_BILLING_INFORMATION": "Step 2. Billing Information",
     //XGRP
     "STEP_3_PAYMENT": "Step 3. Payment",
     //XGRP
