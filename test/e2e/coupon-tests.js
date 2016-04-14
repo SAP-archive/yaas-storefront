@@ -229,7 +229,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontestmin2');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('MINIMUM', '$20.05', '-$0.53');
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$0.53');
         });
 
@@ -237,7 +237,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontestmax2');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('20DOLLAR', '$9.20', '-$10.67');
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.67');
         });
 
@@ -245,7 +245,7 @@ describe('coupons:', function () {
             tu.createAccount('coupontestpercent');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10PERCENT', '$19.47', '-$1.07');
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$1.07');
         });
 
@@ -253,14 +253,14 @@ describe('coupons:', function () {
             tu.createAccount('coupontestdollar');
             tu.populateAddress('United States', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             couponCheckoutTest('10DOLLAR', '$9.92', '-$10.00');
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '$10.67', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$10.00');
         });
 
         xit('should allow customer to use specific coupon', function () {
             tu.loginHelper('specific@hybristest.com', 'password');
             couponCheckoutTest('SPECIFIC', '$11.42', 0);
-            tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '$10.67');
+            tu.verifyOrderConfirmation('SPECIFIC', 'SPECIFIC PERSON', '123', 'BOULDER, CO 80301', '$10.67', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-$2.13');
         });
 
@@ -269,7 +269,7 @@ describe('coupons:', function () {
             tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
             tu.selectCurrency('EURO');
             couponCheckoutTest('5EURO', '€7.99', 0);
-            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '€7.99');
+            tu.verifyOrderConfirmation('COUPONTEST', 'COUPON TEST', '123', 'BOULDER, CO 80301', '€7.99', false);
             expect(element(by.css('span.error.ng-binding')).getText()).toEqual('-€5.00');
         });
     });

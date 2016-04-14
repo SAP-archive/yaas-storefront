@@ -42,7 +42,7 @@ exports.verifyCartTotal = function (total) {
 };
 
 exports.verifyCartDiscount = function (amount) {
-        browser.wait(function () {
+    browser.wait(function () {
         return element(by.css('span.error.ng-binding')).isPresent();
     });
     expect(element(by.css('span.error.ng-binding')).getText()).toEqual(amount);
@@ -158,17 +158,18 @@ exports.switchSite = function (site) {
     var sites = element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li'));
     expect(sites.count()).toNotBe(0);
     return sites.map(
-        function(siteElement, index){
+        function (siteElement, index) {
             return {
                 index: index,
                 currSite: siteElement.getText()
             };
         }
-    ).then(function(items){
-            _.each(items, function(item){
+    ).then(function (items) {
+            _.each(items, function (item) {
                 if (item.currSite == site) {
                     sites.get(item.index).click();
-                };
+                }
+                ;
             })
         });
     //element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li')).each(function (currSite) {
@@ -179,7 +180,6 @@ exports.switchSite = function (site) {
     //    });
     //});
 };
-
 
 
 exports.loginHelper = function (userName, password) {
@@ -200,7 +200,7 @@ exports.loadProductIntoCartAndVerifyCart = function (cartAmount, cartTotal) {
     return tu.loadProductIntoCart(cartAmount, cartTotal, true)
 };
 
-exports.loadProductIntoCart = function(cartAmount, cartTotal, verify) {
+exports.loadProductIntoCart = function (cartAmount, cartTotal, verify) {
     browser.wait(function () {
         return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
     });
@@ -270,7 +270,7 @@ exports.fillCreditCardForm = function (ccNumber, ccMonth, ccYear, cvcNumber) {
 };
 
 
-exports.verifyOrderConfirmation = function (account, name, number, cityStateZip, price) {
+exports.verifyOrderConfirmation = function (account, name, number, cityStateZip, price, mobile) {
     var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
@@ -280,7 +280,13 @@ exports.verifyOrderConfirmation = function (account, name, number, cityStateZip,
     expect(element(by.binding('confirmationDetails.shippingAddressName')).getText()).toContain(name);
     expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
+
+    if (mobile) {
+        expect(element(by.css('td.text-left.product-details-mobile.ng-binding > strong')).getText()).toEqual(price);
+    }
+    else {
+        expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
+    }
 };
 
 exports.removeItemFromCart = function () {
