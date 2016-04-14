@@ -64,7 +64,7 @@ angular.module('ds.addresses')
 
             // load dynamic address template into scope
             var loadTemplate = function(scope, elem, locale, viewType){
-                var tempLoader = getTemplate(locale, viewType);
+                var tempLoader = getTemplate(scope, locale, viewType);
                 // handle http request response, show, compile, init validation.
                 tempLoader.success(function(template) {
                     elem.html(template).show();
@@ -73,13 +73,16 @@ angular.module('ds.addresses')
                 });
             };
 
-            var getTemplate = function(locale, viewType) {
+            var getTemplate = function(scope, locale, viewType) {
                 var templateLoader, templateUrl,
                 baseUrl = 'js/app/addresses/templates/';
 
                 // when locale is not recognized set default template
                 if( !_.contains(_.pluck(selectionArray, 'id'), locale)){
                     locale = 'Default';
+                    scope.isDefaultForm = true;
+                } else {
+                    scope.isDefaultForm = false;
                 }
 
                 // set dynamic template url and return promise
@@ -117,7 +120,7 @@ angular.module('ds.addresses')
                 scope.usStates = Countries.us.states;
                 scope.caProvinces = Countries.canada.provinces;
 
-                if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
+                if (scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(
                         function (response) {
                             if (response.length) {
@@ -180,10 +183,11 @@ angular.module('ds.addresses')
                             break;
                     }
                     //Here should be implmented logic for shipping address when is active
+                    if (scope.viewTarget === 'shipping') {
+                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: scope.order.shipTo});
+                    }
                     if (scope.viewTarget !== 'addAddress') {
-                        var addressToShip = scope.shipToSameAsBillTo ? scope.order.billTo : scope.order.shipTo;
                         $rootScope.closeCartOnCheckout();
-                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: addressToShip});
                     }
                 };
 

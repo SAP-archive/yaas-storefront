@@ -6,7 +6,6 @@
         <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" type="text" class="form-control ui-autocomplete" id="contactName" name="contactName" ng-model="address.contactName" required autocomplete="on" ng-keydown="saveOnEnter($event, address, addressForm.$valid, addressForm.$name)"
         ng-required="addressForm.country.$viewValue.id === 'DE'">
       </div>
-
       <div class="form-group input-group custom-select-container">
           <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
           <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)">

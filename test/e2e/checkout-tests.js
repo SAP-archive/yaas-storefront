@@ -33,7 +33,7 @@ function verifyCartContents(itemPrice, totalPrice, quantity) {
     tu.sendKeys('id', 'firstNameAccount', 'Mike');
     tu.sendKeys('id', 'lastNameAccount', 'Night');
     element(by.id('titleAccount')).sendKeys('Mr.');
-    fillCheckoutFormExceptEmail('Bill');
+    fillCheckoutFormExceptEmail('Ship');
     browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
         browser.sleep(2000);
         tu.clickElement('id', 'preview-order-btn');
@@ -217,7 +217,7 @@ describe("checkout:", function () {
             verifyCartContents('$10.67', '$36.66', '1');
         });
 
-        it('should display tax overide on cart checkout and order', function () {
+               it('should display tax overide on cart checkout and order', function () {
             tu.clickElement('id', tu.removeFromCart);
             tu.clickElement('id', tu.contineShopping);
             var category = element(by.repeater('top_category in categories').row(2).column('top_category.name'));
@@ -245,7 +245,7 @@ describe("checkout:", function () {
             tu.sendKeys('id', 'email', 'mike@yaastest.com');
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Ship');
             browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
                 browser.sleep(2000);
                 tu.clickElement('id', 'preview-order-btn');
@@ -263,36 +263,36 @@ describe("checkout:", function () {
         it('should allow all fields to be editable', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Ship');
             tu.sendKeys('id', 'email', 'mike@hybristest.com');
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             browser.sleep(500);
-            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
-            fillCheckoutFormExceptEmail('Ship');
+            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
+            fillCheckoutFormExceptEmail('Bill');
             tu.clickElement('id', 'preview-order-btn');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             tu.clickElement('id', 'place-order-btn');
             tu.verifyOrderConfirmation('mike@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67');
         });
-
-
+        //
+        //
         it('should allow user to create account after checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Ship');
             tu.sendKeys('id', 'email', 'checkoutacct' + timestamp + '@hybristest.com');
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
             browser.sleep(500);
-            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
-            fillCheckoutFormExceptEmail('Ship');
+            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
+            fillCheckoutFormExceptEmail('Bill');
             tu.clickElement('id', 'preview-order-btn');
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             tu.clickElement('id', 'place-order-btn');
@@ -308,7 +308,7 @@ describe("checkout:", function () {
         it('should have basic validation on all fields', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Ship');
             tu.sendKeys('id', 'email', 'mike@place.com');
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
@@ -322,11 +322,11 @@ describe("checkout:", function () {
             //verifyValidationForEachField('Bill', 'id', 'place-order-btn');
             validateField('email', '', 'mike@hybristest.com', 'id', 'place-order-btn');
             browser.sleep(500);
-            expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
             tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameShip', 'Mike Night');
-            fillCheckoutFormExceptEmail('Ship');
-            verifyValidationForEachField('Ship', 'id', 'preview-order-btn');
+            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
+            fillCheckoutFormExceptEmail('Bill');
+            verifyValidationForEachField('Bill', 'id', 'preview-order-btn');
             browser.sleep(200);
             tu.clickElement('id', 'preview-order-btn');
             validateField('cvc', '', '00', 'id', 'place-order-btn');
@@ -345,7 +345,7 @@ describe("checkout:", function () {
 
         it('should allow user to select address', function () {
             loginAndContinueToCheckout('address@hybristest.com');
-            expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Take out');
+            expect(element(by.id('address1Ship')).getAttribute('value')).toEqual('123 Take out');
             tu.clickElement('id', 'select-address-btn-1');
             browser.wait(function () {
                 return element(by.id('myModalLabel')).isPresent();
@@ -477,39 +477,44 @@ describe("mobile checkout:", function () {
             tu.sendKeys('id', 'firstNameAccount', 'Mike');
             tu.sendKeys('id', 'lastNameAccount', 'Night');
             element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Bill');
+            fillCheckoutFormExceptEmail('Ship');
 
         });
 
-        var continueButton1 = '//div[6]/button';
-        var continueButton2 = '//div[5]/button';
+        var continueButton1 = '//div[8]/button';
+        var continueButton2 = '//div[4]/button';
         var paymentButton = "//button[@type='submit']";
 
         // DR - Comment out these 2 tests for now, to be re-executed after KIWIS-2584 is done
         //it('should allow all fields to be editable on mobile', function () {
         //    tu.clickElement('xpath', continueButton1);
         //    browser.sleep(500);
-        //    expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+        //    expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
         //    tu.clickElement('id', 'shipTo');
-        //    tu.sendKeys('id', 'contactNameShip', 'Mike Night');
-        //    fillCheckoutFormExceptEmail('Ship');
+        //    tu.sendKeys('id', 'contactNameBill', 'Mike Night');
+        //    fillCheckoutFormExceptEmail('Bill');
         //    tu.clickElement('xpath', continueButton2);
         //    tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
         //    tu.clickElement('xpath', paymentButton);
         //    tu.clickElement('id', "place-order-btn");
-        //    tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67');
+        //    browser.sleep(10000);
+        //    browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
+        //        browser.sleep(2000);
+        //        tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67');
+        //    });
+        //    //tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67');
         //});
-        //
+
         //it('should have basic validation on mobile', function () {
-        //    verifyValidationForEachField('Bill', 'xpath', continueButton1);
+        //    verifyValidationForEachField('Ship', 'xpath', continueButton1);
         //    validateField('email', '', 'mike@hybristest.com', 'xpath', continueButton1);
         //    tu.clickElement('xpath', continueButton1);
         //    browser.sleep(500);
-        //    expect(element(by.binding(" order.billTo.address1 ")).getText()).toEqual('123');
+        //    expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
         //    tu.clickElement('id', 'shipTo');
-        //    tu.sendKeys('id', 'contactNameShip', 'Mike Night');
-        //    fillCheckoutFormExceptEmail('Ship');
-        //    verifyValidationForEachField('Ship', 'xpath', continueButton2);
+        //    tu.sendKeys('id', 'contactNameBill', 'Mike Night');
+        //    fillCheckoutFormExceptEmail('Bill');
+        //    verifyValidationForEachField('Bill', 'xpath', continueButton2);
         //    tu.clickElement('xpath', continueButton2);
         //    tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
         //    tu.clickElement('xpath', paymentButton);
