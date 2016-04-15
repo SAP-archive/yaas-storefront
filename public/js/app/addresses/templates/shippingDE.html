@@ -3,6 +3,16 @@
 
     <div id="ship-to-fields">
 
+        <!-- country -->
+        <div class="col-md-4">
+            <div class="form-group input-group">
+                <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
+                <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
+                    <option value="" ng-selected="true" ng-if="!localeSelection.id" ng-required="true"></option>
+                </select>
+            </div>
+        </div>
+        
         <!-- full name  -->
         <div class="col-md-8">
             <div class="form-group input-group"
@@ -11,16 +21,6 @@
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                 class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
                 ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
-            </div>
-        </div>
-        
-        <!-- country -->
-        <div class="col-md-4">
-            <div class="form-group input-group">
-                <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale">
-                    <option value="" ng-selected="true" ng-if="!localeSelection.id" ng-required="true"></option>
-                </select>
             </div>
         </div>
 
