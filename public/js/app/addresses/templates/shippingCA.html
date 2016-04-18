@@ -3,17 +3,6 @@
 
     <div id="ship-to-fields">
 
-        <!-- full name  -->
-        <div class="col-md-8">
-            <div class="form-group input-group"
-                 ng-class="{'has-error': shipToForm.contactName.$invalid && (shipToForm.contactName.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="contactNameShip">{{'FULL_NAME' | translate}}</label>
-                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
-                ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
-            </div>
-        </div>
-
         <!-- country -->
         <div class="col-md-4 custom-select-container checkout-selector">
             <div class="form-group input-group">
@@ -28,6 +17,17 @@
                 </ui-select>
             </div>
         </div>
+
+        <!-- full name  -->
+        <div class="col-md-8">
+            <div class="form-group input-group"
+                 ng-class="{'has-error': shipToForm.contactName.$invalid && (shipToForm.contactName.$dirty || showPristineErrors) }">
+                <label class="input-group-addon control-label" for="contactNameShip">{{'FULL_NAME' | translate}}</label>
+                <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
+                ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+            </div>
+        </div>        
 
         <!-- company name -->
         <div class="col-md-4">
