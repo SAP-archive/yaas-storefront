@@ -99,14 +99,7 @@ angular.module('ds.searchlist')
 
             function setMainImage(product) {
                 if (product.media && product.media.length) {
-                    var mainImageArr = product.media.filter(function (media) {
-                        return media.customAttributes && media.customAttributes.main;
-                    });
-                    if (mainImageArr.length) {
-                        product.mainImageURL = mainImageArr[0].url;
-                    } else {
-                        product.mainImageURL = product.media[0].url;
-                    }
+                    product.mainImageURL = product.media[0].url;
                 }
             }
 
