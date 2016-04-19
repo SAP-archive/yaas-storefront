@@ -104,7 +104,7 @@ describe('BrowseProductsCtrl', function () {
             expect($scope.products).toEqualData(productResult);
         });
 
-        it('should use first URL for main image', function(){
+        it('should use first committed URL for main image', function(){
             $scope.$digest();
             expect($scope.products[0].product.mainImageURL).toEqualData('http://myimageurl1');
             expect($scope.products[1].product.mainImageURL).toEqualData('http://myimageurl2');

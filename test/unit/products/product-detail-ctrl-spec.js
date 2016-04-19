@@ -229,7 +229,7 @@ describe('ProductDetailCtrl', function () {
                 'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
         });
 
-        it('should list images as they came', function(){
+        it('should list committed images as they came', function(){
             expect($scope.product.product.media[0].url).toEqualData('http://url1');
             expect($scope.product.product.media[1].url).toEqualData('http://url2');
             expect($scope.product.product.media[2].url).toEqualData('http://url3');

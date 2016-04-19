@@ -17,8 +17,8 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'CommittedMediaFilter',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, CommittedMediaFilter) {
             var modalInstance;
             
             $scope.product = product;
@@ -69,8 +69,14 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
 
-            if (!$scope.product.product.media || !$scope.product.product.media.length) { // set default image if no images configured
-                $scope.product.product.media = [{ id: settings.placeholderImageId, url: settings.placeholderImage }];
+            if (angular.isArray($scope.product.product.media)) {
+                $scope.product.product.media = CommittedMediaFilter.filter($scope.product.product.media);
+            } else {
+                $scope.product.product.media = [];
+            }
+            
+            if ($scope.product.product.media.length === 0) {
+                $scope.product.product.media.push({ id: settings.placeholderImageId, url: settings.placeholderImage });
             }
 
             //input default values must be defined in controller, not html, if tied to ng-model
