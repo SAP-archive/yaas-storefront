@@ -20,6 +20,20 @@ describe('BrowseProductsCtrl', function () {
             }
         }
     ];
+    
+    mockedCategory.media = [
+        {
+          url: 'http://uncommited-1.link',
+          uncommittedMedia: true
+        },
+        {
+          url: 'http://commited.link',
+        },
+        {
+          url: 'http://uncommited-2.link',
+          uncommittedMedia: true
+        }
+    ];
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 
@@ -108,6 +122,11 @@ describe('BrowseProductsCtrl', function () {
             $scope.$digest();
             expect($scope.products[0].product.mainImageURL).toEqualData('http://myimageurl1');
             expect($scope.products[1].product.mainImageURL).toEqualData('http://myimageurl2');
+        });
+        
+        it('should use first committed media as a category main image', function(){
+            $scope.$digest();
+            expect($scope.mainCategoryImage.url).toEqualData('http://commited.link');
         });
 
     });
