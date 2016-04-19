@@ -216,9 +216,9 @@ describe('ProductDetailCtrl', function () {
                 name: 'product1',
                 published: true,
                 media: [
-                    { url: 'http://url1', customAttributes: {} },
-                    { url: 'http://url2', customAttributes: { main: true } },
-                    { url: 'http://url3', customAttributes: {} }
+                    { url: 'http://url1' },
+                    { url: 'http://url2' },
+                    { url: 'http://url3' }
                 ]
             }
         };
@@ -228,9 +228,9 @@ describe('ProductDetailCtrl', function () {
                 'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
-        it('should list main image first', function(){
-            expect($scope.product.product.media[0].url).toEqualData('http://url2');
-            expect($scope.product.product.media[1].url).toEqualData('http://url1');
+        it('should list committed images as they came', function(){
+            expect($scope.product.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.product.media[1].url).toEqualData('http://url2');
             expect($scope.product.product.media[2].url).toEqualData('http://url3');
         });
     });
@@ -242,8 +242,8 @@ describe('ProductDetailCtrl', function () {
                 id: 123,
                 published: true,
                 media: [
-                    { url: 'http://url1', customAttributes: {} },
-                    { url: 'http://url2', customAttributes: {} }
+                    { url: 'http://url1' },
+                    { url: 'http://url2' }
                 ]
             },
             categories: [

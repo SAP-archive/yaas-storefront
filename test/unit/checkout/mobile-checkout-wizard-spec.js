@@ -38,8 +38,8 @@ describe('directive: mobile-checkout-wizard', function() {
             scope.showPristineErrors = false;
         });
 
-        it('should set Step 1 Done when Bill-To to entered', function(){
-            scope.billToDone(true);
+        it('should set Step 1 Done when Ship-To to entered', function(){
+            scope.shipToDone(true, '', true);
             expect(scope.wiz.step1Done).toEqualData(true);
             expect(scope.wiz.step2Done).toEqualData(false);
             expect(scope.wiz.step2Done).toEqualData(false);
@@ -56,13 +56,13 @@ describe('directive: mobile-checkout-wizard', function() {
 
         it('should remove PRISTINE_ERRORS upon valid re-edit of Bill-To', function(){
             scope.showPristineErrors = true;
-            scope.billToDone(true);
+            scope.billToDone(true, '', true);
             expect(scope.showPristineErrors).toEqualData(false);
         });
 
-        it('should set Step 2 Done when ship to to entered', function(){
+        it('should set Step 2 Done when Bill-To to entered', function(){
             scope.wiz.step2Done = false;
-            scope.shipToDone(true);
+            scope.billToDone(true);
             expect(scope.wiz.step2Done).toEqualData(true);
             expect(scope.wiz.step3Done).toEqualData(false);
 
