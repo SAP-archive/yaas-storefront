@@ -2,7 +2,7 @@
 <div ng-cloak>
 
     <!-- hero spot -->
-    <div class="hero-unit" ng-hide="mainCategoryImage == null">
+    <div class="hero-unit" ng-if="mainCategoryImage">
         <blockquote ng-style="{ 'background-image': 'url(\'{{mainCategoryImage.url}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
         </blockquote>
