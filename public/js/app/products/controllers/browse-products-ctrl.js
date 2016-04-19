@@ -47,6 +47,10 @@ angular.module('ds.products')
             $scope.loadedPages = 1;
             $scope.loadMorePages = false;
 
+            if(category !== null) {
+                $scope.mainCategoryImage = MainMediaExtractor.extract(category.media);
+            }
+          
             // ensure category path is localized
             var pathSegments = $location.path().split('/');
             if ($scope.category.slug && pathSegments[pathSegments.length - 1] !== $scope.category.slug) {

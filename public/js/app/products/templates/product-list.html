@@ -2,8 +2,8 @@
 <div ng-cloak>
 
     <!-- hero spot -->
-    <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
-        <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
+    <div class="hero-unit" ng-hide="mainCategoryImage == null">
+        <blockquote ng-style="{ 'background-image': 'url(\'{{mainCategoryImage.url}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
         </blockquote>
     </div>
