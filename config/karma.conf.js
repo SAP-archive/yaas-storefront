@@ -65,6 +65,9 @@ module.exports = function(config){
         'public/js/app/shared/directives/y-inputs-dir.js',
         'public/js/app/shared/directives/force-scroll.js',
 
+        'public/js/app/shared/media/main-media-extractor.js',
+        'public/js/app/shared/media/committed-media-filter.js',
+
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
         'public/js/app/home/services/home-svc.js',

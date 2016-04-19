@@ -13,9 +13,9 @@
 'use strict';
 
 angular.module('ds.products')
-/** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
-        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
+    /** Controller for the 'browse products' view.  */
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'MainMediaExtractor',
+        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, MainMediaExtractor) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -70,15 +70,9 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
             function setMainImage(product) {
-                if (product.media && product.media.length) {
-                    var mainImageArr = product.media.filter(function (media) {
-                        return media.customAttributes && media.customAttributes.main;
-                    });
-                    if (mainImageArr.length) {
-                        product.mainImageURL = mainImageArr[0].url;
-                    } else {
-                        product.mainImageURL = product.media[0].url;
-                    }
+                var mainMedia = MainMediaExtractor.extract(product.media);
+                if (mainMedia) {
+                    product.mainImageURL = mainMedia.url;
                 }
             }
 
