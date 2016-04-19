@@ -1,3 +1,6 @@
+### TP-4298-B Branch
+In this branch a generalized notification service will be implemented, in place of the specific slidedownbox implemented in 4298
+
 # hybris Store Template for the Cloud-based Commerce Services
 
 This project is an e-commerce front-end written in AngularJS that is meant to showcase the available commerce services and

@@ -17,8 +17,8 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'CommittedMediaFilter',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, CommittedMediaFilter) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, Notification, CommittedMediaFilter) {
             var modalInstance;
             
             $scope.product = product;
@@ -112,7 +112,6 @@ angular.module('ds.products')
                     }
                     $scope.buyButtonEnabled = true;
                 }
-
             });
 
             $scope.$on('$destroy', unbind);
@@ -121,9 +120,13 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: true }).then(function () { },
-                function(){
+                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
+                .then(function(){
+                    var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
+                    Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToCart, delay: 3000});
+                }, function(){
                     $scope.error = 'ERROR_ADDING_TO_CART';
+                }).finally(function() {
                     $scope.buyButtonEnabled = true;
                 });
             };
