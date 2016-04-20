@@ -586,12 +586,22 @@ describe('CartSvc Test', function () {
             mockBackend.flush();
         });
 
-        it('should remove the coupon', function () {
-            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(200, {});
+        it('should remove all coupons', function () {
+            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts').respond(204, {});
 
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
             cartSvc.removeAllCoupons(cartId);
+
+            mockBackend.flush();
+        });
+
+        it('should remove one coupon', function () {
+            var couponId = '1234';
+            mockBackend.expectDELETE(cartUrl + '/' + cartId + '/discounts/' + couponId).respond(204, {});
+            mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
+
+            cartSvc.removeCoupon(cartId, couponId);
 
             mockBackend.flush();
         });

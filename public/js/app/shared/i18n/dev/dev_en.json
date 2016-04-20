@@ -156,11 +156,13 @@
     //XACT
     "REQUIRED": "Required",
     //XCKL
-    "SAME_AS_BILLING_ADDRESS": "Same As Billing Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
     //XTIT
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Select from address book",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Shipping",
     //XGRP
@@ -174,7 +176,7 @@
     //XGRP
     "STEP_1_MY_DETAILS": "Step 1. My Details",
     //XGRP
-    "STEP_2_SHIPPING_INFORMATION": "Step 2. Shipping Information",
+    "STEP_2_BILLING_INFORMATION": "Step 2. Billing Information",
     //XGRP
     "STEP_3_PAYMENT": "Step 3. Payment",
     //XGRP
@@ -228,6 +230,8 @@
     "COUPON_APPLY": "Apply",
     //XFLD
     "COUPON_APPLIED": "Applied",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
     //XMSG
@@ -242,6 +246,8 @@
     "COUPON_MINIMUM_NOT_MET": "Current order total does not meet the required minimum for this coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon Not Valid",
+    //XTIT
+    "COUPONS": "Coupon Code",
 
 
     //XFLD
@@ -321,6 +327,8 @@
     "BUY": "Buy",
     //XBUT
     "ADD_TO_CART": "Add to Cart",
+    //XMSG
+    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
     //XTIT
     "PRODUCT_DESCRIPTION": "Product Description",
     //XTIT

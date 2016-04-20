@@ -32,7 +32,7 @@
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
           <span>{{address.country}}</span><br>
           <span>{{address.contactPhone}}</span><br>
-          <span ng-show="!isShipToCountry(address.country) && shippingConfigured" class="list-unstyled text-danger">{{'CANT_BE_SHIPPED' | translate}}</span><br>
+          <span ng-show="disableAddress(address.country)" class="list-unstyled text-danger">{{'CANT_BE_SHIPPED' | translate}}</span><br>
         </address>
     </div>
 

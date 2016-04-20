@@ -57,8 +57,7 @@ describe('SearchListCtrl', function () {
                 "tags" : [ "main" ],
                 "stored" : true,
                 "customAttributes" : {
-                    "filename" : "mug-coffee-white-1",
-                    "main" : true
+                    "filename" : "mug-coffee-white-1"
                 }
             }, {
                 "id" : "555f0239b92e219a88a3fb16",

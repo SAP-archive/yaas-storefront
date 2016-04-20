@@ -15,8 +15,8 @@
 'use strict';
 
 angular.module('ds.searchlist')
-    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString',
-        function ($scope, $rootScope, ProductSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString) {
+    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString', 'MainMediaExtractor',
+        function ($scope, $rootScope, ProductSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString, MainMediaExtractor) {
 
             $scope.searchString = searchString;
 
@@ -98,15 +98,9 @@ angular.module('ds.searchlist')
             }
 
             function setMainImage(product) {
-                if (product.media && product.media.length) {
-                    var mainImageArr = product.media.filter(function (media) {
-                        return media.customAttributes && media.customAttributes.main;
-                    });
-                    if (mainImageArr.length) {
-                        product.mainImageURL = mainImageArr[0].url;
-                    } else {
-                        product.mainImageURL = product.media[0].url;
-                    }
+                var mainMedia = MainMediaExtractor.extract(product.media);
+                if (mainMedia) {
+                    product.mainImageURL = mainMedia.url;
                 }
             }
 
