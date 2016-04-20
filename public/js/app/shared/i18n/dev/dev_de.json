@@ -327,6 +327,8 @@
     "BUY": "Kaufen",
     //XBUT
     "ADD_TO_CART": "In den Warenkorb",
+    //XMSG
+    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
     //XTIT
     "PRODUCT_DESCRIPTION": "Produktbeschreibung",
     //XTIT

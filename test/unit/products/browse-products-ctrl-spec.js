@@ -21,6 +21,20 @@ describe('BrowseProductsCtrl', function () {
             }
         }
     ];
+    
+    mockedCategory.media = [
+        {
+          url: 'http://uncommited-1.link',
+          uncommittedMedia: true
+        },
+        {
+          url: 'http://commited.link',
+        },
+        {
+          url: 'http://uncommited-2.link',
+          uncommittedMedia: true
+        }
+    ];
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 
@@ -56,12 +70,11 @@ describe('BrowseProductsCtrl', function () {
         mockedProductSvc = {};
         productResult = [
             {
-                'product':{'id': 'prod1', 'name': 'prod1', media: [{url: 'http://myimageurl1'}, {url: 'http://myimageurl1'}]},
+                'product':{'id': 'prod1', 'name': 'prod1', media: [{url: 'http://myimageurl1'}, {url: 'http://myimageurl2'}]},
                 'prices': []
             },
             {
-                'product':{'id': 'prod2', 'name': 'prod2', media: [{url: 'http://myimageurl1', customAttributes:{}},
-                                                     {url: 'http://myimageurl2', customAttributes:{main: true}}] },
+                'product':{'id': 'prod2', 'name': 'prod2', media: [{url: 'http://myimageurl2'}, {url: 'http://myimageurl1'}] },
                 'prices': []
             }
         ];
@@ -106,15 +119,15 @@ describe('BrowseProductsCtrl', function () {
             expect($scope.products).toEqualData(productResult);
         });
 
-        it('should use first URL if no <<main>> image', function(){
+        it('should use first committed URL for main image', function(){
             $scope.$digest();
-            console.log($scope.products[0]);
             expect($scope.products[0].product.mainImageURL).toEqualData('http://myimageurl1');
-        });
-
-        it('should use the main image URL if present', function(){
-            $scope.$digest();
             expect($scope.products[1].product.mainImageURL).toEqualData('http://myimageurl2');
+        });
+        
+        it('should use first committed media as a category main image', function(){
+            $scope.$digest();
+            expect($scope.mainCategoryImage.url).toEqualData('http://commited.link');
         });
 
     });

@@ -171,10 +171,10 @@ describe('product page', function () {
 
         it('should search', function () {
             browser.wait(function () {
-                return element(by.css('.col-xs-7 #search')).isPresent();
+                return element(by.css('.col-xs-6 #search')).isPresent();
             });
             browser.sleep(5000);
-            tu.sendKeys('css', '.col-xs-7 #search', 'beer');
+            tu.sendKeys('css', '.col-xs-6 #search', 'beer');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toContain('Beer Mug w/Helles');
             expect(element(by.repeater('result in search.results').row(1)).getText()).toContain('Beer Mug');
             element(by.repeater('result in search.results').row(1)).click();
@@ -183,9 +183,9 @@ describe('product page', function () {
 
         it('not return search results', function () {
             browser.wait(function () {
-                return element(by.css('.col-xs-7 #search')).isPresent();
+                return element(by.css('.col-xs-6 #search')).isPresent();
             });
-            tu.sendKeys('css', '.col-xs-7 #search', 'test1');
+            tu.sendKeys('css', '.col-xs-6 #search', 'test1');
             expect(element(by.repeater('result in search.results').row(0)).isPresent()).toBe(false);
         });
 
