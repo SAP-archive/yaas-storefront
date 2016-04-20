@@ -112,7 +112,7 @@
                     <!-- desktop tablet view -->
                     <tr ng-repeat="entry in confirmationDetails.entries" class="hidden-sm hidden-xs">
                         <td class="margin-cell"></td>
-                        <td><a ui-sref="base.product.detail( {productId: entry.product.id} )">
+                        <td><a ui-sref="base.product.detail( {productId: product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
                         </a></td>
                         <td>{{entry.product.name}}</td>
@@ -131,7 +131,7 @@
                                 <tr>
                                     <td class="text-left">{{'SUBTOTAL' | translate}}</td>
                                                         
-                                    <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                                    <td class="text-right">{{ confirmationDetails.subTotalPrice | currency: currencySymbol}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-left">{{'SHIPPING' | translate}}</td>
@@ -166,7 +166,7 @@
                     <!-- mobile view -->
                     <tr ng-repeat="entry in confirmationDetails.entries" class="visible-sm visible-xs">
                         <td class="text-right">
-                            <a ui-sref="base.product.detail( {productId: entry.product.id} )">
+                            <a ui-sref="base.product.detail( {productId: product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
                             </a>
                         </td>
