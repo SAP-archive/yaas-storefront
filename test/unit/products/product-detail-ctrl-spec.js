@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedShippingZones, shippingZones, cartDef,mockedGlobalData={
+    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedShippingZones, shippingZones, cartDef, mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
         getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: "Includes Tax/VAT", included: false })
     };
@@ -88,8 +88,11 @@ describe('ProductDetailCtrl', function () {
     var mockedSettings = {
         placeholderImage: dummyImg
     };
-
-
+    
+    var mockedNotification = {
+        success: jasmine.createSpy('success').andReturn('')
+    };
+    
     beforeEach(angular.mock.module('ds.products'));
 
     beforeEach(module('ds.checkout', function($provide) {
@@ -120,7 +123,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
        it('should set the category for the breadcrumb', function(){
@@ -136,7 +139,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
         it('should add to cart from detail page', function () {
@@ -171,7 +174,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -191,24 +194,20 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
-            $scope.error = 'error';
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones,  'Notification': mockedNotification});
             $scope.addToCartFromDetailPage();
-            $rootScope.$broadcast('cart:updated', {cart: {}, source: 'manual'});
-
         });
 
-        it('should show cart', function () {
-            expect($rootScope.showCart).toBeTruthy();
+        it('should call addProductToCart on CartSvc', function(){
+            $scope.addToCartFromDetailPage();
+            expect(mockedCartSvc.addProductToCart).toHaveBeenCalled();    
         });
-
-        it('should enable buy button', function () {
-            expect($scope.buyButtonEnabled).toBeTruthy();
+        
+        it('should show success notification', function(){
+            cartDef.resolve();
+            $rootScope.$apply(); //propogate resolve so .then is called
+            expect(mockedNotification.success).toHaveBeenCalled();
         });
-
-        it('should remove any error', function(){
-            expect($scope.error).toBeFalsy();
-        })
     });
 
     describe('productWithMainImage', function(){
@@ -217,21 +216,21 @@ describe('ProductDetailCtrl', function () {
                 name: 'product1',
                 published: true,
                 media: [
-                    { url: 'http://url1', customAttributes: {} },
-                    { url: 'http://url2', customAttributes: { main: true } },
-                    { url: 'http://url3', customAttributes: {} }
+                    { url: 'http://url1' },
+                    { url: 'http://url2' },
+                    { url: 'http://url3' }
                 ]
             }
         };
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
-        it('should list main image first', function(){
-            expect($scope.product.product.media[0].url).toEqualData('http://url2');
-            expect($scope.product.product.media[1].url).toEqualData('http://url1');
+        it('should list committed images as they came', function(){
+            expect($scope.product.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.product.media[1].url).toEqualData('http://url2');
             expect($scope.product.product.media[2].url).toEqualData('http://url3');
         });
     });
@@ -243,8 +242,8 @@ describe('ProductDetailCtrl', function () {
                 id: 123,
                 published: true,
                 media: [
-                    { url: 'http://url1', customAttributes: {} },
-                    { url: 'http://url2', customAttributes: {} }
+                    { url: 'http://url1' },
+                    { url: 'http://url2' }
                 ]
             },
             categories: [
@@ -261,7 +260,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
         });
 
         it('should list first image first', function(){
