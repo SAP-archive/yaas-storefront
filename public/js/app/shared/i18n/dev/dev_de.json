@@ -489,13 +489,14 @@
     //XTIT
     "EDIT_EMAIL_SUCESSFULLY_UPDATED": "Email sucessfully updated",
     //XMSG
-    "EDIT_EMAIL_CHANGED_MSG": "Your email has been changed",
+    "EDIT_EMAIL_CHANGED_MSG": "Your email has changed. You must sign in with your updated email",
 
     //XMSG
     "OOPS_MSG": "Oops!",
     //XMSG
     "EDIT_EMAIL_CHANGE_FAILED":  "Something went wrong. Please reset your email again",
-
+    //XBUT
+    "RESET_EMAIL": "RESET EMAIL",
 
     //XMSG
     "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Password is not correct. Try again",
