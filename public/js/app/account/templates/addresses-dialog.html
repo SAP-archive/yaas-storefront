@@ -6,4 +6,14 @@
   <div class="row">
     <div ng-include="'./js/app/account/templates/addresses.html'"></div>
   </div>
+  <div class="row address-view-buttons" ng-show="showAddressDefault < addresses.length">
+    <button class="btn btn-link" ng-show="showAddressFilter !== addresses.length" ng-click="showAddressFilter = addresses.length" href="" class="text-right">
+        {{'SHOW_ALL' | translate}}
+        <span class="glyphicon glyphicon-chevron-down"/>
+    </button>
+    <button class="btn btn-link" ng-show="showAddressFilter === addresses.length" ng-click="showAddressFilter = showAddressDefault" href="" class="text-right">
+        {{'SHOW_LESS' | translate}}
+        <span class="glyphicon glyphicon-chevron-up"/>
+    </button>  
+  </div>
 </div>
