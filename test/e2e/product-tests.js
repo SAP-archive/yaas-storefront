@@ -76,19 +76,15 @@ describe('product page', function () {
 
         it('should get order of products correctly in english and USD', function () {
             tu.getTextByRepeaterRow(0);
-            //price is not currently supported
-            // tu.sortAndVerifyPagination('price', 'FRENCH PRESS');
-            // browser.sleep(750);
-            // tu.sortAndVerifyPagination('-price', 'ESPRESSO MACHINE');
-            // browser.sleep(750);
-            tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
-            browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', "WOMEN'S T-SHIRT - GRAY", '$14.99');
-            browser.sleep(750);
-            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
+
+            tu.sortAndVerifyPagination('A-Z', 'BEER MUG', '$3.99');
+
+            tu.sortAndVerifyPagination('Z-A', "WOMEN'S T-SHIRT - GRAY", '$14.99');
+
+            tu.sortAndVerifyPagination('newest', 'BEER MUG W/HELLES', '$7.99');
         });
 
-        //disabled until multiple sites are implemented
+
         it('should get order of products correctly in german and Euros', function () {
             //default load
             tu.getTextByRepeaterRow(0);
@@ -100,11 +96,11 @@ describe('product page', function () {
             tu.switchSite('Sushi Demo Store Germany');
             browser.sleep(2000);
             browser.get(tu.tenant + '/#!/ct/');
-            tu.sortAndVerifyPagination('name', 'BIERKRUG', '€5.59');
+            tu.sortAndVerifyPagination('A-Z', 'BIERKRUG', '€5.59');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', 'WASSER-FLASCHE', '€19.99');
+            tu.sortAndVerifyPagination('Z-A', 'WASSER-FLASCHE', '€19.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BIERKRUG W / HELLES', '€6.39');
+            tu.sortAndVerifyPagination('neueste', 'BIERKRUG W / HELLES', '€6.39');
         });
 
 
@@ -119,20 +115,20 @@ describe('product page', function () {
             category.click();
             // Now the results are sorted by name:asc by default
             //tu.assertProductByRepeaterRow(0, 'COFFEE MUG - WHITE');
-            tu.sortAndVerifyPagination('name', 'BEER MUG', '$3.99');
+            tu.sortAndVerifyPagination('A-Z', 'BEER MUG', '$3.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', 'WATER BOTTLE', '$24.99');
+            tu.sortAndVerifyPagination('Z-A', 'WATER BOTTLE', '$24.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'BEER MUG W/HELLES', '$7.99');
+            tu.sortAndVerifyPagination('newest', 'BEER MUG W/HELLES', '$7.99');
             browser.get(tu.tenant + '/#!/ct/office~23050496');
             browser.driver.manage().window().maximize();
             browser.sleep(2000);
             //tu.assertProductByRepeaterRow(0, 'EXECUTIVE PEN');
-            tu.sortAndVerifyPagination('name', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
+            tu.sortAndVerifyPagination('A-Z', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('name:desc', 'TIGHT GRIP PEN', '$2.49');
+            tu.sortAndVerifyPagination('Z-A', 'TIGHT GRIP PEN', '$2.49');
             browser.sleep(750);
-            tu.sortAndVerifyPagination('metadata.createdAt:desc', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
+            tu.sortAndVerifyPagination('newest', 'COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER', '$24.99');
         });
 
         it('should display unit price on PLP and PDP', function () {

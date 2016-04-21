@@ -60,7 +60,7 @@ describe("login:", function () {
             expect(element(by.binding("account.firstName")).getText()).toContain('JOE');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
-            browser.sleep(1000);                        
+            browser.sleep(1000);
             tu.clickElement('id', 'logout-btn');
         });
 
