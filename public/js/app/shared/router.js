@@ -277,6 +277,15 @@ angular.module('ds.router', [])
                         }
                     }
                 })
+                .state('base.changeEmail', {
+                    url: '/changeEmail?token',
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/account/templates/change-email-confirmation.html',
+                            controller: 'ChangeEmailConfirmationCtrl'
+                        }
+                    }
+                })
                 .state('base.orderDetail', {
                     url: '/orderDetail/:orderId',
                     views: {
