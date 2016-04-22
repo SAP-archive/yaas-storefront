@@ -25,13 +25,14 @@ angular.module('ds.searchlist')
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = 'mostRelevant';
+            $scope.sort = {selected: GlobalData.getSearchRefinements()[0].id};
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
             $scope.prices = {};
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+            $scope.sortParams = GlobalData.getSearchRefinements();
 
             $scope.pagination = {
                 productsFrom: 1,
@@ -114,7 +115,7 @@ angular.module('ds.searchlist')
 
                 var query = {
                     expand: 'media',
-                    sort: $scope.sort
+                    sort: $scope.sort.selected
                 };
 
                 //we only want to show published products on this list
@@ -202,7 +203,7 @@ angular.module('ds.searchlist')
             if (!!$location.search().page) {
                 $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
-                $scope.sort = GlobalData.products.lastSort;
+                $scope.sort = GlobalData.products.lastSort || {selected: ''};
                 $scope.loadMorePages = true;
             }
 
