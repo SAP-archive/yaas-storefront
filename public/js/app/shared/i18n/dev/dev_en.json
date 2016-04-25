@@ -546,6 +546,8 @@
     //XMSG
     "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
     //XMSG
+    "COOKES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
     "PASSWORD_REQUIRED": "Password with 6 character minimum required.",
     //XMSG
     "PASSWORDS_MUST_MATCH": "Passwords must match.",
