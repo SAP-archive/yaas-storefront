@@ -11,7 +11,7 @@
  */
 
 describe('LocalizedAddresses Test', function () {
-    var scope, $compile, $rootScope, mockBackend, mockGlobalData, mockShippingSvc;
+    var scope, $compile, $rootScope, mockBackend, mockGlobalData, mockShippingSvc, mockedCountries;
     module('ds.checkout');
 
     mockGlobalData = {
@@ -22,9 +22,24 @@ describe('LocalizedAddresses Test', function () {
         getShipToCountries: function () {return true;}
     };
 
+    mockedCountries = {
+        world: {
+            countries: [{ name: 'Canada', id: 'CA' },{ name: 'Germany', id: 'DE' },{ name: 'United States', id: 'US' }]
+        },
+
+        us: {
+            states: [{id:'AL', name:'Alabama'},{id:'AK', name:'Alaska'},{id:'IL', name:'Illinois'}]
+        },
+
+        canada: {
+            provinces: [{id:'AB', name:'Alberta'},{id:'ON', name:'Ontario'},]
+        }
+    };
+
     beforeEach(module('ds.addresses', function ($provide) {
         $provide.value('GlobalData', mockGlobalData);
         $provide.value('ShippingSvc', mockShippingSvc);
+        $provide.value('Countries', mockedCountries);
     }));
 
     beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_){
@@ -44,7 +59,6 @@ describe('LocalizedAddresses Test', function () {
     scope.changeLocale = jasmine.createSpy();
     scope.initializeLocale = jasmine.createSpy();
     $rootScope.updateShippingCost = jasmine.createSpy();
-    mockGlobalData.getAllCountries = jasmine.createSpy();
     mockBackend.expectGET('js/app/addresses/templates/addAddressDefault.html').respond(template);
     var element = $compile("<localized-addresses type='addAddress'></localized-addresses>")($rootScope);
     $rootScope.$digest();

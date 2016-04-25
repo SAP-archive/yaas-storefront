@@ -4,12 +4,17 @@
     <div id="ship-to-fields">
 
         <!-- country -->
-        <div class="col-md-4">
-            <div class="form-group input-group" ng-class="{'has-error': shipToForm.country.$invalid && (shipToForm.country.$dirty || showPristineErrors) }">
+        <div class="col-md-4 custom-select-container checkout-selector">
+            <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-required="true" ng-change="changeLocale(localeSelection)" id="addressLocale">
-                    <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
-                </select>
+                <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="true">
+                    <ui-select-match>
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                        {{item.name}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 
@@ -63,26 +68,18 @@
         </div>
 
         <!-- province -->
-        <div class="col-md-4">
+        <div class="col-md-4 custom-select-container checkout-selector">
             <div class="form-group input-group"
                 ng-class="{'has-error': shipToForm.state.$invalid && (shipToForm.state.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="stateShip">{{'PROVINCE' | translate}}</label>
-                <select class="form-control" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" ng-required="shipToForm.country.$viewValue.id === 'CA'" ng-model="order.shipTo.state" id="stateShip" name="state" ng-change="$root.closeCartOnCheckout()">
-                    <option value=""></option> 
-                    <option value="AB">Alberta</option> 
-                    <option value="BC">British Columbia</option> 
-                    <option value="MB">Manitoba</option> 
-                    <option value="NB">New Brunswick</option> 
-                    <option value="NL">Newfoundland and Labrador</option> 
-                    <option value="NS">Nova Scotia</option> 
-                    <option value="NT">Northwest Territories</option> 
-                    <option value="NU">Nunavut</option> 
-                    <option value="ON">Ontario</option> 
-                    <option value="PE">Prince Edward Island</option> 
-                    <option value="QC">Quebec</option> 
-                    <option value="SK">Saskatchewan</option> 
-                    <option value="YT">Yukon</option>
-                </select>
+                <ui-select ng-model="order.shipTo.state" id="stateShip" name="state" ng-required="shipToForm.country.$viewValue.id === 'CA'">
+                    <ui-select-match>
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item.id as item in (caProvinces | filter: $select.search)">
+                        {{item.name}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 

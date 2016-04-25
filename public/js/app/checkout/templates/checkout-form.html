@@ -10,11 +10,18 @@
     ng-click="editBillTo()"></span></h2>
 
     <div class="row step-detail">
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
+                <ui-select ng-model="order.account.title">
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="title in titles | filter: $select.search">
+                        {{title}}
+                    </ui-select-choices>
+                </ui-select>
            </div>
         </div>
         <div class="col-lg-6 col">
@@ -112,20 +119,21 @@
         
         <localized-addresses type="billing"></localized-addresses>
 
-        <div ng-show="shippingConfigured">
-            <div class="col-lg-12">
-                <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
-            </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
+        </div>
 
-            <div class="col-lg-12">
-                <div class="form-group input-group">
-                    <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
-                    <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
-                        <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
-                        <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
-                        <option ng-repeat="cost in shippingCosts" ng-selected="cost.fee.amount === shippingCost.fee.amount" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
-                    </select>
-                </div>
+        <div class="col-lg-12 custom-select-container checkout-selector" ng-show="shippingConfigured">
+            <div class="form-group input-group">
+                <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
+                <ui-select ng-model="$parent.shippingCost" on-select="closeCartOnCheckout()" ng-disabled="!shippingCosts.length">
+                    <ui-select-match>
+                        {{$select.selected.name}} - {{'COST' | translate}}: {{$select.selected.fee.amount | currency : currencySymbol}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="cost in (shippingCosts | filter: $select.search) track by cost.id">
+                        {{cost.name}} - {{'COST' | translate}}: {{cost.fee.amount | currency : currencySymbol}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
     <div class="col-lg-12">
@@ -198,22 +206,30 @@
                 </small>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
+                <ui-select ng-model="order.creditCard.expMonth" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expMonth" name="expMonth" required>
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="month in wiz.months | filter: $select.search">
+                        {{month}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
-                    ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" data-stripe="expYear"
-                    ng-options="year for year in wiz.years" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
+                <ui-select ng-model="order.creditCard.expYear" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expYear" name="expYear" required>
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="year in wiz.years | filter: $select.search">
+                        {{year}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
         <div class="col-xs-9">

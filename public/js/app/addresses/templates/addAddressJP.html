@@ -1,9 +1,15 @@
 <div>
 
-      <div class="form-group input-group">
+      <div class="form-group input-group custom-select-container">
           <label class="input-group-addon control-label" for="addressLocale">{{'COUNTRY' | translate}}</label>
-          <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections" ng-change="changeLocale(localeSelection)" id="addressLocale" required>
-          </select>
+          <ui-select ng-model="localeSelection.selected" on-select="changeLocale($item)">
+              <ui-select-match>
+                  {{$select.selected.name}}
+              </ui-select-match>
+              <ui-select-choices repeat="item in (localeSelections | filter: $select.search) track by item.id">
+                  {{item.name}}
+              </ui-select-choices>
+          </ui-select>
       </div>
 
       <div class="form-group input-group"
