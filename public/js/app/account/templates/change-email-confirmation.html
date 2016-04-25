@@ -1,0 +1,34 @@
+<div ng-if="!error">
+    <div ng-if="!confirmed" class="text-center">
+        <h1>{{'EDIT_EMAIL_UPDATED'|translate}}</h1>
+    </div>
+
+    <div ng-if="confirmed">
+        <section class="white text-center" match-background ng-cloak>
+            <h2>{{'EDIT_EMAIL_SUCESSFULLY_UPDATED'|translate}}</h2>
+            <p>{{'EDIT_EMAIL_CHANGED_MSG'|translate}}</p>
+
+            <div class="actionButton clearfix emailChangeButton">
+                <button class="btn btn-secondary btn-lg" ui-sref="base.home">
+                    {{'CONTINUE_SHOPPING'|translate}}
+                </button>
+            </div>
+
+        </section>
+    </div>
+
+</div>
+
+<div ng-if="error">
+    <section class="white text-center" match-background ng-cloak>
+        <h2>{{'OOPS_MSG'|translate}}</h2>
+        <p>
+            {{'EDIT_EMAIL_CHANGE_FAILED'|translate}}
+        </p>
+        <div class="actionButton clearfix emailChangeButton">
+            <button class="btn btn-secondary btn-lg" ui-sref="base.account">
+                {{'RESET_EMAIL'|translate}}
+            </button>
+        </div>
+    </section>
+</div>

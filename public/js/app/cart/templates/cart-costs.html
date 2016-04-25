@@ -57,14 +57,17 @@
                     <div class="col-xs-5">
                         <input id="zipCode" type="text" class="zip-input form-control" ng-model="calculateTax.zipCode" placeholder="Zip/Postal Code" />
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-xs-5 custom-select-container">
                         <!--<select id="country" class="zip-input form-control" ng-model="calculateTax.countryCode" ng-options="countryCodeOption.text for countryCodeOption in countryCodeOptions track by countryCodeOption.value"></select>-->
                         <!--<p>{{calculateTax.countryCode}}</p>-->
-                        <select id="country" class="zip-input form-control" ng-init="calculateTax.countryCode = 'US'" ng-model="calculateTax.countryCode">
-                            <option value="-1">{{'SELECT_A_COUNTRY' | translate}}</option>
-                            <option value="US">{{'USA'|translate}}</option>
-                            <option value="CA">{{'CANADA'|translate}}</option>
-                        </select>
+                        <ui-select ng-model="calculateTax.countryCode">
+                            <ui-select-match>
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="taxCountry.id as taxCountry in (taxableCountries | filter: $select.search)">
+                                {{taxCountry.name}}
+                            </ui-select-choices>
+                        </ui-select>
                     </div>
                     <div class="col-xs-2">
                         <button id="apply-btn" class="apply-tax btn btn-link" ng-click="applyTax()">{{'APPLY'|translate}}</button>

@@ -73,11 +73,6 @@ describe('CustomerDetailsCtrl', function () {
             $scope.editUserEmail();
 
             expect(mockedModal.open).toHaveBeenCalled();
-
-            modalPromise.resolve({ id: 1 });
-            $scope.$digest();
-
-            expect($scope.account.id).toBe(1);
         });
 
         it('should delegate call to AuthDialogManager\'s showUpdatePassword method', function () {

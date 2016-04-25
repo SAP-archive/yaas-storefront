@@ -1,27 +1,55 @@
-<div class="modal-header" ng-cloak>
-    <button type="button" class="close" ng-click="closeEditUserDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h4 class="modal-title">
-        {{'UPDATE_EMAIL' | translate}}
-    </h4>
-</div>
+<!--Step 1-->
+<div ng-if="step === 1">
+    <div class="modal-header" ng-cloak>
+        <button type="button" class="close" ng-click="closeEditUserDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">
+            {{'UPDATE_EMAIL' | translate}}
+        </h4>
+    </div>
 
-<form name="updateUserInfoForm" ng-submit="updateUserInfo()" novalidate stop-event="touchend">
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-lg-12 col">
-                <div class="form-group input-group"
-                     ng-class="{'has-error': updateUserInfoForm.email.$invalid && (updateUserInfoForm.email.$dirty  || showPristineErrors)}">
-                    <label class="input-group-addon control-label" for="email">{{'NEW_EMAIL' | translate}}</label>
-                    <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                           type="email" class="form-control ui-autocomplete" id="email" name="email"
-                           ng-model="account.contactEmail" required autocomplete="on"
-                           reqired>
+    <form name="updateUserInfoForm" ng-submit="updateUserInfo()" novalidate stop-event="touchend">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12 col">
+                    <div class="form-group input-group">
+                        <label class="input-group-addon control-label" for="email">{{'CURRENT_EMAIL' | translate}}</label>
+                        <input type="email" class="form-control ui-autocomplete" id="email" name="email"
+                               ng-model="account.email" disabled reqired>
+                    </div>
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': updateUserInfoForm.newEmail.$invalid && (updateUserInfoForm.newEmail.$dirty  || showPristineErrors)}">
+                        <label class="input-group-addon control-label" for="newEmail">{{'NEW_EMAIL' | translate}}</label>
+                        <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                               type="email" class="form-control ui-autocomplete" id="newEmail" name="newEmail"
+                               ng-model="account.newEmail" required autocomplete="on">
+                    </div>
+                    <div class="form-group input-group"
+                         ng-class="{'has-error': updateUserInfoForm.password.$invalid && (updateUserInfoForm.password.$dirty  || showPristineErrors)}">
+                        <label class="input-group-addon control-label" for="password">{{'PASSWORD' | translate}}</label>
+                        <input inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
+                               type="password" class="form-control ui-autocomplete" id="password" name="password"
+                               ng-model="account.password" required autocomplete="on">
+                    </div>
+
+                    <div class="error" ng-if="error">
+                        {{error}}
+                    </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="closeEditUserDialog()" id="cancel-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
+                <button type="submit" id="save-btn" class="btn btn-primary btn-lg" ng-disabled="updateUserInfoForm.$invalid">{{'SAVE' | translate}}</button>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" ng-click="closeEditUserDialog()" id="cancel-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
-            <button type="submit" id="save-btn" class="btn btn-primary btn-lg" ng-disabled="updateUserInfoForm.$invalid">{{'SAVE' | translate}}</button>
+    </form>
+</div>
+
+<!--Step 2-->
+<div ng-if="step === 2">
+    <section>
+        <div class="page-header">
+            <h2>{{'CHECK_EMAIL' | translate }}</h2>
+            <p>{{'CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL' | translate }}</p>
         </div>
-    </div>
-</form>
+    </section>
+</div>

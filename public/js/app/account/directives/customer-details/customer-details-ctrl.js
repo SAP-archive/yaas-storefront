@@ -37,19 +37,17 @@
                 };
 
                 $scope.editUserEmail = function (account) {
-                    $scope.modalInstance = $modal.open({
+
+                    $modal.open({
                         templateUrl: 'js/app/account/templates/modals/edit-user-email-dialog.html',
                         controller: 'EditUserEmailDialogCtrl',
                         resolve: {
                             account: function () {
-                                return account;
+                                return {
+                                    email: account.contactEmail
+                                };
                             }
-                        },
-                        backdrop: 'static'
-                    });
-
-                    $scope.modalInstance.result.then(function (result) {
-                        $scope.account = result;
+                        }
                     });
                 };
 
