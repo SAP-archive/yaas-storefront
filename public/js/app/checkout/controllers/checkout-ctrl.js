@@ -614,10 +614,11 @@ angular.module('ds.checkout')
             });
 
             var updateShippingCost = function (shipToAddress) {
-                if ($scope.isShipToCountry(shipToAddress.country)) {
+
+                if ($scope.isShipToCountry(shipToAddress.country) && $scope.shippingConfigured) {
 
                     if (!shipToAddress.zipCode) {
-                    shipToAddress.zipCode = '';
+                        shipToAddress.zipCode = '';
                     }
 
                     var address = shipToAddress;
