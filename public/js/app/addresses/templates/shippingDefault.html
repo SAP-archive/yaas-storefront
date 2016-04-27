@@ -3,6 +3,22 @@
 
     <div id="ship-to-fields">
 
+        <!-- country -->
+        <div class="col-md-4 custom-select-container checkout-selector">
+            <div class="form-group input-group"
+                ng-class="{'has-error': !shipToForm.country.$viewValue.id && ( shipToForm.country.$dirty || showPristineErrors) }">
+                <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
+                <ui-select ng-model="order.shipTo.country" on-select="setLocale($item)" ng-required="true" id="countryShip" name="country">
+                    <ui-select-match>
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item.id as item in (localeSelections | filter: $select.search) track by item.id">
+                        {{item.name}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
         <!-- full name  -->
         <div class="col-md-8">
             <div class="form-group input-group"
@@ -11,18 +27,6 @@
                 <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                 class="form-control" id="contactNameShip" name="contactName" ng-model="order.shipTo.contactName"
                 ng-required="true" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
-            </div>
-        </div>
-
-        <!-- country -->
-        <div class="col-md-4">
-            <div class="form-group input-group"
-                ng-class="{'has-error': !shipToForm.country.$viewValue.id && ( shipToForm.country.$dirty || showPristineErrors) }">
-                <label class="input-group-addon control-label" for="countryShip">{{'COUNTRY' | translate}}</label>
-                <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections"
-                    ng-change="changeLocale(localeSelection)" id="countryShip" name="country" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
-                    <option value="" ng-selected="true" ng-if="!localeSelection.id"></option>
-                </select>
             </div>
         </div>
 

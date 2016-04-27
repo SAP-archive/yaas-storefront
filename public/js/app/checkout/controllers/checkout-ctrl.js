@@ -78,6 +78,7 @@ angular.module('ds.checkout')
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
+                updateShippingCost($scope.order.shipTo);
             });
 
             $scope.$on('$destroy', unbind);
@@ -570,10 +571,9 @@ angular.module('ds.checkout')
             };
 
             function previewOrder (shipToFormValid, billToFormValid) {
-                var countryFulfilled = $scope.order.shipTo.country && ($scope.shipToSameAsBillTo || $scope.order.billTo.country);
                 var deferred = $q.defer();
                 $scope.messagePreviewOrder = null;
-                if (shipToFormValid && billToFormValid && countryFulfilled) {
+                if (shipToFormValid && billToFormValid) {
                     var shippingCostObject = angular.fromJson($scope.shippingCost);
                     CartSvc.recalculateCart($scope.cart, $scope.order.shipTo, shippingCostObject).then(
                         function (calculatedCart) {
@@ -618,6 +618,9 @@ angular.module('ds.checkout')
                     shipToAddress.zipCode = '';
                 }
                 var address = shipToAddress;
+                if (!address.zipCode) {
+                    address.zipCode = '';
+                }
                 var cart = $scope.cart;
                 if ($scope.isShipToCountry(shipToAddress.country)) {
 
@@ -645,6 +648,7 @@ angular.module('ds.checkout')
                         var shippingCosts = data[0];
                         $scope.shippingCosts = [];
                         $scope.shippingCost = data[1];
+                        $scope.currencySymbol = GlobalData.getCurrencySymbol();
                         for(var j = 0; j < shippingCosts.length; j++){
                             for (var i = 0; i < shippingCosts[j].methods.length; i++) {
                                 var shippingCostObject = {};

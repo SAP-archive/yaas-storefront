@@ -13,21 +13,22 @@
 'use strict';
 
 angular.module('ds.products')
-/** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll',
-        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll) {
+    /** Controller for the 'browse products' view.  */
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'MainMediaExtractor',
+        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, MainMediaExtractor) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = 'name';
+            $scope.sort = {selected: GlobalData.getProductRefinements()[0].id};
             $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
             $scope.prices = {};
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
+            $scope.sortParams = GlobalData.getProductRefinements();
 
             $scope.pagination = {
                 productsFrom: 1,
@@ -47,6 +48,10 @@ angular.module('ds.products')
             $scope.loadedPages = 1;
             $scope.loadMorePages = false;
 
+            if(category !== null) {
+                $scope.mainCategoryImage = MainMediaExtractor.extract(category.media);
+            }
+          
             // ensure category path is localized
             var pathSegments = $location.path().split('/');
             if ($scope.category.slug && pathSegments[pathSegments.length - 1] !== $scope.category.slug) {
@@ -70,15 +75,9 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
 
             function setMainImage(product) {
-                if (product.media && product.media.length) {
-                    var mainImageArr = product.media.filter(function (media) {
-                        return media.customAttributes && media.customAttributes.main;
-                    });
-                    if (mainImageArr.length) {
-                        product.mainImageURL = mainImageArr[0].url;
-                    } else {
-                        product.mainImageURL = product.media[0].url;
-                    }
+                var mainMedia = MainMediaExtractor.extract(product.media);
+                if (mainMedia) {
+                    product.mainImageURL = mainMedia.url;
                 }
             }
 
@@ -192,9 +191,8 @@ angular.module('ds.products')
                             // we only want to show published products on this list
                             q: qSpec
                         };
-
                         if ($scope.sort) {
-                            query.sort = $scope.sort;
+                            query.sort = $scope.sort.selected;
                         }
 
                         $scope.requestInProgress = true;
@@ -246,7 +244,7 @@ angular.module('ds.products')
             if (!!$location.search().page) {
                 $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
-                $scope.sort = GlobalData.products.lastSort;
+                $scope.sort = GlobalData.products.lastSort || {selected: ''};
                 $scope.loadMorePages = true;
             }
 
@@ -279,7 +277,7 @@ angular.module('ds.products')
                     pageNumber: $scope.setSortedPageNumber,
                     pageSize: $scope.setSortedPageSize,
                     expand: 'media',
-                    sort: $scope.sort
+                    sort: $scope.sort.selected
                 };
 
                 //we only want to show published products on this list

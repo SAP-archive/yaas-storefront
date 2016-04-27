@@ -2,8 +2,8 @@
 <div ng-cloak>
 
     <!-- hero spot -->
-    <div class="hero-unit" ng-hide="category.image == null || category.image == ''">
-        <blockquote ng-style="{ 'background-image': 'url(\'{{category.image}}\' )','background-position':'0 0'}">
+    <div class="hero-unit" ng-if="mainCategoryImage">
+        <blockquote ng-style="{ 'background-image': 'url(\'{{mainCategoryImage.url}}\' )','background-position':'0 0'}">
             <p>{{store.name}}</p>
         </blockquote>
     </div>
@@ -17,17 +17,20 @@
 
                 <!-- sort control -->
                 <div class="col-xs-7 col-sm-6 col-md-4 col-lg-3">
-                    <div class="sortContainer">
+                    <div class="sortContainer product-list-sort">
                         <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
                         <div class="form-group pull-left">
                             <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
-                            <div>
-                                <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                    <option value="name">A-Z</option>
-                                    <option value="name:desc">Z-A</option>
-                                    <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
-                                </select>
+                            <div class="custom-select-container">
+                                <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
+                                    <ui-select-match>
+                                        {{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item.id as item in (sortParams | filter: $select.search)">
+                                        <span ng-bind="item.name"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                         </div>
                     </div>
@@ -64,21 +67,25 @@
         <div id="refineAffix" class="refine-section responsive-fixed">
             <div class="row">
                 <div class="content-container">
+                    <div class="clearfix visible-sm"></div>
 
                     <!-- sort control -->
                     <div class="col-xs-7 col-sm-6 col-md-4 col-lg-2">
-                        <div class="sortContainer">
-                            <div class="name">{{'SORT_BY' | translate}}:</div>
-                            <div class="form-group">
+                        <div class="sortContainer product-list-sort">
+                            <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
+                            <div class="form-group pull-left">
                                 <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
 
                                 <div>
-                                    <span class='css-select-moz'>
-                                        <select ng-model="sort" ng-change="setSortedPage()" class="form-control">
-                                            <option value="name">A-Z</option>
-                                            <option value="name:desc">Z-A</option>
-                                            <option value="metadata.createdAt:desc">{{'NEWEST' | translate}}</option>
-                                        </select>
+                                    <span class="custom-select-container">
+                                        <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
+                                            <ui-select-match>
+                                                {{$select.selected.name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="item.id as item in (sortParams | filter: $select.search)">
+                                                <span ng-bind="item.name"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
                                     </span>
                                 </div>
                             </div>

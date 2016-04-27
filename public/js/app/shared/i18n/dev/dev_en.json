@@ -87,6 +87,8 @@
     "PROVINCE": "Province",
     //XBUT
     "CONTINUE": "Continue",
+    //XBUT
+    "COST": "Cost",
     //XFLD
     "COUNTRY": "Country",
     //XFLD
@@ -327,6 +329,8 @@
     "BUY": "Buy",
     //XBUT
     "ADD_TO_CART": "Add to Cart",
+    //XMSG
+    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
     //XTIT
     "PRODUCT_DESCRIPTION": "Product Description",
     //XTIT
@@ -402,6 +406,8 @@
     "REGION_PREFERENCES": "Region Preferences",
     //XFLD
     "NEW_EMAIL": "New Email",
+    //XFLD
+    "CURRENT_EMAIL": "Current Email",
     //XGRP
     "ADDRESSBOOK": "Addressbook",
     //XMSG
@@ -483,6 +489,29 @@
     "UPDATE_DEFAULT_ADDRESS_ERROR": "Updating default address failed. Please try again.",
 
 
+    //XTIT
+    "EDIT_EMAIL_UPDATED": "Your email is being updated...",
+    //XTIT
+    "EDIT_EMAIL_SUCESSFULLY_UPDATED": "Email sucessfully updated",
+    //XMSG
+    "EDIT_EMAIL_CHANGED_MSG": "Your email has changed. You must sign in with your updated email",
+   
+    //XMSG
+    "OOPS_MSG": "Oops!",
+    //XMSG
+    "EDIT_EMAIL_CHANGE_FAILED": "Something went wrong. Please reset your email again",
+
+    //XBUT
+    "RESET_EMAIL": "RESET EMAIL",
+
+    //XMSG
+    "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Password is not correct. Try again",
+    //XMSG
+    "EDIT_EMAIL_ALREADY_IN_USE": "This email is already in use. Try again",
+    //XMSG
+    "EDIT_EMAIL_SOMETHING_WENT_WRONG": "Something went wrong. Try again",
+
+
     //XFLD
     //-------------------------------------------------
     // Login, password, signup
@@ -514,6 +543,8 @@
     "CHECK_EMAIL": "Check Your Email",
     //XMSG
     "CHECK_EMAIL_INSTRUCT": "...and follow the link to reset your password. The link will be valid for 24 hours.",
+    //XMSG
+    "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
     //XMSG
     "PASSWORD_REQUIRED": "Password with 6 character minimum required.",
     //XMSG
