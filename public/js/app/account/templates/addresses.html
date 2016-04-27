@@ -1,5 +1,5 @@
 <div address-decorator ng-class="{ 'col-sm-6 col-md-4 col-lg-4': !isDialog, 'col-xs-12 col-sm-6 col-lg-4': isDialog }" ng-repeat="address in addresses | limitTo: showAddressFilter " ng-cloak>
-  <div class="panel" ng-class="{'defaultAddress': address.isDefault, disableAddressTest: !isShipToCountry(address.country) && isDialog}">
+  <div class="panel" ng-class="{'defaultAddress': address.isDefault, disableAddress: disableAddress(address.country)}">
     <div class="panel-body" ng-if="!isDialog">
       <div class="btn-group-vertical pull-right states-toolbar">
         <button id="set-default-btn" class="btn btn-link btn-lg"  ng-if="addresses.length > 1 && !address.isDefault" ng-class="{ active: address.isDefault }" ng-click="setAddressAsDefault(address)"><span class="glyphicon glyphicon-star"></span></button>
@@ -32,7 +32,7 @@
           <span>{{address.city}}, {{address.state}} {{address.zipCode}}</span><br>
           <span>{{address.country}}</span><br>
           <span>{{address.contactPhone}}</span><br>
-          <span ng-hide="isShipToCountry(address.country)" class="list-unstyled text-danger">{{'CANT_BE_SHIPPED' | translate}}</span><br>
+          <span ng-show="disableAddress(address.country)" class="list-unstyled text-danger">{{'CANT_BE_SHIPPED' | translate}}</span><br>
         </address>
     </div>
 

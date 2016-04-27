@@ -17,8 +17,8 @@
  **/
 
 angular.module('ds.addresses')
-    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'GlobalData', 'ShippingSvc',
-        function($compile, $http, $templateCache, $rootScope, GlobalData, ShippingSvc) {
+    .directive('localizedAddresses', ['$compile', '$http', '$templateCache', '$rootScope', 'ShippingSvc', 'Countries',
+        function($compile, $http, $templateCache, $rootScope, ShippingSvc, Countries) {
 
             var selectionArray = [
                 {id: 'US', name:'USA'},
@@ -28,7 +28,7 @@ angular.module('ds.addresses')
                 // {id: 'CN', name:'CHINA'},
                 // {id: 'JP', name:'JAPAN'}];
 
-            var allCountries = GlobalData.getAllCountries();
+            var allCountries = Countries.world.countries;
 
             var initialize = function(scope, elem, viewType){
                 // init with default template type
@@ -39,25 +39,22 @@ angular.module('ds.addresses')
             var selectDefaultLocale = function (scope, viewType) {
 
                 if (!scope.localeSelection) {
-                    scope.localeSelection = selectionArray[0];
-                    if (viewType !== 'addAddress') {
-                        scope.localeSelection = {id: '', name: ''};
-                    }
+                    scope.localeSelection = {selected: {id: '', name: ''}};
                 }
                 switch(viewType){
                     case 'addAddress':
                         if (scope.address) {
-                            scope.address.country = scope.localeSelection.id;
+                            scope.address.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     case 'billing':
                         if (scope.order.billTo) {
-                            scope.order.billTo.country = scope.localeSelection.id;
+                            scope.order.billTo.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     case 'shipping':
                         if (scope.order.shipTo) {
-                            scope.order.shipTo.country = scope.localeSelection.id;
+                            scope.order.shipTo.country = scope.localeSelection ? scope.localeSelection.id : '';
                         }
                         break;
                     default:
@@ -67,7 +64,7 @@ angular.module('ds.addresses')
 
             // load dynamic address template into scope
             var loadTemplate = function(scope, elem, locale, viewType){
-                var tempLoader = getTemplate(locale, viewType);
+                var tempLoader = getTemplate(scope, locale, viewType);
                 // handle http request response, show, compile, init validation.
                 tempLoader.success(function(template) {
                     elem.html(template).show();
@@ -76,13 +73,16 @@ angular.module('ds.addresses')
                 });
             };
 
-            var getTemplate = function(locale, viewType) {
+            var getTemplate = function(scope, locale, viewType) {
                 var templateLoader, templateUrl,
                 baseUrl = 'js/app/addresses/templates/';
 
                 // when locale is not recognized set default template
                 if( !_.contains(_.pluck(selectionArray, 'id'), locale)){
                     locale = 'Default';
+                    scope.isDefaultForm = true;
+                } else {
+                    scope.isDefaultForm = false;
                 }
 
                 // set dynamic template url and return promise
@@ -117,8 +117,10 @@ angular.module('ds.addresses')
             var templateLinker = function(scope, element, attrs) {
 
                 scope.viewTarget = attrs.type;
+                scope.usStates = Countries.us.states;
+                scope.caProvinces = Countries.canada.provinces;
 
-                if (scope.viewTarget === 'billing' || scope.viewTarget === 'shipping') {
+                if (scope.viewTarget === 'shipping') {
                     ShippingSvc.getShipToCountries().then(
                         function (response) {
                             if (response.length) {
@@ -135,6 +137,11 @@ angular.module('ds.addresses')
                 // localization selection handler
                 scope.initializeLocale = function(locale){
                     loadTemplate(scope, element, locale.id, attrs.type);
+                };
+
+                scope.setLocale = function (item) {
+                    scope.localeSelection.selected = item;
+                    scope.changeLocale(item);
                 };
 
                 // localization selection handler
@@ -176,26 +183,29 @@ angular.module('ds.addresses')
                             break;
                     }
                     //Here should be implmented logic for shipping address when is active
+                    if (scope.viewTarget === 'shipping') {
+                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: scope.order.shipTo});
+                    }
                     if (scope.viewTarget !== 'addAddress') {
-                        var addressToShip = $rootScope.shipActive ? scope.order.shipTo : scope.order.billTo;
-                        if (!addressToShip.zipCode) {
-                            addressToShip.zipCode = '';
-                        }
                         $rootScope.closeCartOnCheckout();
-                        $rootScope.$broadcast('event:shipping-cost-updated', {shipToAddress: addressToShip});
                     }
                 };
 
                 $rootScope.$on('noShippingCosts', function (){
-                    scope.localeSelection = {id: '', name: ''};
+                    scope.localeSelection = {selected: {id: '', name: ''}};
                 });
 
                 // event for loading addressbook change request
                 var unbind = $rootScope.$on('localizedAddress:updated', function (e, name, target) {
                     var locale = getLocaleSelection(name);
                     if( scope.viewTarget === target){
-                        scope.localeSelection = locale;
+                        scope.localeSelection = {
+                            selected: locale
+                        };
                         scope.initializeLocale(locale);
+                    }
+                    if (target === 'addAddress') {
+                        scope.address.country = locale.id;
                     }
                 });
                 scope.$on('$destroy', unbind);

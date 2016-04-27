@@ -1,25 +1,32 @@
 <h1>
 <small class="visible-lg visible-md">{{'SIMPLE_3_STEP_CHECKOUT' | translate}}</small>
 <small class="visible-xs visible-sm">{{'SIMPLE_4_STEP_CHECKOUT' | translate}}</small>
-{{'SECURE_CHECKOUT' | translate}}
+{{'SECURE_CHECKOUT' | translate}} 
 </h1>
 <ng-form name="checkoutForm" mobile-checkout-wizard novalidate autocomplete="on">
-<ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
+<ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-1" ng-class="{'done': wiz.step1Done}">
     <h2> {{'STEP_1_MY_DETAILS' | translate}} <span ng-show="wiz.step1Done" class="glyphicon glyphicon-pencil"
     ng-click="editBillTo()"></span></h2>
 
     <div class="row step-detail">
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group"
                  ng-class="{'has-error': billToForm.titleAccount.$invalid && ( billToForm.titleAccount.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="titleAccount">{{'TITLE' | translate}}</label>
-                <select class="form-control" ng-model="order.account.title" id="titleAccount" name="title" ng-options="title | translate for title in titles"></select>
+                <ui-select ng-model="order.account.title">
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="title in titles | filter: $select.search">
+                        {{title}}
+                    </ui-select-choices>
+                </ui-select>
            </div>
         </div>
         <div class="col-lg-6 col">
             <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.firstNameAccount.$invalid && (billToForm.firstNameAccount.$dirty  || showPristineErrors)}">
+                ng-class="{'has-error': shipToForm.firstNameAccount.$invalid && (shipToForm.firstNameAccount.$dirty  || showPristineErrors)}">
                 <label class="input-group-addon control-label" for="firstNameAccount">{{'FIRST_NAME' | translate}}</label>
                 <input ng-change="updateAddressName()" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
                        type="text" class="form-control ui-autocomplete" id="firstNameAccount" name="firstNameAccount"
@@ -28,7 +35,7 @@
         </div>
         <div class="col-lg-6 col">
             <div class="form-group input-group"
-                 ng-class="{'has-error': billToForm.middleNameAccount.$invalid && (billToForm.middleNameAccount.$dirty  || showPristineErrors)}">
+                 ng-class="{'has-error': shipToForm.middleNameAccount.$invalid && (shipToForm.middleNameAccount.$dirty  || showPristineErrors)}">
                 <label class="input-group-addon control-label" for="middleNameAccount">{{'MIDDLE_NAME' | translate}}</label>
                 <input ng-change="updateAddressName()" type="text" class="form-control ui-autocomplete" id="middleNameAccount" name="middleNameAccount"
                        ng-model="order.account.middleName" autocomplete="on" placeholder="(Optional)">
@@ -36,7 +43,7 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group input-group"
-                ng-class="{'has-error': billToForm.lastNameAccount.$invalid && (billToForm.lastNameAccount.$dirty || showPristineErrors) }">
+                ng-class="{'has-error': shipToForm.lastNameAccount.$invalid && (shipToForm.lastNameAccount.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="lastNameAccount">{{'LAST_NAME' | translate}}</label>
                 <input ng-change="updateAddressName()" type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
                         class="form-control" id="lastNameAccount" name="lastNameAccount" ng-model="order.account.lastName"
@@ -44,76 +51,93 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="error" ng-show="!billToForm.email.focused && billToForm.email.$invalid && billToForm.email.$dirty" style="color:red">
+            <div class="error" ng-show="!shipToForm.email.focused && shipToForm.email.$invalid && shipToForm.email.$dirty" style="color:red">
                 <small class="help-inline has-error">
                 <span class="error">{{'PLEASE_ENTER_VALID_EMAIL' | translate}}</span>
                 </small>
             </div>
             <div class="form-group input-group"
-                ng-class="{ 'has-error': !billToForm.email.focused && billToForm.email.$invalid &&  ( billToForm.email.$dirty || showPristineErrors) }">
+                ng-class="{ 'has-error': !shipToForm.email.focused && shipToForm.email.$invalid &&  ( shipToForm.email.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="email">{{'EMAIL' | translate}}</label>
-                <input type="email" inline-error-input builder-input="email"
-                       inline-error-input-required-message="{{'REQUIRED' | translate}}" class="form-control" id="email"
+                <input type="email" builder-input="email"
+                    class="form-control" id="email"
                        name="email" ng-model="order.account.email"
                        required autocomplete="on"
-                       ng-focus="billToForm.email.focused=true"
-                       ng-blur="billToForm.email.focused=false">
+                       ng-focus="shipToForm.email.focused=true"
+                       ng-blur="shipToForm.email.focused=false">
             </div>
         </div>
 
-        <localized-addresses type="billing"></localized-addresses>
+        <!-- section heading -->
+        <div class="col-md-12">
+            <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
+        </div>
 
+        <!-- select from address book -->
+        <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
+            <div class="form-group">
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-1" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
+            </div>
+        </div>
+
+        <!-- clear the row -->
+        <div class="clearfix"></div>
+        
+        <localized-addresses type="shipping"></localized-addresses>
         <div class="col-lg-12">
             <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
-            ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
+            ng-click="shipToDone(shipToForm.$valid, shipToForm.$name, shipToForm.country.$viewValue.id)">{{'CONTINUE' | translate}} <span
             class="hyicon hyicon-chevron-thin-right"></span></button>
         </div>
     </div>
 </div>
 </ng-form>
-<ng-form name="shipToForm" novalidate autocomplete="on" ng-cloak>
+<ng-form name="billToForm" novalidate autocomplete="on" ng-cloak>
 <div class="step step-2" ng-class="{'disabled' : !wiz.step1Done, 'done': wiz.step2Done}">
     <a id="step2">
-        <h2> {{'STEP_2_SHIPPING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editShipTo()"></span></h2>
+        <h2> {{'STEP_2_BILLING_INFORMATION' | translate}} <span ng-show="wiz.step2Done" class="glyphicon glyphicon-pencil" ng-click="editShipTo()"></span></h2>
     </a>
     <div class="row step-detail">
         <div class="col-lg-12">
-            <span class="form-block-headline">{{'SHIPPING_ADDRESS' | translate}}</span>
+            <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
         </div>
         <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
             <div class="form-group">
-                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.shipTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
+                <button class="btn btn-default btn-lg btn-block" id="select-address-btn-2" ng-click="openAddressDialog(order.billTo, 'billing')">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
             </div>
         </div>
 
         <div class="col-lg-12">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleShipToSameAsBillTo()">
-                    <span class="option">{{'SAME_AS_BILLING_ADDRESS' | translate}}</span>
-                    <span class="adress" ng-show="shipToSameAsBillTo">{{ order.billTo.address1 }}</span>
+                    <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleBillToSameAsShipTo()">
+                    <span class="option">{{'SAME_AS_SHIPPING_ADDRESS' | translate}}</span>
+                    <span class="adress" ng-show="shipToSameAsBillTo">{{ order.shipTo.address1 }}</span>
                 </label>
             </div>
         </div>
         
-        <localized-addresses type="shipping"></localized-addresses>
+        <localized-addresses type="billing"></localized-addresses>
 
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-md-12">
             <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
         </div>
 
-        <div class="col-lg-12">
+        <div class="col-lg-12 custom-select-container checkout-selector" ng-show="shippingConfigured">
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
-                <select class="form-control" name="shipMethod" id="shipMethod" ng-change="closeCartOnCheckout()" ng-model="shippingCost" ng-disabled="!shippingCosts.length">
-                    <option ng-if="order.shippingCost <= 0">{{'FREE_STANDARD_SHIPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>
-                    <!--<option ng-if="order.shippingCost > 0">{{'FLAT_RATE_SHPPING' | translate}} - {{order.shippingCost | currency : order.shippingCurrencySymbol + ' '}}</option>-->
-                    <option ng-repeat="cost in shippingCosts" ng-selected="cost.fee.amount === shippingCost.fee.amount" value="{{cost}}">{{cost.name}} - Cost: {{cost.fee.amount | currency : order.shippingCurrencySymbol}}</option>
-                </select>
+                <ui-select ng-model="$parent.shippingCost" on-select="closeCartOnCheckout()" ng-disabled="!shippingCosts.length">
+                    <ui-select-match>
+                        {{$select.selected.name}} - {{'COST' | translate}}: {{$select.selected.fee.amount | currency : currencySymbol}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="cost in (shippingCosts | filter: $select.search) track by cost.id">
+                        {{cost.name}} - {{'COST' | translate}}: {{cost.fee.amount | currency : currencySymbol}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
     <div class="col-lg-12">
-        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="shipToDone(shipToForm.$valid, shipToForm.$name)">{{'CONTINUE' | translate}} <span
+        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
         class="hyicon hyicon-chevron-thin-right"></span></button>
     </div>
 </div>
@@ -182,22 +206,30 @@
                 </small>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expMonth.$invalid && ( paymentForm.expMonth.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expMonth">{{'MONTH' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'" name="expMonth" id="expMonth"
-                    ng-model="order.creditCard.expMonth" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-                    ng-options="month for month in wiz.months" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
+                <ui-select ng-model="order.creditCard.expMonth" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expMonth" name="expMonth" required>
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="month in wiz.months | filter: $select.search">
+                        {{month}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 custom-select-container checkout-selector">
             <div class="form-group input-group" ng-class="{'has-error': paymentForm.expYear.$invalid && ( paymentForm.expYear.$dirty || showPristineErrors) }">
                 <label class="input-group-addon control-label" for="expYear">{{'YEAR' | translate}}</label>
-                <select class="form-control" ng-required="order.paymentMethod === 'creditCard'"  name="expYear" id="expYear"
-                    ng-model="order.creditCard.expYear" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" data-stripe="expYear"
-                    ng-options="year for year in wiz.years" ng-change="paymentForm.expDateMsg && resetExpDateErrors()">
-                </select>
+                <ui-select ng-model="order.creditCard.expYear" on-select="paymentForm.expDateMsg && resetExpDateErrors()" id="expYear" name="expYear" required>
+                    <ui-select-match>
+                        {{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="year in wiz.years | filter: $select.search">
+                        {{year}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
         <div class="col-xs-9">

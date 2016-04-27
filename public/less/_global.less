@@ -66,6 +66,11 @@ input::-webkit-inner-spin-button {
   }
 }
 
+.has-error .ui-select-container .btn-default {
+  background-color: @errorred;
+  border-color: #cf0d0d;
+}
+
 select{
 
     // GET RIDD OF DEFAULT SKINNING 
@@ -271,4 +276,85 @@ section{
     }
 }
 
+/* UI-Select style*/
+.custom-select-container .ui-select-container .btn-default {
+  background-color: #fff;
+  color: #555;
+  border-color: #ccc;
+}
 
+.product-list-sort .ui-select-container .btn-default {
+  background-color: #333331;
+  border-color: #333331;
+  color: #fff;
+}
+
+.search-list-sort .ui-select-container .btn-default {
+  background-color: #333331;
+  border-color: #333331;
+  color: #fff;
+}
+
+.custom-select-container .ui-select-choices-row .ui-select-choices-row-inner {
+  height: 20px;
+}
+
+.custom-select-container .ui-select-bootstrap .ui-select-choices-row > a {
+  padding: 0 20px;
+}
+
+.product-list-sort .ui-select-container .btn-default-focus {
+  line-height: 20px;
+  margin-top: 9px;
+}
+
+.search-list-sort .ui-select-container .btn-default-focus {
+  line-height: 20px;
+  margin-top: 9px;
+  
+}
+
+.checkout-selector .btn-default-focus {
+  height: 48px;
+}
+
+.checkout-selector .has-error .btn-default {
+  background-color: #f97777;
+  border-color: #cf0d0d;
+}
+
+.product-list-sort .ui-select-container {
+  margin-left: 10px;
+  width: 100px;
+}
+
+.search-list-sort .ui-select-container {
+  margin-left: 10px;
+  width: 150px;
+}
+
+.product-list-sort .ui-select-container input {
+  margin-top: 9px;
+}
+
+.search-list-sort .ui-select-container input {
+  margin-top: 9px;
+}
+
+.custom-select-container .btn-default-focus {
+  background-color: inherit;
+  box-shadow: none;
+}
+.ui-select-container .dropdown-menu {
+  min-width: 100%;
+}
+
+/* Override angular-ui-notification style*/
+.ui-notification {
+    z-index: 10000;
+}
+.ui-notification.success
+{
+    color: #fff;
+    background: #000;
+}

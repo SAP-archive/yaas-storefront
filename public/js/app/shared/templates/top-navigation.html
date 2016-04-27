@@ -1,21 +1,32 @@
+<!-- mobile navigation only -->
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
-        <div class="col-xs-3 ">
+        
+        
+        <!-- hamburger menu -->
+        <div class="col-xs-3">
             <button type="button" class="btn btn-link navbar-btn menu" ng-click="toggleOffCanvas()">
                 <span class="hyicon hyicon-menu"></span>
             </button>
         </div>
+
+        <!-- logo -->
         <div class="col-xs-5 text-center">
             <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
         </div>
-
+        
+        <!-- header right -->
         <div class="col-xs-4 text-right">
             <div class="row">
+
+                <!-- site selector -->
                 <div class="col-xs-6">
                     <div class="pull-right">
                         <site-selector id="siteSelectorSmall"></site-selector>
                     </div>
                 </div>
+
+                <!-- cart button -->
                 <div class="col-xs-6 text-center">
                     <button type="button" ng-if="isShowCartButton()" id="mobile-cart-btn" class="btn btn-link navbar-btn cart-button"
                             ng-click="toggleCart()">
@@ -24,68 +35,82 @@
                         </span>
                     </button>
                 </div>
+
             </div>
         </div>
     </nav>
 </div>
 
 
-
+<!-- dekstop navigation only -->
 <div class="desktopNav hidden-xs hidden-sm visible-md visible-lg">
     <div class="row info">
-        <div class="content-container">
-            <div class="col-xs-2 logo">
-                <a ui-sref="base.home" class="logo">
-                    <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
-                </a>
-            </div>
-            <div class="col-xs-7 search">
-                <ysearch></ysearch>
-            </div>
-            <div class="col-xs-3 cart">
-                <div class="row">
-                    <div class="col-xs-6 col-md-4">
-                        <div class="text-center">
-                            <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
-                                {{'SIGN_IN' | translate}}
-                            </a>
-                        </div>
-                        <div ng-if="user.isAuthenticated">
-                            <div class="signin-container ">
-                                <div class="text-center dropdown">
-                                    <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
-                                        <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li role="presentation">
-                                            <a role="menuitem" id="my-account-link" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li  role="presentation" >
-                                            <a  role="menuitem" id="logout-btn" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+
+        <!-- logo -->
+        <div class="col-xs-2 logo navbar-padding navbar-padding-left">
+            <a ui-sref="base.home" class="logo">
+                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
+            </a>
+        </div>
+    
+        <!-- search bar -->
+        <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6 search navbar-padding navbar-padding-left" style="padding-right: 0px">
+            <ysearch></ysearch>
+        </div>
+        
+        <!-- header right -->
+        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-4 cart navbar-padding navbar-padding-right">
+            <div class="row">
+
+                <!-- signin button -->
+                <div class="col-xs-6 col-md-6">
+                    <div class="text-center">
+                        <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
+                            {{'SIGN_IN' | translate}}
+                        </a>
+                    </div>
+                    <div ng-if="user.isAuthenticated">
+                        <div class="signin-container ">
+                            <div class="text-center dropdown">
+                                <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
+                                    <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation">
+                                        <a role="menuitem" id="my-account-link" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li  role="presentation" >
+                                        <a  role="menuitem" id="logout-btn" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-3 col-md-3 text-center site-selector-container">
-                        <site-selector id="siteSelectorLarge"></site-selector>
-                    </div>
-                    <div class="col-xs-3 col-md-2 text-center checkout-btn-container">
-                        <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
-                            <span class="shopping-bag">
-                                <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
-                            </span>
-                        </button>
-
-                    </div>
-
                 </div>
-                <div class="cart-and-account-container">
+
+                <!-- site selector -->
+                <div class="col-xs-3 col-md-3 text-center site-selector-container">
+                    <site-selector id="siteSelectorLarge"></site-selector>
                 </div>
+
+                <!-- cart icon -->
+                <div class="col-xs-3 col-md-3 text-center checkout-btn-container">
+                    <button ng-if="isShowCartButton()" type="button" class="btn btn-link navbar-btn" id="full-cart-btn" ng-click="toggleCart()" ng-cloak>
+                        <span class="shopping-bag">
+                            <span class="quantity">{{ cart.totalUnitsCount || 0 }}</span>
+                        </span>
+                    </button>
+                </div>
+
             </div>
+
+            <!-- what is this div for???  -->
+            <div class="cart-and-account-container"></div>
+
+            <!-- clear div -->
             <div class="clr"></div>
+
         </div>
     </div>
     <div class="row nav js-mainNav">

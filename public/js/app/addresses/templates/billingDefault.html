@@ -1,40 +1,32 @@
 <!-- billing default -->
 <div>
-    <!-- section heading -->
-    <div class="col-md-12">
-        <span class="form-block-headline">{{'BILLING_ADDRESS' | translate}}</span>
-    </div>
 
-    <!-- select from addres book -->
-    <div class="col-lg-12" ng-if="user.isAuthenticated && (addresses.length > 1)">
-        <div class="form-group">
-            <button class="btn btn-default btn-lg btn-block" id="select-address-btn-1" ng-click="openAddressDialog(order.billTo)">{{'SELECT_FROM_ADDRESS_BOOK' | translate}}</button>
+    <div ng-hide="shipToSameAsBillTo">
+
+    <!-- country -->
+    <div class="col-md-4 custom-select-container checkout-selector">
+        <div class="form-group input-group"
+            ng-class="{'has-error': !billToForm.country.$viewValue.id && ( billToForm.country.$dirty || showPristineErrors) }">
+            <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
+            <ui-select ng-model="order.billTo.country" on-select="setLocale($item)" ng-required="!shipToSameAsBillTo" id="countryBill" name="country">
+                <ui-select-match>
+                    {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices repeat="item.id as item in (localeSelections | filter: $select.search) track by item.id">
+                    {{item.name}}
+                </ui-select-choices>
+            </ui-select>
         </div>
-    </div>
+    </div>    
 
-    <!-- clear the row -->
-    <div class="clearfix"></div>    
-
-    <!-- full name  -->
+    <!-- name -->
     <div class="col-md-8">
         <div class="form-group input-group"
              ng-class="{'has-error': billToForm.contactName.$invalid && (billToForm.contactName.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="contactNameBill">{{'FULL_NAME' | translate}}</label>
-            <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-            class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
-            required autocomplete="on" ng-change="$root.closeCartOnCheckout()">
-        </div>
-    </div>
-
-    <!-- country -->
-    <div class="col-md-4">
-        <div class="form-group input-group"
-            ng-class="{'has-error': billToForm.country.$invalid && ( billToForm.country.$dirty || showPristineErrors) }">
-            <label class="input-group-addon control-label" for="countryBill">{{'COUNTRY' | translate}}</label>
-            <select class="form-control" ng-model="localeSelection" ng-options="item as item.name for item in localeSelections"
-                ng-change="changeLocale(localeSelection)" id="countryBill" name="country" 
-                inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" required>
-            </select>
+            <label class="input-group-addon control-label" for="contactNameBill">{{'NAME' | translate}}</label>
+            <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
+                   class="form-control" id="contactNameBill" name="contactName" ng-model="order.billTo.contactName"
+                   ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
 
@@ -43,7 +35,7 @@
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="companyNameBill">{{'COMPANY_NAME' | translate}}</label>
             <input type="text" class="form-control" id="companyNameBill" name="companyName" ng-model="order.billTo.companyName"
-            autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+            autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div> -->
 
@@ -54,7 +46,7 @@
             <label class="input-group-addon control-label" for="address1Bill">{{'ADDRESS' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}" 
             class="form-control" name="address1" id="address1Bill" ng-model="order.billTo.address1"
-            required autocomplete="on" ng-change="$root.closeCartOnCheckout()">
+            ng-required="!shipToSameAsBillTo" autocomplete="on" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
 
@@ -62,7 +54,7 @@
     <div class="col-md-4">
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="address2Bill">{{'ADDRESS' | translate}} 2</label>
-            <input type="text" class="form-control" placeholder="(Optional)" id="address2Bill" name="address2"
+            <input type="text" class="form-control" placeholder="({{'OPTIONAL' | translate}})" id="address2Bill" name="address2"
             ng-model="order.billTo.address2" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
@@ -73,7 +65,7 @@
             ng-class="{'has-error': billToForm.city.$invalid && (billToForm.city.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="cityBill">{{'CITY' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-            class="form-control" id="cityBill" name="city" required autocomplete="on"
+            class="form-control" id="cityBill" name="city" ng-required="!shipToSameAsBillTo" autocomplete="on"
             ng-model="order.billTo.city" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
@@ -84,7 +76,7 @@
             ng-class="{'has-error': billToForm.state.$invalid && (billToForm.state.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="stateBill">{{'STATE' | translate}}</label>
             <input type="text" class="form-control" id="stateBill" name="state" autocomplete="on"
-            ng-model="order.billTo.state" ng-change="$root.closeCartOnCheckout()">
+            ng-model="order.billTo.state" ng-change="$root.closeCartOnCheckout()" placeholder="({{'OPTIONAL' | translate}})">
         </div>
     </div>
 
@@ -94,7 +86,7 @@
             ng-class="{'has-error': billToForm.postal.$invalid && (billToForm.postal.$dirty || showPristineErrors) }">
             <label class="input-group-addon control-label" for="zipCodeBill">{{'ZIP' | translate}}</label>
             <input type="text" inline-error-input inline-error-input-required-message="{{'REQUIRED' | translate}}"
-            class="form-control" id="zipCodeBill" name="postal" required autocomplete="on"
+            class="form-control" id="zipCodeBill" name="postal" ng-required="!shipToSameAsBillTo" autocomplete="on"
             ng-model="order.billTo.zipCode" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
@@ -104,7 +96,10 @@
         <div class="form-group input-group">
             <label class="input-group-addon control-label" for="contactPhoneBill">{{'CONTACT_PHONE' | translate}}</label>
             <input type="text" class="form-control" id="contactPhoneBill" name="contactPhone" ng-model="order.billTo.contactPhone"
-                   autocomplete="on" placeholder="(Optional)" ng-change="$root.closeCartOnCheckout()">
+                   autocomplete="on" placeholder="({{'OPTIONAL' | translate}})" ng-change="$root.closeCartOnCheckout()">
         </div>
     </div>
+
+    </div>
+
 </div>

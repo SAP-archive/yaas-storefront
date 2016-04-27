@@ -10,6 +10,7 @@
     <!-- dynamic optimized style sheet resources -->
     <!-- build:css css/app/storefront.css -->
     <link rel="stylesheet" href="js/vendor/angular-ui-select/dist/select.min.css">
+    <link rel="stylesheet" href="js/vendor/angular-ui-notification/dist/angular-ui-notification.min.css">
     <link rel="stylesheet" href="css/app/style.css" type="text/css" media="screen, projection">
     <link href="js/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
     <!-- endbuild -->
@@ -56,6 +57,7 @@
     <script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
     <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script>
+    <script src="js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/vendor/spin.js/spin.js"></script>
     <script src="js/app/shared/shared-index.js"></script>
@@ -63,6 +65,7 @@
     <script src="js/app/shared/app-config.js"></script>
     <script src="js/app/shared/site-config.js"></script>
     <script src="js/app/shared/http-proxy.js"></script>
+    <script src="js/app/shared/countries.js"></script>
     <script src="js/app/shared/directives/quantity-input.js"></script>
     <script src="js/app/shared/directives/menu-aim.js"></script>
     <script src="js/app/shared/directives/match-background.js"></script>
@@ -95,6 +98,10 @@
     <script src="js/app/shared/i18n/i18-index.js"></script>
     <script src="js/app/shared/i18n/i18-constants.js"></script>
     <script src="js/app/shared/i18n/providers/translation-provider.js"></script>
+    
+    <script src="js/app/shared/media/main-media-extractor.js"></script>
+    <script src="js/app/shared/media/committed-media-filter.js"></script>
+    
     <script src="js/app/orders/orders-index.js"></script>
     <script src="js/app/orders/services/order-list-service.js"></script>
     <script src="js/app/orders/services/orders-rest.js"></script>
@@ -116,9 +123,11 @@
     <script src="js/app/errors/controllers/errors-ctrl.js"></script>
     <script src="js/app/cart/cart-index.js"></script>
     <script src="js/app/cart/controllers/cart-ctrl.js"></script>
+    <script src="js/app/cart/controllers/cart-note-mixin-ctrl.js"></script>
     <script src="js/app/cart/directives/cart-auto-toggle.js"></script>
     <script src="js/app/cart/services/cart-rest.js"></script>
     <script src="js/app/cart/services/cart-service.js"></script>
+    <script src="js/app/cart/services/cart-note-mixin-service.js"></script>
     <script src="js/app/checkout/checkout-index.js"></script>
     <script src="js/app/checkout/controllers/checkout-base-ctrl.js"></script>
     <script src="js/app/checkout/controllers/checkout-ctrl.js"></script>
@@ -146,6 +155,7 @@
     <script src="js/app/account/account-index.js"></script>
     <script src="js/app/account/controllers/account-ctrl.js"></script>
     <script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
+    <script src="js/app/account/controllers/change-email-confirmation-ctrl.js"></script>
     <script src="js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js"></script>
     <script src="js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js"></script>
     <script src="js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js"></script>

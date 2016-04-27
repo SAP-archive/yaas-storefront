@@ -2,8 +2,8 @@
 <!-- bread crumbs -->
 <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
 
-<div class="productDetailsContainer">
-    <section class="white " ng-cloak>
+<div class="productDetailsContainer" ng-cloak>
+    <section class="white">
         <div class="row">
 
             <!-- product gallery -->
@@ -104,8 +104,8 @@
         <div class="row">
 
             <!-- product description -->
-                <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
-            <div ng-class="{'col-md-6' : hasAnyOfAttributesSet(product.product)}">
+            <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+            <div class="col-md-8 col-md-offset-2">
                 <div class="description">
                     {{product.product.description}}
                 </div>

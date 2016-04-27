@@ -60,7 +60,7 @@ describe("login:", function () {
             expect(element(by.binding("account.firstName")).getText()).toContain('JOE');
             browser.sleep(1000);
             tu.clickElement('id', 'my-account-dropdown');
-            browser.sleep(1000);                        
+            browser.sleep(1000);
             tu.clickElement('id', 'logout-btn');
         });
 
@@ -229,6 +229,45 @@ describe("login:", function () {
             tu.clickElement('id', 'sign-in-button');
             browser.sleep(1000);
             expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Order# P0T7S1A7');
+        });
+
+        it('should allow user to update their email', function () {
+            tu.loginHelper('cool@yaastest.com', 'coolio');
+            browser.sleep(1000);
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account-link');
+            waitForAccountPage();
+            tu.clickElement('id', 'update-email');
+            tu.sendKeys('id', 'newEmail', 'cool_new@yaastest.com');
+            tu.sendKeys('id', 'password', 'coolio');
+            browser.sleep(500);
+            tu.clickElement('id', 'save-btn');
+            browser.sleep(500);
+
+            // Check for modal window - "Check your email"
+            browser.switchTo().defaultContent();
+            browser.sleep(1000);
+            browser.waitForAngular();
+            browser.wait(function () {
+                return element(by.css('.modal-content')).isPresent();
+            });
+
+            expect(element(by.binding('CHECK_EMAIL')).isPresent()).toBe(true);
+            element(by.css('.modal.fade.ng-isolate-scope.in')).click();
+            browser.sleep(500);
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'logout-btn');
+            browser.sleep(500);
+            browser.get(tu.tenant + '/#!/ct');
+            browser.sleep(1000);
+            // Verify the user still can login in with the old email, as the new one was not confirmed
+            tu.loginHelper('cool@yaastest.com', 'coolio');
+            browser.sleep(1000);
+            tu.clickElement('id', 'my-account-dropdown');
+            tu.clickElement('id', 'my-account-link');
+            waitForAccountPage();
+            expect(element(by.binding('account.contactEmail')).getText()).toContain('cool@yaastest.com');
+
         });
 
     });

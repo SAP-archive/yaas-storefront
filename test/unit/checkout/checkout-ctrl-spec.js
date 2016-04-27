@@ -133,7 +133,7 @@ describe('CheckoutCtrl', function () {
             return shippingDfd.promise;
         });
 
-        
+        mockedShippingSvc.isShippingConfigured = jasmine.createSpy('isShippingConfigured').andReturn(true);
 
         mockedCartSvc.reformatCartItems = jasmine.createSpy();
 
@@ -206,7 +206,7 @@ describe('CheckoutCtrl', function () {
 
             $scope.$apply();
             expect(MockedAccountSvc.getAddresses).toHaveBeenCalled();
-            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
             expect($scope.order.account.email).toEqualData(returnAccount.contactEmail);
         });
 
@@ -263,7 +263,7 @@ describe('CheckoutCtrl', function () {
             $scope.order.account.middleName = 'R';
             $scope.order.account.lastName = 'ODonnell';
             $scope.updateAddressName();
-            expect($scope.order.billTo.contactName).toEqualData('Mike R ODonnell');
+            expect($scope.order.shipTo.contactName).toEqualData('Mike R ODonnell');
         });
     });
 
@@ -272,7 +272,7 @@ describe('CheckoutCtrl', function () {
         it('should copy billing to shipping if true', function(){
             $scope.shipToSameAsBillTo = true;
             $scope.order.billTo = mockBillTo;
-            $scope.toggleShipToSameAsBillTo();
+            $scope.toggleBillToSameAsShipTo();
             expect($scope.order.shipTo).toEqualData(mockBillTo);
         });
 
@@ -280,8 +280,8 @@ describe('CheckoutCtrl', function () {
             $scope.shipToSameAsBillTo = false;
             $scope.order.billTo = mockBillTo;
             $scope.order.shipTo = mockBillTo;
-            $scope.toggleShipToSameAsBillTo();
-            expect($scope.order.shipTo).toEqualData({});
+            $scope.toggleBillToSameAsShipTo();
+            expect($scope.order.billTo).toEqualData({});
         });
     });
 
@@ -466,23 +466,23 @@ describe('CheckoutCtrl', function () {
     });
 
     describe('select address', function(){
-        it('should open the modal dialog and select the address for shipTo', function(){
+        it('should open the modal dialog and select the address for billTo', function(){
             addressDef.resolve(returnAddress);
             $scope.$apply();
             $scope.openAddressDialog();
 
-            $scope.selectAddress(returnAddress, $scope.order.shipTo);
+            $scope.selectAddress(returnAddress, $scope.order.billTo);
             expect($scope.shipToSameAsBillTo).toEqualData(true);
 
-            expect($scope.order.shipTo.contactName).toEqualData(returnAddress.contactName);
+            expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
             $scope.openAddressDialog();
             $scope.closeAddressDialog();
         });
 
-        it('should open the modal dialog and select the address for billTo', function(){
+        it('should open the modal dialog and select the address for shipTo', function(){
             $scope.order.shipTo = {};
             $scope.openAddressDialog();
-            $scope.selectAddress(returnAddress, $scope.order.billTo);
+            $scope.selectAddress(returnAddress, $scope.order.shipTo);
             $scope.$apply();
             expect($scope.shipToSameAsBillTo).toEqualData(true);
             expect($scope.order.billTo.contactName).toEqualData(returnAddress.contactName);
@@ -519,6 +519,72 @@ describe('CheckoutCtrl', function () {
             expect($scope.showPristineErrors).toBeTruthy();
             expect($scope.messagePreviewOrder).toEqual('PLEASE_CORRECT_ERRORS_PREVIEW');
         });
+
+        describe('ShipTo countries and selecting address', function () {
+
+            beforeEach(function () {
+                spyOn($scope, 'selectAddress');
+                addressDef.resolve(returnAddress);
+                $scope.$apply();
+                $scope.openAddressDialog();
+            });
+
+            it('should select address if country is shipTo', function() {
+                $scope.shippingConfigured = true;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+            it('should not select address if country is not shipTo', function() {
+                returnAddress.country = 'FR';
+                $scope.shippingConfigured = true;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).not.toHaveBeenCalled();
+            });
+
+            it('should select address if country is shipTo and shipping is not configured', function() {
+                $scope.shippingConfigured = false;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+            it('should select address even if country is not shipTo but shipping is not configured', function() {
+                returnAddress.country = 'FR';
+                $scope.shippingConfigured = false;
+                $scope.ifShipAddressApplicable(returnAddress, returnAddress);
+                expect($scope.selectAddress).toHaveBeenCalled();
+                expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
+            });
+
+        });
+
+        describe('Disable address class method', function () {
+
+            it('disableAddress should depend on country if it is shipTo', function() {
+                $scope.shippingConfigured = true;
+                $scope.isDialog = true;
+                expect($scope.disableAddress('FR')).toBeTruthy();
+                expect($scope.disableAddress('US')).toBeFalsy();
+            });
+
+            it('disableAddress should depend on isDialog', function() {
+                $scope.shippingConfigured = true;
+                $scope.isDialog = false;
+                expect($scope.disableAddress('FR')).toBeFalsy();
+                expect($scope.disableAddress('US')).toBeFalsy();
+            });
+
+            it('disableAddress should depend on if shipping configured', function() {
+                $scope.shippingConfigured = false;
+                $scope.isDialog = true;
+                expect($scope.disableAddress('FR')).toBeFalsy();
+                expect($scope.disableAddress('US')).toBeFalsy();
+            });
+
+        });
+
     });
 
 });

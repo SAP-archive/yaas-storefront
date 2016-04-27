@@ -1,7 +1,10 @@
 <div class="confirm">
+    
+    <!-- order success -->
     <div class="row section success-box" ng-if="accountSuccess">
         {{'ACCOUNT_SUCCESS' | translate}}
     </div>
+    
     <div class="row text-center header-block">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
             <h1>
@@ -9,13 +12,17 @@
             </h1>
         </div>
     </div>
+
+    <!-- order details -->
     <div class="text-center order-details" ng-if="entity === 'order'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+
                 <h2 ng-if="isAuthenticated" class="orderNumber">{{'ORDER' | translate}} # <a ui-sref="base.orderDetail({orderId: orderInfo.orderId})">{{ orderInfo.orderId }}</a></h2>
+                
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-                 <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
+                <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
 
                 <div>
                     <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
@@ -31,6 +38,8 @@
             </div>
         </div>
     </div>
+
+    <!-- order messaging -->
     <div class="text-center order-details" ng-if="entity === 'checkout'">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
@@ -42,53 +51,86 @@
             </div>
         </div>
     </div>
-    <div create-account class="create-account" ng-if="!isAuthenticated">
-        <div class="text-center centered-content">
-            <h2 class="creatAccountHeader">Create An Account</h2>
-            <p class="createAccountTagLine"><span ng-bind-html="'ONE_MORE_STEP' | translate"/></p>
+    
+    <!-- create account panel -->
+    <div create-account class="create-account text-center" ng-if="!isAuthenticated">
 
-            <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer centered-content row">
-                <div ng-if="fbAppId" class="fbLogin col-sm-6 col-xs-12" ng-click="fbLogin()">
-                    <div class="fbLoginButton">
-                        <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
-                    </div>
-                </div>
-                <div ng-if="googleClientId"  class="googlePlusLogin col-sm-6 col-xs-12">
-                    <div class="googleSignIn">
-                        <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
-                        <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane centered-content" id="signup">
-                <form name="signupForm" ng-submit="signup(user.signup.password, confirmationDetails.emailAddress, signupForm)">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group input-group">
-                                <span class="input-group-addon"><label class="control-label" for="emailInput">{{'EMAIL' | translate}}</label></span>
-                                <input builder-input="email" type="email" class="form-control" id="emailInput" name="email"
-                                       ng-model="confirmationDetails.emailAddress" required ng-focus="clearErrors()">
-                            </div>
+        <h2 class="creatAccountHeader">Create An Account</h2>
+        
+        <p class="createAccountTagLine"><span ng-bind-html="'ONE_MORE_STEP' | translate"/></p>
+        
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div id="signup">
+                    <form name="signupForm" ng-submit="signup(user.signup.password, confirmationDetails.emailAddress, signupForm)">
+        
+                        <!-- email address -->
+                        <div class="form-group input-group">
+                        
+                            <span class="input-group-addon">
+                                <label class="control-label" for="emailInput">{{'EMAIL' | translate}}</label>
+                            </span>
+                        
+                            <input builder-input="email" type="email" class="form-control" id="emailInput" name="email"
+                                   ng-model="confirmationDetails.emailAddress" required ng-focus="clearErrors()">
+                        
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group input-group">
-                                <span class="input-group-addon"><label class="control-label" for="newPasswordInput">{{'PASSWORD' | translate}}</label></span>
-                                <input builder-input="password" type="password" class="form-control" id="newPasswordInput" placeholder="{{'PASSWORD_MINCHAR'| translate}}" name="password"
-                                       ng-model="user.signup.password" required ng-focus="clearErrors()">
-                            </div>
+                        
+                        <!-- password -->
+                        <div class="form-group input-group">
+                            
+                            <span class="input-group-addon">
+                                <label class="control-label" for="newPasswordInput">{{'PASSWORD' | translate}}</label>
+                            </span>
+                            
+                            <input builder-input="password" type="password" class="form-control" id="newPasswordInput" placeholder="{{'PASSWORD_MINCHAR'| translate}}" name="password"
+                               ng-model="user.signup.password" required ng-focus="clearErrors()">
+                        
                         </div>
+                        
+                        <!-- error message -->
                         <ul ng-if="errors && errors.signup.length" class="text-danger list-unstyled">
                             <li ng-repeat="error in errors.signup">{{error.message | translate}}</li>
                         </ul>
-                        <button type="submit" id="create-acct-btn" class="btn btn-primary btn-lg btn-block">{{'CREATE_ACCOUNT' | translate}}</button>
-                    </div>
-                    
-                </form>
-            </div>
-
-        </div>
         
+                        <!-- create account button -->
+                        <button type="submit" id="create-acct-btn" class="btn btn-primary btn-lg btn-block">{{'CREATE_ACCOUNT' | translate}}</button>
+                            
+                    </form>
+
+                    <div class="row">
+                    
+                        <!-- social login -->
+                        <div ng-if="fbAppId || googleClientId" class="socialMediaSigninContainer centered-content">
+                    
+                            <!-- fb login -->
+                            <div class="col-md-6 col-sm-6">
+                                <div ng-if="fbAppId" class="fbLogin" ng-click="fbLogin()">
+                                    <div class="fbLoginButton">
+                                        <div class="fbsignInLabel">{{'SIGN_IN_WITH_FACEBOOK' | translate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <br class="visible-xs">
+        
+                            <!-- g+ login -->
+                            <div class="col-md-6 col-sm-6">
+                                <div ng-if="googleClientId"  class="googlePlusLogin ">
+                                    <div class="googleSignIn">
+                                        <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
+                                        <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        </div> 
+                        
+                    </div>
+        
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="order-items" ng-if="entity === 'order'">
@@ -112,7 +154,7 @@
                     <!-- desktop tablet view -->
                     <tr ng-repeat="entry in confirmationDetails.entries" class="hidden-sm hidden-xs">
                         <td class="margin-cell"></td>
-                        <td><a ui-sref="base.product.detail( {productId: product.id} )">
+                        <td><a ui-sref="base.product.detail( {productId: entry.product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
                         </a></td>
                         <td>{{entry.product.name}}</td>
@@ -166,7 +208,7 @@
                     <!-- mobile view -->
                     <tr ng-repeat="entry in confirmationDetails.entries" class="visible-sm visible-xs">
                         <td class="text-right">
-                            <a ui-sref="base.product.detail( {productId: product.id} )">
+                            <a ui-sref="base.product.detail( {productId: entry.product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
                             </a>
                         </td>
@@ -221,15 +263,11 @@
             </div>
 
         </div>
+        <!-- mobile view -->
 
-        <!-- movbile view -->
-
-
-        
-        
-        
     </div>
     
+    <!-- order details -->
     <div class="order-success"  ng-cloak>
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">

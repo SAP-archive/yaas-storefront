@@ -452,8 +452,7 @@ a.siteSelectorIcon{
 
   .googleSignIn{
     height: 43px;
-    background: #de5543 url('../../img/g+_signInLogo.png') top left no-repeat;
-    width: 50%;
+    background: #de5543 url('../../img/g_signInLogo.png') top left no-repeat;
     position: relative;
     margin: 0 auto;
 
@@ -468,16 +467,13 @@ a.siteSelectorIcon{
   }
 
   .fbLogin{
+    height: 43px;
+    background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
     cursor:pointer;
     position: relative;
     padding-left: 0 !important;
     margin: 0 auto;
-    width: 50%;
 
-    .fbLoginButton{
-      height: 43px;
-      background: #006699 url('../../img/fb_signInLogo.png') top left no-repeat;
-    }
     .fbsignInLabel{
       color: #f2f3f8;
       position: absolute;
@@ -489,9 +485,19 @@ a.siteSelectorIcon{
 
   }
 
-  @media(max-width: @screen-xs-max) {
-    .fbLogin, .googleSignIn {
-      width: 100%;
+  @media(max-width: 535px) {
+    .fbLogin{
+      background: #006699 url('../../img/fb_signInLogo-mobile.png') top center no-repeat;
+      
+      .fbsignInLabel{
+        display: none
+      }
+    } 
+    .googleSignIn {
+      background: #de5543 url('../../img/g_signInLogo-mobile.png') top center no-repeat;
+      .googleSignInLabel{
+        display: none;
+      }
     }
 
     .signInTabs{
@@ -671,6 +677,17 @@ a.siteSelectorIcon{
 
   }
 
+  .navbar-padding {
+     padding-top: 10px; 
+     padding-bottom: 10px; 
+  }
+  .navbar-padding-left {
+      padding-left: 58px;
+  }
+  .navbar-padding-right {
+      padding-right: 58px;
+  }
+
 
 }
 
@@ -695,8 +712,10 @@ a.siteSelectorIcon{
 }
 
 .cart{
-  margin-top: 7px;
-
+  display: block;
+  opacity: 1;
+  transition: opacity linear 0.5s, visibility 0s;
+  transition-delay: 0s;
 }
 
 .yamm.navbar-default{
@@ -777,7 +796,9 @@ a.siteSelectorIcon{
 
 }
 
-
+.mobileNav {
+    
+}
 
 .mobileNav .top-navigation{
   border-bottom: 1px solid #d4d5d5;

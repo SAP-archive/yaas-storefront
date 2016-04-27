@@ -24,11 +24,12 @@ angular.module('ds.cart')
         $scope.showTaxEstimation = false;
 
         $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
-      
+
         $scope.couponCollapsed = true;
         $scope.taxType = GlobalData.getTaxType();
 
         $scope.calculateTax = CartSvc.getCalculateTax();
+        $scope.taxableCountries = GlobalData.getTaxableCountries();
 
         var unbind = $rootScope.$on('cart:updated', function(eve, eveObj){
             $scope.cart = eveObj.cart;

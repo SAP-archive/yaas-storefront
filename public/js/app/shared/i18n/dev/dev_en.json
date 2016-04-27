@@ -15,12 +15,24 @@
 
     //XBUT
     "BACK_TO_CHECKOUT": "Back to checkout",
+    //XFLD
+    "CANCEL": "Cancel",
     //XBUT
     "CHECKOUT": "Checkout",
     //XBUT
     "CONTINUE_SHOPPING": "Continue shopping",
     //XBUT
     "SHOP": "Shop",
+    //XFLD
+    "NOTE": "Note",
+    //XFLD
+    "ADD_NOTE": "Add Note",
+    //XFLD
+    "EDIT_NOTE": "Edit Note",
+    //XFLD
+    "DELETE_NOTE": "Delete Note",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XFLD
     "EST_ORDER_TOTAL": "Est. order total",
     //XFLD
@@ -75,6 +87,8 @@
     "PROVINCE": "Province",
     //XBUT
     "CONTINUE": "Continue",
+    //XBUT
+    "COST": "Cost",
     //XFLD
     "COUNTRY": "Country",
     //XFLD
@@ -144,11 +158,13 @@
     //XACT
     "REQUIRED": "Required",
     //XCKL
-    "SAME_AS_BILLING_ADDRESS": "Same As Billing Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
     //XTIT
     "SECURE_CHECKOUT": "Secure Checkout",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Select from address book",
+    //XBUT
+    "ADDRESS_BOOK": "Address Book",
     //XFLD
     "SHIPPING": "Shipping",
     //XGRP
@@ -162,7 +178,7 @@
     //XGRP
     "STEP_1_MY_DETAILS": "Step 1. My Details",
     //XGRP
-    "STEP_2_SHIPPING_INFORMATION": "Step 2. Shipping Information",
+    "STEP_2_BILLING_INFORMATION": "Step 2. Billing Information",
     //XGRP
     "STEP_3_PAYMENT": "Step 3. Payment",
     //XGRP
@@ -216,6 +232,8 @@
     "COUPON_APPLY": "Apply",
     //XFLD
     "COUPON_APPLIED": "Applied",
+    //XFLD
+    "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
     //XMSG
@@ -230,6 +248,8 @@
     "COUPON_MINIMUM_NOT_MET": "Current order total does not meet the required minimum for this coupon",
     //XMSG
     "COUPON_NOT_VALID": "Coupon Not Valid",
+    //XTIT
+    "COUPONS": "Coupon Code",
 
 
     //XFLD
@@ -309,6 +329,8 @@
     "BUY": "Buy",
     //XBUT
     "ADD_TO_CART": "Add to Cart",
+    //XMSG
+    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
     //XTIT
     "PRODUCT_DESCRIPTION": "Product Description",
     //XTIT
@@ -384,6 +406,8 @@
     "REGION_PREFERENCES": "Region Preferences",
     //XFLD
     "NEW_EMAIL": "New Email",
+    //XFLD
+    "CURRENT_EMAIL": "Current Email",
     //XGRP
     "ADDRESSBOOK": "Addressbook",
     //XMSG
@@ -465,6 +489,29 @@
     "UPDATE_DEFAULT_ADDRESS_ERROR": "Updating default address failed. Please try again.",
 
 
+    //XTIT
+    "EDIT_EMAIL_UPDATED": "Your email is being updated...",
+    //XTIT
+    "EDIT_EMAIL_SUCESSFULLY_UPDATED": "Email sucessfully updated",
+    //XMSG
+    "EDIT_EMAIL_CHANGED_MSG": "Your email has changed. You must sign in with your updated email",
+   
+    //XMSG
+    "OOPS_MSG": "Oops!",
+    //XMSG
+    "EDIT_EMAIL_CHANGE_FAILED": "Something went wrong. Please reset your email again",
+
+    //XBUT
+    "RESET_EMAIL": "RESET EMAIL",
+
+    //XMSG
+    "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Password is not correct. Try again",
+    //XMSG
+    "EDIT_EMAIL_ALREADY_IN_USE": "This email is already in use. Try again",
+    //XMSG
+    "EDIT_EMAIL_SOMETHING_WENT_WRONG": "Something went wrong. Try again",
+
+
     //XFLD
     //-------------------------------------------------
     // Login, password, signup
@@ -496,6 +543,8 @@
     "CHECK_EMAIL": "Check Your Email",
     //XMSG
     "CHECK_EMAIL_INSTRUCT": "...and follow the link to reset your password. The link will be valid for 24 hours.",
+    //XMSG
+    "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
     //XMSG
     "PASSWORD_REQUIRED": "Password with 6 character minimum required.",
     //XMSG

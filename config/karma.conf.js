@@ -27,6 +27,7 @@ module.exports = function(config){
         'public/js/vendor/angular-xeditable/dist/js/xeditable.js',
         'public/js/vendor/angular-sanitize/angular-sanitize.js',
         'public/js/vendor/angular-ui-select/dist/select.min.js',
+        'public/js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js',
         'public/js/vendor/angular-directive.g-signin/google-plus-signin.js',
         'public/js/vendor/algoliasearch/dist/algoliasearch.angular.js',
 
@@ -65,6 +66,9 @@ module.exports = function(config){
         'public/js/app/shared/directives/y-inputs-dir.js',
         'public/js/app/shared/directives/force-scroll.js',
 
+        'public/js/app/shared/media/main-media-extractor.js',
+        'public/js/app/shared/media/committed-media-filter.js',
+
         'public/js/app/home/home-index.js',
         'public/js/app/home/controllers/home-ctrl.js',
         'public/js/app/home/services/home-svc.js',
@@ -83,9 +87,11 @@ module.exports = function(config){
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',
+        'public/js/app/cart/controllers/cart-note-mixin-ctrl.js',
         'public/js/app/cart/directives/cart-auto-toggle.js',
         'public/js/app/cart/services/cart-service.js',
         'public/js/app/cart/services/cart-rest.js',
+        'public/js/app/cart/services/cart-note-mixin-service.js',
 
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
