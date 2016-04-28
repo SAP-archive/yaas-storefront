@@ -18,7 +18,12 @@ describe('AuthSvc Test', function () {
         afterLoginFromSignUp: jasmine.createSpy()
     };
     var storeTenant = '121212';
-    var mockedGlobalData = {store: {tenant: storeTenant}};
+    var YGoogleSignin = {
+        logout: jasmine.createSpy().andReturn({
+            then: jasmine.createSpy()
+        })
+    };
+    var mockedGlobalData = {store: {tenant: storeTenant}, customerAccount: {accounts: [{providerId: 'google'}]}, user: {image: 'example.jpg'}};
     var accessToken = 123;
     var username = 'some.user@hybris.com';
     var appConfig = {
@@ -65,6 +70,7 @@ describe('AuthSvc Test', function () {
         $provide.value('$state', mockedState);
         $provide.value('appConfig', appConfig);
         $provide.value('SessionSvc', mockedSessionSvc);
+        $provide.value('YGoogleSignin', YGoogleSignin);
     }));
 
     beforeEach(inject(function(_AuthSvc_, _$httpBackend_, _$q_,SiteConfigSvc) {
@@ -155,6 +161,13 @@ describe('AuthSvc Test', function () {
             mockBackend.flush();
             mockBackend.verifyNoOutstandingExpectation();
             mockBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should logout with google on signout if user is google logged in', function() {
+            mockBackend.expectGET(customersUrl + '/logout?accessToken=' + accessToken).respond(200, response);
+            AuthSvc.signOut(payload);
+            mockBackend.flush();
+            expect(YGoogleSignin.logout).toHaveBeenCalled();
         });
 
         it('should unset token on logout success', function(){

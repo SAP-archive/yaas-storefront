@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state', 'YGoogleSignin',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state, YGoogleSignin) {
 
             $scope.user = {
                 signup: {},
@@ -38,13 +38,7 @@ angular.module('ds.auth')
             $scope.showAsGuest = showAsGuest;
 
             AuthSvc.initFBAPI();
-
-            // react to event fired by goole+ signing directive
-            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                if( authResult.status.method && authResult.status.method !== 'AUTO' ){
-                    AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
-                }
-            });
+            AuthSvc.initGoogleAPI();
 
             $scope.$on('authlogin:error', function(){
                 var response = { status: 0 };
@@ -98,6 +92,12 @@ angular.module('ds.auth')
 
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin();
+            };
+
+            $scope.googleLogin = function () {
+                YGoogleSignin.login().then(function (user) {
+                    AuthSvc.onGoogleLogIn(user);
+                });
             };
 
             var unbind = $rootScope.$on('user:socialLogIn', function(eve, obj){

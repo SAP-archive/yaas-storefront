@@ -14,15 +14,27 @@
 
 angular.module('ds.shared')
 /** Handles interactions with the top menu (mobile menu, mobile search, mobile cart & full screen cart icon) */
-    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', '$timeout', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings',
+    .controller('TopNavigationCtrl', ['$scope', '$rootScope', '$state', '$controller', '$timeout', 'GlobalData', 'CartSvc', 'AuthSvc', 'AuthDialogManager', 'CategorySvc', 'settings', 'YGoogleSignin',
 
-        function ($scope, $rootScope, $state, $controller, $timeout, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings) {
+        function ($scope, $rootScope, $state, $controller, $timeout, GlobalData, CartSvc, AuthSvc, AuthDialogManager, CategorySvc, settings, YGoogleSignin) {
 
             $scope.GlobalData = GlobalData;
             $scope.categories = CategorySvc.getCategoriesFromCache();
 
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
             $scope.user = GlobalData.user;
+
+            if (AuthSvc.isGoogleLoggedIn(GlobalData.customerAccount)) {
+                YGoogleSignin.getUser(settings.googleClientId).then(function (googleUser) {
+                    if (googleUser.image) {
+                        $scope.user.image = googleUser.image;
+                    } else {
+                        $scope.user.image = settings.avatarImagePlaceholder;
+                    }
+                });
+            } else {
+                $scope.user.image = settings.avatarImagePlaceholder;
+            }
 
             var unbindCats = $rootScope.$on('categories:updated', function(eve, obj){
                 if(!$scope.categories || obj.source === settings.eventSource.languageUpdate){
