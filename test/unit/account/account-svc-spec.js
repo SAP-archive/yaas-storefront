@@ -13,7 +13,7 @@
 describe('AccountSvc Test', function () {
 
     var AccountSvc, mockBackend, $q, $scope, customersUrl, siteConfig;
-    var account = {"contactEmail":"test@hybristest.com","customerNumber":"C2191375191","firstName":"TestFn","id":"C2191375191","lastName":"TestLn","middleName":"TestMn","preferredCurrency":"EUR","preferredLanguage":"de_DE"};
+    var account = {"contactEmail":"test@hybristest.com","customerNumber":"C2191375191","firstName":"TestFn","id":"C2191375191","lastName":"TestLn","middleName":"TestMn","preferredCurrency":"EUR","preferredLanguage":"de_DE", "image" : "./img/user-icon_small_active.png" };
     var addresses = [{"id":"541abacd07ce5813586182a5","contactName":"hybris UK Ltd.","street":"5th Floor, 2 Copthall Avenue","zipCode":"121212","city":"London","country":"USA","state":"TX","contactPhone":"+44 20 36088011","isDefault":true},{"id":"54083abe9d6eebfd91e20a6f","contactName":"Munich Offices","street":"Mailinger Str","streetNumber":"23","zipCode":"233212","city":"Munich","country":"USA","state":"IL","contactPhone":"+49 12 333 222","isDefault":false,"tags":[]},{"id":"54083adbdbee363ff47c3200","contactName":"Boulder Offices 1","street":"No name blvd","streetNumber":"12","zipCode":"2332232","city":"Boulder","country":"USA","state":"CO","contactPhone":"+1212 1221 1221","isDefault":false,"tags":[]}];
     var mockedGlobalData={
         customerAccount: null,

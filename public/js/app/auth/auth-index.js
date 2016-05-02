@@ -12,4 +12,4 @@
 
 'use strict';
 
-angular.module('ds.auth', ['ipCookie','directive.g+signin']);
+angular.module('ds.auth', ['ipCookie', 'ds.ygooglesignin']);

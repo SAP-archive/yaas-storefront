@@ -28,7 +28,6 @@ module.exports = function(config){
         'public/js/vendor/angular-sanitize/angular-sanitize.js',
         'public/js/vendor/angular-ui-select/dist/select.min.js',
         'public/js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js',
-        'public/js/vendor/angular-directive.g-signin/google-plus-signin.js',
         'public/js/vendor/algoliasearch/dist/algoliasearch.angular.js',
 
         // dummy config/bootstrap for testing
@@ -146,6 +145,7 @@ module.exports = function(config){
         'public/js/app/auth/services/anon-auth-service.js',
         'public/js/app/auth/services/auth-dialog-manager.js',
         'public/js/app/auth/services/session-service.js',
+        'public/js/app/auth/services/google-provider.js',
 
         'public/js/app/shared/router.js',
         'public/js/app/shared/http-proxy.js',

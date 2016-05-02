@@ -2,10 +2,6 @@
 <div class="mobileNav hidden-lg hidden-md visible-sm visible-xs">
     <nav class="top-navigation row" ng-cloak>
         
-        <!-- cart item update notification -->
-        <div ng-class="{'expanded' : displaySlideDownBox}" class="slideDownBox" >
-            <span>{{displaySlideDownBoxMessage}} {{ 'PRODUCTS_ADDED_TO_CART' | translate}}</span>
-        </div>
         
         <!-- hamburger menu -->
         <div class="col-xs-3">
@@ -77,7 +73,7 @@
                         <div class="signin-container ">
                             <div class="text-center dropdown">
                                 <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
-                                    <img id="my-account-dropdown" src="./img/user-icon_small_active.png" class="user-avatar">
+                                    <img id="my-account-dropdown" ng-src="{{user.image}}" class="user-avatar socialAvatar">
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation">

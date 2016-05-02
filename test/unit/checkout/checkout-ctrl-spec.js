@@ -538,7 +538,7 @@ describe('CheckoutCtrl', function () {
 
             it('should not select address if country is not shipTo', function() {
                 returnAddress.country = 'FR';
-                $scope.shippingConfigured = true;
+                $scope.shippingZones = [{id: 'US'}, {id: 'CA'}];
                 $scope.ifShipAddressApplicable(returnAddress, returnAddress);
                 expect($scope.selectAddress).not.toHaveBeenCalled();
             });
@@ -563,7 +563,7 @@ describe('CheckoutCtrl', function () {
         describe('Disable address class method', function () {
 
             it('disableAddress should depend on country if it is shipTo', function() {
-                $scope.shippingConfigured = true;
+                $scope.shippingZones = [{id: 'US'}, {id: 'CA'}];
                 $scope.isDialog = true;
                 expect($scope.disableAddress('FR')).toBeTruthy();
                 expect($scope.disableAddress('US')).toBeFalsy();

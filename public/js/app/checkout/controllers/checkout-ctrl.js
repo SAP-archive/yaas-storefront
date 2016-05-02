@@ -119,7 +119,7 @@ angular.module('ds.checkout')
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
-                            if ($scope.isShipToCountry(defaultAddress.country) || !$scope.shippingConfigured) {
+                            if ($scope.isShipToCountry(defaultAddress.country) || !$scope.shippingZones.length) {
                                 populateBillTo(defaultAddress);
                             }
                             updateShippingCost(defaultAddress);
@@ -444,7 +444,7 @@ angular.module('ds.checkout')
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
                     $scope.$emit('localizedAddress:updated', address.country, 'shipping');
-                    updateShippingCost($scope.order.shipTo);
+                    updateShippingCost(selectedShippingAddress);
                 }
                 addressModalInstance.close();
 
@@ -515,7 +515,7 @@ angular.module('ds.checkout')
             };
 
             $scope.disableAddress = function (country) {
-                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog && $scope.addType !== 'billing') {
+                if (!$scope.isShipToCountry(country) && $scope.shippingZones.length && $scope.isDialog && $scope.addType !== 'billing') {
                     return true;
                 } else {
                     return false;
@@ -527,7 +527,7 @@ angular.module('ds.checkout')
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
-                if ($scope.shippingConfigured && $scope.addType !== 'billing') {
+                if ($scope.shippingZones.length && $scope.addType !== 'billing') {
                     if ($scope.isShipToCountry(address.country)) {
                         $scope.selectAddress(address, target);
                     }
