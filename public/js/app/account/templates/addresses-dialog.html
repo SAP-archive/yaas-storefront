@@ -6,4 +6,14 @@
   <div class="row">
     <div ng-include="'./js/app/account/templates/addresses.html'"></div>
   </div>
+  <div class="text-center row" ng-show="showAllAddressButton">
+    <button class="btn btn-link" ng-show="!showAllAddresses" ng-click="toggleAddresses()">
+        {{'SHOW_ALL' | translate}}
+        <span class="glyphicon glyphicon-chevron-down"/>
+    </button>
+    <button class="btn btn-link" ng-show="showAllAddresses" ng-click="toggleAddresses()">
+        {{'SHOW_LESS' | translate}}
+        <span class="glyphicon glyphicon-chevron-up"/>
+    </button>  
+  </div>
 </div>

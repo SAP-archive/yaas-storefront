@@ -475,6 +475,8 @@ angular.module('ds.checkout')
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;
+                                $scope.showAllAddressButton = $scope.showAddressDefault < $scope.addresses.length;
+                                $scope.showAllAddresses = false;
                                 $scope.target = target;
                                 $scope.addType = addType;
                             });
@@ -485,6 +487,15 @@ angular.module('ds.checkout')
 
             $scope.closeAddressDialog = function () {
                 addressModalInstance.close();
+            };
+
+            $scope.toggleAddresses = function () {
+                if ($scope.showAddressFilter === $scope.addresses.length) {
+                    $scope.showAddressFilter = $scope.showAddressDefault;
+                } else {
+                    $scope.showAddressFilter = $scope.addresses.length;
+                }
+                $scope.showAllAddresses = $scope.showAddressFilter === $scope.addresses.length;
             };
 
             $scope.$on('goToStep2', function(){

@@ -558,6 +558,23 @@ describe('CheckoutCtrl', function () {
                 expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
             });
 
+            it('should behave set address filter to default and display show all button', function() {
+                $scope.showAddressFilter = 1;
+                $scope.toggleAddresses();
+                $scope.$apply();
+                expect($scope.showAddressFilter).toEqualData($scope.showAddressDefault);
+                expect($scope.showAllAddresses).toBeFalsy();
+            });
+
+            it('should behave set address filter to address length and display show less button', function() {
+                $scope.addresses.push(returnAddress);
+                $scope.showAddressFilter = 6;
+                $scope.toggleAddresses();
+                $scope.$apply();
+                expect($scope.showAddressFilter).toEqualData($scope.addresses.length);
+                expect($scope.showAllAddresses).toBeTruthy();
+            });
+
         });
 
         describe('Disable address class method', function () {
