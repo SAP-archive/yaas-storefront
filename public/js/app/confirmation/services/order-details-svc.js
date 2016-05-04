@@ -55,6 +55,10 @@ angular.module('ds.confirmation')
                         confirmationDetails.shipping = orderDetails.shipping;
                     }
 
+                    if (orderDetails.subTotalPrice) {
+                        confirmationDetails.subTotalPrice = orderDetails.subTotalPrice;
+                    }
+
                     if (orderDetails.tax) {
                         confirmationDetails.tax = orderDetails.tax;
                     }

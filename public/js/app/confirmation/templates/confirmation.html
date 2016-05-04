@@ -173,7 +173,7 @@
                                 <tr>
                                     <td class="text-left">{{'SUBTOTAL' | translate}}</td>
                                                         
-                                    <td class="text-right">{{ confirmationDetails.totalPrice - confirmationDetails.shipping.total.amount + confirmationDetails.discountAmount - confirmationDetails.tax.total.amount | currency: currencySymbol}}</td>
+                                    <td class="text-right">{{ confirmationDetails.subTotalPrice | currency: currencySymbol}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-left">{{'SHIPPING' | translate}}</td>
