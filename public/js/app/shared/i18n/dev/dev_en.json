@@ -548,6 +548,8 @@
     //XMSG
     "COOKES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
     //XMSG
+    "CREATE_ACCOUNT_ERROR": "Customer account was created successfully, but cookies must be enabled to login. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
     "PASSWORD_REQUIRED": "Password with 6 character minimum required.",
     //XMSG
     "PASSWORDS_MUST_MATCH": "Passwords must match.",

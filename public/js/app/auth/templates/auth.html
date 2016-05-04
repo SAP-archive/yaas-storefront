@@ -25,7 +25,7 @@
         <div ng-include="'js/app/auth/templates/signin.html'" ></div>
 
         <!-- fb and google login opions -->
-        <div ng-if="fbAppId || googleClientId">
+        <div ng-if="(fbAppId || googleClientId) && cookiesEnabled">
 
           <div class="row">
 
@@ -59,6 +59,7 @@
       
       <!-- sign up form -->
       <div class="tab-pane" id="signup" >
+        <p class="error" ng-show="showCreateAccountErrMsg">{{'CREATE_ACCOUNT_ERROR' | translate}}</p>
         <div ng-include="'js/app/auth/templates/signup.html'"></div>
       </div>
     </div>

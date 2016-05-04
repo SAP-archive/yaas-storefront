@@ -192,13 +192,18 @@ angular.module('ds.auth')
                 signup: function (user, context) {
                     var def = $q.defer();
                     AuthREST.Customers.all('signup').customPOST(user).then(function () {
-                        loginAndSetToken(user).then(function () {
-                            settings.hybrisUser = user.email;
-                            def.resolve({});
-                            SessionSvc.afterLoginFromSignUp(context);
-                        }, function (error) {
-                            def.reject(error);
-                        });
+                        if ($window.navigator.cookieEnabled) {
+                           loginAndSetToken(user).then(function () {
+                                settings.hybrisUser = user.email;
+                                def.resolve({});
+                                SessionSvc.afterLoginFromSignUp(context);
+                            }, function (error) {
+                                def.reject(error);
+                            });
+                        } else {
+                            def.resolve({cookiesDisabled: true});
+                        }
+                        
                     }, function (error) {
                         def.reject(error);
                     });

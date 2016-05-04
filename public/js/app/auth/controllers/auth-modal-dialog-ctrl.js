@@ -55,8 +55,14 @@ angular.module('ds.auth')
             $scope.signup = function (authModel, signUpForm) {
                 if (signUpForm.$valid) {
                     AuthSvc.signup(authModel, loginOpts).then(
-                        function () {
-                            $scope.closeDialog();
+                        function (response) {
+                            if (response.cookiesDisabled) {
+                                $scope.showCreateAccountErrMsg = true;
+                                $scope.user.signup.email = '';
+                                $scope.user.signup.password = '';
+                            } else {
+                                $scope.closeDialog();
+                            }
                         }, function (response) {
                             $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
                         }
