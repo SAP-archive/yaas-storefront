@@ -105,7 +105,7 @@ angular.module('ds.coupon')
             var redeemCouponError = function (couponError) {
                 $scope.coupon.error = couponError;
                 if (couponError.status === 400) {
-                    $scope.couponErrorMessage = couponError.data.details[0].message;
+                    $scope.couponErrorMessage = couponError.data.details[1].message;
                 }
             };
 
