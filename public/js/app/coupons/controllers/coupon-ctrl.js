@@ -112,20 +112,20 @@ angular.module('ds.coupon')
                     // This is built to work with multiple coupon errors
                     var filteredMessages = couponError.data.details.filter(function(msg){
                         if (
-                            msg.type ===  'coupon_not_active'
-                            || msg.type ===  'coupon_expired'
-                            || msg.type ===  'coupon_redemptions_exceeded'
-                            || msg.type ===  'coupon_redemption_forbidden'
-                            || msg.type ===  'coupon_order_total_too_low'
-                            || msg.type ===  'coupon_currency_incorrect'
-                            || msg.type ===  'coupon_discount_currency_incorrect'
-                            || msg.type ===  'coupon_discount_amount_incorrect'
+                            msg.type ===  'coupon_not_active' ||
+                            msg.type ===  'coupon_expired' ||
+                            msg.type ===  'coupon_redemptions_exceeded'  ||
+                            msg.type ===  'coupon_redemption_forbidden' ||
+                            msg.type ===  'coupon_order_total_too_low' ||
+                            msg.type ===  'coupon_currency_incorrect' ||
+                            msg.type ===  'coupon_discount_currency_incorrect' ||
+                            msg.type ===  'coupon_discount_amount_incorrect'
                         ){
                             return true;
                         }
                         else {
                             return false;
-                        } 
+                        }
                            
                     })
                     .map(function(msg){
@@ -133,7 +133,7 @@ angular.module('ds.coupon')
                     });
                     
                     $q.all(filteredMessages).then(function(msgs){
-                        $scope.couponErrorMessage = msgs.join(" and ");
+                        $scope.couponErrorMessage = msgs.join(' and ');
                     });
                 }
             };
