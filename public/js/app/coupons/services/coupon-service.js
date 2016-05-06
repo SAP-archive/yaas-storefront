@@ -26,7 +26,6 @@ angular.module('ds.coupon')
                 },
 
                 redeemCouponError: function(couponError) {
-                    var deferred = $q.defer();
 
                     if (couponError.status === 400) {
                         // Look for the COUPON error(s) by code, defined here:
@@ -49,19 +48,13 @@ angular.module('ds.coupon')
                                 else {
                                     return false;
                                 }
-
                             })
                             .map(function(msg) {
                                 return $translate(msg.type.toUpperCase());
                             });
 
-                        $q.all(filteredMessages).then(function(msgs) {
-                            deferred.resolve(msgs.join(' and '));
-                        });
-
-                        return deferred.promise;
+                        return $q.all(filteredMessages);
                     }
-
                 }
             };
 

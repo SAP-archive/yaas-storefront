@@ -104,7 +104,7 @@ angular.module('ds.coupon')
 
             var redeemCouponError = function (couponError) {
                 CouponSvc.redeemCouponError(couponError).then(function(msgs){
-                     $scope.couponErrorMessage = msgs;
+                     $scope.couponErrorMessage = msgs.join(' and ');
                 });
             };
 
