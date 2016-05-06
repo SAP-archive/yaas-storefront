@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.coupon')
-    .controller('CouponCtrl', ['$scope', '$rootScope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$translate', 'GlobalData',
-        function($scope, $rootScope, CartSvc, CouponSvc, AuthSvc, $translate, GlobalData) {
+    .controller('CouponCtrl', ['$scope', '$rootScope', '$q', 'CartSvc', 'CouponSvc', 'AuthSvc', '$translate', 'GlobalData',
+        function($scope, $rootScope, $q, CartSvc, CouponSvc, AuthSvc, $translate, GlobalData) {
 
             $scope.cart = CartSvc.getLocalCart();
 
@@ -104,8 +104,37 @@ angular.module('ds.coupon')
 
             var redeemCouponError = function (couponError) {
                 $scope.coupon.error = couponError;
+                
+                
                 if (couponError.status === 400) {
-                    $scope.couponErrorMessage = couponError.data.details[1].message;
+                    // Look for the COUPON error(s) by code, defined here:
+                    //https://devportal.yaas.io/services/coupon/latest/index.html#ValidateCouponRedemption
+                    // This is built to work with multiple coupon errors
+                    var filteredMessages = couponError.data.details.filter(function(msg){
+                        if (
+                            msg.type ===  'coupon_not_active'
+                            || msg.type ===  'coupon_expired'
+                            || msg.type ===  'coupon_redemptions_exceeded'
+                            || msg.type ===  'coupon_redemption_forbidden'
+                            || msg.type ===  'coupon_order_total_too_low'
+                            || msg.type ===  'coupon_currency_incorrect'
+                            || msg.type ===  'coupon_discount_currency_incorrect'
+                            || msg.type ===  'coupon_discount_amount_incorrect'
+                        ){
+                            return true;
+                        }
+                        else {
+                            return false;
+                        } 
+                           
+                    })
+                    .map(function(msg){
+                        return $translate(msg.type.toUpperCase());
+                    });
+                    
+                    $q.all(filteredMessages).then(function(msgs){
+                        $scope.couponErrorMessage = msgs.join(" and ");
+                    });
                 }
             };
 
