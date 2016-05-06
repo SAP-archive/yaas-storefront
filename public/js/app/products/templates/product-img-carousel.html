@@ -4,7 +4,7 @@
             <img id="{{$index}}" class="product-image" ng-repeat="image in images" ng-src="{{image.url}}" alt="" fullscreen>        
         </div>
         <div class="zoom">
-            <span class="glyphicon hyicon hyicon-plus" ng-click="enlargeImage()"></span>
+            <span class="glyphicon hyicon hyicon-plus hidden-xs hidden-sm" ng-click="enlargeImage()"></span>
         </div>
         <div class="hidden-lg hidden-md mobileThumbs">
             <div ng-repeat="thumb in images" ng-class="{'active': currentIndex === $index}" ng-click="moveCarousel($index)">
