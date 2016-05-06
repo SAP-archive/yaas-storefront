@@ -316,6 +316,4 @@ angular.module('ds.products')
                 $scope.refineContainerShowing = !$scope.refineContainerShowing;
             };
 
-            $scope.setSortedPage();
-
         }]);
