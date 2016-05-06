@@ -190,6 +190,20 @@ describe('AuthModalDialogCtrl Test', function () {
             deferredSignUp.resolve({});
             $rootScope.$apply();
             expect(MockedAuthSvc.signup).toHaveBeenCalled();
+            expect($scope.showCreateAccountErrMsg).toBeUndefined();
+        });
+
+        it('should call AuthSvc signup but show the error msg because cookies are disabled', function() {
+            mockedForm.$valid = true;
+            $scope.errors.signup = ['bad stuff'];
+            $scope.signup(authModel, mockedForm);
+
+            deferredSignUp.resolve({cookiesDisabled: true});
+            $rootScope.$apply();
+            expect(MockedAuthSvc.signup).toHaveBeenCalled();
+            expect($scope.showCreateAccountErrMsg).toBeTruthy();
+            expect($scope.user.signup.email).toEqualData('');
+            expect($scope.user.signup.password).toEqualData('');
         });
 
         it('should not call AuthSvc if form invalid', function(){
