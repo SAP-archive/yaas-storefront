@@ -50,10 +50,10 @@ angular.module('ds.coupon')
                                 }
                             })
                             .map(function(msg) {
-                                return $translate(msg.type.toUpperCase());
+                                return $translate.instant(msg.type.toUpperCase());
                             });
 
-                        return $q.all(filteredMessages);
+                        return filteredMessages;
                     }
                 }
             };

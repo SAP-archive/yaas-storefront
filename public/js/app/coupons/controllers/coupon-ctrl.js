@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.coupon')
-    .controller('CouponCtrl', ['$scope', '$rootScope', '$q', 'CartSvc', 'CouponSvc', 'AuthSvc', '$translate', 'GlobalData',
-        function($scope, $rootScope, $q, CartSvc, CouponSvc, AuthSvc, $translate, GlobalData) {
+    .controller('CouponCtrl', ['$scope', '$rootScope', 'CartSvc', 'CouponSvc', 'AuthSvc', '$translate', 'GlobalData',
+        function($scope, $rootScope, CartSvc, CouponSvc, AuthSvc, $translate, GlobalData) {
 
             $scope.cart = CartSvc.getLocalCart();
 
@@ -103,9 +103,9 @@ angular.module('ds.coupon')
             };
 
             var redeemCouponError = function (couponError) {
-                CouponSvc.redeemCouponError(couponError).then(function(msgs){
-                     $scope.couponErrorMessage = msgs.join(' and ');
-                });
+                     var errorMessages = CouponSvc.redeemCouponError(couponError);
+                     // Just display the first coupon error message
+                     $scope.couponErrorMessage = errorMessages[0];
             };
 
             var isValidCouponCode = function (code) {
@@ -115,5 +115,4 @@ angular.module('ds.coupon')
                 }
                 return true;
             };
-
         }]);

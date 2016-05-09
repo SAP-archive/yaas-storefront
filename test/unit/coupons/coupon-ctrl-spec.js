@@ -152,7 +152,8 @@ describe('CouponCtrl Test', function () {
 
     describe('Coupon Error Tests', function () {
         it('should handle coupon redeem error', function () {
-            var errorMessage = 'Could not redeem coupon';
+            var errorType = 'coupon_order_total_too_low';
+            var errorMessage = 'The order value is too low for this coupon';
 
             var couponGetResult = {
                 name: 'coupon1234',
@@ -168,7 +169,10 @@ describe('CouponCtrl Test', function () {
                 status: 400,
                 data: {
                     details: [
-                        {message: errorMessage}
+                        {
+                            type: errorType,
+                            message: errorMessage
+                        }
                     ]
                 }
             };
@@ -180,7 +184,8 @@ describe('CouponCtrl Test', function () {
             deferredRedeemCoupon.reject(couponRedeemResult);
 
             mockCouponSvc = {
-                getCoupon: jasmine.createSpy().andReturn(deferredGetCoupon.promise)
+                getCoupon: jasmine.createSpy().andReturn(deferredGetCoupon.promise),
+                redeemCouponError: jasmine.createSpy().andReturn(deferredGetCoupon.promise),
             };
 
             mockCartSvc = {
@@ -197,8 +202,10 @@ describe('CouponCtrl Test', function () {
             $scope.$apply();
 
             expect(mockCartSvc.redeemCoupon).toHaveBeenCalled();
+            
+            expect(mockCouponSvc.redeemCouponError).toHaveBeenCalled();
 
-            expect($scope.couponErrorMessage).toEqualData(errorMessage);
+            //expect($scope.couponErrorMessage).toEqualData(errorMessage);
         });
 
         it('should handle coupon GET 404', function () {
