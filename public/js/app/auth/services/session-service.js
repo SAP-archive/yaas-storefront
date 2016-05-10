@@ -13,8 +13,8 @@
 'use strict';
 angular.module('ds.auth')
     /** Encapsulates the logic for what needs to happen once a user is logged in or logged out.*/
-    .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings', '$rootScope',
-        function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings, $rootScope) {
+    .factory('SessionSvc', ['AccountSvc', 'CartSvc', 'GlobalData', '$state', '$stateParams', 'settings', '$rootScope', '$q',
+        function (AccountSvc, CartSvc, GlobalData, $state, $stateParams, settings, $rootScope, $q) {
 
             function navigateAfterLogin(context){
                 if(context && context.targetState){
@@ -46,7 +46,7 @@ angular.module('ds.auth')
              * - targetStateParams - state params to go with the targetState
              * */
             afterLogIn: function (context) {
-
+                var deferred = $q.defer();
                 // there must be an account
                 AccountSvc.account().then(function (account) {
                     //Customer login event
@@ -54,7 +54,9 @@ angular.module('ds.auth')
                     return account;
                 }).finally(function () {
                    commonPostLogin(context);
+                   deferred.resolve();
                 });
+                return deferred.promise;
             },
 
             afterLogOut: function(){

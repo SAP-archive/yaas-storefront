@@ -256,11 +256,15 @@ angular.module('ds.auth')
 
                 /** Performs login logic following login through social media login.*/
                 socialLogin: function (providerId, token) {
-                    return AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
+                    var deferred = $q.defer();
+                    AuthREST.Customers.one('login', providerId).customPOST({accessToken: token}).then(function (response) {
                         // passing static username to trigger 'is authenticated' validation of token
                         TokenSvc.setToken(response.accessToken, 'social');
-                        SessionSvc.afterLogIn();
+                        SessionSvc.afterLogIn().then(function () {
+                            deferred.resolve();
+                        });
                     });
+                    return deferred.promise;
                 }
 
             };
