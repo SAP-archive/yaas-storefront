@@ -16,8 +16,8 @@
  *  Provides a variety of coupon: access, validation, and redemptions services.
  */
 angular.module('ds.coupon')
-    .factory('CouponSvc', ['CartSvc', 'CouponREST', '$q', '$translate',
-        function(CartSvc, CouponREST, $q, $translate) {
+    .factory('CouponSvc', ['CartSvc', 'CouponREST', '$translate',
+        function(CartSvc, CouponREST, $translate) {
 
             return {
 
@@ -56,7 +56,7 @@ angular.module('ds.coupon')
                         return filteredMessages;
                     }
                     else {
-                        return $translate.instant('COUPON_ERROR');
+                        return $translate.instant(['COUPON_ERROR']);
                     }
                 }
             };
