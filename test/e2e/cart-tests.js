@@ -124,7 +124,7 @@ describe("cart:", function () {
             tu.verifyCartTotal("$115.24");
         });
 
-        it('should not add out of stock item', function () {
+        it('should have out of stock button disabled', function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
@@ -136,11 +136,10 @@ describe("cart:", function () {
             browser.wait(function () {
                 return element(by.id('out-of-stock-btn')).isDisplayed();
             });
-            tu.clickElement('id', 'out-of-stock-btn');
-            browser.sleep(500);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
+
+            var outOfOrder = element(by.id('out-of-stock-btn'));
+            expect(outOfOrder.isEnabled()).toBe(false);
+
         });
 
         it('should retrieve previous cart', function () {
