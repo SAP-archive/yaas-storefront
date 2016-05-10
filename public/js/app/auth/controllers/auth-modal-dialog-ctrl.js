@@ -16,8 +16,8 @@ angular.module('ds.auth')
  * Controller for handling authentication related modal dialogs (signUp/signIn).
  */
     .controller('AuthModalDialogCtrl', ['$rootScope', '$scope', 'AuthSvc',
-        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state', 'YGoogleSignin',
-        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state, YGoogleSignin) {
+        'settings', 'AuthDialogManager', 'loginOpts', 'showAsGuest', '$state', 'YGoogleSignin', '$window',
+        function ($rootScope, $scope, AuthSvc, settings, AuthDialogManager, loginOpts, showAsGuest, $state, YGoogleSignin, $window) {
 
             $scope.user = {
                 signup: {},
@@ -36,6 +36,7 @@ angular.module('ds.auth')
             $scope.googleClientId = settings.googleClientId;
             // determines "continue as guest" button:
             $scope.showAsGuest = showAsGuest;
+            $scope.cookiesEnabled = $window.navigator.cookieEnabled;
 
             AuthSvc.initFBAPI();
             AuthSvc.initGoogleAPI();
@@ -54,8 +55,14 @@ angular.module('ds.auth')
             $scope.signup = function (authModel, signUpForm) {
                 if (signUpForm.$valid) {
                     AuthSvc.signup(authModel, loginOpts).then(
-                        function () {
-                            $scope.closeDialog();
+                        function (response) {
+                            if (response.cookiesDisabled) {
+                                $scope.showCreateAccountErrMsg = true;
+                                $scope.user.signup.email = '';
+                                $scope.user.signup.password = '';
+                            } else {
+                                $scope.closeDialog();
+                            }
                         }, function (response) {
                             $scope.errors.signup = AuthSvc.extractServerSideErrors(response);
                         }
