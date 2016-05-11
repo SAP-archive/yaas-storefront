@@ -84,12 +84,12 @@ describe('Coupon Service Test:', function() {
     beforeEach(function() {
         module('restangular');
     });
-    
+
     beforeEach(function() {
         module('ds.i18n');
     });
-    
-    
+
+
 
     beforeEach(inject(function(_CouponSvc_, _$rootScope_, _$timeout_, _CouponREST_, _CartSvc_, _$httpBackend_, SiteConfigSvc) {
         $rootScope = _$rootScope_;
@@ -105,11 +105,11 @@ describe('Coupon Service Test:', function() {
         mockBackend = _$httpBackend_;
         couponUrl = SiteConfigSvc.apis.coupon.baseUrl;
         cartUrl = SiteConfigSvc.apis.cart.baseUrl;
-        
-        
+
+
     }));
 
-    describe('Coupon Service ', function() {
+    ddescribe('Coupon Service ', function() {
 
         it('should exist', function() {
             expect(CouponSvc.getCoupon).toBeDefined();
@@ -127,6 +127,7 @@ describe('Coupon Service Test:', function() {
         });
 
         it("should display proper error messages from redeemCoupon error response", function() {
+
             var mockCouponError = {
                 'status': 400,
                 'data': {
@@ -146,10 +147,21 @@ describe('Coupon Service Test:', function() {
 
             var msgs = CouponSvc.redeemCouponError(mockCouponError);
 
-            console.log('msgs', msgs);
-
             // $translate service is mocked and not actually returning translation
             expect(msgs[0]).toBe('COUPON_ORDER_TOTAL_TOO_LOW');
+
+        });
+        it("should display non-400 error message from redeemCoupon error response", function() {
+            var mockCouponError = {
+                'status': 401,
+                'data': {
+                }
+            };
+
+            var msgs = CouponSvc.redeemCouponError(mockCouponError);
+
+            // $translate service is mocked and not actually returning translation
+            expect(msgs[0]).toBe('COUPON_ERROR');
 
         });
 
