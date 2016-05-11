@@ -557,7 +557,7 @@ a.siteSelectorIcon{
 
 
 .signInTabs{
-  width: 55%;
+  // width: 55%;
   font-size: 15px;
   margin: 0 auto 30px auto;
   text-transform: uppercase;
@@ -576,6 +576,11 @@ a.siteSelectorIcon{
   &.nav-tabs > li > a:hover,
   &.nav-tabs > li > a:focus {
     // padding: 0 20px;
+  }
+
+  li{
+    float: none;
+    display: inline-block;
   }
 
   li.signInButton{
@@ -940,8 +945,14 @@ a.siteSelectorIcon{
 
 .regionControlList{
   border-right: 1px solid #b3b8bb;
+  li{
+    cursor:pointer;
+  }
 }
 .languageMenu{
+    li{
+      cursor: pointer;
+    }
     li:hover{
         color:@darkestgrey;
     }

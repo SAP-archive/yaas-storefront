@@ -72,7 +72,7 @@
                             <!-- add to cart -->
                             <div  class="col-md-12 col-lg-12 buyButton">
                                 <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                                <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-primary ">{{'OUT_OF_STOCK' | translate}}</button>
+                                <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-default" disabled>{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
                             
                             <!-- shipping rates -->

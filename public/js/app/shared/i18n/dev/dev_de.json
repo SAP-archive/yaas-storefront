@@ -563,6 +563,10 @@
     //XMSG
     "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
     //XMSG
+    "COOKIES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
+    "CREATE_ACCOUNT_ERROR": "Customer account was created successfully, but cookies must be enabled to login. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
     "PASSWORD_REQUIRED": "Das Kennwort muss mindestens 6 Zeichen haben.",
     //XMSG
     "PASSWORDS_MUST_MATCH": "Die Kennwörter müssen übereinstimmen.",
