@@ -56,7 +56,8 @@ angular.module('ds.coupon')
                         return filteredMessages;
                     }
                     else {
-                        return $translate.instant(['COUPON_ERROR']);
+                        var error = $translate.instant('COUPON_ERROR');
+                        return [error];
                     }
                 }
             };
