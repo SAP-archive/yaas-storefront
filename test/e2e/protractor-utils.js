@@ -103,13 +103,23 @@ exports.assertProductByRepeaterRow = function (number, productName) {
     expect(element(by.repeater('product in products').row(number).column('product.name')).getText()).toEqual(productName);
 };
 
-exports.selectOption = function (option) {
-    element(by.css('select option[value="' + option + '"]')).click()
+exports.selectOption = function (key, value) {
+    //element(by.css('select option[value="' + option + '"]')).click()
+
+    this.field = element(by.model(key));
+    this.selectField = this.field.element(by.css('.ui-select-search'));
+    this.field.click();
+    this.selectField.clear();
+    this.selectField.sendKeys(value);
+    element.all(by.css('.ui-select-choices-row-inner span')).first().click();
 };
 
+
 exports.sortAndVerifyPagination = function (sort, product1, price1) {
-    tu.selectOption(sort);
-    browser.sleep(250);
+
+    tu.selectOption("sort.selected", sort);
+    browser.sleep(400);
+
     tu.assertProductByRepeaterRow(0, product1);
     expect(element(by.repeater('product in products').row(0).column('prices[product.product.id].effectiveAmount')).getText()).toEqual(price1);
 };
@@ -229,15 +239,31 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal, verify) {
 exports.populateAddress = function (country, contact, street, aptNumber, city, state, zip, phone) {
     tu.clickElement('id', "add-address-btn");
     browser.sleep(1000);
+
+    //element(by.css('select option[value="' + option + '"]')).click()
+    this.sort = element(by.model('address.country'));
+    this.selectSort = this.sort.element(by.css('.ui-select-search'));
+    this.sort.click();
+    this.selectSort.clear();
+    this.selectSort.sendKeys(country);
+    element.all(by.css('.ui-select-choices-row-inner span')).first().click();
     // Now all the countries are presented in the ddlb, US is not anymore the first one
-    element(by.cssContainingText('option', country)).click();
+    //element(by.cssContainingText('option', country)).click();
     //element(by.css('select option[value="' + country + '"]')).click();
+
+
     tu.sendKeys('id', 'contactName', contact);
     tu.sendKeys('id', 'street', street);
     tu.sendKeys('id', 'streetAppendix', aptNumber);
     tu.sendKeys('id', 'city', city);
-    if (country === 'United States') {
-        element(by.css('select option[value="' + state + '"]')).click();
+    if ((country == 'United States') || (country == 'Canada')) {
+        this.sort = element(by.model('address.state'));
+        this.selectSort = this.sort.element(by.css('.ui-select-search'));
+        this.sort.click();
+        this.selectSort.clear();
+        this.selectSort.sendKeys(state);
+        element.all(by.css('.ui-select-choices-row-inner span')).first().click();
+        //element(by.css('select option[value="' + state + '"]')).click();
     } else {
         element(by.id('state')).sendKeys(state);
     }
@@ -264,8 +290,11 @@ exports.createAccount = function (emailAddress) {
 
 exports.fillCreditCardForm = function (ccNumber, ccMonth, ccYear, cvcNumber) {
     tu.sendKeys('id', 'ccNumber', ccNumber);
-    element(by.id('expMonth')).sendKeys(ccMonth);
-    element(by.id('expYear')).sendKeys(ccYear);
+    tu.selectOption('order.creditCard.expMonth', ccMonth);
+    tu.selectOption('order.creditCard.expYear', ccYear);
+
+    //element(by.id('expMonth')).sendKeys(ccMonth);
+    //element(by.id('expYear')).sendKeys(ccYear);
     tu.sendKeys('id', 'cvc', cvcNumber);
 };
 

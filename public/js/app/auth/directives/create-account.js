@@ -46,13 +46,6 @@ angular.module('ds.auth')
                 AuthSvc.faceBookLogin();
             };
 
-            // react to event fired by goole+ signing directive
-            $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-                if( authResult.status.method && authResult.status.method !== 'AUTO' ){
-                    AuthSvc.onGoogleLogIn( authResult[settings.configKeys.googleResponseToken]);
-                }
-            });
-
         }
     };
 }]);

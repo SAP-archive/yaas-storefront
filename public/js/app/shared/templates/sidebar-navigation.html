@@ -42,7 +42,7 @@
     <div ng-if="user.isAuthenticated" >
         <div class="signinContainer">
             <div class="col-xs-3 text-right">
-                <a><img src="./img/user-icon_small_active.png" class="user-avatar" ng-click="myAccount()"></a>
+                <a><img ng-src="{{user.image}}" class="user-avatar socialAvatar" ng-click="myAccount()"></a>
             </div>
             <div class="col-xs-9 my-account-link">
                 <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">

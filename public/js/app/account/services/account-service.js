@@ -113,6 +113,27 @@ angular.module('ds.account')
                 }
                 return defAccount.promise;
 
+            },
+
+            /**
+             * Expected attribute is account containing email, password and newEmail fields.
+             * Creates POST request to customer service that will initiate change of email.
+             * Returns a promise of the result.
+             */
+            updateEmail: function (account) {
+                return AuthREST.Customers.all('me').all('accounts').all('internal').all('email').customPOST(account, 'change');
+            },
+
+            /**
+             * Expected attribute is token.
+             * Creates POST request to customer service that will confirm change of email.
+             * Returns a promise of the result.
+             */
+            confirmEmailUpdate: function (token) {
+                var data = {
+                    token: token
+                };
+                return AuthREST.Customers.all('me').all('accounts').all('internal').all('email').all('change').customPOST(data, 'confirm');
             }
 
         };

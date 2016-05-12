@@ -39,7 +39,8 @@ describe('coupons:', function () {
         });
         tu.sendKeys('id', 'firstNameAccount', 'Mike');
         tu.sendKeys('id', 'lastNameAccount', 'Night');
-        element(by.id('titleAccount')).sendKeys('Mr.');
+        tu.selectOption('order.account.title', 'MR');
+        //element(by.id('titleAccount')).sendKeys('Mr.');
 
         browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
             browser.sleep(2000);
@@ -82,7 +83,8 @@ describe('coupons:', function () {
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
-        it('should not allow user to add coupon below minimum on cart', function () {
+        // TP-4483 opened
+        xit('should not allow user to add coupon below minimum on cart', function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
             tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', '20MINIMUM');
@@ -192,38 +194,39 @@ describe('coupons:', function () {
             removeFromCart();
         });
 
-        it('should not allow user to use expired coupon on cart', function () {
+        // TP-4483 opened
+        xit('should not allow user to use expired coupon on cart', function () {
             addProductandApplyCoupon('EXPIRED', '$11.42');
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON HAS EXPIRED.');
             removeFromCart();
         });
 
         // Comment out this test, as Coupon is not available in checkout page at the moment(following changes for shipping rates
-        //it('should not allow purchase under minimum at checkout', function () {
-        //    tu.createAccount('coupontestmin1');
-        //    tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-        //    browser.sleep(1000);
-        //    var category = element(by.repeater('top_category in categories').row(1).column('category.name'));
-        //    browser.driver.actions().mouseMove(category).perform();
-        //    browser.sleep(200);
-        //    category.click();
-        //    tu.loadProductIntoCartAndVerifyCart('1', '$19.27');
-        //    tu.clickElement('binding', 'CHECKOUT');
-        //    browser.wait(function () {
-        //        return element(by.id("ccNumber")).isPresent();
-        //    });
-        //    tu.sendKeys('id', 'firstNameAccount', 'Mike');
-        //    tu.sendKeys('id', 'lastNameAccount', 'Night');
-        //    element(by.id('titleAccount')).sendKeys('Mr.');
-        //    tu.clickElement('linkText', 'Add Coupon Code');
-        //    tu.sendKeys('id', 'coupon-code', '20MINIMUM');
-        //    tu.clickElement('id', 'apply-coupon');
-        //    browser.wait(function () {
-        //        return element(by.binding('couponErrorMessage')).isPresent();
-        //    });
-        //    expect(element(by.binding('couponErrorMessage')).getText()).toContain('The order value is too low for this coupon.');
-        //
-        //});
+        xit('should not allow purchase under minimum at checkout', function () {
+            tu.createAccount('coupontestmin1');
+            tu.populateAddress('0', 'Coupon Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
+            browser.sleep(1000);
+            var category = element(by.repeater('top_category in categories').row(1).column('category.name'));
+            browser.driver.actions().mouseMove(category).perform();
+            browser.sleep(200);
+            category.click();
+            tu.loadProductIntoCartAndVerifyCart('1', '$19.27');
+            tu.clickElement('binding', 'CHECKOUT');
+            browser.wait(function () {
+                return element(by.id("ccNumber")).isPresent();
+            });
+            tu.sendKeys('id', 'firstNameAccount', 'Mike');
+            tu.sendKeys('id', 'lastNameAccount', 'Night');
+            element(by.id('titleAccount')).sendKeys('Mr.');
+            tu.clickElement('linkText', 'Add Coupon Code');
+            tu.sendKeys('id', 'coupon-code', '20MINIMUM');
+            tu.clickElement('id', 'apply-coupon');
+            browser.wait(function () {
+                return element(by.binding('couponErrorMessage')).isPresent();
+            });
+            expect(element(by.binding('couponErrorMessage')).getText()).toContain('The order value is too low for this coupon.');
+
+        });
 
         it('should allow purchase over minimum', function () {
             tu.createAccount('coupontestmin2');

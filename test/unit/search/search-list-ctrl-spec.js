@@ -11,7 +11,7 @@ describe('SearchListCtrl', function () {
     mockedGlobalData.products.meta.total = 0;
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
-
+    mockedGlobalData.getSearchRefinements = jasmine.createSpy('getProductRefinements').andReturn([{id:'mostRelevant', name: 'Most Relevant'}]);
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 
@@ -57,8 +57,7 @@ describe('SearchListCtrl', function () {
                 "tags" : [ "main" ],
                 "stored" : true,
                 "customAttributes" : {
-                    "filename" : "mug-coffee-white-1",
-                    "main" : true
+                    "filename" : "mug-coffee-white-1"
                 }
             }, {
                 "id" : "555f0239b92e219a88a3fb16",

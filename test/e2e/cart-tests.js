@@ -124,7 +124,7 @@ describe("cart:", function () {
             tu.verifyCartTotal("$115.24");
         });
 
-        it('should not add out of stock item', function () {
+        it('should have out of stock button disabled', function () {
             tu.clickElement('id', tu.cartButtonId);
             tu.waitForCart();
             expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
@@ -136,11 +136,10 @@ describe("cart:", function () {
             browser.wait(function () {
                 return element(by.id('out-of-stock-btn')).isDisplayed();
             });
-            tu.clickElement('id', 'out-of-stock-btn');
-            browser.sleep(500);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
+
+            var outOfOrder = element(by.id('out-of-stock-btn'));
+            expect(outOfOrder.isEnabled()).toBe(false);
+
         });
 
         it('should retrieve previous cart', function () {
@@ -164,8 +163,7 @@ describe("cart:", function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$10.67');
             tu.clickElement('binding', 'ESTIMATE_TAX');
             tu.sendKeys('id', 'zipCode', '98101');
-            tu.clickElement('id', 'country');
-            tu.selectOption('US');
+            tu.selectOption('calculateTax.countryCode', 'US');
             tu.clickElement('id', 'apply-btn');
             //expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$1.85');
             expect(element(by.binding('cart.totalTax.amount ')).isPresent()).toBe(true);
@@ -185,17 +183,18 @@ describe("cart:", function () {
 
             tu.clickElement('id', 'addEditNote');
             tu.sendKeys('id', 'cartItemNote', noteText + ",please.");
-            return tu.clickElement('id', 'saveCartItemNote');
+            tu.clickElement('id', 'saveCartItemNote');
             browser.wait(function () {
                 return element(by.id('addEditNote')).isDisplayed();
             });
-            expect(element(by.id("cartItemNote")).getText()).toEqual(noteText + ",please.");
+            //expect(element(by.binding('item.mixins.note.comment')).getText()).toEqual(noteText + ",please.");
+            expect(element(by.css('.note-display.ng-binding')).getText()).toEqual(noteText + ",please.");
         });
 
         xit('should automatically close when mousing off', function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$10.67');
             browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
-            // wait over 3 seconds 
+            // wait over 3 seconds
             browser.sleep(4500);
             browser.driver.actions().mouseMove(element(by.css('div.content-mask'))).perform();
             expect(element(by.binding('CONTINUE_SHOPPING')).isDisplayed()).toBe(false);

@@ -1,0 +1,58 @@
+.image-carousel img{
+    max-width: 100%;
+}
+.product-image {
+    position: absolute;
+}
+.main-image-container {
+    overflow: hidden;
+    padding: 0; 
+}
+.product-images {
+    transition: all .5s ease;
+}
+.thumbnails img{
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-bottom: 3px solid transparent;
+}
+.thumbnails img.active {
+    border-color: #0068b3;
+}
+.zoom {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.zoom span {
+    cursor: pointer;
+    color: #999;
+    transform: scale(1.5);
+}
+.mobileThumbs {
+    position: relative;
+    top: 92.5%;
+    left: 50%;
+    height: 10px;
+    width: inherit;
+}
+.mobileThumbs div {
+    float: left;
+    width: 26px;
+    height: 2px;
+    padding: 12px 3px;
+    cursor: pointer;
+}
+.mobileThumbs span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: #999;
+}
+.mobileThumbs div.active span{
+    background-color: #0079ff;
+}
+:-webkit-full-screen {
+    position: static;
+}

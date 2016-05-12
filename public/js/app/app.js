@@ -37,6 +37,7 @@ window.app = angular.module('ds.app', [
     'xeditable',
     'ngSanitize',
     'ui.select',
+    'ui-notification',
     'ds.ybreadcrumb',
     'ds.ytracking',
     'ds.localstorage',

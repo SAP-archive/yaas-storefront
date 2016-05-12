@@ -16,8 +16,8 @@
  *  Encapsulates access to the "authentication" service.
  */
 angular.module('ds.auth')
-    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window',
-        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window) {
+    .factory('AuthSvc', ['AuthREST', '$rootScope', 'settings', 'TokenSvc', 'GlobalData', 'appConfig', '$state', '$q', 'SessionSvc', '$window', 'YGoogleSignin',
+        function (AuthREST, $rootScope, settings, TokenSvc, GlobalData, appConfig, $state, $q, SessionSvc, $window, YGoogleSignin) {
 
             function loginAndSetToken(user) {
                 return AuthREST.Customers.all('login').customPOST(user).then(function (response) {
@@ -117,32 +117,41 @@ angular.module('ds.auth')
                 },
 
 
-                onGoogleLogIn: function (gToken) {
-
-                    AuthenticationService.socialLogin('google', gToken).then(function () {
+                onGoogleLogIn: function (user) {
+                    AuthenticationService.socialLogin('google', user.token).then(function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: true});
                         try {
-                            window.gapi.client.load('plus', 'v1').then(function () {
-                                window.gapi.client.plus.people.get({
-                                    'userId': 'me'
-                                }).then(function (response) {
-                                    if (response.result) {
-                                        SessionSvc.afterSocialLogin({
-                                            email: response.result.emails[0].value,
-                                            firstName: response.result.name.givenName,
-                                            lastName: response.result.name.familyName
-                                        });
-                                    }
-
-                                });
+                            if (user.image) {
+                                GlobalData.user.image = user.image;
+                            }
+                            SessionSvc.afterSocialLogin({
+                                email: user.email,
+                                firstName: user.firstname,
+                                lastName: user.lastname
                             });
                         } catch (error) {
-                            console.error('Unable to load Google+ user profile');
+                            console.error('Unable to load Google user profile');
                         }
                     }, function () {
                         $rootScope.$emit('user:socialLogIn', {loggedIn: false});
                     });
 
+                },
+
+                initGoogleAPI: function () {
+                    YGoogleSignin.loadData(settings.googleClientId);
+                },
+
+                isGoogleLoggedIn: function (customer) {
+                    if (customer && customer.accounts) {
+                        for (var i = 0; i < customer.accounts.length; i++) {
+                            if (customer.accounts[i].providerId === 'google') {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    return false;
                 },
 
                 fbParse: function () {
@@ -183,13 +192,18 @@ angular.module('ds.auth')
                 signup: function (user, context) {
                     var def = $q.defer();
                     AuthREST.Customers.all('signup').customPOST(user).then(function () {
-                        loginAndSetToken(user).then(function () {
-                            settings.hybrisUser = user.email;
-                            def.resolve({});
-                            SessionSvc.afterLoginFromSignUp(context);
-                        }, function (error) {
-                            def.reject(error);
-                        });
+                        if ($window.navigator.cookieEnabled) {
+                           loginAndSetToken(user).then(function () {
+                                settings.hybrisUser = user.email;
+                                def.resolve({});
+                                SessionSvc.afterLoginFromSignUp(context);
+                            }, function (error) {
+                                def.reject(error);
+                            });
+                        } else {
+                            def.resolve({cookiesDisabled: true});
+                        }
+                        
                     }, function (error) {
                         def.reject(error);
                     });
@@ -198,6 +212,11 @@ angular.module('ds.auth')
 
                 /** Logs the customer out and removes the token cookie. */
                 signOut: function () {
+                    if (GlobalData.customerAccount.accounts[0].providerId === 'google') {
+                        YGoogleSignin.logout().then(function () {
+                            GlobalData.user.image = settings.avatarImagePlaceholder;
+                        });
+                    }
                     AuthREST.Customers.all('logout').customGET('', {accessToken: TokenSvc.getToken().getAccessToken()});
                     // unset token after logout - new anonymous token will be generated for next request automatically
                     TokenSvc.unsetToken(settings.accessCookie);
