@@ -109,7 +109,7 @@ describe('Coupon Service Test:', function() {
 
     }));
 
-    ddescribe('Coupon Service ', function() {
+    describe('Coupon Service ', function() {
 
         it('should exist', function() {
             expect(CouponSvc.getCoupon).toBeDefined();
