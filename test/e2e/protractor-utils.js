@@ -178,8 +178,7 @@ exports.switchSite = function (site) {
             _.each(items, function (item) {
                 if (item.currSite == site) {
                     sites.get(item.index).click();
-                }
-                ;
+                };
             })
         });
     //element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li')).each(function (currSite) {
@@ -233,7 +232,7 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal, verify) {
         tu.verifyCartAmount(cartAmount);
         tu.verifyCartTotal(cartTotal);
     }
-}
+};
 
 //country is populated from localized-addresses.js
 exports.populateAddress = function (country, contact, street, aptNumber, city, state, zip, phone) {
