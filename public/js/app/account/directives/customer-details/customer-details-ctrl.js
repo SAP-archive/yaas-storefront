@@ -55,6 +55,17 @@
                     AuthDialogManager.showUpdatePassword();
                 };
 
+                function isItSocialAccount (accounts) {
+                    for (var i = 0; i < accounts.length; i++) {
+                        if (accounts[i].providerId === 'google' || accounts[i].providerId === 'facebook') {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                $scope.isItSocialAccount = $scope.account ? isItSocialAccount($scope.account.accounts) : false;
+
                 // handle dialog dismissal if user select back button, etc
                 $scope.$on('$destroy', function () {
                     if ($scope.modalInstance && $scope.modalInstance.dismiss) {
