@@ -33,7 +33,7 @@ angular.module('ds.auth')
                     $rootScope.$emit('user:socialLogIn', {loggedIn: true});
                     /* jshint ignore:start */
                     try {
-                        FB.api('/me', function (response) {
+                        FB.api('/me', {}, function (response) {
                             SessionSvc.afterSocialLogin({
                                 email: response.email,
                                 firstName: response.first_name,
@@ -68,7 +68,7 @@ angular.module('ds.auth')
                         if (response.status === 'connected') {
                             onFbLogIn(response.authResponse.accessToken);
                         } else {
-                            FB.login();
+                            FB.login(function () {}, { scope: 'email' });
                         }
                     }, true);
 
