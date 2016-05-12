@@ -159,7 +159,10 @@
                         </a></td>
                         <td>{{entry.product.name}}</td>
                         <td>{{entry.product.sku}}</td>
-                        <td class="text-right">{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            <span>{{entry.unitPrice | currency: currencySymbol}}</span>
+                            <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>
+                        </td>
                         <td class="text-center">{{entry.amount}}</td>
                         <td class="text-right"><strong>{{entry.totalPrice |currency: currencySymbol}}</strong></td>
                         <td class="margin-cell"></td>
@@ -213,11 +216,14 @@
                             </a>
                         </td>
                         <td colspan="7" class="text-left product-details-mobile">
-                            {{entry.product.name}} <br>
-                            {{'SKU' | translate}}: {{entry.product.sku}} <br>
-                            {{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}} <br>
-                            {{'QTY' | translate}}: {{entry.amount}} <br>
-                            <strong>{{'TOTAL_PRICE' | translate}}: {{entry.totalPrice |currency: currencySymbol}}</strong>
+                            <div>{{entry.product.name}}</div>
+                            <div>{{'SKU' | translate}}: {{entry.product.sku}}</div>
+                            <div>
+                                <span>{{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}}</span>
+                                <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>
+                            </div>
+                            <div>{{'QTY' | translate}}: {{entry.amount}}</div>
+                            <div><strong>{{'TOTAL_PRICE' | translate}}: {{entry.totalPrice |currency: currencySymbol}}</strong></div>
                         </td>
                     </tr>
                     <tr class="summary-row visible-sm visible-xs">
