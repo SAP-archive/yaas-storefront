@@ -34,7 +34,7 @@ angular.module('ds.account')
 
             // show more or less addresses.
             $scope.showAddressDefault = 6;
-            $scope.showAddressButtons = ($scope.addresses.length >= $scope.showAddressDefault);
+            $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
             $scope.showAllAddressButton = true;
             $scope.showAddressFilter = $scope.showAddressDefault;
 

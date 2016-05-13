@@ -119,11 +119,10 @@
         
         <localized-addresses type="billing"></localized-addresses>
 
-        <div class="col-lg-12 col-md-12">
-            <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
-        </div>
-
         <div class="col-lg-12 custom-select-container checkout-selector" ng-show="shippingConfigured">
+            <div class="col-lg-12 col-md-12">
+                <span class="form-block-headline">{{'DELIVERY_METHOD' | translate}}</span>
+            </div>
             <div class="form-group input-group">
                 <label class="input-group-addon control-label" for="shipMethod">{{'METHOD' | translate}}</label>
                 <ui-select ng-model="$parent.shippingCost" on-select="closeCartOnCheckout()" ng-disabled="!shippingCosts.length">

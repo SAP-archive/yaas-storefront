@@ -538,7 +538,7 @@ describe('CheckoutCtrl', function () {
 
             it('should not select address if country is not shipTo', function() {
                 returnAddress.country = 'FR';
-                $scope.shippingConfigured = true;
+                $scope.shippingZones = [{id: 'US'}, {id: 'CA'}];
                 $scope.ifShipAddressApplicable(returnAddress, returnAddress);
                 expect($scope.selectAddress).not.toHaveBeenCalled();
             });
@@ -558,12 +558,29 @@ describe('CheckoutCtrl', function () {
                 expect($scope.selectAddress).toHaveBeenCalledWith(returnAddress, returnAddress);
             });
 
+            it('should behave set address filter to default and display show all button', function() {
+                $scope.showAddressFilter = 1;
+                $scope.toggleAddresses();
+                $scope.$apply();
+                expect($scope.showAddressFilter).toEqualData($scope.showAddressDefault);
+                expect($scope.showAllAddresses).toBeFalsy();
+            });
+
+            it('should behave set address filter to address length and display show less button', function() {
+                $scope.addresses.push(returnAddress);
+                $scope.showAddressFilter = 6;
+                $scope.toggleAddresses();
+                $scope.$apply();
+                expect($scope.showAddressFilter).toEqualData($scope.addresses.length);
+                expect($scope.showAllAddresses).toBeTruthy();
+            });
+
         });
 
         describe('Disable address class method', function () {
 
             it('disableAddress should depend on country if it is shipTo', function() {
-                $scope.shippingConfigured = true;
+                $scope.shippingZones = [{id: 'US'}, {id: 'CA'}];
                 $scope.isDialog = true;
                 expect($scope.disableAddress('FR')).toBeTruthy();
                 expect($scope.disableAddress('US')).toBeFalsy();

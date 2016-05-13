@@ -28,7 +28,7 @@ angular.module('ds.checkout')
                     shippingZones = zones.length ? zones.plain() : [];
                     for (var i = 0; i < shippingZones.length; i++) {
                         for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
-                            if (shippingZones[i].methods.length && shipToCountries.indexOf(shippingZones[i].shipTo[j]) < 0) {
+                            if (shipToCountries.indexOf(shippingZones[i].shipTo[j]) < 0) {
                                 shipToCountries.push(shippingZones[i].shipTo[j]);
                             }
                         }

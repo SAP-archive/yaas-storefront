@@ -119,7 +119,7 @@ angular.module('ds.checkout')
                             $scope.addresses = response;
                             selectedBillingAddress = defaultAddress;
                             selectedShippingAddress = defaultAddress;
-                            if ($scope.isShipToCountry(defaultAddress.country) || !$scope.shippingConfigured) {
+                            if ($scope.isShipToCountry(defaultAddress.country) || !$scope.shippingZones.length) {
                                 populateBillTo(defaultAddress);
                             }
                             updateShippingCost(defaultAddress);
@@ -444,7 +444,7 @@ angular.module('ds.checkout')
                 else if (target === $scope.order.shipTo) {
                     selectedShippingAddress = address;
                     $scope.$emit('localizedAddress:updated', address.country, 'shipping');
-                    updateShippingCost($scope.order.shipTo);
+                    updateShippingCost(selectedShippingAddress);
                 }
                 addressModalInstance.close();
 
@@ -475,6 +475,8 @@ angular.module('ds.checkout')
                                 $scope.isDialog = true;
                                 $scope.showAddressDefault = 6;
                                 $scope.showAddressFilter = $scope.showAddressDefault;
+                                $scope.showAllAddressButton = $scope.showAddressDefault < $scope.addresses.length;
+                                $scope.showAllAddresses = false;
                                 $scope.target = target;
                                 $scope.addType = addType;
                             });
@@ -485,6 +487,15 @@ angular.module('ds.checkout')
 
             $scope.closeAddressDialog = function () {
                 addressModalInstance.close();
+            };
+
+            $scope.toggleAddresses = function () {
+                if ($scope.showAddressFilter === $scope.addresses.length) {
+                    $scope.showAddressFilter = $scope.showAddressDefault;
+                } else {
+                    $scope.showAddressFilter = $scope.addresses.length;
+                }
+                $scope.showAllAddresses = $scope.showAddressFilter === $scope.addresses.length;
             };
 
             $scope.$on('goToStep2', function(){
@@ -515,7 +526,7 @@ angular.module('ds.checkout')
             };
 
             $scope.disableAddress = function (country) {
-                if (!$scope.isShipToCountry(country) && $scope.shippingConfigured && $scope.isDialog && $scope.addType !== 'billing') {
+                if (!$scope.isShipToCountry(country) && $scope.shippingZones.length && $scope.isDialog && $scope.addType !== 'billing') {
                     return true;
                 } else {
                     return false;
@@ -527,7 +538,7 @@ angular.module('ds.checkout')
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
-                if ($scope.shippingConfigured && $scope.addType !== 'billing') {
+                if ($scope.shippingZones.length && $scope.addType !== 'billing') {
                     if ($scope.isShipToCountry(address.country)) {
                         $scope.selectAddress(address, target);
                     }
@@ -614,15 +625,15 @@ angular.module('ds.checkout')
             });
 
             var updateShippingCost = function (shipToAddress) {
-                if (!shipToAddress.zipCode) {
-                    shipToAddress.zipCode = '';
-                }
-                var address = shipToAddress;
-                if (!address.zipCode) {
-                    address.zipCode = '';
-                }
-                var cart = $scope.cart;
-                if ($scope.isShipToCountry(shipToAddress.country)) {
+
+                if ($scope.isShipToCountry(shipToAddress.country) && $scope.shippingConfigured) {
+
+                    if (!shipToAddress.zipCode) {
+                        shipToAddress.zipCode = '';
+                    }
+
+                    var address = shipToAddress;
+                    var cart = $scope.cart;
 
                     var data = {
                         'cartTotal': {

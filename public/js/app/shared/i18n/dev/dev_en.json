@@ -236,6 +236,24 @@
     "COUPON_NOT_APPLIED": "Not Applied",
     //XLNK
     "COUPON_CODE": "Add Coupon Code",
+                            
+    //XMSG
+    "COUPON_NOT_ACTIVE": "The coupon is not active", 
+    //XMSG
+    "COUPON_EXPIRED": "The coupon is not active", 
+    //XMSG
+    "COUPON_REDEMPTIONS_EXCEEDED": "Coupon has reached maximum number of redemptions", 
+    //XMSG
+    "COUPON_REDEMPTION_FORBIDDEN": "Current customer is not allowed to redeem the coupon", 
+    //XMSG
+    "COUPON_ORDER_TOTAL_TOO_LOW": "The order value is too low for this coupon", 
+    //XMSG
+    "COUPON_CURRENCY_INCORRECT": "Currency inconsistent with coupon", 
+    //XMSG
+    "COUPON_DISCOUNT_CURRENCY_INCORRECT": "Discount currency invalid inconsistent coupon", 
+    //XMSG
+    "COUPON_DISCOUNT_AMOUNT_INCORRECT": "Discount amount exceeds allowed coupon discount",
+     
     //XMSG
     "COUPON_ERROR": "Coupon not valid.",
     //XMSG
@@ -382,7 +400,7 @@
     //XBUT
     "SIGN_IN_WITH_FACEBOOK": "Sign in with Facebook",
     //XBUT
-    "LOG_IN_WITH_GOOGLE_PLUS": "Sign in with Google +",
+    "LOG_IN_WITH_GOOGLE": "Sign in with Google",
     //XBUT
     "MY_ACCOUNT": "My Account",
     //XBUT
@@ -545,6 +563,10 @@
     "CHECK_EMAIL_INSTRUCT": "...and follow the link to reset your password. The link will be valid for 24 hours.",
     //XMSG
     "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
+    //XMSG
+    "COOKIES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
+    "CREATE_ACCOUNT_ERROR": "Customer account was created successfully, but cookies must be enabled to login. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
     //XMSG
     "PASSWORD_REQUIRED": "Password with 6 character minimum required.",
     //XMSG

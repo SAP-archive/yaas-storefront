@@ -1,0 +1,22 @@
+<div class="row image-carousel">
+    <div class="col-md-10 main-image-container">
+        <div class="product-images">   
+            <img id="{{$index}}" class="product-image" ng-repeat="image in images" ng-src="{{image.url}}" alt="" fullscreen>        
+        </div>
+        <div class="zoom">
+            <span class="glyphicon hyicon hyicon-plus hidden-xs hidden-sm" ng-click="enlargeImage()"></span>
+        </div>
+        <div class="hidden-lg hidden-md mobileThumbs">
+            <div ng-repeat="thumb in images" ng-class="{'active': currentIndex === $index}" ng-click="moveCarousel($index)">
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="thumbnails">
+            <a ng-repeat="thumb in images">
+                <img class="" ng-class="{'active': currentIndex === $index}" ng-src="{{thumb.url}}" alt="" ng-click="moveCarousel($index)">
+            </a>
+        </div>
+    </div>
+</div>

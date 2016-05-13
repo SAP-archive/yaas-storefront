@@ -452,18 +452,27 @@ a.siteSelectorIcon{
 
   .googleSignIn{
     height: 43px;
-    background: #de5543 url('../../img/g_signInLogo.png') top left no-repeat;
+    background: url('../../img/g_signInLogo.png') left no-repeat;
+    background-size: 21.5px;
+    background-position: 10px 10.75px;
     position: relative;
     margin: 0 auto;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+    transition: all 0.5s ease;
 
     .googleSignInLabel{
-      color: #f2f3f8;
+      color: #757575;
       position: absolute;
       z-index:200;
       left: 50px;
       top: 12px;
       font-size: 97%;
     }
+  }
+
+  .googleSignIn:hover {
+    box-shadow: 0 2px 4px 0 #4285f4;
   }
 
   .fbLogin{
@@ -494,7 +503,10 @@ a.siteSelectorIcon{
       }
     } 
     .googleSignIn {
-      background: #de5543 url('../../img/g_signInLogo-mobile.png') top center no-repeat;
+      background: url('../../img/g_signInLogo-mobile.png') center no-repeat;
+      background-size: 21.5px;
+      background-position: center;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
       .googleSignInLabel{
         display: none;
       }
@@ -545,7 +557,7 @@ a.siteSelectorIcon{
 
 
 .signInTabs{
-  width: 55%;
+  // width: 55%;
   font-size: 15px;
   margin: 0 auto 30px auto;
   text-transform: uppercase;
@@ -564,6 +576,11 @@ a.siteSelectorIcon{
   &.nav-tabs > li > a:hover,
   &.nav-tabs > li > a:focus {
     // padding: 0 20px;
+  }
+
+  li{
+    float: none;
+    display: inline-block;
   }
 
   li.signInButton{
@@ -928,8 +945,14 @@ a.siteSelectorIcon{
 
 .regionControlList{
   border-right: 1px solid #b3b8bb;
+  li{
+    cursor:pointer;
+  }
 }
 .languageMenu{
+    li{
+      cursor: pointer;
+    }
     li:hover{
         color:@darkestgrey;
     }
@@ -999,4 +1022,10 @@ a.siteSelectorIcon{
           padding: 25px 0;
         }
     }
+}
+
+.socialAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
 }

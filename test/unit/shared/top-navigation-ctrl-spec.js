@@ -15,7 +15,16 @@ describe('TopNavigationCtrl', function () {
 
 
     var $scope, $rootScope, $controller, $injector;
-    var mockedGlobalData = {};
+    var mockedGlobalData = {
+        customerAccount: {
+            accounts: [{providerId: 'google'}]
+        },
+        user: {isAuthenticated: true, username: null, image: 'example.png'}
+    };
+    var $q;
+    var mockedGoogle;
+    var mockedUserImage;
+    var deferredUser;
     var mockedState = {
         go: jasmine.createSpy('go')
     };
@@ -28,9 +37,15 @@ describe('TopNavigationCtrl', function () {
             return username;
         }
     };
+
+    var user = {
+        firstName: 'John', lastName: 'Doe', email: 'johndoe@test.com', image: null
+    };
+
     var mockedAuthSvc = {
         signOut: jasmine.createSpy('signout'),
-        getToken: jasmine.createSpy('getToken').andReturn(mockedToken)
+        getToken: jasmine.createSpy('getToken').andReturn(mockedToken),
+        isGoogleLoggedIn: jasmine.createSpy('isGoogleLoggedIn').andReturn(true)
     };
     var mockAuthDialogManager = {
         isOpened: jasmine.createSpy('isOpened'),
@@ -52,7 +67,7 @@ describe('TopNavigationCtrl', function () {
     beforeEach(module('ds.cart'));
     beforeEach(angular.mock.module('ds.shared'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -63,15 +78,26 @@ describe('TopNavigationCtrl', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
-
+        $q = _$q_;  
     }));
 
-
+    beforeEach(function () {
+        deferredUser = $q.defer();
+        mockedGoogle = {
+            loadData: function () {},
+            getUser: jasmine.createSpy('getUser').andCallFake(function() {
+                return deferredUser.promise;
+            }),
+            logout: function () {}
+        };
+        mockedUserImage = {firstName: 'John', lastName: 'Doe', email: 'johndoe@example.com', image: 'example.png'};
+    });
 
     beforeEach(function () {
+        $scope.user = {isAuthenticated: true, username: null, image: 'example.png'};
         navCtrl = $controller('TopNavigationCtrl', {$scope: $scope, $state: mockedState, CartSvc: mockedCartSvc,
             GlobalData: mockedGlobalData, AuthSvc: mockedAuthSvc, AuthDialogManager:mockAuthDialogManager,
-            CategorySvc: mockedCategorySvc});
+            CategorySvc: mockedCategorySvc, YGoogleSignin: mockedGoogle, userImage: mockedUserImage});
     });
 
     describe('initialization', function(){

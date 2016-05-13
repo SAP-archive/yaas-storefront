@@ -19,11 +19,13 @@
 
       <div class="tab-pane active" id="signin" >
 
+        <p class="error" ng-show="!cookiesEnabled">{{'COOKIES_ENABLED_ERROR' | translate}}</p>
+
         <!-- sign in form -->
         <div ng-include="'js/app/auth/templates/signin.html'" ></div>
 
         <!-- fb and google login opions -->
-        <div ng-if="fbAppId || googleClientId">
+        <div ng-if="(fbAppId || googleClientId) && cookiesEnabled">
 
           <div class="row">
 
@@ -42,9 +44,8 @@
             <div class="col-md-6 col-xs-6">
               <div class="socialMediaSigninContainer">
                 <div ng-if="googleClientId"  class="googlePlusLogin">
-                  <div class="googleSignIn">
-                    <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
-                    <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                  <div class="googleSignIn" ng-click="googleLogin()">
+                    <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE' | translate}}</div>
                   </div>
                 </div>
               </div>
@@ -58,6 +59,7 @@
       
       <!-- sign up form -->
       <div class="tab-pane" id="signup" >
+        <p class="error" ng-show="showCreateAccountErrMsg">{{'CREATE_ACCOUNT_ERROR' | translate}}</p>
         <div ng-include="'js/app/auth/templates/signup.html'"></div>
       </div>
     </div>
