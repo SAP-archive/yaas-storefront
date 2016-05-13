@@ -134,6 +134,17 @@ angular.module('ds.account')
                     token: token
                 };
                 return AuthREST.Customers.all('me').all('accounts').all('internal').all('email').all('change').customPOST(data, 'confirm');
+            },
+
+            isItSocialAccount: function (account) {
+                if (!!account) {
+                    for (var i = 0; i < account.accounts.length; i++) {
+                        if (account.accounts[i].providerId === 'google' || account.accounts[i].providerId === 'facebook') {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
 
         };

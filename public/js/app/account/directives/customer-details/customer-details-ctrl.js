@@ -14,8 +14,8 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal',
-            function ($scope, AuthDialogManager, $modal) {
+        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal', 'AccountSvc',
+            function ($scope, AuthDialogManager, $modal, AccountSvc) {
 
                 $scope.modalInstance = {};
 
@@ -55,16 +55,7 @@
                     AuthDialogManager.showUpdatePassword();
                 };
 
-                function isItSocialAccount (accounts) {
-                    for (var i = 0; i < accounts.length; i++) {
-                        if (accounts[i].providerId === 'google' || accounts[i].providerId === 'facebook') {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
-                $scope.isItSocialAccount = $scope.account ? isItSocialAccount($scope.account.accounts) : false;
+                $scope.isItSocialAccount = AccountSvc.isItSocialAccount($scope.account);
 
                 // handle dialog dismissal if user select back button, etc
                 $scope.$on('$destroy', function () {

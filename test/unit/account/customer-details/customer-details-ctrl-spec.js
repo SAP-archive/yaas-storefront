@@ -12,7 +12,7 @@
 
 describe('CustomerDetailsCtrl', function () {
     var $scope, $controller, $q, mockBackend,
-        account, modalPromise;
+        account, modalPromise, mockedAccountSvc;
 
     var mockedModal = {};
 
@@ -21,6 +21,10 @@ describe('CustomerDetailsCtrl', function () {
         showUpdatePassword: jasmine.createSpy('showUpdatePassword').andCallFake(function () {
             return updatePasswordDfd.promise;
         })
+    };
+
+    mockedAccountSvc = {
+        isItSocialAccount: jasmine.createSpy('isItSocialAccount')
     };
 
     beforeEach(module('ds.account', function ($provide) {
@@ -48,7 +52,7 @@ describe('CustomerDetailsCtrl', function () {
         beforeEach(function () {
             $controller('CustomerDetailsCtrl',
                 {
-                    $scope: $scope, 'AuthDialogManager': mockedAuthDialogManager, '$modal': mockedModal
+                    $scope: $scope, 'AuthDialogManager': mockedAuthDialogManager, '$modal': mockedModal, 'AccountSvc': mockedAccountSvc
                 });
         });
 
@@ -56,6 +60,7 @@ describe('CustomerDetailsCtrl', function () {
             expect($scope.editUserName).toBeDefined();
             expect($scope.editUserEmail).toBeDefined();
             expect($scope.updatePassword).toBeDefined();
+            expect(mockedAccountSvc.isItSocialAccount).toBeDefined();
         });
 
         it('should open modal when editUserName() is called', function () {
