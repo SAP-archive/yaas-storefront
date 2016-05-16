@@ -1,4 +1,3 @@
-
 <!-- bread crumbs -->
 <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
 
@@ -18,7 +17,7 @@
             <!-- product details -->
             <div class="col-md-6">
                 <div class="product-details text-center">
-                    
+
                     <!-- product name -->
                     <h1 class="pageTitle">{{product.product.name}}</h1>
 
@@ -34,35 +33,34 @@
                         <span class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
                         <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                     </div>
-                    
-                    <!-- product detials -->
-                    <div class="product-detail-text" ng-if="hasAnyOfAttributesSet(product.product)">
+
+                    <!--<div class="product-detail-text" ng-if="hasAnyOfAttributesSet(product.product)">
                         <product-attribute-groups product="product.product"></product-attribute-groups>
-                    </div>
-    
+                    </div>-->
+
                     <!-- product tax -->
                     <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
                         {{taxConfiguration.label}}
                     </div>
-                    
+
                     <form action="" class="cartPanel">
 
                         <!-- product quantity -->
-                        <div class="row" >
+                        <div class="row">
                             <div class="col-md-4 col-md-offset-4">
                                 <div class="form-group input-group qty">
-                                    <label class="input-group-addon control-label" for="qty" >{{'QTY' | translate}}: </label>
-                                    <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity"
-                                        ng-model="productDetailQty" ng-change="changeQty(event)">
+                                    <label class="input-group-addon control-label" for="qty">{{'QTY' | translate}}: </label>
+                                    <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity" ng-model="productDetailQty"
+                                        ng-change="changeQty(event)">
                                 </div>
                             </div>
-                        </div>  
-    
+                        </div>
+
                         <div class="row">
 
                             <!-- error notification -->
                             <div ng-if="error" class="col-md-12 col-lg-12">
-                                <div class="error" >
+                                <div class="error">
                                     <small class="help-inline has-error">
                                         {{'ERROR_ADDING_TO_CART' | translate}}
                                     </small>
@@ -70,34 +68,58 @@
                             </div>
 
                             <!-- add to cart -->
-                            <div  class="col-md-12 col-lg-12 buyButton">
-                                <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()" ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                            <div class="col-md-12 col-lg-12 buyButton">
+                                <button id="buy-button" ng-show="{{product.product.mixins.inventory.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()"
+                                    ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 <button id="out-of-stock-btn" ng-show="{{!product.product.mixins.inventory.inStock}}" class="btn btn-default" disabled>{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
-                            
+
                             <!-- shipping rates -->
                             <div class="col-xs-12 shipping-rate" ng-if="!noShippingRates">
                                 <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>
                             </div>
                         </div>
                     </form>
-                </div> 
+                </div>
             </div>
 
         </div>
     </section>
 
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <ul class="nav nav-tabs">
+                <li role="presentation" ng-class="{active: activeTab === 'description'}">
+                    <a href="#" ng-click="openTab('description'); $event.preventDefault();">{{'DESCRIPTION_TAB' | translate}}</a>
+                </li>
+
+                <li role="presentation" ng-class="{active: activeTab === 'details'}">
+                    <a href="#" ng-click="openTab('details'); $event.preventDefault();">{{'DETAILS_TAB' | translate}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <section class="gray">
         <div class="row">
-
-            <!-- product description -->
-            <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
             <div class="col-md-8 col-md-offset-2">
-                <div class="description">
-                    {{product.product.description}}
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'description'}" id="description">
+                        <!-- product description -->
+                        <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+
+                        <div class="description">
+                            {{product.product.description}}
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'details'}" id="details">
+                        <!-- product detials -->
+                        <div class="headline text-center">{{'PRODUCT_DETAILS' | translate}}</div>
+                        <product-details schema="{{product.product.metadata.mixins[id]}}" mixin="mixin" ng-repeat="(id, mixin) in product.product.mixins"></product-details>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </section>
 </div>
@@ -108,5 +130,3 @@
 <script src="js/vendor-static/img-touch-canvas.js"></script>
 <script src="js/vendor-static/jquery.fullscreen-min.js"></script>
 <script src="js/vendor-static/main.js"></script>
-
-

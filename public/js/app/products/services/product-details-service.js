@@ -14,17 +14,11 @@
     'use strict';
 
     angular.module('ds.products')
-        .directive('productAttribute', ['ProductAttributeSvc', function (ProductAttributeSvc) {
+        .factory('ProductDetailsSvc', ['Restangular', function (Restangular) {
             return {
-                restrict: 'E',
-                templateUrl: 'js/app/products/templates/product-attribute.html',
-                scope: {
-                    definition: '=',
-                    value: '='
-                },
-                controller: ['$scope', function ($scope) {
-                    $scope.dateFormatting = ProductAttributeSvc.dateFormatting;
-                }]
+                getSchema: function (schemaPath) {
+                    return Restangular.oneUrl('schema', schemaPath).get();
+                }
             };
         }]);
 })();

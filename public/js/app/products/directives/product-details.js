@@ -14,16 +14,18 @@
     'use strict';
 
     angular.module('ds.products')
-        .directive('productAttributeGroups', function () {
+        .directive('productDetails', ['ProductDetailsSvc', function (ProductDetailsSvc) {
             return {
                 restrict: 'E',
-                templateUrl: 'js/app/products/templates/product-attribute-groups.html',
+                templateUrl: 'js/app/products/templates/product-details.html',
                 scope: {
-                    product: '='
+                    schema: '@', mixin: '='
                 },
-                controller: ['$scope', 'ProductAttributeSvc', function ($scope, ProductAttributeSvc) {
-                    $scope.attributeGroups = ProductAttributeSvc.getAttributeGroups($scope.product);
+                controller: ['$scope', function ($scope) {
+                    ProductDetailsSvc.getSchema($scope.schema).then(function (response) {
+                        $scope.definition = response.plain();
+                    });
                 }]
             };
-        });
+        }]);
 })();

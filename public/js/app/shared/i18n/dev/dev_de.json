@@ -367,6 +367,11 @@
     //XMSG
     "ERROR_ADDING_TO_CART": "Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.",
 
+    //XTBS
+    "DESCRIPTION_TAB": "Description",
+    //XTBS
+    "DETAILS_TAB": "Details",
+
     //XFLD
     //-------------------------------------------------
     // Product List Page
