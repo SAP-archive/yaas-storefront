@@ -1,33 +1,19 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-4" ng-if="name">
-                <strong>{{name}}</strong>
-            </div>
-
-            <div ng-class="{'col-md-8' : name, 'col-md-12' : !name}">
-                <div ng-switch="type">
-                    <div ng-switch-when="array">
-                        <ng-include src="'js/app/products/templates/product-details-item/_array.html'"></ng-include>
-                    </div>
-                    <div ng-switch-when="object">
-                        <ng-include src="'js/app/products/templates/product-details-item/_object.html'"></ng-include>
-                    </div>
-                    <div ng-switch-when="boolean">
-                        <ng-include src="'js/app/products/templates/product-details-item/_boolean.html'"></ng-include>
-                    </div>
-                    <div ng-switch-when="string">
-                        <ng-include src="'js/app/products/templates/product-details-item/_string.html'"></ng-include>
-                    </div>
-                    <div ng-switch-default>
-                        <ng-include src="'js/app/products/templates/product-details-item/_default.html'"></ng-include>
-                    </div>
-                </div>
-            </div>
+<div class="product-details-item">
+    <div ng-switch="type">
+        <div ng-switch-when="array">
+            <ng-include src="'js/app/products/templates/product-details-item/_array.html'"></ng-include>
+        </div>
+        <div ng-switch-when="object">
+            <ng-include src="'js/app/products/templates/product-details-item/_object.html'"></ng-include>
+        </div>
+        <div ng-switch-when="boolean">
+            <ng-include src="'js/app/products/templates/product-details-item/_boolean.html'"></ng-include>
+        </div>
+        <div ng-switch-when="string">
+            <ng-include src="'js/app/products/templates/product-details-item/_string.html'"></ng-include>
+        </div>
+        <div ng-switch-default>
+            <ng-include src="'js/app/products/templates/product-details-item/_default.html'"></ng-include>
         </div>
     </div>
 </div>
-
-
-
-<!--<pre>{{definition}}</pre>-->

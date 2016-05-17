@@ -1,1 +1,7 @@
-<product-details-item ng-repeat="item in value" value="item" definition="definition.items"></product-details-item>
+<h4 ng-if="name"><strong>{{name}}</strong></h4>
+
+<div class="row">
+    <div class="col-md-6" ng-repeat="item in value">
+        <product-details-item value="item" definition="definition.items"></product-details-item>
+    </div>
+</div>

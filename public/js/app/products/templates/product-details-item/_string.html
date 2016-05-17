@@ -1,7 +1,15 @@
-<span ng-switch="definition.format">
-    <span ng-switch-when="date">{{value | date:dateFormatting.date}}</span>
-    <span ng-switch-when="time">{{value | date:dateFormatting.time}}</span>
-    <span ng-switch-when="date-time">{{value | date:dateFormatting.dateTime}}</span>
+<div class="row">
+    <div class="col-md-4">
+        <strong>{{name}}</strong>
+    </div>
 
-    <span ng-switch-default>{{value}}</span>
-</span>
+    <div class="col-md-8">
+        <span ng-switch="definition.format">
+            <span ng-switch-when="date">{{value | date:dateFormatting.date}}</span>
+            <span ng-switch-when="time">{{value | date:dateFormatting.time}}</span>
+            <span ng-switch-when="date-time">{{value | date:dateFormatting.dateTime}}</span>
+
+            <span ng-switch-default>{{value}}</span>
+        </span>
+    </div>
+</div>
