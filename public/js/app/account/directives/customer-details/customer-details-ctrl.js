@@ -14,8 +14,8 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal',
-            function ($scope, AuthDialogManager, $modal) {
+        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal', 'AccountSvc',
+            function ($scope, AuthDialogManager, $modal, AccountSvc) {
 
                 $scope.modalInstance = {};
 
@@ -54,6 +54,8 @@
                 $scope.updatePassword = function () {
                     AuthDialogManager.showUpdatePassword();
                 };
+
+                $scope.isItSocialAccount = AccountSvc.isItSocialAccount($scope.account);
 
                 // handle dialog dismissal if user select back button, etc
                 $scope.$on('$destroy', function () {

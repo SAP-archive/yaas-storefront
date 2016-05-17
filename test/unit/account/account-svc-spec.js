@@ -70,6 +70,7 @@ describe('AccountSvc Test', function () {
         expect(AccountSvc.saveAddress).toBeDefined();
         expect(AccountSvc.removeAddress).toBeDefined();
         expect(AccountSvc.getCurrentAccount).toBeDefined();
+        expect(AccountSvc.isItSocialAccount).toBeDefined();
     });
 
     describe('account()', function(){
@@ -224,6 +225,19 @@ describe('AccountSvc Test', function () {
                 expect(curAccount.id).toEqualData(id);
                 mockBackend.verifyNoOutstandingRequest();
             });
+        });
+    });
+
+    describe('isItSocialAccount', function () {
+        it('Should correctly decide if user is signed in via social account', function() {
+            var account = {accounts: [{id: 1, providerId: 'google'}]};
+            expect(AccountSvc.isItSocialAccount(account)).toBeTruthy();
+            account = {accounts: [{id: 2, providerId: 'test'}, {id: 1, providerId: 'facebook'}]};
+            expect(AccountSvc.isItSocialAccount(account)).toBeTruthy();
+            account = {accounts: [{id: 1, providerId: 'test'}]};
+            expect(AccountSvc.isItSocialAccount(account)).toBeFalsy();
+            account = {accounts: [{id: 1}]};
+            expect(AccountSvc.isItSocialAccount(account)).toBeFalsy();
         });
     });
 

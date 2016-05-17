@@ -31,19 +31,20 @@
                 {{account.title|translate}} {{account.firstName}} {{account.middleName}} {{account.lastName}}
             </div>
             <div class="col-sm-1 editLinkContainer">
-                <a ng-click="editUserEmail(account)"><span id="update-email" class="glyphicon glyphicon-pencil"></span></a>
+                <a ng-click="editUserEmail(account)" ng-hide="isItSocialAccount"><span id="update-email" class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div class="col-sm-3">
                 <span class="dataLabel">{{'EMAIL' | translate}}</span>
                 {{account.contactEmail}}
             </div>
-
-            <div class="col-sm-1 editLinkContainer">
-                <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div class="col-sm-3">
-                <span class="dataLabel">{{'PASSWORD' | translate}}</span>
-                &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+            <div ng-hide="isItSocialAccount">
+                <div class="col-sm-1 editLinkContainer">
+                    <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
+                </div>
+                <div class="col-sm-3">
+                    <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+                    &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+                </div>
             </div>
         </div>
         <!-- /desktop -->
@@ -66,17 +67,19 @@
                     {{account.contactEmail}}
                 </div>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-4" ng-hide="isItSocialAccount">
                 <button class="btn btn-secondary btn-md pull-right" ng-click="editUserEmail(account)">{{'EDIT' | translate}}</button>
             </div>
-            <div class="col-xs-8">
-                <div class="mobileDataSection">
-                    <span class="dataLabel">{{'PASSWORD' | translate}}</span>
-                    &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+            <div ng-hide="isItSocialAccount">
+                <div class="col-xs-8">
+                    <div class="mobileDataSection">
+                        <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+                        &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+                    </div>
                 </div>
-            </div>
-            <div class="col-xs-4">
-                <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>
+                <div class="col-xs-4">
+                    <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>
+                </div>
             </div>
 
         </div>
