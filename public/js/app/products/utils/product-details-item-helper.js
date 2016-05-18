@@ -14,46 +14,35 @@
     'use strict';
 
     angular.module('ds.products')
+        .factory('ProductDetailsItemHelper', [function () {
+            return {
+                toOrderArray: function (object) {
+                    var array = [];
 
-        .constant('DateFormatting', {
-            date: 'MM/dd/yyyy',
-            time: 'hh:mm a',
-            dateTime: 'MM/dd/yyyy hh:mm a'
-        })
+                    angular.forEach(object, function (value, key) {
+                        array.push({ 'key': key, 'value': value });
+                    });
 
-        .factory('ProductDetailsItemHelper', ['DateFormatting',
-            function (DateFormatting) {
-                return {
-                    getDateFormatting: function () {
-                        return DateFormatting;
-                    },
-                    toOrderArray: function (object) {
-                        var array = [];
+                    array.sort(function (lItem, rItem) {
+                        if (angular.isUndefined(lItem.value.order) && angular.isUndefined(rItem.value.order)) {
+                            return 0;
+                        }
 
-                        angular.forEach(object, function (value, key) {
-                            array.push({ 'key': key, 'value': value });
-                        });
+                        if (angular.isUndefined(lItem.value.order)) {
+                            return 1;
+                        }
 
-                        array.sort(function (lItem, rItem) {
-                            if (angular.isUndefined(lItem.value.order) && angular.isUndefined(rItem.value.order)) {
-                                return 0;
-                            }
+                        if (angular.isUndefined(rItem.value.order)) {
+                            return -1;
+                        }
 
-                            if (angular.isUndefined(lItem.value.order)) {
-                                return 1;
-                            }
+                        return lItem.value.order - rItem.value.order;
+                    });
 
-                            if (angular.isUndefined(rItem.value.order)) {
-                                return -1;
-                            }
-
-                            return lItem.value.order - rItem.value.order;
-                        });
-
-                        return array.map(function (item) {
-                            return item.key;
-                        });
-                    }
-                };
-            }]);
+                    return array.map(function (item) {
+                        return item.key;
+                    });
+                }
+            };
+        }]);
 })();

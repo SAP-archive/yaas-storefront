@@ -56,7 +56,6 @@
 
                         if ($scope.type === 'string') {
                             $scope.stringFormat = $scope.definition.format;
-                            $scope.dateFormatting = ProductDetailsItemHelper.getDateFormatting();
                         }
                         if ($scope.type === 'object') {
                             $scope.propertyOrder = ProductDetailsItemHelper.toOrderArray($scope.definition.properties);
