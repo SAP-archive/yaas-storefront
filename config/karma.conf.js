@@ -82,7 +82,9 @@ module.exports = function(config){
         'public/js/app/products/services/price-service.js',
         'public/js/app/products/services/price-product-rest.js',
         'public/js/app/products/services/category-service.js',
-        'public/js/app/products/services/product-details-service.js',
+        'public/js/app/products/services/product-extension-service.js',
+        'public/js/app/products/utils/product-extension-helper.js',
+        'public/js/app/products/utils/product-extension-item-helper.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',

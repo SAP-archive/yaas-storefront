@@ -117,7 +117,7 @@
                         <!-- product detials -->
                         <div class="headline text-center">{{'PRODUCT_DETAILS' | translate}}</div>
 
-                        <product-details schema-url="{{product.product.metadata.mixins[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins"></product-details>
+                        <product-extension schema-url="{{product.product.metadata.mixins[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins"></product-extension>
                     </div>
                 </div>
             </div>

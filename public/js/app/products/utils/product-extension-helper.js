@@ -17,7 +17,7 @@
 
         .constant('ExcludedMixins', ['inventory'])
 
-        .factory('ProductDetailsHelper', ['ExcludedMixins',
+        .factory('ProductExtensionHelper', ['ExcludedMixins',
             function (ExcludedMixins) {
 
                 function resolveMixins(product) {

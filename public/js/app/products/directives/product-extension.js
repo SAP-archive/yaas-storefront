@@ -14,18 +14,18 @@
     'use strict';
 
     angular.module('ds.products')
-        .directive('productDetails', ['ProductDetailsSvc', function (ProductDetailsSvc) {
+        .directive('productExtension', ['ProductExtensionSvc', function (ProductExtensionSvc) {
             return {
                 restrict: 'E',
-                templateUrl: 'js/app/products/templates/product-details.html',
+                templateUrl: 'js/app/products/templates/product-extension.html',
                 scope: {
                     schemaUrl: '@', mixin: '='
                 },
                 controller: ['$scope', '$q', function ($scope, $q) {
 
                     $q.all([
-                        ProductDetailsSvc.getSchema($scope.schemaUrl),
-                        ProductDetailsSvc.getSchemaMetadata($scope.schemaUrl)
+                        ProductExtensionSvc.getSchema($scope.schemaUrl),
+                        ProductExtensionSvc.getSchemaMetadata($scope.schemaUrl)
                     ])
                         .then(function (responses) {
                             $scope.definition = responses[0].plain();

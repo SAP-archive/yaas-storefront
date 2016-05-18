@@ -14,7 +14,7 @@
     'use strict';
 
     angular.module('ds.products')
-        .factory('ProductDetailsItemHelper', [function () {
+        .factory('ProductExtensionItemHelper', [function () {
             return {
                 resolveName: function (definition, name) {
                     if (definition.title) {

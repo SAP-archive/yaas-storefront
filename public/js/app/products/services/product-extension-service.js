@@ -14,7 +14,7 @@
     'use strict';
 
     angular.module('ds.products')
-        .factory('ProductDetailsSvc', ['Restangular',
+        .factory('ProductExtensionSvc', ['Restangular',
             function (Restangular) {
                 return {
                     getSchema: function (schemaUrl) {

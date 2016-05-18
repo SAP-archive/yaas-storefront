@@ -14,15 +14,15 @@
     'use strict';
 
     angular.module('ds.products')
-        .directive('productDetailsItem', [function () {
+        .directive('productExtensionItem', [function () {
             return {
                 restrict: 'E',
-                templateUrl: 'js/app/products/templates/product-details-item.html',
+                templateUrl: 'js/app/products/templates/product-extension-item.html',
                 scope: {
                     name: '@', value: '=', definition: '='
                 },
-                controller: ['$scope', 'ProductDetailsItemHelper',
-                    function ($scope, ProductDetailsItemHelper) {
+                controller: ['$scope', 'ProductExtensionItemHelper',
+                    function ($scope, ProductExtensionItemHelper) {
 
                         // handle legacy attribute groups, to be removed in future
                         if (/^attribute_*/.test($scope.name) && angular.isArray($scope.definition.oneOf)) {
@@ -33,14 +33,14 @@
                             return;
                         }
 
-                        $scope.displayedName = ProductDetailsItemHelper.resolveName($scope.definition, $scope.name);
-                        $scope.type = ProductDetailsItemHelper.resolveType($scope.definition, $scope.value);
+                        $scope.displayedName = ProductExtensionItemHelper.resolveName($scope.definition, $scope.name);
+                        $scope.type = ProductExtensionItemHelper.resolveType($scope.definition, $scope.value);
 
                         if ($scope.type === 'string') {
                             $scope.stringFormat = $scope.definition.format;
                         }
                         if ($scope.type === 'object') {
-                            $scope.propertyOrder = ProductDetailsItemHelper.toOrderArray($scope.definition.properties);
+                            $scope.propertyOrder = ProductExtensionItemHelper.toOrderArray($scope.definition.properties);
                         }
                     }]
             };
