@@ -14,11 +14,15 @@
     'use strict';
 
     angular.module('ds.products')
-        .factory('ProductDetailsSvc', ['Restangular', function (Restangular) {
-            return {
-                getSchema: function (schemaPath) {
-                    return Restangular.oneUrl('schema', schemaPath).get();
-                }
-            };
-        }]);
+        .factory('ProductDetailsSvc', ['Restangular',
+            function (Restangular) {
+                return {
+                    getSchema: function (schemaUrl) {
+                        return Restangular.oneUrl('schema', schemaUrl).get();
+                    },
+                    getSchemaMetadata: function (schemaUrl) {
+                        return Restangular.oneUrl('schema', schemaUrl + '/metadata').get();
+                    }
+                };
+            }]);
 })();

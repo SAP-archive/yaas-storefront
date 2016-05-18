@@ -116,7 +116,8 @@
                     <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'details'}" id="details">
                         <!-- product detials -->
                         <div class="headline text-center">{{'PRODUCT_DETAILS' | translate}}</div>
-                        <product-details schema="{{product.product.metadata.mixins[id]}}" mixin="mixin" ng-repeat="(id, mixin) in product.product.mixins"></product-details>
+
+                        <product-details schema-url="{{product.product.metadata.mixins[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins"></product-details>
                     </div>
                 </div>
             </div>

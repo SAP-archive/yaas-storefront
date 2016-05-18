@@ -14,60 +14,6 @@
     'use strict';
 
     angular.module('ds.products')
-
-        .factory('productDetailsItemHelper', [function () {
-            return {
-                getType: function (value) {
-                    if (angular.isArray(value)) {
-                        return 'array';
-                    }
-                    if (angular.isObject(value)) {
-                        return 'object';
-                    }
-                    if (angular.isString(value)) {
-                        return 'string';
-                    }
-                    if (typeof (value) === 'boolean') {
-                        return 'boolean';
-                    }
-                },
-                getDateFormatting: function () {
-                    return {
-                        date: 'MM/dd/yyyy',
-                        time: 'hh:mm a',
-                        dateTime: 'MM/dd/yyyy hh:mm a'
-                    };
-                },
-                toOrderArray: function (object) {
-                    var array = [];
-
-                    angular.forEach(object, function (value, key) {
-                        array.push({ 'key': key, 'value': value });
-                    });
-
-                    array.sort(function (lItem, rItem) {
-                        if (angular.isUndefined(lItem.value.order) && angular.isUndefined(rItem.value.order)) {
-                            return 0;
-                        }
-
-                        if (angular.isUndefined(lItem.value.order)) {
-                            return 1;
-                        }
-
-                        if (angular.isUndefined(rItem.value.order)) {
-                            return -1;
-                        }
-
-                        return lItem.value.order - rItem.value.order;
-                    });
-
-                    return array.map(function (item) {
-                        return item.key;
-                    });
-                }
-            };
-        }])
-
         .directive('productDetailsItem', [function () {
             return {
                 restrict: 'E',
@@ -75,17 +21,48 @@
                 scope: {
                     name: '@', value: '=', definition: '='
                 },
-                controller: ['$scope', 'productDetailsItemHelper',
-                    function ($scope, productDetailsItemHelper) {
-                        $scope.type = productDetailsItemHelper.getType($scope.value);
+                controller: ['$scope', 'ProductDetailsItemHelper',
+                    function ($scope, ProductDetailsItemHelper) {
+
+                        // handle legacy attribute groups, to be removed in future
+                        var hasAttribute = function (object) {
+                            var numOfAttributes = 0;
+                            angular.forEach(object, function (v, k) {
+                                if (/^attribute_*/.test(k)) {
+                                    numOfAttributes++;
+                                }
+                            });
+                            return numOfAttributes > 0;
+                        };
+
+                        if (angular.isObject($scope.value) && hasAttribute($scope.value)) {
+                            $scope.displayedName = $scope.definition.title;
+                            $scope.type = 'object';
+                            $scope.propertyOrder = ProductDetailsItemHelper.toOrderArray($scope.definition.properties);
+                            return;
+                        }
+
+                        if (/^attribute_*/.test($scope.name) && angular.isArray($scope.definition.oneOf)) {
+                            $scope.displayedName = $scope.definition.oneOf[0].title;
+                            $scope.stringFormat = $scope.definition.oneOf[0].format;
+                            $scope.type = $scope.definition.oneOf[0].type || 'object';
+
+                            return;
+                        }
+                        // legacy ends here
+
+                        $scope.displayedName = $scope.name;
+                        $scope.type = $scope.definition.type;
 
                         if ($scope.type === 'string') {
-                            $scope.dateFormatting = productDetailsItemHelper.getDateFormatting();
+                            $scope.stringFormat = $scope.definition.format;
+                            $scope.dateFormatting = ProductDetailsItemHelper.getDateFormatting();
                         }
                         if ($scope.type === 'object') {
-                            $scope.propertyOrder = productDetailsItemHelper.toOrderArray($scope.definition.properties);
+                            $scope.propertyOrder = ProductDetailsItemHelper.toOrderArray($scope.definition.properties);
                         }
                     }]
             };
-        }]);
+        }])
+        ;
 })();

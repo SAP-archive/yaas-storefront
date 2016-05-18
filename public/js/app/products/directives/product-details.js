@@ -19,12 +19,19 @@
                 restrict: 'E',
                 templateUrl: 'js/app/products/templates/product-details.html',
                 scope: {
-                    schema: '@', mixin: '='
+                    schemaUrl: '@', mixin: '='
                 },
-                controller: ['$scope', function ($scope) {
-                    ProductDetailsSvc.getSchema($scope.schema).then(function (response) {
-                        $scope.definition = response.plain();
-                    });
+                controller: ['$scope', '$q', function ($scope, $q) {
+
+                    $q.all([
+                        ProductDetailsSvc.getSchema($scope.schemaUrl),
+                        ProductDetailsSvc.getSchemaMetadata($scope.schemaUrl)
+                    ])
+                        .then(function (responses) {
+                            $scope.definition = responses[0].plain();
+                            $scope.name = responses[1].metadata.name;
+                        });
+
                 }]
             };
         }]);

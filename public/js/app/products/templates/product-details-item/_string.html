@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-4">
-        <strong>{{name}}</strong>
+        <strong>{{displayedName}}</strong>
     </div>
 
     <div class="col-md-8">
-        <span ng-switch="definition.format">
+        <span ng-switch="stringFormat">
             <span ng-switch-when="date">{{value | date:dateFormatting.date}}</span>
             <span ng-switch-when="time">{{value | date:dateFormatting.time}}</span>
             <span ng-switch-when="date-time">{{value | date:dateFormatting.dateTime}}</span>
