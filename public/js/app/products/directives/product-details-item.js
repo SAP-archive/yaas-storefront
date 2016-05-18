@@ -25,34 +25,16 @@
                     function ($scope, ProductDetailsItemHelper) {
 
                         // handle legacy attribute groups, to be removed in future
-                        var hasAttribute = function (object) {
-                            var found = false;
-                            for (var prop in object) {
-                                if (/^attribute_*/.test(prop)) {
-                                    found = true;
-                                }
-                            }
-                            return found;
-                        };
-
-                        if (angular.isObject($scope.value) && hasAttribute($scope.value)) {
-                            $scope.displayedName = $scope.definition.title;
-                            $scope.type = 'object';
-                            $scope.propertyOrder = ProductDetailsItemHelper.toOrderArray($scope.definition.properties);
-                            return;
-                        }
-
                         if (/^attribute_*/.test($scope.name) && angular.isArray($scope.definition.oneOf)) {
                             $scope.displayedName = $scope.definition.oneOf[0].title;
+                            $scope.type = $scope.definition.oneOf[0].type;
                             $scope.stringFormat = $scope.definition.oneOf[0].format;
-                            $scope.type = $scope.definition.oneOf[0].type || 'object';
 
                             return;
                         }
-                        // legacy ends here
 
-                        $scope.displayedName = $scope.name;
-                        $scope.type = $scope.definition.type;
+                        $scope.displayedName = ProductDetailsItemHelper.resolveName($scope.definition, $scope.name);
+                        $scope.type = ProductDetailsItemHelper.resolveType($scope.definition, $scope.value);
 
                         if ($scope.type === 'string') {
                             $scope.stringFormat = $scope.definition.format;

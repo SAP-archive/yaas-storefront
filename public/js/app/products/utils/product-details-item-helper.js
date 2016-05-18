@@ -16,6 +16,27 @@
     angular.module('ds.products')
         .factory('ProductDetailsItemHelper', [function () {
             return {
+                resolveName: function (definition, name) {
+                    if (definition.title) {
+                        return definition.title;
+                    }
+
+                    return name;
+                },
+
+                resolveType: function (definition, value) {
+                    if (definition.type) {
+                        return definition.type;
+                    }
+
+                    if (angular.isObject(value)) {
+                        return 'object';
+                    }
+                    if (angular.isArray(value)) {
+                        return 'array';
+                    }
+                },
+
                 toOrderArray: function (object) {
                     var array = [];
 
