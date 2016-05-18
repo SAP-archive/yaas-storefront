@@ -26,13 +26,13 @@
 
                         // handle legacy attribute groups, to be removed in future
                         var hasAttribute = function (object) {
-                            var numOfAttributes = 0;
-                            angular.forEach(object, function (v, k) {
-                                if (/^attribute_*/.test(k)) {
-                                    numOfAttributes++;
+                            var found = false;
+                            for (var prop in object) {
+                                if (/^attribute_*/.test(prop)) {
+                                    found = true;
                                 }
-                            });
-                            return numOfAttributes > 0;
+                            }
+                            return found;
                         };
 
                         if (angular.isObject($scope.value) && hasAttribute($scope.value)) {
