@@ -365,6 +365,11 @@
     "NO_LIMIT": "No Limit",
     //XMSG
     "ERROR_ADDING_TO_CART": "Add to Cart was not successful.  Please try again.",
+    
+    //XTBS
+    "DESCRIPTION_TAB": "Description",
+    //XTBS
+    "DETAILS_TAB": "Details",
 
     //XFLD
     //-------------------------------------------------

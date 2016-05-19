@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-4">
+        <strong>{{displayedName}}</strong>
+    </div>
+
+    <div class="col-md-8">
+        <div ng-switch="type">
+            <div ng-switch-when="boolean">
+                <span ng-if="value" class="glyphicon glyphicon-ok"></span>
+                <span ng-if="!value" class="glyphicon glyphicon-remove"></span>
+            </div>
+
+            <div ng-switch-when="string">
+                <span ng-switch="stringFormat">
+                    <span ng-switch-when="date">{{value | defaultDate}}</span>
+                    <span ng-switch-when="time">{{value | defaultTime}}</span>
+                    <span ng-switch-when="date-time">{{value | defaultDateTime}}</span>
+
+                    <span ng-switch-default>{{value}}</span>
+                </span>
+            </div>
+
+            <div ng-switch-default>
+                {{value}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,9 +17,16 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, Notification, CommittedMediaFilter) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter', 'ProductExtensionHelper',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, CommittedMediaFilter, ProductExtensionHelper) {
             var modalInstance;
+            
+            $scope.activeTab = 'description';
+            $scope.openTab = function (tabName) {
+                $scope.activeTab = tabName;
+            };
+            
+            $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
             
             $scope.product = product;
             $scope.shippingZones = shippingZones;
@@ -137,10 +144,6 @@ angular.module('ds.products')
                 } else {
                     $scope.buyButtonEnabled = true;
                 }
-            };
-
-            $scope.hasAnyOfAttributesSet = function(product){
-                return ProductAttributeSvc.hasAnyOfAttributesSet(product);
             };
 
 }]);
