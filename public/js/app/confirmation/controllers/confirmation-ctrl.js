@@ -68,8 +68,6 @@ angular.module('ds.confirmation')
         });
 
         $scope.$on('$destroy', unbindConfirmAccount);
-
-        AuthSvc.initGoogleAPI();
         
         $scope.googleLogin = function () {
             YGoogleSignin.login().then(function (user) {

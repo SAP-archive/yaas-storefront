@@ -20,6 +20,7 @@ angular.module('ds.auth')
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
             AuthSvc.initFBAPI();
+            AuthSvc.initGoogleAPI();
 
             $scope.errors = {
                 signup: []
