@@ -15,8 +15,8 @@
 
 angular.module('ds.confirmation')
     /** Controls the order confirmation page. */
-    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', '$rootScope', function
-        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated, $rootScope) {
+    .controller('ConfirmationCtrl', ['$scope',  '$stateParams', 'OrderDetailSvc', 'ProductSvc', 'GlobalData', 'isAuthenticated', '$rootScope', 'AuthSvc', 'YGoogleSignin', function
+        ($scope, $stateParams, OrderDetailSvc, ProductSvc,  GlobalData, isAuthenticated, $rootScope, AuthSvc, YGoogleSignin) {
 
         $scope.entity = $stateParams.entity;
         $scope.accountSuccess = false;
@@ -68,7 +68,13 @@ angular.module('ds.confirmation')
         });
 
         $scope.$on('$destroy', unbindConfirmAccount);
+
+        AuthSvc.initGoogleAPI();
         
-        
+        $scope.googleLogin = function () {
+            YGoogleSignin.login().then(function (user) {
+                AuthSvc.onGoogleLogIn(user);
+            });
+        };
 
     }]);
