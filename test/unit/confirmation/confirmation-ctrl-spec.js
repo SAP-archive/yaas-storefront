@@ -13,17 +13,13 @@
 describe('ConfirmationCtrl Test', function () {
 
     var $scope, $controller, $q, mockedStateParams, mockedOrderDetailSvc, mockedProductSvc, confCtrl,
-        mockedOrderDetails, mockedProducts, mockedGlobalData, mockedAuthSvc, mockedGoogleSignin;
+        mockedOrderDetails, mockedProducts, mockedGlobalData;
     var orderId = 123;
     var mockedOrderDetailSvc = {};
     var mockedProductSvc = {};
     mockedStateParams = {};
     mockedStateParams.id = orderId;
     mockedStateParams.entity = 'order';
-    mockedAuthSvc = {
-        initGoogleAPI: jasmine.createSpy('initGoogleAPI')
-    };
-    mockedGoogleSignin = {};
 
     //***********************************************************************
     // Common Setup
@@ -76,7 +72,7 @@ describe('ConfirmationCtrl Test', function () {
 
     beforeEach(function () {
         confCtrl = $controller('ConfirmationCtrl', {$scope: $scope, '$stateParams': mockedStateParams,
-            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData, 'isAuthenticated': true, 'AuthSvc': mockedAuthSvc, 'YGoogleSignin': mockedGoogleSignin});
+            'OrderDetailSvc': mockedOrderDetailSvc, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData, 'isAuthenticated': true});
     });
 
     describe(' initialization', function () {
