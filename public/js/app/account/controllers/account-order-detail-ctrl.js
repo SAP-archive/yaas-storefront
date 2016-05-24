@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', '$modal', 
+    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', '$modal',
         function($scope, order, $stateParams, GlobalData, $modal) {
 
         $scope.order = order;
