@@ -1,11 +1,13 @@
 describe('AccountOrderDetailCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $q;
+    var $scope, $rootScope, $controller, $q, modalPromise;
 
     var orderUrl = 'http://order-service.dprod.cf.hybris.com';
     var orderRoute = '/orders';
     var productsUrl = 'http://product-service.dprod.cf.hybris.com';
     var productsRoute = '/products';
+    var mockedModal = {};
+
 
     //***********************************************************************
     // Common Setup
@@ -13,7 +15,9 @@ describe('AccountOrderDetailCtrl Test', function () {
     //***********************************************************************
 
     // configure the target controller's module for testing - see angular.mock\
-    beforeEach(angular.mock.module('ds.account'), function () {});
+    beforeEach(module('ds.account', function ($provide) {
+        $provide.value('$modal', mockedModal);
+    }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
 
@@ -26,6 +30,11 @@ describe('AccountOrderDetailCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $q = _$q_;
+        modalPromise = $q.defer();
+        mockedModal.close = jasmine.createSpy('close');
+        mockedModal.result = modalPromise.promise;
+        mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
+        mockedModal.opened = {then:function(){}};
     }));
 
     describe('AccountOrderDetailCtrl ', function () {
@@ -90,6 +99,11 @@ describe('AccountOrderDetailCtrl Test', function () {
                 {$scope: $scope, 'order': mockedOrder, $stateParams: mockedStateParams, GlobalData: mockedGlobalData});
         });
 
+        it('should expose right interface', function() {
+            expect($scope.cancelOrder).toBeDefined();
+            expect($scope.showCancelBtn).toBeDefined();
+        });
+
         it('should parse the payment information', function () {
             expect($scope.payment.currency).toEqualData('USD');
             expect($scope.payment.status).toEqualData('SUCCESS');
@@ -99,6 +113,22 @@ describe('AccountOrderDetailCtrl Test', function () {
 
         it('should get the correct item count', function () {
             expect($scope.itemCount).toEqualData(3);
+        });
+
+        it("should open the order cancel dialog when calling cancelOrder method", function() {
+            $scope.cancelOrder();
+            expect(mockedModal.open).toHaveBeenCalled();
+            modalPromise.resolve({status: 'DECLINED'});
+            $scope.$digest();
+            expect($scope.order.status).toBe('DECLINED');
+        });
+
+        it('should behave...', function() {
+            expect($scope.showCancelBtn({status: 'CREATED'})).toBeTruthy();
+            expect($scope.showCancelBtn({status: 'CONFIRMED'})).toBeTruthy();
+            expect($scope.showCancelBtn({status: 'SHIPPED'})).toBeFalsy();
+            expect($scope.showCancelBtn({status: 'COMPLETED'})).toBeFalsy();
+            expect($scope.showCancelBtn({status: 'DECLINED'})).toBeFalsy();
         });
 
     });

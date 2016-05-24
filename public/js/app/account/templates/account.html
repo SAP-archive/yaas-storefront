@@ -63,7 +63,7 @@
                             <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                          <p><strong>{{m_order.status}}</strong></p>
+                          <p><strong>{{m_order.status | translate}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                   <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
                   <td>{{xrder.entries|sumByKey:'amount'|showNoOfItems}}</td>
                   <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
-                  <td><strong>{{xrder.status}}</strong></td>
+                  <td><strong>{{xrder.status | translate}}</strong></td>
               </tr>
           </tbody>
         </table>

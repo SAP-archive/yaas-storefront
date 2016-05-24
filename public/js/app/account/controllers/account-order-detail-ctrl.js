@@ -13,7 +13,8 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', function($scope, order, $stateParams, GlobalData) {
+    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', '$modal', 
+        function($scope, order, $stateParams, GlobalData, $modal) {
 
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
@@ -37,5 +38,28 @@ angular.module('ds.account')
         $scope.itemCount = getItemsOrderedCount();
 
         $scope.payment = getPaymentInfo();
+
+        $scope.cancelOrder = function () {
+            $modal.open({
+                templateUrl: 'js/app/account/templates/dialogs/order-cancel-dialog.html',
+                controller: 'OrderCancelDialogCtrl',
+                backdrop: 'static',
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            }).result.then(function (response) {
+                $scope.order.status = response.status;
+            });
+        };
+
+        $scope.showCancelBtn = function (order) {
+            if (!!order.status && order.status !== 'SHIPPED' && order.status !== 'COMPLETED' && order.status !== 'DECLINED') {
+                return true;
+            } else {
+                return false;
+            }
+        };
 
     }]);
