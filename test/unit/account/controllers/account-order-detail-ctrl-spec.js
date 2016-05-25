@@ -123,7 +123,7 @@ describe('AccountOrderDetailCtrl Test', function () {
             expect($scope.order.status).toBe('DECLINED');
         });
 
-        it('should behave...', function() {
+        it('should correctly decide wether or not to display cancel order button', function() {
             expect($scope.showCancelBtn({status: 'CREATED'})).toBeTruthy();
             expect($scope.showCancelBtn({status: 'CONFIRMED'})).toBeTruthy();
             expect($scope.showCancelBtn({status: 'SHIPPED'})).toBeFalsy();
