@@ -269,5 +269,23 @@ describe('ProductDetailCtrl', function () {
         });
     });
 
+    describe('taxConfiguration', function () {
+        it ('should shorten the tax label and add a see more button if the label has more than 60 chars', function () {
+
+            var longTaxLabel = 'Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label Long Tax Label ';
+
+            mockedGlobalData={
+                getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
+                getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: longTaxLabel, included: false })
+            };
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification});
+
+            var expectedShortenedLabel = longTaxLabel.substring(0, 59);
+            expect($scope.taxConfiguration.shortenedLabel).toEqualData(expectedShortenedLabel);
+            expect($scope.taxConfiguration.seeMoreClicked).toBeDefined();
+        });
+    });
+
 
 });

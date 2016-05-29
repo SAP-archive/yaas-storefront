@@ -38,6 +38,15 @@ angular.module('ds.products')
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
 
+            /*
+             we need to shorten the tax label if it contains more than 60 characters, and give users the option of
+             clicking a 'see more' link to view the whole label.
+             */
+            if ($scope.taxConfiguration && $scope.taxConfiguration.label && $scope.taxConfiguration.label.length > 60) {
+                $scope.taxConfiguration.shortenedLabel = $scope.taxConfiguration.label.substring(0, 59);
+                $scope.taxConfiguration.seeMoreClicked = false;
+            }
+
             if(!!lastCatId) {
                 if(lastCatId === 'allProducts'){
                     var allProductsName = $filter('translate')('ALL_PRODUCTS');

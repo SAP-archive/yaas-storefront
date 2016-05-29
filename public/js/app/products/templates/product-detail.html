@@ -40,7 +40,13 @@
 
                     <!-- product tax -->
                     <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
-                        {{taxConfiguration.label}}
+                        <div ng-if="taxConfiguration.label.length <= 60 || taxConfiguration.seeMoreClicked">
+                            {{taxConfiguration.label}}
+                        </div>
+                        <div ng-if="taxConfiguration.label.length > 60 && taxConfiguration.seeMoreClicked === false">
+                            {{taxConfiguration.shortenedLabel}}
+                            <a ng-click="taxConfiguration.seeMoreClicked = true">...{{'MORE' | translate}}</a>
+                        </div>
                     </div>
 
                     <form action="" class="cartPanel">
