@@ -263,6 +263,8 @@ angular.module('ds.auth')
                         SessionSvc.afterLogIn().then(function () {
                             deferred.resolve();
                         });
+                    }, function () {
+                        deferred.reject();
                     });
                     return deferred.promise;
                 }
