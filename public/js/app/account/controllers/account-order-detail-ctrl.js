@@ -55,7 +55,7 @@ angular.module('ds.account')
         };
 
         $scope.showCancelBtn = function (order) {
-            if (!!order.status && order.status !== 'SHIPPED' && order.status !== 'COMPLETED' && order.status !== 'DECLINED') {
+            if (!!order.status && (order.status === 'CREATED' || order.status === 'CONFIRMED')) {
                 return true;
             } else {
                 return false;
