@@ -103,10 +103,9 @@ angular.module('ds.coupon')
             };
 
             var redeemCouponError = function (couponError) {
-                $scope.coupon.error = couponError;
-                if (couponError.status === 400) {
-                    $scope.couponErrorMessage = couponError.data.details[0].message;
-                }
+                     var errorMessages = CouponSvc.redeemCouponError(couponError);
+                     // Just display the first coupon error message
+                     $scope.couponErrorMessage = errorMessages[0];
             };
 
             var isValidCouponCode = function (code) {
@@ -116,5 +115,4 @@ angular.module('ds.coupon')
                 }
                 return true;
             };
-
         }]);

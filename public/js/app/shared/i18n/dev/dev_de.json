@@ -238,6 +238,25 @@
     "COUPON_CODE": "Couponcode hinzufügen",
     //XMSG
     "COUPON_ERROR": "Coupon nicht gültig.",
+    
+    //XMSG
+    "COUPON_NOT_ACTIVE": "The coupon is not active", 
+    //XMSG
+    "COUPON_EXPIRED": "The coupon is not active", 
+    //XMSG
+    "COUPON_REDEMPTIONS_EXCEEDED": "Coupon has reached maximum number of redemptions", 
+    //XMSG
+    "COUPON_REDEMPTION_FORBIDDEN": "Current customer is not allowed to redeem the coupon", 
+    //XMSG
+    "COUPON_ORDER_TOTAL_TOO_LOW": "The order value is too low for this coupon", 
+    //XMSG
+    "COUPON_CURRENCY_INCORRECT": "Currency inconsistent with coupon", 
+    //XMSG
+    "COUPON_DISCOUNT_CURRENCY_INCORRECT": "Discount currency invalid inconsistent coupon", 
+    //XMSG
+    "COUPON_DISCOUNT_AMOUNT_INCORRECT": "Discount amount exceeds allowed coupon discount",
+    
+    
     //XMSG
     "COUPON_ERR_CURRENCY": "Währung für Coupon ungültig",
     //XMSG
@@ -347,6 +366,11 @@
     "DESTINATION_COUNTRY": "Destination country(s)",
     //XMSG
     "ERROR_ADDING_TO_CART": "Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.",
+
+    //XTBS
+    "DESCRIPTION_TAB": "Description",
+    //XTBS
+    "DETAILS_TAB": "Details",
 
     //XFLD
     //-------------------------------------------------
@@ -543,6 +567,10 @@
     "CHECK_EMAIL_INSTRUCT": "... und wählen Sie den Link, um Ihr Kennwort zurückzusetzen. Der Link ist 24 Stunden gültig.",
     //XMSG
     "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
+    //XMSG
+    "COOKIES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    //XMSG
+    "CREATE_ACCOUNT_ERROR": "Customer account was created successfully, but cookies must be enabled to login. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
     //XMSG
     "PASSWORD_REQUIRED": "Das Kennwort muss mindestens 6 Zeichen haben.",
     //XMSG

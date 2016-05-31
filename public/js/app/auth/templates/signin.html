@@ -21,7 +21,7 @@
     </ul>
 
     <!-- sign in button -->
-    <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-in-button">{{'SIGN_IN' | translate}}</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="sign-in-button" ng-disabled="!cookiesEnabled">{{'SIGN_IN' | translate}}</button>
     <a ng-click="showResetPassword()" class="forgot-password-btn pull-right">{{'FORGOT_PASSWORD' | translate }}</a>
 
     <!-- clear row -->
