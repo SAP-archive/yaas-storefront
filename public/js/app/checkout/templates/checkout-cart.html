@@ -49,7 +49,7 @@
                     </td>
                     <td class="text-left mobile-cart-item-details">
                         {{item.product.name}} <br>
-                        {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <br>
+                        {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span> <br>
                         {{'QTY' | translate}}:{{ item.quantity }} <br>
                         <strong>{{'TOTAL_PRICE' | translate}}: {{ (item.itemPrice.amount) | currency: currencySymbol}}</strong>
                     </td>
