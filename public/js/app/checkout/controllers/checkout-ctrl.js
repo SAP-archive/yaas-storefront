@@ -561,6 +561,7 @@ angular.module('ds.checkout')
 
             $rootScope.$on('language:updated', function () {
                 updateShippingCost($scope.order.shipTo);
+                $scope.displayCart = false;
             });
 
             $scope.$on('$destroy', unbindPreviewOrder);
