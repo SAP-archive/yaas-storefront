@@ -43,7 +43,7 @@
                         <div ng-if="taxConfiguration.label.length <= 60 || taxConfiguration.seeMoreClicked">
                             {{taxConfiguration.label}}
                         </div>
-                        <div ng-if="taxConfiguration.label.length > 60 && taxConfiguration.seeMoreClicked === false">
+                        <div ng-if="taxConfiguration.label.length > 60 && !taxConfiguration.seeMoreClicked">
                             {{taxConfiguration.shortenedLabel}}... 
                             <a ng-click="taxConfiguration.seeMoreClicked = true">{{'MORE' | translate}}</a>
                         </div>
