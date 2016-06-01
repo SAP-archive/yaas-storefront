@@ -68,7 +68,5 @@ angular.module('ds.confirmation')
         });
 
         $scope.$on('$destroy', unbindConfirmAccount);
-        
-        
 
     }]);

@@ -13,13 +13,14 @@
 'use strict';
 
 angular.module('ds.auth')
-.directive('createAccount', ['AuthSvc', 'settings', '$rootScope', function (AuthSvc, settings, $rootScope) {
+.directive('createAccount', ['AuthSvc', 'settings', '$rootScope', 'YGoogleSignin', function (AuthSvc, settings, $rootScope, YGoogleSignin) {
     return {
         link: function ($scope) {
 
             $scope.fbAppId = settings.facebookAppId;
             $scope.googleClientId = settings.googleClientId;
             AuthSvc.initFBAPI();
+            AuthSvc.initGoogleAPI();
 
             $scope.errors = {
                 signup: []
@@ -44,6 +45,12 @@ angular.module('ds.auth')
 
             $scope.fbLogin = function () {
                 AuthSvc.faceBookLogin();
+            };
+
+            $scope.googleLogin = function () {
+                YGoogleSignin.login().then(function (user) {
+                    AuthSvc.onGoogleLogIn(user);
+                });
             };
 
         }

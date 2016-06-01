@@ -46,7 +46,9 @@ describe('AuthSvc Test', function () {
 
     mockedSessionSvc = {
       afterSocialLogin: jasmine.createSpy(),
-        afterLogIn: jasmine.createSpy(),
+        afterLogIn: jasmine.createSpy().andReturn({
+            then: jasmine.createSpy()
+        }),
         afterLogOut: jasmine.createSpy(),
         afterLoginFromSignUp: jasmine.createSpy()
     };
