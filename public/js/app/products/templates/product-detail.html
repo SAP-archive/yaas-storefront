@@ -43,6 +43,30 @@
                         {{taxConfiguration.label}}
                     </div>
 
+
+                    <!-- product options -->
+                    <div ng-repeat="(optionKey, option) in options">
+                        <div ng-repeat="(attributeKey, attribute) in option">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <label class="control-label">{{attributeKey}}</label>
+                                </div>
+                                
+                                <div class="col-xs-9">
+                                    <ui-select ng-model="selectedOptions[optionKey][attributeKey]" on-select="updateOptions()">
+                                        <ui-select-match allow-clear="true">
+                                            {{$select.selected.value}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in attribute" ui-disable-choice="item.disabled">
+                                            {{item.value}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+
                     <form action="" class="cartPanel">
 
                         <!-- product quantity -->
