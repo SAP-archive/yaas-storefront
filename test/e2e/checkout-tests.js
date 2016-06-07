@@ -33,6 +33,16 @@ function fillCheckoutFormExceptEmail(form) {
     tu.sendKeys('id', 'city' + form, 'Boulder');
 }
 
+function clickOnModalCancelOrder() {
+    browser.switchTo().defaultContent();
+    browser.sleep(1000);
+    browser.waitForAngular();
+    browser.wait(function () {
+        return element(by.css('.modal-content')).isPresent();
+    });
+    tu.clickElement('id', 'confirm-order-cancel-btn');
+}
+
 
 function verifyCartContents(itemPrice, totalPrice, quantity) {
 
@@ -114,9 +124,9 @@ function verifyOrderOnAccountPageBigScreen(account, total) {
     tu.waitForAccountPage();
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
     expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
     element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("CREATED");
+    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
 }
 
 function clickOnModal() {
@@ -164,7 +174,7 @@ describe("checkout:", function () {
         //   });
         // });
 
-        //
+
         it('should load one product into cart and move to checkout', function () {
             tu.clickElement('binding', 'CHECKOUT');
             clickOnModal();
@@ -383,8 +393,29 @@ describe("checkout:", function () {
             verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$20.62');
         });
 
-        // This test is skipped for now, defect KIWIS-2511 opened
-        xit('should checkout in Euros', function () {
+        it('should allow customer to cancel order if not shipped yet', function () {
+            loginAndContinueToCheckout('order@hybristest.com');
+            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
+                browser.sleep(2000);
+                tu.clickElement('id', 'preview-order-btn');
+            });
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            browser.sleep(500);
+            tu.clickElement('id', 'place-order-btn');
+            tu.verifyOrderConfirmation('order@hybristest.com', 'MIKE', '123', 'BOULDER, CO 80301', '$20.62', false);
+            tu.clickElement('binding', 'orderInfo.orderId');
+            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
+            tu.clickElement('id', 'cancelOrder');
+            clickOnModalCancelOrder();
+            browser.wait(function () {
+                return element(by.binding('order.status')).isPresent();
+            });
+            expect(element(by.binding('order.status')).getText()).toContain("Cancelled");
+        });
+
+
+
+        it('should checkout in Euros', function () {
             tu.clickElement('id', tu.contineShopping);
             browser.sleep(1000);
             tu.switchSite('Sushi Demo Store Germany');
@@ -399,13 +430,13 @@ describe("checkout:", function () {
             tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
             browser.sleep(500);
             tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('euro-order@hybristest.com', 'MIKE', '123', 'MUNICH, 80301', '€12.94', false);
+            tu.verifyOrderConfirmation('euro-order@hybristest.com', 'MIKE', '123', 'MUNICH, 80301', '€12.99', false);
             tu.clickElement('binding', 'orderInfo.orderId');
             expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
         });
 
-        // This test is skipped for now, defect KIWIS-2511 opened
-        xit('should create order on account page in Euros', function () {
+
+        it('should create order on account page in Euros', function () {
             tu.removeItemFromCart();
             verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€12.99');
         });
@@ -456,7 +487,7 @@ describe("mobile checkout:", function () {
         browser.driver.manage().window().setSize(750, 1200);
     });
 
-    describe("verify mobile checkout functionality", function () {
+    describe("verify mobile checkout functionality for anonymous user", function () {
 
         beforeEach(function () {
             browser.manage().deleteAllCookies();
@@ -534,4 +565,68 @@ describe("mobile checkout:", function () {
         });
 
     });
+
+    describe("verify mobile checkout functionality for logged in user", function () {
+
+        beforeEach(function () {
+            browser.manage().deleteAllCookies();
+            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
+            browser.switchTo().alert().then(
+                function (alert) {
+                    alert.accept();
+                },
+                function (err) {
+                }
+            );
+            browser.sleep(500);
+            tu.clickElement('id', tu.buyButton);
+            //wait for cart to close
+            browser.sleep(6000);
+            browser.wait(function () {
+                return element(by.id('mobile-cart-btn')).isDisplayed();
+            });
+            tu.clickElement('id', 'mobile-cart-btn');
+            tu.waitForCart();
+            browser.sleep(2000);
+            tu.clickElement('binding', 'CHECKOUT');
+            tu.sendKeys('id', 'usernameInput', 'order@hybristest.com');
+            tu.sendKeys('id', 'passwordInput', 'password');
+            tu.clickElement('id', 'sign-in-button');
+            browser.sleep(1000);
+
+        });
+
+        var continueButton1 = '//div[8]/button';
+        var continueButton2 = '//div[4]/button';
+        var paymentButton = "//button[@type='submit']";
+
+        // KIWIS-2837 to be fixed first, so this test does not fail intermittently
+        xit('should allow all fields to be editable on mobile', function () {
+            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
+                browser.sleep(10000);
+                tu.clickElement('xpath', continueButton1);
+            });
+            //tu.clickElement('xpath', continueButton1);
+            browser.sleep(500);
+            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
+            tu.clickElement('xpath', continueButton2);
+            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
+            tu.clickElement('xpath', paymentButton);
+            tu.clickElement('id', "place-order-btn");
+            browser.sleep(2000);
+            tu.verifyOrderConfirmation('order@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67', true);
+
+            tu.clickElement('binding', 'orderInfo.orderId');
+            tu.clickElement('id', 'cancelOrder');
+            clickOnModalCancelOrder();
+            browser.wait(function () {
+                return element(by.binding('order.status')).isPresent();
+            });
+            expect(element(by.binding('order.status')).getText()).toContain("Cancelled");
+
+        });
+
+    });
+
+
 });
