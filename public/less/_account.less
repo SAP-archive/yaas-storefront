@@ -229,6 +229,9 @@
 	  border-top: 1px solid #e5e5e5;
 	  padding-top: 30px;
 	  padding-bottom: 75px;
+      a {
+        cursor: pointer;
+      }
   }
   
   .desktopUserInfo.userInfoRow{
@@ -287,12 +290,15 @@
 }
 
 .disableAddress {
-    background-color: lightgrey;
-  }
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
 .default-address .defaultLabel{
 	color:#016aab;
 }
-
+.panel.enabledAddress {
+  cursor: pointer;
+}
 .panel.defaultAddress{
   border: 1px solid #016aab;
 }
