@@ -125,6 +125,7 @@ module.exports = function(config){
         'public/js/app/account/controllers/account-ctrl.js',
         'public/js/app/account/controllers/account-order-detail-ctrl.js',
         'public/js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js',
+        'public/js/app/account/controllers/dialogs/order-cancel-dialog-ctrl.js',
         'public/js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js',
         'public/js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js',
         'public/js/app/account/directives/customer-details/customer-details-directive.js',

@@ -116,4 +116,16 @@ describe('OrderDetailSvc Test', function () {
             shippingAddressCityStateZip: 'Munich, Bavaria 80538', shippingAddressCountry: 'Germany',
             emailAddress: 'your.name@email.com', entries: [ ], currency : undefined, subTotalPrice: 15});
     });
+
+    it('should cancel the order and return status declined', function() {
+        var orderId = 123;
+        $httpBackend.expectPOST(ordersUrl+'/'+orderId+'/transitions').respond({});
+        var result = null;
+        orderDetailSvc.cancelOrder(orderId).then(function(response){
+            result = response;
+        });
+        $httpBackend.flush();
+        expect(result).toEqualData({status: 'DECLINED'});
+    });
+
 });

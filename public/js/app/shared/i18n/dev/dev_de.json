@@ -448,6 +448,10 @@
     "CONFIRM_DELETE_ADDRESS_TITLE": "Delete Address",
     //XMSG
     "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to delete this address?",
+    //XTIT
+    "CONFIRM_ORDER_CANCEL_TITLE": "Cancel Order",
+    //XMSG
+    "CONFIRM_CANCEL_ORDER": "Are you sure you want to cancel your order?",
     //XFLD
     "FULL_NAME": "Vollständiger Name",
     //XFLD
@@ -473,6 +477,10 @@
     //XFLD
     "ORDER_STATUS": "Bestellstatus",
     //XFLD
+    "ORDER_CANCEL": "Cancel Order",
+    //XFLD
+    "ORDER_CANCEL_ERROR": "Cancelation failed, please contact customer service or try again later",
+    //XFLD
     "FAIL_ORDER": "Die Bestellungen sind nicht verfügbar. Versuchen Sie es später noch einmal.",
     //XFLD
     "NO_ORDERS": "Sie haben keine Bestellungen gespeichert",
@@ -485,6 +493,8 @@
     "SHIPPING_DETAILS": "VERSANDDETAILS",
     //XBUT
     "SAVE": "Sichern",
+    //XBUT
+    "SUBMIT": "Submit",
     //XBUT
     "UPDATE_PASSWORD": "Kennwort aktualisieren",
     //XBUT
@@ -669,7 +679,7 @@
     //XSEL
     "CREATED": "Angelegt",
     //XSEL
-    "DECLINED": "Abgelehnt",
+    "DECLINED": "Cancelled",
     //XSEL
     "SHIPPED": "Versendet",
 
