@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', 'shippingCountries', '$q', 'CartSvc', '$timeout',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, shippingCountries, $q, CartSvc, $timeout) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', '$q', 'CartSvc', '$timeout',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, $q, CartSvc, $timeout) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -45,6 +45,7 @@ angular.module('ds.checkout')
             //this method changes cart. That is the reason cart was empty on refresh
             //With this implementation we are getting the cart object from service after it is loaded
             $scope.shippingZones = shippingZones || [];
+            $scope.shippingCountries = ShippingSvc.getShipToCountries(shippingZones);
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.user = GlobalData.user;
             $scope.addresses = [];
@@ -534,7 +535,7 @@ angular.module('ds.checkout')
             };
 
             $scope.isShipToCountry = function (countryID) {
-                return shippingCountries.indexOf(countryID) > -1;
+                return $scope.shippingCountries.indexOf(countryID) > -1;
             };
 
             $scope.ifShipAddressApplicable = function (address, target) {
@@ -644,22 +645,10 @@ angular.module('ds.checkout')
                         'shipToAddress': address
                     };
 
-                    var costsPromise = ShippingSvc.getShippingCosts(data).then(
-                        function (result) {
-                            return result;
-                        }
-                    );
-
-                    var minCostPromise = ShippingSvc.getMinimumShippingCost(data).then(
-                        function (result) {
-                            return result;
-                        }
-                    );
-
-                    $q.all([costsPromise, minCostPromise]).then(function(data){
-                        var shippingCosts = data[0];
+                    ShippingSvc.getShippingCosts(data).then(function(response){
+                        var shippingCosts = response;
                         $scope.shippingCosts = [];
-                        $scope.shippingCost = data[1];
+                        $scope.shippingCost = ShippingSvc.getMinimumShippingCost(shippingCosts);
                         $scope.currencySymbol = GlobalData.getCurrencySymbol();
                         for(var j = 0; j < shippingCosts.length; j++){
                             for (var i = 0; i < shippingCosts[j].methods.length; i++) {
@@ -667,11 +656,6 @@ angular.module('ds.checkout')
                                 angular.copy(shippingCosts[j].methods[i], shippingCostObject);
                                 shippingCostObject.zoneId = shippingCosts[j].zone.id;
                                 $scope.shippingCosts.push(shippingCostObject);
-                                if (shippingCosts[j].methods[i].fee.amount === $scope.shippingCost.fee.amount) {
-                                    $scope.shippingCost.zoneId = shippingCosts[j].zone.id;
-                                    $scope.shippingCost.id = shippingCosts[j].methods[i].id;
-                                    $scope.shippingCost.name = shippingCosts[j].methods[i].name;
-                                }
                             }
                         }
                     });

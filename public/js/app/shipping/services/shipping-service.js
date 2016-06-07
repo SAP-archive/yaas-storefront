@@ -19,24 +19,16 @@ angular.module('ds.checkout')
     .factory('ShippingSvc', ['ShippingREST', '$q', 'GlobalData',
         function (ShippingREST, $q, GlobalData) {
 
-            var getShipToCountries = function () {
-                var deferred = $q.defer();
-                var shippingZones;
-                var site = GlobalData.getSiteCode();
+            var getShipToCountries = function (zones) {
                 var shipToCountries = [];
-                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods', activeMethods: true}).then(function(zones){
-                    shippingZones = zones.length ? zones.plain() : [];
-                    for (var i = 0; i < shippingZones.length; i++) {
-                        for (var j = 0; j < shippingZones[i].shipTo.length; j++) {
-                            if (shipToCountries.indexOf(shippingZones[i].shipTo[j]) < 0) {
-                                shipToCountries.push(shippingZones[i].shipTo[j]);
-                            }
+                for (var i = 0; i < zones.length; i++) {
+                    for (var j = 0; j < zones[i].shipTo.length; j++) {
+                        if (shipToCountries.indexOf(zones[i].shipTo[j]) < 0) {
+                            shipToCountries.push(zones[i].shipTo[j]);
                         }
                     }
-                    deferred.resolve(shipToCountries);
-                });
-                
-                return deferred.promise;
+                }
+                return shipToCountries;
             };
 
             var getSiteShippingZones = function () {
@@ -51,16 +43,25 @@ angular.module('ds.checkout')
                 return deferred.promise;
             };
 
-            var getMinimumShippingCost = function (item) {
-                var deferred = $q.defer();
-                var site = GlobalData.getSiteCode();
-                var minCost;
-                ShippingREST.ShippingZones.one(site).one('quote').all('minimum').post(item).then(function(result){
-                    minCost = result.plain();
-                    deferred.resolve(minCost);
-                });
-
-                return deferred.promise;
+            var getMinimumShippingCost = function (costs) {
+                var zoneId;
+                var minObject = {};
+                var minValue;
+                for (var i = 0; i < costs.length; i++) {
+                    zoneId = costs[i].zone.id;
+                    for (var j = 0; j < costs[i].methods.length; j++) {
+                        if (!minValue || costs[i].methods[j].fee.amount < minValue) {
+                            minValue = costs[i].methods[j].fee.amount;
+                            minObject = {
+                                fee: costs[i].methods[j].fee,
+                                id: costs[i].methods[j].id,
+                                name: costs[i].methods[j].name,
+                                zoneId: zoneId
+                            };
+                        }
+                    }
+                }
+                return minObject;
             };
 
             var getShippingCosts = function (item) {
@@ -88,8 +89,8 @@ angular.module('ds.checkout')
 
         return {
 
-            getShipToCountries: function () {
-                return getShipToCountries();
+            getShipToCountries: function (zones) {
+                return getShipToCountries(zones);
             },
 
             getSiteShippingZones: function () {
