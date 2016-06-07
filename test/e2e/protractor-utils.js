@@ -310,7 +310,8 @@ exports.verifyOrderConfirmation = function (account, name, number, cityStateZip,
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
 
     if (mobile) {
-        expect(element(by.css('td.text-left.product-details-mobile.ng-binding > strong')).getText()).toEqual(price);
+        //expect(element(by.binding('entry.totalPrice')).getText()).toEqual(price);
+        expect(element(by.css('td.text-left.product-details-mobile > div:nth-child(5) > strong')).getText()).toEqual(price);
     }
     else {
         expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);

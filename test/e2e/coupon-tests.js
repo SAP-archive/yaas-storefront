@@ -83,13 +83,13 @@ describe('coupons:', function () {
             expect(element(by.binding('couponErrorMessage')).getText()).toEqual('SIGN IN TO USE COUPON CODE');
         });
 
-        // TP-4483 opened
-        xit('should not allow user to add coupon below minimum on cart', function () {
+
+        it('should not allow user to add coupon below minimum on cart', function () {
             tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
             tu.clickElement('id', 'coupon-code');
             tu.sendKeys('id', 'coupon-code', '20MINIMUM');
             tu.clickElement('id', 'apply-coupon');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON.');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE ORDER VALUE IS TOO LOW FOR THIS COUPON');
             browser.sleep(1000);
             removeFromCart();
             browser.sleep(500);
@@ -194,10 +194,10 @@ describe('coupons:', function () {
             removeFromCart();
         });
 
-        // TP-4483 opened
-        xit('should not allow user to use expired coupon on cart', function () {
+
+        it('should not allow user to use expired coupon on cart', function () {
             addProductandApplyCoupon('EXPIRED', '$11.42');
-            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('COUPON HAS EXPIRED.');
+            expect(element(by.binding('couponErrorMessage')).getText()).toEqual('THE COUPON IS NOT ACTIVE');
             removeFromCart();
         });
 
