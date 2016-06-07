@@ -73,7 +73,7 @@
                 <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>    
             </div>
             <div class="col-md-2 col-sm-3">
-                <button ng-if="showCancelBtn(order)" ng-click="cancelOrder()" class="btn btn-primary cancel-order">{{'ORDER_CANCEL' | translate}}</button>
+                <button id="cancelOrder" ng-if="showCancelBtn(order)" ng-click="cancelOrder()" class="btn btn-primary cancel-order">{{'ORDER_CANCEL' | translate}}</button>
             </div>
         </div>
         <div ng-repeat="shipment in order.shipments">
