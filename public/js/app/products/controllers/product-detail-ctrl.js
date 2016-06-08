@@ -149,9 +149,13 @@ angular.module('ds.products')
             // product options (variants)
             $scope.selectedOptions = {};
             $scope.options = ProductDetailHelper.prepareOptions(variants);
-            
-            $scope.updateOptions = function() {
-                var idsOfActiveVariants = ProductDetailHelper.getIdsOfMatchingVariants($scope.selectedOptions);
-                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfActiveVariants);
+
+            $scope.updateOptions = function () {
+                var indexesOfAllVariants = variants.map(function (item, index) {
+                    return index;
+                });
+                var indexesOfActiveVariants = ProductDetailHelper.getIndexesOfActiveVariants($scope.selectedOptions, indexesOfAllVariants);
+
+                $scope.options = ProductDetailHelper.updateOptions($scope.options, indexesOfActiveVariants);
             };
 }]);

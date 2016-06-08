@@ -62,9 +62,9 @@
                     return options;
                 }
 
-                function getIdsOfMatchingVariants(selectedOptions) {
+                function getIndexesOfActiveVariants(selectedOptions, indexesOfAllVariants) {
 
-                    var idsOfMatchingVariants;
+                    var indexesOfActiveVariants = indexesOfAllVariants;
 
                     for (var optionKey in selectedOptions) {
                         if (!selectedOptions.hasOwnProperty(optionKey)) { continue; }
@@ -73,19 +73,15 @@
                             if (!selectedOptions[optionKey].hasOwnProperty(attributeKey)) { continue; }
 
                             if (angular.isObject(selectedOptions[optionKey][attributeKey])) {
-                                if (angular.isArray(idsOfMatchingVariants)) {
-                                    idsOfMatchingVariants = _.intersection(idsOfMatchingVariants, selectedOptions[optionKey][attributeKey].variants);
-                                } else {
-                                    idsOfMatchingVariants = selectedOptions[optionKey][attributeKey].variants;
-                                }
+                                indexesOfActiveVariants = _.intersection(indexesOfActiveVariants, selectedOptions[optionKey][attributeKey].variants);
                             }
                         }
                     }
 
-                    return idsOfMatchingVariants;
+                    return indexesOfActiveVariants;
                 }
 
-                function updateOptions(options, selectedVariants) {
+                function updateOptions(options, indexesOfActiveVariants) {
 
                     for (var optionKey in options) {
                         if (!options.hasOwnProperty(optionKey)) { continue; }
@@ -94,7 +90,7 @@
                             if (!options[optionKey].hasOwnProperty(attributesKey)) { continue; }
 
                             for (var i = 0; i < options[optionKey][attributesKey].length; i++) {
-                                var commonVariants = _.intersection(selectedVariants, options[optionKey][attributesKey][i].variants);
+                                var commonVariants = _.intersection(indexesOfActiveVariants, options[optionKey][attributesKey][i].variants);
                                 if (commonVariants.length > 0) {
                                     options[optionKey][attributesKey][i].disabled = false;
                                 } else {
@@ -109,7 +105,7 @@
 
                 return {
                     prepareOptions: prepareOptions,
-                    getIdsOfMatchingVariants: getIdsOfMatchingVariants,
+                    getIndexesOfActiveVariants: getIndexesOfActiveVariants,
                     updateOptions: updateOptions
                 };
             }]);
