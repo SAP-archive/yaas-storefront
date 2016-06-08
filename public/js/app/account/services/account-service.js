@@ -43,8 +43,8 @@ angular.module('ds.account')
             /**
              * Retrieve addresses of logged in customer.
              */
-            getAddresses: function(query) {
-                var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList(query);
+            getAddresses: function() {
+                var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList();
                 addressesPromise.then(function(response) {
                     if (response.headers) {
                         GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;

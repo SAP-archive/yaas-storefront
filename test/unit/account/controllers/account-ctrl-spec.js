@@ -221,11 +221,39 @@ describe('AccountCtrl Test', function () {
         });
 
         it("should show all of the orders", function () {
+            AccountCtrl.allOrdersLoaded = false;
             $scope.showAllOrders();
             $scope.$digest();
             expect(mockedOrderListSvc.query).toHaveBeenCalled();
             expect($scope.showAllOrdersButton).toEqualData(false);
             expect($scope.orders).toEqualData(mockedOrderList);
+            expect(AccountCtrl.allOrdersLoaded).toBeTruthy();
+        });
+
+        it('should not request the order service if all orders are loaded', function() {
+            AccountCtrl.allOrdersLoaded = true;
+            $scope.showAllOrders();
+            $scope.$apply();
+            expect(mockedOrderListSvc.query).not.toHaveBeenCalled();
+            expect(AccountCtrl.allOrdersLoaded).toBeTruthy();
+        });
+
+        it('should show all addresses', function() {
+            $scope.showAllAddressButton = true;
+            $scope.addresses = [{id:1}, {id:2}];
+            $scope.showAllAddresses();
+            $scope.$apply();
+            expect($scope.showAddressFilter).toEqualData($scope.addresses.length);
+            expect($scope.showAllAddressButton).toBeFalsy();
+        });
+
+        it('should show amount of addresses that is specified in default paramether', function() {
+            $scope.showAllAddressButton = false;
+            $scope.addresses = [{id:1}, {id:2}];
+            $scope.showAllAddresses();
+            $scope.$apply();
+            expect($scope.showAddressFilter).toEqualData($scope.showAddressDefault);
+            expect($scope.showAllAddressButton).toBeTruthy();
         });
 
         it("should close address modal", function () {

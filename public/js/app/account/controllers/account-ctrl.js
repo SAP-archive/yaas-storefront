@@ -17,6 +17,8 @@ angular.module('ds.account')
 
         function ($scope, addresses, account, orders, OrderListSvc, AccountSvc, $modal, GlobalData, $translate) {
 
+            var self = this;
+            self.allOrdersLoaded = false;
             var modalInstance;
             var customerNumber = !!account ? account.customerNumber : null;
 
@@ -187,28 +189,25 @@ angular.module('ds.account')
                 var parms = {
                     pageSize: 100
                 };
-                OrderListSvc.query(parms).then(function (orders) {
-                    $scope.orders = orders;
-
-                    // show filtered list or show all orders. Hide if all data is shown within filter.
+                if (self.allOrdersLoaded) {
                     $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
                     $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
-                });
+                } else {
+                    OrderListSvc.query(parms).then(function (orders) {
+                        $scope.orders = orders;
+
+                        // show filtered list or show all orders. Hide if all data is shown within filter.
+                        $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
+                        $scope.showOrderButtons = ($scope.orders.length > $scope.showOrdersDefault);
+                        self.allOrdersLoaded = true;
+                    });
+                }
             };
 
             $scope.showAllAddresses = function () {
                 $scope.showAllAddressButton = !$scope.showAllAddressButton;
-
-                var parms = {
-                    pageSize: GlobalData.addresses.meta.total
-                };
-                AccountSvc.getAddresses(parms).then(function (addresses) {
-                    $scope.addresses = addresses;
-
-                    // show filtered list or show all addresses. Hide if all data is shown within filter.
-                    $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
-                    $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
-                });
+                $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
+                $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
             };
 
             /*
