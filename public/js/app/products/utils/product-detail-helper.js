@@ -18,12 +18,22 @@
         .factory('ProductDetailHelper', [
             function () {
 
+                function findIndex(values, search) {
+                    return _.findIndex(values, function (item) {
+                        return item.value === search;
+                    });
+                }
+
                 function prepareOptions(variants) {
                     var options = {};
 
-                    angular.forEach(variants, function (variant, variantIndex) {
-                        angular.forEach(variant.options, function (option, optionKey) {
-                            angular.forEach(option, function (attribute, attributeKey) {
+                    for (var variantIndex = 0; variantIndex < variants.length; variantIndex++) {
+
+                        for (var optionKey in variants[variantIndex].options) {
+                            if (!variants[variantIndex].options.hasOwnProperty(optionKey)) { continue; }
+
+                            for (var attributeKey in variants[variantIndex].options[optionKey]) {
+                                if (!variants[variantIndex].options[optionKey].hasOwnProperty(attributeKey)) { continue; }
 
                                 if (!angular.isObject(options[optionKey])) {
                                     options[optionKey] = {};
@@ -33,13 +43,11 @@
                                     options[optionKey][attributeKey] = [];
                                 }
 
-                                var index = _.findIndex(options[optionKey][attributeKey], function (item) {
-                                    return item.value === attribute;
-                                });
+                                var index = findIndex(options[optionKey][attributeKey], variants[variantIndex].options[optionKey][attributeKey]);
 
                                 if (index === -1) {
                                     options[optionKey][attributeKey].push({
-                                        value: attribute,
+                                        value: variants[variantIndex].options[optionKey][attributeKey],
                                         variants: [variantIndex],
                                         disabled: false
                                     });
@@ -47,9 +55,9 @@
                                     options[optionKey][attributeKey][index].variants.push(variantIndex);
                                 }
 
-                            });
-                        });
-                    });
+                            }
+                        }
+                    }
 
                     return options;
                 }
@@ -58,40 +66,46 @@
 
                     var idsOfMatchingVariants;
 
-                    angular.forEach(selectedOptions, function (option, optionKey) {
-                        angular.forEach(option, function (attribute, attributeKey) {
-                            if (angular.isObject(attribute)) {
+                    for (var optionKey in selectedOptions) {
+                        if (!selectedOptions.hasOwnProperty(optionKey)) { continue; }
+
+                        for (var attributeKey in selectedOptions[optionKey]) {
+                            if (!selectedOptions[optionKey].hasOwnProperty(attributeKey)) { continue; }
+
+                            if (angular.isObject(selectedOptions[optionKey][attributeKey])) {
                                 if (angular.isArray(idsOfMatchingVariants)) {
-                                    idsOfMatchingVariants = _.intersection(idsOfMatchingVariants, attribute.variants);    
+                                    idsOfMatchingVariants = _.intersection(idsOfMatchingVariants, selectedOptions[optionKey][attributeKey].variants);
                                 } else {
-                                    idsOfMatchingVariants = attribute.variants;
+                                    idsOfMatchingVariants = selectedOptions[optionKey][attributeKey].variants;
                                 }
                             }
-                        });
-                    });
+                        }
+                    }
 
                     return idsOfMatchingVariants;
-                };
+                }
 
                 function updateOptions(options, selectedVariants) {
 
-                    angular.forEach(options, function (option) {
-                        angular.forEach(option, function (attributes) {
-                            angular.forEach(attributes, function (attribute) {
+                    for (var optionKey in options) {
+                        if (!options.hasOwnProperty(optionKey)) { continue; }
 
-                                var commonVariants = _.intersection(selectedVariants, attribute.variants);
+                        for (var attributesKey in options[optionKey]) {
+                            if (!options[optionKey].hasOwnProperty(attributesKey)) { continue; }
+
+                            for (var i = 0; i < options[optionKey][attributesKey].length; i++) {
+                                var commonVariants = _.intersection(selectedVariants, options[optionKey][attributesKey][i].variants);
                                 if (commonVariants.length > 0) {
-                                    attribute.disabled = false;
+                                    options[optionKey][attributesKey][i].disabled = false;
                                 } else {
-                                    attribute.disabled = true;
+                                    options[optionKey][attributesKey][i].disabled = true;
                                 }
-                            });
-
-                        });
-                    });
+                            }
+                        }
+                    }
 
                     return options;
-                };
+                }
 
                 return {
                     prepareOptions: prepareOptions,

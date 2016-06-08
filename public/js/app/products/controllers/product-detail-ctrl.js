@@ -146,7 +146,7 @@ angular.module('ds.products')
                 }
             };
 
-            // product options (variants)            
+            // product options (variants)
             $scope.selectedOptions = {};
             $scope.options = ProductDetailHelper.prepareOptions(variants);
             
