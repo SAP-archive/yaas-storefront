@@ -29,6 +29,11 @@ describe('AccountCtrl Test', function () {
                 total: 0
             }
         },
+        orders: {
+            meta: {
+                total: 0
+            }
+        },
         getUserTitles: jasmine.createSpy().andReturn(['', 'MR', 'MS', 'MRS', 'DR'])
     };
 

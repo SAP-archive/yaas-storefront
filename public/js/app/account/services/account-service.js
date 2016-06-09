@@ -45,11 +45,6 @@ angular.module('ds.account')
              */
             getAddresses: function() {
                 var addressesPromise = AuthREST.Customers.all('me').all('addresses').getList();
-                addressesPromise.then(function(response) {
-                    if (response.headers) {
-                        GlobalData.addresses.meta.total = parseInt(response.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
-                    }
-                });
                 return addressesPromise;
             },
 

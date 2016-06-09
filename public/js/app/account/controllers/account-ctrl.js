@@ -187,7 +187,7 @@ angular.module('ds.account')
                 $scope.showAllOrdersButton = !$scope.showAllOrdersButton;
 
                 var parms = {
-                    pageSize: 100
+                    pageSize: GlobalData.orders.meta.total
                 };
                 if (self.allOrdersLoaded) {
                     $scope.showOrdersFilter = $scope.showAllOrdersButton ? $scope.showOrdersDefault : $scope.orders.length;
