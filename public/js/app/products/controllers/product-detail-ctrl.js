@@ -155,6 +155,13 @@ angular.module('ds.products')
                     return index;
                 });
                 var indexesOfActiveVariants = ProductDetailHelper.getIndexesOfActiveVariants($scope.selectedOptions, indexesOfAllVariants);
+                
+                // tmp: for testing purpose
+                var namesOfActiveVariants = indexesOfActiveVariants.map(function(index){
+                    return variants[index].name;
+                });
+                console.log(namesOfActiveVariants);
+                // tmp: ends here
 
                 $scope.options = ProductDetailHelper.updateOptions($scope.options, indexesOfActiveVariants);
             };
