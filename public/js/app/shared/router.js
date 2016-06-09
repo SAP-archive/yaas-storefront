@@ -143,6 +143,20 @@ angular.module('ds.router', [])
                             }
 
                         }],
+                        
+                        variants: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc',
+                            function ($stateParams, initialized, $http, SiteConfigSvc) {
+                                if (initialized) {
+                                    // $http used since 'option' property in response body is not handled correctly by Restangular
+                                    return $http.get(SiteConfigSvc.apis.products.baseUrl + '/products/' + $stateParams.productId + '/variants', {
+                                        params: {
+                                            pageNumber: 1, pageSize: 9999
+                                        }
+                                    }).then(function (response) {
+                                        return response.data;
+                                    });
+                                }
+                            }],
 
                         lastCatId: function ($stateParams) {
                             if($stateParams.lastCatId !== 'lastCatId') {
