@@ -24,6 +24,10 @@
                     });
                 }
 
+                function isComplexAttribute(attribute) {
+                    return angular.isObject(attribute) || angular.isArray(attribute);
+                }
+
                 function prepareOptions(variants) {
                     var options = {};
 
@@ -34,6 +38,8 @@
 
                             for (var attributeKey in variants[variantIndex].options[optionKey]) {
                                 if (!variants[variantIndex].options[optionKey].hasOwnProperty(attributeKey)) { continue; }
+
+                                if (isComplexAttribute(variants[variantIndex].options[optionKey][attributeKey])) { continue; }
 
                                 if (!angular.isObject(options[optionKey])) {
                                     options[optionKey] = {};
