@@ -15,8 +15,8 @@
 angular.module('ds.router', [])
 
    /** Sets up the routes for UI Router. */
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'TranslationProvider', 'SiteConfigSvcProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider, TranslationProvider, siteConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 
             // States definition
@@ -246,11 +246,7 @@ angular.module('ds.router', [])
                             return AccountSvc.account();
                         }],
                         addresses: ['AccountSvc', function(AccountSvc) {
-                            var query = {
-                                pageNumber: 1,
-                                pageSize: siteConfig.apis.account.addresses.initialPageSize
-                            };
-                            return AccountSvc.getAddresses(query).then(
+                            return AccountSvc.getAddresses().then(
                                 function (response) {
                                     return response;
                                 },
