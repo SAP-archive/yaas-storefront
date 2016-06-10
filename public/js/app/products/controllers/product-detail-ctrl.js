@@ -147,22 +147,30 @@ angular.module('ds.products')
             };
 
             // product options (variants)
+            $scope.media = $scope.product.product.media;
+                        
             $scope.selectedOptions = {};
             $scope.options = ProductDetailHelper.prepareOptions(variants);
-
+            
             $scope.updateOptions = function () {
                 var indexesOfAllVariants = variants.map(function (item, index) {
                     return index;
                 });
                 var indexesOfActiveVariants = ProductDetailHelper.getIndexesOfActiveVariants($scope.selectedOptions, indexesOfAllVariants);
-                
-                // tmp: for testing purpose
-                var namesOfActiveVariants = indexesOfActiveVariants.map(function(index){
-                    return variants[index].name;
-                });
-                console.log(namesOfActiveVariants);
-                // tmp: ends here
 
                 $scope.options = ProductDetailHelper.updateOptions($scope.options, indexesOfActiveVariants);
+
+                var activeVariants = indexesOfActiveVariants.map(function(index){
+                    return variants[index];
+                });
+                                
+                if (activeVariants.length > 1 || activeVariants[0].media.length === 0) {
+                    $scope.media = $scope.product.product.media;
+                } else {
+                    $scope.media = activeVariants[0].media;
+                }
+                
+                // tmp: for testing purpose
+                console.log(activeVariants);
             };
 }]);
