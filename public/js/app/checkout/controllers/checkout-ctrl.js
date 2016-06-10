@@ -466,23 +466,17 @@ angular.module('ds.checkout')
             };
 
             $scope.openAddressDialog = function(target, addType) {
+                $scope.isDialog = true;
+                $scope.showAddressDefault = 6;
+                $scope.showAddressFilter = $scope.showAddressDefault;
+                $scope.showAllAddressButton = $scope.showAddressDefault < $scope.addresses.length;
+                $scope.showAllAddresses = false;
+                $scope.target = target;
+                $scope.addType = addType;
                 addressModalInstance = $modal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
-                    scope: $scope,
-                    resolve: {
-                        addresses: ['AccountSvc', function(AccountSvc) {
-                            return AccountSvc.getAddresses().then(function() {
-                                $scope.isDialog = true;
-                                $scope.showAddressDefault = 6;
-                                $scope.showAddressFilter = $scope.showAddressDefault;
-                                $scope.showAllAddressButton = $scope.showAddressDefault < $scope.addresses.length;
-                                $scope.showAllAddresses = false;
-                                $scope.target = target;
-                                $scope.addType = addType;
-                            });
-                        }]
-                    }
+                    scope: $scope
                   });
             };
 

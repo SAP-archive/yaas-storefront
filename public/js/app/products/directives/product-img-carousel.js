@@ -77,8 +77,10 @@
                     }
                 };
 
-                $timeout(positionImages, 0);
-                $timeout(positionMobileThumbs, 0);
+                scope.$watchCollection('images', function(){
+                    $timeout(positionImages, 0);
+                    $timeout(positionMobileThumbs, 0); 
+                });
             }
 
 
