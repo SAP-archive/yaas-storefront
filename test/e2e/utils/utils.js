@@ -3,7 +3,7 @@
 exports.tenant = 'bsdqa';
 
 exports.waitForModal = function () {
-    exports.waitForAngular();
+    browser.waitForAngular();
 };
 
 exports.deleteCookies = function () {
@@ -14,15 +14,11 @@ exports.setWindowSize = function (width, height) {
     browser.driver.manage().window().setSize(width, height);
 };
 
-exports.waitForAngular = function() {
-    browser.waitForAngular();
-}
-
 exports.dumpBrowserConsoleLogs = function() {
     browser.manage().logs().get('browser').then(function(browserLog) {
         console.log('log: ' + require('util').inspect(browserLog));
     });
-}
+};
 
 exports.scrollToProduct = function (prodEl) {
     var deferred = protractor.promise.defer();

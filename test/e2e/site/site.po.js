@@ -30,7 +30,7 @@ var SitePageObject = function () {
             return buttons.desktopSiteSelector.isPresent();
         });
         browser.sleep(500); //Protactor fails to click the selector sometimes even with the wait
-    }
+    };
 
     this.setLanguage = function (language) {
         links.currentLanguage.click();

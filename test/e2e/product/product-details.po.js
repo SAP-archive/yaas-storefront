@@ -10,7 +10,7 @@ var ProductDetailsPageObject = function () {
 
     var inputFields = {
         quantity: element(by.id('qty'))
-    }
+    };
 
     this.get = function (productId) {
         browser.get(utils.tenant + '/#!/products/' + productId);

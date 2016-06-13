@@ -50,7 +50,7 @@ var AccountPageObject = function () {
 
     var orderRowElement = function(elem,rowNumber) {
         return element(by.repeater('orderRow in orders').row(rowNumber).column('orderRow.' + elem));
-    }
+    };
 
     this.getContactEmail = function () {
         return textDisplays.contactEmail.getText();
@@ -121,7 +121,7 @@ var AccountPageObject = function () {
 
         buttons.createAccount.click();
 
-        utils.waitForAngular();
+        browser.waitForAngular();
     };
 
     this.goToAccountDetailsPage = function() {

@@ -35,43 +35,43 @@ var CartPageObject = function () {
     var links = {
         estimateTax: element(by.id('tax-estimation-link')),
         addEditNote: element(by.id('addEditNote'))
-    }
+    };
 
     this.addNote = function (noteText) {
         links.addEditNote.click();
         inputFields.cartItemNote.clear();
         inputFields.cartItemNote.sendKeys(noteText);
         buttons.saveCartItemNote.click();
-    }
+    };
 
     this.getItemNote = function () {
         return element(by.css('.note-display.ng-binding')).getText();
-    }
+    };
 
     this.setTaxCountry = function(country) {
         utils.selectOption('calculateTax.countryCode', country);
-    }
+    };
 
     this.isTotalTaxPresent = function() {
         return textDisplays.totalTax.isPresent();
-    }
+    };
 
     this.showEstimateTaxFields = function () {
         links.estimateTax.click();
-    }
+    };
 
     this.applyTax = function () {
         buttons.applyTax.click();
-    }
+    };
 
     this.isOutOfStockButtonPresent = function () {
         return buttons.outOfStock.isPresent()
-    }
+    };
 
     this.setTaxZipCode = function(zipCode) {
         inputFields.taxZipCode.clear();
         inputFields.taxZipCode.sendKeys(zipCode);
-    }
+    };
 
     this.goToCheckout = function (isLoggedIn) {
         buttons.checkout.click();
@@ -79,15 +79,15 @@ var CartPageObject = function () {
             utils.waitForModal();
             buttons.guestContinue.click();
         }
-    }
+    };
 
     this.updateOrderTotal = function () {
         textDisplays.orderEstimatedTotal.click();
-    }
+    };
 
     this.getTaxOverride = function() {
         return textDisplays.taxOverride.getText();
-    }
+    };
 
     this.showCart = function (isMobile) {
         if(isMobile === true) {
@@ -105,7 +105,7 @@ var CartPageObject = function () {
     this.setCartQuantity = function (quantity) {
         inputFields.cartQuantity.clear();
         inputFields.cartQuantity.sendKeys(quantity);
-    }
+    };
 
     this.updateItemQuantity = function (quantity) {
         this.setCartQuantity(quantity);
