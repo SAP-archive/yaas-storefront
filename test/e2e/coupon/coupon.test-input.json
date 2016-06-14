@@ -104,6 +104,7 @@
         "couponTestUser": {
             "name": "coupontestmin2",
             "email": "coupontest",
+            "password": "password",
             "address": {
                 "country": "United States",
                 "contactName": "Coupon Test",

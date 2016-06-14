@@ -41,13 +41,9 @@ var AccountPageObject = function () {
         contactEmail: element(by.id("account-contact-email"))
     };
 
-    var countryDropDown = element(by.model('address.country'));
-
     var dropdowns = {
         account: element(by.id('my-account-dropdown')),
-        country: countryDropDown,
-        countrySortedSelect: countryDropDown.element(by.css('.ui-select-search')),
-        countryFirstChoice: element.all(by.css('.ui-select-choices-row-inner span')).first()
+        country: element(by.model('address.country'))
     };
 
     var orderRowElement = function(elem,rowNumber) {
@@ -72,17 +68,16 @@ var AccountPageObject = function () {
         }
     };
 
-
     this.populateAddress = function(address) { 
         buttons.addAddress.click();
 
         browser.sleep(1000);
 
+        var selectSort = dropdowns.country.element(by.css('.ui-select-search'));
         dropdowns.country.click();
-        dropdowns.countrySortedSelect.clear();
-        dropdowns.countrySortedSelect.sendKeys(address.country);
-
-        dropdowns.countryFirstChoice.click();
+        selectSort.clear();
+        selectSort.sendKeys(address.country);
+        element.all(by.css('.ui-select-choices-row-inner span')).first().click();
 
         inputFields.contactName.clear();
         inputFields.contactName.sendKeys(address.contactName);
@@ -111,7 +106,7 @@ var AccountPageObject = function () {
         buttons.saveAddress.click();
     };
 
-    this.createAccount = function (emailAddress) {
+    this.createAccount = function (user) {
         var timestamp = Number(new Date());
 
         links.signIn.click();
@@ -119,9 +114,9 @@ var AccountPageObject = function () {
         links.createAccount.click();
 
         inputFields.createUser.username.clear();
-        inputFields.createUser.username.sendKeys(emailAddress + timestamp + '@yaastest.com');
+        inputFields.createUser.username.sendKeys(user.email + timestamp + '@yaastest.com');
         inputFields.createUser.password.clear();
-        inputFields.createUser.password.sendKeys('password');
+        inputFields.createUser.password.sendKeys(user.password);
 
         buttons.createAccount.click();
 

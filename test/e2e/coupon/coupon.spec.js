@@ -309,7 +309,7 @@ describe('Coupon Tests :', function () {
         it('should allow purchase over minimum', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser.name);
+            accountPO.createAccount(testUsers.couponTestUser);
 
             accountPO.goToAccountDetailsPage();
             
@@ -356,7 +356,7 @@ describe('Coupon Tests :', function () {
         it('should allow coupon larger than purchase price', function () {            
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser.name);
+            accountPO.createAccount(testUsers.couponTestUser);
 
             accountPO.goToAccountDetailsPage();
             
@@ -404,7 +404,7 @@ describe('Coupon Tests :', function () {
         it('should allow percentage off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser.name);
+            accountPO.createAccount(testUsers.couponTestUser);
 
             accountPO.goToAccountDetailsPage();
             
@@ -451,7 +451,7 @@ describe('Coupon Tests :', function () {
         it('should allow dollar off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser.name);
+            accountPO.createAccount(testUsers.couponTestUser);
 
             accountPO.goToAccountDetailsPage();
             
