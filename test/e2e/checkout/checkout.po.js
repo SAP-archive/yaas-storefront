@@ -224,7 +224,6 @@ var CheckoutPageObject = function () {
             element(by.repeater('address in addresses').row(addressNumber - 1).column('address.streetNumber')).click();
         }
     };
-
 };
 
 module.exports = CheckoutPageObject;

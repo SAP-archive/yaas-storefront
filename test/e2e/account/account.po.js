@@ -41,12 +41,14 @@ var AccountPageObject = function () {
         contactEmail: element(by.id("account-contact-email"))
     };
 
+    var countryDropDown = element(by.model('address.country'));
+
     var dropdowns = {
         account: element(by.id('my-account-dropdown')),
-        country: element(by.model('address.country'))
+        country: countryDropDown,
+        countrySortedSelect: countryDropDown.element(by.css('.ui-select-search')),
+        countryFirstChoice: element.all(by.css('.ui-select-choices-row-inner span')).first()
     };
-
-    var timestamp = Number(new Date());
 
     var orderRowElement = function(elem,rowNumber) {
         return element(by.repeater('orderRow in orders').row(rowNumber).column('orderRow.' + elem));
@@ -76,11 +78,11 @@ var AccountPageObject = function () {
 
         browser.sleep(1000);
 
-        var selectSort = dropdowns.country.element(by.css('.ui-select-search'));
         dropdowns.country.click();
-        selectSort.clear();
-        selectSort.sendKeys(address.country);
-        element.all(by.css('.ui-select-choices-row-inner span')).first().click();
+        dropdowns.countrySortedSelect.clear();
+        dropdowns.countrySortedSelect.sendKeys(address.country);
+
+        dropdowns.countryFirstChoice.click();
 
         inputFields.contactName.clear();
         inputFields.contactName.sendKeys(address.contactName);
@@ -110,6 +112,8 @@ var AccountPageObject = function () {
     };
 
     this.createAccount = function (emailAddress) {
+        var timestamp = Number(new Date());
+
         links.signIn.click();
         this.waitForSignInForm();
         links.createAccount.click();

@@ -46,7 +46,7 @@ describe('Coupon Tests :', function () {
             confirmationPO = new ConfirmationPageObject();
         });
 
-        it('should not allow user to add coupon if not logged in', function () {
+        it('should not allow user to add certain coupons if not logged in', function () {
             productDetailsPO.get(whiteCoffeeMug.id);
 
             productDetailsPO.addProductToCart(1);

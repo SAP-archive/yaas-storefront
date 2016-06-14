@@ -1,14 +1,16 @@
 {
     "whiteCoffeeMug": {
-    	"id": "55d76ce63a0eafb30e5540c8",
-    	"one": {
-    		"priceUS": "$20.62",
-    		"priceDE": "€12.99"
-    	},
+        "id": "55d76ce63a0eafb30e5540c8",
+        "one": {
+            "priceUS": "$20.62",
+            "priceDE": "€12.99"
+        },
+
         "two": {
             "priceUS": "$29.76",
             "discountUS": "-$2.13"
         },
+        
         "five": {
             "priceUS": "$54.58",
             "discountUS": "-$5.34"
@@ -41,6 +43,7 @@
             "name": "SIGNEDIN",
             "errorMessageEN": "SIGN IN TO USE COUPON CODE"
         },
+
         "minimum": {
             "name": "MINIMUM",
             "whiteCoffeeMug": {
@@ -48,6 +51,7 @@
                 "differenceUS": "-$0.53"
             }
         },
+
         "twentyDollar": {
             "name": "20DOLLAR",
             "whiteCoffeeMug": {
@@ -55,6 +59,7 @@
                 "differenceUS": "-$10.67"
             }
         },
+
         "tenDollar": {
             "name": "10DOLLAR",
             "errorMessageDE": "WÄHRUNG FÜR COUPON UNGÜLTIG", 
@@ -95,6 +100,7 @@
                 "lastName": "Night"
             }
         },
+
         "couponTestUser": {
             "name": "coupontestmin2",
             "email": "coupontest",
@@ -115,7 +121,5 @@
             "username": "coupon@hybristest.com",
             "password": "password"
         }
-
     }
-
 }
