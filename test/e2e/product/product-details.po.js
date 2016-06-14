@@ -23,7 +23,6 @@ var ProductDetailsPageObject = function () {
 
         buttons.addToCart.click();
     };
-
 };
 
 module.exports = ProductDetailsPageObject;

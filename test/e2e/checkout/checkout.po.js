@@ -26,16 +26,13 @@ var CheckoutPageObject = function () {
         creditCardNumber: element(by.id("ccNumber")),
         cvcCode: element(by.id("cvc")),
         email: element(by.id("email")),
-
         loggedIn: {
             shippingAddress1: element(by.id('address1Ship'))
         }
     };
 
     var textDisplays = {
-
         shipmentDestination: element(by.id('shipment-destination')),
-
         orderPreview: {
             itemQuantity: element.all(by.className('item-quantity')).first(),
             totalPrice: element.all(by.className('cart-totalPrice')).first(),
@@ -44,7 +41,6 @@ var CheckoutPageObject = function () {
             totalDiscount: element.all(by.className('cart-totalDiscount')).first(),
             totalPrice: element.all(by.className('cart-totalPrice')).first()
         }, 
-
         shippingAddress1: element(by.id('order-shipTo-address1'))
     };
 

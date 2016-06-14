@@ -494,6 +494,5 @@ describe('Coupon Tests :', function () {
             
             expect(confirmationPO.getTotalDiscount()).toEqual(testCoupons.tenDollar.whiteCoffeeMug.differenceUS);
         });
-
     });
 });
