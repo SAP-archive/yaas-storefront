@@ -148,29 +148,50 @@ angular.module('ds.products')
 
             // product options (variants)
             $scope.media = $scope.product.product.media;
-                        
-            $scope.selectedOptions = {};
+
             $scope.options = ProductDetailHelper.prepareOptions(variants);
-            
-            $scope.updateOptions = function () {
-                var indexesOfAllVariants = variants.map(function (item, index) {
-                    return index;
-                });
-                var indexesOfActiveVariants = ProductDetailHelper.getIndexesOfActiveVariants($scope.selectedOptions, indexesOfAllVariants);
+            $scope.optionsSelected = [];
 
-                $scope.options = ProductDetailHelper.updateOptions($scope.options, indexesOfActiveVariants);
+            function getIdsOfMatchingVariants(attributesSelected) {
+                return attributesSelected.length === 0 ?
+                    ProductDetailHelper.getIdsOfAllVariants(variants) :
+                    ProductDetailHelper.getIdsOfMatchingVariants(attributesSelected);
+            }
 
-                var activeVariants = indexesOfActiveVariants.map(function(index){
-                    return variants[index];
-                });
-                                
-                if (activeVariants.length > 1 || activeVariants[0].media.length === 0) {
-                    $scope.media = $scope.product.product.media;
+            function getVariant(varaintId) {
+                return _.find(variants, function (v) { return v.id === varaintId; });
+            }
+
+            $scope.resolveActiveVariantAndUpdateOptions = function () {
+                var attributesSelected = ProductDetailHelper.getSelectedAttributes($scope.optionsSelected);
+                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
+                
+                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
+
+                // set active variant
+                if (attributesSelected.length === $scope.options.length) {
+                    $scope.activeVariant = getVariant(idsOfMatchingVariants[0]);
+                    // tmp: test purpose
+                    console.log($scope.activeVariant);
                 } else {
-                    $scope.media = activeVariants[0].media;
+                    $scope.activeVariant = undefined;
                 }
                 
-                // tmp: for testing purpose
-                console.log(activeVariants);
+                // update media
+                if (_.isObject($scope.activeVariant) && $scope.activeVariant.media.length > 0) {
+                    $scope.media = $scope.activeVariant.media;
+                } else {
+                    $scope.media = $scope.product.product.media;
+                }
+            };
+
+            $scope.omitSelectionAndUpdateOptions = function (omittedIndex) {
+                var omitted = _.union([], $scope.optionsSelected);
+                omitted[omittedIndex] = null;
+
+                var attributesSelected = ProductDetailHelper.getSelectedAttributes(omitted);
+                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
+                
+                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
             };
 }]);
