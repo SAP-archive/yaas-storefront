@@ -79,7 +79,7 @@
 
                 scope.$watchCollection('images', function(){
                     $timeout(positionImages, 0);
-                    $timeout(positionMobileThumbs, 0); 
+                    $timeout(positionMobileThumbs, 0);
                 });
             }
 
