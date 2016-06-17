@@ -84,7 +84,8 @@
 
                                 <!-- product price -->
                                 <div class="price item-attr">
-                                    {{'ITEM_PRICE' | translate}}: <span> {{item.price.effectiveAmount | currency: currencySymbol}}</span>
+                                    {{'ITEM_PRICE' | translate}}: <span>{{item.price.effectiveAmount | currency: currencySymbol}}</span>
+                                    <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span>
                                 </div>
 
                                 <!-- product quantity -->

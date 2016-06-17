@@ -17,10 +17,10 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter', 'ProductExtensionHelper',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, CommittedMediaFilter, ProductExtensionHelper) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter', 'ProductExtensionHelper', 'variants', 'ProductDetailHelper',
+        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, CommittedMediaFilter, ProductExtensionHelper, variants, ProductDetailHelper) {
             var modalInstance;
-            
+                        
             $scope.activeTab = 'description';
             $scope.openTab = function (tabName) {
                 $scope.activeTab = tabName;
@@ -155,4 +155,52 @@ angular.module('ds.products')
                 }
             };
 
+            // product options (variants)
+            $scope.media = $scope.product.product.media;
+
+            $scope.options = ProductDetailHelper.prepareOptions(variants);
+            $scope.optionsSelected = [];
+
+            function getIdsOfMatchingVariants(attributesSelected) {
+                return attributesSelected.length === 0 ?
+                    ProductDetailHelper.getIdsOfAllVariants(variants) :
+                    ProductDetailHelper.getIdsOfMatchingVariants(attributesSelected);
+            }
+
+            function getVariant(varaintId) {
+                return _.find(variants, function (v) { return v.id === varaintId; });
+            }
+
+            $scope.resolveActiveVariantAndUpdateOptions = function () {
+                var attributesSelected = ProductDetailHelper.getSelectedAttributes($scope.optionsSelected);
+                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
+                
+                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
+
+                // set active variant
+                if (attributesSelected.length === $scope.options.length) {
+                    $scope.activeVariant = getVariant(idsOfMatchingVariants[0]);
+                    // tmp: test purpose
+                    console.log($scope.activeVariant);
+                } else {
+                    $scope.activeVariant = undefined;
+                }
+                
+                // update media
+                if (_.isObject($scope.activeVariant) && $scope.activeVariant.media.length > 0) {
+                    $scope.media = $scope.activeVariant.media;
+                } else {
+                    $scope.media = $scope.product.product.media;
+                }
+            };
+
+            $scope.omitSelectionAndUpdateOptions = function (omittedIndex) {
+                var omitted = _.union([], $scope.optionsSelected);
+                omitted[omittedIndex] = null;
+
+                var attributesSelected = ProductDetailHelper.getSelectedAttributes(omitted);
+                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
+                
+                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
+            };
 }]);

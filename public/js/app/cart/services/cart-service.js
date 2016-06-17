@@ -14,8 +14,8 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData',
-        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData) {
+    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
+        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData,$location) {
 
             // Prototype for outbound "update cart item" call
             var Item = function (product, price, qty) {
@@ -70,9 +70,14 @@ angular.module('ds.cart')
                     accPromise.finally(function () {
                         newCart.currency = GlobalData.getCurrencyId();
                         newCart.siteCode = GlobalData.getSiteCode();
+                        newCart.channel = {
+                            name: 'yaas-storefront',
+                            source: $location.host()
+                        };
                         CartREST.Cart.all('carts').post(newCart).then(function (response) {
                             cart.id = response.cartId;
                             deferredCart.resolve({ cartId: cart.id });
+
                         }, function () {
                             deferredCart.reject();
                         });
@@ -173,8 +178,11 @@ angular.module('ds.cart')
                 var createItemDef = $q.defer();
                 getOrCreateCart().then(function (cartResult) {
 
-                    var price = { 'priceId': prices[0].priceId, 'effectiveAmount': prices[0].effectiveAmount, 'originalAmount': prices[0].originalAmount, 'currency': prices[0].currency };
+                    var price = {'priceId': prices[0].priceId, 'effectiveAmount': prices[0].effectiveAmount, 'originalAmount': prices[0].originalAmount, 'currency': prices[0].currency};
 
+                    if(prices[0].measurementUnit) {
+                        price.measurementUnit =  {'unit' : prices[0].measurementUnit.unitCode, 'quantity' : prices[0].measurementUnit.quantity};
+                    }
                     var item = new Item(product, price, qty);
 
                     CartREST.Cart.one('carts', cartResult.cartId).all('items').post(item).then(function () {

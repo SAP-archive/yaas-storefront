@@ -16,7 +16,7 @@
  *  Encapsulates access to the "order" service.
  */
 angular.module('ds.confirmation')
-    .factory('OrderDetailSvc', ['OrderREST',  function(OrderREST){
+    .factory('OrderDetailSvc', ['OrderREST', '$q', function (OrderREST, $q) {
 
         /** Issues a GET request for the 'order' resource
          * @param orderId
@@ -86,6 +86,19 @@ angular.module('ds.confirmation')
                     return confirmationDetails;
                 });
 
+            },
+
+            cancelOrder: function (orderId) {
+                var deferred = $q.defer();
+                OrderREST.Orders.one('orders', orderId).all('transitions').post({status: 'DECLINED'}).then(
+                    function () {
+                        deferred.resolve({status: 'DECLINED'});
+                    },
+                    function () {
+                        deferred.reject();
+                    });
+                return deferred.promise;
             }
+
         };
     }]);

@@ -119,17 +119,9 @@ angular.module('ds.addresses')
                 scope.viewTarget = attrs.type;
                 scope.usStates = Countries.us.states;
                 scope.caProvinces = Countries.canada.provinces;
-
-                if (scope.viewTarget === 'shipping') {
-                    ShippingSvc.getShipToCountries().then(
-                        function (response) {
-                            if (response.length) {
-                                scope.localeSelections = getShipToCountries(response);
-                            } else {
-                                scope.localeSelections = allCountries;
-                            }
-                        }
-                    );
+                
+                if (scope.viewTarget === 'shipping' && scope.shippingCountries.length) {
+                    scope.localeSelections = getShipToCountries(scope.shippingCountries);
                 } else {
                     scope.localeSelections = allCountries;
                 }

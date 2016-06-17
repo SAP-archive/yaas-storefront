@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <div class="product-gallery">
                     <div class="row">
-                        <product-img-carousel images="product.product.media"></product-img-carousel>
+                        <product-img-carousel images="media"></product-img-carousel>
                     </div>
                 </div>
             </div>
@@ -47,6 +47,28 @@
                             {{taxConfiguration.shortenedLabel}}... 
                             <a ng-click="taxConfiguration.seeMoreClicked = true">{{'MORE' | translate}}</a>
                         </div>
+                    </div>
+
+
+                    <!-- product options -->
+                    <div ng-repeat="option in options">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <label class="control-label">{{option.attributeKey}}</label>
+                            </div>
+
+                            <div class="col-xs-9">
+                                <ui-select ng-model="optionsSelected[$index]" on-select="resolveActiveVariantAndUpdateOptions()">
+                                    <ui-select-match allow-clear="true" ng-click="omitSelectionAndUpdateOptions($index)">
+                                        {{$select.selected.value}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="attribute in option.attributes" ui-disable-choice="attribute.disabled">
+                                        {{attribute.value}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <br/>
                     </div>
 
                     <form action="" class="cartPanel">
