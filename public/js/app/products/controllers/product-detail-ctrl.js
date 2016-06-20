@@ -29,6 +29,7 @@ angular.module('ds.products')
             $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
             
             $scope.product = product;
+            $scope.media = product.product.media;
             $scope.shippingZones = shippingZones;
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -156,7 +157,7 @@ angular.module('ds.products')
             };
 
             // product options (variants)
-            $scope.media = $scope.product.product.media;
+            $scope.hasVariants = variants.length > 0;
 
             $scope.options = ProductDetailHelper.prepareOptions(variants);
             $scope.optionsSelected = [];
