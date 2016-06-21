@@ -371,6 +371,9 @@
     //XTBS
     "DETAILS_TAB": "Details",
 
+    //XBUT
+    "MORE": "More",
+
     //XFLD
     //-------------------------------------------------
     // Product List Page
@@ -718,7 +721,7 @@
     //XGRP
     "RESULTS": "Results",
     //XLNK
-    "SEE_ALL": "See All",
+    "SEE_ALL": "See All Results",
     //XMSG
     "SEARCH_UNAVAILABLE": "Search is currently unavailable.",
     //XMSG
