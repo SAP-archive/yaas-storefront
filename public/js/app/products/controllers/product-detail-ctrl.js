@@ -29,6 +29,7 @@ angular.module('ds.products')
             $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
             
             $scope.product = product;
+            $scope.media = product.product.media;
             $scope.shippingZones = shippingZones;
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -37,6 +38,15 @@ angular.module('ds.products')
             $scope.breadcrumbData = angular.copy($scope.category);
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
+            /*
+             we need to shorten the tax label if it contains more than 60 characters, and give users the option of
+             clicking a 'see more' link to view the whole label.
+             */
+            if ($scope.taxConfiguration && $scope.taxConfiguration.label && $scope.taxConfiguration.label.length > 60) {
+                $scope.taxConfiguration.shortenedLabel = $scope.taxConfiguration.label.substring(0, 59);
+                $scope.taxConfiguration.seeMoreClicked = false;
+            }
 
             if(!!lastCatId) {
                 if(lastCatId === 'allProducts'){
@@ -147,7 +157,7 @@ angular.module('ds.products')
             };
 
             // product options (variants)
-            $scope.media = $scope.product.product.media;
+            $scope.hasVariants = variants.length > 0;
 
             $scope.options = ProductDetailHelper.prepareOptions(variants);
             $scope.optionsSelected = [];
