@@ -110,6 +110,12 @@
                             </div>
                         </div>
                     </form>
+
+                    <div class="row" ng-if="!product.prices[0] || hasVariants">
+                        <div class="col-md-12 col-lg-12 buyButton">
+                            <button id="out-of-stock-btn" class="btn btn-default" disabled>{{'UNAVAILABLE' | translate}}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

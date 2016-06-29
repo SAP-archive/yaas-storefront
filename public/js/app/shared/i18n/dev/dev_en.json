@@ -364,6 +364,8 @@
     "PRODUCT_DETAILS": "Product Details",
     //XBUT
     "OUT_OF_STOCK": "out of stock",
+    //XBUT
+    "UNAVAILABLE": "Unavailable",
     //XFLD
     "QTY": "Qty",
     //XMSG
