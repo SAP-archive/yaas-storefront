@@ -1,0 +1,126 @@
+{
+    "whiteCoffeeMug": {
+        "id": "55d76ce63a0eafb30e5540c8",
+        "one": {
+            "priceUS": "$20.62",
+            "priceDE": "€12.99"
+        },
+
+        "two": {
+            "priceUS": "$29.76",
+            "discountUS": "-$2.13"
+        },
+        
+        "five": {
+            "priceUS": "$53.40",
+            "discountUS": "-$5.34"
+        }
+    },
+
+    "sites": {
+        "SushiGermany": {
+            "siteName": "Sushi Demo Store Germany",
+            "mode": "Desktop"
+        }
+    },
+
+    "emptyCartMessage": {
+        "EN": "YOUR CART IS EMPTY",
+        "DE": "IHR WARENKORB IST LEER"
+    },
+
+    "selectModel": "order.account.title",
+
+    "creditCard": {
+        "cardNumber": 5555555555554444,
+        "expiryMonth": "06",
+        "expiryYear": 2019,
+        "cvcCode": "000"
+    },
+
+    "coupons": {
+        "signedIn": {
+            "name": "SIGNEDIN",
+            "errorMessageEN": "SIGN IN TO USE COUPON CODE"
+        },
+
+        "minimum": {
+            "name": "MINIMUM",
+            "whiteCoffeeMug": {
+                "priceUS": "$20.05",
+                "differenceUS": "-$0.53"
+            }
+        },
+
+        "twentyDollar": {
+            "name": "20DOLLAR",
+            "whiteCoffeeMug": {
+                "priceUS": "$9.20",
+                "differenceUS": "-$10.67"
+            }
+        },
+
+        "tenDollar": {
+            "name": "10DOLLAR",
+            "errorMessageDE": "WÄHRUNG FÜR COUPON UNGÜLTIG", 
+            "whiteCoffeeMug": {
+                "priceUS": "$9.92",
+                "differenceUS": "-$10.00"
+            }
+        },
+
+        "tenPercent": {
+            "name": "10PERCENT",
+            "whiteCoffeeMug": {
+                "priceUS": "$19.47",
+                "differenceUS": "-$1.07"
+            }
+        },
+        "specific": {
+            "name": "SPECIFIC",
+            "errorMessageEN": "COUPON NOT VALID"
+        },
+
+        "twentyMinimum": {
+            "name": "20MINIMUM",
+            "errorMessageEN": "THE ORDER VALUE IS TOO LOW FOR THIS COUPON"
+        },
+
+        "expired": {
+            "name": "EXPIRED",
+            "errorMessageEN": "THE COUPON IS NOT ACTIVE"
+        }
+    },
+
+    "users": {
+        "main": {
+            "name": {
+                "designation": "MR",
+                "firstName": "Mike",
+                "lastName": "Night"
+            }
+        },
+
+        "couponTestUser": {
+            "name": "coupontestmin2",
+            "email": "coupontest",
+            "password": "password",
+            "address": {
+                "country": "United States",
+                "contactName": "Coupon Test",
+                "street": "123 fake place",
+                "aptNumber": "apt 419",
+                "city": "Boulder",
+                "state": "CO",
+                "zipCode": "80301",
+                "cityStateZipCode": "BOULDER, CO 80301",
+                "contactPhone": "303-303-3333"
+            }
+        },
+
+        "couponUser": {
+            "username": "coupon@hybristest.com",
+            "password": "password"
+        }
+    }
+}

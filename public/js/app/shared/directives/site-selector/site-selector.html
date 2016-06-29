@@ -16,7 +16,7 @@
                         </ul>
                     </div>
                     <div class="col-xs-6">
-                        <ul class="list-unstyled languageMenu">
+                        <ul id="region-list" class="list-unstyled regionControlList">
                             <li ng-repeat="lang in hoveredSite.languages" ng-click="selectSiteAndLanguage(hoveredSite, lang)"
                                 ng-class="{ 'selected':(lang === selectedLanguage() && hoveredSite.code === selectedSite.code),
                                                    'defaultLang': (lang === hoveredSite.defaultLanguage && hoveredSite.code !== selectedSite.code)  }">

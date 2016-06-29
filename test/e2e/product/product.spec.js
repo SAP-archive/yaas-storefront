@@ -1,5 +1,5 @@
 var fs = require('fs');
-var tu = require('./protractor-utils.js');
+var tu = require('../utils/protractor-utils.js');
 
 
 describe('product page', function () {

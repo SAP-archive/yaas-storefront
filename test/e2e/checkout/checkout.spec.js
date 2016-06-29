@@ -1,5 +1,5 @@
 var fs = require('fs');
-var tu = require('./protractor-utils.js');
+var tu = require('../utils/protractor-utils.js');
 
 var date = Date();
 var month = date.substr(4, 3);

@@ -1,5 +1,5 @@
 var fs = require('fs');
-var tu = require('./protractor-utils.js');
+var tu = require('../utils/protractor-utils.js');
 
 describe("cart:", function () {
 
@@ -114,14 +114,14 @@ describe("cart:", function () {
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.verifyCartAmount("5");
-            tu.verifyCartTotal("$60.28");
+            tu.verifyCartTotal("$59.11");
             tu.sendKeys('xpath', tu.cartQuantity, '10');
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.clickElement('binding', 'EST_ORDER_TOTAL');
             browser.sleep(1000);
             tu.verifyCartAmount("10");
-            tu.verifyCartTotal("$115.24");
+            tu.verifyCartTotal("$116.19");
         });
 
         it('should have out of stock button disabled', function () {
