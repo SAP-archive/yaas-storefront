@@ -121,14 +121,17 @@
                 </div>
                 <div class="productInfoContainer text-center">
                     <div class="name">{{ product.product.name }}</div>
-                    <div ng-if="prices[product.product.id].salePrice" class="price">
+
+                    <div ng-if="prices[product.product.id]">
+                        <div ng-if="prices[product.product.id].salePrice" class="price">
                             <span class="price originalPrice"><strike>{{ prices[product.product.id].originalAmount | currency: currencySymbol }}</strike></span>
                             <span class="price salesPrice">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
                             <span class="priceUnit salesPrice" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
-                    </div>
-                    <div ng-if="!prices[product.product.id].salePrice" class="price">
-                        <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
-                        <span class="priceUnit" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                        </div>
+                        <div ng-if="!prices[product.product.id].salePrice" class="price">
+                            <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                            <span class="priceUnit" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                        </div>
                     </div>
                 </div>
             </a>
