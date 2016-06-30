@@ -83,11 +83,11 @@ var AccountPageObject = function () {
 
     this.getAccountModalErrorMessage = function() {
         return textDisplays.errorMessage.getText();
-    }
+    };
 
     var orderRowElement = function(elem,rowNumber) {
         return element(by.repeater('orderRow in orders').row(rowNumber).column('orderRow.' + elem));
-    }
+    };
 
     this.orderRow = {
         getCreationDate: function(rowNumber) {
@@ -105,7 +105,7 @@ var AccountPageObject = function () {
 
     var addressElement = function(elem,rowNumber) {
         return element.all(by.repeater('address in addresses').row(rowNumber).column('address.' + elem)).first();
-    }
+    };
 
     this.address = {
         getStreet: function(rowNumber) {
@@ -275,7 +275,7 @@ var AccountPageObject = function () {
 
             buttons.saveUserInfo.click();
         }
-    }
+    };
 
     this.waitForSignInComplete = function() {
         browser.wait(function () {
@@ -286,7 +286,7 @@ var AccountPageObject = function () {
     this.logoutUser = function() {
         dropdowns.account.click();
         buttons.logout.click();
-    }
+    };
 
     this.loginUser = function (user) {
         links.signIn.click();
