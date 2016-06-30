@@ -29,6 +29,7 @@ describe('Coupon Tests :', function () {
 
     var isMobile = false;
     var isLoggedIn = true;
+    var openModal = true;
 
     describe('cart', function () {
 
@@ -309,9 +310,9 @@ describe('Coupon Tests :', function () {
         it('should allow purchase over minimum', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -356,9 +357,9 @@ describe('Coupon Tests :', function () {
         it('should allow coupon larger than purchase price', function () {            
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -404,9 +405,9 @@ describe('Coupon Tests :', function () {
         it('should allow percentage off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -451,9 +452,9 @@ describe('Coupon Tests :', function () {
         it('should allow dollar off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 

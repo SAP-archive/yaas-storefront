@@ -26,13 +26,16 @@ var CheckoutPageObject = function () {
         creditCardNumber: element(by.id("ccNumber")),
         cvcCode: element(by.id("cvc")),
         email: element(by.id("email")),
+
         loggedIn: {
             shippingAddress1: element(by.id('address1Ship'))
         }
     };
 
     var textDisplays = {
+
         shipmentDestination: element(by.id('shipment-destination')),
+
         orderPreview: {
             itemQuantity: element.all(by.className('item-quantity')).first(),
             totalPrice: element.all(by.className('cart-totalPrice')).first(),
@@ -41,6 +44,7 @@ var CheckoutPageObject = function () {
             totalDiscount: element.all(by.className('cart-totalDiscount')).first(),
             totalPrice: element.all(by.className('cart-totalPrice')).first()
         }, 
+
         shippingAddress1: element(by.id('order-shipTo-address1'))
     };
 
@@ -200,7 +204,7 @@ var CheckoutPageObject = function () {
             browser.executeScript("document.getElementById('" + elem + "').style.display='block';"); //forces 2nd input to display after error
             e.sendKeys(text);
         }
-    };
+    }
 
     this.addressModal = {
         getShippingAddressLabel: function () {
@@ -220,6 +224,7 @@ var CheckoutPageObject = function () {
             element(by.repeater('address in addresses').row(addressNumber - 1).column('address.streetNumber')).click();
         }
     };
+
 };
 
 module.exports = CheckoutPageObject;

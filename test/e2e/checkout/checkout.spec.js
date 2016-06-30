@@ -1,479 +1,446 @@
-var fs = require('fs');
-var tu = require('../utils/protractor-utils.js');
+'use strict';
 
-var date = Date();
-var month = date.substr(4, 3);
-var d = new Date();
-var curr_date = d.getDate();
-var curr_year = d.getFullYear();
-var currentDate = month + " " + curr_date + ", " + curr_year;
-var timestamp = Number(new Date());
+var desktopSiteConfig = require('../config/desktop-site.json');
 
-function continueAsGuest() {
-    tu.clickElement('binding', 'CONTINUE_AS_GUEST');
-}
+var mobileSiteConfig = require('../config/mobile-site.json');
 
-function fillCheckoutFormExceptEmail(form) {
-    browser.wait(function () {
-        return element(by.id('address1' + form)).isPresent();
-    });
-    browser.sleep(500);
+var TI = require('./checkout.test-input.json');
+var utils = require('../utils/utils.js');
+var CouponPageObject = require('../coupon/coupon.po.js');
+var CartPageObject = require('../cart/cart.po.js');
+var ProductDetailsPageObject = require('../product/product-details.po.js');
+var AccountPageObject = require('../account/account.po.js');
+var SitePageObject = require('../site/site.po.js');
+var CheckoutPageObject = require('./checkout.po.js');
+var ConfirmationPageObject = require('../confirmation/confirmation.po.js');
+var OrderDetailsPageObject = require('./order-details.po.js');
 
-    if (form != 'Bill') {
-        tu.selectOption('order.' + form.toLowerCase() + 'To.country', 'united states');
-    }
+var utils = require('../utils/utils.js');
 
-    tu.selectOption('order.' + form.toLowerCase() + 'To.state', 'colorado');
-
-    //element(by.id('country' + form)).sendKeys('USA');
-    //element(by.id('state' + form)).sendKeys('colorado');
-    tu.sendKeys('id', 'zipCode' + form, '80301');
-    tu.sendKeys('id', 'address1' + form, '123');
-    tu.sendKeys('id', 'address2' + form, '321');
-    tu.sendKeys('id', 'city' + form, 'Boulder');
-}
-
-function clickOnModalCancelOrder() {
-    browser.switchTo().defaultContent();
-    browser.sleep(1000);
-    browser.waitForAngular();
-    browser.wait(function () {
-        return element(by.css('.modal-content')).isPresent();
-    });
-    tu.clickElement('id', 'confirm-order-cancel-btn');
-}
-
-
-function verifyCartContents(itemPrice, totalPrice, quantity) {
-
-    tu.sendKeys('id', 'email', 'mike@yaastest.com');
-    tu.sendKeys('id', 'firstNameAccount', 'Mike');
-    tu.sendKeys('id', 'lastNameAccount', 'Night');
-    tu.selectOption('order.account.title', 'MR');
-
-    fillCheckoutFormExceptEmail('Ship');
-    browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-        browser.sleep(2000);
-        tu.clickElement('id', 'preview-order-btn');
-    });
-    browser.sleep(2000);
-    browser.executeScript('window.scrollTo(0, ' + 1200 + ');').then(function () {
-        browser.sleep(2000);
-        expect(element(by.binding('item.price.effectiveAmount')).getText()).toContain(itemPrice);
-        expect(element(by.binding('cart.totalPrice.amount')).getText()).toContain(totalPrice);
-        expect(element(by.binding('item.quantity')).getText()).toContain(quantity);
-    });
-
-
-}
-
-function validateField(field, form, text, buttonType, button) {
-    element(by.id(field + form)).clear();
-    tu.clickElement(buttonType, button);
-    browser.sleep(500);
-    browser.executeScript("document.getElementById('" + field + form + "').style.display='block';"); //forces 2nd input to display after error
-    browser.sleep(200);
-    tu.sendKeys('id', field + form, text);
-}
-
-function verifyValidationForEachField(form, elementType, button) {
-    validateField('zipCode', form, '80301', elementType, button);
-    validateField('contactName', form, 'Mike Night', elementType, button);
-    validateField('address1', form, '123', elementType, button);
-    validateField('city', form, 'Boulder', elementType, button);
-
-}
-
-
-function loginAndContinueToCheckout(account) {
-    tu.clickElement('id', tu.contineShopping);
-    browser.sleep(500);
-    tu.loginHelper(account, 'password');
-    browser.sleep(500);
-    tu.clickElement('id', tu.cartButtonId);
-    tu.waitForCart();
-    browser.sleep(500);
-    tu.clickElement('binding', 'CHECKOUT');
-    browser.wait(function () {
-        return element(by.id("ccNumber")).isPresent();
-    });
-}
-
-
-// not validated yet - selectors may not be accurate - TODO
-function verifyOrderOnAccountPageMobile(account, total) {
-    tu.clickElement('id', tu.removeFromCart);
-    tu.clickElement('id', tu.contineShopping);
-    tu.loginHelper(account, 'password');
-    tu.clickElement('id', 'my-account-dropdown');
-    tu.clickElement('id', 'my-account');
-    tu.waitForAccountPage();
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.created')).getText()).toContain(currentDate);
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
-    element(by.repeater('m_order in orders').row(0).column('m_order.created')).click();
-    expect(element(by.repeater('m_order in orders').row(0).column('m_order.status')).getText()).toEqual("Created");
-    tu.clickElement('id', "logout-btn");
-}
-
-function verifyOrderOnAccountPageBigScreen(account, total) {
-    tu.clickElement('id', tu.contineShopping);
-    tu.loginHelper(account, 'password');
-    tu.clickElement('id', 'my-account-dropdown');
-    tu.clickElement('id', 'my-account-link');
-    tu.waitForAccountPage();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.created')).getText()).toContain(currentDate);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.totalPrice')).getText()).toEqual(total);
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
-    element(by.repeater('xrder in orders').row(0).column('xrder.created')).click();
-    expect(element(by.repeater('xrder in orders').row(0).column('xrder.status')).getText()).toEqual("Created");
-}
-
-function clickOnModal() {
-    browser.wait(function () {
-        return element(by.binding('CONTINUE_AS_GUEST')).isPresent();
-    });
-    tu.clickElement('binding', 'CONTINUE_AS_GUEST');
-}
+var testProducts = TI.products;
+var testUsers = TI.users;
 
 describe("checkout:", function () {
 
+    var cartPO,
+        productDetailsPO,
+        accountPO,
+        sitePO,
+        couponPO,
+        checkoutPO,
+        confirmationPO,
+        orderDetailsPO;
+
+    var isMobile = false;
+    var isLoggedIn;
 
     describe("verify checkout functionality", function () {
 
         beforeEach(function () {
-            browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1100, 1200);
-            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
-            browser.switchTo().alert().then(
-                function (alert) {
-                    alert.dismiss();
-                },
-                function (err) {
-                }
-            );
-            browser.wait(function () {
-                return element(by.id(tu.buyButton)).isPresent();
-            });
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(6500);
-            browser.wait(function () {
-                return element(by.id(tu.cartButtonId)).isDisplayed();
-            });
-            browser.sleep(1000);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(2000);
+            utils.deleteCookies();
+
+            utils.setWindowSize(desktopSiteConfig.windowDetails.width, desktopSiteConfig.windowDetails.height);
+
+            cartPO = new CartPageObject();
+            couponPO = new CouponPageObject();
+            productDetailsPO = new ProductDetailsPageObject();
+            accountPO = new AccountPageObject();
+            sitePO = new SitePageObject();
+            checkoutPO = new CheckoutPageObject();
+            confirmationPO = new ConfirmationPageObject();
+            orderDetailsPO = new OrderDetailsPageObject();
+
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
         });
 
-        //dumps logs, if there are failing services uncomment
-        // afterEach(function() {
-        //   browser.manage().logs().get('browser').then(function(browserLog) {
-        //     console.log('log: ' + require('util').inspect(browserLog));
-        //   });
-        // });
-
-
+        
         it('should load one product into cart and move to checkout', function () {
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            verifyCartContents('$10.67', '$20.62', '1');
+            isLoggedIn = false;
 
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,testUsers.main.email);
+
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+            checkoutPO.goToPreviewOrder();
+
+            expect(checkoutPO.orderPreview.getItemEffectiveAmount()).toContain(testProducts.whiteCoffeeMug.one.itemPriceUS);
+            expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testProducts.whiteCoffeeMug.one.totalPriceUS);
+            expect(checkoutPO.orderPreview.getItemQuantity()).toContain('1');
         });
 
-        //Comment out this test as back to checkout is not available anymore for now
-        xit('should update cart quantity on checkout page', function () {
-            var backToCheckoutButton = "//div[@id='cart']/div[2]/button";
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            verifyCartContents('$10.67', '$20.62', '1');
-            tu.clickElement('id', 'checkout-cart-btn');
-            browser.wait(function () {
-                return element(by.binding('BACK_TO_CHECKOUT')).isPresent();
-            });
-            tu.sendKeys('xpath', "//input[@type='number']", '5');
-            tu.clickElement('binding', 'BACK_TO_CHECKOUT');
-            verifyCartContents('$10.67', '$57.08', '5');
-        });
-        //
         it('should load 2 of one product into cart and move to checkout', function () {
-            tu.sendKeys('xpath', tu.cartQuantity, '2');
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            browser.wait(function () {
-                return element(by.binding("ORDER_TOTAL")).isPresent();
-            });
-            verifyCartContents('$10.67', '$32.04', '2');
+            isLoggedIn = false;
+
+            cartPO.setCartQuantity(2);
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,testUsers.main.email);
+
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+            checkoutPO.goToPreviewOrder();
+
+            expect(checkoutPO.orderPreview.getItemEffectiveAmount()).toContain(testProducts.whiteCoffeeMug.one.itemPriceUS);
+            expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testProducts.whiteCoffeeMug.two.totalPriceUS);
+            expect(checkoutPO.orderPreview.getItemQuantity()).toContain('2');
         });
 
         it('should load 2 different products into cart and move to checkout', function () {
-            tu.clickElement('id', tu.contineShopping);
-            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            browser.wait(function () {
-                return element(by.xpath(tu.whiteThermos)).isPresent();
-            });
-            tu.clickElement('xpath', tu.whiteThermos);
-            browser.wait(function () {
-                return element(by.id(tu.buyButton)).isPresent();
-            });
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(5000);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(1000);
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            verifyCartContents('$10.67', '$36.66', '1');
+            isLoggedIn = false;
+
+            cartPO.continueShopping();
+
+            productDetailsPO.get(testProducts.whiteThermos.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,testUsers.main.email);
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+            
+            checkoutPO.goToPreviewOrder();
+
+            expect(checkoutPO.orderPreview.getItemEffectiveAmount()).toContain(testProducts.whiteThermos.one.itemPriceUS);
+            expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testProducts.whiteThermos.one.totalPriceUS);
+            expect(checkoutPO.orderPreview.getItemQuantity()).toContain('1');
         });
 
         it('should display tax overide on cart checkout and order', function () {
-            tu.clickElement('id', tu.removeFromCart);
-            tu.clickElement('id', tu.contineShopping);
-            var category = element(by.repeater('top_category in categories').row(2).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
+            isLoggedIn = false;
 
-            tu.scrollToProduct(tu.rollerPen).then(function () {
-                tu.clickElement('xpath', tu.rollerPen);
-            });
-            browser.wait(function () {
-                return element(by.id(tu.buyButton)).isPresent();
-            });
+            cartPO.emptyCart();
+            cartPO.continueShopping();
 
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(5000);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(1000);
-            // Verify that the tax override is there
-            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            tu.sendKeys('id', 'email', 'mike@yaastest.com');
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            fillCheckoutFormExceptEmail('Ship');
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
-            });
-            // Verify that the tax override is there
-            expect(element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)).getText()).toEqual('10.01% FOR PROTRACTOR $0.20');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('mike@yaastest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$11.39', false);
-            expect(element(by.binding('taxLine.name')).getText()).toEqual('10.01% FOR PROTRACTOR');
-            expect(element(by.binding('taxLine.amount')).getText()).toEqual('$0.60');
+            productDetailsPO.get(testProducts.blueRollerPen.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getTaxOverride()).toEqual(testProducts.blueRollerPen.taxOverride);
+
+            cartPO.goToCheckout(isLoggedIn);
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,testUsers.main.email);
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+
+            checkoutPO.goToPreviewOrder();
+
+            expect(checkoutPO.orderPreview.getTaxOverride()).toEqual(testProducts.blueRollerPen.taxOverride);
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.main,testProducts.blueRollerPen.one.totalPriceUS,isMobile);
+
+            expect(confirmationPO.getTaxLine()).toEqual(testProducts.blueRollerPen.taxLine);
+            expect(confirmationPO.getTaxLineAmount()).toEqual(testProducts.blueRollerPen.taxAmount);
         });
 
 
         it('should allow all fields to be editable', function () {
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            fillCheckoutFormExceptEmail('Ship');
-            tu.sendKeys('id', 'email', 'mike@hybristest.com');
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            tu.selectOption('order.account.title', 'MR');
-            //element(by.id('titleAccount')).sendKeys('Mr.');
-            browser.sleep(500);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
-            fillCheckoutFormExceptEmail('Bill');
-            tu.clickElement('id', 'preview-order-btn');
-            browser.sleep(500);
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('mike@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$20.62', false);
-        });
+            isLoggedIn = false;
 
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,testUsers.main.email);
+
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+
+            expect(checkoutPO.getShippingAddressLine1Address()).toEqual(testUsers.main.address.street.split(' ')[0]);
+
+            checkoutPO.changeBillingAddressToShippingAddressState();
+
+            checkoutPO.fillBillingAddressNameField(testUsers.main.fullName);
+
+            checkoutPO.fillAddressFields(TI.addressType.BILLING);
+
+            checkoutPO.goToPreviewOrder();
+    
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.main,testProducts.whiteCoffeeMug.one.totalPriceUS,isMobile);
+        });
 
         it('should allow user to create account after checkout', function () {
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            fillCheckoutFormExceptEmail('Ship');
-            tu.sendKeys('id', 'email', 'checkoutacct' + timestamp + '@hybristest.com');
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            tu.selectOption('order.account.title', 'MR');
-            //element(by.id('titleAccount')).sendKeys('Mr.');
-            browser.sleep(500);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
-            fillCheckoutFormExceptEmail('Bill');
-            tu.clickElement('id', 'preview-order-btn');
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('checkoutacct', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$20.62', false);
-            tu.sendKeys('id', 'newPasswordInput', 'password');
-            tu.clickElement('id', 'create-acct-btn');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            expect(element(by.binding("account.contactEmail")).getText()).toContain('checkoutacct');
-        });
+            isLoggedIn = false;
 
-        // TO DO: investigate why this test fails after select-ui changes; skip for now
-        xit('should have basic validation on all fields', function () {
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            fillCheckoutFormExceptEmail('Ship');
-            tu.sendKeys('id', 'email', 'mike@place.com');
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            tu.selectOption('order.account.title', 'MR');
-            //element(by.id('titleAccount')).sendKeys('Mr.');
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
-            });
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            validateField('email', '', 'mike@hybristest.com', 'id', 'place-order-btn');
-            browser.sleep(10000);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
-            //fillCheckoutFormExceptEmail('Bill');
-            //verifyValidationForEachField('Bill', 'id', 'preview-order-btn');
-            browser.sleep(200);
-            tu.clickElement('id', 'preview-order-btn');
-            //validateField('cvc', '', '00', 'id', 'place-order-btn');
-            tu.clickElement('id', 'place-order-btn');
-            expect(element(by.binding('PLEASE_ENTER_VALID_CODE')).getText()).toContain('Please enter a valid code');
-            browser.executeScript("document.getElementById('cvc').style.display='block';");
-            validateField('cvc', '', '123', 'id', 'place-order-btn');
-            validateField('ccNumber', '', '0000000000000000', 'id', 'place-order-btn');
-            tu.clickElement('id', 'place-order-btn');
-            browser.executeScript("document.getElementById('ccNumber').style.display='block';");
-            validateField('ccNumber', '', '5555555555554444', 'id', 'place-order-btn');
-            tu.clickElement('id', 'place-order-btn');
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', '$10.67', false);
+            var timestamp = Number(new Date());
+
+            var mainUserEmail = testUsers.main.email;
+
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name,mainUserEmail.split('@')[0] + timestamp + '@' + mainUserEmail.split('@')[1]);
+
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
+
+            expect(checkoutPO.getShippingAddressLine1Address()).toEqual(testUsers.main.address.street.split(' ')[0]);
+
+            checkoutPO.changeBillingAddressToShippingAddressState();
+
+            checkoutPO.fillBillingAddressNameField(testUsers.main.fullName);
+
+            checkoutPO.fillAddressFields(TI.addressType.BILLING);
+
+            checkoutPO.goToPreviewOrder();
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.main,testProducts.whiteCoffeeMug.one.totalPriceUS,isMobile);
+
+            confirmationPO.createAccount();
+
+            accountPO.accountDetails.getPage();
+            
+            expect(accountPO.accountDetails.getContactEmail()).toContain(mainUserEmail.split('@')[0]);
         });
 
         it('should allow user to select address', function () {
-            loginAndContinueToCheckout('address@hybristest.com');
-            expect(element(by.id('address1Ship')).getAttribute('value')).toEqual('123 Take out');
-            tu.clickElement('id', 'select-address-btn-1');
-            browser.wait(function () {
-                return element(by.id('myModalLabel')).isPresent();
-            });
-            expect(element(by.repeater('address in addresses').row(0)).getText()).toContain('Shipping');
-            expect(element(by.repeater('address in addresses').row(1)).getText()).toContain('Billing');
-            var address2 = element(by.repeater('address in addresses').row(1).column('address.streetNumber'));
-            address2.click();
-            expect(element(by.id('address1Bill')).getAttribute('value')).toEqual('123 Dine in');
+            isLoggedIn = true;
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.hybrisTestUser);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.waitForCreditCardField();
+
+            expect(checkoutPO.getLoggedInShippingAddress()).toEqual(testUsers.hybrisTestUser.address.first);
+
+            checkoutPO.addressModal.get();
+
+            expect(checkoutPO.addressModal.getShippingAddressLabel()).toContain(TI.addressType.SHIPPING);
+            expect(checkoutPO.addressModal.getBillingAddressLabel()).toContain(TI.addressType.BILLING);
+
+            checkoutPO.addressModal.setShippingAddress(2);
+
+            expect(checkoutPO.getLoggedInShippingAddress()).toEqual(testUsers.hybrisTestUser.address.second);
         });
 
         it('should populate with existing address for logged in user', function () {
-            loginAndContinueToCheckout('order@hybristest.com');
+            isLoggedIn = true;
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.orderHybrisTestUser);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
             browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
+                checkoutPO.goToPreviewOrder();
             });
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('order@hybristest.com', 'MIKE', '123', 'BOULDER, CO 80301', '$20.62', false);
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.orderHybrisTestUser,testProducts.whiteCoffeeMug.one.totalPriceUS,isMobile);
+
+            confirmationPO.goToOrderDetails();
+
+            expect(orderDetailsPO.getShippingAddress()).toContain(testUsers.orderHybrisTestUser.address.street);
         });
 
         it('should create order on account page', function () {
-            tu.removeItemFromCart();
-            verifyOrderOnAccountPageBigScreen(tu.accountWithOrderEmail, '$20.62');
+            //This test depends on state created by the previous test
+            cartPO.emptyCart();
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.orderHybrisTestUser);
+
+            accountPO.accountDetails.getPage();
+
+            var date = Date();
+            var month = date.substr(4, 3);
+            var d = new Date();
+            var currentDate = month + " " + d.getDate() + ", " + d.getFullYear();
+
+            expect(accountPO.orderRow.getCreationDate(0)).toContain(currentDate);
+            expect(accountPO.orderRow.getTotalPrice(0)).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
+            expect(accountPO.orderRow.getOrderStatus(0)).toEqual(TI.orderMessages.CREATED);
         });
 
         it('should allow customer to cancel order if not shipped yet', function () {
-            loginAndContinueToCheckout('order@hybristest.com');
+            isLoggedIn = true;
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.orderHybrisTestUser);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
             browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
+                checkoutPO.goToPreviewOrder();
             });
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('order@hybristest.com', 'MIKE', '123', 'BOULDER, CO 80301', '$20.62', false);
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
-            tu.clickElement('id', 'cancelOrder');
-            clickOnModalCancelOrder();
-            browser.wait(function () {
-                return element(by.binding('order.status')).isPresent();
-            });
-            expect(element(by.binding('order.status')).getText()).toContain("Cancelled");
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.orderHybrisTestUser,testProducts.whiteCoffeeMug.one.totalPriceUS,isMobile);
+
+            confirmationPO.goToOrderDetails();
+            
+            expect(orderDetailsPO.getShippingAddress()).toContain(testUsers.orderHybrisTestUser.address.street);
+
+            orderDetailsPO.cancelOrder();
+            
+            expect(orderDetailsPO.getOrderStatus()).toContain(TI.orderMessages.CANCELLED);
         });
 
         it('should checkout in Euros', function () {
-            tu.clickElement('id', tu.contineShopping);
-            browser.sleep(1000);
-            tu.switchSite('Sushi Demo Store Germany');
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(2000);
-            loginAndContinueToCheckout('euro-order@hybristest.com');
+            isLoggedIn = true;
+
+            cartPO.continueShopping();
+
+            sitePO.waitForSiteSelector();
+
+            sitePO.setSite(TI.sites.SushiGermany);
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.euroOrderUser);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
             browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
+                checkoutPO.goToPreviewOrder();
             });
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('euro-order@hybristest.com', 'MIKE', '123', 'MUNICH, 80301', '€12.99', false);
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.contactName')).getText()).toContain("123 fake street");
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.euroOrderUser,testProducts.whiteCoffeeMug.one.totalPriceDE,isMobile);
+
+            confirmationPO.goToOrderDetails();
+
+            expect(orderDetailsPO.getShippingAddress()).toContain(testUsers.euroOrderUser.address.street);
         });
 
 
         it('should create order on account page in Euros', function () {
-            tu.removeItemFromCart();
-            verifyOrderOnAccountPageBigScreen('euro-order@hybristest.com', '€12.99');
+            //This test depends on state created by the previous test
+            cartPO.emptyCart();
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.euroOrderUser);
+
+            accountPO.accountDetails.getPage();
+
+            var date = Date();
+            var month = date.substr(4, 3);
+            var d = new Date();
+            var currentDate = month + " " + d.getDate() + ", " + d.getFullYear();
+
+            expect(accountPO.orderRow.getCreationDate(0)).toContain(currentDate);
+            expect(accountPO.orderRow.getTotalPrice(0)).toEqual(testProducts.whiteCoffeeMug.one.totalPriceDE);
+            expect(accountPO.orderRow.getOrderStatus(0)).toEqual(TI.orderMessages.CREATED);
+
         });
 
         it('should merge carts and checkout for logged in user', function () {
-            tu.clickElement('id', tu.contineShopping);
-            tu.loginHelper('checkout@hybristest.com', 'password');
-            browser.driver.actions().mouseMove(element(by.repeater('top_category in categories').row(1).column('top_category.name'))).perform();
-            browser.sleep(200);
-            element(by.repeater('top_category in categories').row(1).column('top_category.name')).click();
-            tu.clickElement('xpath', tu.whiteThermos);
-            browser.wait(function () {
-                return element(by.id(tu.buyButton)).isPresent();
-            });
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(6500);
-            browser.wait(function () {
-                return element(by.id(tu.cartButtonId)).isDisplayed();
-            });
-            browser.sleep(1000);
-            tu.clickElement('id', tu.cartButtonId);
-            browser.wait(function () {
-                return element(by.binding('CHECKOUT')).isPresent();
-            });
-            browser.sleep(1500);
-            tu.clickElement('binding', 'CHECKOUT');
-            //verifyCartContents('$10.67', '$27.46', '1'); -- commented out for now, need to evaluate if needed
+            isLoggedIn = true;
+
+            cartPO.continueShopping();
+
+            accountPO.waitForSignInLink();
+
+            accountPO.loginUser(testUsers.orderHybrisTestUser);
+
+            accountPO.waitForSignInComplete();
+
+            productDetailsPO.get(testProducts.whiteThermos.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
             browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(2000);
-                tu.clickElement('id', 'preview-order-btn');
+                checkoutPO.goToPreviewOrder();
             });
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            browser.sleep(500);
-            tu.clickElement('id', 'place-order-btn');
-            tu.verifyOrderConfirmation('CHECKOUT@HYBRISTEST.COM', 'CHECKOUT', '123', 'BOULDERADO, CO 80800', '$36.66', false);
-            tu.clickElement('binding', 'orderInfo.orderId');
-            expect(element(by.binding('order.shippingAddress.street')).getText()).toContain("123 fake place");
-            // tu.clickElement('id', "logout-btn");
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.orderHybrisTestUser,testProducts.whiteThermos.one.totalPriceUS,isMobile);
+
+            confirmationPO.goToOrderDetails();
+
+            expect(orderDetailsPO.getShippingAddress()).toContain(testUsers.orderHybrisTestUser.address.street);
         });
 
     });
@@ -481,150 +448,112 @@ describe("checkout:", function () {
 
 describe("mobile checkout:", function () {
 
+    var cartPO,
+        productDetailsPO,
+        accountPO,
+        sitePO,
+        couponPO,
+        checkoutPO,
+        confirmationPO;
+
+    var isMobile = true;
+    var isLoggedIn = false;
+
     beforeEach(function () {
-        browser.driver.manage().window().setSize(750, 1200);
+        utils.setWindowSize(mobileSiteConfig.windowDetails.width, mobileSiteConfig.windowDetails.height);
     });
 
-    describe("verify mobile checkout functionality for anonymous user", function () {
+    describe("verify mobile checkout functionality", function () {
 
         beforeEach(function () {
-            browser.manage().deleteAllCookies();
-            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
-            browser.switchTo().alert().then(
-                function (alert) {
-                    alert.accept();
-                },
-                function (err) {
-                }
-            );
-            browser.sleep(500);
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(6000);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            browser.sleep(2000);
-            tu.clickElement('binding', 'CHECKOUT');
-            clickOnModal();
-            tu.sendKeys('id', 'email', 'mike@hybristest.com');
-            tu.sendKeys('id', 'firstNameAccount', 'Mike');
-            tu.sendKeys('id', 'lastNameAccount', 'Night');
-            tu.selectOption('order.account.title', 'MR');
-            //element(by.id('titleAccount')).sendKeys('Mr.');
-            fillCheckoutFormExceptEmail('Ship');
+            utils.deleteCookies();
+
+            cartPO = new CartPageObject();
+            couponPO = new CouponPageObject();
+            productDetailsPO = new ProductDetailsPageObject();
+            accountPO = new AccountPageObject();
+            sitePO = new SitePageObject();
+            checkoutPO = new CheckoutPageObject();
+            confirmationPO = new ConfirmationPageObject();
+
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            cartPO.goToCheckout(isLoggedIn);
+
+            checkoutPO.fillNameAndEmailFields(TI.selectModel,testUsers.main.name, testUsers.main.email);
+
+            checkoutPO.waitForForm();
+
+            checkoutPO.fillAddressFields(TI.addressType.SHIPPING);
 
         });
 
-        var continueButton1 = '//div[8]/button';
-        var continueButton2 = '//div[4]/button';
-        var paymentButton = "//button[@type='submit']";
-
         it('should allow all fields to be editable on mobile', function () {
-            tu.clickElement('xpath', continueButton1);
-            browser.sleep(500);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
-            fillCheckoutFormExceptEmail('Bill');
-            tu.clickElement('xpath', continueButton2);
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('xpath', paymentButton);
-            tu.clickElement('id', "place-order-btn");
-            tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67', true);
+            checkoutPO.mobile.continueToBilling();
+
+            expect(checkoutPO.getShippingAddressLine1Address()).toEqual(testUsers.main.address.street.split(' ')[0]);
+
+            checkoutPO.changeBillingAddressToShippingAddressState()
+
+            checkoutPO.fillBillingAddressNameField(testUsers.main.fullName);
+
+            checkoutPO.fillAddressFields(TI.addressType.BILLING);
+
+            checkoutPO.mobile.continueToPayment();
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.mobile.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.main,'Total Price: ' + testProducts.whiteCoffeeMug.one.itemPriceUS,isMobile);
         });
 
         it('should have basic validation on mobile', function () {
-            verifyValidationForEachField('Ship', 'xpath', continueButton1);
-            validateField('email', '', 'mike@hybristest.com', 'xpath', continueButton1);
-            tu.clickElement('xpath', continueButton1);
-            browser.sleep(500);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('id', 'shipTo');
-            tu.sendKeys('id', 'contactNameBill', 'Mike Night');
-            fillCheckoutFormExceptEmail('Bill');
-            verifyValidationForEachField('Bill', 'xpath', continueButton2);
-            tu.clickElement('xpath', continueButton2);
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('xpath', paymentButton);
-            tu.clickElement('id', "place-order-btn");
-            tu.verifyOrderConfirmation('MIKE@HYBRISTEST.COM', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67', true);
-        });
 
-        // TODO - mobile login slightly more complex due to account drop-down
-        xit('should create order on account page mobile', function () {
-            verifyOrderOnAccountPageMobile('order@hybristest.com', '$24.61')
-        });
+            var c1 = 'toBilling'; 
+            var c2 = 'toPayment'; 
 
-        xit('should create order on account page in Euros mobile', function () {
-            verifyOrderOnAccountPageMobile('euro-order@hybristest.com', '€22.52')
-        });
+            checkoutPO.mobile.validate('zipCodeShip', '80301', c1); 
+            checkoutPO.mobile.validate('contactNameShip', 'Mike Night', c1);
+            checkoutPO.mobile.validate('address1Ship', '123',c1);
+            checkoutPO.mobile.validate('cityShip', 'Boulder', c1);
+            checkoutPO.mobile.validate('email','mike@yaastest.com', c1);
 
-    });
+            checkoutPO.mobile.continueToBilling();
 
-    describe("verify mobile checkout functionality for logged in user", function () {
+            expect(checkoutPO.getShippingAddressLine1Address()).toEqual(testUsers.main.address.street.split(' ')[0]);
 
-        beforeEach(function () {
-            browser.manage().deleteAllCookies();
-            browser.get(tu.tenant + '/#!/products/55d76ce63a0eafb30e5540c8/');
-            browser.switchTo().alert().then(
-                function (alert) {
-                    alert.accept();
-                },
-                function (err) {
-                }
-            );
-            browser.sleep(500);
-            tu.clickElement('id', tu.buyButton);
-            //wait for cart to close
-            browser.sleep(6000);
-            browser.wait(function () {
-                return element(by.id('mobile-cart-btn')).isDisplayed();
-            });
-            tu.clickElement('id', 'mobile-cart-btn');
-            tu.waitForCart();
-            browser.sleep(2000);
-            tu.clickElement('binding', 'CHECKOUT');
-            tu.sendKeys('id', 'usernameInput', 'order@hybristest.com');
-            tu.sendKeys('id', 'passwordInput', 'password');
-            tu.clickElement('id', 'sign-in-button');
-            browser.sleep(1000);
+            checkoutPO.changeBillingAddressToShippingAddressState();
 
-        });
+            checkoutPO.fillBillingAddressNameField(testUsers.main.fullName);
 
-        var continueButton1 = '//div[8]/button';
-        var continueButton2 = '//div[4]/button';
-        var paymentButton = "//button[@type='submit']";
+            checkoutPO.fillAddressFields(TI.addressType.BILLING);
 
-        // KIWIS-2837 to be fixed first, so this test does not fail intermittently
-        xit('should allow all fields to be editable on mobile', function () {
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                browser.sleep(10000);
-                tu.clickElement('xpath', continueButton1);
-            });
-            //tu.clickElement('xpath', continueButton1);
-            browser.sleep(500);
-            expect(element(by.binding(" order.shipTo.address1 ")).getText()).toEqual('123');
-            tu.clickElement('xpath', continueButton2);
-            tu.fillCreditCardForm('5555555555554444', '06', '2019', '000');
-            tu.clickElement('xpath', paymentButton);
-            tu.clickElement('id', "place-order-btn");
-            browser.sleep(2000);
-            tu.verifyOrderConfirmation('order@hybristest.com', 'MIKE NIGHT', '123', 'BOULDER, CO 80301', 'Total Price: $10.67', true);
+            checkoutPO.mobile.validate('zipCodeBill', '80301', c2); 
+            checkoutPO.mobile.validate('contactNameBill', 'Mike Night', c2);
+            checkoutPO.mobile.validate('address1Bill', '123', c2);
+            checkoutPO.mobile.validate('cityBill', 'Boulder', c2);
 
-            tu.clickElement('binding', 'orderInfo.orderId');
-            tu.clickElement('id', 'cancelOrder');
-            clickOnModalCancelOrder();
-            browser.wait(function () {
-                return element(by.binding('order.status')).isPresent();
-            });
-            expect(element(by.binding('order.status')).getText()).toContain("Cancelled");
+
+            checkoutPO.mobile.continueToPayment();
+
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+
+            checkoutPO.mobile.placeOrder();
+
+            checkoutPO.waitForConfirmationPage();
+
+            confirmationPO.verifyCustomerDetails(testUsers.main,'Total Price: ' + testProducts.whiteCoffeeMug.one.itemPriceUS,isMobile);
 
         });
 
     });
-
-
 });
