@@ -6,7 +6,6 @@ var mobileSiteConfig = require('../config/mobile-site.json');
 
 var TI = require('./checkout.test-input.json');
 var utils = require('../utils/utils.js');
-var CouponPageObject = require('../coupon/coupon.po.js');
 var CartPageObject = require('../cart/cart.po.js');
 var ProductDetailsPageObject = require('../product/product-details.po.js');
 var AccountPageObject = require('../account/account.po.js');
@@ -26,7 +25,6 @@ describe("checkout:", function () {
         productDetailsPO,
         accountPO,
         sitePO,
-        couponPO,
         checkoutPO,
         confirmationPO,
         orderDetailsPO;
@@ -42,7 +40,6 @@ describe("checkout:", function () {
             utils.setWindowSize(desktopSiteConfig.windowDetails.width, desktopSiteConfig.windowDetails.height);
 
             cartPO = new CartPageObject();
-            couponPO = new CouponPageObject();
             productDetailsPO = new ProductDetailsPageObject();
             accountPO = new AccountPageObject();
             sitePO = new SitePageObject();
@@ -450,9 +447,6 @@ describe("mobile checkout:", function () {
 
     var cartPO,
         productDetailsPO,
-        accountPO,
-        sitePO,
-        couponPO,
         checkoutPO,
         confirmationPO;
 
@@ -469,10 +463,7 @@ describe("mobile checkout:", function () {
             utils.deleteCookies();
 
             cartPO = new CartPageObject();
-            couponPO = new CouponPageObject();
             productDetailsPO = new ProductDetailsPageObject();
-            accountPO = new AccountPageObject();
-            sitePO = new SitePageObject();
             checkoutPO = new CheckoutPageObject();
             confirmationPO = new ConfirmationPageObject();
 
