@@ -102,8 +102,8 @@ angular.module('ds.ytracking', [])
             var apiPath = appConfig.dynamicDomain();
             var tenantId = appConfig.storeTenant();
             
-            var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/b1' + '/events';
-            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/b2/' + tenantId + '/consentReferences';
+            var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/v1' + '/events';
+            var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/v1/' + tenantId + '/consentReferences';
 
             var getConsentReference = function () {
                 var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
