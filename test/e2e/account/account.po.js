@@ -106,9 +106,14 @@ var AccountPageObject = function () {
         return element.all(by.repeater('address in addresses').row(rowNumber).column('address.' + elem)).first();
     };
 
-    this.address = {
+    var address = {
         getStreet: function(rowNumber) {
             return addressElement('street',rowNumber).getText();
+        },
+        waitForModal: function() {
+            browser.wait(function () {
+                return textDisplays.modalContent.isPresent();
+            });
         },
         getCity: function(rowNumber) {
             return addressElement('city',rowNumber).getText();
@@ -132,17 +137,17 @@ var AccountPageObject = function () {
         },
         isDeleteButtonPresent: function () {
             return buttons.address.delete.isPresent();
-        },
-        delete: function() {
-            buttons.address.delete.click();
-            browser.switchTo().defaultContent();
-            browser.wait(function () {
-                return textDisplays.modalContent.isPresent();
-            });
-            buttons.address.confirmDelete.click();
         }
     };
 
+    address.delete = function() {
+        buttons.address.delete.click();
+        browser.switchTo().defaultContent();
+        address.waitForModal();
+        buttons.address.confirmDelete.click();
+    };
+
+    this.address = address;
 
     this.populateAddress = function(address) { 
         buttons.address.add.click();

@@ -207,7 +207,7 @@ var CheckoutPageObject = function () {
             browser.executeScript("document.getElementById('" + elem + "').style.display='block';"); //forces 2nd input to display after error
             e.sendKeys(text);
         }
-    }
+    };
 
     this.addressModal = {
         getShippingAddressLabel: function () {

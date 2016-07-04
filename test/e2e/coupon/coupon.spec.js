@@ -341,7 +341,6 @@ describe('Coupon Tests :', function () {
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.minimum.whiteCoffeeMug.differenceUS);
 
             checkoutPO.fillCreditCardFields(TI.creditCard);
-            
             checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
@@ -385,9 +384,7 @@ describe('Coupon Tests :', function () {
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.twentyDollar.whiteCoffeeMug.differenceUS);
 
             checkoutPO.fillCreditCardFields(TI.creditCard);
-            
             checkoutPO.placeOrder();
-            
 
             checkoutPO.waitForConfirmationPage();
 
@@ -431,7 +428,6 @@ describe('Coupon Tests :', function () {
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.tenPercent.whiteCoffeeMug.differenceUS);
 
             checkoutPO.fillCreditCardFields(TI.creditCard);
-
             checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
@@ -469,13 +465,14 @@ describe('Coupon Tests :', function () {
 
             checkoutPO.fillNameFields(TI.selectModel, testUsers.main.name);
 
-            checkoutPO.goToPreviewOrder();
+            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
+                checkoutPO.goToPreviewOrder();
+            });
 
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.tenDollar.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.tenDollar.whiteCoffeeMug.differenceUS);
 
             checkoutPO.fillCreditCardFields(TI.creditCard);
-            
             checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();

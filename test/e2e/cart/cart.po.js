@@ -73,12 +73,16 @@ var CartPageObject = function () {
         inputFields.taxZipCode.sendKeys(zipCode);
     };
 
+    this.waitForGoToCheckoutModal = function() {
+         browser.wait(function () {
+            return buttons.guestContinue.isPresent();
+        });
+    }
+
     this.goToCheckout = function (isLoggedIn) {
         buttons.checkout.click();
         if(!isLoggedIn) {
-            browser.wait(function () {
-                return buttons.guestContinue.isPresent();
-            });
+            this.waitForGoToCheckoutModal();
             buttons.guestContinue.click();
         }
     };
