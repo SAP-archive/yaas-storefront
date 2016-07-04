@@ -46,7 +46,6 @@ var AccountPageObject = function () {
             passwordUpdateModalClose: element(by.id('passwordUpdate-close')),
             updateEmail: element(by.id('update-email')),
             saveEmail: element(by.id('save-btn')),
-            closeCheckEmailModal: element(by.css('.modal.fade.ng-isolate-scope.in'))
         },
         address: {
             add: element(by.id('add-address-btn')),
@@ -252,8 +251,7 @@ var AccountPageObject = function () {
         },
 
         closeCheckEmailModal: function () {
-            buttons.accountDetails.closeCheckEmailModal.click();
-            browser.waitForAngular();
+            browser.refresh();
         },
 
         isUpdatePasswordButtonEnabled: function () {

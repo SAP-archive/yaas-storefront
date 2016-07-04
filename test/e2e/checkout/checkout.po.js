@@ -105,6 +105,7 @@ var CheckoutPageObject = function () {
     };
 
     this.placeOrder = function() {
+        utils.scrollTo(buttons.placeOrder);
         buttons.placeOrder.click();
     };
 
@@ -150,6 +151,7 @@ var CheckoutPageObject = function () {
     };
 
     this.goToPreviewOrder = function() {
+        utils.scrollTo(buttons.previewOrder);
         buttons.previewOrder.click();
     };
 
@@ -186,6 +188,7 @@ var CheckoutPageObject = function () {
             buttons.mobile.toBilling.click();
         },
         continueToPayment: function () {
+            utils.scrollTo(buttons.mobile.toPayment);
             buttons.mobile.toPayment.click();
         },
         placeOrder: function () {
@@ -204,7 +207,7 @@ var CheckoutPageObject = function () {
             browser.executeScript("document.getElementById('" + elem + "').style.display='block';"); //forces 2nd input to display after error
             e.sendKeys(text);
         }
-    };
+    }
 
     this.addressModal = {
         getShippingAddressLabel: function () {

@@ -7,9 +7,9 @@ exports.config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: [
-
         '../test/e2e/cart/cart.spec.js',
-        '../test/e2e/checkout/checkout.spec.js',
+        '../test/e2e/checkout/checkout.desktop.spec.js',
+        '../test/e2e/checkout/checkout.mobile.spec.js',
         '../test/e2e/coupon/coupon.spec.js',
         '../test/e2e/account/account.spec.js',
         '../test/e2e/product/product.spec.js'
@@ -55,7 +55,6 @@ exports.config = {
     },
 
     baseUrl: 'https://storefront-demo.yaas.io/',
-
 
     framework: 'jasmine',
 

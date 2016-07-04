@@ -76,7 +76,9 @@ var CartPageObject = function () {
     this.goToCheckout = function (isLoggedIn) {
         buttons.checkout.click();
         if(!isLoggedIn) {
-            utils.waitForModal();
+            browser.wait(function () {
+                return buttons.guestContinue.isPresent();
+            });
             buttons.guestContinue.click();
         }
     };
