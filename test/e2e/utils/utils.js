@@ -2,12 +2,14 @@
 
 exports.tenant = 'bsdqa';
 
-exports.waitForModal = function () {
-    browser.waitForAngular();
-};
-
 exports.deleteCookies = function () {
     browser.manage().deleteAllCookies();
+};
+
+exports.scrollTo = function(elem) {
+    browser.executeScript(function(elem) {
+        elem.scrollIntoView();
+    }, elem.getWebElement());
 };
 
 exports.setWindowSize = function (width, height) {

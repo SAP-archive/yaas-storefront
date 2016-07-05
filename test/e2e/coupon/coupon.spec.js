@@ -29,6 +29,7 @@ describe('Coupon Tests :', function () {
 
     var isMobile = false;
     var isLoggedIn = true;
+    var openModal = true;
 
     describe('cart', function () {
 
@@ -309,9 +310,9 @@ describe('Coupon Tests :', function () {
         it('should allow purchase over minimum', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -334,17 +335,13 @@ describe('Coupon Tests :', function () {
 
             checkoutPO.fillNameFields(TI.selectModel,testUsers.main.name);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.goToPreviewOrder();
-            });
+            checkoutPO.goToPreviewOrder();
 
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.minimum.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.minimum.whiteCoffeeMug.differenceUS);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.fillCreditCardFields(TI.creditCard);
-                checkoutPO.placeOrder();
-            });
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
 
@@ -356,9 +353,9 @@ describe('Coupon Tests :', function () {
         it('should allow coupon larger than purchase price', function () {            
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -381,17 +378,13 @@ describe('Coupon Tests :', function () {
 
             checkoutPO.fillNameFields(TI.selectModel, testUsers.main.name);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.goToPreviewOrder();
-            });
-
+            checkoutPO.goToPreviewOrder();
+            
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.twentyDollar.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.twentyDollar.whiteCoffeeMug.differenceUS);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.fillCreditCardFields(TI.creditCard);
-                checkoutPO.placeOrder();
-            });
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
 
@@ -404,9 +397,9 @@ describe('Coupon Tests :', function () {
         it('should allow percentage off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -429,17 +422,13 @@ describe('Coupon Tests :', function () {
 
             checkoutPO.fillNameFields(TI.selectModel, testUsers.main.name);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.goToPreviewOrder();
-            });
+            checkoutPO.goToPreviewOrder();
 
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.tenPercent.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.tenPercent.whiteCoffeeMug.differenceUS);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.fillCreditCardFields(TI.creditCard);
-                checkoutPO.placeOrder();
-            });
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
 
@@ -451,9 +440,9 @@ describe('Coupon Tests :', function () {
         it('should allow dollar off on checkout', function () {
             sitePO.getHomePage();
 
-            accountPO.createAccount(testUsers.couponTestUser);
+            accountPO.createAccount(testUsers.couponTestUser,openModal);
 
-            accountPO.goToAccountDetailsPage();
+            accountPO.accountDetails.getPage();
             
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
@@ -483,10 +472,8 @@ describe('Coupon Tests :', function () {
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.tenDollar.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.tenDollar.whiteCoffeeMug.differenceUS);
 
-            browser.executeScript('window.scrollTo(0, document.body.scrollHeight)').then(function () {
-                checkoutPO.fillCreditCardFields(TI.creditCard);
-                checkoutPO.placeOrder();
-            });
+            checkoutPO.fillCreditCardFields(TI.creditCard);
+            checkoutPO.placeOrder();
 
             checkoutPO.waitForConfirmationPage();
 
