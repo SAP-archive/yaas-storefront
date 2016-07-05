@@ -21,9 +21,9 @@ var AccountPageObject = function () {
         },
         state: element(by.id('state')),
         accountDetails: {
-            firstName: element(by.id('firstNameAccount')),
+            firstNameElements: element.all(by.model('account.firstName')),
             middleName: element(by.id('middleNameAccount')),
-            lastName: element(by.id('lastNameAccount')),
+            lastNameElements: element.all(by.model('account.lastName')),
             currentPassword: element(by.id('currentPassword')),
             newPassword: element(by.id('newPassword')),
             newPasswordConfirm: element(by.id('confirmNewPassword')),
@@ -152,7 +152,7 @@ var AccountPageObject = function () {
     this.populateAddress = function(address) { 
         buttons.address.add.click();
 
-        browser.sleep(1000);
+        browser.sleep(300);
 
         var selectSort = dropdowns.country.element(by.css('.ui-select-search'));
         dropdowns.country.click();
@@ -265,16 +265,16 @@ var AccountPageObject = function () {
         editDetails: function(name) {
             buttons.editUserInfo.click();
 
-            inputFields.accountDetails.firstName.clear();
-            browser.executeScript("document.getElementById('firstNameAccount').style.display='block';");
-            inputFields.accountDetails.firstName.sendKeys(name.first);
+            inputFields.accountDetails.firstNameElements.first().clear();
+            inputFields.accountDetails.firstNameElements.last().click(); //To get around the validation
+            inputFields.accountDetails.firstNameElements.first().sendKeys(name.first);
 
             inputFields.accountDetails.middleName.clear();
             inputFields.accountDetails.middleName.sendKeys(name.middle);
 
-            inputFields.accountDetails.lastName.clear();
-            browser.executeScript("document.getElementById('lastNameAccount').style.display='block';");
-            inputFields.accountDetails.lastName.sendKeys(name.last);
+            inputFields.accountDetails.lastNameElements.first().clear();
+            inputFields.accountDetails.lastNameElements.last().click(); //To get around the validation
+            inputFields.accountDetails.lastNameElements.first().sendKeys(name.last);
 
             buttons.saveUserInfo.click();
         }
