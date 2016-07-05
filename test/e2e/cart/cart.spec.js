@@ -1,205 +1,226 @@
-var fs = require('fs');
-var tu = require('../utils/protractor-utils.js');
+'use strict';
+
+var desktopSiteConfig = require('../config/desktop-site.json');
+
+var TI = require('./cart.test-input.json');
+var utils = require('../utils/utils.js');
+var CartPageObject = require('./cart.po.js');
+var ProductDetailsPageObject = require('../product/product-details.po.js');
+var AccountPageObject = require('../account/account.po.js');
+var SitePageObject = require('../site/site.po.js');
 
 describe("cart:", function () {
 
-    beforeEach(function () {
-        browser.manage().deleteAllCookies();
-        // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
-        browser.driver.manage().window().setSize(1200, 1100);
-        browser.get(tu.tenant + '/#!/ct/');
-        // browser.switchTo().alert().then(
-        //     function (alert) { alert.dismiss(); },
-        //     function (err) { }
-        // );
-    });
+    var cartPO,
+        productDetailsPO,
+        accountPO,
+        sitePO;
 
-    afterEach(function () {
-        //dismisses any alerts left open
-        browser.switchTo().alert().then(
-            function (alert) {
-                alert.dismiss();
-            },
-            function (err) {
-            }
-        );
+    var isMobile = false;
+
+    var testProducts = TI.products;
+    var testUsers = TI.users;
+
+    beforeEach(function () {
+        utils.deleteCookies();
+        utils.setWindowSize(desktopSiteConfig.windowDetails.width, desktopSiteConfig.windowDetails.height);
+
+        cartPO = new CartPageObject();
+        productDetailsPO = new ProductDetailsPageObject();
+        accountPO = new AccountPageObject();
+        sitePO = new SitePageObject();
     });
 
     describe("verify cart functionality", function () {
 
-
         it('should load one product into cart', function () {
-            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('id', tu.removeFromCart);
-            browser.wait(function () {
-                return element(by.xpath("//*[@id='cart']/div/div[2]")).isDisplayed(); //checks to see if cart text is displayed
-            });
-            expect(element(by.xpath("//*[@id='cart']/div/div[2]")).getText()).toEqual('YOUR CART IS EMPTY');
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
+
+            cartPO.emptyCart();
+
+            cartPO.waitForCartMessage();
+
+            expect(cartPO.getCartMessage()).toEqual(TI.cartMessages.EMPTY.EN);
         });
 
         it('should load one product into cart in Euros', function () {
-            browser.wait(function () {
-                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
-            });
-            browser.sleep(500);
-            tu.clickElement('xpath', tu.whiteCoffeeMug);
-            tu.switchSite('Sushi Demo Store Germany');
-            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            tu.loadProductIntoCartAndVerifyCart('1', '€12.99');
-            tu.clickElement('id', tu.removeFromCart);
-            browser.wait(function () {
-                return element(by.xpath("//div[@id='cart']/div/div[2]")).isDisplayed();
-            });
-            expect(element(by.xpath("//div[@id='cart']/div/div[2]")).getText()).toEqual('IHR WARENKORB IST LEER');
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            sitePO.waitForSiteSelector();
+
+            sitePO.setSite(TI.sites.SushiGermany);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceDE);
+
+            cartPO.emptyCart();
+
+            cartPO.waitForCartMessage();
+
+            expect(cartPO.getCartMessage()).toEqual(TI.cartMessages.EMPTY.DE);
         });
 
         it('should load one product into cart in USD and change to Euros', function () {
-            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(1000);
-            tu.switchSite('Sushi Demo Store Germany');
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(1000);
-            tu.verifyCartTotal('€12.99');
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
+
+            cartPO.continueShopping();
+
+            sitePO.waitForSiteSelector();
+
+            sitePO.setSite(TI.sites.SushiGermany);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceDE);
         });
 
         it('should load multiple products into cart', function () {
-            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            // must hover before click
-            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            browser.wait(function () {
-                return element(by.xpath(tu.whiteThermos)).isDisplayed();
-            });
-            tu.clickElement('xpath', tu.whiteThermos);
-            browser.sleep(200);
-            tu.clickElement('id', tu.buyButton);
-            browser.sleep(5500);
-            browser.wait(function () {
-                return element(by.id(tu.cartButtonId)).isDisplayed();
-            });
-            browser.sleep(1000);
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(500);
-            tu.verifyCartTotal("$36.66");
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
+            
+            cartPO.continueShopping();
+
+            productDetailsPO.get(testProducts.whiteThermos.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed(); 
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteThermos.one.totalPriceUS);
         });
 
 
         it('should update quantity', function () {
-            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.sleep(250);
-            tu.clickElement('id', tu.buyButton);
-            browser.sleep(5000);
-            browser.wait(function () {
-                return element(by.id(tu.cartButtonId)).isDisplayed();
-            });
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            browser.sleep(1000);
-            tu.verifyCartAmount('2');
-            browser.sleep(2000);
-            tu.verifyCartTotal('$32.04');
-            tu.sendKeys('xpath', tu.cartQuantity, '5');
-            tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(1000);
-            tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(1000);
-            tu.verifyCartAmount("5");
-            tu.verifyCartTotal("$59.11");
-            tu.sendKeys('xpath', tu.cartQuantity, '10');
-            tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(1000);
-            tu.clickElement('binding', 'EST_ORDER_TOTAL');
-            browser.sleep(1000);
-            tu.verifyCartAmount("10");
-            tu.verifyCartTotal("$116.19");
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
+            
+            cartPO.continueShopping();
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartItemQuantity()).toEqual('2');
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.two.totalPriceUS);
+
+            cartPO.updateItemQuantity(5);
+
+            cartPO.updateOrderTotal();
+
+            expect(cartPO.getCartItemQuantity()).toEqual('5');
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.five.totalPriceUS);
+
+            cartPO.updateItemQuantity(10);
+
+            cartPO.updateOrderTotal();
+
+            expect(cartPO.getCartItemQuantity()).toEqual('10');
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.ten.totalPriceUS);
         });
 
         it('should have out of stock button disabled', function () {
-            tu.clickElement('id', tu.cartButtonId);
-            tu.waitForCart();
-            expect(element(by.binding('CART_EMPTY')).getText()).toEqual('YOUR CART IS EMPTY');
-            tu.clickElement('binding', 'CONTINUE_SHOPPING');
-            browser.wait(function () {
-                return element(by.xpath(tu.blackCoffeeMug)).isDisplayed();
-            });
-            tu.clickElement('xpath', tu.blackCoffeeMug);
-            browser.wait(function () {
-                return element(by.id('out-of-stock-btn')).isDisplayed();
-            });
+            productDetailsPO.get(testProducts.blackCoffeeMug.id);
 
-            var outOfOrder = element(by.id('out-of-stock-btn'));
-            expect(outOfOrder.isEnabled()).toBe(false);
-
+            expect(cartPO.isOutOfStockButtonPresent()).toBe(true);
         });
 
         it('should retrieve previous cart', function () {
-            tu.loginHelper('cart@hybristest.com', 'password'); //existing user with previous cart
-            tu.clickElement('id', tu.cartButtonId);
-            browser.sleep(250);
-            tu.verifyCartTotal('$13.47');
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
+
+            accountPO.loginUser(testUsers.cartUser);
+
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.itemPriceUSWithTax);
         });
 
         it('should calculate taxes', function () {
-            browser.wait(function () {
-                return element(by.xpath(tu.whiteCoffeeMug)).isPresent();
-            });
-            browser.sleep(500);
-            tu.clickElement('xpath', tu.whiteCoffeeMug);
-            tu.switchSite('Avalara');
-            var category = element(by.repeater('top_category in categories').row(1).column('top_category.name'));
-            browser.driver.actions().mouseMove(category).perform();
-            browser.sleep(200);
-            category.click();
-            tu.loadProductIntoCartAndVerifyCart('1', '$10.67');
-            tu.clickElement('binding', 'ESTIMATE_TAX');
-            tu.sendKeys('id', 'zipCode', '98101');
-            tu.selectOption('calculateTax.countryCode', 'US');
-            tu.clickElement('id', 'apply-btn');
-            //expect(element(by.binding('cart.totalTax.amount ')).getText()).toEqual('$1.85');
-            expect(element(by.binding('cart.totalTax.amount ')).isPresent()).toBe(true);
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
 
+            sitePO.waitForSiteSelector();
+
+            sitePO.setSite(TI.sites.Avalara);
+
+            productDetailsPO.addProductToCart(1);
+
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
+
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.itemPriceUS);
+
+            cartPO.showEstimateTaxFields();
+
+            cartPO.setTaxZipCode(TI.taxCodes.US.taxZipCode);
+
+            cartPO.setTaxCountry(TI.taxCodes.US.countryCode);
+
+            cartPO.applyTax();
+
+            expect(cartPO.isTotalTaxPresent()).toBe(true);
         });
 
         it('should add and modify the note in cart item after adding an item to cart', function () {
-            var noteText = "The item should be gift wrapped";
-            tu.loadProductIntoCartAndVerifyCart('1', '$20.62');
-            tu.clickElement('id', 'addEditNote');
-            tu.sendKeys('id', 'cartItemNote', noteText);
-            tu.clickElement('id', 'saveCartItemNote');
+            productDetailsPO.get(testProducts.whiteCoffeeMug.id);
 
-            browser.wait(function () {
-                return element(by.id('addEditNote')).isDisplayed();
-            });
+            productDetailsPO.addProductToCart(1);
 
-            tu.clickElement('id', 'addEditNote');
-            tu.sendKeys('id', 'cartItemNote', noteText + ",please.");
-            tu.clickElement('id', 'saveCartItemNote');
-            browser.wait(function () {
-                return element(by.id('addEditNote')).isDisplayed();
-            });
-            //expect(element(by.binding('item.mixins.note.comment')).getText()).toEqual(noteText + ",please.");
-            expect(element(by.css('.note-display.ng-binding')).getText()).toEqual(noteText + ",please.");
-        });
+            cartPO.waitUntilNotificationIsDissmised();
+            cartPO.showCart(isMobile);
+            cartPO.waitUntilCartTotalIsDisplayed();
 
-        xit('should automatically close when mousing off', function () {
-            tu.loadProductIntoCartAndVerifyCart('1', '$10.67');
-            browser.driver.actions().mouseMove(element(by.binding('item.product.name'))).perform();
-            // wait over 3 seconds
-            browser.sleep(4500);
-            browser.driver.actions().mouseMove(element(by.css('div.content-mask'))).perform();
-            expect(element(by.binding('CONTINUE_SHOPPING')).isDisplayed()).toBe(false);
+            cartPO.addNote(TI.cartNote);
+
+            cartPO.addNote(TI.cartNote + ",please.");
+
+            expect(cartPO.getItemNote()).toEqual(TI.cartNote + ",please.");
         });
 
     });
 });
+
 
