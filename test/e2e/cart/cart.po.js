@@ -77,7 +77,7 @@ var CartPageObject = function () {
          browser.wait(function () {
             return buttons.guestContinue.isPresent();
         });
-    }
+    };
 
     this.goToCheckout = function (isLoggedIn) {
         buttons.checkout.click();
