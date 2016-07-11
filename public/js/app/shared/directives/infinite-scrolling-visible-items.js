@@ -25,16 +25,15 @@ angular.module('ds.shared')
                 var elements = [];
                 var i = 0;
                 var offset = 0;
+                var refineHeight = 0;
 
                 //Function that checks if the element is visible in viewport
                 var isElementInViewport = function (el) {
+                    var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
                     var rect = el.getBoundingClientRect();
+                    var margin = 0.15;
 
-                    return (
-                        //Used 100 instead of 0 because of the top navigation
-                    rect.top >= 100 &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                    );
+                    return (rect.top + rect.height * (1 - margin) > refineHeight && rect.bottom - rect.height * (1 - margin) < viewportHeight); 
                 };
 
                 //Function that determines the direction of users scroll
@@ -51,24 +50,14 @@ angular.module('ds.shared')
 
                 //Function that handles events and calculates
                 var handler = function (e) {
-
+                    refineHeight = $('#refineAffix')[0].clientHeight;
                     var firstVisibleIndex = 0;
                     var lastVisibleIndex = 0;
                     firstIndex = scope.pagination.productsFrom;
                     if (scrollDirectionUp()) {
-                        //console.log('Scroll up');
 
-                        //If it is scroll event then the checking is done only on small part of elements based
-                        //on last visible items (if it is scroll up then the next visible items 100% have <= indexes
-                        //than last one)
-                        if (e.type === 'scroll') {
-                            //Get all elements that have index smaller than scope.productsTo
-                            elements = element.querySelectorAll('.productInfoContainer').slice(0, scope.pagination.productsTo);
-                        }
-                        else {
-                            //Loop over all elements
-                            elements = element.querySelectorAll('.productInfoContainer');
-                        }
+                        elements = element.querySelectorAll('.productContainer');
+
                         if(elements.length > 0) {
 
                             for (i = elements.length - 1; i >= 0; i--) {
@@ -96,22 +85,11 @@ angular.module('ds.shared')
                         }
                     }
                     else {
-                        //console.log('Scroll down');
+                        //Loop over all elements
+                        elements = element.querySelectorAll('.productContainer');
 
-                        if (e.type === 'scroll') {
-                            //Get all elements from currently shown index - 3 until the end
-                            // elements = element.querySelectorAll(':nth-child(n+' + queryIndex + ') .productInfoContainer');
-                            elements = element.querySelectorAll('.productInfoContainer').slice(scope.pagination.productsFrom - 1);
-
-                            offset = firstIndex;
-                        }
-                        else {
-                            //Loop over all elements
-                            elements = element.querySelectorAll('.productInfoContainer');
-
-                            //Set offset to 1 because looping is done over all elements
-                            offset = 1;
-                        }
+                        //Set offset to 1 because looping is done over all elements
+                        offset = 1;
 
                         if(elements.length > 0) {
 
