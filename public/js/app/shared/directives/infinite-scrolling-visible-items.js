@@ -14,7 +14,8 @@
 //Used for determing the current visible items indexes
 //It is checking if the details (name and price) part of item is visible
 angular.module('ds.shared')
-    .directive('infiniteScrollVisibleItems', ['$window', function ($window) {
+    .constant('PRODUCT_VIEWPORT_OFFSET', 0.15)
+    .directive('infiniteScrollVisibleItems', ['$window', 'PRODUCT_VIEWPORT_OFFSET', function ($window, PRODUCT_VIEWPORT_OFFSET) {
         return {
             restrict: 'A',
             link: function (scope, element) {
@@ -31,9 +32,8 @@ angular.module('ds.shared')
                 var isElementInViewport = function (el) {
                     var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
                     var rect = el.getBoundingClientRect();
-                    var margin = 0.15;
 
-                    return (rect.top + rect.height * (1 - margin) > refineHeight && rect.bottom - rect.height * (1 - margin) < viewportHeight); 
+                    return (rect.top + rect.height * (1 - PRODUCT_VIEWPORT_OFFSET) > refineHeight && rect.bottom - rect.height * (1 - PRODUCT_VIEWPORT_OFFSET) < viewportHeight); 
                 };
 
                 //Function that determines the direction of users scroll
