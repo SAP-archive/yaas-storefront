@@ -99,25 +99,13 @@ describe("cart:", function () {
         it('should load multiple products into cart', function () {
             productDetailsPO.get(testProducts.whiteCoffeeMug.id);
 
-            productDetailsPO.addProductToCart(1);
+            productDetailsPO.addProductToCart(5);
 
             cartPO.waitUntilNotificationIsDissmised();
             cartPO.showCart(isMobile);
             cartPO.waitUntilCartTotalIsDisplayed();
 
-            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
-            
-            cartPO.continueShopping();
-
-            productDetailsPO.get(testProducts.whiteThermos.id);
-
-            productDetailsPO.addProductToCart(1);
-
-            cartPO.waitUntilNotificationIsDissmised();
-            cartPO.showCart(isMobile);
-            cartPO.waitUntilCartTotalIsDisplayed(); 
-
-            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteThermos.one.totalPriceUS);
+            expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.five.totalPriceUS);
         });
 
 
