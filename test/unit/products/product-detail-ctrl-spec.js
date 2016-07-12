@@ -61,6 +61,12 @@ describe('ProductDetailCtrl', function () {
             name: 'product1',
             id: 123,
             published: true,
+            mixins: {
+                inventory: false
+            },
+            metadata: {
+                mixins: {}
+            }
         },
         categories: [
             {
@@ -82,11 +88,6 @@ describe('ProductDetailCtrl', function () {
         getCategoryById: jasmine.createSpy().andCallFake(function(){
             return cartDef.promise;
         })
-    };
-
-    var dummyImg = 'dummy';
-    var mockedSettings = {
-        placeholderImage: dummyImg
     };
     
     var mockedNotification = {
@@ -123,23 +124,19 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
        it('should set the category for the breadcrumb', function(){
           expect($scope.category).toBeTruthy();
        });
-
-        it('product without image should get default image', function () {
-            expect($scope.product.product.media[0].url).toEqualData(dummyImg);
-        });
     });
 
     describe('buy published product', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should add to cart from detail page', function () {
@@ -174,7 +171,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -194,7 +191,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones,  'Notification': mockedNotification, 'variants': []});
+                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones,  'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
             $scope.addToCartFromDetailPage();
         });
 
@@ -219,19 +216,25 @@ describe('ProductDetailCtrl', function () {
                     { url: 'http://url1' },
                     { url: 'http://url2' },
                     { url: 'http://url3' }
-                ]
+                ],
+                mixins: {
+                    inventory: false
+                },
+                metadata: {
+                    mixins: {}
+                }
             }
         };
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should list committed images as they came', function(){
-            expect($scope.product.product.media[0].url).toEqualData('http://url1');
-            expect($scope.product.product.media[1].url).toEqualData('http://url2');
-            expect($scope.product.product.media[2].url).toEqualData('http://url3');
+            expect($scope.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.media[1].url).toEqualData('http://url2');
+            expect($scope.product.media[2].url).toEqualData('http://url3');
         });
     });
 
@@ -244,7 +247,13 @@ describe('ProductDetailCtrl', function () {
                 media: [
                     { url: 'http://url1' },
                     { url: 'http://url2' }
-                ]
+                ],
+                mixins: {
+                    inventory: false
+                },
+                metadata: {
+                    mixins: {}
+                }
             },
             categories: [
                 {
@@ -260,12 +269,12 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should list first image first', function(){
-            expect($scope.product.product.media[0].url).toEqualData('http://url1');
-            expect($scope.product.product.media[1].url).toEqualData('http://url2');
+            expect($scope.product.media[0].url).toEqualData('http://url1');
+            expect($scope.product.media[1].url).toEqualData('http://url2');
         });
     });
 
@@ -279,7 +288,7 @@ describe('ProductDetailCtrl', function () {
                 getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: '7', label: longTaxLabel, included: false })
             };
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'settings': mockedSettings, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': []});
+                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
 
             var expectedShortenedLabel = longTaxLabel.substring(0, 59);
             expect($scope.taxConfiguration.shortenedLabel).toEqualData(expectedShortenedLabel);

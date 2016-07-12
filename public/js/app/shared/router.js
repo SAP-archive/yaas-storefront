@@ -158,6 +158,20 @@ angular.module('ds.router', [])
                                 }
                             }],
 
+                        variantPrices: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc', 'GlobalData',
+                            function ($stateParams, initialized, $http, SiteConfigSvc, GlobalData) {
+                                if (initialized) {
+                                    return $http.get(SiteConfigSvc.apis.prices.baseUrl + '/prices', {
+                                        params: {
+                                            group: $stateParams.productId,
+                                            currency: GlobalData.getCurrencyId()
+                                        }
+                                    }).then(function (response) {
+                                        return response.data;
+                                    });
+                                }
+                            }],
+
                         lastCatId: function ($stateParams) {
                             if($stateParams.lastCatId !== 'lastCatId') {
                                 return $stateParams.lastCatId;

@@ -15,7 +15,7 @@
 
     angular.module('ds.products')
 
-        .factory('ProductDetailHelper', [
+        .factory('ProductOptionsHelper', [
             function () {
 
                 function isComplexAttribute(attribute) {

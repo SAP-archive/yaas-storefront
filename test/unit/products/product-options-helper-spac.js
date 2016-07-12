@@ -10,11 +10,11 @@
  * license agreement you entered into with hybris.
  */
 
-describe('ProductDetailHelper', function () {
+describe('ProductOptionsHelper', function () {
     beforeEach(angular.mock.module('ds.products'));
 
     describe('prepareOptions', function () {
-        it('should prepare options from variants', angular.mock.inject(function (ProductDetailHelper) {
+        it('should prepare options from variants', angular.mock.inject(function (ProductOptionsHelper) {
             // arrange
             var variants = [
                 {
@@ -34,7 +34,7 @@ describe('ProductDetailHelper', function () {
             ];
 
             // act
-            var options = ProductDetailHelper.prepareOptions(variants);
+            var options = ProductOptionsHelper.prepareOptions(variants);
 
             // assert
             expect(options).toEqual([
@@ -62,7 +62,7 @@ describe('ProductDetailHelper', function () {
             ]);
         }));
 
-        it('should omit complex attributes', angular.mock.inject(function (ProductDetailHelper) {
+        it('should omit complex attributes', angular.mock.inject(function (ProductOptionsHelper) {
             // arrange
             var variants = [
                 {
@@ -74,7 +74,7 @@ describe('ProductDetailHelper', function () {
             ];
 
             // act
-            var options = ProductDetailHelper.prepareOptions(variants);
+            var options = ProductOptionsHelper.prepareOptions(variants);
 
             // assert
             expect(options).toEqual([
@@ -90,7 +90,7 @@ describe('ProductDetailHelper', function () {
     });
 
     describe('getIdsOfMatchingVariants', function () {
-        it('should get ids of matching variants', angular.mock.inject(function (ProductDetailHelper) {
+        it('should get ids of matching variants', angular.mock.inject(function (ProductOptionsHelper) {
             // arrange
             var attributesSelected = [
                 { value: 'val1', variantIds: ['v1'], disabled: false },
@@ -98,7 +98,7 @@ describe('ProductDetailHelper', function () {
             ];
 
             // act
-            var result = ProductDetailHelper.getIdsOfMatchingVariants(attributesSelected);
+            var result = ProductOptionsHelper.getIdsOfMatchingVariants(attributesSelected);
 
             // assert
             expect(result).toEqual(['v1']);
@@ -106,7 +106,7 @@ describe('ProductDetailHelper', function () {
     });
 
     describe('updateOptions', function () {
-        it('should update options', angular.mock.inject(function (ProductDetailHelper) {
+        it('should update options', angular.mock.inject(function (ProductOptionsHelper) {
             // arrange
             var options = [
                 {
@@ -126,7 +126,7 @@ describe('ProductDetailHelper', function () {
             ];
 
             // act
-            var result = ProductDetailHelper.updateOptions(options, ['v1']);
+            var result = ProductOptionsHelper.updateOptions(options, ['v1']);
 
             // assert
             expect(result).toEqual([
