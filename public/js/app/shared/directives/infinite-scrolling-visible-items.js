@@ -50,7 +50,9 @@ angular.module('ds.shared')
 
                 //Function that handles events and calculates
                 var handler = function () {
-                    refineHeight = $('#refineAffix')[0].clientHeight;
+                    if ($('#refineAffix') && $('#refineAffix')[0]) { // FIXME: the henaler is added globaly and handle events even it is not necessary
+                        refineHeight = $('#refineAffix')[0].clientHeight;
+                    }
                     var firstVisibleIndex = 0;
                     var lastVisibleIndex = 0;
                     firstIndex = scope.pagination.productsFrom;
