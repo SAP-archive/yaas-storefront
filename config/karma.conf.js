@@ -85,7 +85,9 @@ module.exports = function(config){
         'public/js/app/products/services/product-extension-service.js',
         'public/js/app/products/utils/product-extension-helper.js',
         'public/js/app/products/utils/product-extension-item-helper.js',
-        'public/js/app/products/utils/product-detail-helper.js',
+        'public/js/app/products/utils/product-factory.js',
+        'public/js/app/products/options/product-options-helper.js',
+        'public/js/app/products/options/product-options.js',
 
         'public/js/app/cart/cart-index.js',
         'public/js/app/cart/controllers/cart-ctrl.js',

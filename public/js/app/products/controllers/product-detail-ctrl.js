@@ -17,8 +17,8 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter', 'ProductExtensionHelper', 'variants', 'ProductDetailHelper',
-        function($scope, $rootScope, CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, CommittedMediaFilter, ProductExtensionHelper, variants, ProductDetailHelper) {
+    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
+        function($scope, $rootScope, CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
             var modalInstance;
                         
             $scope.activeTab = 'description';
@@ -27,9 +27,11 @@ angular.module('ds.products')
             };
             
             $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
-            
-            $scope.product = product;
-            $scope.media = product.product.media;
+            $scope.productMixinsDefinitions = product.product.metadata.mixins;
+                        
+            $scope.product = productFactory.fromProduct(product.product, variants.length > 0 ? [] : product.prices);
+            $scope.variants = variants;
+
             $scope.shippingZones = shippingZones;
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -86,16 +88,6 @@ angular.module('ds.products')
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
 
-            if (angular.isArray($scope.product.product.media)) {
-                $scope.product.product.media = CommittedMediaFilter.filter($scope.product.product.media);
-            } else {
-                $scope.product.product.media = [];
-            }
-            
-            if ($scope.product.product.media.length === 0) {
-                $scope.product.product.media.push({ id: settings.placeholderImageId, url: settings.placeholderImage });
-            }
-
             //input default values must be defined in controller, not html, if tied to ng-model
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
@@ -137,7 +129,8 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
+                // todo: this should be fixed to use $scope.product
+                CartSvc.addProductToCart(product.product, $scope.product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
                 .then(function(){
                     var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
                     Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToCart, delay: 3000});
@@ -156,52 +149,20 @@ angular.module('ds.products')
                 }
             };
 
-            // product options (variants)
-            $scope.hasVariants = variants.length > 0;
 
-            $scope.options = ProductDetailHelper.prepareOptions(variants);
-            $scope.optionsSelected = [];
-
-            function getIdsOfMatchingVariants(attributesSelected) {
-                return attributesSelected.length === 0 ?
-                    ProductDetailHelper.getIdsOfAllVariants(variants) :
-                    ProductDetailHelper.getIdsOfMatchingVariants(attributesSelected);
+            function filterPricesForVariant(variantId) {
+                return variantPrices.filter(function (price) {
+                    var foundVariantId = price.itemYrn.split(';').pop();
+                    return variantId === foundVariantId;
+                });
             }
 
-            function getVariant(varaintId) {
-                return _.find(variants, function (v) { return v.id === varaintId; });
-            }
-
-            $scope.resolveActiveVariantAndUpdateOptions = function () {
-                var attributesSelected = ProductDetailHelper.getSelectedAttributes($scope.optionsSelected);
-                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
-                
-                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
-
-                // set active variant
-                if (attributesSelected.length === $scope.options.length) {
-                    $scope.activeVariant = getVariant(idsOfMatchingVariants[0]);
-                    // tmp: test purpose
-                    console.log($scope.activeVariant);
+            $scope.onActiveVariantChanged = function (activeVariant) {
+                if (_.isObject(activeVariant) && activeVariant.media.length > 0) {
+                    var prices = filterPricesForVariant(activeVariant.id);
+                    $scope.product = productFactory.fromVariant(activeVariant, product.product, prices);
                 } else {
-                    $scope.activeVariant = undefined;
+                    $scope.product = productFactory.fromProduct(product.product, []);
                 }
-                
-                // update media
-                if (_.isObject($scope.activeVariant) && $scope.activeVariant.media.length > 0) {
-                    $scope.media = $scope.activeVariant.media;
-                } else {
-                    $scope.media = $scope.product.product.media;
-                }
-            };
-
-            $scope.omitSelectionAndUpdateOptions = function (omittedIndex) {
-                var omitted = _.union([], $scope.optionsSelected);
-                omitted[omittedIndex] = null;
-
-                var attributesSelected = ProductDetailHelper.getSelectedAttributes(omitted);
-                var idsOfMatchingVariants = getIdsOfMatchingVariants(attributesSelected);
-                
-                $scope.options = ProductDetailHelper.updateOptions($scope.options, idsOfMatchingVariants);
             };
 }]);
