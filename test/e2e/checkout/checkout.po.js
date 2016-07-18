@@ -26,7 +26,6 @@ var CheckoutPageObject = function () {
         creditCardNumber: element(by.id("ccNumber")),
         cvcCode: element(by.id("cvc")),
         email: element(by.id("email")),
-
         loggedIn: {
             shippingAddress1: element(by.id('address1Ship'))
         }
@@ -41,7 +40,7 @@ var CheckoutPageObject = function () {
             totalPrice: element.all(by.className('cart-totalPrice')).first(),
             taxLines: element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)),
             itemEffectiveAmount: element.all(by.className('item-effectiveAmount')).first(),
-            totalDiscount: element.all(by.className('cart-totalDiscount')).first(),
+            totalDiscount: element.all(by.className('cart-totalDiscount')).first()
         }, 
 
         shippingAddress1: element(by.id('order-shipTo-address1'))
