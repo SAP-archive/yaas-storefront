@@ -42,7 +42,6 @@ var CheckoutPageObject = function () {
             taxLines: element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)),
             itemEffectiveAmount: element.all(by.className('item-effectiveAmount')).first(),
             totalDiscount: element.all(by.className('cart-totalDiscount')).first(),
-            totalPrice: element.all(by.className('cart-totalPrice')).first()
         }, 
 
         shippingAddress1: element(by.id('order-shipTo-address1'))
@@ -118,7 +117,7 @@ var CheckoutPageObject = function () {
             idFragment = 'Ship';
         }
 
-        if (idFragment != 'Bill') {
+        if(idFragment != 'Bill') {
             utils.selectOption('order.' + idFragment.toLowerCase() + 'To.country', 'united states');
         }
 
