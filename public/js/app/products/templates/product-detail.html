@@ -99,7 +99,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                     ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                                <button id="out-of-stock-btn btn-block" ng-show="{{!product.inStock}}" class="btn btn-default buyButton" disabled>{{'OUT_OF_STOCK' | translate}}</button>
+                                <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-default btn-block buyButton" disabled>{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
 
                             <!-- shipping rates -->
