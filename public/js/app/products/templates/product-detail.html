@@ -87,7 +87,7 @@
                         <div class="row">
 
                             <!-- error notification -->
-                            <div ng-if="error" class="col-md-12 col-lg-12">
+                            <div ng-if="error" class="col-md-8 col-md-offset-2">
                                 <div class="error">
                                     <small class="help-inline has-error">
                                         {{'ERROR_ADDING_TO_CART' | translate}}
@@ -96,10 +96,10 @@
                             </div>
 
                             <!-- add to cart -->
-                            <div class="col-md-12 col-lg-12 buyButton">
-                                <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary " ng-click="addToCartFromDetailPage()"
+                            <div class="col-md-8 col-md-offset-2">
+                                <button id="buy-button" ng-show="{{product.inStock}}" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                     ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                                <button id="out-of-stock-btn" ng-show="{{!product.inStock}}" class="btn btn-default" disabled>{{'OUT_OF_STOCK' | translate}}</button>
+                                <button id="out-of-stock-btn btn-block" ng-show="{{!product.inStock}}" class="btn btn-default buyButton" disabled>{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
 
                             <!-- shipping rates -->
@@ -110,8 +110,8 @@
                     </form>
 
                     <div class="row" ng-if="!product.prices[0]">
-                        <div class="col-md-12 col-lg-12 buyButton">
-                            <button id="out-of-stock-btn" class="btn btn-default" disabled>{{'UNAVAILABLE' | translate}}</button>
+                        <div class="col-md-8 col-md-offset-2">
+                            <button id="out-of-stock-btn" class="btn btn-default btn-block buyButton" disabled>{{'UNAVAILABLE' | translate}}</button>
                         </div>
                     </div>
                 </div>
