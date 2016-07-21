@@ -288,7 +288,9 @@
 .default-address .contactName{
   font-weight: bold;
 }
-
+.addresses div[address-decorator] > div:not(.disableAddress){
+  cursor: pointer;
+}
 .disableAddress {
   background-color: lightgrey;
   cursor: not-allowed;
@@ -296,9 +298,7 @@
 .default-address .defaultLabel{
 	color:#016aab;
 }
-.panel.enabledAddress {
-  cursor: pointer;
-}
+
 .panel.defaultAddress{
   border: 1px solid #016aab;
 }
