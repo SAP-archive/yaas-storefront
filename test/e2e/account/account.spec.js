@@ -68,7 +68,8 @@ describe("account:", function() {
             var newUser = {
                 name: 'cool',
                 password: 'coolio'
-            } 
+            };
+             
             accountPO.createAccount(newUser,false);
 
             accountPO.accountDetails.getPage();
