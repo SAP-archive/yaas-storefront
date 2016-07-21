@@ -1,275 +1,220 @@
-var fs = require('fs');
-var tu = require('../utils/protractor-utils.js');
+'use strict';
 
-var timestamp = Number(new Date());
+var desktopSiteConfig = require('../config/desktop-site.json');
 
-function updateNameField(id, text) {
-    element(by.id(id)).clear();
-    browser.executeScript("document.getElementById('" + id + "').style.display='block';");
-    element(by.id(id)).sendKeys(text);
-}
-
-function waitForAccountPage() {
-    browser.wait(function () {
-        return element(by.binding('MY_ACCOUNT')).isPresent();
-    });
-}
-
-function clickOnModalDeleteAddress() {
-    browser.switchTo().defaultContent();
-    browser.sleep(1000);
-    browser.waitForAngular();
-    browser.wait(function () {
-        return element(by.css('.modal-content')).isPresent();
-    });
-    tu.clickElement('id', 'confirm-delete-address-btn');
-}
+var TI = require('./account.test-input.json');
+var utils = require('../utils/utils.js');
+var AccountPageObject = require('./account.po.js');
+var SitePageObject = require('../site/site.po.js');
 
 
-describe("login:", function () {
+describe("account:", function() {
 
+    var accountPO,
+        sitePO;
 
-    describe("verify login functionality", function () {
+    var testUsers = TI.users;
 
-        beforeEach(function () {
-            // ENSURE WE'RE TESTING AGAINST THE FULL SCREEN VERSION
-            browser.manage().deleteAllCookies();
-            browser.driver.manage().window().setSize(1200, 1100);
-            browser.get(tu.tenant + '/#!/ct');
-            browser.switchTo().alert().then(
-                function (alert) {
-                    alert.dismiss();
-                },
-                function (err) {
-                }
-            );
+    describe("verify login functionality", function() {
+
+        beforeEach(function() {
+            utils.deleteCookies();
+            utils.setWindowSize(desktopSiteConfig.windowDetails.width, desktopSiteConfig.windowDetails.height);
+
+            accountPO = new AccountPageObject();
+            sitePO = new SitePageObject();
+
+            sitePO.getHomePage();
+        });
+
+        it('should not allow invalid user to login', function() {
+            accountPO.loginUser(testUsers.bad);
+            expect(accountPO.getAccountModalErrorMessage()).toEqual(TI.errorMessages.INVALIDUSER.EN);
+        });
+
+        it('should allow an existing user to login', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            expect(accountPO.accountDetails.getFullName()).toContain(testUsers.cool.name.full);
+        });
+
+        it('should allow user to update account info', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            expect(accountPO.accountDetails.getFullName()).toContain(testUsers.cool.name.full);
+
+            accountPO.accountDetails.editDetails(testUsers.cool.alternateName);
+
+            expect(accountPO.accountDetails.getFullName()).toContain(testUsers.cool.alternateName.full);
+
+            accountPO.accountDetails.editDetails(testUsers.cool.name);
+
+            expect(accountPO.accountDetails.getFullName()).toContain(testUsers.cool.name.full);
+        });
+
+        it('should be able to create a new user', function() {
+            accountPO.createAccount(testUsers.bad,true);
+
+            expect(accountPO.getAccountModalErrorMessage()).toEqual(TI.errorMessages.WEAKPASSWORD.EN);
+
+            var newUser = {
+                name: 'cool',
+                password: 'coolio'
+            } 
+            accountPO.createAccount(newUser,false);
+
+            accountPO.accountDetails.getPage();
+
+            expect(accountPO.accountDetails.getContactEmail()).toContain(newUser.name);
 
         });
 
-        it('should not allow user to login', function () {
-            tu.loginHelper('bad@bad.com', 'bad');
-            expect(element(by.binding("error.message")).getText()).toEqual("You entered an invalid email or password.");
-        });
+        it('should allow existing user to manage addresses', function() {
+            accountPO.createAccount(testUsers.addressTest,true);
 
-        it('should allow existing user to login', function () {
-            tu.loginHelper('cool@cool.com', 'coolio');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            browser.sleep(1000);
-            expect(element(by.binding("account.firstName")).getText()).toContain('JOE');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            browser.sleep(1000);
-            tu.clickElement('id', 'logout-btn');
-        });
+            accountPO.accountDetails.getPage();
 
-        it('should allow user to update account info', function () {
-            tu.loginHelper('cool@cool.com', 'coolio');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            browser.sleep(2000);
-            expect(element(by.binding("account.lastName")).getText()).toContain('Cool');
-            tu.clickElement('id', 'edit-user-info');
-            updateNameField('firstNameAccount', 'first');
-            tu.sendKeys('id', 'middleNameAccount', 'middle');
-            updateNameField('lastNameAccount', 'last');
-            tu.clickElement('id', 'save-btn');
-            expect(element(by.binding("account.lastName")).getText()).toContain('first middle last');
-            tu.clickElement('id', 'edit-user-info');
-            updateNameField('firstNameAccount', 'Joe');
-            tu.sendKeys('id', 'middleNameAccount', 'C');
-            updateNameField('lastNameAccount', 'Cool');
-            tu.clickElement('id', 'save-btn');
-            expect(element(by.binding("account.lastName")).getText()).toContain('Joe C Cool');
-        });
+            accountPO.populateAddress(testUsers.addressTest.address1);
 
-        it('should create a new user', function () {
-            tu.clickElement('id', 'login-btn');
-            browser.wait(function () {
-                return element(by.binding('CREATE_ACCOUNT')).isPresent();
-            });
-            tu.clickElement('binding', 'CREATE_ACCOUNT');
-            tu.sendKeys('id', 'emailInput', 'cool@cool' + timestamp + '.com');
-            tu.sendKeys('id', 'newPasswordInput', 'pass');
-            tu.clickElement('id', 'create-acct-btn');
-            expect(element(by.binding("error.message")).getText()).toEqual("Password invalid - minimum of 6 characters required.");
-            tu.sendKeys('id', 'newPasswordInput', 'password');
-            tu.clickElement('id', 'create-acct-btn');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            expect(element(by.css("h2.pull-left.ng-binding")).getText()).toEqual("Addressbook");
-        });
+            expect(accountPO.address.getStreet(0)).toEqual(testUsers.addressTest.address1.street + ', ' + 
+                                                           testUsers.addressTest.address1.aptNumber);
 
-        it('should allow existing user to manage addresses', function () {
-            //dismisses pop-ups in phantomjs
-            browser.executeScript('window.confirm = function(){return true;}');
-            tu.createAccount('addresstest');
-            tu.populateAddress('United States', 'Address Test', '123 fake place', 'apt 419', 'Boulder', 'CO', '80301', '303-303-3333');
-            browser.sleep(500);
-            // expect(element(by.binding("defaultAddress.street")).getText()).toEqual("123 fake place");
-            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
-            expect(element(by.repeater('address in addresses').row(0).column('address.city')).getText()).toEqual('Boulder, CO 80301');
-            expect(element(by.repeater('address in addresses').row(0).column('address.country')).getText()).toEqual('US');
-            expect(element(by.repeater('address in addresses').row(0).column('address.contactPhone')).getText()).toEqual('303-303-3333');
-            tu.populateAddress('Canada', '2nd Test', '321 phony street', 'apt 420', 'Toronto', 'ON', 'M4M 1H7', '720-555-1234');
-            expect(element(by.repeater('address in addresses').row(1).column('address.contactName')).getText()).toEqual('2nd Test');
-            expect(element(by.repeater('address in addresses').row(1).column('address.street')).getText()).toEqual('321 phony street, apt 420');
-            expect(element(by.repeater('address in addresses').row(1).column('address.city')).getText()).toEqual('Toronto, ON M4M 1H7');
-            expect(element(by.repeater('address in addresses').row(1).column('address.country')).getText()).toEqual('CA');
-            expect(element(by.repeater('address in addresses').row(1).column('address.contactPhone')).getText()).toEqual('720-555-1234');
-            //tu.clickElement('xpath', "(//button[@id='set-default-btn'])[2]");
-            tu.clickElement('xpath', '//*[@id="set-default-btn"]/span');
-            browser.sleep(1500);
-            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('321 phony street, apt 420');
-            //tu.clickElement('xpath', "(  //button[@id='set-default-btn'])[2]");
-            tu.clickElement('xpath', '//*[@id="set-default-btn"]/span');
-            browser.sleep(1000);
-            expect(element(by.repeater('address in addresses').row(0).column('address.street')).getText()).toEqual('123 fake place, apt 419');
-            tu.clickElement('id', 'delete-address-btn');
+            expect(accountPO.address.getCity(0)).toEqual(testUsers.addressTest.address1.cityStateZipCode);
+            expect(accountPO.address.getCountry(0)).toEqual(testUsers.addressTest.address1.countryAcronym);
+            expect(accountPO.address.getContactPhone(0)).toEqual(testUsers.addressTest.address1.contactPhone);
+
+            accountPO.populateAddress(testUsers.addressTest.address2);
+
+            expect(accountPO.address.getContactName(1)).toEqual(testUsers.addressTest.address2.contactName);
+            expect(accountPO.address.getStreet(1)).toEqual(testUsers.addressTest.address2.street + ', ' + 
+                                                           testUsers.addressTest.address2.aptNumber);
+            expect(accountPO.address.getCity(1)).toEqual(testUsers.addressTest.address2.cityStateZipCode);
+            expect(accountPO.address.getCountry(1)).toEqual(testUsers.addressTest.address2.countryAcronym);
+            expect(accountPO.address.getContactPhone(1)).toEqual(testUsers.addressTest.address2.contactPhone);
+
+            accountPO.address.setDefault();
+
+            expect(accountPO.address.getStreet(0)).toEqual(testUsers.addressTest.address2.street + ', ' + 
+                                                           testUsers.addressTest.address2.aptNumber);
+
+            accountPO.address.setDefault();
+
+            expect(accountPO.address.getStreet(0)).toEqual(testUsers.addressTest.address1.street + ', ' + 
+                                                           testUsers.addressTest.address1.aptNumber);
+            
+            accountPO.address.delete();
+
             // Confirm delete address
-            clickOnModalDeleteAddress();
-            browser.wait(function () {
-                return element(by.id('delete-address-btn')).isPresent();
-            });
-            tu.clickElement('id', 'delete-address-btn');
+            accountPO.address.waitForDeleteButton();
+
+            accountPO.address.delete();
+
             // Confirm delete address
-            clickOnModalDeleteAddress();
-            expect(element(by.id('delete-address-btn')).isPresent()).toBe(false);
+            expect(accountPO.address.isDeleteButtonPresent()).toBe(false);
         });
 
-        it('should not allow user to update their password with incorrect password', function () {
-            tu.loginHelper('badpassword@test.com', 'password');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            tu.clickElement('id', 'update-password');
-            tu.sendKeys('id', 'currentPassword', 'incorrect');
-            tu.sendKeys('id', 'newPassword', 'notnew');
-            tu.sendKeys('id', 'confirmNewPassword', 'notnew');
-            tu.clickElement('id', 'update-password-btn');
-            browser.sleep(500);
-            expect(element(by.binding("error.message")).getText()).toEqual("Please provide correct current password!");
-            tu.clickElement('css', "a.close > span");
+        it('should not allow user to update password with an incorrect original password', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            accountPO.accountDetails.updatePassword(TI.passwordTestVectors.vector1);
+
+            accountPO.accountDetails.clickUpdatePasswordButton();
+
+            expect(accountPO.getAccountModalErrorMessage()).toEqual(TI.errorMessages.WRONGPASSWORD.EN);
         });
 
-        it('should not allow user to update their password if it less than 6 chars', function () {
-            tu.loginHelper('badpassword@test.com', 'password');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            tu.clickElement('id', 'update-password');
-            tu.sendKeys('id', 'currentPassword', 'password');
-            tu.sendKeys('id', 'newPassword', '123');
-            tu.sendKeys('id', 'confirmNewPassword', '123');
-            browser.sleep(500);
-            expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
-            tu.clickElement('css', "a.close > span");
+        it('should not allow user to update their password if it less than 6 chars', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            accountPO.accountDetails.updatePassword(TI.passwordTestVectors.vector2);
+
+            expect(accountPO.accountDetails.isUpdatePasswordButtonEnabled()).toBe(false);
         });
 
-        it('should not allow user to update their password if it does not match confirmation', function () {
-            tu.loginHelper('badpassword@test.com', 'password');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            tu.clickElement('id', 'update-password');
-            tu.sendKeys('id', 'currentPassword', 'password');
-            tu.sendKeys('id', 'newPassword', 'incorrect1');
-            tu.sendKeys('id', 'confirmNewPassword', 'incorrect2');
-            browser.sleep(500);
-            expect(element(by.id('update-password-btn')).isEnabled()).toBe(false);
-            tu.clickElement('css', "a.close > span");
+        it('should not allow user to update their password if it does not match confirmation', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            accountPO.accountDetails.updatePassword(TI.passwordTestVectors.vector3);
+
+            expect(accountPO.accountDetails.isUpdatePasswordButtonEnabled()).toBe(false);
         });
 
-        it('should allow user to update their password', function () {
-            tu.loginHelper('password@yaastest.com', 'password');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            tu.clickElement('id', 'update-password');
-            tu.sendKeys('id', 'currentPassword', 'password');
-            tu.sendKeys('id', 'newPassword', 'password2');
-            tu.sendKeys('id', 'confirmNewPassword', 'password2');
-            browser.sleep(500);
-            tu.clickElement('id', 'update-password-btn');
-            browser.sleep(1500);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'logout-btn');
-            browser.sleep(500);
-            browser.get(tu.tenant + '/#!/ct');
-            browser.sleep(1000);
-            tu.loginHelper('password@yaastest.com', 'password2');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            browser.sleep(1000);
-            tu.clickElement('id', 'update-password');
-            tu.sendKeys('id', 'currentPassword', 'password2');
-            tu.sendKeys('id', 'newPassword', 'password');
-            tu.sendKeys('id', 'confirmNewPassword', 'password');
-            browser.sleep(500);
-            tu.clickElement('id', 'update-password-btn');
-            browser.sleep(1500);
+        it('should allow user to update their password provided the new password is valid', function() {
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            accountPO.accountDetails.updatePassword(TI.passwordTestVectors.vector4);
+
+            accountPO.accountDetails.clickUpdatePasswordButton();
+
+            accountPO.logoutUser();
+
+            var coolUser = {
+                username: testUsers.cool.username,
+                password: 'password'
+            }
+
+            accountPO.loginUser(coolUser);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            accountPO.accountDetails.updatePassword(TI.passwordTestVectors.vector5);
+
+            accountPO.accountDetails.clickUpdatePasswordButton();
         });
 
-        xit('should allow user to access order confirmation', function () {
-            browser.sleep(5000);
-            browser.get(tu.tenant + '/#!/confirmation/P0T7S1A7/');
-            browser.wait(function () {
-                return element(by.binding('SIGN_IN')).isPresent();
-            });
-            tu.sendKeys('id', 'usernameInput', 'order@yaastest.com');
-            tu.sendKeys('id', 'passwordInput', 'password');
-            tu.clickElement('id', 'sign-in-button');
-            browser.sleep(1000);
-            expect(element(by.binding('orderInfo.orderId')).getText()).toEqual('Order# P0T7S1A7');
-        });
+        it('should allow user to update their email', function() {
+            accountPO.loginUser(testUsers.cool);
 
-        it('should allow user to update their email', function () {
-            tu.loginHelper('cool@yaastest.com', 'coolio');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            tu.clickElement('id', 'update-email');
-            tu.sendKeys('id', 'newEmail', 'cool_new@yaastest.com');
-            tu.sendKeys('id', 'password', 'coolio');
-            browser.sleep(500);
-            tu.clickElement('id', 'save-btn');
-            browser.sleep(500);
+            accountPO.waitForSignInComplete();
 
-            // Check for modal window - "Check your email"
-            browser.switchTo().defaultContent();
-            browser.sleep(1000);
-            browser.waitForAngular();
-            browser.wait(function () {
-                return element(by.css('.modal-content')).isPresent();
-            });
+            accountPO.accountDetails.getPage();
 
-            expect(element(by.binding('CHECK_EMAIL')).isPresent()).toBe(true);
-            element(by.css('.modal.fade.ng-isolate-scope.in')).click();
-            browser.sleep(500);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'logout-btn');
-            browser.sleep(500);
-            browser.get(tu.tenant + '/#!/ct');
-            browser.sleep(1000);
+            accountPO.accountDetails.updateEmail(testUsers.cool.newEmail, testUsers.cool.password);
+
+            expect(accountPO.accountDetails.isCheckEmailModalPresent()).toBe(true);
+
+            accountPO.accountDetails.closeCheckEmailModal();
+
+            accountPO.logoutUser();
+
             // Verify the user still can login in with the old email, as the new one was not confirmed
-            tu.loginHelper('cool@yaastest.com', 'coolio');
-            browser.sleep(1000);
-            tu.clickElement('id', 'my-account-dropdown');
-            tu.clickElement('id', 'my-account-link');
-            waitForAccountPage();
-            expect(element(by.binding('account.contactEmail')).getText()).toContain('cool@yaastest.com');
+            accountPO.loginUser(testUsers.cool);
+
+            accountPO.waitForSignInComplete();
+
+            accountPO.accountDetails.getPage();
+
+            expect(accountPO.accountDetails.getContactEmail()).toContain(testUsers.cool.username);
 
         });
 
     });
+
 });
 
