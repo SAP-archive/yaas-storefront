@@ -59,7 +59,7 @@
 
                     var media = resolveMediaForProductVariant(product, variant);
 
-                    return {
+                    var createdProduct = {
                         id: variant.id,
                         code: variant.code,
                         name: variant.name ? variant.name : product.name,
@@ -69,6 +69,12 @@
                         inStock: variant.mixins && variant.mixins.inventory && variant.mixins.inventory.inStock,
                         prices: prices
                     };
+
+                    if (createdProduct.media.length === 0) {
+                        createdProduct.media.push({ id: settings.placeholderImageId, url: settings.placeholderImage });
+                    }
+
+                    return createdProduct;
                 }
 
                 return {
