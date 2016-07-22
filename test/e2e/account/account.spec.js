@@ -176,7 +176,7 @@ describe('account:', function() {
             var coolUser = {
                 username: testUsers.cool.username,
                 password: 'password'
-            }
+            };
 
             accountPO.loginUser(coolUser);
 
