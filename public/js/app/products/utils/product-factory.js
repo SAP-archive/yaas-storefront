@@ -17,14 +17,22 @@
         .factory('productFactory', ['CommittedMediaFilter', 'settings',
             function (CommittedMediaFilter, settings) {
 
-                function fromProduct(product, prices) {
+                function resolveMediaForProduct(product) {
+                    return Array.isArray(product.media) ? product.media : [];
+                }
+
+                function fromProduct(product, prices, isBuyable) {
+
+                    var media = resolveMediaForProduct(product);
+
                     var createdProduct = {
                         id: product.id,
                         code: product.code,
                         name: product.name,
                         description: product.description,
-                        media: Array.isArray(product.media) ? CommittedMediaFilter.filter(product.media) : [],
-                        inStock: product.mixins.inventory.inStock,
+                        media: CommittedMediaFilter.filter(media),
+                        isBuyable: isBuyable,
+                        inStock: product.mixins && product.mixins.inventory && product.mixins.inventory.inStock,
                         prices: prices
                     };
 
@@ -35,21 +43,43 @@
                     return createdProduct;
                 }
 
-                function fromVariant(variant, product, prices) {
-                    return {
+                function resolveMediaForProductVariant(product, variant) {
+                    var media = [];
+
+                    if (Array.isArray(variant.media) && variant.media.length > 0) {
+                        media = variant.media;
+                    } else if (Array.isArray(product.media)) {
+                        media = product.media;
+                    }
+
+                    return media;
+                }
+
+                function fromProductVariant(product, variant, prices) {
+
+                    var media = resolveMediaForProductVariant(product, variant);
+
+                    var createdProduct = {
                         id: variant.id,
                         code: variant.code,
                         name: variant.name ? variant.name : product.name,
                         description: product.description,
-                        media: Array.isArray(variant.media) ? CommittedMediaFilter.filter(variant.media) : [],
-                        inStock: product.mixins.inventory.inStock, // todo: this will be replaced with variants inStock
+                        media: CommittedMediaFilter.filter(media),
+                        isBuyable: true,
+                        inStock: variant.mixins && variant.mixins.inventory && variant.mixins.inventory.inStock,
                         prices: prices
                     };
+
+                    if (createdProduct.media.length === 0) {
+                        createdProduct.media.push({ id: settings.placeholderImageId, url: settings.placeholderImage });
+                    }
+
+                    return createdProduct;
                 }
 
                 return {
                     fromProduct: fromProduct,
-                    fromVariant: fromVariant
+                    fromProductVariant: fromProductVariant
                 };
             }]);
 })();

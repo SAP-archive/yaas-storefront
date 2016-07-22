@@ -235,6 +235,9 @@
 	  border-top: 1px solid #e5e5e5;
 	  padding-top: 30px;
 	  padding-bottom: 75px;
+      a {
+        cursor: pointer;
+      }
   }
   
   .desktopUserInfo.userInfoRow{
@@ -291,10 +294,13 @@
 .default-address .contactName{
   font-weight: bold;
 }
-
+.addresses div[address-decorator] > div:not(.disableAddress){
+  cursor: pointer;
+}
 .disableAddress {
-    background-color: lightgrey;
-  }
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
 .default-address .defaultLabel{
 	color:#016aab;
 }
