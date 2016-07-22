@@ -8,14 +8,14 @@ var AccountPageObject = require('./account.po.js');
 var SitePageObject = require('../site/site.po.js');
 
 
-describe("account:", function() {
+describe('account:', function() {
 
     var accountPO,
         sitePO;
 
     var testUsers = TI.users;
 
-    describe("verify login functionality", function() {
+    describe('verify login functionality', function() {
 
         beforeEach(function() {
             utils.deleteCookies();
