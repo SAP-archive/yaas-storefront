@@ -22,11 +22,11 @@
                 
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-                <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
+                <div id="confirmation-success-message" translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
 
                 <div>
                     <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
-                    <address>
+                    <address id="shipment-destination">
                         <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
                         <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
                         <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}</span>
@@ -184,7 +184,7 @@
                                 <tr ng-if="confirmationDetails.discountAmount != 0">
                                     <td class="text-left">{{'DISCOUNT' | translate}}</td>
                                     <td class="text-right">
-                                        <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                                        <span id="discount-amount" class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
@@ -198,7 +198,7 @@
                                 <tfoot>
                                 <tr class="order-total">
                                     <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
-                                    <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
+                                    <td id="confirmation-totalPrice" class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
                                 <tr>
                                                         
                                 </tfoot>

@@ -1,0 +1,132 @@
+{
+    "products":{
+        "whiteCoffeeMug": {
+            "id": "55d76ce63a0eafb30e5540c8",
+            "one": {
+                "itemPriceUS": "$10.67",
+                "totalPriceUS": "$20.62",
+                "totalPriceDE": "€12.99"
+            },
+
+            "two": {
+                "totalPriceUS": "$32.04"
+            },
+            "five": {
+                "totalPriceUS": "$54.58"
+            }
+        },
+        "whiteThermos": {
+            "id": "55d76cf53a0eafb30e5540cc",
+             "one": {
+                "itemPriceUS": "$10.67",
+                "totalPriceUS": "$36.66"
+            }
+        },
+        "blueRollerPen": {
+            "id": "55d76d19264ebd7a318c237e",
+            "taxOverride": "10.01% FOR PROTRACTOR $0.20",
+            "taxLine": "10.01% FOR PROTRACTOR",
+            "taxAmount": "$0.60",
+            "one": {
+                "totalPriceUS": "$11.39"
+            }
+        }
+    }, 
+
+    "addressType": {
+        "SHIPPING": "Shipping",
+        "BILLING": "Billing"
+    },
+
+    "orderMessages":{
+        "CREATED": "Created",
+        "CANCELLED": "Cancelled"
+    },
+
+    "users": {
+        "main": {
+            "name": {
+                "designation": "MR",
+                "firstName": "Mike",
+                "lastName": "Night"
+            },
+            "fullName": "Mike Night",
+            "email": "mike@yaastest.com",
+            "username": "mike@yaastest.com",
+            "address": {
+                "country": "United States",
+                "contactName": "MIKE NIGHT",
+                "street": "123 fake place",
+                "aptNumber": "apt 419",
+                "city": "Boulder",
+                "state": "CO",
+                "zipCode": "80301",
+                "cityStateZipCode": "BOULDER, CO 80301",
+                "contactPhone": "303-303-3333"
+            }
+        },
+
+        "hybrisTestUser": {
+            "username":"address@hybristest.com",
+            "password":"password",
+            "address": {
+                "first": "123 Take out",
+                "second": "123 Dine in"
+            }
+        },
+
+        "orderHybrisTestUser": {
+            "username": "order@hybristest.com",
+            "email": "order@hybristest.com",
+            "password":"password",
+            "address": {
+                "country": "United States",
+                "contactName": "MIKE NIGHT",
+                "street": "123 fake street",
+                "aptNumber": "apt 419",
+                "city": "Boulder",
+                "state": "CO",
+                "zipCode": "80301",
+                "cityStateZipCode": "BOULDER, CO 80301",
+                "contactPhone": "303-303-3333"
+            }
+        },
+
+        "couponUser": {
+            "username": "coupon@hybristest.com",
+            "password": "password"
+        },
+
+        "euroOrderUser": {
+            "username": "euro-order@hybristest.com",
+            "password": "password",
+            "email": "euro-order@hybristest.com",
+            "address": {
+                "contactName": "MIKE",
+                "street": "123 fake street",
+                "aptNumber": "apt 419",
+                "city": "Boulder",
+                "state": "CO",
+                "zipCode": "80301",
+                "cityStateZipCode": "MUNICH, 80301",
+                "contactPhone": "303-303-3333"
+            }
+        }
+    },
+
+    "creditCard": {
+        "cardNumber": 5555555555554444,
+        "expiryMonth": "06",
+        "expiryYear": 2019,
+        "cvcCode": "000"
+    },
+
+    "sites": {
+        "SushiGermany": {
+            "siteName": "Sushi Demo Store Germany",
+            "mode": "Desktop"
+        }
+    },
+
+    "selectModel": "order.account.title"
+}

@@ -1,0 +1,10 @@
+{
+    "tenantId": "basqa",
+    "windowDetails": {
+        "width": 750,
+        "height": 1200
+    },
+    "productListPage": {
+        "productCounterInitial": "1-4 OF 38"
+    }
+}

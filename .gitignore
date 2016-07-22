@@ -16,3 +16,4 @@ config/config.js
 dist
 .DS_Store
 .vscode
+typings/

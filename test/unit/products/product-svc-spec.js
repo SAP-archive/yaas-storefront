@@ -47,34 +47,4 @@ describe('ProductSvc Test', function () {
         });
     });
 
-    describe('query', function(){
-
-        it('issues GET that returns product array', function () {
-            $httpBackend.expectGET(productsUrl).respond(prodList);
-
-            var products = productSvc.query();
-
-            $httpBackend.flush();
-            expect(products.$object.length).toBeDefined();
-            expect(products.$object.length).toEqual(prodList.length);
-            for (var i = 0, prod; i < products.$object.length; i++) {
-                prod = products.$object[i];
-                expect(prod.name).toEqualData(prodList[i].name);
-            };
-        });
-
-        it('sets accept-language header', function(){
-
-            $httpBackend.expectGET(productsUrl, {"accept-language":acceptLang,"hybris-currency":"USD","Accept":"application/json, text/plain, */*"}).respond(prodList);
-
-            productSvc.query();
-            $httpBackend.flush();
-
-        });
-    });
-
-
-
-
-
 });

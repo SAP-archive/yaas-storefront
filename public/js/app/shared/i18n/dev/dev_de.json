@@ -10,6 +10,15 @@
 
     //XFLD
     //-------------------------------------------------
+    // Global
+    //-------------------------------------------------
+    //XBUT
+    "YES": "Yes",
+    //XBUT
+    "NO": "No",
+
+    //XFLD
+    //-------------------------------------------------
     // Cart
     //-------------------------------------------------
 
@@ -356,6 +365,8 @@
     "PRODUCT_DETAILS": "Produktdetails",
     //XBUT
     "OUT_OF_STOCK": "nicht vorrätig",
+    //XBUT
+    "UNAVAILABLE": "Unavailable",
     //XFLD
     "QTY": "Menge",
     //XMSG
@@ -371,6 +382,9 @@
     "DESCRIPTION_TAB": "Description",
     //XTBS
     "DETAILS_TAB": "Details",
+
+    //XBUT
+    "MORE": "More",
 
     //XFLD
     //-------------------------------------------------
@@ -448,6 +462,10 @@
     "CONFIRM_DELETE_ADDRESS_TITLE": "Delete Address",
     //XMSG
     "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to delete this address?",
+    //XTIT
+    "CONFIRM_ORDER_CANCEL_TITLE": "Cancel Order",
+    //XMSG
+    "CONFIRM_CANCEL_ORDER": "Are you sure you want to cancel your order?",
     //XFLD
     "FULL_NAME": "Vollständiger Name",
     //XFLD
@@ -473,6 +491,10 @@
     //XFLD
     "ORDER_STATUS": "Bestellstatus",
     //XFLD
+    "ORDER_CANCEL": "Cancel Order",
+    //XFLD
+    "ORDER_CANCEL_ERROR": "Cancelation failed, please contact customer service or try again later",
+    //XFLD
     "FAIL_ORDER": "Die Bestellungen sind nicht verfügbar. Versuchen Sie es später noch einmal.",
     //XFLD
     "NO_ORDERS": "Sie haben keine Bestellungen gespeichert",
@@ -485,6 +507,8 @@
     "SHIPPING_DETAILS": "VERSANDDETAILS",
     //XBUT
     "SAVE": "Sichern",
+    //XBUT
+    "SUBMIT": "Submit",
     //XBUT
     "UPDATE_PASSWORD": "Kennwort aktualisieren",
     //XBUT
@@ -669,7 +693,7 @@
     //XSEL
     "CREATED": "Angelegt",
     //XSEL
-    "DECLINED": "Abgelehnt",
+    "DECLINED": "Cancelled",
     //XSEL
     "SHIPPED": "Versendet",
 
@@ -707,7 +731,7 @@
     //XGRP
     "RESULTS": "Ergebnisse",
     //XLNK
-    "SEE_ALL": "Alle anzeigen",
+    "SEE_ALL": "See All Results",
     //XMSG
     "SEARCH_UNAVAILABLE": "Die Suche ist zurzeit nicht verfügbar.",
     //XMSG

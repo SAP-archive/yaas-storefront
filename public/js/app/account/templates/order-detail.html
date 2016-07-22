@@ -68,8 +68,13 @@
         </div>
     </section>
     <section class="mediumgray orderStatusContainer" ng-cloak>
-        <div class="section-headline">
-            <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>
+        <div class="section-headline row">
+            <div class="col-md-10 col-sm-9">
+                <h2>{{'ORDER_STATUS' | translate}} <span class="order-status">- {{order.status | translate}}</span></h2>    
+            </div>
+            <div class="col-md-2 col-sm-3">
+                <button id="cancelOrder" ng-if="showCancelBtn(order)" ng-click="cancelOrder()" class="btn btn-primary cancel-order">{{'ORDER_CANCEL' | translate}}</button>
+            </div>
         </div>
         <div ng-repeat="shipment in order.shipments">
             <div translate="SHIPPED_BY_ON" translate-compile

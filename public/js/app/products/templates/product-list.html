@@ -115,20 +115,24 @@
              on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
 
             <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
-
-                <div class="thumb">
-                    <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
-                </div>
-                <div class="productInfoContainer text-center">
-                    <div class="name">{{ product.product.name }}</div>
-                    <div ng-if="prices[product.product.id].salePrice" class="price">
-                            <span class="price originalPrice"><strike>{{ prices[product.product.id].originalAmount | currency: currencySymbol }}</strike></span>
-                            <span class="price salesPrice">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
-                            <span class="priceUnit salesPrice" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                <div class="productContainer">
+                    <div class="thumb">
+                        <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
                     </div>
-                    <div ng-if="!prices[product.product.id].salePrice" class="price">
-                        <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
-                        <span class="priceUnit" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                    <div class="productInfoContainer text-center">
+                        <div class="name">{{ product.product.name }}</div>
+
+                        <div ng-if="prices[product.product.id]">
+                            <div ng-if="prices[product.product.id].salePrice" class="price">
+                                <span class="price originalPrice"><strike>{{ prices[product.product.id].originalAmount | currency: currencySymbol }}</strike></span>
+                                <span class="price salesPrice">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                                <span class="priceUnit salesPrice" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                            </div>
+                            <div ng-if="!prices[product.product.id].salePrice" class="price">
+                                <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
+                                <span class="priceUnit" ng-if="prices[product.product.id].measurementUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
