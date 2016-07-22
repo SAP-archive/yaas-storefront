@@ -29,7 +29,7 @@ angular.module('ds.products')
             $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
             $scope.productMixinsDefinitions = product.product.metadata.mixins;
                         
-            $scope.product = productFactory.fromProduct(product.product, variants.length > 0 ? [] : product.prices);
+            $scope.product = productFactory.fromProduct(product.product, product.prices, variants.length === 0);
             $scope.variants = variants;
 
             $scope.shippingZones = shippingZones;
@@ -158,11 +158,11 @@ angular.module('ds.products')
             }
 
             $scope.onActiveVariantChanged = function (activeVariant) {
-                if (_.isObject(activeVariant) && activeVariant.media.length > 0) {
+                if (_.isObject(activeVariant)) {
                     var prices = filterPricesForVariant(activeVariant.id);
-                    $scope.product = productFactory.fromVariant(activeVariant, product.product, prices);
+                    $scope.product = productFactory.fromProductVariant(product.product, activeVariant, prices);
                 } else {
-                    $scope.product = productFactory.fromProduct(product.product, []);
+                    $scope.product = productFactory.fromProduct(product.product, product.prices, false);
                 }
             };
 }]);
