@@ -59,7 +59,7 @@
                                 <div class="col-md-8 col-md-offset-2 custom-select-container">
                                     <div class="form-group input-group qty">
                                         <label class="input-group-addon control-label" for="qty">{{'QTY' | translate}}: </label>
-                                        <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity" ng-model="productDetailQty"
+                                        <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity" ng-model="$parent.productDetailQty"
                                             ng-change="changeQty(event)">
                                     </div>
                                 </div>
