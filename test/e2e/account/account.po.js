@@ -28,7 +28,7 @@ var AccountPageObject = function () {
             newPassword: element(by.id('newPassword')),
             newPasswordConfirm: element(by.id('confirmNewPassword')),
             newEmail: element(by.id('newEmail')),
-            newEmailPassword: element(by.id('password')),
+            newEmailPassword: element(by.id('password'))
         }
     };
 
@@ -45,7 +45,7 @@ var AccountPageObject = function () {
             updateToNewPassword: element(by.id('update-password-btn')),
             passwordUpdateModalClose: element(by.id('passwordUpdate-close')),
             updateEmail: element(by.id('update-email')),
-            saveEmail: element(by.id('save-btn')),
+            saveEmail: element(by.id('save-btn'))
         },
         address: {
             add: element(by.id('add-address-btn')),
@@ -251,8 +251,8 @@ var AccountPageObject = function () {
             buttons.accountDetails.saveEmail.click();
         },
 
-        verifyCheckEmailModal: function() {
-            expect(textDisplays.checkEmailModal.isPresent()).toBe(true);
+        isCheckEmailModalPresent: function() {
+            return textDisplays.checkEmailModal.isPresent();
         },
 
         closeCheckEmailModal: function () {
