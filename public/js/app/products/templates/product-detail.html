@@ -55,8 +55,8 @@
                         <form action="" class="cartPanel" ng-show="product.prices[0] && product.inStock">
 
                             <!-- product quantity -->
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
+                            <div class="row product-options">
+                                <div class="col-md-8 col-md-offset-2 custom-select-container">
                                     <div class="form-group input-group qty">
                                         <label class="input-group-addon control-label" for="qty">{{'QTY' | translate}}: </label>
                                         <input quantity-input type="number" id="qty" min="1" step="1" pattern="\d*" class="form-control quantity" ng-model="productDetailQty"
@@ -68,7 +68,7 @@
                             <div class="row">
 
                                 <!-- error notification -->
-                                <div ng-if="error" class="col-md-12 col-lg-12">
+                                <div ng-if="error" class="col-md-8 col-md-offset-2">
                                     <div class="error">
                                         <small class="help-inline has-error">
                                             {{'ERROR_ADDING_TO_CART' | translate}}
@@ -77,29 +77,32 @@
                                 </div>
 
                                 <!-- add to cart -->
-                                <div class="col-md-12 col-lg-12 buyButton">
-                                    <button id="buy-button" class="btn btn-primary " ng-click="addToCartFromDetailPage()"
+                                <div class="col-md-8 col-md-offset-2">
+                                    <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                         ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 </div>
 
                                 <!-- shipping rates -->
-                                <div class="col-xs-12 shipping-rate" ng-if="!noShippingRates">
+                                <div class="col-md-8 col-md-offset-2 shipping-rate" ng-if="!noShippingRates">
                                     <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>
                                 </div>
                             </div>
                         </form>
 
+                        <!-- unavialable button -->
                         <div class="row" ng-if="!product.prices[0]">
-                            <div class="col-md-12 col-lg-12 buyButton">
-                                <button id="out-of-stock-btn" class="btn btn-default" disabled>{{'UNAVAILABLE' | translate}}</button>
+                            <div class="col-md-8 col-md-offset-2">
+                                <button id="out-of-stock-btn" class="btn btn-default btn-block buyButton" disabled>{{'UNAVAILABLE' | translate}}</button>
                             </div>
                         </div>
 
+                        <!-- out of stock button -->
                         <div class="row" ng-if="product.prices[0] && !product.inStock">
-                            <div class="col-md-12 col-lg-12 buyButton">
-                                <button id="out-of-stock-btn" class="btn btn-default" disabled>{{'OUT_OF_STOCK' | translate}}</button>
+                            <div class="col-md-8 col-md-offset-2">
+                                <button id="out-of-stock-btn" class="btn btn-default btn-block buyButton" disabled>{{'OUT_OF_STOCK' | translate}}</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
