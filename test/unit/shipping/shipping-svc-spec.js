@@ -78,21 +78,9 @@ describe('ShippingSvc', function() {
             $httpBackend.flush();
         });
 
-        it('should issue GET shipping costs', function () {
-            $httpBackend.expectGET(baseUrl + '/US/zones?activeMethods=true&expand=methods').respond([]);
-            shippingSvc.getShipToCountries();
-            $httpBackend.flush();
-        });
-
         it('should issue POST shipping costs', function () {
             $httpBackend.expectPOST(baseUrl + '/US/quote').respond({});
             shippingSvc.getShippingCosts(item);
-            $httpBackend.flush();
-        });
-
-        it('should issue POST shippint cost min', function () {
-            $httpBackend.expectPOST(baseUrl + '/US/quote/minimum').respond({});
-            shippingSvc.getMinimumShippingCost(item);
             $httpBackend.flush();
         });
 
@@ -126,6 +114,24 @@ describe('ShippingSvc', function() {
 
 
         });
+
+        describe('getShipToCountries', function () {
+
+            it('should correctly return the ship to countries', function() {
+                expect(shippingSvc.getShipToCountries([{shipTo: ['US', 'MX']}, {shipTo: ['CA']}])).toEqual([ 'US', 'MX', 'CA' ]);
+            });
+
+        })
+
+        describe('getMinimumShippingCost', function () {
+
+            it('should correctly return minimum shipping cost', function() {
+                var shippingCosts = [{methods:[{fee: {amount:8.6,currency:'USD'},id:'fedex-2dayground',name:'FedEx 2Day'},{fee: {amount:8.76,currency:'USD'},id:'ups-standard',name:'UPS Standard'}],
+                    zone: {id:'us',name:'USA'}}];
+                expect(shippingSvc.getMinimumShippingCost(shippingCosts)).toEqual({fee:{ amount:8.6,currency:'USD'},id:'fedex-2dayground',name:'FedEx 2Day',zoneId:'us'});
+            });
+
+        })
 
     });
 

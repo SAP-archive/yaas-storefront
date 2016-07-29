@@ -219,6 +219,12 @@
           float: none;
       }
   }
+
+  .cancel-order {
+      @media screen and (max-width: @screen-xs-max) {
+          width: 100%;
+      }
+  }
   
   .desktopUserInfo{
     margin-top: 40px;
@@ -229,6 +235,9 @@
 	  border-top: 1px solid #e5e5e5;
 	  padding-top: 30px;
 	  padding-bottom: 75px;
+      a {
+        cursor: pointer;
+      }
   }
   
   .desktopUserInfo.userInfoRow{
@@ -277,21 +286,23 @@
 
 
   }
+  .panel{
+    height: 183px;
+  }
 }
 
 .default-address .contactName{
   font-weight: bold;
 }
-
+.addresses div[address-decorator] > div:not(.disableAddress){
+  cursor: pointer;
+}
 .disableAddress {
-    background-color: lightgrey;
-  }
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
 .default-address .defaultLabel{
 	color:#016aab;
-}
-.panel{
-  height: 183px;
-  
 }
 
 .panel.defaultAddress{

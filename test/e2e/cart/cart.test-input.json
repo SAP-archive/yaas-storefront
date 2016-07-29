@@ -1,0 +1,66 @@
+{
+    "products":{
+        "whiteCoffeeMug": {
+            "id": "55d76ce63a0eafb30e5540c8",
+            "one": {
+                "itemPriceUS": "$10.67",
+                "totalPriceUS": "$20.62",
+                "totalPriceDE": "€12.99",
+                "itemPriceUSWithTax": "$13.47"
+            },
+
+            "two": {
+                "totalPriceUS": "$32.04"
+            },
+            "five": {
+                "totalPriceUS": "$59.11"
+            },
+            "ten": {
+                "totalPriceUS": "$116.19"
+            }
+        },
+        "blackCoffeeMug": {
+            "id": "55d76cec264ebd7a318c236c"
+        },
+        "whiteThermos": {
+            "id": "55d76cf53a0eafb30e5540cc",
+             "one": {
+                "itemPriceUS": "$10.67",
+                "totalPriceUS": "$36.66"
+            }
+        }
+    }, 
+    "taxCodes": {
+        "US": {
+            "countryCode": "US",
+            "taxZipCode": "98101"
+        }
+    },
+
+    "cartMessages": {
+        "EMPTY": {
+            "EN": "YOUR CART IS EMPTY",
+            "DE": "IHR WARENKORB IST LEER"
+        } 
+    },
+
+    "users": {
+        "cartUser": {
+            "username": "cart@hybristest.com",
+            "password": "password"
+        }
+    },
+
+    "cartNote": "The item should be gift wrapped",
+
+    "sites": {
+        "SushiGermany": {
+            "siteName": "Sushi Demo Store Germany",
+            "mode": "Desktop"
+        },
+        "Avalara": {
+            "siteName": "Avalara",
+            "mode": "Desktop"
+        }
+    }
+}

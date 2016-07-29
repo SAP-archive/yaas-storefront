@@ -1,5 +1,5 @@
 var fs = require('fs');
-var tu = require('./protractor-utils.js');
+var tu = require('../utils/protractor-utils.js');
 var _ = require('underscore');
 
 exports.whiteCoffeeMug = "//a[contains(@href, '/products/55d76ce63a0eafb30e5540c8/')]";
@@ -178,8 +178,7 @@ exports.switchSite = function (site) {
             _.each(items, function (item) {
                 if (item.currSite == site) {
                     sites.get(item.index).click();
-                }
-                ;
+                };
             })
         });
     //element.all(by.xpath('//*[@id="siteSelectorLarge"]/div/div/div/div/div/div[1]/ul/li')).each(function (currSite) {
@@ -233,7 +232,7 @@ exports.loadProductIntoCart = function (cartAmount, cartTotal, verify) {
         tu.verifyCartAmount(cartAmount);
         tu.verifyCartTotal(cartTotal);
     }
-}
+};
 
 //country is populated from localized-addresses.js
 exports.populateAddress = function (country, contact, street, aptNumber, city, state, zip, phone) {
@@ -299,7 +298,7 @@ exports.fillCreditCardForm = function (ccNumber, ccMonth, ccYear, cvcNumber) {
 };
 
 
-exports.verifyOrderConfirmation = function (account, name, number, cityStateZip, price) {
+exports.verifyOrderConfirmation = function (account, name, number, cityStateZip, price, mobile) {
     var email = account.toLowerCase();
     browser.wait(function () {
         return element(by.css('address > span.ng-binding')).isPresent();
@@ -309,7 +308,14 @@ exports.verifyOrderConfirmation = function (account, name, number, cityStateZip,
     expect(element(by.binding('confirmationDetails.shippingAddressName')).getText()).toContain(name);
     expect(element(by.binding('confirmationDetails.shippingAddressStreetLine1')).getText()).toContain(number);
     expect(element(by.binding('confirmationDetails.shippingAddressCityStateZip')).getText()).toContain(cityStateZip);
-    expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
+
+    if (mobile) {
+        //expect(element(by.binding('entry.totalPrice')).getText()).toEqual(price);
+        expect(element(by.css('td.text-left.product-details-mobile > div:nth-child(5) > strong')).getText()).toEqual(price);
+    }
+    else {
+        expect(element(by.binding('confirmationDetails.totalPrice')).getText()).toEqual(price);
+    }
 };
 
 exports.removeItemFromCart = function () {

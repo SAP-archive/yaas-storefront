@@ -22,11 +22,11 @@
                 
                 <h2 ng-if="!isAuthenticated" class="orderNumber">{{'ORDER' | translate}}# {{ orderInfo.orderId }}</h2>
 
-                <div translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
+                <div id="confirmation-success-message" translate="A_COPY_OF_YOUR_ORDER_DETAILS_HAS_BEEN_SENT_TO" translate-compile translate-values="{emailAddress: '{{confirmationDetails.emailAddress}}'}" class="orderEmailedTo"></div>
 
                 <div>
                     <p>{{'THE_SHIPMENT_IS_SCHEDULED_TO_ARRIVE_AT_THE_FOLLOWING_LOCATION' | translate}}:</p>
-                    <address>
+                    <address id="shipment-destination">
                         <span ng-cloak>{{confirmationDetails.shippingAddressName}}<br></span>
                         <span ng-if="confirmationDetails.shippingAddressCompanyName" ng-cloak>{{confirmationDetails.shippingAddressCompanyName}}<br></span>
                         <span ng-cloak>{{confirmationDetails.shippingAddressStreetLine1}}</span>
@@ -117,9 +117,8 @@
                             <!-- g+ login -->
                             <div class="col-md-6 col-sm-6">
                                 <div ng-if="googleClientId"  class="googlePlusLogin ">
-                                    <div class="googleSignIn">
-                                        <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE_PLUS' | translate}}</div>
-                                        <google-plus-signin clientid="{{googleClientId}}" approvalprompt="force"></google-plus-signin>
+                                    <div class="googleSignIn" ng-click="googleLogin()">
+                                        <div class="googleSignInLabel">{{'LOG_IN_WITH_GOOGLE' | translate}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +158,10 @@
                         </a></td>
                         <td>{{entry.product.name}}</td>
                         <td>{{entry.product.sku}}</td>
-                        <td class="text-right">{{entry.unitPrice | currency: currencySymbol}}</td>
+                        <td class="text-right">
+                            <span>{{entry.unitPrice | currency: currencySymbol}}</span>
+                            <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>
+                        </td>
                         <td class="text-center">{{entry.amount}}</td>
                         <td class="text-right"><strong>{{entry.totalPrice |currency: currencySymbol}}</strong></td>
                         <td class="margin-cell"></td>
@@ -182,7 +184,7 @@
                                 <tr ng-if="confirmationDetails.discountAmount != 0">
                                     <td class="text-left">{{'DISCOUNT' | translate}}</td>
                                     <td class="text-right">
-                                        <span class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
+                                        <span id="discount-amount" class="error">-{{confirmationDetails.discountAmount | currency: currencySymbol}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-repeat="taxLine in confirmationDetails.tax.lines" ng-show="confirmationDetails.tax.lines.length && !confirmationDetails.tax.total.inclusive">
@@ -196,7 +198,7 @@
                                 <tfoot>
                                 <tr class="order-total">
                                     <td class="text-left">{{'ORDER_TOTAL' | translate}}</td>
-                                    <td class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
+                                    <td id="confirmation-totalPrice" class="text-right">{{ confirmationDetails.totalPrice | currency: currencySymbol}}</td>
                                 <tr>
                                                         
                                 </tfoot>
@@ -213,11 +215,14 @@
                             </a>
                         </td>
                         <td colspan="7" class="text-left product-details-mobile">
-                            {{entry.product.name}} <br>
-                            {{'SKU' | translate}}: {{entry.product.sku}} <br>
-                            {{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}} <br>
-                            {{'QTY' | translate}}: {{entry.amount}} <br>
-                            <strong>{{'TOTAL_PRICE' | translate}}: {{entry.totalPrice |currency: currencySymbol}}</strong>
+                            <div>{{entry.product.name}}</div>
+                            <div>{{'SKU' | translate}}: {{entry.product.sku}}</div>
+                            <div>
+                                <span>{{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}}</span>
+                                <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>
+                            </div>
+                            <div>{{'QTY' | translate}}: {{entry.amount}}</div>
+                            <div><strong>{{'TOTAL_PRICE' | translate}}: {{entry.totalPrice |currency: currencySymbol}}</strong></div>
                         </td>
                     </tr>
                     <tr class="summary-row visible-sm visible-xs">

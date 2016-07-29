@@ -1,0 +1,99 @@
+{
+    "users": {
+        "bad": {
+            "username": "bad@bad.com",
+            "email": "bad@bad.com",
+            "name":"bad",
+            "password": "bad"
+        },
+
+        "addressTest": {
+            "name": "addresstest",
+            "password": "password",
+            "address1": {
+                "countryAcronym": "US",
+                "country": "United States",
+                "contactName": "Address Test",
+                "street": "123 fake place",
+                "aptNumber": "apt 419",
+                "city": "Boulder",
+                "state": "CO",
+                "zipCode": "80301",
+                "cityStateZipCode": "Boulder, CO 80301",
+                "contactPhone": "303-303-3333"
+            },
+            "address2": {
+                "countryAcronym": "CA",
+                "country": "Canada",
+                "contactName": "2nd Test",
+                "street": "321 phony street",
+                "aptNumber": "apt 420",
+                "city": "Toronto",
+                "state": "ON",
+                "zipCode": "M4M 1H7",
+                "cityStateZipCode": "Toronto, ON M4M 1H7",
+                "contactPhone": "720-555-1234"
+            }
+        },
+
+        "cool": {
+            "username": "cool@cool.com",
+            "newEmail": "cool_new@yaastest.com",
+            "password": "coolio",
+            "name": {
+                "full": "Joe C Cool",
+                "first": "Joe",
+                "middle": "C",
+                "last": "Cool"
+            },
+
+            "alternateName": {
+                "full": "first middle last",
+                "first": "first",
+                "middle": "middle",
+                "last": "last"
+            }
+        }
+    },
+
+    "passwordTestVectors": {
+        "vector1": {
+            "current": "incorrect",
+            "new": "notnew",
+            "confirm": "notnew"
+        },
+        "vector2": {
+            "current": "coolio",
+            "new": "123",
+            "confirm": "123"
+        },
+        "vector3": {
+            "current": "coolio",
+            "new": "incorrect1",
+            "confirm": "incorrect2"
+        },
+        "vector4": {
+            "current": "coolio",
+            "new": "password",
+            "confirm": "password"
+        },
+        "vector5": {
+            "current": "password",
+            "new": "coolio",
+            "confirm": "coolio"
+        }
+    },
+
+    "errorMessages": {
+        "INVALIDUSER": {
+            "EN": "You entered an invalid email or password."
+        },
+        "WEAKPASSWORD": {
+            "EN": "Password invalid - minimum of 6 characters required."
+        },
+
+        "WRONGPASSWORD": {
+            "EN": "Please provide correct current password!"
+        }
+    }
+}

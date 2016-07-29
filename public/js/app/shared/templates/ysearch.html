@@ -20,8 +20,9 @@
                 </div>
             </a>
             <a class=" y-search-count text-center" ng-click="hideSearchResults()"
-               ui-sref="base.search({ searchString:search.text })">{{'SEE_ALL' | translate}} {{search.numberOfHits}}
-                {{'RESULTS' | translate}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+               ui-sref="base.search({ searchString:search.text })">{{'SEE_ALL' | translate}} ({{search.numberOfHits}})
+               <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            </a>
         </div>
         <div class="y-search-container y-search-unavailable" ng-if="search.showSearchResults && search.searchError">
             <div class="y-search-unavailable-text">{{'SEARCH_UNAVAILABLE' | translate}}</div>

@@ -1,5 +1,5 @@
 var fs = require('fs');
-var tu = require('./protractor-utils.js');
+var tu = require('../utils/protractor-utils.js');
 
 
 describe('product page', function () {
@@ -170,11 +170,10 @@ describe('product page', function () {
                 return element(by.css('.col-xs-6 #search')).isPresent();
             });
             browser.sleep(5000);
-            tu.sendKeys('css', '.col-xs-6 #search', 'beer');
+            tu.sendKeys('css', '.col-xs-6 #search', 'beer helles');
             expect(element(by.repeater('result in search.results').row(0)).getText()).toContain('Beer Mug w/Helles');
-            expect(element(by.repeater('result in search.results').row(1)).getText()).toContain('Beer Mug');
-            element(by.repeater('result in search.results').row(1)).click();
-            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual("Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days.");
+            element(by.repeater('result in search.results').row(0)).click();
+            expect(element(by.binding(tu.productDescriptionBind)).getText()).toEqual('Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company\'s first days. Comes with a traditional bavarian Helles from Augustiner Brau.');
         });
 
         it('not return search results', function () {
@@ -200,5 +199,5 @@ describe('product page', function () {
         });
 
     });
-}); 
+});
 

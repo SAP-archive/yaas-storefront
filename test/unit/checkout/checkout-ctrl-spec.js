@@ -1,7 +1,7 @@
 describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd, cartDfd,
-        $modal, mockedModal, shippingZones, shippingCountries, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
+        $modal, mockedModal, shippingZones, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
     var GlobalData = {
@@ -67,7 +67,6 @@ describe('CheckoutCtrl', function () {
         order.billTo = {};
         cart = {};
         order.creditCard = {};
-        shippingCountries = ['CA', 'US'];
         mockedCheckoutSvc =  {
             ERROR_TYPES: ERROR_TYPES
         };
@@ -96,7 +95,6 @@ describe('CheckoutCtrl', function () {
         $provide.value('cart', cart);
         $provide.value('order', order);
         $provide.value('shippingZones', shippingZones);
-        $provide.value('shippingCountries', shippingCountries);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
     }));
@@ -131,6 +129,10 @@ describe('CheckoutCtrl', function () {
 
         mockedShippingSvc.getMinimumShippingCost = jasmine.createSpy('shipping').andCallFake(function() {
             return shippingDfd.promise;
+        });
+
+        mockedShippingSvc.getShipToCountries = jasmine.createSpy('getShipToCountries').andCallFake(function() {
+            return ['US', 'CA'];
         });
 
         mockedShippingSvc.isShippingConfigured = jasmine.createSpy('isShippingConfigured').andReturn(true);

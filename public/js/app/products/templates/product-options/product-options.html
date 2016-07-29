@@ -1,0 +1,18 @@
+<div ng-repeat="option in options">
+    <div class="row product-options">
+        <div class="col-md-8 col-md-offset-2 custom-select-container">
+            <div class="form-group input-group">
+                <label class="input-group-addon control-label">{{option.attributeKey}}</label>
+                <ui-select ng-model="optionsSelected[$index]" on-select="resolveActiveVariantAndUpdateOptions()">
+                    <ui-select-match ng-click="omitSelectionAndUpdateOptions($index)" placeholder="{{'SELECT' | translate}}">
+                        {{$select.selected.value}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="attribute in option.attributes" ui-disable-choice="attribute.disabled">
+                        {{attribute.value}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>

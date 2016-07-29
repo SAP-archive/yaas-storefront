@@ -28,6 +28,7 @@
                     for (var i = 0; i < images.length; i++) {
                         if (images[i].className.indexOf('product-image') > -1) {
                             images[i].style.transform = 'translateX(' + i * 100 + '%)';
+                            images[i].style.width = '100%';
                         }
                     }
                 };
@@ -64,6 +65,7 @@
                 scope.enlargeImage = function () {
                     var image = elem[0].querySelector('.product-images').children[scope.currentIndex];
                     image.style.transform = 'translateX(0)';
+                    image.style.width = 'inherit';
                     if (image.requestFullscreen) {
                         image.requestFullscreen();
                     } else if (image.msRequestFullscreen) {
@@ -75,8 +77,10 @@
                     }
                 };
 
-                $timeout(positionImages, 0);
-                $timeout(positionMobileThumbs, 0);
+                scope.$watchCollection('images', function(){
+                    $timeout(positionImages, 0);
+                    $timeout(positionMobileThumbs, 0);
+                });
             }
 
 

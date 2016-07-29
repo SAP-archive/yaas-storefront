@@ -39,6 +39,19 @@ describe('CartSvc Test', function () {
             currency: 'USD'
         }]
     };
+
+    var prod2Id = '2466';
+    var prod2 = {
+        product: {
+            id: prod2Id,
+        },
+        prices: [{
+            effectiveAmount: 6.00,
+            currency: 'USD',
+            measurementUnit: {unitCode: 'kg', quantity: 250}
+        }]
+    };
+
     var itemId = '0';
     var productIdFromCart = '540751ee394edbc101ff20f5';
     var mockedAccountSvc = {};
@@ -131,6 +144,7 @@ describe('CartSvc Test', function () {
     });
 
     describe('addProductToCart - new cart', function () {
+
         it('should create new cart, create cart item and GET new cart', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
@@ -138,8 +152,7 @@ describe('CartSvc Test', function () {
 
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {
                 "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2
-            })
-                .respond(201, {});
+            }).respond(201, {});
 
             var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             var successSpy = jasmine.createSpy();
@@ -150,6 +163,15 @@ describe('CartSvc Test', function () {
 
             expect(successSpy).wasCalled();
         });
+
+        it('should return the units of measurement for a product for which measurement makes sense.', function () {
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {
+                "product": {"id": "2466"},"price": {"effectiveAmount": 6,"currency": "USD","measurementUnit": {"unit": "kg","quantity": 250}},"quantity": 1
+            }).respond(201, {});
+
+            cartSvc.addProductToCart(prod2.product, prod2.prices, 1, {});
+        });
+
 
         it('should return failing promise if cart POST fails', function () {
             mockBackend.expectPOST(cartUrl).respond(500, {});

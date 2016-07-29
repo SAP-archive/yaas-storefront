@@ -76,7 +76,7 @@ angular.module('ds.shared')
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/hybris/product/v1/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/hybris/product/v2/' + tenantId,
                     pageSize: 10
                 },
 

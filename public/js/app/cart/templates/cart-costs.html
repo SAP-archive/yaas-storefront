@@ -27,7 +27,7 @@
         <!-- discount -->
         <tr ng-if="cart.discounts.length" >
             <td>{{'DISCOUNT' | translate}}</td>
-            <td class="text-right">
+            <td class="discount text-right">
                 <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
             </td>
         </tr>
@@ -46,7 +46,7 @@
         <!-- tax estimator -->
         <tr ng-show="!!taxType && taxType !== 'FLATRATE'" >
             <td class="estimate-tax-link" colspan="2">
-                <a href="" ng-click="showTaxEstimation=!showTaxEstimation">
+                <a id="tax-estimation-link" href="" ng-click="showTaxEstimation=!showTaxEstimation">
                     {{'ESTIMATE_TAX'|translate}}
                     <span ng-show="!showTaxEstimation" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                     <span ng-show="showTaxEstimation" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
@@ -97,7 +97,7 @@
 
         <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'" >
             <td>{{'TAX' | translate}}</td>
-            <td class="text-right">
+            <td id="total-tax" class="text-right">
                 {{cart.totalTax.amount | currency: currencySymbol}}
             </td>
         </tr>

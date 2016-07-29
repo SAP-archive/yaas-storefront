@@ -1,0 +1,21 @@
+<div class="modal-header" ng-cloak>
+    <button type="button" class="close" ng-click="closeCancelOrderDialog()" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">{{'CLOSE' | translate}}</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">{{'CONFIRM_ORDER_CANCEL_TITLE' | translate}}</h4>
+</div>
+<div class="modal-body" stop-event="touchend">
+    <div class="row">
+        <div class="col-xs-12">
+            {{'CONFIRM_CANCEL_ORDER'|translate}}
+        </div>
+    </div>
+    <div ng-if="orderCancelError" class="row error">
+        {{orderCancelError}}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" ng-click="closeCancelOrderDialog()" id="cancel-order-cancel-btn" class="btn btn-secondary btn-lg">{{'NO' | translate}}</button>
+    <button type="button" ng-click="cancelOrder()" id="confirm-order-cancel-btn" class="btn btn-primary btn-lg">{{'YES' | translate}}</button>
+</div>

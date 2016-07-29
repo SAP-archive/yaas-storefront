@@ -43,6 +43,10 @@
     
     .taxMessage{
       margin: 0 0 20px 0;
+      word-wrap: break-word;
+      a {
+        text-transform: lowercase;
+      }
     }
 
     .quantity{
@@ -54,6 +58,39 @@
       button{
         padding: 14px 89px;
       }
+    }
+
+    .product-options{
+
+      .input-group{
+        width: 100% !important;
+        height: 48px;
+        border-left-width: 0;
+        padding: 0;
+        box-shadow: 0 0 0;
+      }
+
+      .input-group-addon{
+        min-width: 100px;
+        text-align: left;
+        text-transform: uppercase;
+        padding:15px;
+      }
+      
+      .form-control{
+        height: 48px;
+        font-weight: bold;
+      }
+
+      .ui-select-placeholder{
+        opacity: .5;
+        font-weight: normal;
+      }
+
+      .quantity{
+        width: 100%;
+      }
+
     }
 
     .cartPanel{
@@ -147,6 +184,10 @@
       color: #5b5b5b;
     }
 
+  }
+  
+  .product-extension-item {
+    padding: 10px;
   }
 }
 

@@ -63,7 +63,7 @@
                             <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                          <p><strong>{{m_order.status}}</strong></p>
+                          <p><strong>{{m_order.status | translate}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -83,12 +83,12 @@
             </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="xrder in orders | limitTo: showOrdersFilter ">
-                  <td>{{xrder.created | date: 'medium'}}</td>
-                  <td><a ui-sref="base.orderDetail({orderId: xrder.id})">{{xrder.id}}</a></td>
-                  <td>{{xrder.entries|sumByKey:'amount'|showNoOfItems}}</td>
-                  <td>{{xrder.totalPrice | currency: xrder.currencySymbol}}</td>
-                  <td><strong>{{xrder.status}}</strong></td>
+              <tr ng-repeat="orderRow in orders | limitTo: showOrdersFilter ">
+                  <td>{{orderRow.created | date: 'medium'}}</td>
+                  <td><a ui-sref="base.orderDetail({orderId: orderRow.id})">{{orderRow.id}}</a></td>
+                  <td>{{orderRow.entries|sumByKey:'amount'|showNoOfItems}}</td>
+                  <td>{{orderRow.totalPrice | currency: orderRow.currencySymbol}}</td>
+                  <td><strong>{{orderRow.status | translate}}</strong></td>
               </tr>
           </tbody>
         </table>

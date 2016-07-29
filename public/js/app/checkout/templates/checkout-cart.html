@@ -16,7 +16,7 @@
                         <div ng-cloak>
                             <span ng-if="cart.totalUnitsCount > 1">{{'TOTAL' | translate}} ({{cart.totalUnitsCount}} {{'ITEMS' | translate}}) </span>
                             <span ng-if="cart.totalUnitsCount <= 1">{{'TOTAL' | translate}} ({{cart.totalUnitsCount}} {{'ITEM' | translate}}) </span>
-                            <span>{{cart.totalPrice.amount | currency: currencySymbol}}</span>
+                            <span class="cart-totalPrice">{{cart.totalPrice.amount | currency: currencySymbol}}</span>
                         </div>
                     </th>
                     <th class="text-right item-price-col">{{'ITEM_PRICE' | translate}}:</th>
@@ -32,8 +32,8 @@
                         </a>
                     </td>
                     <td>{{item.product.name}}</td>
-                    <td class="text-right">{{item.price.effectiveAmount | currency: currencySymbol}}</td>
-                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-right item-effectiveAmount">{{item.price.effectiveAmount | currency: currencySymbol}}  <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span></td>
+                    <td class="text-center item-quantity">{{ item.quantity }}</td>
                     <td class="text-right"><strong>{{ (item.itemPrice.amount) | currency: currencySymbol}}</strong></td>
                     <td></td>
                 </tr>
@@ -49,7 +49,7 @@
                     </td>
                     <td class="text-left mobile-cart-item-details">
                         {{item.product.name}} <br>
-                        {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <br>
+                        {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span> <br>
                         {{'QTY' | translate}}:{{ item.quantity }} <br>
                         <strong>{{'TOTAL_PRICE' | translate}}: {{ (item.itemPrice.amount) | currency: currencySymbol}}</strong>
                     </td>
@@ -72,7 +72,7 @@
                     <tr ng-if="cart.totalDiscount.amount > 0">
                         <td class="text-left">{{'DISCOUNT' | translate}}</td>
                         <td class="text-right">
-                            <span class="error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
+                            <span class="cart-totalDiscount error">-{{cart.totalDiscount.amount | currency: currencySymbol}}</span>
                         </td>
                     </tr>
                     <tr>

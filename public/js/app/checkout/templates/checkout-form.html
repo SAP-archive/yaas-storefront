@@ -85,7 +85,7 @@
         
         <localized-addresses type="shipping"></localized-addresses>
         <div class="col-lg-12">
-            <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
+            <button id="continue-to-billing" class="btn btn-primary btn-lg btn-block visible-sm visible-xs"
             ng-click="shipToDone(shipToForm.$valid, shipToForm.$name, shipToForm.country.$viewValue.id)">{{'CONTINUE' | translate}} <span
             class="hyicon hyicon-chevron-thin-right"></span></button>
         </div>
@@ -112,7 +112,7 @@
                 <label>
                     <input type="checkbox" id="shipTo" ng-model="shipToSameAsBillTo" ng-change="toggleBillToSameAsShipTo()">
                     <span class="option">{{'SAME_AS_SHIPPING_ADDRESS' | translate}}</span>
-                    <span class="adress" ng-show="shipToSameAsBillTo">{{ order.shipTo.address1 }}</span>
+                    <span id="order-shipTo-address1" class="adress" ng-show="shipToSameAsBillTo">{{ order.shipTo.address1 }}</span>
                 </label>
             </div>
         </div>
@@ -136,7 +136,7 @@
             </div>
         </div>
     <div class="col-lg-12">
-        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
+        <button id="continue-to-payment-method" class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="billToDone(billToForm.$valid, billToForm.$name)">{{'CONTINUE' | translate}} <span
         class="hyicon hyicon-chevron-thin-right"></span></button>
     </div>
 </div>
@@ -252,7 +252,7 @@
         </div>
     </div>
     <div class="col-xs-12">
-        <button class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">{{'CONTINUE' | translate}} <span
+        <button id="mobile-place-order-btn" class="btn btn-primary btn-lg btn-block visible-sm visible-xs" ng-click="paymentDone(paymentForm.$valid, paymentForm.$name)" type="submit">{{'CONTINUE' | translate}} <span
         class="hyicon hyicon-chevron-thin-right"></span></button>
     </div>
 </div>
