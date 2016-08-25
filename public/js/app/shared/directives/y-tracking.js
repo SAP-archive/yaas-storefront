@@ -14,12 +14,50 @@
 
 angular.module('ds.ytracking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
-    .directive('ytracking', ['ytrackingSvc', '$rootScope', '$document',
-        function (ytrackingSvc, $rootScope, $document) {
+    .directive('ytracking', ['ytrackingSvc', '$rootScope', '$document', '$timeout',
+        function (ytrackingSvc, $rootScope, $document, $timeout) {
             return {
                 restrict: 'A',
                 compile: function () {
 
+                    //experiment paste
+                               //<![CDATA[
+            $timeout( function(){Y_TRACKING.init('saphybrisprofile',
+                    'g3lsH1NuLVSNYeLelF9sp2hLOVbEkQW4',
+                    'http://example.com',
+                    function () {
+                        // site config
+                        return "https://api.yaas.io/hybris/media/v2/public/files/57beda8aa4b777001db6a304";
+                    },
+                    function () {
+                        // page selection
+                        
+                        return 1;
+                    },
+                    function () {
+                        // custom functions
+                        return {
+                            getValueFromObject: function(object, key) {
+                                if (object !== undefined)
+                                {
+                                    return object.key;
+                                }
+                            }
+                        };
+                    }
+
+
+            );
+    }, 1000); 
+
+            //alert('PowerTag Script has been loaded');
+
+            //]]>
+                    
+                    
+                    
+                    
+                    
                     //Init tracking
                     ytrackingSvc.init();
 
