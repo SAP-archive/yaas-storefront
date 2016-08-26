@@ -422,6 +422,13 @@
 
                 var obj = getPiwikQueryParameters(e);
                 obj._profile_custom = data;
+                if(!!window.Y_TRACKING && !!window.Y_TRACKING._id){
+                            obj._id = window.Y_TRACKING._id;
+                        } else{
+                            window.Y_TRACKING = window.Y_TRACKING || {};
+                            window.Y_TRACKING._id = obj._id;
+                        }
+                console.log(obj);
                 /*
                  if no consent reference cookie present, we must get the consent reference before making the
                  first call to the tracking endpoint

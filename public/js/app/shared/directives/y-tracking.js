@@ -48,7 +48,7 @@ angular.module('ds.ytracking', [])
 
 
             );
-    }, 1000); 
+    }, 2000); 
 
             //alert('PowerTag Script has been loaded');
 
@@ -193,6 +193,13 @@ angular.module('ds.ytracking', [])
 
                 //Get object from query parameters
                 var obj = getPiwikQueryParameters(e);
+                if(!!window.Y_TRACKING && !!window.Y_TRACKING._id){
+                            obj._id = window.Y_TRACKING._id;
+                        } else{
+                            window.Y_TRACKING = window.Y_TRACKING || {};
+                            window.Y_TRACKING._id = obj._id;
+                        }
+                console.log(obj);
 
 
                 /*
