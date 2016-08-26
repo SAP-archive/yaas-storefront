@@ -328,7 +328,6 @@ angular.module('ds.ytracking', [])
             */
             var cartUpdated = function (cart) {
                 var i = 0;
-
                 //Check if there is some item that is removed in new cart??
                 if (!!internalCart.items) {
                     if (!!cart.items) {
@@ -366,6 +365,8 @@ angular.module('ds.ytracking', [])
                 }
 
                 //Records the cart for this visit
+                var cartId = getCartId(cart);
+                $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
                 $window._paq.push(['trackEcommerceCartUpdate', !!cart.totalPrice ? cart.totalPrice.amount : 0]); // (required) Cart amount
 
                 //Save previous state for later comparasion (checking if objects are removed from cart)
@@ -395,7 +396,7 @@ angular.module('ds.ytracking', [])
                     $timeout(function () {
                         setCustomUrl();
 
-                        var cartId = !!cart.id ? cart.id : '';
+                        var cartId = getCartId(cart);
                         $window._paq.push(['setCustomVariable', 1, 'cart_id', cartId, 'page']);
                         $window._paq.push(['trackLink', 'ProceedToCheckoutEvent', 'action_name']);
                     });
@@ -425,6 +426,10 @@ angular.module('ds.ytracking', [])
                 if (!!$window._paq) {
                     $window._paq.push(['trackPageView', 'CustomerLogin']);
                 }
+            };
+ 
+            var getCartId = function(cart) {
+                return !!cart.id ? cart.id : '';
             };
 
             return {
