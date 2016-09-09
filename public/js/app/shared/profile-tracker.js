@@ -24,7 +24,7 @@
     var _tenantId,
     _clientId,
     _redirectUrl,
-    _consentReference,
+    _consentReference,    
     _token,
     _siteConfig,
     _pagesFiltered,
@@ -131,10 +131,11 @@
     };
     var getConsentReference = function() {
 
-        _consentReference = getCookie("consentReference");
+        _consentReference = getCookie("consentReferenceCookie");
 
-
+        
         if ( !! _consentReference) {
+            _consentReference = JSON.parse(decodeURIComponent(_consentReference)).consentReference;
             return _consentReference;
         } else {
             return '';
@@ -252,18 +253,7 @@
                 // ignore
             }
         };
-        var setConsentReferenceCookie = function(consentReference, days) {
-            var expires = 0;
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toGMTString();
-            } else {
-                expires = "";
-            }
-            document.cookie = "consentReference" + "=" + consentReference + expires + "; path=/";
-        };
-
+        
         var testRequest = function(evt) {
             var __result = {};
             var testResult = "";
@@ -397,7 +387,7 @@
             } else {
                 expires = "";
             }
-            document.cookie = "consentReference" + "=" + consentReference + expires + "; path=/";
+            document.cookie = "consentReferenceCookie" + "=" + encodeURIComponent(consentReference) + expires + "; path=/";
         };
 
         var performOptIn = function(obj, callback) {
@@ -405,7 +395,9 @@
             setTimeout(function() {
                 makeOptInRequest().success(function(response) {
                     if ( !! response.id) {
-                        setConsentReferenceCookie(response.id, 30);
+                        var cookieVal = {};
+                        cookieVal.consentReference = response.id;
+                        setConsentReferenceCookie(JSON.stringify(cookieVal), 30);
                     }
 
                     callback();
