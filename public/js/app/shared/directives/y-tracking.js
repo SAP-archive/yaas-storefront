@@ -20,44 +20,6 @@ angular.module('ds.ytracking', [])
                 restrict: 'A',
                 compile: function () {
 
-                    //experiment paste
-                               //<![CDATA[
-            $timeout( function(){Y_TRACKING.init('saphybrisprofile',
-                    'g3lsH1NuLVSNYeLelF9sp2hLOVbEkQW4',
-                    'http://example.com',
-                    function () {
-                        // site config
-                        return "https://api.yaas.io/hybris/media/v2/public/files/57beda8aa4b777001db6a304";
-                    },
-                    function () {
-                        // page selection
-                        
-                        return 1;
-                    },
-                    function () {
-                        // custom functions
-                        return {
-                            getValueFromObject: function(object, key) {
-                                if (object !== undefined)
-                                {
-                                    return object.key;
-                                }
-                            }
-                        };
-                    }
-
-
-            );
-    }, 2000); 
-
-            //alert('PowerTag Script has been loaded');
-
-            //]]>
-                    
-                    
-                    
-                    
-                    
                     //Init tracking
                     ytrackingSvc.init();
 
@@ -123,6 +85,33 @@ angular.module('ds.ytracking', [])
 
                         ytrackingSvc.bannerClick(id, url);
                     });
+
+                    
+                    //Init profile tag management
+                    if(window.Y_TRACKING){
+                        var config = {
+                            tenantId: 'saphybrisprofile',
+                            clientId: 'g3lsH1NuLVSNYeLelF9sp2hLOVbEkQW4',
+                            redirectUrl: 'http://example.com',
+                            autoLoad: false,
+                            configUrl: 'https://api.yaas.io/hybris/media/v2/public/files/57beda8aa4b777001db6a304'
+                        };
+                        window.Y_TRACKING.init(config,
+                            function () {
+                                return 1;
+                            },
+                            function () {
+                                // custom functions
+                                return {
+                                    getValueFromObject: function (object, key) {
+                                        if (object !== undefined) {
+                                            return object.key;
+                                        }
+                                    }
+                                };
+                        });
+                    }
+
                 }
             };
         }])
@@ -139,7 +128,7 @@ angular.module('ds.ytracking', [])
             */
             var apiPath = appConfig.dynamicDomain();
             var tenantId = appConfig.storeTenant();
-            
+
             var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/v1' + '/events';
             var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/v1/' + tenantId + '/consentReferences';
 
@@ -155,7 +144,7 @@ angular.module('ds.ytracking', [])
             // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
             // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
             // to fetch the consent-reference.
-            var makeOptInRequest = function() {
+            var makeOptInRequest = function () {
                 var req = {
                     method: 'POST',
                     url: consentUrl,
@@ -193,12 +182,12 @@ angular.module('ds.ytracking', [])
 
                 //Get object from query parameters
                 var obj = getPiwikQueryParameters(e);
-                if(!!window.Y_TRACKING && !!window.Y_TRACKING._id){
-                            obj._id = window.Y_TRACKING._id;
-                        } else{
-                            window.Y_TRACKING = window.Y_TRACKING || {};
-                            window.Y_TRACKING._id = obj._id;
-                        }
+                if (!!window.Y_TRACKING && !!window.Y_TRACKING._id) {
+                    obj._id = window.Y_TRACKING._id;
+                } else {
+                    window.Y_TRACKING = window.Y_TRACKING || {};
+                    window.Y_TRACKING._id = obj._id;
+                }
                 console.log(obj);
 
 
@@ -484,5 +473,24 @@ angular.module('ds.ytracking', [])
                 bannerClick: bannerClick,
                 proceedToCheckout: proceedToCheckout,
                 customerLogIn: customerLogIn
+            };
+        }]);
+
+
+
+
+
+angular.module('ds.ytracking')
+    .directive('ycolormapping', ['$timeout',
+        function ($timeout) {
+            return {
+                restrict: 'A',
+                compile: function () {
+                    if (window.Y_TRACKING && window.Y_TRACKING.collectMappings) {
+                        $timeout(function () {
+                            window.Y_TRACKING.collectMappings();
+                        }, 1);
+                    }
+                }
             };
         }]);
