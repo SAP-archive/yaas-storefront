@@ -118,9 +118,11 @@
                 <div class="headline text-center">Comments</div>
 
                 <div class="description">
-                    <div ng-repeat="comment in comments">
-                        <b>{{comment.author}}: </b>
-                        <span>{{comment.text}}</span>
+                    <div ng-repeat="comment in comments" class="product-comment">
+                        <blockquote>
+                            <p>{{comment.text}}</p>
+                            <footer>{{comment.author}} <cite title="date">{{comment.date}}</cite></footer>
+                        </blockquote>
                     </div>
                 </div>
 

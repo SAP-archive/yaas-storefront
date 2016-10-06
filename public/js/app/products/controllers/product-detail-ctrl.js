@@ -43,7 +43,7 @@ angular.module('ds.products')
 
 
 
-////COMMENTS 
+            ////COMMENTS 
 
             $scope.comments = [];
             var commentsUrl = SiteConfigSvc.apis.comments.baseUrl + '/products/' + product.product.id + '/comments/';
@@ -58,12 +58,17 @@ angular.module('ds.products')
             };
 
             $scope.addComment = function(){
+                var name = 'anonymous';
+                if(GlobalData.customerAccount && GlobalData.customerAccount.firstName){
+                    name = GlobalData.customerAccount.firstName;
+                }
+                
                 $http({
                     method: 'POST',
                     url: commentsUrl,
                     data: {
                         text: $scope.comment,
-                        author: 'anonymous'
+                        author: name
                     }
                 }).then(function successCallback(response) {
                     $scope.comment = '';
@@ -73,7 +78,7 @@ angular.module('ds.products')
             //Get comments when product page loaded
             $scope.getComments();
 
-////COMMENTS
+            ////COMMENTS
 
 
 
