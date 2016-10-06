@@ -17,8 +17,8 @@ angular.module('ds.products')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
-        function($scope, $rootScope, CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
+    .controller('ProductDetailCtrl', ['$scope', '$http', 'SiteConfigSvc', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
+        function($scope, $http, SiteConfigSvc, $rootScope, CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
             var modalInstance;
                         
             $scope.activeTab = 'description';
@@ -40,6 +40,47 @@ angular.module('ds.products')
             $scope.breadcrumbData = angular.copy($scope.category);
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
+
+
+            ////COMMENTS 
+
+            $scope.comments = [];
+            var commentsUrl = SiteConfigSvc.apis.comments.baseUrl + '/products/' + product.product.id + '/comments/';
+                
+            $scope.getComments = function () {
+                $http({
+                    method: 'GET',
+                    url: commentsUrl
+                }).then(function successCallback(response) {
+                    $scope.comments = response.data;
+                });
+            };
+
+            $scope.addComment = function(){
+                var name = 'anonymous';
+                if(GlobalData.customerAccount && GlobalData.customerAccount.firstName){
+                    name = GlobalData.customerAccount.firstName;
+                }
+                
+                $http({
+                    method: 'POST',
+                    url: commentsUrl,
+                    data: {
+                        text: $scope.comment,
+                        author: name
+                    }
+                }).then(function successCallback(response) {
+                    $scope.comment = '';
+                    $scope.getComments();
+                });
+            };
+            //Get comments when product page loaded
+            $scope.getComments();
+
+            ////COMMENTS
+
+
 
             /*
              we need to shorten the tax label if it contains more than 60 characters, and give users the option of

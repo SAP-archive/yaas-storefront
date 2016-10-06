@@ -110,6 +110,37 @@
         </div>
     </section>
 
+
+    <!--PRODUCT COMMENTS-->
+    <section class="gray">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="headline text-center">Comments</div>
+
+                <div class="description">
+                    <div ng-repeat="comment in comments" class="product-comment">
+                        <blockquote>
+                            <p>{{comment.text}}</p>
+                            <footer>{{comment.author}} <cite title="date">{{comment.date}}</cite></footer>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group input-group">
+                        <label class="input-group-addon control-label" for="comment">Comment text: </label>
+                        <input type="text" id="comment" class="form-control quantity" ng-model="comment">
+                    </div>
+                    <!-- add to cart -->
+                    <div class="col-md-8 col-md-offset-2">
+                        <button id="addComment" class="btn btn-primary btn-block" ng-click="addComment()">Add Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--PRODUCT COMMENTS-->
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <ul class="nav nav-tabs">
