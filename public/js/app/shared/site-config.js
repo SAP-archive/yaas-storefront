@@ -62,6 +62,10 @@ angular.module('ds.shared')
                 coupon: {
                     baseUrl: 'https://' + apiPath + '/hybris/coupon/v1/' + tenantId
                 },
+                
+                comments: {
+                    baseUrl: 'https://' + apiPath + '/nemanja/product-comments/v1/' + tenantId
+                },
 
                 customers: {
                     baseUrl: 'https://' + apiPath + '/hybris/customer/v1/' + tenantId
