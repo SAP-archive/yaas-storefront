@@ -1,0 +1,10 @@
+---
+applications:
+- name: shops-green
+  command: npm run-script multiProdHttpsEU
+  buildpack: https://github.com/heroku/heroku-buildpack-nodejs.git
+  memory: 1024M
+  disk_quota: 1024M
+  disk: 1024M
+  instances: 1
+  path: dist

@@ -17,6 +17,9 @@ describe('CheckoutCtrl', function () {
             return 'US';
         }
     };
+    var mockedSettings = {
+        allProductsState: 'base.category'
+    };
     var CouponSvc = {
     };
     var mockCoupon = {
@@ -51,10 +54,9 @@ describe('CheckoutCtrl', function () {
             order: 'ORDER_ERROR'
         };
     var mockBillTo = {'firstName': 'Bob', 'lastName':'Sushi'};
-    var mockedState = {};
-    mockedState.go = jasmine.createSpy('go');
+    
     var formName = 'checkoutForm';
-
+    var mockedState = {};
     //***********************************************************************
     // Common Setup
     // - shared setup between constructor validation and method validation
@@ -97,9 +99,10 @@ describe('CheckoutCtrl', function () {
         $provide.value('shippingZones', shippingZones);
         $provide.value('$state', mockedState);
         $provide.value('$modal', mockedModal);
+        $provide.value('settings', mockedSettings);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_, _$httpBackend_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_, _$httpBackend_, _$timeout_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -113,12 +116,14 @@ describe('CheckoutCtrl', function () {
         $injector = _$injector_;
         $modal = _$modal_;
         _$httpBackend_.whenGET(/^[A-Za-z-/]*\.html/).respond({});
+        $timeout = _$timeout_;
     }));
 
     beforeEach(function () {
         checkoutDfd = $q.defer();
         shippingDfd = $q.defer();
         cartDfd = $q.defer();
+        stateDfd = $q.defer();
         mockedCheckoutSvc.checkout = jasmine.createSpy('checkout').andCallFake(function() {
             return checkoutDfd.promise;
         });
@@ -133,6 +138,10 @@ describe('CheckoutCtrl', function () {
 
         mockedShippingSvc.getShipToCountries = jasmine.createSpy('getShipToCountries').andCallFake(function() {
             return ['US', 'CA'];
+        });
+
+        mockedState.go = jasmine.createSpy().andCallFake(function() {
+            return stateDfd.promise;
         });
 
         mockedShippingSvc.isShippingConfigured = jasmine.createSpy('isShippingConfigured').andReturn(true);
@@ -191,7 +200,7 @@ describe('CheckoutCtrl', function () {
             }
         }
         };
-        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+        checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
     });
 
     describe('initialization', function () {
@@ -203,7 +212,7 @@ describe('CheckoutCtrl', function () {
 
         it('should retrieve addresses for authenticated user', function(){
 
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
             addressDef.resolve(returnAddress);
 
             $scope.$apply();
@@ -219,7 +228,7 @@ describe('CheckoutCtrl', function () {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
             GlobalData.user.isAuthenticated = true;
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
             $rootScope.$broadcast('user:signedin');
             $scope.$apply();
             expect(MockedAccountSvc.account).toHaveBeenCalled();
@@ -234,7 +243,7 @@ describe('CheckoutCtrl', function () {
             MockedAuthSvc = {
                 isAuthenticated: jasmine.createSpy('isAuthenticated').andReturn(isAuthenticated)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
 
             expect(MockedAccountSvc.getDefaultAddress).not.toHaveBeenCalled();
             expect(MockedAccountSvc.getAddresses).not.toHaveBeenCalled();
@@ -253,7 +262,7 @@ describe('CheckoutCtrl', function () {
                 }),
                 getAddresses: jasmine.createSpy('getAddresses').andReturn(addressesDef.promise)
             };
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
 
             $scope.$digest();
 
@@ -494,7 +503,7 @@ describe('CheckoutCtrl', function () {
 
     describe('shipping zones', function() {
         beforeEach(function(){
-            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon});
+            checkoutCtrl = $controller('CheckoutCtrl', {$scope: $scope, CheckoutSvc: mockedCheckoutSvc, ShippingSvc: mockedShippingSvc, CartSvc: mockedCartSvc, AuthDialogManager: AuthDialogManager, AuthSvc: MockedAuthSvc, AccountSvc: MockedAccountSvc, GlobalData: GlobalData, CouponSvc: CouponSvc, UserCoupon: UserCoupon, settings: mockedSettings});
             mockedCartSvc.recalculateCart = jasmine.createSpy().andReturn(cartDfd.promise);
         });
 
@@ -602,6 +611,26 @@ describe('CheckoutCtrl', function () {
                 expect($scope.disableAddress('US')).toBeFalsy();
             });
 
+        });
+
+        describe('Cart resolve', function () {
+
+            it('should do redirect to PLP page if cart is not resolved upon checkout', function() {
+                expect($rootScope.showCart).toBeFalsy();
+                $scope.cart = {subTotalPrice: {}};
+                $timeout.flush();
+                expect(mockedState.go).toHaveBeenCalled();
+                stateDfd.resolve();
+                $rootScope.$apply();
+                expect($rootScope.showCart).toBeTruthy();
+            });
+
+            it('should not do redirect to PLP page if cart is not resolved upon checkout', function() {
+                expect($rootScope.showCart).toBeFalsy();
+                $scope.cart = {id: '1234', subTotalPrice: {}};
+                $timeout.flush();
+                expect(mockedState.go).not.toHaveBeenCalled();
+            });
         });
 
     });

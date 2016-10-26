@@ -24,20 +24,20 @@
                     <div ng-if="product.isBuyable && product.prices[0]">
                         <!-- product sale price -->
                         <div ng-if="product.prices[0].salePrice" class="price">
-                            <span class="price originalPrice"><strike>{{ product.prices[0].originalAmount | currency: currencySymbol }}</strike></span>
-                            <span class="price salesPrice">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
+                            <span id="original-price" class="price originalPrice"><strike>{{ product.prices[0].originalAmount | currency: currencySymbol }}</strike></span>
+                            <span id="sales-price" class="price salesPrice">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
                             <span class="priceUnit salesPrice" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                         </div>
 
                         <!-- product price -->
                         <div ng-if="!product.prices[0].salePrice" class="price">
-                            <span class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
-                            <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
+                            <span id="effective-amount" class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
+                            <span id="measurement-unit-quantity" class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                         </div>
                     </div>
 
                     <!-- product tax -->
-                    <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
+                    <div id="tax-message" class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
                         <div ng-if="taxConfiguration.label.length <= 60 || taxConfiguration.seeMoreClicked">
                             {{taxConfiguration.label}}
                         </div>
@@ -78,7 +78,7 @@
 
                                 <!-- add to cart -->
                                 <div class="col-md-8 col-md-offset-2">
-                                    <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
+                                    <button id="buy-button" type="button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                         ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 </div>
 
@@ -130,18 +130,18 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'description'}" id="description">
                         <!-- product description -->
-                        <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+                        <div class="headline">{{'PRODUCT_DESCRIPTION' | translate}}</div>
 
-                        <div class="description">
+                        <div id="product-description-text" class="description">
                             {{product.description}}
                         </div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'details'}" id="details">
                         <!-- product detials -->
-                        <div class="headline text-center">{{'PRODUCT_DETAILS' | translate}}</div>
+                        <div class="headline">{{'PRODUCT_DETAILS' | translate}}</div>
 
-                        <product-extension schema-url="{{productMixinsDefinitions[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins"></product-extension>
+                        <product-extension schema-url="{{productMixinsDefinitions[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins track by $index"></product-extension>
                     </div>
                 </div>
             </div>

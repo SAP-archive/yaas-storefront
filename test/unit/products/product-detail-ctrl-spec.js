@@ -157,7 +157,6 @@ describe('ProductDetailCtrl', function () {
         });
 
         it('should re-enable buy button on error', function(){
-            console.log($scope.product);
             $scope.addToCartFromDetailPage();
             cartDef.reject();
             $scope.$apply();

@@ -1,7 +1,7 @@
 ---
 applications:
 - name: shops
-  command: npm run-script multiStage
+  command: npm run-script multiStageHttps
   buildpack: https://github.com/heroku/heroku-buildpack-nodejs.git
   memory: 1024M
   disk_quota: 1024M

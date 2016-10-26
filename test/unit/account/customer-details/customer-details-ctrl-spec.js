@@ -20,6 +20,9 @@ describe('CustomerDetailsCtrl', function () {
     var mockedAuthDialogManager = {
         showUpdatePassword: jasmine.createSpy('showUpdatePassword').andCallFake(function () {
             return updatePasswordDfd.promise;
+        }),
+        showDeleteAccount: jasmine.createSpy('showDeleteAccount').andCallFake(function () {
+            return deleteAccountDfd.promise;
         })
     };
 
@@ -42,6 +45,7 @@ describe('CustomerDetailsCtrl', function () {
         mockedModal.open = jasmine.createSpy('open').andReturn(mockedModal);
         mockedModal.opened = { then: function () { } };
         updatePasswordDfd = $q.defer();
+        deleteAccountDfd = $q.defer();
 
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
@@ -97,6 +101,11 @@ describe('CustomerDetailsCtrl', function () {
             $scope.$destroy();
 
             expect(mockedModal.dismiss).toHaveBeenCalled();
+        });
+
+        it('should call delete account from account svc upon deleteAccount method', function () {
+            $scope.deleteAccount();
+            expect(mockedAuthDialogManager.showDeleteAccount).toHaveBeenCalled();
         });
     });
 });

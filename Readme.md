@@ -89,10 +89,17 @@ The :prod parameter specifies which dynamic domain to connect with the api servi
 
 Credential parameters also exist for automated build environments. With NPM 2.0, it is possible to pass in a Client_Id, Project_Id and Redirect_URI from npm run-script command line. For example, we can further automate the build system with these parameters (pid, cid and ruri) like this: 
 
-    $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com
+    $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com 
 
 This allows for many different projects with many different clients to be configured. But remember that a minimum version of NPM 2.0 is required to pass the parameters, otherwise the Client_Id, Project_Id and Redirect_URI will be set by default to the build configuration variables in the gruntfile.
 
+Additional parameter that can be provided is `--https` which will force https instead of http. Below this you can find an example:
+
+    $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com --https 
+
+Store can be used in different regions. Parameter that should be provided is `--region` which will run store in choosen region. Currently there is a default region (US) and optional region eu (EU). Below this you can find an example:
+
+    $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com --region=eu 
 
 **grunt build** will also optimize js and css in public/index.html. See the optimization section for more specific information.
 

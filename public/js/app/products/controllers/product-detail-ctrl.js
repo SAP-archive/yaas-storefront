@@ -20,18 +20,18 @@ angular.module('ds.products')
     .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc', 'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
         function($scope, $rootScope, CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
             var modalInstance;
-                        
+
             $scope.activeTab = 'description';
             $scope.openTab = function (tabName) {
                 $scope.activeTab = tabName;
             };
-            
+
             $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
             $scope.productMixinsDefinitions = product.product.metadata.mixins;
-                        
+
             $scope.product = productFactory.fromProduct(product.product, product.prices, variants.length === 0);
             $scope.variants = variants;
-
+            $scope.selectedVariant = {};
             $scope.shippingZones = shippingZones;
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -91,9 +91,9 @@ angular.module('ds.products')
             //input default values must be defined in controller, not html, if tied to ng-model
             $scope.productDetailQty = 1;
             $scope.buyButtonEnabled = true;
-            
+
             $scope.showShippingRates = function(){
-                
+
                 modalInstance = $modal.open({
                     templateUrl: 'js/app/shared/templates/shipping-dialog.html',
                     scope: $scope
@@ -129,8 +129,14 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                // todo: this should be fixed to use $scope.product
-                CartSvc.addProductToCart(product.product, $scope.product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
+
+                var cartItem = {id:$scope.product.id};
+
+                if(!_.isEmpty($scope.selectedVariant)){
+                    cartItem.itemYrn = $scope.selectedVariant.yrn;
+                }
+
+                CartSvc.addProductToCart(cartItem, $scope.product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
                 .then(function(){
                     var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
                     Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToCart, delay: 3000});
@@ -161,6 +167,7 @@ angular.module('ds.products')
                 if (_.isObject(activeVariant)) {
                     var prices = filterPricesForVariant(activeVariant.id);
                     $scope.product = productFactory.fromProductVariant(product.product, activeVariant, prices);
+                    $scope.selectedVariant = activeVariant;
                 } else {
                     $scope.product = productFactory.fromProduct(product.product, product.prices, false);
                 }

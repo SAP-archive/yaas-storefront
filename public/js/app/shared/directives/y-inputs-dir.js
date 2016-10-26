@@ -22,6 +22,7 @@ var regExpValidators = {
     date: new RegExp(/[\w]+/),
     keys: new RegExp(/^[.\-_a-zA-Z0-9:§]+$/),
     apiVersion: new RegExp(/^(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)$/),
+    couponCode: new RegExp(/^[0-9a-zA-Z_()]+$/)
 };
 
 angular.module('ds.security', [])

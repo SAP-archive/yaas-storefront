@@ -35,8 +35,8 @@ angular.module('ds.coupon')
             $scope.$on('$destroy', unbindSignIn);
 
             /** get coupon and apply it to the cart */
-            $scope.applyCoupon = function(code) {
-                if( isValidCouponCode(code) ) {
+            $scope.applyCoupon = function(code, fieldInvalid) {
+                if( isValidCouponCode(fieldInvalid) ) {
                     $scope.removeErrorBlock();
                     $scope.coupon = CouponSvc.getCoupon(code).then(function (couponGetResponse) {
                         if (couponGetResponse.discountAbsolute && couponGetResponse.discountAbsolute.currency !== $scope.cart.currency) {
@@ -50,6 +50,8 @@ angular.module('ds.coupon')
                                 redeemCouponError(couponRedeemError);
                             });
                         }
+                        //Restart coupon code to empty string
+                        $scope.couponCode = '';
                     }, function (couponGetError) {
                         getCouponError(couponGetError);
                     });
@@ -103,13 +105,13 @@ angular.module('ds.coupon')
             };
 
             var redeemCouponError = function (couponError) {
-                     var errorMessages = CouponSvc.redeemCouponError(couponError);
-                     // Just display the first coupon error message
-                     $scope.couponErrorMessage = errorMessages[0];
+                var errorMessages = CouponSvc.redeemCouponError(couponError);
+                // Just display the first coupon error message
+                $scope.couponErrorMessage = errorMessages[0];
             };
 
-            var isValidCouponCode = function (code) {
-                if ( code.indexOf(' ') > -1) {
+            var isValidCouponCode = function (fieldInvalid) {
+                if(fieldInvalid){
                     $scope.couponErrorMessage = $translate.instant('COUPON_NOT_VALID');
                     return false;
                 }

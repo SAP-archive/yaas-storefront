@@ -48,6 +48,9 @@ describe('AuthDialogManager', function () {
             expect(AuthDialogManager.showResetPassword).toBeDefined();
             expect(AuthDialogManager.showPasswordChanged).toBeDefined();
             expect(AuthDialogManager.showCheckEmail).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccount).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccountConfirmRequest).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccountConfirmation).toBeDefined();
         });
     });
 
@@ -118,6 +121,21 @@ describe('AuthDialogManager', function () {
 
         it('showUpdatePassword should open modal', function(){
             AuthDialogManager.showUpdatePassword();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccount should open modal', function(){
+            AuthDialogManager.showDeleteAccount();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccountConfirmRequest should open modal', function(){
+            AuthDialogManager.showDeleteAccountConfirmRequest();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccountConfirmation should open modal', function(){
+            AuthDialogManager.showDeleteAccountConfirmation();
             expect(mockedModal.open).toHaveBeenCalled();
         });
     });

@@ -16,22 +16,24 @@
 				{{couponErrorMessage}}
 			</div>
 
-			<div class="input-group" ng-class="{ 'has-error': couponErrorMessage }">
+			<form name="applyCouponForm" class="input-group" ng-class="{ 'has-error': couponErrorMessage }">
 				
 				<!-- coupon input -->
-				<input id="coupon-code" type="text" class="form-control couponInput" ng-model='couponCode' placeholder="ADD COUPON CODE"  >
+				<input id="coupon-code" builder-input="couponCode" type="text" name="couponCodeElement" class="form-control couponInput" 
+                       ng-model="couponCode" ng-minlength="3" ng-maxlength="24" 
+                       placeholder="{{'ADD_COUPON_CODE'|translate}}" required />
 
 				<!-- coupon apply btn -->
 				<span class="input-group-btn">
-					<button id="apply-coupon" class="btn btn-default" ng-click="applyCoupon(couponCode); couponCode = null">
+					<button id="apply-coupon" class="btn btn-default" 
+                            ng-click="applyCoupon(couponCode, applyCouponForm.couponCodeElement.$invalid)">
 						{{'COUPON_APPLY' | translate}}
 					</button>
 				</span>
-		
-			</div>
+
+			</form>
 			
 		</div>
-
 
 	</div>
 

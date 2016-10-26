@@ -114,8 +114,42 @@ angular.module('ds.auth')
                         backdrop: 'static'
                     };
                     return openDialog(modalOpts);
-                }
+                },
 
+                showDeleteAccount: function () {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/modals/delete-account-dialog.html',
+                        controller: 'DeleteAccountDialogCtrl',
+                        backdrop: 'static'
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                showDeleteAccountConfirmRequest: function () {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/modals/delete-account-confirm-request.html',
+                        controller: 'DeleteAccountBasicCtrl',
+                        resolve: {
+                            success: function() {
+                                return true;
+                            }
+                        }
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                showDeleteAccountConfirmation: function (success) {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/delete-account.html',
+                        controller: 'DeleteAccountBasicCtrl',
+                        resolve: {
+                            success: function() {
+                                return success;
+                            }
+                        }
+                    };
+                    return openDialog(modalOpts);
+                }
 
             };
 

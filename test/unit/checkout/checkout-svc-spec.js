@@ -157,7 +157,7 @@ describe('CheckoutSvc', function () {
 
             beforeEach(function(){
                 $httpBackend.expectPOST(checkoutOrderUrl, checkoutJson, function(headers){
-                    return headers['accept-language'] == 'en';
+                    return headers['Accept-Language'] == 'en';
                 }).respond({"orderId":"456"});
             });
 

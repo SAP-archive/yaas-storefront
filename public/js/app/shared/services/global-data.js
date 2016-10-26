@@ -388,7 +388,7 @@ angular.module('ds.shared')
                 },
 
                 getProductRefinements: function () {
-                    return [{id: 'name', name: 'A-Z'}, {id: 'name:desc', name: 'Z-A'}, {id: 'metadata.createdAt:desc', name: $translate.instant('NEWEST')}];
+                    return [{id: 'name.' + $translate.use(), name: 'A-Z'}, {id: 'name.' + $translate.use()+':desc', name: 'Z-A'}, {id: 'metadata.createdAt:desc', name: $translate.instant('NEWEST')}];
                 },
 
                 getSearchRefinements: function () {

@@ -1,0 +1,21 @@
+<!-- Modal -->
+<form name="deleteAccountForm" novalidate>
+    <div class="modal-header">
+        <a class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+        <h4 class="modal-title" id="myModalLabel">{{'DELETE_ACCOUNT' | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'DELETE_ACCOUNT_MSG' | translate}}</p>
+        <div class="text-danger list-unstyled" ng-show="showError">
+            <small class="help-inline has-error">{{'PLEASE_CORRECT_MESSAGE_ERRORS' | translate}}</small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="close()" class="btn btn-link">
+            {{'CANCEL'|translate}}
+        </button>
+        <button ng-click="deleteAccount()" ng-disabled="submitDisabled" class="btn btn-primary">
+            {{'DELETE'|translate}}
+        </button>
+    </div>
+</form>

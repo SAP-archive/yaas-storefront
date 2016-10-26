@@ -34,7 +34,7 @@ describe('quantityInput Test', function () {
         $scope.$digest();
         var inputEl = element.find('input');
         // inputEl.val('1');
-        console.log(inputEl.val());
+        // console.log(inputEl.val());
 
         var e = $.Event('keypress');
         e.keyCode = 50;
@@ -45,7 +45,7 @@ describe('quantityInput Test', function () {
 
         inputEl = element.find('input');
 
-        console.log(inputEl.val());       //this value always blank
+        // console.log(inputEl.val());       //this value always blank
 
         /*
          the directive definitely does it's job but we are unable to get the model to update

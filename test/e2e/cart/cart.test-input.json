@@ -2,6 +2,7 @@
     "products":{
         "whiteCoffeeMug": {
             "id": "55d76ce63a0eafb30e5540c8",
+            "name": "COFFEE MUG - WHITE",
             "one": {
                 "itemPriceUS": "$10.67",
                 "totalPriceUS": "$20.62",

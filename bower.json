@@ -22,7 +22,7 @@
     "angular-translate": "~2.8.0",
     "angular-translate-loader-static-files": "~2.8.1",
     "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
-    "ngInfiniteScroll": "1.0.0",
+    "ngInfiniteScroll": "1.1.0",
     "bootstrap": "3.3.2",
     "restangular": "~1.4.0",
     "lodash": "~2.4.1",

@@ -1,0 +1,12 @@
+<!-- Modal -->
+<div>
+    <div class="modal-header">
+        <a class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+        <h4 ng-if="success" class="modal-title" id="myModalLabel">{{'ACCOUNT_DELETED' | translate}}</h4>
+        <h4 ng-if="!success" class="modal-title" id="myModalLabel">{{'ACCOUNT_NOT_DELETED' | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <p ng-if="success">{{'ACCOUNT_DELETED_MSG' | translate}}</p>
+        <p ng-if="!success" class="error">{{'PLEASE_CORRECT_MESSAGE_ERRORS' | translate}}</p>
+    </div>
+</div>

@@ -19,7 +19,7 @@
                 restrict: 'E',
                 templateUrl: 'js/app/products/templates/product-extension-item.html',
                 scope: {
-                    name: '@', value: '=', definition: '='
+                    name: '@', value: '=', definition: '=', islastobject: '='
                 },
                 controller: ['$scope', 'ProductExtensionItemHelper',
                     function ($scope, ProductExtensionItemHelper) {

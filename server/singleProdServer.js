@@ -10,22 +10,37 @@
  * license agreement you entered into with hybris.
  */
 
+'use strict';
+
 var express = require('express');
 // Build the server
 var app = express();
 
 app.set('trust proxy', true); //for https redirect
-var https_redirect = function (req, res, next) {
-  console.log('HTTPS REDIRECT: ', req.protocol);
-  if ('https' == req.protocol) {
-  	next();
-  } else {
+
+var httpsRedirect = function (req, res, next) {
+  var host = req.get('host');
+
+  if (req.host === 'localhost') {
+    next();
+  }
+  else {
+    console.log('HTTPS REDIRECT: ', req.protocol);
+    if ('https' === req.protocol) {
+      next();
+    } else {
       //redirect to https based url provided by ELB
-    	console.log('INSECURE REDIRECTING TO: ' + 'https://' + req.get('host') + req.url);
-      return res.redirect(301, 'https://' + req.get('host') + req.url);  //Infinite loop.
+      console.log('INSECURE REDIRECTING TO: ' + 'https://' + host + req.url);
+      return res.redirect(301, 'https://' + host + req.url);  //Infinite loop.
+    }
   }
 };
-app.use(https_redirect);
+
+var useHttps = /*StartUseHTTPS*/ false /*EndUseHTTPS*/;
+
+if (useHttps) {
+  app.use(httpsRedirect);
+}
 
 // map access to public files, index.html
 app.use(express.static(__dirname + '/../public'));

@@ -79,10 +79,10 @@ angular.module('ds.ygooglesignin', [])
                     if (auth2.isSignedIn.get()) {
                         var profile = auth2.currentUser.get().getBasicProfile();
                         user = {
-                            firstName: profile.Za,
-                            lastName: profile.Na,
-                            email: profile.hg,
-                            image: profile.Ph,
+                            firstName: profile.pfa,
+                            lastName: profile.xea,
+                            email: profile.U3,
+                            image: profile.Qaa,
                         };
                     } else {
                         user = {};
@@ -101,12 +101,12 @@ angular.module('ds.ygooglesignin', [])
                     var auth2 = window.gapi.auth2.getAuthInstance();
                     auth2.signIn(params).then(function (response) {
                         user = {
-                            firstname: response.wc.Za,
-                            lastname: response.wc.Na,
-                            email: response.wc.hg,
-                            image: response.wc.Ph,
+                            firstname: response.w3.pfa,
+                            lastname: response.w3.xea,
+                            email: response.w3.U3,
+                            image: response.w3.Qaa,
                             /* jshint ignore:start */
-                            token: response.hg.access_token
+                            token: response.Zi.access_token
                             /* jshint ignore:end */
                         };
                         deferred.resolve(user);

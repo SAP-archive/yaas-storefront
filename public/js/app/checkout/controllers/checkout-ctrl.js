@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', '$q', 'CartSvc', '$timeout',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, $q, CartSvc, $timeout) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', '$q', 'CartSvc', '$timeout', 'settings',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, $q, CartSvc, $timeout, settings) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -655,5 +655,13 @@ angular.module('ds.checkout')
                     });
                 }
             };
+
+            $timeout(function () {
+                if (!$scope.cart.id) {
+                    $state.go(settings.allProductsState).then(function() {
+                        $rootScope.showCart = true;
+                    });
+                }
+            }, 1);
 
         }]);

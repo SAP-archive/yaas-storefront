@@ -17,7 +17,9 @@ describe('SessionSvc', function () {
             updateAccount: jasmine.createSpy()
         },
         mockedCartSvc = {
-            refreshCartAfterLogin: jasmine.createSpy(),
+            refreshCartAfterLogin: jasmine.createSpy().andReturn({
+                then: jasmine.createSpy()
+            }),
             resetCart: jasmine.createSpy()
         },
         mockedGlobalData = {

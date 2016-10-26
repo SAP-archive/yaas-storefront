@@ -23,7 +23,8 @@ var CartPageObject = function () {
         cartMessage:  element(by.xpath("//*[@id='cart']/div/div[2]")),
         taxOverride: element(by.repeater('taxLine in cart.taxAggregate.lines').row(1)),
         orderEstimatedTotal: element(by.binding('EST_ORDER_TOTAL')),
-        totalTax: element(by.id('total-tax'))
+        totalTax: element(by.id('total-tax')),
+        firstCartItemName: element.all(by.className('product-item-name')).first()
     };
 
     var inputFields = {
@@ -35,6 +36,10 @@ var CartPageObject = function () {
     var links = {
         estimateTax: element(by.id('tax-estimation-link')),
         addEditNote: element(by.id('addEditNote'))
+    };
+
+    this.getFirstCartItemName = function() {
+        return textDisplays.firstCartItemName.getText();
     };
 
     this.addNote = function (noteText) {
@@ -95,7 +100,14 @@ var CartPageObject = function () {
         return textDisplays.taxOverride.getText();
     };
 
+    this.waitForShowCartButton = function() {
+        browser.wait(function () {
+            return buttons.showCart.isPresent();
+        });
+    };
+
     this.showCart = function (isMobile) {
+        this.waitForShowCartButton();
         if(isMobile === true) {
             buttons.showCartMobile.click();
         }

@@ -3,10 +3,10 @@
     <h2>{{'ORDER_DETAILS' | translate}}
         <!--<span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>-->
     </h2>
-    
+
     <!-- cart items -->
     <section class="cartItems" ng-cloak>
-        
+
         <table class="table table-striped cart-items-table">
 
             <!-- desktop view -->
@@ -31,7 +31,13 @@
                             <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
                         </a>
                     </td>
-                    <td>{{item.product.name}}</td>
+                    <td>
+                      <ul class="list-unstyled">
+                        <li>{{item.product.name}}</li>
+                        <li ng-repeat="variant in item.variants track by $index">{{variant}}</li>                        
+                      </ul>
+                    </td>
+
                     <td class="text-right item-effectiveAmount">{{item.price.effectiveAmount | currency: currencySymbol}}  <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span></td>
                     <td class="text-center item-quantity">{{ item.quantity }}</td>
                     <td class="text-right"><strong>{{ (item.itemPrice.amount) | currency: currencySymbol}}</strong></td>
@@ -101,7 +107,7 @@
                 </tfoot>
             </table>
         </div>
-        
+
     </section>
     <div ui-view="editCart"></div>
 </div>

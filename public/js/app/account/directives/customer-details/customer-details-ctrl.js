@@ -64,5 +64,9 @@
                     }
                 });
 
+                $scope.deleteAccount = function () {
+                    AuthDialogManager.showDeleteAccount();
+                };
+
             }]);
 })();

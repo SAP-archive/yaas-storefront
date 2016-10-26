@@ -1,3 +1,4 @@
-<h4 ng-if="displayedName"><strong>{{displayedName}}</strong></h4>
-
-<product-extension-item ng-repeat="name in propertyOrder" name="{{name}}" value="value[name]" definition="definition.properties[name]"></product-extension-item>
+<div class="col-md-12 object-row" ng-class="{'object-row-last':islastobject}">
+	<span ng-if="displayedName"><h4>{{displayedName}} </h4></span>
+	<product-extension-item ng-repeat="name in propertyOrder" name="{{name}}" value="value[name]" definition="definition.properties[name]"></product-extension-item>
+</div>

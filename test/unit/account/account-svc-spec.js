@@ -71,6 +71,7 @@ describe('AccountSvc Test', function () {
         expect(AccountSvc.removeAddress).toBeDefined();
         expect(AccountSvc.getCurrentAccount).toBeDefined();
         expect(AccountSvc.isItSocialAccount).toBeDefined();
+        expect(AccountSvc.deleteAccount).toBeDefined();
     });
 
     describe('account()', function(){
@@ -239,6 +240,36 @@ describe('AccountSvc Test', function () {
             account = {accounts: [{id: 1}]};
             expect(AccountSvc.isItSocialAccount(account)).toBeFalsy();
         });
+    });
+
+    it("should send request for removing account upon calling deleteAccount method without params", function() {
+        var successSpy = jasmine.createSpy('success');
+        var errorSpy = jasmine.createSpy('error');
+        
+        mockBackend.expectDELETE(customersUrl + 'me').respond();
+        var promise = AccountSvc.deleteAccount();
+        promise.then(successSpy, errorSpy);
+
+        mockBackend.flush();
+        
+        expect(promise.then).toBeDefined();
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+    });
+
+    it("should remove account upon calling deleteAccount method with tokem param", function() {
+        var successSpy = jasmine.createSpy('success');
+        var errorSpy = jasmine.createSpy('error');
+        
+        mockBackend.expectDELETE(customersUrl + 'me?token=12345').respond();
+        var promise = AccountSvc.deleteAccount('12345');
+        promise.then(successSpy, errorSpy);
+
+        mockBackend.flush();
+        
+        expect(promise.then).toBeDefined();
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
     });
 
 

@@ -10,7 +10,7 @@
  * license agreement you entered into with hybris.
  */
 
-describe('Coupon Service Test:', function() {
+describe('Coupon Service Test:', function () {
 
     var $scope, $rootScope, $timeout, couponUrl, cartUrl, mockBackend;
     var CouponREST = {};
@@ -39,41 +39,41 @@ describe('Coupon Service Test:', function() {
         store: { tenant: storeTenant },
         setLanguage: jasmine.createSpy('setLanguage'),
         setCurrency: jasmine.createSpy('setCurrency'),
-        getLanguageCode: function() { return 'en' },
-        getCurrencyId: function() { return null },
-        getCurrencySymbol: function() { return '$' },
-        getAvailableLanguages: function() { return [{ id: 'en', label: eng }] },
-        getAvailableCurrency: function() { return 'USD' },
-        getCurrency: function() { return null },
+        getLanguageCode: function () { return 'en' },
+        getCurrencyId: function () { return null },
+        getCurrencySymbol: function () { return '$' },
+        getAvailableLanguages: function () { return [{ id: 'en', label: eng }] },
+        getAvailableCurrency: function () { return 'USD' },
+        getCurrency: function () { return null },
         addresses: {
             meta: {
                 total: 0
             }
         },
-        getCurrencyId: function() { return 'USD'; },
-        getSiteCode: function() { return 'US'; }
+        getCurrencyId: function () { return 'USD'; },
+        getSiteCode: function () { return 'US'; }
     };
 
     var mockedAppConfig = {
-        storeTenant: function() {
+        storeTenant: function () {
             return '121212/';
         },
-        dynamicDomain: function() {
+        dynamicDomain: function () {
             return 'api.yaas.io';
         }
     };
 
-    beforeEach(module('ds.cart', function($provide) {
+    beforeEach(module('ds.cart', function ($provide) {
         $provide.value('AccountSvc', {});
         $provide.value('ProductSvc', {});
     }));
 
-    beforeEach(module('ds.coupon', function($provide) {
+    beforeEach(module('ds.coupon', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
     }));
 
-    beforeEach(function() {
-        module('ds.shared', function($provide) {
+    beforeEach(function () {
+        module('ds.shared', function ($provide) {
             $provide.constant('appConfig', {});
             $provide.value('GlobalData', mockedGlobalData);
             $provide.value('AuthSvc', AuthSvc);
@@ -81,17 +81,17 @@ describe('Coupon Service Test:', function() {
         });
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('restangular');
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('ds.i18n');
     });
 
 
 
-    beforeEach(inject(function(_CouponSvc_, _$rootScope_, _$timeout_, _CouponREST_, _CartSvc_, _$httpBackend_, SiteConfigSvc) {
+    beforeEach(inject(function (_CouponSvc_, _$rootScope_, _$timeout_, _CouponREST_, _CartSvc_, _$httpBackend_, SiteConfigSvc) {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
         $timeout = _$timeout_;
@@ -109,13 +109,13 @@ describe('Coupon Service Test:', function() {
 
     }));
 
-    describe('Coupon Service ', function() {
+    describe('Coupon Service ', function () {
 
-        it('should exist', function() {
+        it('should exist', function () {
             expect(CouponSvc.getCoupon).toBeDefined();
         });
 
-        it("should get a coupon", function() {
+        it("should get a coupon", function () {
             var getPayload = { "Accept": "application/json, text/plain, */*" };
 
             mockBackend.expectGET(couponUrl + 'coupons/test1', getPayload).respond(200, {});
@@ -126,7 +126,7 @@ describe('Coupon Service Test:', function() {
 
         });
 
-        it("should display proper error messages from redeemCoupon error response", function() {
+        it("should display proper error messages from redeemCoupon error response", function () {
 
             var mockCouponError = {
                 'status': 400,
@@ -135,13 +135,13 @@ describe('Coupon Service Test:', function() {
                     'type': 'business_error',
                     'message': 'Coupon cannot be redeemed',
                     'details': [{
+                        'type': 'coupon_order_total_too_low',
+                        'message': 'The order value is too low for this coupon.'
+                    },
+                    {
                         'type': 'backing_service_unavailable',
                         'message': 'CouponRestClient Coupon cannot be redeemed'
-                    },
-                        {
-                            'type': 'coupon_order_total_too_low',
-                            'message': 'The order value is too low for this coupon.'
-                        }]
+                    }]
                 }
             };
 
@@ -151,7 +151,7 @@ describe('Coupon Service Test:', function() {
             expect(msgs[0]).toBe('COUPON_ORDER_TOTAL_TOO_LOW');
 
         });
-        it("should display non-400 error message from redeemCoupon error response", function() {
+        it("should display non-400 error message from redeemCoupon error response", function () {
             var mockCouponError = {
                 'status': 401,
                 'data': {

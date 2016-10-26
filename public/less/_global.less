@@ -220,7 +220,7 @@ section{
 
 .salesPrice.price,
 .salesPrice.priceUnit{
-  color: #3ab85d !important;
+  color: red !important;
 
 }
 
@@ -354,6 +354,19 @@ section{
 }
 
 /* Override angular-ui-notification style*/
+
+.ui-notification.killed.success.clickable:hover {
+    -webkit-transition: opacity ease 1s;
+         -o-transition: opacity ease 1s;
+            transition: opacity ease 1s;
+
+    opacity: 0;
+}
+
+.ui-notification.success.clickable:hover {
+    opacity:1;
+}
+
 .ui-notification {
     z-index: 10000;
 }

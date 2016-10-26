@@ -22,25 +22,12 @@ exports.dumpBrowserConsoleLogs = function() {
     });
 };
 
-exports.scrollToProduct = function (prodEl) {
-    var deferred = protractor.promise.defer();
-    var maxCount = 10;
-    var count = 0;
-    while (count < maxCount) {
-        browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
-        browser.sleep(500);
-        count++;
-        if (element(by.xpath(prodEl)).isPresent()) {
-            deferred.fulfill();
-        } else if (count === maxCount) {
-            deferred.reject();
-        }
-    }
-    return deferred.promise;
-};
+exports.refreshPage = function () {
+    browser.refresh();
+}
 
 exports.selectOption = function (key, value) {
-    var field = element(by.model(key));
+    var field = element.all(by.model(key)).first();
     var selectField = field.element(by.css('.ui-select-search'));
     field.click();
     selectField.clear();

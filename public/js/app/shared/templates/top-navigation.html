@@ -12,7 +12,9 @@
 
         <!-- logo -->
         <div class="col-xs-5 text-center">
-            <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+            <a class="logo" ui-sref="base.home">
+                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="logo">
+            </a>
         </div>
         
         <!-- header right -->
@@ -49,7 +51,7 @@
         <!-- logo -->
         <div class="col-xs-2 logo navbar-padding navbar-padding-left">
             <a ui-sref="base.home" class="logo">
-                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
+                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="logo" />
             </a>
         </div>
     
@@ -116,7 +118,7 @@
     <div class="row nav js-mainNav">
         <div class="content-container">
             <div class="navbar yamm navbar-default">
-                <ul class="nav navbar-nav">
+                <ul id="product-categories" class="nav navbar-nav">
                     <li ng-repeat="top_category in categories" class="dropdown yamm-fw">
                         <!-- class="has-sub" -->
                         <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">

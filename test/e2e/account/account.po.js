@@ -155,6 +155,7 @@ var AccountPageObject = function () {
         browser.sleep(300);
 
         var selectSort = dropdowns.country.element(by.css('.ui-select-search'));
+        browser.sleep(300);
         dropdowns.country.click();
         selectSort.clear();
         selectSort.sendKeys(address.country);
@@ -185,6 +186,8 @@ var AccountPageObject = function () {
         inputFields.contactPhone.sendKeys(address.contactPhone);
 
         buttons.address.save.click();
+
+        browser.sleep(1000);
     };
 
 
@@ -207,10 +210,11 @@ var AccountPageObject = function () {
         browser.waitForAngular();
     };
 
-    this.accountDetails = {
-        getPage: function() {
-            dropdowns.account.click();
-            buttons.accountDetails.view.click();
+    var accountDetails = {
+        waitForAccountDetailsDropDown: function() {
+            browser.wait(function() {
+                return dropdowns.account.isPresent();
+            });
         },
         getFullName: function() {
             return textDisplays.accountDetails.fullName.getText();
@@ -279,6 +283,14 @@ var AccountPageObject = function () {
             buttons.saveUserInfo.click();
         }
     };
+
+    accountDetails.getPage = function() {
+        accountDetails.waitForAccountDetailsDropDown();
+        dropdowns.account.click();
+        buttons.accountDetails.view.click();
+    };
+
+    this.accountDetails = accountDetails;
 
     this.waitForSignInComplete = function() {
         browser.wait(function () {

@@ -305,6 +305,14 @@ angular.module('ds.router', [])
                         }
                     }
                 })
+                .state('base.deleteAccount', {
+                    url: '/custDelete?token',
+                    views: {
+                        'main@': {
+                            controller: 'DeleteAccountCtrl'
+                        }
+                    }
+                })
                 .state('base.orderDetail', {
                     url: '/orderDetail/:orderId',
                     views: {

@@ -40,7 +40,7 @@ describe('HomeSvc Test', function () {
         $controller = _$controller_;
         homeSvc = _HomeSvc_;
 
-        console.warn(homeSvc);
+        // console.warn(homeSvc);
     }));
 
     describe('Interface', function () {
