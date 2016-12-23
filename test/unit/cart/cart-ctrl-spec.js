@@ -12,7 +12,7 @@
 
 describe('CartCtrl Test', function () {
 
-    var $scope, $rootScope, $controller, $injector;
+    var $scope, $rootScope, $controller, $injector, $q;
 
     //***********************************************************************
     // Common Setup
@@ -22,7 +22,7 @@ describe('CartCtrl Test', function () {
     // configure the target controller's module for testing - see angular.mock
     beforeEach(angular.mock.module('ds.cart'));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, $q) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -32,16 +32,17 @@ describe('CartCtrl Test', function () {
         $rootScope =  _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
+        $q = _$q_;
     }));
 
-    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData, mockedSettings, mockedAuthSvc, mockedAuthDialogManager, mockedState, mockedCouponSvc;
+    var cart, products, cartCtrl, stubbedCartSvc, mockedGlobalData, mockedSettings, mockedAuthSvc, mockedAuthDialogManager, mockedState, mockedCouponSvc, mockedFeeSvc;
 
     beforeEach(function () {
         cart = {};
 
         products = [
-            {'name': 'Electric Guitar', 'id': 'guitar1234', 'price': 1000.00, 'quantity': 1},
-            {'name': 'Acoustic Guitar', 'id': 'guitar5678', 'price': 800.00, 'quantity': 1}
+            {'name': 'Electric Guitar', 'id': 'guitar1234', itemYrn: 'itemYrnForGuitar1234', 'price': 1000.00, 'quantity': 1},
+            {'name': 'Acoustic Guitar', 'id': 'guitar5678', itemYrn: 'itemYrnForGuitar5678', 'price': 800.00, 'quantity': 1}
         ];
 
         cart.items = products;
@@ -50,7 +51,7 @@ describe('CartCtrl Test', function () {
         stubbedCartSvc = {
             removeProductFromCart: jasmine.createSpy(),
             updateCartItemQty: jasmine.createSpy(),
-            getCart: jasmine.createSpy().andReturn(cart),
+            getCart: jasmine.createSpy().andReturn($q.when(cart)),
             getLocalCart: jasmine.createSpy().andReturn(cart),
             getCalculateTax: jasmine.createSpy().andReturn({
                 zipCode: '60606',
@@ -91,11 +92,25 @@ describe('CartCtrl Test', function () {
             removeAllCoupons: jasmine.createSpy('removeAllCoupons')
         };
 
+        mockedFeeSvc = {
+            getFeesForItemYrnList: jasmine.createSpy('getFeesForItemYrnList').andReturn($q.when({}))
+        };
+
         cartCtrl = $controller('CartCtrl', {$scope: $scope, $state: mockedState, $rootScope: $rootScope, 'CartSvc': stubbedCartSvc,
             'GlobalData': mockedGlobalData, 'settings': mockedSettings, 'AuthSvc': mockedAuthSvc,
-            'CouponSvc': mockedCouponSvc, 'AuthDialogManager': mockedAuthDialogManager});
+            'CouponSvc': mockedCouponSvc, 'AuthDialogManager': mockedAuthDialogManager, 'FeeSvc': mockedFeeSvc});
 
         $rootScope.cart = products;
+    });
+
+    describe('loading controller ', function() {
+
+        it('should fetch fees for the list of products returned by the cart service', function() {
+            expect(stubbedCartSvc.getCart).toHaveBeenCalled();
+            $scope.$apply();
+            expect(mockedFeeSvc.getFeesForItemYrnList).toHaveBeenCalledWith(['itemYrnForGuitar1234', 'itemYrnForGuitar5678']);
+        });
+
     });
 
     describe('remove from cart', function () {
@@ -121,19 +136,24 @@ describe('CartCtrl Test', function () {
 
     });
 
-    describe('test event watches', function () {
+    describe('event watches ', function () {
+        var newCart = {
+            id: '9876',
+            items: [
+                {name: 'Bass Guitar', id: 'bass1234', itemYrn: 'itemYrnForBass1234', price: 500, qty: 1},
+                {name: 'Piano', id: 'piano1234', itemYrn: 'itemYrnForPiano1234', price: 2000, qty: 1}
+            ],
+            currency: 'USD'
+        };
+
         it ('should set the scope cart to the event cart when cart updates', function () {
-            var newCart = {
-                id: '9876',
-                items: [
-                    {name: 'Bass Guitar', id: 'bass1234', price: 500, qty: 1}
-                ],
-                currency: 'USD'
-            };
-
             $rootScope.$emit('cart:updated', {cart: newCart});
-
             expect($scope.cart).toEqualData(newCart);
+        });
+
+        it('should get fees for products in the in-memory persisted cart when cart updates', function() {
+            $rootScope.$emit('cart:updated', {cart: newCart});
+            expect(mockedFeeSvc.getFeesForItemYrnList).toHaveBeenCalledWith(['itemYrnForBass1234', 'itemYrnForPiano1234']);
         });
     });
 

@@ -76,6 +76,31 @@
                     return options;
                 }
 
+				function selectOptionsForVariant(variant, availableOptions) {
+					var selectedOptions = [];
+
+                    var isVariantValid  = angular.isObject(variant);
+                    var areOptionsValid = angular.isObject(availableOptions) && !angular.equals(availableOptions, {}) &&
+						Object.keys(availableOptions).length > 0;
+
+					if (isVariantValid && areOptionsValid) {
+                        angular.forEach(availableOptions, function (option) {
+                            angular.forEach(option.attributes, function (optionAttribute) {
+
+                                if (optionAttribute !== null) {
+                                    var foundOptionIdx = optionAttribute.variantIds.indexOf(variant.id);
+                                    if( foundOptionIdx !== -1) {
+                                        selectedOptions.push(optionAttribute);
+                                    }
+                                }
+                            });
+                        });
+					}
+
+					return selectedOptions;
+				}
+
+
                 function getSelectedAttributes(optionsSelected) {
                     return _.filter(optionsSelected, function (o) { return _.isObject(o); });
                 }
@@ -112,6 +137,7 @@
 
                 return {
                     prepareOptions: prepareOptions,
+					selectOptionsForVariant: selectOptionsForVariant,
                     getSelectedAttributes: getSelectedAttributes,
                     getIdsOfMatchingVariants: getIdsOfMatchingVariants,
                     getIdsOfAllVariants: getIdsOfAllVariants,

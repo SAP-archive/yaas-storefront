@@ -1,6 +1,16 @@
 /**
- * Created by i839794 on 10/8/14.
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2016 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
  */
+
+'use strict';
 
 describe('GlobalData', function () {
 
@@ -121,6 +131,64 @@ describe('GlobalData', function () {
             GlobalData.loadInitialLanguage();
             expect(GlobalData.getLanguageCode()).toEqualData(defaultLangCode);
         });
+    });
+
+    describe('setSiteMixins()', function() {
+
+        beforeEach(function() {
+           GlobalData.deleteSiteMixins();
+        });
+
+        it('should persist site mixins', function() {
+            expect(Object.keys(GlobalData.getSiteMixins()).length).toBe(0);
+
+            // Define site mixins
+            var siteMixins = {
+                feeService: {
+                    active: true,
+                    serviceUrl: "http://my-fee-service.url/"
+                },
+                otherMixin: {
+                    property1: true,
+                    property2: "Dummy String"
+                }
+            };
+
+            // Persist them
+            GlobalData.setSiteMixins(siteMixins);
+
+            expect(Object.keys(GlobalData.getSiteMixins()).length).toBe(2);
+            expect(GlobalData.getSiteMixins()).toEqual(siteMixins);
+
+        });
+
+    });
+
+    describe('deleteSiteMixins()', function() {
+
+        beforeEach(function() {
+           GlobalData.setSiteMixins({
+               feeService: {
+                   active: true,
+                   serviceUrl: "http://my-fee-service.url/"
+               },
+               otherMixin: {
+                   property1: true,
+                   property2: "Dummy String"
+               }
+           });
+        });
+
+        it('should delete all the sites mixins', function() {
+
+            expect(Object.keys(GlobalData.getSiteMixins()).length).toBe(2);
+
+            GlobalData.deleteSiteMixins();
+
+            expect(Object.keys(GlobalData.getSiteMixins()).length).toBe(0);
+
+        });
+
     });
 
 });

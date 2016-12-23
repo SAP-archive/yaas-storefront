@@ -199,6 +199,8 @@
     //XFLD
     "TAX": "Tax",
     //XFLD
+    "FEES": "Fees",
+    //XFLD
     "TOTAL": "Total",
     //XFLD
     "YEAR": "Year",
@@ -370,6 +372,10 @@
     "UNAVAILABLE": "Unavailable",
     //XFLD
     "QTY": "Qty",
+    //XMSG
+    "EACH": "each",
+    //XMSG
+    "FEE": "fee",
     //XMSG
     "INCLUDES": "Includes",
     //XMSG

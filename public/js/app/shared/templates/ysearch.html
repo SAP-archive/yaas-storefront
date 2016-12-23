@@ -8,7 +8,7 @@
         </div>
         <div class="y-search-container" ng-show="search.showSearchResults && search.results.length > 0">
             <a class="form-control y-search-results" ng-click="hideSearchResults()"
-               ui-sref="base.product.detail( {productId: result.objectID} )" ng-repeat="result in search.results">
+               ui-sref="base.product.detail(extractProductAndVariantParameters(result.objectID))" ui-sref-opts="{notify: true}" ng-repeat="result in search.results">
                 <div class="y-search-result-thumbnail">
                     <img class="y-search-result-image" ng-src="{{result.image}}" />
                 </div>

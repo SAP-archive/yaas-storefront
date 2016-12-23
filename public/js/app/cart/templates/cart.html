@@ -92,6 +92,9 @@
                                     <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span>
                                 </div>
 
+                                <!-- product fees -->
+                                <product-fees fees="feesInformationForProductsYrnMap[item.itemYrn]"></product-fees>
+
                                 <!-- product quantity -->
                                 <div class="clearfix">
                                     <div class="input-group pull-left" ng-class="{error: item.error}">
@@ -115,12 +118,12 @@
                                     </div>
 
                                     <!-- note edit button -->
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="#">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
 
                                     <!-- note delete button -->
                                     <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed">
                                         &nbsp; | &nbsp;
-                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
+                                        <a href=""  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
                                     </span>
 
                                 </div>
@@ -148,7 +151,7 @@
 
                                 <p class="error" ng-show="note.saveFailed">{{'UNABLE_TO_SAVE_NOTE' | translate}}</p>
 
-                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="#">{{'CANCEL' | translate}}</button>
+                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="">{{'CANCEL' | translate}}</button>
 
                                 <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right text-uppercase" type="submit">{{'SAVE' | translate}}</button>
                             </form>

@@ -1,7 +1,7 @@
 describe('CheckoutCtrl', function () {
 
     var $scope, $rootScope, $controller, $injector, $q, mockedCheckoutSvc, mockedShippingSvc, mockedCartSvc, checkoutCtrl, order, cart, checkoutDfd, shippingDfd, cartDfd,
-        $modal, mockedModal, shippingZones, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
+        $uibModal, mockedModal, shippingZones, MockedAuthSvc, accountDef, addressDef, addressesDef, returnAddress,
         returnAddresses, returnAccount, MockedAccountSvc;
     var isAuthenticated;
     var GlobalData = {
@@ -98,11 +98,11 @@ describe('CheckoutCtrl', function () {
         $provide.value('order', order);
         $provide.value('shippingZones', shippingZones);
         $provide.value('$state', mockedState);
-        $provide.value('$modal', mockedModal);
+        $provide.value('$uibModal', mockedModal);
         $provide.value('settings', mockedSettings);
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$modal_, _$httpBackend_, _$timeout_) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _$injector_, _$q_, _$uibModal_, _$httpBackend_, _$timeout_) {
 
         this.addMatchers({
             toEqualData: function (expected) {
@@ -114,7 +114,7 @@ describe('CheckoutCtrl', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         $injector = _$injector_;
-        $modal = _$modal_;
+        $uibModal = _$uibModal_;
         _$httpBackend_.whenGET(/^[A-Za-z-/]*\.html/).respond({});
         $timeout = _$timeout_;
     }));

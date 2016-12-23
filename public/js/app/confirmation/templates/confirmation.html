@@ -156,7 +156,11 @@
                         <td><a ui-sref="base.product.detail( {productId: entry.product.id} )">
                             <img ng-src="{{ entry.product.images && entry.product.images[0].url || ''}}" class="" width="90" />
                         </a></td>
-                        <td>{{entry.product.name}}</td>
+                        <td class="text-left">
+                            <span ng-if="!entry.variant.name">{{entry.product.name}}</span>
+                            <span ng-if="entry.variant.name">{{entry.variant.name}}</span>
+                            <variant-options variant="entry.variant"></variant-options>
+                        </td>
                         <td>{{entry.product.sku}}</td>
                         <td class="text-right">
                             <span>{{entry.unitPrice | currency: currencySymbol}}</span>
@@ -215,8 +219,10 @@
                             </a>
                         </td>
                         <td colspan="7" class="text-left product-details-mobile">
-                            <div>{{entry.product.name}}</div>
+                            <div ng-if="!entry.variant.name">{{entry.product.name}}</div>
+                            <div ng-if="entry.variant.name">{{entry.variant.name}}</div>
                             <div>{{'SKU' | translate}}: {{entry.product.sku}}</div>
+                            <variant-options variant="entry.variant"></variant-options>
                             <div>
                                 <span>{{'ITEM_PRICE' | translate}}: {{entry.unitPrice | currency: currencySymbol}}</span>
                                 <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>

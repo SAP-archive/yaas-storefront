@@ -32,25 +32,37 @@ describe('PricesService Test', function () {
     };
     var pricesMap = {
         ID_productWithoutVariants: [
-            { "productId": "ID_productWithoutVariants", "originalAmount": 70.5, "effectiveAmount": 70.5 }
+            { "productId": "ID_productWithoutVariants", "originalAmount": 70.5, "effectiveAmount": 70.5, "measurementUnit": {"quantity": 1, "unitCode": "kg"} }
         ],
         ID_productWithVariants: [
-            { "productId": "ID_productWithVariants", "originalAmount": 70.5, "effectiveAmount": 70.5 },
-            { "group": "ID_productWithVariants", "originalAmount": 10, "effectiveAmount": 10 },
-            { "group": "ID_productWithVariants", "originalAmount": 20, "effectiveAmount": 20 },
-            { "group": "ID_productWithVariants", "originalAmount": 30, "effectiveAmount": 30 }
+            { "productId": "ID_productWithVariants", "originalAmount": 70.5, "effectiveAmount": 70.5},
+            { "group": "ID_productWithVariants", "originalAmount": 10, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariants", "originalAmount": 20, "effectiveAmount": 20, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariants", "originalAmount": 30, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
+        ],
+        ID_productWithVariants1: [
+            { "productId": "ID_productWithVariants1", "originalAmount": 70.5, "effectiveAmount": 70.5, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariants1", "originalAmount": 10, "effectiveAmount": 10},
+            { "group": "ID_productWithVariants1", "originalAmount": 20, "effectiveAmount": 20},
+            { "group": "ID_productWithVariants1", "originalAmount": 30, "effectiveAmount": 30}
+        ],
+        ID_productWithVariants2: [
+            { "productId": "ID_productWithVariants2", "originalAmount": 70.5, "effectiveAmount": 70.5, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariants2", "originalAmount": 10, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariants2", "originalAmount": 20, "effectiveAmount": 20},
+            { "group": "ID_productWithVariants2", "originalAmount": 30, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
         ],
         ID_productWithVariantsSales: [
-            { "productId": "ID_productWithVariantsSales", "originalAmount": 70.5, "effectiveAmount": 70.5 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 10 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 20, "effectiveAmount": 10 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 10, "effectiveAmount": 10 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 20, "effectiveAmount": 20 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 20 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 60, "effectiveAmount": 20 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 50, "effectiveAmount": 30 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 40, "effectiveAmount": 30 },
-            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 30 }
+            { "productId": "ID_productWithVariantsSales", "originalAmount": 70.5, "effectiveAmount": 70.5},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 20, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 10, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 20, "effectiveAmount": 20, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 20, "measurementUnit": {"quantity": 2, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 60, "effectiveAmount": 20, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 50, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 40, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}},
+            { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
         ]
     }
 
@@ -92,7 +104,7 @@ describe('PricesService Test', function () {
     it('getPricesMapForProduct should return singlePrice for product without variants', function () {
         priceSvc.getPricesMapForProducts([{ id: 'ID_productWithoutVariants' }], 'USD').then(function (prices) {
             expect(prices['ID_productWithoutVariants'].singlePrice).toEqual(
-                { "productId": "ID_productWithoutVariants", "originalAmount": 70.5, "effectiveAmount": 70.5 }
+                { "productId": "ID_productWithoutVariants", "originalAmount": 70.5, "effectiveAmount": 70.5, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
             );
         });
         deferredPricesForProducts.resolve(pricesMap['ID_productWithoutVariants']);
@@ -105,10 +117,10 @@ describe('PricesService Test', function () {
                 { "productId": "ID_productWithVariants", "originalAmount": 70.5, "effectiveAmount": 70.5 }
             );
             expect(prices['ID_productWithVariants'].minPrice).toEqual(
-                { "group": "ID_productWithVariants", "originalAmount": 10, "effectiveAmount": 10 }
+                { "group": "ID_productWithVariants", "originalAmount": 10, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
             );
             expect(prices['ID_productWithVariants'].maxPrice).toEqual(
-                { "group": "ID_productWithVariants", "originalAmount": 30, "effectiveAmount": 30 }
+                { "group": "ID_productWithVariants", "originalAmount": 30, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
             );
         });
         deferredPricesForProducts.resolve(pricesMap['ID_productWithVariants']);
@@ -121,13 +133,55 @@ describe('PricesService Test', function () {
                 { "productId": "ID_productWithVariantsSales", "originalAmount": 70.5, "effectiveAmount": 70.5 }
             );
             expect(prices['ID_productWithVariantsSales'].minPrice).toEqual(
-                { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 10 }
+                { "group": "ID_productWithVariantsSales", "originalAmount": 30, "effectiveAmount": 10, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
             );
             expect(prices['ID_productWithVariantsSales'].maxPrice).toEqual(
-                { "group": "ID_productWithVariantsSales", "originalAmount": 50, "effectiveAmount": 30 }
+                { "group": "ID_productWithVariantsSales", "originalAmount": 50, "effectiveAmount": 30, "measurementUnit": {"quantity": 1, "unitCode": "kg"}}
             );
         });
         deferredPricesForProducts.resolve(pricesMap['ID_productWithVariantsSales']);
+        $scope.$digest();
+    });
+
+    it('getPricesMapForProduct should return commonMeasurementUnit if all variants have the same measurementUnit', function () {
+        priceSvc.getPricesMapForProducts([{ id: 'ID_productWithVariants' }], 'USD').then(function (prices) {
+            expect(prices['ID_productWithVariants'].commonMeasurementUnit).toEqual(
+                {"quantity": 1, "unitCode": "kg"}
+            );
+        });
+        deferredPricesForProducts.resolve(pricesMap['ID_productWithVariants']);
+        $scope.$digest();
+    });
+
+    it('getPricesMapForProduct should return commonMeasurementUnit as null if variants are without measurementUnit', function () {
+        priceSvc.getPricesMapForProducts([{ id: 'ID_productWithVariants1' }], 'USD').then(function (prices) {
+            expect(prices['ID_productWithVariants1'].commonMeasurementUnit).toBeNull();
+        });
+        deferredPricesForProducts.resolve(pricesMap['ID_productWithVariants1']);
+        $scope.$digest();
+    });
+
+    it('getPricesMapForProduct should return commonMeasurementUnit as null if some variant is without measurementUnit', function () {
+        priceSvc.getPricesMapForProducts([{ id: 'ID_productWithVariants2' }], 'USD').then(function (prices) {
+            expect(prices['ID_productWithVariants2'].commonMeasurementUnit).toBeNull();
+        });
+        deferredPricesForProducts.resolve(pricesMap['ID_productWithVariants2']);
+        $scope.$digest();
+    });
+
+    it('getPricesMapForProduct should return commonMeasurementUnit as null if some variant is different then all another measurementUnit', function () {
+        priceSvc.getPricesMapForProducts([{ id: 'ID_productWithVariantsSales' }], 'USD').then(function (prices) {
+            expect(prices['ID_productWithVariantsSales'].commonMeasurementUnit).toBeNull();
+        });
+        deferredPricesForProducts.resolve(pricesMap['ID_productWithVariantsSales']);
+        $scope.$digest();
+    });
+
+    it('getPricesMapForProduct should return commonMeasurementUnit as NotInitialized for product without variants', function () {
+        priceSvc.getPricesMapForProducts([{ id: 'ID_productWithoutVariants' }], 'USD').then(function (prices) {
+            expect(prices['ID_productWithoutVariants'].commonMeasurementUnit).toBe('NotInitialized');
+        });
+        deferredPricesForProducts.resolve(pricesMap['ID_productWithoutVariants']);
         $scope.$digest();
     });
 

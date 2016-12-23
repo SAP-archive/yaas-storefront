@@ -15,8 +15,8 @@ angular.module('ds.account')
     /**
      *  Displays the "Delete Account" modal dialog.
      */
-    .controller('DeleteAccountDialogCtrl', ['$scope', 'AccountSvc', '$modalInstance', 'AuthDialogManager',
-        function($scope, AccountSvc, $modalInstance, AuthDialogManager) {
+    .controller('DeleteAccountDialogCtrl', ['$scope', 'AccountSvc', '$uibModalInstance', 'AuthDialogManager',
+        function($scope, AccountSvc, $uibModalInstance, AuthDialogManager) {
 
             $scope.submitDisabled = false;
             $scope.showError = false;
@@ -26,7 +26,7 @@ angular.module('ds.account')
 
                 AccountSvc.deleteAccount().then(
                     function() {
-                        $modalInstance.close();
+                        $uibModalInstance.close();
                         AuthDialogManager.showDeleteAccountConfirmRequest();
                     },
                     function(){
@@ -37,7 +37,7 @@ angular.module('ds.account')
             };
 
             $scope.close = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
 
     }]);

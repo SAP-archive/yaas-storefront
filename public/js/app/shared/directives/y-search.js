@@ -28,7 +28,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     });
 
 angular.module('ds.ysearch')
-    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', 'GlobalData', function (scope, $rootScope, $state, ysearchSvc, GlobalData) {
+    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', 'YrnSvc', 'GlobalData', function (scope, $rootScope, $state, ysearchSvc, YrnSvc, GlobalData) {
 
         if (!scope.page) {
             scope.page = 0;
@@ -72,7 +72,7 @@ angular.module('ds.ysearch')
             scope.search.showSearchResults = false;
         };
 
-        //Used for checking if the user left te search field
+        //Used for checking if the user left the search field
         angular.element(document)
             .bind('mouseup', function (e) {
                 var container = angular.element('.y-search');
@@ -82,6 +82,31 @@ angular.module('ds.ysearch')
                     scope.$digest();
                 }
             });
+
+		scope.extractProductAndVariantParameters = function(algoliaObjectId) {
+
+
+			if(!YrnSvc.isValidYrn(algoliaObjectId)) {
+				return  {productId: algoliaObjectId, variantId:null};
+			}
+
+			var result;
+
+			var yrn = YrnSvc.parse(algoliaObjectId);
+
+			if(yrn.resource === 'product') {
+				result = { productId: yrn.resourceIds.productId, variantId:null};
+			}
+			else if(yrn.resource === 'product-variant') {
+				result = { productId: yrn.resourceIds.productId, variantId: yrn.resourceIds.variantId};
+			}
+
+
+			return result;
+		};
+
+
+
 
         scope.doSearch = function () {
             scope.search.showSearchResults = true;

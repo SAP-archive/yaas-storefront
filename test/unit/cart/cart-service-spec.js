@@ -1,4 +1,4 @@
-/*
+/**
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -10,9 +10,15 @@
  * license agreement you entered into with hybris.
  */
 
+'use strict';
+
 describe('CartSvc Test', function () {
     var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData = {
         getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA')
+    };
+    var mockedChannel = {
+        'name':'yaas-storefront',
+        'source':'shops.yaas.io'
     };
     var cartId = 'cartId456';
     var selectedSiteCode = 'europe123';
@@ -137,6 +143,7 @@ describe('CartSvc Test', function () {
         mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
         mockedGlobalData.getAcceptLanguages = jasmine.createSpy('getAcceptLanguages').andReturn('en');
         mockedGlobalData.getSiteCode = jasmine.createSpy('getSiteCode').andReturn(selectedSiteCode);
+        mockedGlobalData.getChannel = jasmine.createSpy('getChannel').andReturn(mockedChannel);
 
         productUrl = siteConfig.apis.products.baseUrl;
         mockBackend.whenGET(productUrl+'products/'+prod1.product.id).respond(200, prod1.product);

@@ -31,6 +31,9 @@ angular.module('ds.products')
                  RestangularConfigurer.restangularFields.options = 'restangularOptions';
                }).one('products', params.productId).one('variants', params.variantId).get();
             },
+            getProductVariants: function(params) {
+               return PriceProductREST.Products.one('products', params.productId).all('variants').getList();
+            },
             getProduct:  function(params) {
               return PriceProductREST.Products.one('products', params.productId).get();
             }

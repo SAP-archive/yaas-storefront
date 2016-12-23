@@ -20,13 +20,18 @@
                 templateUrl: 'js/app/products/templates/product-options/product-options.html',
                 scope: {
                     variants: '=',
+					selectedVariant: '=',
                     onActiveVariantChanged: '&'
                 },
-                controller: ['$scope', 'ProductOptionsHelper',
-                    function productOptionsCtrl($scope, ProductOptionsHelper) {
+                controller: ['$scope', 'ProductOptionsHelper', 'ProductVariantsHelper',
+                    function productOptionsCtrl($scope, ProductOptionsHelper, ProductVariantsHelper) {
 
                         $scope.options = ProductOptionsHelper.prepareOptions($scope.variants);
-                        $scope.optionsSelected = [];
+						
+						var variant = ProductVariantsHelper.getDefaultVariantWithFallback($scope.variants);
+
+						$scope.optionsSelected = ProductOptionsHelper.selectOptionsForVariant($scope.selectedVariant, $scope.options);
+
 
                         function getIdsOfMatchingVariants(attributesSelected) {
                             return attributesSelected.length === 0 ?
@@ -51,6 +56,10 @@
 
                             $scope.onActiveVariantChanged({ activeVariant: activeVariant });
                         };
+
+						if(variant) {
+							$scope.resolveActiveVariantAndUpdateOptions();
+						}
 
                         $scope.omitSelectionAndUpdateOptions = function (omittedIndex) {
                             var omitted = _.union([], $scope.optionsSelected);

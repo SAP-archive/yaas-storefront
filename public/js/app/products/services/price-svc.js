@@ -48,35 +48,33 @@ angular.module('ds.products')
                 };
                 promises.push(
                     this.getPrices(query)
-                        .then(function assignProductsPrices(requestedPrices) {
-                            angular.forEach(requestedPrices, function (requestedPrice) {
-                                prices.push(requestedPrice);
+                        .then(function assignProductsPrices(savedPrices) {
+                            angular.forEach(savedPrices, function (savedPrice) {
+                                prices.push(savedPrice);
                             });
                         })
                 );
 
-                angular.forEach(productsWithVariatsIds, function (productVariatId) {
-                    query = {
-                        currency: currency,
-                        group: productVariatId,
-                        effectiveDate: effectiveDate
-                    };
-                    promises.push(
-                        this.getPrices(query)
-                            .then(function assignVariantsPrices(requestedPrices) {
-                                angular.forEach(requestedPrices, function (requestedPrice) {
-                                    prices.push(requestedPrice);
-                                });
-                            })
-                    );
-                }, this);
+                query = {
+                    currency: currency,
+                    group: productsWithVariatsIds.join(),
+                    effectiveDate: effectiveDate
+                };
+                promises.push(
+                    this.getPrices(query)
+                        .then(function assignVariantsPrices(savedPrices) {
+                            angular.forEach(savedPrices, function (savedPrice) {
+                                prices.push(savedPrice);
+                            });
+                        })
+                );
                 return $q.all(promises).then(function () {
                     return prices;
                 });
             },
 
             getPricesMapForProducts: function (products, currency) {
-                return this.getPricesForProducts(products, currency).then(function processPrices(prices) {
+                return this.getPricesForProducts(products, currency).then(function processPrices(savedPrices) {
                     var pricesMap = {};
                     var favourDiscount = function (current, compare) {
                         var currentDiscount = current.originalAmount - current.effectiveAmount;
@@ -107,33 +105,42 @@ angular.module('ds.products')
                         }
                         return compare;
                     };
-                    angular.forEach(prices, function (iPrice) {
+                    var getCommonMeasurementUnit = function (price, savedPrice) {
+                        if (price.commonMeasurementUnit === 'NotInitialized') {
+                            if (savedPrice.hasOwnProperty('measurementUnit')) {
+                                return angular.copy(savedPrice.measurementUnit);
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            if (price.hasOwnProperty('commonMeasurementUnit') && (!savedPrice.hasOwnProperty('measurementUnit') || !angular.equals(price.commonMeasurementUnit, savedPrice.measurementUnit))) {
+                                return null;
+                            } else {
+                                return price.commonMeasurementUnit;
+                            }
+                        }
+                    };
+                    angular.forEach(savedPrices, function (savedPrice) {
                         var price;
-                        if (iPrice.productId) { // Product
-                            if (!pricesMap[iPrice.productId]) {
-                                pricesMap[iPrice.productId] = {
+                        function getOrCreatePrice(productId) {
+                            if (!pricesMap[productId]) {
+                                pricesMap[productId] = {
                                     singlePrice: null,
                                     minPrice: null,
-                                    maxPrice: null
+                                    maxPrice: null,
+                                    commonMeasurementUnit: 'NotInitialized'
                                 };
                             }
-                            price = pricesMap[iPrice.productId];
-                            price.singlePrice = iPrice;
-                        } else if (iPrice.group) { // Product with variants
-                            if (!pricesMap[iPrice.group]) {
-                                pricesMap[iPrice.group] = {
-                                    singlePrice: null,
-                                    minPrice: null,
-                                    maxPrice: null
-                                };
-                            }
-                            price = pricesMap[iPrice.group];
-                            if (!price.variants) {
-                                price.variants = {};
-                            }
-                            price.variants[iPrice.itemYrn] = angular.copy(iPrice);
-                            price.minPrice = getMinPrice(price.minPrice, iPrice);
-                            price.maxPrice = getMaxPrice(price.maxPrice, iPrice);
+                            return pricesMap[productId];
+                        }
+                        if (savedPrice.productId) { // Price of product
+                            price = getOrCreatePrice(savedPrice.productId);
+                            price.singlePrice = savedPrice;
+                        } else if (savedPrice.group) { // Price of variant
+                            price = getOrCreatePrice(savedPrice.group);
+                            price.minPrice = getMinPrice(price.minPrice, savedPrice);
+                            price.maxPrice = getMaxPrice(price.maxPrice, savedPrice);
+                            price.commonMeasurementUnit = getCommonMeasurementUnit(price, savedPrice);
                         }
                     });
                     return pricesMap;

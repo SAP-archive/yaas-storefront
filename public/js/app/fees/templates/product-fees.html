@@ -1,0 +1,15 @@
+<div class="product-fees-container">
+    <div class="product-fee-item" ng-repeat="fee in fees | orderBy:'name' ">
+        <div ng-switch="fee.feeType">
+            <div ng-switch-when="ABSOLUTE">
+                <span>{{::fee.name}}&nbsp;(+&nbsp;{{::fee.currencySymbol}}{{::fee.feeAbsolute.amount}})</span>
+            </div>
+            <div ng-switch-when="PERCENT">
+                <span>{{::fee.name}}&nbsp;(+&nbsp;{{::fee.feePercentage}}%&nbsp;{{'FEE' | translate}})</span>
+            </div>
+            <div ng-switch-when="ABSOLUTE_MULTIPLY_ITEMQUANTITY">
+                <span>{{::fee.name}}&nbsp;(+&nbsp;{{::fee.currencySymbol}}{{::fee.feeAbsolute.amount}}&nbsp;{{'EACH' | translate}})</span>
+            </div>
+        </div>
+    </div>
+</div>

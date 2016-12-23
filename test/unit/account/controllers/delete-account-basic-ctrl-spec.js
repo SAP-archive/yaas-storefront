@@ -35,7 +35,7 @@ describe('DeleteAccountBasicCtrl Test', function () {
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
         deferredDeleteAccount = _$q_.defer();
-        $controller('DeleteAccountBasicCtrl', {$scope: $scope, $modalInstance: mockedModalInstance, 
+        $controller('DeleteAccountBasicCtrl', {$scope: $scope, $uibModalInstance: mockedModalInstance, 
             success: mockedSuccess });
     }));
 

@@ -16,13 +16,13 @@ angular.module('ds.account')
      *  Displays basic modal releated for process of customer account deletion.
      *  There is a need just for close operation, everything else is simple message. 
      */
-    .controller('DeleteAccountBasicCtrl', ['$scope', '$modalInstance', 'success',
-        function($scope, $modalInstance, success) {
+    .controller('DeleteAccountBasicCtrl', ['$scope', '$uibModalInstance', 'success',
+        function($scope, $uibModalInstance, success) {
 
             $scope.success = success;
 
             $scope.close = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
 
     }]);

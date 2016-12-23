@@ -31,7 +31,7 @@ describe('CustomerDetailsCtrl', function () {
     };
 
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('$modal', mockedModal);
+        $provide.value('$uibModal', mockedModal);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _$httpBackend_, _$q_) {
@@ -56,7 +56,7 @@ describe('CustomerDetailsCtrl', function () {
         beforeEach(function () {
             $controller('CustomerDetailsCtrl',
                 {
-                    $scope: $scope, 'AuthDialogManager': mockedAuthDialogManager, '$modal': mockedModal, 'AccountSvc': mockedAccountSvc
+                    $scope: $scope, 'AuthDialogManager': mockedAuthDialogManager, '$uibModal': mockedModal, 'AccountSvc': mockedAccountSvc
                 });
         });
 

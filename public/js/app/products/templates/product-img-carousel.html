@@ -1,9 +1,10 @@
-<div class="row image-carousel">
-    <div class="col-md-10 main-image-container" ng-click="enlargeImage()">
+<!-- desktop view -->
+<div class="image-carousel">
+    <div class="col-md-10 main-image-container">
         <div class="product-images">   
             <img id="{{$index}}" class="product-image" ng-repeat="image in images" ng-src="{{image.url}}" alt="" fullscreen>        
         </div>
-        <div class="zoom">
+        <div class="zoom"  ng-click="enlargeImage()">
             <span class="hidden-xs hidden-sm"><img src="img/img-zoom.png" alt="Zoom"/></span>
         </div>
         <div class="hidden-lg hidden-md mobileThumbs">
@@ -20,3 +21,4 @@
         </div>
     </div>
 </div>
+<!-- /desktop view -->

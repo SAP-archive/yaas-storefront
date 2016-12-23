@@ -14,21 +14,21 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('EditUserNameDialogCtrl', ['$scope', 'account', 'AccountSvc', 'GlobalData', '$modalInstance',
-            function ($scope, account, AccountSvc, GlobalData, $modalInstance) {
+        .controller('EditUserNameDialogCtrl', ['$scope', 'account', 'AccountSvc', 'GlobalData', '$uibModalInstance',
+            function ($scope, account, AccountSvc, GlobalData, $uibModalInstance) {
 
                 $scope.account = angular.copy(account);
                 $scope.titles = GlobalData.getUserTitles();
 
                 $scope.closeEditUserDialog = function () {
-                    $modalInstance.dismiss('cancel');
+                    $uibModalInstance.dismiss('cancel');
                 };
 
                 $scope.updateUserInfo = function () {
                     var account = angular.copy($scope.account);
 
                     AccountSvc.updateAccount(account).then(function () {
-                        $modalInstance.close(account);
+                        $uibModalInstance.close(account);
                     });
                 };
 

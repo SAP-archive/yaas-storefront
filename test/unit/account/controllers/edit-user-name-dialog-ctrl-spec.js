@@ -23,7 +23,7 @@ describe('EditUserNameDialogCtrl', function () {
 
     beforeEach(module('ds.account', function ($provide) {
         $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('$modalInstance', mockedModal);
+        $provide.value('$uibModalInstance', mockedModal);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _$q_) {
@@ -46,7 +46,7 @@ describe('EditUserNameDialogCtrl', function () {
             $controller('EditUserNameDialogCtrl',
                 {
                     $scope: $scope, 'AccountSvc': AccountSvc, 'account': account,
-                    'GlobalData': mockedGlobalData, '$modalInstance': mockedModal
+                    'GlobalData': mockedGlobalData, '$uibModalInstance': mockedModal
                 });
         });
 

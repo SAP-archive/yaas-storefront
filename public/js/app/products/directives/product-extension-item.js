@@ -38,6 +38,10 @@
 
                         if ($scope.type === 'string') {
                             $scope.stringFormat = $scope.definition.format;
+                            if ($.inArray($scope.stringFormat, ['date', 'time', 'date-time']) >= 0) {
+                                $scope.value = ProductExtensionItemHelper.stringToDate($scope.stringFormat, $scope.value);
+                            }
+                            
                         }
                         if ($scope.type === 'object') {
                             $scope.propertyOrder = ProductExtensionItemHelper.toOrderArray($scope.definition.properties);

@@ -15,8 +15,8 @@
 'use strict';
 
 angular.module('ds.searchlist')
-    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString', 'MainMediaExtractor', 'PriceSvc',
-        function ($scope, $rootScope, ProductSvc, GlobalData, settings, $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString, MainMediaExtractor, PriceSvc) {
+    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString', 'MainMediaExtractor', 'PriceSvc', '$q',
+        function ($scope, $rootScope, ProductSvc, GlobalData, settings, $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString, MainMediaExtractor, PriceSvc, $q) {
 
             $scope.searchString = searchString;
 
@@ -80,18 +80,30 @@ angular.module('ds.searchlist')
                                 $scope.pagination.productsFrom = 0;
                             }
 
+                            var variantsPromises = [];
+                            var promise;
                             if (products.length) {
                                 assignMainImage(products);
                                 angular.forEach(products, function (product) {
-                                    product.hasVariants = product.metadata &&
+                                    if (product.metadata &&
                                         product.metadata.variants &&
                                         product.metadata.variants.options &&
-                                        Object.keys(product.metadata.variants.options).length > 0;
+                                        Object.keys(product.metadata.variants.options).length > 0) {
+                                        promise = ProductSvc.getProductVariants({ productId: product.id })
+                                            .then(function (result) {
+                                                product.hasVariants = result.length > 0;
+                                            });
+                                        variantsPromises.push(promise);
+                                    } else {
+                                        product.hasVariants = false;
+                                    }
                                 });
                             }
 
                             //Set page parameter
                             $location.search('page', $scope.pageNumber).replace();
+
+                            return $q.all(variantsPromises);
                         }
                     }, function () {
                         $scope.requestInProgress = false;
@@ -126,10 +138,6 @@ angular.module('ds.searchlist')
                         //Send event that search is done
                         $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.total });
 
-                        //initialize the viewing bar promixity script
-                        /* jshint ignore:start */
-                        initRefineAffix();
-                        /* jshint ignore:end */
                         $scope.requestInProgress = false;
                     }, function () {
                         $scope.requestInProgress = false;

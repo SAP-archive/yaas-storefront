@@ -14,8 +14,8 @@
 
 angular.module('ds.products')
     /** Controller for the 'browse products' view.  */
-    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'MainMediaExtractor', 'PriceSvc',
-        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, MainMediaExtractor, PriceSvc) {
+    .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'MainMediaExtractor', 'PriceSvc', '$q',
+        function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, MainMediaExtractor, PriceSvc, $q) {
 
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
@@ -102,18 +102,31 @@ angular.module('ds.products')
                                 //Check for visible items in viewport
                             }
                             $scope.total = GlobalData.products.meta.total;
+
+                            var variantsPromises = [];
+                            var promise;
                             if (products.length) {
                                 assignMainImage(products);
                                 angular.forEach(products, function (product) {
-                                    product.hasVariants = product.metadata &&
+                                    if (product.metadata &&
                                         product.metadata.variants &&
                                         product.metadata.variants.options &&
-                                        Object.keys(product.metadata.variants.options).length > 0;
+                                        Object.keys(product.metadata.variants.options).length > 0) {
+                                        promise = ProductSvc.getProductVariants({ productId: product.id })
+                                            .then(function (result) {
+                                                product.hasVariants = result.length > 0;
+                                            });
+                                        variantsPromises.push(promise);
+                                    } else {
+                                        product.hasVariants = false;
+                                    }
                                 });
                             }
 
                             //Set page parameter
                             $location.search('page', $scope.pageNumber).replace();
+
+                            return $q.all(variantsPromises);
                         }
                     }, function () {
                         $scope.requestInProgress = false;
@@ -146,9 +159,6 @@ angular.module('ds.products')
                         }
 
                         //initialize the viewing bar promixity script
-                        /* jshint ignore:start */
-                        initRefineAffix();
-                        /* jshint ignore:end */
                         $scope.requestInProgress = false;
                     }, function () {
                         $scope.requestInProgress = false;

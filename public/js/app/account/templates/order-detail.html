@@ -108,8 +108,10 @@
                                     </a>
                                 </div>
                                 <div class="detail-col col-xs-8 col-sm-8 col-lg-8">
-                                    <div class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
+                                    <div ng-if="!entry.variant.name" class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.product.name}}</a></div>
+                                    <div ng-if="entry.variant.name" class="name "><a ui-sref="base.product.detail( {productId: entry.id} )">{{entry.variant.name}}</a></div>
                                     <div class="price item-attr ">{{'SKU' | translate}}: <span> {{entry.product.sku}}</span></div>
+                                    <variant-options variant="entry.variant"></variant-options>
                                 </div>
                             </div>
                         </td>
@@ -134,7 +136,9 @@
                     </div>
                     <div class="col-xs-8 col-md-8  detail-col">
 
-                        <div class="name"><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
+                        <div ng-if="!entry.variant.name" class="name"><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.product.name}}</a></div>
+                        <div ng-if="entry.variant.name" class="name"><a ui-sref="base.product.detail( {productId: entry.product.id} )">{{entry.variant.name}}</a></div>
+                        <variant-options variant="entry.variant"></variant-options>
                         <div class="price item-attr">{{'ITEM_PRICE' | translate}}: 
                             <span> {{entry.unitPrice | currency: currencySymbol}}</span>
                             <span class="priceUnit" ng-if="entry.measurementUnit">{{entry.measurementUnit.value}} {{entry.measurementUnit.unit}}</span>

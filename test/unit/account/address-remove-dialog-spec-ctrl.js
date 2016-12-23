@@ -31,7 +31,7 @@ describe('AddressRemoveDialogCtrl ', function () {
 
     beforeEach(function () {
         addressRemoveDialogCtrl = $controller('AddressRemoveDialogCtrl',
-            { $scope: $scope, '$modalInstance': mockedModalInstance });
+            { $scope: $scope, '$uibModalInstance': mockedModalInstance });
 
     });
 

@@ -18,7 +18,7 @@ var ConfirmationPageObject = function () {
         orderDetails: element(by.binding('orderInfo.orderId')),
         taxLines: by.exactRepeater('taxLine in confirmationDetails.tax.lines'),
         successMessage: element(by.id('confirmation-success-message')),
-        totalPriceMobile: element(by.css('td.text-left.product-details-mobile > div:nth-child(5) > strong')),
+        totalPriceMobile: element(by.css('td.text-left.product-details-mobile > div:nth-child(6) > strong')),
         shippingAddress: {
             address1: element(by.binding('confirmationDetails.shippingAddressStreetLine1')),
             name: element(by.binding('confirmationDetails.shippingAddressName')),

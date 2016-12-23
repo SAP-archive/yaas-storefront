@@ -49,7 +49,7 @@ describe('DeleteAccountDialogCtrl Test', function () {
         $controller = _$controller_;
         deferredDeleteAccount = _$q_.defer();
         $controller('DeleteAccountDialogCtrl', {$scope: $scope, AccountSvc: mockedAccountSvc, 
-            $modalInstance: mockedModalInstance, AuthDialogManager: mockedAuthDialogManager });
+            $uibModalInstance: mockedModalInstance, AuthDialogManager: mockedAuthDialogManager });
     }));
 
     describe('deleteAccount()', function () {

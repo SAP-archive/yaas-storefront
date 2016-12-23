@@ -30,16 +30,15 @@
                                type="password" class="form-control ui-autocomplete" id="password" name="password"
                                ng-model="account.password" required autocomplete="on">
                     </div>
-
                     <div class="error" ng-if="error">
                         {{error}}
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" ng-click="closeEditUserDialog()" id="cancel-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
-                <button type="submit" id="save-btn" class="btn btn-primary btn-lg" ng-disabled="updateUserInfoForm.$invalid">{{'SAVE' | translate}}</button>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" ng-click="closeEditUserDialog()" id="cancel-btn" class="btn btn-secondary btn-lg">{{'CANCEL' | translate}}</button>
+            <button type="submit" id="save-btn" class="btn btn-primary btn-lg" ng-disabled="updateUserInfoForm.$invalid">{{'SAVE' | translate}}</button>
         </div>
     </form>
 </div>

@@ -1,14 +1,15 @@
-﻿<div class="regionControls text-center">
+﻿<div class="regionControls text-center" ng-hide="sites.length == 1 && sites[0].languages.length == 1">
     <div class="controlcontainer">
-        <div class="dropdown" ng-hide="sites.length == 1 && sites[0].languages.length == 1">
-            <a class=" dropdown-toggle siteSelectorIcon"
-               ng-click="setHoveredSite(selectedSite)">
+        <div class="dropdown">
+            <a class="dropdown-toggle siteSelectorIcon"
+               ng-click="setHoveredSite(selectedSite)"
+               data-toggle="dropdown">
                 <img class="site-selector-icon"
                      ng-src="{{GlobalData.store.icon || 'img/ico_default.png'}}" />
             </a>
             <div class="dropdown-menu regionMenu">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 regionCountries">
                         <ul class="list-unstyled regionControlList">
                             <li ng-repeat="site in sites" ng-class="{ 'selected':site.code === selectedSite.code, 'hovered': site.code === hoveredSite.code}"
                                 ng-click="selectSiteAndLanguage(site, site.defaultLanguage)"

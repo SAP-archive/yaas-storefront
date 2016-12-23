@@ -11,9 +11,9 @@
         
             <span ng-switch-when="string">
                 <span ng-switch="stringFormat">
-                    <span ng-switch-when="date">{{value | defaultDate}}</span>
-                    <span ng-switch-when="time">{{value | defaultTime}}</span>
-                    <span ng-switch-when="date-time">{{value | defaultDateTime}}</span>
+                    <span ng-switch-when="date">{{value | formatDateWithLocale}}</span>
+                    <span ng-switch-when="time">{{value | formatTimeWithLocale}}</span>
+                    <span ng-switch-when="date-time">{{value | formatDateTimeWithLocale}}</span>
         
                     <span ng-switch-default>{{value}}</span>
                 </span>

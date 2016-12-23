@@ -196,6 +196,8 @@
     //XFLD
     "TAX": "Steuer",
     //XFLD
+    "FEES": "Gebühren",
+    //XFLD
     "TOTAL": "Gesamt",
     //XFLD
     "YEAR": "Jahr",
@@ -357,6 +359,10 @@
     "UNAVAILABLE": "nicht vorhanden",
     //XFLD
     "QTY": "Menge",
+    //XMSG
+    "EACH": "each",
+    //XMSG
+    "FEE": "fee",
     //XMSG
     "INCLUDES": "enthält",
     //XMSG

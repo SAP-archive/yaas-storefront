@@ -86,5 +86,8 @@ angular.module('ds.shared')
             siteUpdate: 'siteUpdate'
         },
 
-        avatarImagePlaceholder: './img/user-icon_small_active.png'
+        avatarImagePlaceholder: './img/user-icon_small_active.png',
+
+        feeServiceMixinKey: 'feeService',
+        feeServiceUrlKey: 'serviceUrl'
     });

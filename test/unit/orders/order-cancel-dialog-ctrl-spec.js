@@ -18,7 +18,7 @@ describe('OrderCancelDialogCtrl', function () {
     var mockedModal = {};
 
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('$modalInstance', mockedModal);
+        $provide.value('$uibModalInstance', mockedModal);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _$q_) {
@@ -38,7 +38,7 @@ describe('OrderCancelDialogCtrl', function () {
     describe('', function () {
 
         beforeEach(function () {
-            $controller('OrderCancelDialogCtrl', {$scope: $scope, 'OrderDetailSvc': OrderDetailSvc, 'order': order,'$modalInstance': mockedModal});
+            $controller('OrderCancelDialogCtrl', {$scope: $scope, 'OrderDetailSvc': OrderDetailSvc, 'order': order,'$uibModalInstance': mockedModal});
         });
 
         it('should expose correct scope interface', function () {

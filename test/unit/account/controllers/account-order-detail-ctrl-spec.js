@@ -16,7 +16,7 @@ describe('AccountOrderDetailCtrl Test', function () {
 
     // configure the target controller's module for testing - see angular.mock\
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('$modal', mockedModal);
+        $provide.value('$uibModal', mockedModal);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$q_) {

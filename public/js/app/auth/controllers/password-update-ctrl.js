@@ -16,8 +16,8 @@ angular.module('ds.auth')
      *  Displays the "change password" modal dialog.  This is initiated directly by the user
      *  (not via the 'reset password' function) and does not require a token.
      */
-    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams', 'TokenSvc', '$modalInstance',
-        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams, TokenSvc, $modalInstance) {
+    .controller('PasswordUpdateCtrl', ['$scope', 'AuthDialogManager', 'AuthSvc', '$state', '$stateParams', 'TokenSvc', '$uibModalInstance',
+        function($scope, AuthDialogManager, AuthSvc, $state, $stateParams, TokenSvc, $uibModalInstance) {
 
             $scope.showPristineErrors = false;
             $scope.submitDisabled = false;
@@ -34,7 +34,7 @@ angular.module('ds.auth')
 
                 AuthSvc.updatePassword(oldPassword, newPassword, TokenSvc.getToken().getUsername() || '').then(
                     function() {
-                        $modalInstance.close();
+                        $uibModalInstance.close();
                     },
                     function(error){
                         $scope.submitDisabled = false;
@@ -49,7 +49,7 @@ angular.module('ds.auth')
             };
 
             $scope.close = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
 
             $scope.clearErrors = function(){

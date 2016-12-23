@@ -15,7 +15,7 @@
 angular.module('ds.cart')
 
     .factory('CartSvc', ['$rootScope', 'CartREST','ProductSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
-        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData,$location) {
+        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData) {
 
             // Prototype for outbound "update cart item" call
             var Item = function (product, price, qty) {
@@ -65,10 +65,8 @@ angular.module('ds.cart')
                     accPromise.finally(function () {
                         newCart.currency = GlobalData.getCurrencyId();
                         newCart.siteCode = GlobalData.getSiteCode();
-                        newCart.channel = {
-                            name: 'yaas-storefront',
-                            source: $location.host()
-                        };
+                        newCart.channel = GlobalData.getChannel();
+
                         CartREST.Cart.all('carts').post(newCart).then(function (response) {
                             cart.id = response.cartId;
                             deferredCart.resolve({ cartId: cart.id });
@@ -367,7 +365,12 @@ angular.module('ds.cart')
                         // no existing user cart
                         if (anonCart && anonCart.id) {
                             // create new cart for customer so anon cart can be merged into it
-                            cart = { customerId: customerId, currency: GlobalData.getCurrencyId(), siteCode: GlobalData.getSiteCode() };
+                            cart = {
+                                customerId: customerId,
+                                currency: GlobalData.getCurrencyId(),
+                                siteCode: GlobalData.getSiteCode(),
+                                channel: GlobalData.getChannel()
+                            };
 
                             CartREST.Cart.all('carts').post(cart).then(function (newCartResponse) {
                                 cart.id = newCartResponse.cartId;
