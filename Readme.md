@@ -189,7 +189,7 @@ In the multi-project setup, instead of reading the project ID from bootstrap.js,
 
 ### DevPortal Security Documentation
 
-A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at [https://devportal.yaas.io/overview/security/storefrontsecurity.html](https://devportal.yaas.io/overview/security/storefrontsecurity.html) Below is a brief on a few or our recomendations.
+A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at [https://devportal.yaas.io/overview/security#StorefrontSecurity](https://devportal.yaas.io/overview/security#StorefrontSecurity) Below is a brief on a few or our recomendations.
 
 ### y-input
 
