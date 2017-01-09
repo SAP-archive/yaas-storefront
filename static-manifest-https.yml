@@ -1,0 +1,10 @@
+---
+applications:
+- name: store-template-simple-https
+  buildpack: https://github.com/drnic/staticfile-buildpack.git
+  memory: 64M
+  host: store-template-simple-https
+  instances: 1
+  path: dist/public
+  env:
+    FORCE_HTTPS: true

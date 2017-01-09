@@ -140,6 +140,10 @@ angular.module('ds.account')
                     }
                 }
                 return false;
+            },
+
+            deleteAccount: function (token) {
+                return AuthREST.Customers.all('me').customDELETE('', {token: token});
             }
 
         };

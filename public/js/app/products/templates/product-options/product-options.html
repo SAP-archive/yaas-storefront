@@ -4,11 +4,12 @@
             <div class="form-group input-group">
                 <label class="input-group-addon control-label">{{option.attributeKey}}</label>
                 <ui-select ng-model="optionsSelected[$index]" on-select="resolveActiveVariantAndUpdateOptions()">
-                    <ui-select-match ng-click="omitSelectionAndUpdateOptions($index)" placeholder="{{'SELECT' | translate}}">
+                    <ui-select-match ng-click="omitSelectionAndUpdateOptions($index)" placeholder="{{'SELECT' | translate}}" allow-clear="true">
                         {{$select.selected.value}}
                     </ui-select-match>
                     <ui-select-choices repeat="attribute in option.attributes" ui-disable-choice="attribute.disabled">
-                        {{attribute.value}}
+                        <span>{{attribute.value}}</span>
+                        <span class="text-uppercase" ng-if="attribute.disabled">- {{'UNAVAILABLE' | translate}}</span>
                     </ui-select-choices>
                 </ui-select>
             </div>

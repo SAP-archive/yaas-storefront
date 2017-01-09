@@ -28,7 +28,7 @@ angular.module('ds.ysearch', ['algoliasearch'])
     });
 
 angular.module('ds.ysearch')
-    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', 'GlobalData', function (scope, $rootScope, $state, ysearchSvc, GlobalData) {
+    .controller('ysearchController', ['$scope', '$rootScope', '$state', 'ysearchSvc', 'YrnSvc', 'GlobalData', function (scope, $rootScope, $state, ysearchSvc, YrnSvc, GlobalData) {
 
         if (!scope.page) {
             scope.page = 0;
@@ -50,7 +50,7 @@ angular.module('ds.ysearch')
 
         //Init of algolia search service
         ysearchSvc.init().then(function () {
-            scope.search.searchAvailable = ysearchSvc.getActiveStatus();
+            scope.search.searchAvailable = ysearchSvc.getPublicSearchEnabled();
         });
 
         scope.showSearchResults = function () {
@@ -72,7 +72,7 @@ angular.module('ds.ysearch')
             scope.search.showSearchResults = false;
         };
 
-        //Used for checking if the user left te search field
+        //Used for checking if the user left the search field
         angular.element(document)
             .bind('mouseup', function (e) {
                 var container = angular.element('.y-search');
@@ -82,6 +82,31 @@ angular.module('ds.ysearch')
                     scope.$digest();
                 }
             });
+
+		scope.extractProductAndVariantParameters = function(algoliaObjectId) {
+
+
+			if(!YrnSvc.isValidYrn(algoliaObjectId)) {
+				return  {productId: algoliaObjectId, variantId:null};
+			}
+
+			var result;
+
+			var yrn = YrnSvc.parse(algoliaObjectId);
+
+			if(yrn.resource === 'product') {
+				result = { productId: yrn.resourceIds.productId, variantId:null};
+			}
+			else if(yrn.resource === 'product-variant') {
+				result = { productId: yrn.resourceIds.productId, variantId: yrn.resourceIds.variantId};
+			}
+
+
+			return result;
+		};
+
+
+
 
         scope.doSearch = function () {
             scope.search.showSearchResults = true;
@@ -128,7 +153,7 @@ angular.module('ds.ysearch')
 angular.module('ds.ysearch')
     .factory('ysearchSvc', ['algolia', 'ysearchREST', '$q', function (algolia, ysearchREST, $q) {
         var client, index, algoliaConfiguration;
-        var active = false;
+        var publicSearchEnabled = false;
 
         var init = function () {
             var promise = $q.when(getAlgoliaConfiguration());
@@ -140,17 +165,19 @@ angular.module('ds.ysearch')
                         indexName: ''
                     };
                 }
-                if (!!config.activation) {
-                    active = config.activation;
-                }
-                client = algolia.Client(config.algoliaCredentials.applicationId, config.algoliaCredentials.searchKey, { method: 'https' });
+				if ( (config.indexing  && Boolean(config.indexing.activePublishedProductIndexing)) ||
+					(!config.indexing && Boolean(config.activation))) {
+					publicSearchEnabled = true;
+				}
+
+				client = algolia.Client(config.algoliaCredentials.applicationId, config.algoliaCredentials.searchKey, { method: 'https' });
                 index = client.initIndex(config.algoliaCredentials.indexName);
             });
             return promise;
         };
 
-        var getActiveStatus = function () {
-            return active;
+        var getPublicSearchEnabled = function () {
+            return publicSearchEnabled;
         };
 
         var getAlgoliaConfiguration = function () {
@@ -177,7 +204,7 @@ angular.module('ds.ysearch')
 
         return {
             init: init,
-            getActiveStatus: getActiveStatus,
+			getPublicSearchEnabled: getPublicSearchEnabled,
             getResults: getResults
         };
     }]);

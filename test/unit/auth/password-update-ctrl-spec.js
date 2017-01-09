@@ -67,7 +67,7 @@ describe('PasswordUpdateCtrl Test', function () {
         deferredLogin = _$q_.defer();
         deferredShowDone = _$q_.defer();
         $controller('PasswordUpdateCtrl', {$scope: $scope,
-            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams, TokenSvc: mockedTokenSvc, $modalInstance: mockedModalInstance });
+            AuthSvc: mockedAuthSvc, AuthDialogManager: mockedAuthDialogManager, $state: mockedState, $stateParams: mockedStateParams, TokenSvc: mockedTokenSvc, $uibModalInstance: mockedModalInstance });
     }));
 
     describe('showAllErrors', function(){

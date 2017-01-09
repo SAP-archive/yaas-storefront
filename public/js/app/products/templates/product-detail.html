@@ -24,20 +24,24 @@
                     <div ng-if="product.isBuyable && product.prices[0]">
                         <!-- product sale price -->
                         <div ng-if="product.prices[0].salePrice" class="price">
-                            <span class="price originalPrice"><strike>{{ product.prices[0].originalAmount | currency: currencySymbol }}</strike></span>
-                            <span class="price salesPrice">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
-                            <span class="priceUnit salesPrice" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
+                            <span id="original-price" class="price originalPrice"><strike>{{ product.prices[0].originalAmount | currency: currencySymbol }}</strike></span>
+                            <span id="sales-price" class="price salesPrice">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
+                            <span ng-if="product.prices[0].measurementUnit" class="price">/</span>
+                            <br>
+                            <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                         </div>
 
                         <!-- product price -->
                         <div ng-if="!product.prices[0].salePrice" class="price">
-                            <span class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
-                            <span class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
+                            <span id="effective-amount" class="price">{{product.prices[0].effectiveAmount | currency: currencySymbol}}</span>
+                            <span ng-if="product.prices[0].measurementUnit" class="price">/</span>
+                            <br>
+                            <span id="measurement-unit-quantity" class="priceUnit" ng-if="product.prices[0].measurementUnit">{{product.prices[0].measurementUnit.quantity}} {{product.prices[0].measurementUnit.unitCode}}</span>
                         </div>
                     </div>
 
                     <!-- product tax -->
-                    <div class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
+                    <div id="tax-message" class="taxMessage" ng-if="!!taxConfiguration && taxConfiguration.label">
                         <div ng-if="taxConfiguration.label.length <= 60 || taxConfiguration.seeMoreClicked">
                             {{taxConfiguration.label}}
                         </div>
@@ -49,7 +53,7 @@
 
 
                     <!-- product options -->
-                    <product-options variants="variants" on-active-variant-changed="onActiveVariantChanged(activeVariant)"></product-options>
+                    <product-options variants="variants" selected-variant="selectedVariant" on-active-variant-changed="onActiveVariantChanged(activeVariant)"></product-options>
 
                     <div ng-if="product.isBuyable">
                         <form action="" class="cartPanel" ng-show="product.prices[0] && product.inStock">
@@ -78,8 +82,13 @@
 
                                 <!-- add to cart -->
                                 <div class="col-md-8 col-md-offset-2">
-                                    <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
+                                    <button id="buy-button" type="button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                         ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                                </div>
+
+                                <!-- product fees -->
+                                <div class="col-md-8 col-md-offset-2">
+                                    <product-fees fees="productFees"></product-fees>
                                 </div>
 
                                 <!-- shipping rates -->
@@ -114,11 +123,11 @@
         <div class="col-md-8 col-md-offset-2">
             <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: activeTab === 'description'}">
-                    <a href="#" ng-click="openTab('description'); $event.preventDefault();">{{'DESCRIPTION_TAB' | translate}}</a>
+                    <a href="" ng-click="openTab('description'); $event.preventDefault();">{{'DESCRIPTION_TAB' | translate}}</a>
                 </li>
 
                 <li role="presentation" ng-class="{active: activeTab === 'details'}">
-                    <a href="#" ng-click="openTab('details'); $event.preventDefault();">{{'DETAILS_TAB' | translate}}</a>
+                    <a href="" ng-click="openTab('details'); $event.preventDefault();">{{'DETAILS_TAB' | translate}}</a>
                 </li>
             </ul>
         </div>
@@ -130,28 +139,21 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'description'}" id="description">
                         <!-- product description -->
-                        <div class="headline text-center">{{'PRODUCT_DESCRIPTION' | translate}}</div>
+                        <div class="headline">{{'PRODUCT_DESCRIPTION' | translate}}</div>
 
-                        <div class="description">
+                        <div id="product-description-text" class="description">
                             {{product.description}}
                         </div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" ng-class="{active: activeTab === 'details'}" id="details">
                         <!-- product detials -->
-                        <div class="headline text-center">{{'PRODUCT_DETAILS' | translate}}</div>
+                        <div class="headline">{{'PRODUCT_DETAILS' | translate}}</div>
 
-                        <product-extension schema-url="{{productMixinsDefinitions[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins"></product-extension>
+                        <product-extension schema-url="{{productMixinsDefinitions[id]}}" mixin="mixin" ng-repeat="(id, mixin) in productMixins track by $index"></product-extension>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-<script src="js/vendor-static/jquery.min.js"></script>
-<script src="js/vendor-static/bootstrap.min.js"></script>
-<script src="js/vendor-static/owl.carousel.js"></script>
-<script src="js/vendor-static/img-touch-canvas.js"></script>
-<script src="js/vendor-static/jquery.fullscreen-min.js"></script>
-<script src="js/vendor-static/main.js"></script>

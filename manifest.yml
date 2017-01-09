@@ -1,7 +1,7 @@
 ---
 applications:
 - name: shops-green
-  command: npm run-script multiProd
+  command: npm run-script multiProdHttps
   buildpack: https://github.com/heroku/heroku-buildpack-nodejs.git
   memory: 1024M
   disk_quota: 1024M

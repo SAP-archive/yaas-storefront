@@ -1,0 +1,98 @@
+{
+	"productCounterInitial": "1-8 OF 38",
+	"productCounterFinal": "-38 OF 38",
+    "sortOrder": {
+        "ascending": "A-Z",
+        "descending": "Z-A",
+        "newestEN":"newest",
+        "newestDE": "neueste"
+    },
+
+    "productCategories": {
+        "KITCHEN": "Kitchen",
+        "OFFICE": "Office",
+        "APPAREL": "Apparel"
+    },
+
+    "products": {
+        "waterBottle": {
+            "id":"p_55d76d46264ebd7a318c2397",
+            "nameEN": "WATER BOTTLE",
+            "one": {
+                "itemPriceUS": "$24.99"
+            }
+        },
+
+        "lipBalm": {
+            "id": "p_55d76d3867ced440e7d5ac76",
+            "nameEN": "LIPBALM",
+            "one": {
+                "itemPriceUS": "$1.49",
+                "measurementUnitAndQuantity": "1000 g"
+            }
+        },
+
+        "tightGripPen": {
+            "nameEN": "TIGHT GRIP PEN",
+            "one": {
+                "itemPriceUS": "$2.49"
+            }
+        },
+
+        "beerMug": {
+            "nameEN": "BEER MUG",
+            "nameDE": "BIERKRUG",
+            "one": {
+                "itemPriceUS": "$3.99",
+                "originalPriceUS": "$6.99",
+                "itemPriceDE": "€5.59"
+            }
+        },
+
+        "coffeMugWithEspressoMaker": {
+            "nameEN": "COFFEE MUG W/STOVETOP ESPRESSO COFFEE MAKER",
+            "one": {
+                "itemPriceUS": "$24.99"
+            }
+        },
+
+        "hellesBeerMug": {
+            "nameEN": "BEER MUG W/HELLES",
+            "nameDE": "BIERKRUG W / HELLES",
+            "searchQuery": "beer helles",
+            "searchResultName": "Beer Mug w/Helles",
+            "descriptionEN": "Traditional bavarian beer mug with hybris logo in blue. Drink your beer in the same style as hybris employees have done since the company's first days. Comes with a traditional bavarian Helles from Augustiner Brau.",
+            "one": {
+                "itemPriceUS": "$5.99",
+                "itemPriceDE": "€6.39"
+            }
+        },
+
+        "womensTShirt": {
+            "nameEN": "WOMEN'S T-SHIRT - GRAY",
+            "nameDE": "WASSER-FLASCHE",
+            "one": {
+                "itemPriceUS": "$14.99",
+                "itemPriceDE": "€19.99"
+            }
+        },
+
+        "whiteCoffeeMug": {
+            "id": "55d76ce63a0eafb30e5540c8",
+            "descriptionEN": "Drink your morning, afternoon, and evening coffee from the hybris mug. Get caffinated in style.",
+            "descriptionDE": "Trinken Sie Ihren Vormittag, Nachmittag, Abend und Kaffee aus der hybris Becher. Holen caffinated im Stil.",
+            "one": {
+                "itemPriceUS": "$10.67",
+                "itemPriceDE": "€7.99"
+            },
+            "taxMessageDE": "Inkl. 25% moms"
+        }
+    },
+
+    "sites": {
+        "SushiGermany": {
+            "siteName": "Sushi Demo Store Germany",
+            "mode": "Desktop"
+        }
+    }
+}

@@ -6,6 +6,10 @@ body.disable-scroll{
   }
 }
 
+body.modal-open {
+  padding: 0 !important;
+}
+
 html{
   &:not(.disable-scroll){
     &.force-scroll{
@@ -14,12 +18,17 @@ html{
   }
 }
 
+/* Preventing body to resize on modal opening (default angular-bootstrap behaviour) */
 body{
   background: @white;
 
   &.fixedLayout{
     overflow-y:hidden !important;
   }
+}
+
+a:focus, .modal-content button:focus {
+  outline: none;
 }
 
 .clr{
@@ -220,21 +229,16 @@ section{
 
 .salesPrice.price,
 .salesPrice.priceUnit{
-  color: #3ab85d !important;
+  color: red !important;
+}
 
+.salesPrice {
+  color: red !important;
 }
 
 .priceUnit{
   text-transform: none;
-  font-weight: 200;
-  font-size: 80%;
-  color: #202122;
-  margin-left: 2px;
-  position: relative;
-  &:before{
-    content: '/';
-    margin-right: 7px;
-  }
+  color: #999999;
 }
 
 .shippingZoneModalHeader{
@@ -299,12 +303,26 @@ section{
   color: #fff;
 }
 
+.product-list-sort .ui-select-container .ui-select-toggle {
+  padding-top: 3%;
+}
+
+.search-list-sort .ui-select-container .ui-select-toggle {
+  padding-top: 3%;
+}
+
 .custom-select-container .ui-select-choices-row .ui-select-choices-row-inner {
   height: 20px;
+  padding-top: 0px;
 }
 
 .custom-select-container .ui-select-bootstrap .ui-select-choices-row > a {
   padding: 0 20px;
+}
+
+/* Prevents resizing of dropdown fields that is default by new version of UI-Select */
+.custom-select-container .ui-select-search {
+  width: 100% !important;
 }
 
 .product-list-sort .ui-select-container .btn-default-focus {
@@ -334,7 +352,7 @@ section{
 
 .search-list-sort .ui-select-container {
   margin-left: 10px;
-  width: 150px;
+  width: 160px;
 }
 
 .product-list-sort .ui-select-container input {
@@ -353,7 +371,24 @@ section{
   min-width: 100%;
 }
 
+variant-options p {
+  margin: 0;
+}
+
 /* Override angular-ui-notification style*/
+
+.ui-notification.killed.success.clickable:hover {
+    -webkit-transition: opacity ease 1s;
+         -o-transition: opacity ease 1s;
+            transition: opacity ease 1s;
+
+    opacity: 0;
+}
+
+.ui-notification.success.clickable:hover {
+    opacity:1;
+}
+
 .ui-notification {
     z-index: 10000;
 }

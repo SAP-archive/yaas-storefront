@@ -1,3 +1,15 @@
+/**
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2016 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
 'use strict';
 
 var path = require('path');
@@ -12,19 +24,41 @@ module.exports = function (grunt) {
         LESS_DIR = 'public/less',
         TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
 
+        ALLOWED_REGIONS = ['eu'],
+        REGION_INVALID_MSG = 'Selected region is not valid, changing back to default region. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']',
+
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
         PROJECT_ID = grunt.option('pid') || 'saphybrisprofile',
         CLIENT_ID = grunt.option('cid') || 'g3lsH1NuLVSNYeLelF9sp2hLOVbEkQW4',
         REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
+        USE_HTTPS = grunt.option('https') || false,
+        REGION_CODE = grunt.option('region') || '',
+
+        SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
-        PROD_DOMAIN = 'api.yaas.io',
+        PROD_DOMAIN = 'api{0}.yaas.io',
         STAGE_DOMAIN = 'api.stage.yaas.io',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
         TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:prod [:stage] to specify.';
+
+    var getProdBaseUrl = function getProdBaseUrl(regionCode) {
+        if (!!regionCode && ALLOWED_REGIONS.indexOf(regionCode) < 0) {
+            grunt.option('force', true);
+            grunt.warn(REGION_INVALID_MSG);
+            regionCode = '';
+        }
+
+        if (!!regionCode) {
+            return PROD_DOMAIN.replace('{0}', '.' + regionCode);
+        }
+        else {
+            return PROD_DOMAIN.replace('{0}', '');
+        }
+    };
 
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-text-replace');
@@ -215,7 +249,7 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + PROD_DOMAIN + '\' /*EndDynamicDomain'
+                    to: 'StartDynamicDomain*/ \'' + getProdBaseUrl(REGION_CODE) + '\' /*EndDynamicDomain'
                 }]
             },
             projectId: {
@@ -240,6 +274,14 @@ module.exports = function (grunt) {
                 replacements: [{
                     from: /StartRedirectURI(.*)EndRedirectURI/g,
                     to: 'StartRedirectURI*/ \'' + REDIRECT_URI + '\' /*EndRedirectURI'
+                }]
+            },
+            useHttps: {
+                src: SERVER_FILES,
+                overwrite: true,
+                replacements: [{
+                    from: /StartUseHTTPS(.*)EndUseHTTPS/g,
+                    to: 'StartUseHTTPS*/ ' + !!USE_HTTPS + ' /*EndUseHTTPS'
                 }]
             }
         },
@@ -290,78 +332,82 @@ module.exports = function (grunt) {
     //--Convenience-Tasks-----------------------------------------------
     // Wrap dev build task with parameters and dynamic domain warnings.
     grunt.registerTask('default', 'Build parameters for default',
-      function () {
-          grunt.task.run('build');
-      });
+        function () {
+            grunt.task.run('build');
+        });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('build', 'Build parameters for build',
-      function (domainParam) {
+        function (domainParam) {
 
-          grunt.task.run('replace:projectId');
-          grunt.task.run('replace:clientId');
-          grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:projectId');
+            grunt.task.run('replace:clientId');
+            grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:useHttps');
 
-          runDomainReplace(domainParam);
+            runDomainReplace(domainParam);
 
-          grunt.task.run('jshint');
-          grunt.task.run('less:dev');
-          grunt.task.run('optimizeCode');
-      });
+            grunt.task.run('jshint');
+            grunt.task.run('less:dev');
+            grunt.task.run('optimizeCode');
+        });
 
     //--Tasks-With-Environment-Parameters----------------------------------------------
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
-      function (domainParam) {
+        function (domainParam) {
 
-          grunt.task.run('replace:projectId');
-          grunt.task.run('replace:clientId');
-          grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:projectId');
+            grunt.task.run('replace:clientId');
+            grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:useHttps');
 
-          runDomainReplace(domainParam);
+            runDomainReplace(domainParam);
 
-          grunt.task.run('singleProjectTask');
-      });
+            grunt.task.run('singleProjectTask');
+        });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('multiProject', 'Build parameters for multiProject build',
-      function (domainParam) {
+        function (domainParam) {
 
-          grunt.task.run('replace:projectId');
-          grunt.task.run('replace:clientId');
-          grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:projectId');
+            grunt.task.run('replace:clientId');
+            grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:useHttps');
 
-          runDomainReplace(domainParam);
+            runDomainReplace(domainParam);
 
-          grunt.task.run('multiProjectTask');
-      });
+            grunt.task.run('multiProjectTask');
+        });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
-      function (domainParam) {
+        function (domainParam) {
 
-          grunt.task.run('replace:projectId');
-          grunt.task.run('replace:clientId');
-          grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:projectId');
+            grunt.task.run('replace:clientId');
+            grunt.task.run('replace:redirectURI');
+            grunt.task.run('replace:useHttps');
 
-          runDomainReplace(domainParam);
+            runDomainReplace(domainParam);
 
-          grunt.task.run('optimizeCode');
-      });
+            grunt.task.run('optimizeCode');
+        });
 
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('startServer', 'Start server within deploy environment',
-      function () {
-          if (grunt.option('single')) {
-              grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
+        function () {
+            if (grunt.option('single')) {
+                grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
 
-          } else if (grunt.option('multiple')) {
-              grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
+            } else if (grunt.option('multiple')) {
+                grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
 
-          } else {
-              grunt.task.run('concurrent:multiProject');   // default server if none is specified.
-          }
-      });
+            } else {
+                grunt.task.run('concurrent:multiProject');   // default server if none is specified.
+            }
+        });
 
     //---Specialized-Build-Behaviors--------------------------------------------------------
     grunt.registerTask('singleProjectTask', [

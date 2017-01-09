@@ -14,21 +14,16 @@
 
 angular.module('ds.cart')
 
-    .factory('CartSvc', ['$rootScope', 'CartREST', 'ProductSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
-        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData,$location) {
+    .factory('CartSvc', ['$rootScope', 'CartREST','ProductSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
+        function ($rootScope, CartREST, ProductSvc, AccountSvc, $q, GlobalData) {
 
             // Prototype for outbound "update cart item" call
             var Item = function (product, price, qty) {
-                this.product = {
-                    id: product.id
-                };
-                if (product.images) {
-                    this.product.images = product.images;
-                }
-                else if (product.media) {
-                    this.product.images = product.media;
-                }
+
+                this.itemYrn = product.itemYrn;
+
                 var currentSiteCode = GlobalData.getSiteCode();
+
                 if (product.mixins && product.mixins.taxCodes && product.mixins.taxCodes[currentSiteCode]) {
                     this.taxCode = product.mixins.taxCodes[currentSiteCode];
                 }
@@ -70,10 +65,8 @@ angular.module('ds.cart')
                     accPromise.finally(function () {
                         newCart.currency = GlobalData.getCurrencyId();
                         newCart.siteCode = GlobalData.getSiteCode();
-                        newCart.channel = {
-                            name: 'yaas-storefront',
-                            source: $location.host()
-                        };
+                        newCart.channel = GlobalData.getChannel();
+
                         CartREST.Cart.all('carts').post(newCart).then(function (response) {
                             cart.id = response.cartId;
                             deferredCart.resolve({ cartId: cart.id });
@@ -141,37 +134,101 @@ angular.module('ds.cart')
                     defCart.resolve(cart);
                 });
                 defCart.promise.then(function () {
+
+                    var items =  (cart.items ? cart.items : []);
+
+                    if(!_.isEmpty(items)){
+                      var productList = getProductIdsFromCart(items);
+
+                      ProductSvc.queryProductList({q:'id:('+productList+')'}).then(function(res){
+                        var products = res.plain();
+                        _.forEach(items, function(item){
+                          if(item.itemYrn){
+
+                            var split = item.itemYrn.split(';');
+
+                            var prod = _.find(products, {id:split[1]});
+
+                            item.product = {
+                              id:prod.id,
+                              name:prod.name,
+                              images:prod.media,
+                              sku:prod.code
+                            };
+
+                            if(_.contains(item.itemYrn, 'product-variant')){
+                              ProductSvc.getProductVariant({productId:split[1],variantId:split[2]}).then(function(variant){
+
+                                item.variants=[];
+                                _.forEach(variant.options, function(ele){
+                                  for (var key in ele) {
+                                    item.variants.push(key+': '+ ele[key] );
+                                  }
+                                });
+
+                                if(_.isArray(variant.media) && _.size(variant.media) > 0){
+                                    item.product.images = variant.media;
+                                    item.product.code = variant.code;
+                                }
+                                if(variant.name) {
+                                  item.product.name = variant.name;
+                                }
+                              });
+                            }
+                          }
+                        });
+                      });
+                    }
+
                     $rootScope.$emit('cart:updated', { cart: cart, source: updateSource, closeAfterTimeout: closeCartAfterTimeout });
                 });
                 return defCart.promise;
             }
 
             function mergeAnonymousCartIntoCurrent(anonCart) {
+                var deferred = $q.defer();
                 if (anonCart && anonCart.id) {
                     // merge anon cart into user cart
                     CartREST.Cart.one('carts', cart.id).one('merge').customPOST({ carts: [anonCart.id] }).then(function () {
                         // merge anonymous cart - will change currency if needed
-                        refreshCart(cart.id, 'merge');
+                        refreshCart(cart.id, 'merge').then(
+                            function () {
+                                deferred.resolve();
+                            },
+                            function () {
+                                deferred.reject();
+                            }
+                        );
                     }, function () {
                         cart.error = true;
+                        deferred.reject();
                     });
                 } else {
                     // scope is already equivalent to latest user cart
                     if (cart.siteCode !== GlobalData.getSiteCode()) {
                         if (cart.id) {
-                            refreshCart(cart.id, 'site');
+                            refreshCart(cart.id, 'site').then(
+                                function () {
+                                    deferred.resolve();
+                                },
+                                function () {
+                                    deferred.reject();
+                                }
+                            );
                         }
                     } else {
                         $rootScope.$emit('cart:updated', { cart: cart });
+                        deferred.resolve();
                     }
                 }
+                return deferred.promise;
             }
 
             /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
              * cart is created first.
              */
             function createCartItem(product, prices, qty, config) {
-
+                //product.yrn
                 var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
                 var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
 
@@ -199,12 +256,36 @@ angular.module('ds.cart')
                 return createItemDef.promise;
             }
 
+
+            function getProductInCart(cart, product){
+                return _.find((cart.items ? cart.items : []),function(item){
+                  if(item.itemYrn === product.itemYrn){
+                    return item;
+                  }
+                });
+            }
+
+            function getIdFromItemYrn(itemYrn){
+              if(_.contains(itemYrn, 'product:product')){
+                return itemYrn.split(';')[1];
+              } else if(_.contains(itemYrn, 'product:product-variant')){
+                return itemYrn.split(';')[2];
+              }
+            }
+
+            function getProductIdsFromCart(items){
+              return _.map(items, function(item){
+                return item.itemYrn ? getIdFromItemYrn(item.itemYrn) : '';
+              }).join(',');
+            }
+
             function reformatCartItems(cart) {
                 var items = [];
                 for (var i = 0; i < cart.items.length; i++) {
                     var item = {
                         itemId: cart.items[i].id,
-                        productId: cart.items[i].product.id,
+                        itemYrn: cart.items[i].itemYrn,
+                        productId: cart.items[i].product ? cart.items[i].product.id : '',
                         quantity: cart.items[i].quantity,
                         unitPrice:{
                             amount: cart.items[i].price.effectiveAmount,
@@ -264,6 +345,7 @@ angular.module('ds.cart')
                  * any content in the current cart.
                  */
                 refreshCartAfterLogin: function (customerId) {
+                    var deferred = $q.defer();
                     // store existing anonymous cart
                     var anonCart = cart;
 
@@ -271,29 +353,51 @@ angular.module('ds.cart')
                     CartREST.Cart.one('carts', null).get({ customerId: customerId, siteCode: GlobalData.getSiteCode() }).then(function (authUserCart) {
                         // there is an existing cart - update scope instance
                         cart = authUserCart.plain();
-                        mergeAnonymousCartIntoCurrent(anonCart);
+                        mergeAnonymousCartIntoCurrent(anonCart).then(
+                            function () {
+                                deferred.resolve();
+                            },
+                            function () {
+                                deferred.reject();
+                            }
+                        );
                     }, function () {
                         // no existing user cart
                         if (anonCart && anonCart.id) {
                             // create new cart for customer so anon cart can be merged into it
-                            cart = { customerId: customerId, currency: GlobalData.getCurrencyId(), siteCode: GlobalData.getSiteCode() };
+                            cart = {
+                                customerId: customerId,
+                                currency: GlobalData.getCurrencyId(),
+                                siteCode: GlobalData.getSiteCode(),
+                                channel: GlobalData.getChannel()
+                            };
 
                             CartREST.Cart.all('carts').post(cart).then(function (newCartResponse) {
                                 cart.id = newCartResponse.cartId;
-                                mergeAnonymousCartIntoCurrent(anonCart);
+                                mergeAnonymousCartIntoCurrent(anonCart).then(
+                                    function () {
+                                        deferred.resolve();
+                                    },
+                                    function () {
+                                        deferred.reject();
+                                    }
+                                );
                             }, function () {
                                 cart.error = true;
                                 console.error('new cart creation failed');
+                                deferred.reject();
                             });
                         } else { // anonymous cart was never created
                             // just use empty cart - customer-specific cart will be created once first item is added
                             cart = {};
                             cart.currency = GlobalData.getCurrencyId();
                             cart.siteCode = GlobalData.getSiteCode();
+                            deferred.resolve();
                         }
                     });
+                    return deferred.promise;
                 },
-                
+
                 // Exposed for use in mixin services, like cart-note-mixin-service.js
                 refreshCart: refreshCart,
 
@@ -339,7 +443,7 @@ angular.module('ds.cart')
                         });
                     });
                 },
-                
+
                 /*
                  *   Adds a product to the cart, updates the cart (PUT) and then retrieves the updated
                  *   cart information (GET).
@@ -349,16 +453,25 @@ angular.module('ds.cart')
                  *   @return promise over success/failure
                  */
                 addProductToCart: function (product, prices, productDetailQty, config) {
+
                     if (productDetailQty > 0) {
-                        var item = null;
-                        for (var i = 0; cart.items && i < cart.items.length; i++) {
-                            item = cart.items[i];
-                            if (product.id === item.product.id) {
-                                var qty = item.quantity + productDetailQty;
-                                return this.updateCartItemQty(item, qty, config);
-                            }
-                        }
-                        return createCartItem(product, prices, productDetailQty, config);
+
+                         var self = this;
+                         var productId = _.has(product, 'itemYrn') ? product.itemYrn.split(';')[1] : product.id;
+
+                         return ProductSvc.getProduct({productId:productId}).then(function(response) {
+                             if(!_.has(product, 'itemYrn')){
+                               product.itemYrn = response.yrn;
+                             }
+
+                             product.mixins = response.mixins;
+                             var item = getProductInCart(cart, product);
+                             if(item){
+                               return self.updateCartItemQty(item, item.quantity + productDetailQty, config);
+                             }
+                             return createCartItem(product, prices, productDetailQty, config);
+                         });
+
                     } else {
                         return $q.when({});
                     }

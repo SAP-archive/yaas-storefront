@@ -26,7 +26,7 @@
                     <div class="clearfix visible-sm"></div>
 
                     <!-- sort control -->
-                    <div class="col-xs-7 col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="sortContainer search-list-sort">
                             <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
                             <div class="form-group pull-left">
@@ -47,7 +47,7 @@
                     </div>
 
                     <!-- pagination control -->
-                    <div class="col-xs-5 col-sm-6 col-md-6 col-lg-3 pull-right">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 pull-right">
                         <div class="viewingContainer">
                             <span class="name">{{'VIEWING' | translate}}</span>
                             <span class="page-indicator"
@@ -73,13 +73,13 @@
             </div>
 
             <!-- sticky refinements bar -->
-            <div id="refineAffix" class="refine-section responsive-fixed">
+            <div refine-affix refine-affix-grid-element=".product-grid" refine-affix-offset="0" id="refineAffix" class="refine-section responsive-fixed">
                 <div class="row">
                     <div class="content-container">
                         <div class="clearfix visible-sm"></div>
 
                         <!-- sort control -->
-                        <div class="col-xs-7 col-sm-6 col-md-4 col-lg-3">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="sortContainer search-list-sort">
                                 <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
                                 <div class="form-group pull-left">
@@ -100,7 +100,7 @@
                         </div>
 
                         <!-- pagination control -->
-                        <div class="col-xs-5 col-sm-6 col-md-6 col-lg-3 pull-right">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 pull-right">
                             <div class="viewingContainer">
                                 <span class="name">{{'VIEWING' | translate}}</span>
                                 <span class="page-indicator"
@@ -119,19 +119,15 @@
                  infinite-scroll-visible-items>
                 <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products"
                      on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
-                    <a id="p_{{product.product.id}}" ng-click="openProductDetails(product.product.id)" ui-sref="base.product.detail( {productId: product.product.id, lastCatId: lastCatId} )">
+                    
+                    <a id="p_{{product.id}}" ng-click="openProductDetails(product.id)" ui-sref="base.product.detail( {productId: product.id, lastCatId: lastCatId} )">
                         <div class="productContainer">
                             <div class="thumb">
-                                <img ng-src="{{ product && product.product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
-
+                                <img ng-src="{{ product && product.mainImageURL || PLACEHOLDER_IMAGE}}" alt="">
                             </div>
                             <div class="productInfoContainer text-center">
-                                <div class="name">{{ product.product.name }}</div>
-                                <div ng-if="!prices[product.product.id].measurementUnit" class="price">{{ prices[product.product.id].effectiveAmount | currency: currencySymbol}}</div>
-                                <div ng-if="prices[product.product.id].measurementUnit" class="price">
-                                    <span class="price">{{prices[product.product.id].effectiveAmount | currency: currencySymbol}}</span>
-                                    <span class="priceUnit">{{prices[product.product.id].measurementUnit.quantity}} {{prices[product.product.id].measurementUnit.unitCode}}</span>
-                                </div>
+                                <div class="name">{{ product.name }}</div>
+                                <price-label price="prices[product.id]" range="product.hasVariants" currency-symbol="{{currencySymbol}}"></price-label>
                             </div>
                         </div>
                     </a>
@@ -147,8 +143,3 @@
     </div>
 
 </div>
-
-
-<script src="js/vendor-static/img-touch-canvas.js"></script>
-<script src="js/vendor-static/jquery.fullscreen-min.js"></script>
-<script src="js/vendor-static/main.js"></script>

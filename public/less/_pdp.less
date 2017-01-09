@@ -101,6 +101,19 @@
         }
       }
 
+      .product-fees-container {
+        margin-top: 1em;
+
+        .product-fee-item {
+          color: @darkgrey;
+          margin-bottom: .25em;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
     }
 
     .checkout-form{
@@ -172,7 +185,7 @@
     .headline{
       text-transform: uppercase;
       font-weight: bold;
-      margin:  30px 0 26px 0;
+      margin:  30px 0 26px 20px;
       font-size: 21px;
       color: #232323;
     }
@@ -187,9 +200,40 @@
   }
   
   .product-extension-item {
-    padding: 10px;
+    padding: 0 10px;
+
+    .object-row{
+      border-bottom: 1px solid #ccc;
+          
+    }
+
+    .object-row-last{
+      border-bottom: none;
+    }
+
+
+
+    .array-row{
+      padding-top: 10px;
+    }
+    
+    .displayed-row{
+      font-weight: normal;
+      padding: 10px;
+
+      .displayed-name{ 
+        min-width: 150px;
+        display: inline-block;
+      }
+    }
+
+    h4{
+      margin-top: 20px;
+    }
   }
 }
+
+
 
 .product-gallery{
   .image{

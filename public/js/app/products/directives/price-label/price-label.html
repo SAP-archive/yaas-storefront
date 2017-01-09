@@ -1,0 +1,33 @@
+<div class="price">
+	<span ng-if="range">
+        <span ng-if="price.minPrice">
+            <span ng-if="isMinPriceSale()" class="originalPrice"><strike>{{price.minPrice.originalAmount | currency: ''}}</strike></span>
+            <span ng-class="{salesPrice: isMinPriceSale()}">{{price.minPrice.effectiveAmount | currency: ''}}</span>
+            <span ng-if="!isMinEqualsMax()">
+                <span>-</span>
+                <span ng-if="isMaxPriceSale()" class="originalPrice"><strike>{{ price.maxPrice.originalAmount | currency: ''}}</strike></span>
+                <span ng-class="{salesPrice: isMaxPriceSale()}">{{price.maxPrice.effectiveAmount | currency: ''}}</span>
+            </span>
+        </span>
+        <span ng-if="!price.minPrice">{{'NO_PRICE' | translate}}</span>
+        <span ng-if="!(price.minPrice && price.commonMeasurementUnit)"> {{currencySymbol}}</span>
+        <span ng-if="price.minPrice && price.commonMeasurementUnit">
+            <span>{{currencySymbol}} /</span>
+            <br>
+            <span class="priceUnit">{{price.commonMeasurementUnit.quantity}} {{price.commonMeasurementUnit.unitCode}}</span>
+        </span>
+	</span>
+	<span ng-if="!range">
+		<span ng-if="price">
+            <span ng-if="isSinglePriceSale()" class="originalPrice"><strike>{{ price.singlePrice.originalAmount | currency: ''}}</strike></span>
+            <span ng-class="{salesPrice: isSinglePriceSale()}">{{price.singlePrice.effectiveAmount | currency: ''}}</span>
+		</span>
+		<span ng-if="!price">{{'NO_PRICE' | translate}}</span>
+        <span ng-if="!(price && price.singlePrice.measurementUnit)"> {{currencySymbol}}</span>
+        <span ng-if="price && price.singlePrice.measurementUnit">
+            <span>{{currencySymbol}} /</span>
+            <br>
+            <span class="priceUnit">{{price.singlePrice.measurementUnit.quantity}} {{price.singlePrice.measurementUnit.unitCode}}</span>
+        </span>
+	</span>
+</div>

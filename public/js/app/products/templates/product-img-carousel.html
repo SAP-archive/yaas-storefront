@@ -1,10 +1,11 @@
-<div class="row image-carousel">
+<!-- desktop view -->
+<div class="image-carousel">
     <div class="col-md-10 main-image-container">
         <div class="product-images">   
             <img id="{{$index}}" class="product-image" ng-repeat="image in images" ng-src="{{image.url}}" alt="" fullscreen>        
         </div>
-        <div class="zoom">
-            <span class="glyphicon hyicon hyicon-plus hidden-xs hidden-sm" ng-click="enlargeImage()"></span>
+        <div class="zoom"  ng-click="enlargeImage()">
+            <span class="hidden-xs hidden-sm"><img src="img/img-zoom.png" alt="Zoom"/></span>
         </div>
         <div class="hidden-lg hidden-md mobileThumbs">
             <div ng-repeat="thumb in images" ng-class="{'active': currentIndex === $index}" ng-click="moveCarousel($index)">
@@ -20,3 +21,4 @@
         </div>
     </div>
 </div>
+<!-- /desktop view -->

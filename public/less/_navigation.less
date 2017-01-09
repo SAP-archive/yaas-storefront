@@ -365,6 +365,7 @@ a.siteSelectorIcon{
     img{
       max-width: 100%;
       padding-top: 10px;
+      max-height: 46px;
     }
   }
 
@@ -644,6 +645,9 @@ a.siteSelectorIcon{
 
   .logo{
     margin-top: 3px;
+    img{
+      max-height: 46px;
+    }
   }
 
   .y-search{
@@ -943,32 +947,20 @@ a.siteSelectorIcon{
 
 }
 
-.regionControlList{
-  border-right: 1px solid #b3b8bb;
-  li{
-    cursor:pointer;
-  }
-}
-.languageMenu{
-    li{
-      cursor: pointer;
-    }
-    li:hover{
-        color:@darkestgrey;
-    }
-
-
-    .defaultLang::after{
-      content: '*';
-
-    }
-}
-
-
 
 ///////////////////////
 //// Site selector
 ///////////////////////
+
+.regionCountries{
+  border-right: 1px solid #b3b8bb;
+}
+
+.regionControlList{
+  li{
+    cursor:pointer;
+  }
+}
 
 .mobileNav .regionControls {
     margin-top: 16px;

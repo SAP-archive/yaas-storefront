@@ -1,7 +1,7 @@
 describe('SearchListCtrl', function () {
 
     var $scope, $rootScope, $controller, mockedGlobalData, $q, $location, $timeout, $anchorScroll;
-    var searchResult, productResult, priceResult, searchListCtrl, mockedProductSvc, deferredSearchResults, deferredProducts, deferredPrices,
+    var searchResult, productResult, priceResult, searchListCtrl, mockedProductSvc, deferredSearchResults, deferredProducts, mockedPriceSvc, defferedPrices, pricesResult,
     mockedYSearchService, mockedSearchString;
 
     mockedGlobalData = {};
@@ -12,6 +12,7 @@ describe('SearchListCtrl', function () {
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
     mockedGlobalData.getSearchRefinements = jasmine.createSpy('getProductRefinements').andReturn([{id:'mostRelevant', name: 'Most Relevant'}]);
+    mockedGlobalData.getCurrency = jasmine.createSpy('getCurrency').andReturn('USD');
 
     var mockedState = { transitionTo: jasmine.createSpy()};
 
@@ -157,7 +158,16 @@ describe('SearchListCtrl', function () {
         mockedProductSvc = {};
 
         mockedYSearchService.init = jasmine.createSpy('init');
-          mockedSearchString = 'prod';
+        mockedSearchString = 'prod';
+
+        mockedPriceSvc = {};
+        pricesResult = [
+        ];
+        pricesResult.headers = [];
+        defferedPrices = $q.defer();
+        defferedPrices.resolve(pricesResult);
+        mockedPriceSvc.getPrices = jasmine.createSpy('getPrices').andReturn(defferedPrices.promise);
+        mockedPriceSvc.getPricesMapForProducts = jasmine.createSpy('getPricesMapForProducts').andReturn(defferedPrices.promise);
     }));
 
     describe('Initialization', function () {
@@ -169,7 +179,7 @@ describe('SearchListCtrl', function () {
             productResult.headers =  [];
             deferredProducts = $q.defer();
             deferredProducts.resolve(productResult);
-            mockedProductSvc.queryProductDetailsList = jasmine.createSpy('queryProductDetailsList').andReturn(deferredProducts.promise);
+            mockedProductSvc.queryProductList = jasmine.createSpy('queryProductList').andReturn(deferredProducts.promise);
 
             searchResults = {
                 hits: [
@@ -183,7 +193,7 @@ describe('SearchListCtrl', function () {
 
             searchListCtrl = $controller('SearchListCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': mockedSearchString});
+                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': mockedSearchString, 'PriceSvc': mockedPriceSvc});
 
         });
 
@@ -204,7 +214,7 @@ describe('SearchListCtrl', function () {
 
             // trigger promise resolution:
             $scope.$digest();
-            expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
+            expect(mockedProductSvc.queryProductList).toHaveBeenCalled();
             // indirect testing via resolved promise
             expect($scope.products).toEqualData(productResult);
         });
@@ -217,7 +227,7 @@ describe('SearchListCtrl', function () {
             productResult.headers =  [];
             deferredProducts = $q.defer();
             deferredProducts.resolve(productResult);
-            mockedProductSvc.queryProductDetailsList = jasmine.createSpy('queryProductDetailsList').andReturn(deferredProducts.promise);
+            mockedProductSvc.queryProductList = jasmine.createSpy('queryProductList').andReturn(deferredProducts.promise);
 
 
             searchResults = {hits: []};
@@ -228,7 +238,7 @@ describe('SearchListCtrl', function () {
 
             searchListCtrl = $controller('SearchListCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': 'dummyString'});
+                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': 'dummyString', 'PriceSvc': mockedPriceSvc});
 
         });
 
@@ -247,7 +257,7 @@ describe('SearchListCtrl', function () {
             productResult.headers =  [];
             deferredProducts = $q.defer();
             deferredProducts.resolve(productResult);
-            mockedProductSvc.queryProductDetailsList = jasmine.createSpy('queryProductDetailsList').andReturn(deferredProducts.promise);
+            mockedProductSvc.queryProductList = jasmine.createSpy('queryProductList').andReturn(deferredProducts.promise);
 
             searchResults = {
                 hits: [
@@ -261,7 +271,7 @@ describe('SearchListCtrl', function () {
 
             searchListCtrl = $controller('SearchListCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': mockedSearchString});
+                    'settings': mockedSettings, '$state': mockedState, '$location': $location ,'ysearchSvc': mockedYSearchService, 'searchString': mockedSearchString, 'PriceSvc': mockedPriceSvc});
         });
 
 
@@ -274,14 +284,14 @@ describe('SearchListCtrl', function () {
                 $scope.$digest();
                 expect(mockedYSearchService.getResults).toHaveBeenCalled();
                 $scope.$digest();
-                expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
+                expect(mockedProductSvc.queryProductList).toHaveBeenCalled();
             });
 
             it('should not query products if sorting enabled', function () {
                 $scope.sort = 'price';
-                mockedProductSvc.queryProductDetailsList.reset();
+                mockedProductSvc.queryProductList.reset();
                 $scope.addMore();
-                expect(mockedProductSvc.queryProductDetailsList.callCount).toBe(0);
+                expect(mockedProductSvc.queryProductList.callCount).toBe(0);
             });
 
         });

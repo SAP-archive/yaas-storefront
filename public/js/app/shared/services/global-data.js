@@ -18,9 +18,8 @@ angular.module('ds.shared')
  *
  * Also provides some logic around updating these settings.
  * */
-    .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'translateSettings', 'settings',
-        function (appConfig, $translate, CookieSvc, $rootScope, translateSettings, settings) {
-
+    .factory('GlobalData', ['appConfig', '$translate', 'CookieSvc', '$rootScope', 'translateSettings', 'settings', '$location',
+        function (appConfig, $translate, CookieSvc, $rootScope, translateSettings, settings, $location) {
 
             var sites, currentSite;
 
@@ -34,6 +33,7 @@ angular.module('ds.shared')
             var storeDefaultCurrency;
             var activeCurrencyId;
             var availableCurrency = {};
+            var siteMixinsMap = {};
 
 
             // for label translation, we're limited to what we're providing in localization settings in i18
@@ -100,7 +100,7 @@ angular.module('ds.shared')
                 },
                 products: {
                     meta: {
-                        total: 0
+                        total: ''
                     },
                     pageSize: 8,
                     lastSort: '',
@@ -131,10 +131,20 @@ angular.module('ds.shared')
                     algoliaProject: 'MSSYUK0R36'
                 },
 
+                /**
+                 * Function that is returning channel for cart
+                 */
+                getChannel: function getChannel() {
+                    return {
+                        name: 'yaas-storefront',
+                        source: $location.host()
+                    };
+                },
+
                 /** Returns the currency symbol of the active currency.*/
                 getCurrencySymbol: function (optionalId) {
                     var id = optionalId || activeCurrencyId;
-                    var symbol = '?';
+                    var symbol = id || '?';
                     if (id === 'USD' || id === 'CAD') {
                         symbol = '$';
                     }
@@ -263,7 +273,25 @@ angular.module('ds.shared')
                     CookieSvc.setSiteCookie(cookieSite);
                 },
 
+                setSiteMixins: function (mixins) {
+                    if(angular.isObject(mixins)){
+                        // For each mixin, populate the site mixin map
+                        for(var mixin in mixins) {
+                            siteMixinsMap[mixin] = mixins[mixin];
+                        }
+                    }
+                },
+
+                deleteSiteMixins: function() {
+                    siteMixinsMap = {};
+                },
+
+                getSiteMixins: function() {
+                  return siteMixinsMap;
+                },
+
                 setSite: function (site, selectedLanguageCode) {
+
                     if (!currentSite || currentSite.code !== site.code) {
 
                         //Set current site
@@ -320,6 +348,18 @@ angular.module('ds.shared')
                         //Set default language
                         if (selectedLanguageCode) {
                             setLanguageWithOptionalCookie(selectedLanguageCode, true, settings.eventSource.siteUpdate);
+                        }
+
+                        //Set site mixins
+                        if(site.mixins) {
+                            this.setSiteMixins(site.mixins);
+                        }
+                        else {
+                            //The site does not have mixins
+                            // If the siteMixinsMap was already populated by a previous site selection, we need to empty it
+                            if(Object.keys(this.getSiteMixins()).length > 0){
+                                this.deleteSiteMixins();
+                            }
                         }
 
                         //Emit site change for cart
@@ -388,7 +428,7 @@ angular.module('ds.shared')
                 },
 
                 getProductRefinements: function () {
-                    return [{id: 'name', name: 'A-Z'}, {id: 'name:desc', name: 'Z-A'}, {id: 'metadata.createdAt:desc', name: $translate.instant('NEWEST')}];
+                    return [{id: 'name.' + $translate.use(), name: 'A-Z'}, {id: 'name.' + $translate.use()+':desc', name: 'Z-A'}, {id: 'metadata.createdAt:desc', name: $translate.instant('NEWEST')}];
                 },
 
                 getSearchRefinements: function () {

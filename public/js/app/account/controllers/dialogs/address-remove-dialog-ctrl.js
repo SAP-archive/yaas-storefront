@@ -13,15 +13,15 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('AddressRemoveDialogCtrl', ['$scope', '$modalInstance',
-            function ($scope, $modalInstance) {
+        .controller('AddressRemoveDialogCtrl', ['$scope', '$uibModalInstance',
+            function ($scope, $uibModalInstance) {
 
                 $scope.delete = function () {
-                    $modalInstance.close(true);
+                    $uibModalInstance.close(true);
                 };
 
                 $scope.close = function () {
-                    $modalInstance.dismiss('cancel');
+                    $uibModalInstance.dismiss('cancel');
                 };
 
             }]);

@@ -147,4 +147,38 @@ describe('ProductOptionsHelper', function () {
             ]);
         }));
     });
+
+
+	describe('preSelectOptions', function () {
+		it('should select options for specified variant', angular.mock.inject(function (ProductOptionsHelper) {
+			// arrange
+			var availableOptions = [
+				{
+					optionKey: 'o123',
+					attributeKey: 'a',
+					attributes: [
+						{ value: 'val1', variantIds: ['v1'], disabled: false },
+						{ value: 'val2', variantIds: ['v2'], disabled: false }
+					]
+				}, {
+					optionKey: 'o456',
+					attributeKey: 'b',
+					attributes: [
+						{ value: 'val1', variantIds: ['v1', 'v2'], disabled: false }
+					]
+				}
+			];
+
+			var variant = {id: 'v2'}
+
+			// act
+			var result = ProductOptionsHelper.selectOptionsForVariant(variant, availableOptions);
+
+			// assert
+			expect(result).toEqual( [
+				{ value : 'val2', variantIds : [ 'v2' ], disabled : false },
+				{ value : 'val1', variantIds : [ 'v1', 'v2' ], disabled : false }
+			]);
+		}));
+	});
 });

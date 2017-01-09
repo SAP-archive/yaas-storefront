@@ -31,7 +31,7 @@ describe('Coupon Tests :', function () {
     var isLoggedIn = true;
     var openModal = true;
 
-    describe('cart', function () {
+    describe('coupon', function () {
 
         beforeEach(function () {
             utils.deleteCookies();
@@ -75,7 +75,7 @@ describe('Coupon Tests :', function () {
             expect(cartPO.getCartTotalAmount()).toEqual(whiteCoffeeMug.one.priceUS);
 
             couponPO.applyCoupon(testCoupons.twentyMinimum.name);
-       
+
             expect(couponPO.getErrorMessage()).toEqual(testCoupons.twentyMinimum.errorMessageEN);
 
             cartPO.emptyCart();
@@ -313,7 +313,7 @@ describe('Coupon Tests :', function () {
             accountPO.createAccount(testUsers.couponTestUser,openModal);
 
             accountPO.accountDetails.getPage();
-            
+
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
             productDetailsPO.get(whiteCoffeeMug.id);
@@ -328,7 +328,7 @@ describe('Coupon Tests :', function () {
 
             expect(cartPO.getCartTotalAmount()).toEqual(testCoupons.minimum.whiteCoffeeMug.priceUS);
             expect(cartPO.getCartDiscountAmount()).toEqual(testCoupons.minimum.whiteCoffeeMug.differenceUS);
-            
+
             cartPO.goToCheckout(isLoggedIn);
 
             checkoutPO.waitForCreditCardField();
@@ -346,17 +346,17 @@ describe('Coupon Tests :', function () {
             checkoutPO.waitForConfirmationPage();
 
             confirmationPO.verifyCustomerDetails(testUsers.couponTestUser,testCoupons.minimum.whiteCoffeeMug.priceUS,isMobile);
-                        
+
             expect(confirmationPO.getTotalDiscount()).toEqual(testCoupons.minimum.whiteCoffeeMug.differenceUS);
         });
 
-        it('should allow coupon larger than purchase price', function () {            
+        it('should allow coupon larger than purchase price', function () {
             sitePO.getHomePage();
 
             accountPO.createAccount(testUsers.couponTestUser,openModal);
 
             accountPO.accountDetails.getPage();
-            
+
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
             productDetailsPO.get(whiteCoffeeMug.id);
@@ -379,7 +379,7 @@ describe('Coupon Tests :', function () {
             checkoutPO.fillNameFields(TI.selectModel, testUsers.main.name);
 
             checkoutPO.goToPreviewOrder();
-            
+
             expect(checkoutPO.orderPreview.getTotalPrice()).toContain(testCoupons.twentyDollar.whiteCoffeeMug.priceUS);
             expect(checkoutPO.orderPreview.getTotalDiscount()).toContain(testCoupons.twentyDollar.whiteCoffeeMug.differenceUS);
 
@@ -389,7 +389,7 @@ describe('Coupon Tests :', function () {
             checkoutPO.waitForConfirmationPage();
 
             confirmationPO.verifyCustomerDetails(testUsers.couponTestUser,testCoupons.twentyDollar.whiteCoffeeMug.priceUS,isMobile);
-                        
+
             expect(confirmationPO.getTotalDiscount()).toEqual(testCoupons.twentyDollar.whiteCoffeeMug.differenceUS);
 
         });
@@ -400,7 +400,7 @@ describe('Coupon Tests :', function () {
             accountPO.createAccount(testUsers.couponTestUser,openModal);
 
             accountPO.accountDetails.getPage();
-            
+
             accountPO.populateAddress(testUsers.couponTestUser.address);
 
             productDetailsPO.get(whiteCoffeeMug.id);
@@ -433,7 +433,7 @@ describe('Coupon Tests :', function () {
             checkoutPO.waitForConfirmationPage();
 
             confirmationPO.verifyCustomerDetails(testUsers.couponTestUser,testCoupons.tenPercent.whiteCoffeeMug.priceUS,isMobile);
-                        
+
             expect(confirmationPO.getTotalDiscount()).toEqual(testCoupons.tenPercent.whiteCoffeeMug.differenceUS);
         });
 

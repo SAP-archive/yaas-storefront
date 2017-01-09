@@ -33,8 +33,8 @@ angular.module('ds.checkout')
  * is re-enabled so that the user can make changes and resubmit if needed.
  *
  * */
-    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$modal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', '$q', 'CartSvc', '$timeout',
-        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $modal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, $q, CartSvc, $timeout) {
+    .controller('CheckoutCtrl', ['$rootScope', '$scope', '$location', '$anchorScroll', 'CheckoutSvc','cart', 'order', '$state', '$uibModal', 'AuthSvc', 'AccountSvc', 'AuthDialogManager', 'GlobalData', 'ShippingSvc', 'shippingZones', '$q', 'CartSvc', '$timeout', 'settings',
+        function ($rootScope, $scope, $location, $anchorScroll, CheckoutSvc, cart, order, $state, $uibModal, AuthSvc, AccountSvc, AuthDialogManager, GlobalData, ShippingSvc, shippingZones, $q, CartSvc, $timeout, settings) {
 
             $scope.order = order;
             $scope.displayCart = false;
@@ -79,7 +79,9 @@ angular.module('ds.checkout')
             var unbind = $rootScope.$on('cart:updated', function (eve, eveObj) {
                 $scope.cart = eveObj.cart;
                 $scope.currencySymbol = GlobalData.getCurrencySymbol($scope.cart.currency);
-                updateShippingCost($scope.order.shipTo);
+                if (!!$scope.cart.id) {
+                    updateShippingCost($scope.order.shipTo);
+                }
             });
 
             $scope.$on('$destroy', unbind);
@@ -187,7 +189,7 @@ angular.module('ds.checkout')
                     open: function(configuration) {
                         var self = this;
                         this.spinner = this.spinner || new Spinner(configuration).spin();
-                        this.instance = $modal.open(configuration);
+                        this.instance = $uibModal.open(configuration);
                         this.instance.opened.then(function() {
                             setTimeout(function() {
                                 $('.' + ssClass + ' .spinner').append(self.spinner.el);
@@ -473,7 +475,7 @@ angular.module('ds.checkout')
                 $scope.showAllAddresses = false;
                 $scope.target = target;
                 $scope.addType = addType;
-                addressModalInstance = $modal.open({
+                addressModalInstance = $uibModal.open({
                     templateUrl: './js/app/account/templates/addresses-dialog.html',
                     windowClass: 'addressBookModal',
                     scope: $scope
@@ -655,5 +657,13 @@ angular.module('ds.checkout')
                     });
                 }
             };
+
+            $timeout(function () {
+                if (!$scope.cart.id) {
+                    $state.go(settings.allProductsState).then(function() {
+                        $rootScope.showCart = true;
+                    });
+                }
+            }, 1);
 
         }]);

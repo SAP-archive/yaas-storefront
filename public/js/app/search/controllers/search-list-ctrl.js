@@ -15,24 +15,24 @@
 'use strict';
 
 angular.module('ds.searchlist')
-    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString', 'MainMediaExtractor',
-        function ($scope, $rootScope, ProductSvc, GlobalData, settings,  $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString, MainMediaExtractor) {
+    .controller('SearchListCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'settings', '$state', '$location', '$timeout', '$anchorScroll', 'ysearchSvc', 'searchString', 'MainMediaExtractor', 'PriceSvc', '$q',
+        function ($scope, $rootScope, ProductSvc, GlobalData, settings, $state, $location, $timeout, $anchorScroll, ysearchSvc, searchString, MainMediaExtractor, PriceSvc, $q) {
 
             $scope.searchString = searchString;
 
             $scope.pageSize = GlobalData.products.pageSize;
-
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
             $scope.setSortedPageNumber = 1;
-            $scope.sort = {selected: GlobalData.getSearchRefinements()[0].id};
-            $scope.products = [];
             $scope.total = GlobalData.products.meta.total;
             $scope.store = GlobalData.store;
+            $scope.products = [];
             $scope.prices = {};
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
             $scope.sortParams = GlobalData.getSearchRefinements();
+            $scope.sort = { selected: GlobalData.getSearchRefinements()[0].id };
+            $scope.currencySymbol = GlobalData.getCurrency();
 
             $scope.pagination = {
                 productsFrom: 1,
@@ -42,60 +42,14 @@ angular.module('ds.searchlist')
             //Initialization of algolia
             ysearchSvc.init();
 
-
             $scope.loadedPages = 1;
             $scope.loadMorePages = false;
-
 
             function getProductIdsFromAssignments(assignments) {
 
                 return assignments.map(function (assignment) {
                     return assignment.objectID;
                 });
-            }
-
-            $scope.currencySymbol = GlobalData.getCurrencySymbol();
-
-
-            function assignPrices(products) {
-                var pricesMap = {};
-                var currentCurrency = GlobalData.getCurrencyId();
-                angular.forEach(products, function (product) {
-                    if (product.prices && product.prices.length > 0) {
-                        product.prices.forEach(function (price) {
-                            if (price.currency === currentCurrency) {
-                                pricesMap[product.product.id] = price;
-                            }
-                        });
-                    }
-                });
-
-                $scope.prices = angular.extend($scope.prices, pricesMap);
-
-                //initialize the viewing bar promixity script
-                /* jshint ignore:start */
-                initRefineAffix();
-                /* jshint ignore:end */
-
-                if ($scope.loadMorePages) {
-                    $timeout(function () {
-                        $scope.pageSize = $scope.pageSize / $scope.loadedPages;
-                        $scope.pageNumber = $scope.loadedPages;
-
-                        //Scroll to the page
-                        if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
-                            $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
-                        }
-
-                        //Try scrolling to the last element
-                        $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
-
-                        //Set page parameter
-                        $location.search('page', $scope.pageNumber).replace();
-
-                        $scope.loadMorePages = false;
-                    }, 1);
-                }
             }
 
             function setMainImage(product) {
@@ -106,46 +60,99 @@ angular.module('ds.searchlist')
             }
 
             function assignMainImage(products) {
-                _.forEach(products, function (product) {
-                    setMainImage(product.product);
+                angular.forEach(products, function (product) {
+                    setMainImage(product);
                 });
             }
 
-            function getProducts(ids) {
-
-                var query = {
-                    expand: 'media',
-                    sort: $scope.sort.selected
-                };
-
-                //we only want to show published products on this list
-                var qSpec = 'published:true';
-                qSpec = qSpec + ' ' + 'id:(' + ids + ')';
-                query.q = qSpec;
-
-                ProductSvc.queryProductDetailsList(query).then(
-                    function (products) {
+            function queryProducts(query, concat) {
+                $scope.requestInProgress = true;
+                ProductSvc.queryProductList(query)
+                    .then(function getProducts(products) {
                         $scope.requestInProgress = false;
                         if (products) {
-                            $scope.products = $scope.products.concat(products);
+                            if (concat) {
+                                $scope.products = $scope.products.concat(products);
+                            } else {
+                                $scope.products = products;
+                            }
                             if ($scope.products.length === 0) {
                                 $scope.pagination.productsFrom = 0;
                             }
 
+                            var variantsPromises = [];
+                            var promise;
                             if (products.length) {
                                 assignMainImage(products);
-                                assignPrices(products);
+                                angular.forEach(products, function (product) {
+                                    if (product.metadata &&
+                                        product.metadata.variants &&
+                                        product.metadata.variants.options &&
+                                        Object.keys(product.metadata.variants.options).length > 0) {
+                                        promise = ProductSvc.getProductVariants({ productId: product.id })
+                                            .then(function (result) {
+                                                product.hasVariants = result.length > 0;
+                                            });
+                                        variantsPromises.push(promise);
+                                    } else {
+                                        product.hasVariants = false;
+                                    }
+                                });
                             }
 
                             //Set page parameter
                             $location.search('page', $scope.pageNumber).replace();
 
-                            //Send event that search is done
-                            $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.total });
+                            return $q.all(variantsPromises);
                         }
                     }, function () {
                         $scope.requestInProgress = false;
+                    })
+                    .then(function getPrices() {
+
+                        PriceSvc.getPricesMapForProducts($scope.products, GlobalData.getCurrencyId())
+                            .then(function (prices) {
+                                $scope.prices = prices;
+                            });
+
+                        if ($scope.loadMorePages) {
+                            $timeout(function () {
+                                $scope.pageSize = $scope.pageSize / $scope.loadedPages;
+                                $scope.pageNumber = $scope.loadedPages;
+
+                                //Scroll to the page
+                                if (!!$scope.products[$scope.pageSize * ($scope.loadedPages - 1)]) {
+                                    $scope.scrollTo('p_' + $scope.products[$scope.pageSize * ($scope.loadedPages - 1)].id);
+                                }
+
+                                //Try scrolling to the last element
+                                $scope.scrollTo('p_' + GlobalData.products.lastViewedProductId);
+
+                                //Set page parameter
+                                $location.search('page', $scope.pageNumber).replace();
+
+                                $scope.loadMorePages = false;
+                            }, 1);
+                        }
+
+                        //Send event that search is done
+                        $rootScope.$emit('search:performed', { searchTerm: $scope.searchString, numberOfResults: $scope.total });
+
+                        $scope.requestInProgress = false;
+                    }, function () {
+                        $scope.requestInProgress = false;
                     });
+            }
+
+            function getProducts(ids) {
+                //we only want to show published products on this list
+                var qSpec = 'published:true';
+                qSpec = qSpec + ' ' + 'id:(' + ids + ')';
+                var query = {
+                    sort: $scope.sort.selected,
+                    q: qSpec
+                };
+                queryProducts(query, true);
             }
 
 
@@ -161,7 +168,7 @@ angular.module('ds.searchlist')
 
                         var page = $scope.pageNumber;
 
-                        ysearchSvc.getResults($scope.searchString, {hitsPerPage: $scope.pageSize, page: page - 1})
+                        ysearchSvc.getResults($scope.searchString, { hitsPerPage: $scope.pageSize, page: page - 1 })
                             .then(function (content) {
 
                                 GlobalData.products.meta.total = content.nbHits;
@@ -203,7 +210,7 @@ angular.module('ds.searchlist')
             if (!!$location.search().page) {
                 $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
-                $scope.sort = GlobalData.products.lastSort || {selected: ''};
+                $scope.sort = GlobalData.products.lastSort || { selected: '' };
                 $scope.loadMorePages = true;
             }
 

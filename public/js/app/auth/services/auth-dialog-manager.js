@@ -14,8 +14,8 @@
 
 /** Authorization manager.  */
 angular.module('ds.auth')
-    .factory('AuthDialogManager', ['$modal',
-        function($modal){
+    .factory('AuthDialogManager', ['$uibModal',
+        function($uibModal){
 
             var authDialog;
 
@@ -32,7 +32,7 @@ angular.module('ds.auth')
             function openDialog(options) {
                 // make sure only 1 instance exists in opened state
                 closeDialog();
-                authDialog = $modal.open(options);
+                authDialog = $uibModal.open(options);
                 return authDialog.result;
             }
 
@@ -41,7 +41,7 @@ angular.module('ds.auth')
 
                 /**
                  * Creates and opens the authorization dialog for sign in/create account.
-                 * Returns the promise returned by $modal.result (see angular bootstrap) - the success handler will
+                 * Returns the promise returned by $uibModal.result (see angular bootstrap) - the success handler will
                  * be invoked if the the dialog was closed and the "reject" handler will be invoked if the dialog was
                  * dismissed.
                  * @param dialogConfig
@@ -114,8 +114,42 @@ angular.module('ds.auth')
                         backdrop: 'static'
                     };
                     return openDialog(modalOpts);
-                }
+                },
 
+                showDeleteAccount: function () {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/modals/delete-account-dialog.html',
+                        controller: 'DeleteAccountDialogCtrl',
+                        backdrop: 'static'
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                showDeleteAccountConfirmRequest: function () {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/modals/delete-account-confirm-request.html',
+                        controller: 'DeleteAccountBasicCtrl',
+                        resolve: {
+                            success: function() {
+                                return true;
+                            }
+                        }
+                    };
+                    return openDialog(modalOpts);
+                },
+
+                showDeleteAccountConfirmation: function (success) {
+                    var modalOpts = {
+                        templateUrl: 'js/app/account/templates/delete-account.html',
+                        controller: 'DeleteAccountBasicCtrl',
+                        resolve: {
+                            success: function() {
+                                return success;
+                            }
+                        }
+                    };
+                    return openDialog(modalOpts);
+                }
 
             };
 

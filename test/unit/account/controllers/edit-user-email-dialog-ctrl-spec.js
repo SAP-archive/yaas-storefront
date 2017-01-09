@@ -18,7 +18,7 @@ describe('EditUserEmailDialogCtrl', function () {
     var mockedModal = {};
 
     beforeEach(module('ds.account', function ($provide) {
-        $provide.value('$modalInstance', mockedModal);
+        $provide.value('$uibModalInstance', mockedModal);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _$q_) {
@@ -41,7 +41,7 @@ describe('EditUserEmailDialogCtrl', function () {
             $controller('EditUserEmailDialogCtrl',
                 {
                     $scope: $scope, 'AccountSvc': AccountSvc, 'account': account,
-                    '$modalInstance': mockedModal
+                    '$uibModalInstance': mockedModal
                 });
         });
 

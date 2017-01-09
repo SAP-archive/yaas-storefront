@@ -21,36 +21,44 @@
         </div>
 
         <!-- desktop display -->
-        <div class="row userInfoRow hidden-xs desktopUserInfo" ng-if="account">
-
-            <div class="col-sm-1 editLinkContainer">
-                <a ng-click="editUserName(account)"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div id="account-name" class="col-sm-3 col-md-3">
-                <span class="dataLabel">{{'NAME' | translate}}</span>
-                {{account.title|translate}} {{account.firstName}} {{account.middleName}} {{account.lastName}}
-            </div>
-            <div class="col-sm-1 editLinkContainer">
-                <a ng-click="editUserEmail(account)" ng-hide="isItSocialAccount"><span id="update-email" class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-            <div id="account-contact-email" class="col-sm-3">
-                <span class="dataLabel">{{'EMAIL' | translate}}</span>
-                {{account.contactEmail}}
-            </div>
-            <div ng-hide="isItSocialAccount">
-                <div class="col-sm-1 editLinkContainer">
-                    <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
+        <div class="row userInfoRow hidden-xs hidden-sm desktopUserInfo" ng-if="account">
+            <div class="col-sm-10">        
+                <div class="col-sm-4">
+                    <div class="col-sm-2 editLinkContainer">
+                        <a ng-click="editUserName(account)"><span id="edit-user-info" class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                    <div id="account-name" class="col-sm-10">
+                        <span class="dataLabel">{{'NAME' | translate}}</span>
+                        {{account.title|translate}} {{account.firstName}} {{account.middleName}} {{account.lastName}}
+                    </div>
                 </div>
-                <div class="col-sm-3">
-                    <span class="dataLabel">{{'PASSWORD' | translate}}</span>
-                    &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+                <div class="col-sm-4">
+                    <div class="col-sm-2 editLinkContainer">
+                        <a ng-click="editUserEmail(account)" ng-hide="isItSocialAccount"><span id="update-email" class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                    <div id="account-contact-email" class="col-sm-10">
+                        <span class="dataLabel">{{'EMAIL' | translate}}</span>
+                        {{account.contactEmail}}
+                    </div>
+                 </div>
+                <div class="col-sm-4" ng-hide="isItSocialAccount">
+                    <div class="col-sm-2 editLinkContainer">
+                        <a ng-click="updatePassword()"><span id="update-password" class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                    <div class="col-sm-10">
+                        <span class="dataLabel">{{'PASSWORD' | translate}}</span>
+                        &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;
+                    </div>
                 </div>
+            </div>
+            <div class="col-sm-2">
+                <button ng-click="deleteAccount()" class="btn-link delete-btn text-capitalize">{{'DELETE_ACCOUNT' | translate}}</button>
             </div>
         </div>
         <!-- /desktop -->
 
         <!-- mobile display -->
-        <div class="row userInfoRow mobile hidden-sm hidden-md hidden-lg" ng-if="account">
+        <div class="row userInfoRow mobile hidden-md hidden-lg" ng-if="account">
 
             <div class="col-xs-8">
                 <div class="mobileDataSection">
@@ -81,7 +89,9 @@
                     <button class="btn btn-secondary btn-md pull-right" ng-click="updatePassword()">{{'EDIT' | translate}}</button>
                 </div>
             </div>
-
+            <div class="col-xs-12">
+                <button ng-click="deleteAccount()" class="btn-link delete-btn text-capitalize">{{'DELETE_ACCOUNT' | translate}}</button>
+            </div>
         </div>
         <!-- /mobile display -->
 

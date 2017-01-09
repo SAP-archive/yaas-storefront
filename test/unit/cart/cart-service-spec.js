@@ -1,4 +1,4 @@
-/*
+/**
  * [y] hybris Platform
  *
  * Copyright (c) 2000-2014 hybris AG
@@ -10,9 +10,15 @@
  * license agreement you entered into with hybris.
  */
 
+'use strict';
+
 describe('CartSvc Test', function () {
-    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, mockedGlobalData = {
+    var mockBackend, $scope, $rootScope, cartSvc, siteConfig, cartUrl, productUrl, mockedGlobalData = {
         getTaxType: jasmine.createSpy('getTaxType').andReturn('AVALARA')
+    };
+    var mockedChannel = {
+        'name':'yaas-storefront',
+        'source':'shops.yaas.io'
     };
     var cartId = 'cartId456';
     var selectedSiteCode = 'europe123';
@@ -21,6 +27,7 @@ describe('CartSvc Test', function () {
         product: {
             name: 'Electric Guitar',
             id: prodId,
+            itemYrn: 'urn:yaas:hybris:product:product:priceless;123',
             mixins: {
                 inventory: {
                     inStock: false
@@ -44,6 +51,7 @@ describe('CartSvc Test', function () {
     var prod2 = {
         product: {
             id: prod2Id,
+            itemYrn: 'urn:yaas:hybris:product:product:priceless;2466',
         },
         prices: [{
             effectiveAmount: 6.00,
@@ -70,6 +78,7 @@ describe('CartSvc Test', function () {
                 "currency": "USD",
                 "effectiveAmount": 10.67
             },
+            "itemYrn":"urn:yaas:hybris:product:product:priceless;123",
             "product": {
                 "id": productIdFromCart,
                 "inStock": false
@@ -134,6 +143,12 @@ describe('CartSvc Test', function () {
         mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
         mockedGlobalData.getAcceptLanguages = jasmine.createSpy('getAcceptLanguages').andReturn('en');
         mockedGlobalData.getSiteCode = jasmine.createSpy('getSiteCode').andReturn(selectedSiteCode);
+        mockedGlobalData.getChannel = jasmine.createSpy('getChannel').andReturn(mockedChannel);
+
+        productUrl = siteConfig.apis.products.baseUrl;
+        mockBackend.whenGET(productUrl+'products/'+prod1.product.id).respond(200, prod1.product);
+        mockBackend.whenGET(productUrl+'products/'+prod2.product.id).respond(200, prod2.product);
+        mockBackend.whenGET(productUrl+'products?q=id:('+prod1.product.id+')').respond(200, [prod1.product]);
     }));
 
     describe('getLocalCart', function () {
@@ -146,12 +161,13 @@ describe('CartSvc Test', function () {
     describe('addProductToCart - new cart', function () {
 
         it('should create new cart, create cart item and GET new cart', function () {
+
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
 
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {
-                "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2
+                "itemYrn" : prod1.product.itemYrn, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2
             }).respond(201, {});
 
             var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
@@ -159,6 +175,7 @@ describe('CartSvc Test', function () {
             cartPromise.then(successSpy);
 
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
+
             mockBackend.flush();
 
             expect(successSpy).wasCalled();
@@ -166,7 +183,7 @@ describe('CartSvc Test', function () {
 
         it('should return the units of measurement for a product for which measurement makes sense.', function () {
             mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', {
-                "product": {"id": "2466"},"price": {"effectiveAmount": 6,"currency": "USD","measurementUnit": {"unit": "kg","quantity": 250}},"quantity": 1
+                "itemYrn" : prod1.product.yrn,"price": {"effectiveAmount": 6,"currency": "USD","measurementUnit": {"unit": "kg","quantity": 250}},"quantity": 1
             }).respond(201, {});
 
             cartSvc.addProductToCart(prod2.product, prod2.prices, 1, {});
@@ -188,7 +205,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "itemYrn":"urn:yaas:hybris:product:product:priceless;123", "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
                 .respond(500, {});
 
             var cartPromise = cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
@@ -208,7 +225,7 @@ describe('CartSvc Test', function () {
             mockBackend.expectPOST(cartUrl).respond({
                 "cartId": cartId
             });
-            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "product": { "id": prodId }, "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
+            mockBackend.expectPOST(cartUrl + '/' + cartId + '/items', { "itemYrn": "urn:yaas:hybris:product:product:priceless;123", "price": { "effectiveAmount": 5, "currency": "USD" }, "quantity": 2 })
                 .respond(201, {});
             cartSvc.addProductToCart(prod1.product, prod1.prices, 2, {});
             mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200,
@@ -222,13 +239,7 @@ describe('CartSvc Test', function () {
                     "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
                     "items": [
                         {
-                            "product": {
-                                "sku": "sku1",
-                                "description": "desc",
-                                "id": prodId,
-                                "name": "Electric Guitar",
-                                "inStock": false
-                            },
+                            "itemYrn": "urn:yaas:hybris:product:product:priceless;123",
                             "price": {
                                 "currency": "USD",
                                 "effectiveAmount": 5.00
@@ -263,8 +274,6 @@ describe('CartSvc Test', function () {
                     .respond(201, {});
                 mockBackend.expectGET(cartUrl + '/' + cartId + '?siteCode=' + selectedSiteCode).respond(200, cartResponse);
 
-                console.log(prod1.product);
-                
                 var promise = cartSvc.addProductToCart(prod1.product, prod1.prices, 1, {});
                 var successSpy = jasmine.createSpy();
                 promise.then(successSpy);
@@ -386,8 +395,9 @@ describe('CartSvc Test', function () {
                 "items": [
                     {
                         "product": {
-                            "id": prodId2
+                          "id": prodId2
                         },
+                        "itemYrn": "urn:yaas:hybris:product:product:priceless;2466",
                         "price": {
                             "currency": "USD",
                             "effectiveAmount": 5.00
@@ -411,8 +421,9 @@ describe('CartSvc Test', function () {
                 "items": [
                     {
                         "product": {
-                            "id": prodId
+                          "id": prodId
                         },
+                        "itemYrn": "urn:yaas:hybris:product:product:priceless;123",
                         "price": {
                             "currency": "USD",
                             "effectiveAmount": 5.00
@@ -446,9 +457,7 @@ describe('CartSvc Test', function () {
                 "currency": "USD",
                 "items": [
                     {
-                        "product": {
-                            "id": prodId
-                        },
+                        "itemYrn": "urn:yaas:hybris:product:product:priceless;123",
                         "price": {
                             "currency": "USD",
                             "effectiveAmount": 5.00
@@ -492,6 +501,7 @@ describe('CartSvc Test', function () {
                     "customerId": "39328def-2081-3f74-4004-6f35e7ee022f",
                     "items": [
                         {
+                            "itemYrn":"urn:yaas:hybris:product:product:priceless;123",
                             "product": {
                                 "sku": "sku1",
                                 "inStock": true,
@@ -584,7 +594,6 @@ describe('CartSvc Test', function () {
 
     describe('coupon tests', function () {
         it('should redeem the coupon', function () {
-            console.log(mockedGlobalData.getCurrencyId());
 
             var mockCoupon = {
                 code: 'test1',

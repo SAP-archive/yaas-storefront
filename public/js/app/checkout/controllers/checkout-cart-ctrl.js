@@ -14,8 +14,20 @@
 
 angular.module('ds.checkout')
 /** Purpose of this controller is to "glue" the data models of cart and shippingCost into the order details view.*/
-    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'GlobalData', 'CartSvc',
-        function ($scope, $rootScope, cart, GlobalData, CartSvc) {
+    .controller('CheckoutCartCtrl', ['$scope', '$rootScope', 'cart', 'GlobalData', 'CartSvc', 'FeeSvc',
+        function ($scope, $rootScope, cart, GlobalData, CartSvc, FeeSvc) {
+
+            if(cart.items && Array.isArray(cart.items)) {
+                // This array will hold the list of productYrns of the current cart
+                var cartItemsYrn = [];
+                cart.items.forEach(function(item) {
+                    cartItemsYrn.push(item.itemYrn);
+                });
+                // Get the fees for the list of productYrns
+                FeeSvc.getFeesForItemYrnList(cartItemsYrn).then(function(feesForProductsMap) {
+                    $scope.feesInformationForProductsYrnMap = feesForProductsMap;
+                });
+            }
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol(cart.currency);
             $scope.taxType = GlobalData.getTaxType();

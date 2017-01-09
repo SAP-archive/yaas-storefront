@@ -199,6 +199,8 @@
     //XFLD
     "TAX": "Tax",
     //XFLD
+    "FEES": "Fees",
+    //XFLD
     "TOTAL": "Total",
     //XFLD
     "YEAR": "Year",
@@ -277,6 +279,8 @@
     "COUPON_NOT_VALID": "Coupon Not Valid",
     //XTIT
     "COUPONS": "Coupon Code",
+    //XMSG
+    "ADD_COUPON_CODE": "ADD COUPON CODE",
 
 
     //XFLD
@@ -369,6 +373,10 @@
     //XFLD
     "QTY": "Qty",
     //XMSG
+    "EACH": "each",
+    //XMSG
+    "FEE": "fee",
+    //XMSG
     "INCLUDES": "Includes",
     //XMSG
     "DESTINATION_COUNTRY": "Destination country(s)",
@@ -398,6 +406,8 @@
     "PRICE_HIGH_LOW": "price high - low",
     //XLST
     "PRICE_LOW_HIGH": "price low - high",
+    //XLST
+    "NO_PRICE": "No Price",
     //XFLD
     "SORT_BY": "Sort by",
     //XFLD
@@ -522,6 +532,18 @@
     "WRONG_CURRENT_PASSWORD": "Please provide correct current password!",
     //XMSG
     "PASSWORD_TOO_SHORT": "Password too short",
+    //XBUT
+    "DELETE_ACCOUNT": "Delete Account",
+    //XMSG
+    "DELETE_ACCOUNT_MSG": "Are you sure you want to delete your account including all your account information and order history? In addition, if you have any orders still in process, they will no longer be linked with your account.",
+    //XMSG
+    "DELETE_ACCOUNT_CHECK_EMAIL_MSG": "... and follow the link to confirm you want to delete your account. The link will be valid for 24 hours.",
+    //XTIT
+    "ACCOUNT_DELETED": "Account Deleted",
+    //XTIT
+    "ACCOUNT_NOT_DELETED": "Account Not Deleted",
+    //XMSG
+    "ACCOUNT_DELETED_MSG": "Your account has been successfully deleted",
     //XFLD
     "SHOW_ALL": "Show all",
     //XFLD

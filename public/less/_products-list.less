@@ -121,9 +121,6 @@ section .hero-unit{
   &#refineAffix{
     .viewingContainer{
       margin: 0;
-      @media (max-width: @screen-md-min) {
-        padding: 0 33px 0 0;
-      }
     }
   }
 
@@ -131,6 +128,7 @@ section .hero-unit{
   .sortContainer,
   .viewingContainer{
     margin-bottom: 10px;
+    padding-right: 10px;
 
     button{
       padding: 12px 0;
@@ -148,12 +146,6 @@ section .hero-unit{
       line-height: 46px;
       height: 46px;
       text-transform: uppercase;
-    }
-  }
-
-  .viewingContainer{
-    @media (max-width: @screen-md-min) {
-      padding: 0;
     }
   }
 
@@ -312,7 +304,6 @@ section .hero-unit{
 
 #refineAffix{
   z-index:1000;
-  height: 66px;
 
   @media (max-width: @screen-md-min) {
     padding: 0 ;
@@ -364,7 +355,6 @@ section .hero-unit{
 @media (max-width: @screen-xs) {
 
  .refine-section, #refineAffix{
-    height: 46px;
     .name{
        font-size: 12px !important;
     }
@@ -382,10 +372,6 @@ section .hero-unit{
     height: 539px;
   }
 
-  .refine-section, #refineAffix{
-    height: 46px;
-  }
-
 }
 
 @media screen and (min-width: @screen-sm) {
@@ -395,10 +381,6 @@ section .hero-unit{
 
   .product-grid .item a{
     height: 520px;
-  }
-
-  .refine-section, #refineAffix{
-    height: 46px;
   }
 
 }
@@ -411,11 +393,6 @@ section .hero-unit{
   .product-grid .item a{
     height: 374px;
   }
-
-  .refine-section, #refineAffix{
-    height: 66px;
-  }
-
 
 }
 

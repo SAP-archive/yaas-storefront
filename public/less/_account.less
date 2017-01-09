@@ -1,353 +1,386 @@
 .account{
-  section{
-    padding-left: 62px;
-    padding-right: 62px;
-  }
 
-  h2{
-    font-size: 26px;
-    padding-bottom:0;
-    margin-bottom: 36px;
-  }
-  
-  .area-headline.date{
-    margin-bottom: 20px;
-    
-  }
-
-  .area-headline .orderDate{
-    font-weight: normal;
-    font-size: 13px;
-    color: #000;
-    padding-left: 14px;
-  }
-
-  .orderHistoryCard{
-    margin: 0 20px 20px 0;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding-right: 0;
-    padding-left: 8px;
-
-    .panel{
-      margin-bottom: 0;
-      padding-right: 0;
-    }
-
-    &.green{
-      background-color: #18bc33;
-    }
-
-    &.red{
-      background-color: #f31313;
-    }
-
-    &.blue{
-      background-color: #5bc0de;
-    }
-
-    .leftCol{
-      font-size: 11px;
-    }
-
-    .cardStatusIdentifier{
-      height: 100%;
-      width: 8px;
-    }
-  }
-  
-  
-
-  .orderHeaderContainer{
-    padding-bottom: 64px;
-
-    .section-headline{
-      margin-top: 64px;
-    }
-
-    .area{
-      min-height: 127px;
-      margin: 0;
-    }
-
-    address{
-      margin-bottom: 0;
-      min-height:1px;
-    }
-    .orderdetailsheader{
-      margin-bottom: 25px;
-      h2{
-        margin-bottom: 10px;
-      }
-    }
-    
-    .shippingdetails{
-      margin-bottom: 20px;
-    }
-  }
-
-  .orderStatusContainer h2{
-    padding: 0;
-    margin: 0;
-  }
-
-  .orderItemsContainer{
-    .section-headline{
-      margin: 34px 0 25px 0;
+    section{
+        padding-left: 62px;
+        padding-right: 62px;
     }
 
     h2{
-      padding: 0;
-      margin: 0;
+        font-size: 26px;
+        padding-bottom:0;
+        margin-bottom: 36px;
     }
 
-    .table-responsive{
-      font-size: 13px;
+    .area-headline.date{
+        margin-bottom: 20px;
+
     }
 
-    .img-col{
-      padding: 0;
+    .area-headline .orderDate{
+        font-weight: normal;
+        font-size: 13px;
+        color: #000;
+        padding-left: 14px;
     }
-  }
 
-  .breadCrumb{
-    font-family: @font-family-serif, serif;
-    text-transform: none;
-    font-style: italic;
-    font-size: 13px;
-  }
+    .orderHistoryCard{
+        margin: 0 20px 20px 0;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        padding-right: 0;
+        padding-left: 8px;
 
-  .img-circle{
-      margin-top: -17px;
-      margin-left: 35px;
-  }
+        .panel{
+            margin-bottom: 0;
+            padding-right: 0;
+        }
 
-  .page-headline{
-      h1{
-	      overflow:hidden;
-        font-size: 34px;
-        margin-top: 5px;
-	      margin-bottom: 18px;
-        font-weight: 200;
-        small{
-          display:block;
-          margin-bottom: 17px;
+        &.green{
+            background-color: #18bc33;
         }
-        .welcomeTxt{
-          display:inline-block;
+
+        &.red{
+            background-color: #f31313;
         }
-        img{
-          width: 65px;
+
+        &.blue{
+            background-color: #5bc0de;
         }
-	
-      }
-      
-      &.mobile{
+
+        .leftCol{
+            font-size: 11px;
+        }
+
+        .cardStatusIdentifier{
+            height: 100%;
+            width: 8px;
+        }
+    }
+
+
+
+    .orderHeaderContainer{
+        padding-bottom: 64px;
+
+        .section-headline{
+            margin-top: 64px;
+        }
+
+        .area{
+            min-height: 127px;
+            margin: 0;
+        }
+
+        address{
+            margin-bottom: 0;
+            min-height:1px;
+        }
+
+        .orderdetailsheader{
+            margin-bottom: 25px;
+
+            h2{
+                margin-bottom: 10px;
+            }
+        }
+
+        .shippingdetails{
+            margin-bottom: 20px;
+        }
+    }
+
+    .orderStatusContainer h2{
+        padding: 0;
+        margin: 0;
+    }
+
+    .orderItemsContainer{
+
+        .section-headline{
+            margin: 34px 0 25px 0;
+        }
+
+        h2{
+            padding: 0;
+            margin: 0;
+        }
+
+        .table-responsive{
+            font-size: 13px;
+        }
+
+        .img-col{
+            padding: 0;
+        }
+    }
+
+    .breadCrumb{
+        font-family: @font-family-serif, serif;
+        text-transform: none;
+        font-style: italic;
+        font-size: 13px;
+    }
+
+    .img-circle{
+        margin-top: -17px;
+        margin-left: 35px;
+    }
+
+    .page-headline{
+
         h1{
-          margin-bottom: 28px;
+            overflow:hidden;
+            font-size: 34px;
+            margin-top: 5px;
+            margin-bottom: 18px;
+            font-weight: 200;
+
+            small{
+                display:block;
+                margin-bottom: 17px;
+            }
+
+            .welcomeTxt{
+                display:inline-block;
+            }
+
+            img{
+                width: 65px;
+            }
         }
-        
-        img{
-          margin: 0 0 20px 0;
+
+        &.mobile{
+
+            h1{
+                margin-bottom: 28px;
+            }
+
+            img{
+                margin: 0 0 20px 0;
+            }
         }
-      }
 
-  }
-  
-  .userInfoRow.mobile{
-    padding-bottom: 0;
-    
-    #add-address-btn{
-      margin-top: 0;
-    }
-  }
-  
-  .mobileDataSection{
-    margin: 0 0 40px 0;
-    
-    .dataLabel.locale{
-      margin-bottom: 20px;
-    }
-  }
-  
-
-  .inline-label{
-      font-family: @font-family-serif, serif;
-      font-style: italic;
-      font-weight: bold;
-  }
-
-  .order-status{
-      font-family:   @font-family-sans-serif;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 26px;
-  }
-
-  .order-tabel{
-    border-bottom: 1px solid @table-border-color;
-    table{width: auto;}
-    th{
-      padding-left: 0;
-      padding-right: 0;
-      font-weight: 500;
-      white-space: normal !important;
     }
 
-    td{
-      padding: 28px 0;
-      white-space: normal !important;
+    .userInfoRow.mobile{
+        padding-bottom: 0;
+
+        #add-address-btn{
+            margin-top: 0;
+        }
     }
 
-    .priceColumn{
-      text-align: right;
-      padding-right: 12px;
+    .mobileDataSection{
+        margin: 0 0 40px 0;
+
+        .dataLabel.locale{
+            margin-bottom: 20px;
+        }
     }
 
-  }
 
-  .cart-item{
-      border:none;
-      padding-top: 0;
-      padding-bottom: 0;
-      padding-left: 0;
-  }
+    .inline-label{
+        font-family: @font-family-serif, serif;
+        font-style: italic;
+        font-weight: bold;
+    }
 
-  .summary{
-      @media screen and (max-width: @screen-xs-max) {
-          width: 100%;
-          float: none;
-      }
-  }
+    .order-status{
+        font-family: @font-family-sans-serif;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 26px;
+    }
 
-  .cancel-order {
-      @media screen and (max-width: @screen-xs-max) {
-          width: 100%;
-      }
-  }
-  
-  .desktopUserInfo{
-    margin-top: 40px;
-    
-  }
-  
-  .userInfoRow{
-	  border-top: 1px solid #e5e5e5;
-	  padding-top: 30px;
-	  padding-bottom: 75px;
-      a {
-        cursor: pointer;
-      }
-  }
-  
-  .desktopUserInfo.userInfoRow{
-    border-top: none;
-    
-  }
-  
-  .userInfoRow .titleRow{
-	  margin-bottom:21px;
-	  font-size:10px;
-	  text-transform: uppercase;
-	  color: #7d7e7f;
-  }
-  .userInfoRow .dataLabel{
-	  display:block;
-	  font-weight:bold;
-  }
-  /* UPSCALING IMPROVMENTS */
-  @media screen and (max-width: @screen-sm-max){
+    .order-tabel{
+        border-bottom: 1px solid @table-border-color;
 
-    section{
-      padding: 15px !important;
+        table{
+            width: auto;
+        }
 
-      .area{
-        padding-bottom:20px;
+        th{
+            padding-left: 0;
+            padding-right: 0;
+            font-weight: 500;
+            white-space: normal !important;
+        }
+
+        td{
+            padding: 28px 0;
+            white-space: normal !important;
+        }
+
+        .priceColumn{
+            text-align: right;
+            padding-right: 12px;
+        }
+
+    }
+
+    .cart-item{
+        border:none;
+        padding-top: 0;
+        padding-bottom: 0;
         padding-left: 0;
-        border-left: none;
-      }
+    }
 
-      .page-headline {
-        margin-top: 0;
-      }
+    .summary{
 
-      .summary{
-        border-bottom: 1px solid #ddddd2 !important;
-      }
+        @media screen and (max-width: @screen-xs-max) {
+            width: 100%;
+            float: none;
+        }
+    }
 
-      .cart-item{
-        padding: 25px 0;
-        border-top: 1px solid #ddddd2;
-        .item-attr{margin-bottom: 0 !important; margin-top: 0;}
+    .cancel-order {
 
-      }
+        @media screen and (max-width: @screen-xs-max) {
+            width: 100%;
+        }
+    }
+
+    .desktopUserInfo{
+        margin-top: 40px;
+    }
+
+    .userInfoRow{
+        border-top: 1px solid #e5e5e5;
+        padding-top: 30px;
+        padding-bottom: 75px;
+
+        a {
+            cursor: pointer;
+        }
+    }
+
+    .desktopUserInfo.userInfoRow{
+        border-top: none;
 
     }
 
+    .userInfoRow .titleRow{
+        margin-bottom:21px;
+        font-size:10px;
+        text-transform: uppercase;
+        color: #7d7e7f;
+    }
 
-  }
-  .panel{
-    height: 183px;
-  }
+    .userInfoRow .dataLabel{
+        display:block;
+        font-weight:bold;
+    }
+
+    /* UPSCALING IMPROVMENTS */
+    @media screen and (max-width: @screen-sm-max){
+
+        section{
+            padding: 15px !important;
+
+            .area{
+                padding-bottom:20px;
+                padding-left: 0;
+                border-left: none;
+            }
+
+            .page-headline {
+                margin-top: 0;
+            }
+
+            .summary{
+                border-bottom: 1px solid #ddddd2 !important;
+            }
+
+            .cart-item{
+                padding: 25px 0;
+                border-top: 1px solid #ddddd2;
+
+                .item-attr{
+                    margin-bottom: 0 !important; margin-top: 0;
+                }
+
+            }
+
+        }
+
+        .delete-btn {
+            padding-left: 0;
+        }
+
+    }
+
+    .panel{
+        height: 183px;
+    }
 }
 
 .default-address .contactName{
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .addresses div[address-decorator] > div:not(.disableAddress){
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .disableAddress {
-  background-color: lightgrey;
-  cursor: not-allowed;
+    background-color: lightgrey;
+    cursor: not-allowed;
 }
+
 .default-address .defaultLabel{
-	color:#016aab;
+    color:#016aab;
 }
 
 .panel.defaultAddress{
-  border: 1px solid #016aab;
+    border: 1px solid #016aab;
 }
 
 address {
-	min-height: 120px;
-	overflow: hidden;
-	color: #969696;
+    min-height: 120px;
+    overflow: hidden;
+    color: #969696;
 }
 
 .panel.defaultAddress address{
-	color:#333;
+    color:#333;
 }
+
 .section-headline h2{
-	font-size: 18px;
-	font-weight: 900 !important;
-	padding-bottom: 0 !important;
+    font-size: 18px;
+    font-weight: 900 !important;
+    padding-bottom: 0 !important;
 }
+
 .editLinkContainer{
-	border-right: 1px solid #cecece;
+    border-right: 1px solid #cecece;
+    float: left;
+    margin: 0;
+    padding: 0;
 }
 
 .editLinkContainer + div{
-	padding-left: 22px;
+    padding-left: 22px;
 }
 
-address .addressInfo{ font-weight: 200; }
+address .addressInfo{ 
+    font-weight: 200; 
+}
 
 .btn-group-vertical .btn-link, .btn-group-vertical .btn.delete, .userInfoRow a{
-	color:#cecece;
-	font-size: 22px;
+    color:#cecece;
+    font-size: 22px;
 }
 
 .btn-group-vertical .btn-link:hover, .userInfoRow a:hover{
-	color:#016aab;
+    color:#016aab;
 }
 
 .btn-group-vertical .btn.delete:hover{
-	color: #f1291e;
+    color: #f1291e;
 }
 
 .btn-group-vertical .btn-link.active{
-	color: #016aab;
+    color: #016aab;
 }
 
 .editable-buttons.btn.btn-default { display: none; } .editable-controls.editable-error {
@@ -355,15 +388,19 @@ address .addressInfo{ font-weight: 200; }
 }
 
 .account .btn-secondary{
-	background-color: #636465;
-	color: #fff;
-	padding-left: 26px;
-	padding-right:26px;
-	-webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+    background-color: #636465;
+    color: #fff;
+    padding-left: 26px;
+    padding-right:26px;
+    -webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.75);
 }
 
 .emailChangeButton {
     padding-top: 20px;
+}
+
+.delete-btn {
+    color: red;
 }

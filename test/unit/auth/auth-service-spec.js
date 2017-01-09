@@ -12,11 +12,7 @@
 
 describe('AuthSvc Test', function () {
 
-    var AuthSvc, mockedTokenSvc, siteConfig, mockBackend, mockedState, $q, customersUrl, mockedSessionSvc={
-        afterLogOut: jasmine.createSpy(),
-        afterLogIn: jasmine.createSpy(),
-        afterLoginFromSignUp: jasmine.createSpy()
-    };
+    var AuthSvc, mockedTokenSvc, siteConfig, mockBackend, mockedState, $q, customersUrl;
     var storeTenant = '121212';
     var YGoogleSignin = {
         logout: jasmine.createSpy().andReturn({
@@ -45,12 +41,10 @@ describe('AuthSvc Test', function () {
     };
 
     mockedSessionSvc = {
-      afterSocialLogin: jasmine.createSpy(),
-        afterLogIn: jasmine.createSpy().andReturn({
-            then: jasmine.createSpy()
-        }),
+        afterSocialLogin: jasmine.createSpy(),
+        // afterLogIn: jasmine.createSpy().andReturn(deferredAfterLogin.promise),
         afterLogOut: jasmine.createSpy(),
-        afterLoginFromSignUp: jasmine.createSpy()
+        // afterLoginFromSignUp: jasmine.createSpy().andReturn(deferredAfterLoginFromSignUp.promise)
     };
 
     mockedState = {
@@ -102,50 +96,56 @@ describe('AuthSvc Test', function () {
     });
 
     it("should perform signin", function() {
-       var payload = {
-               email: 'some@email.com',
-               password: '123456'
-           },
-           response = {
-                accessToken: '12345'
-           },
-           successSpy = jasmine.createSpy('success'),
-           errorSpy = jasmine.createSpy('error');
-       
-       mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, response);
-       var promise = AuthSvc.signin(payload);
-       promise.then(successSpy, errorSpy);
+        var deferredAfterLogin = $q.defer();
+        mockedSessionSvc.afterLogIn = jasmine.createSpy().andReturn(deferredAfterLogin.promise);
+        deferredAfterLogin.resolve({});
+        var payload = {
+            email: 'some@email.com',
+            password: '123456'
+        };
+        var response = {
+            accessToken: '12345'
+        };
+        var successSpy = jasmine.createSpy('success');
+        var errorSpy = jasmine.createSpy('error');
 
-       mockBackend.flush();
+        mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, response);
+        var promise = AuthSvc.signin(payload);
+        promise.then(successSpy, errorSpy);
+
+        mockBackend.flush();
        
-       expect(promise.then).toBeDefined();
-       expect(successSpy).toHaveBeenCalled();
-       expect(errorSpy).not.toHaveBeenCalled();
-       expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(response.accessToken, payload.email);
+        expect(promise.then).toBeDefined();
+        expect(successSpy).toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(mockedTokenSvc.setToken).toHaveBeenCalledWith(response.accessToken, payload.email);
         expect(mockedSessionSvc.afterLogIn).toHaveBeenCalled();
     });
 
     describe('signUp()', function(){
        it('should call signup and login, set token and invoke <<afterLoginFromSignUp>>', function(){
-           var payload = {
-                   email: 'some@email.com',
-                   password: '123456'
-               },
-               successSpy = jasmine.createSpy('success'),
-               errorSpy = jasmine.createSpy('error');
+          var deferredAfterLoginFromSignUp = $q.defer();
+          mockedSessionSvc.afterLoginFromSignUp = jasmine.createSpy().andReturn(deferredAfterLoginFromSignUp.promise);
+          deferredAfterLoginFromSignUp.resolve({});
+          var payload = {
+              email: 'some@email.com',
+              password: '123456'
+          };
+          var successSpy = jasmine.createSpy('success');
+          var errorSpy = jasmine.createSpy('error');
 
-           mockBackend.expectPOST(customersUrl + '/signup', payload).respond({});
-           mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, {});
-           var promise = AuthSvc.signup(payload);
-           promise.then(successSpy, errorSpy);
+          mockBackend.expectPOST(customersUrl + '/signup', payload).respond({});
+          mockBackend.expectPOST(customersUrl +'/login', payload).respond(200, {});
+          var promise = AuthSvc.signup(payload);
+          promise.then(successSpy, errorSpy);
 
-           mockBackend.flush();
+          mockBackend.flush();
 
-           expect(promise.then).toBeDefined();
-           expect(successSpy).toHaveBeenCalled();
-           expect(errorSpy).not.toHaveBeenCalled();
-           expect(mockedTokenSvc.setToken).toHaveBeenCalled();
-           expect(mockedSessionSvc.afterLoginFromSignUp).toHaveBeenCalled();
+          expect(promise.then).toBeDefined();
+          expect(successSpy).toHaveBeenCalled();
+          expect(errorSpy).not.toHaveBeenCalled();
+          expect(mockedTokenSvc.setToken).toHaveBeenCalled();
+          expect(mockedSessionSvc.afterLoginFromSignUp).toHaveBeenCalled();
        });
     });
 

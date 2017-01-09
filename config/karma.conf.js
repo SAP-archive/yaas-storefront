@@ -4,14 +4,13 @@ module.exports = function(config){
 
     files : [
 
+        './node_modules/phantomjs-polyfill/bind-polyfill.js',
+
         'public/js/vendor-static/jquery.min.js',
         'public/js/vendor/lodash/dist/lodash.compat.min.js',
-        'public/js/vendor-static/bootstrap.min.js',
+        'public/js/vendor/bootstrap/dist/js/bootstrap.min.js',
         'public/js/vendor/spin.js/spin.js',
         'public/js/vendor-static/owl.carousel.min.js',
-        'public/js/vendor-static/img-touch-canvas.js',
-        'public/js/vendor-static/jquery.fullscreen-min.js',
-        'public/js/vendor-static/main.js',
         'https://js.stripe.com/v2/',
         'public/js/vendor/angular/angular.min.js',
         'public/js/vendor/angular-touch/angular-touch.js',
@@ -28,7 +27,11 @@ module.exports = function(config){
         'public/js/vendor/angular-sanitize/angular-sanitize.js',
         'public/js/vendor/angular-ui-select/dist/select.min.js',
         'public/js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js',
+        'public/js/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+        'public/js/vendor/angular-animate/angular-animate.js',
         'public/js/vendor/algoliasearch/dist/algoliasearch.angular.js',
+        'public/js/vendor/moment/min/moment-with-locales.min.js',
+        'public/js/vendor/angular-moment/angular-moment.min.js',
 
         // dummy config/bootstrap for testing
         'test/unit/bootstrap-test.js',
@@ -42,6 +45,7 @@ module.exports = function(config){
         'public/js/app/shared/filters/filters.js',
         'public/js/app/shared/filters/show-number-of-items-filter.js',
         'public/js/app/shared/filters/sum-by-key-filter.js',
+		'public/js/app/shared/services/yrn-svc.js',
         'public/js/app/shared/services/global-data.js',
         'public/js/app/shared/services/site-settings-rest.js',
         'public/js/app/shared/services/configuration-service.js',
@@ -52,6 +56,10 @@ module.exports = function(config){
         'public/js/app/shared/directives/site-selector/site-selector-service.js',
         'public/js/app/shared/directives/site-selector/site-selector-ctrl.js',
         'public/js/app/shared/directives/site-selector/site-selector-directive.js',
+
+        'public/js/app/shared/directives/product-variants/variant-options-ctrl.js',
+        'public/js/app/shared/directives/product-variants/variant-options-svc.js',
+        'public/js/app/shared/directives/product-variants/variant-options-dir.js',
 
         'public/js/app/shared/controllers/sidebar-navigation-ctrl.js',
         'public/js/app/shared/controllers/top-navigation-ctrl.js',
@@ -79,11 +87,13 @@ module.exports = function(config){
         'public/js/app/products/controllers/browse-products-ctrl.js',
         'public/js/app/products/controllers/product-detail-ctrl.js',
         'public/js/app/products/services/product-service.js',
-        'public/js/app/products/services/price-service.js',
+        'public/js/app/products/services/prices-rest.js',
+        'public/js/app/products/services/price-svc.js',
         'public/js/app/products/services/price-product-rest.js',
         'public/js/app/products/services/category-service.js',
         'public/js/app/products/services/product-extension-service.js',
         'public/js/app/products/utils/product-extension-helper.js',
+		'public/js/app/products/utils/product-variants-helper.js',
         'public/js/app/products/utils/product-extension-item-helper.js',
         'public/js/app/products/utils/product-factory.js',
         'public/js/app/products/options/product-options-helper.js',
@@ -131,6 +141,9 @@ module.exports = function(config){
         'public/js/app/account/controllers/dialogs/order-cancel-dialog-ctrl.js',
         'public/js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js',
         'public/js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js',
+        'public/js/app/account/controllers/delete-account-ctrl.js',
+        'public/js/app/account/controllers/dialogs/delete-account-dialog-ctrl.js',
+        'public/js/app/account/controllers/modals/delete-account-basic-ctrl.js',
         'public/js/app/account/directives/customer-details/customer-details-directive.js',
         'public/js/app/account/directives/customer-details/customer-details-ctrl.js',
         'public/js/app/account/services/account-service.js',
@@ -163,9 +176,13 @@ module.exports = function(config){
         'public/js/app/orders/services/order-list-service.js',
         'public/js/app/orders/services/orders-rest.js',
 
+        'public/js/app/fees/fee-index.js',
+        'public/js/app/fees/services/fee-rest.js',
+        'public/js/app/fees/services/fee-service.js',
+        'public/js/app/fees/directives/product-fees.js',
+
         'public/js/app/app.js',
 
-        'public/js/vendor-static/ui-bootstrap-tpls.js',
         'public/js/vendor-static/jquery.menu-aim.js',
 
         'test/unit/*.js',
@@ -183,7 +200,8 @@ module.exports = function(config){
         'test/unit/products/*.js',
         'test/unit/search/*.js',
         'test/unit/shared/**/*.js',
-        'test/unit/shipping/**/*.js'
+        'test/unit/shipping/**/*.js',
+        'test/unit/fees/*.js'
 
     ],
 
@@ -224,4 +242,4 @@ module.exports = function(config){
       suite: 'unit'
     }
 
-})}
+})};

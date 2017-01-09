@@ -2,8 +2,8 @@
 <html ng-class="{'disable-scroll': showCart || showMobileNav || checkoutCartEditVisible, 'force-scroll': forceScroll }">
 
 <head>
-    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title title-config ng-bind-template="{{titleConfig}}">Store Template</title>
 
@@ -43,6 +43,7 @@
     <!-- dynamic optimized script resources -->
     <!-- build:js js/storefront.js -->
     <script src="js/vendor-static/jquery.min.js"></script>
+    <script src="js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/vendor/angular/angular.js"></script>
     <script src="js/vendor/angular-mocks/angular-mocks.js"></script>
     <script src="js/vendor/angular-touch/angular-touch.js"></script>
@@ -60,6 +61,8 @@
     <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
     <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script>
     <script src="js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+    <script src="js/vendor/moment/min/moment-with-locales.min.js"></script>
+    <script src="js/vendor/angular-moment/angular-moment.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/vendor/spin.js/spin.js"></script>
     <script src="js/app/shared/shared-index.js"></script>
@@ -81,6 +84,7 @@
     <script src="js/app/shared/directives/stop-event.js"></script>
     <script src="js/app/shared/directives/force-scroll.js"></script>
     <script src="js/app/shared/services/cookie-svc.js"></script>
+	<script src="js/app/shared/services/yrn-svc.js"></script>
     <script src="js/app/shared/services/global-data.js"></script>
     <script src="js/app/shared/services/site-settings-rest.js"></script>
     <script src="js/app/shared/services/configuration-service.js"></script>
@@ -91,6 +95,9 @@
     <script src="js/app/shared/directives/site-selector/site-selector-directive.js"></script>
     <script src="js/app/shared/directives/site-selector/site-selector-ctrl.js"></script>
     <script src="js/app/shared/directives/site-selector/site-selector-service.js"></script>
+    <script src="js/app/shared/directives/product-variants/variant-options-ctrl.js"></script>
+    <script src="js/app/shared/directives/product-variants/variant-options-svc.js"></script>
+    <script src="js/app/shared/directives/product-variants/variant-options-dir.js"></script>
 
     <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
     <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
@@ -123,13 +130,17 @@
     <script src="js/app/products/controllers/browse-products-ctrl.js"></script>
     <script src="js/app/products/controllers/product-detail-ctrl.js"></script>
     <script src="js/app/products/services/product-service.js"></script>
-    <script src="js/app/products/services/price-service.js"></script>
+    <script src="js/app/products/services/prices-rest.js"></script>
+    <script src="js/app/products/services/price-svc.js"></script>
     <script src="js/app/products/services/price-product-rest.js"></script>
     <script src="js/app/products/services/category-service.js"></script>
     <script src="js/app/products/services/product-extension-service.js"></script>
     <script src="js/app/products/directives/product-img-carousel.js"></script>
     <script src="js/app/products/directives/product-extension.js"></script>
     <script src="js/app/products/directives/product-extension-item.js"></script>
+    <script src="js/app/products/directives/price-label/price-label.js"></script>
+    <script src="js/app/products/filters/date-with-locale-filters.js"></script>
+	<script src="js/app/products/utils/product-variants-helper.js"></script>
     <script src="js/app/products/utils/product-extension-helper.js"></script>
     <script src="js/app/products/utils/product-extension-item-helper.js"></script>
     <script src="js/app/products/utils/product-factory.js"></script>
@@ -171,10 +182,13 @@
     <script src="js/app/account/controllers/account-ctrl.js"></script>
     <script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
     <script src="js/app/account/controllers/change-email-confirmation-ctrl.js"></script>
+    <script src="js/app/account/controllers/delete-account-ctrl.js"></script>
     <script src="js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js"></script>
     <script src="js/app/account/controllers/dialogs/order-cancel-dialog-ctrl.js"></script>
+    <script src="js/app/account/controllers/dialogs/delete-account-dialog-ctrl.js"></script>
     <script src="js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js"></script>
     <script src="js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js"></script>
+    <script src="js/app/account/controllers/modals/delete-account-basic-ctrl.js"></script>
     <script src="js/app/account/directives/customer-details/customer-details-ctrl.js"></script>
     <script src="js/app/account/directives/customer-details/customer-details-directive.js"></script>
     <script src="js/app/account/services/account-service.js"></script>
@@ -194,11 +208,17 @@
     <script src="js/app/auth/services/auth-dialog-manager.js"></script>
     <script src="js/app/search/search-index.js"></script>
     <script src="js/app/search/controllers/search-list-ctrl.js"></script>
+    
+    <script src="js/app/fees/fee-index.js"></script>
+    <script src="js/app/fees/services/fee-rest.js"></script>
+    <script src="js/app/fees/services/fee-service.js"></script>
+    <script src="js/app/fees/directives/product-fees.js"></script>
 
     <script src="js/app/errors/backendStub.js"></script>
-    <script src="js/vendor-static/bootstrap.min.js"></script>
     <script src="js/vendor/bootstrap/js/popover.js"></script>
     <script src="js/app/shared/directives/popover.js"></script>
+    <script src="js/app/shared/directives/refine-affix.js"></script>
+    <script src="js/vendor/angular-animate/angular-animate.js"></script>
     <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="js/vendor-static/jquery.menu-aim.js"></script>
     <script src="js/app/app.js"></script>

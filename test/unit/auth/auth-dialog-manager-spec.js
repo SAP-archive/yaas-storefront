@@ -21,7 +21,7 @@ describe('AuthDialogManager', function () {
         module('ds.auth');
 
         module(function($provide){
-            $provide.value('$modal', mockedModal);
+            $provide.value('$uibModal', mockedModal);
             $provide.value('settings', mockedSettings);
         });
 
@@ -48,6 +48,9 @@ describe('AuthDialogManager', function () {
             expect(AuthDialogManager.showResetPassword).toBeDefined();
             expect(AuthDialogManager.showPasswordChanged).toBeDefined();
             expect(AuthDialogManager.showCheckEmail).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccount).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccountConfirmRequest).toBeDefined();
+            expect(AuthDialogManager.showDeleteAccountConfirmation).toBeDefined();
         });
     });
 
@@ -61,7 +64,7 @@ describe('AuthDialogManager', function () {
             }
         };
 
-        it('should open the dialog by delegating call to $modal instance with options', function() {
+        it('should open the dialog by delegating call to $uibModal instance with options', function() {
             AuthDialogManager.open(options);
             expect(mockedModal.open).toHaveBeenCalledWith(options);
 
@@ -93,7 +96,7 @@ describe('AuthDialogManager', function () {
             AuthDialogManager.open({});
         });
 
-        it('should delegate close() to $modal', function(){
+        it('should delegate close() to $uibModal', function(){
             AuthDialogManager.close();
             expect(mockedDialog.close).toHaveBeenCalled();
         });
@@ -118,6 +121,21 @@ describe('AuthDialogManager', function () {
 
         it('showUpdatePassword should open modal', function(){
             AuthDialogManager.showUpdatePassword();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccount should open modal', function(){
+            AuthDialogManager.showDeleteAccount();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccountConfirmRequest should open modal', function(){
+            AuthDialogManager.showDeleteAccountConfirmRequest();
+            expect(mockedModal.open).toHaveBeenCalled();
+        });
+
+        it('showDeleteAccountConfirmation should open modal', function(){
+            AuthDialogManager.showDeleteAccountConfirmation();
             expect(mockedModal.open).toHaveBeenCalled();
         });
     });

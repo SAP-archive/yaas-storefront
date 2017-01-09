@@ -14,7 +14,11 @@
     'use strict';
 
     angular.module('ds.products')
-        .factory('ProductExtensionItemHelper', [function () {
+        .constant('ExtensionDefinitionDateFormats', {
+            date: 'DD-MM-YYYY',
+            time: 'HH:mm:ss'
+        })
+        .factory('ProductExtensionItemHelper', ['ExtensionDefinitionDateFormats', 'moment', function (ExtensionDefinitionDateFormats, moment) {
             return {
                 resolveName: function (definition, name) {
                     if (definition.title) {
@@ -34,6 +38,15 @@
                     }
                     if (angular.isArray(value)) {
                         return 'array';
+                    }
+                },
+
+                stringToDate: function (stringFormat, value) {
+                    if (stringFormat in ExtensionDefinitionDateFormats && moment(value, ExtensionDefinitionDateFormats[stringFormat], true).isValid()) {
+                        return moment(value, ExtensionDefinitionDateFormats[stringFormat], true);
+                    }
+                    else {
+                        return value;
                     }
                 },
 

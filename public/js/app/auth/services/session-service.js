@@ -23,20 +23,38 @@ angular.module('ds.auth')
             }
 
             function commonPostLogin(context){
-                CartSvc.refreshCartAfterLogin(GlobalData.customerAccount.id);
+                var deferred = $q.defer();
+                CartSvc.refreshCartAfterLogin(GlobalData.customerAccount.id).then(
+                    function () {
+                        deferred.resolve();
+                    },
+                    function () {
+                        deferred.reject();
+                    }
+                );
                 navigateAfterLogin(context);
+                return deferred.promise;
             }
 
 
         return {
 
             afterLoginFromSignUp: function (context) {
+                var deferred = $q.defer();
                 AccountSvc.account().then(function () {
                     //Customer login event
                     $rootScope.$emit('customer:login', {});
                 }).then(function(){
-                   commonPostLogin(context);
+                    commonPostLogin(context).then(
+                        function () {
+                            deferred.resolve();
+                        },
+                        function () {
+                            deferred.reject();
+                        }
+                    );
                 });
+                return deferred.promise;
             },
 
             /** Performs application logic for the scenario of a successful login.
@@ -53,8 +71,14 @@ angular.module('ds.auth')
                     $rootScope.$emit('customer:login', {});
                     return account;
                 }).finally(function () {
-                   commonPostLogin(context);
-                   deferred.resolve();
+                    commonPostLogin(context).then(
+                        function () {
+                            deferred.resolve();
+                        },
+                        function () {
+                            deferred.reject();
+                        }
+                    );
                 });
                 return deferred.promise;
             },

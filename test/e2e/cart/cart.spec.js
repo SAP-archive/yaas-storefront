@@ -44,6 +44,8 @@ describe("cart:", function () {
 
             expect(cartPO.getCartTotalAmount()).toEqual(testProducts.whiteCoffeeMug.one.totalPriceUS);
 
+            expect(cartPO.getFirstCartItemName()).toEqual(testProducts.whiteCoffeeMug.name);
+
             cartPO.emptyCart();
 
             cartPO.waitForCartMessage();
@@ -207,7 +209,6 @@ describe("cart:", function () {
 
             expect(cartPO.getItemNote()).toEqual(TI.cartNote + ",please.");
         });
-
     });
 });
 

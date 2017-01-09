@@ -14,13 +14,13 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$modal', 'AccountSvc',
-            function ($scope, AuthDialogManager, $modal, AccountSvc) {
+        .controller('CustomerDetailsCtrl', ['$scope', 'AuthDialogManager', '$uibModal', 'AccountSvc',
+            function ($scope, AuthDialogManager, $uibModal, AccountSvc) {
 
                 $scope.modalInstance = {};
 
                 $scope.editUserName = function (account) {
-                    $scope.modalInstance = $modal.open({
+                    $scope.modalInstance = $uibModal.open({
                         templateUrl: 'js/app/account/templates/modals/edit-user-name-dialog.html',
                         controller: 'EditUserNameDialogCtrl',
                         resolve: {
@@ -38,7 +38,7 @@
 
                 $scope.editUserEmail = function (account) {
 
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: 'js/app/account/templates/modals/edit-user-email-dialog.html',
                         controller: 'EditUserEmailDialogCtrl',
                         resolve: {
@@ -63,6 +63,10 @@
                         $scope.modalInstance.dismiss('cancel');
                     }
                 });
+
+                $scope.deleteAccount = function () {
+                    AuthDialogManager.showDeleteAccount();
+                };
 
             }]);
 })();

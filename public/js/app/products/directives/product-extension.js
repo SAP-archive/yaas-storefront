@@ -21,7 +21,9 @@
                 scope: {
                     schemaUrl: '@', mixin: '='
                 },
-                controller: ['$scope', '$q', function ($scope, $q) {
+                controller: ['$scope', '$q', 'moment', 'GlobalData', function ($scope, $q, moment, GlobalData) {
+
+                    moment.locale(GlobalData.getLanguageCode());
 
                     $q.all([
                         ProductExtensionSvc.getSchema($scope.schemaUrl),

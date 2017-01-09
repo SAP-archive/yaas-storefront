@@ -12,7 +12,9 @@
 
         <!-- logo -->
         <div class="col-xs-5 text-center">
-            <a class="logo" ui-sref="base.home"><img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt=""></a>
+            <a class="logo" ui-sref="base.home">
+                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="logo">
+            </a>
         </div>
         
         <!-- header right -->
@@ -49,7 +51,7 @@
         <!-- logo -->
         <div class="col-xs-2 logo navbar-padding navbar-padding-left">
             <a ui-sref="base.home" class="logo">
-                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" height="46" alt="" />
+                <img ng-src="{{GlobalData.store.logo || 'img/logo.png'}}" alt="logo" />
             </a>
         </div>
     
@@ -65,23 +67,23 @@
                 <!-- signin button -->
                 <div class="col-xs-6 col-md-6">
                     <div class="text-center">
-                        <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="#">
+                        <a id="login-btn" ng-if="!user.isAuthenticated" class="signin" ng-click="login({windowClass:'mobileLoginModal'})" href="">
                             {{'SIGN_IN' | translate}}
                         </a>
                     </div>
                     <div ng-if="user.isAuthenticated">
                         <div class="signin-container ">
                             <div class="text-center dropdown">
-                                <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account">
+                                <a class="my-profile dropdown-toggle" title="{{'MY_ACCOUNT' | translate}}" id="my-account" data-toggle="dropdown">
                                     <img id="my-account-dropdown" ng-src="{{user.image}}" class="user-avatar socialAvatar">
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
-                                        <a role="menuitem" id="my-account-link" tabindex="-1" href="#" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
+                                        <a role="menuitem" id="my-account-link" tabindex="-1" href="" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a>
                                     </li>
                                     <li class="divider"></li>
                                     <li  role="presentation" >
-                                        <a  role="menuitem" id="logout-btn" tabindex="-1" href="#" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
+                                        <a  role="menuitem" id="logout-btn" tabindex="-1" href="" ng-click="logout()">{{'SIGN_OUT' | translate}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -116,7 +118,7 @@
     <div class="row nav js-mainNav">
         <div class="content-container">
             <div class="navbar yamm navbar-default">
-                <ul class="nav navbar-nav">
+                <ul id="product-categories" class="nav navbar-nav">
                     <li ng-repeat="top_category in categories" class="dropdown yamm-fw">
                         <!-- class="has-sub" -->
                         <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">

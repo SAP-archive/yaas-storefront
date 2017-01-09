@@ -14,15 +14,15 @@
     'use strict';
 
     angular.module('ds.account')
-        .controller('EditUserEmailDialogCtrl', ['$scope', 'account', 'AccountSvc', '$modalInstance', '$translate',
-            function ($scope, account, AccountSvc, $modalInstance, $translate) {
+        .controller('EditUserEmailDialogCtrl', ['$scope', 'account', 'AccountSvc', '$uibModalInstance', '$translate',
+            function ($scope, account, AccountSvc, $uibModalInstance, $translate) {
 
                 $scope.account = account;
                 $scope.error = '';
                 $scope.step = 1;
 
                 $scope.closeEditUserDialog = function () {
-                    $modalInstance.dismiss('cancel');
+                    $uibModalInstance.dismiss('cancel');
                 };
 
                 $scope.updateUserInfo = function () {
@@ -46,7 +46,7 @@
                 };
 
                 $scope.confirm = function () {
-                    $modalInstance.close($scope.account);
+                    $uibModalInstance.close($scope.account);
                 };
 
             }]);

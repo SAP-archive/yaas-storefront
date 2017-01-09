@@ -1,7 +1,7 @@
 describe('BrowseProductsCtrl', function () {
 
     var $scope, $rootScope, $controller, mockedGlobalData, $q, mockedCategory = {};
-    var productResult, browseProdCtrl, mockedProductSvc, deferredProducts;
+    var productResult, browseProdCtrl, mockedProductSvc, deferredProducts, mockedPriceSvc, defferedPrices, pricesResult;
 
     mockedGlobalData = {};
     mockedGlobalData.store = {};
@@ -11,6 +11,7 @@ describe('BrowseProductsCtrl', function () {
     mockedGlobalData.getCurrencyId = jasmine.createSpy('getCurrencyId').andReturn('USD');
     mockedGlobalData.getCurrencySymbol = jasmine.createSpy('getCurrencySymbol').andReturn('$');
     mockedGlobalData.getProductRefinements = jasmine.createSpy('getProductRefinements').andReturn([{id: 'name', name: 'A-Z'}]);
+    mockedGlobalData.getCurrency = jasmine.createSpy('getCurrency').andReturn('USD');
     mockedCategory.id = 123;
     mockedCategory.assignments = [
         {
@@ -70,19 +71,51 @@ describe('BrowseProductsCtrl', function () {
         mockedProductSvc = {};
         productResult = [
             {
-                'product':{'id': 'prod1', 'name': 'prod1', media: [{url: 'http://myimageurl1'}, {url: 'http://myimageurl2'}]},
-                'prices': []
+                "id": "prod1",
+                "name": "prod1",
+                "media": [
+                    {"url": "http://myimageurl1"}, {"url": "http://myimageurl2"}
+                ],
+                "metadata": {
+                    "variants": {
+                        "options": {
+                            "var-1": "https://api.yaas.io/hybris/schema/v1/tenant/var-1"
+                        }
+                    }
+                }
             },
             {
-                'product':{'id': 'prod2', 'name': 'prod2', media: [{url: 'http://myimageurl2'}, {url: 'http://myimageurl1'}] },
-                'prices': []
+                "id": "prod2",
+                "name": "prod2",
+                "media": [
+                    {"url": "http://myimageurl2"}, {"url": "http://myimageurl1"}
+                ],
+                "metadata": {
+                    "variants": {
+                        "options": {
+                            "var-1": "https://api.yaas.io/hybris/schema/v1/tenant/var-1"
+                        }
+                    }
+                }
             }
         ];
         productResult.headers =  [];
         deferredProducts = $q.defer();
         deferredProducts.resolve(productResult);
         mockedProductSvc.query = jasmine.createSpy('query').andReturn(deferredProducts.promise);
-        mockedProductSvc.queryProductDetailsList = jasmine.createSpy('queryProductDetailsList').andReturn(deferredProducts.promise);
+        mockedProductSvc.queryProductList = jasmine.createSpy('queryProductList').andReturn(deferredProducts.promise);
+        deferredVariants = $q.defer();
+        deferredVariants.resolve(['foo']);
+        mockedProductSvc.getProductVariants = jasmine.createSpy('getProductVariants').andReturn(deferredVariants.promise);
+
+        mockedPriceSvc = {};
+        pricesResult = [
+        ];
+        pricesResult.headers = [];
+        defferedPrices = $q.defer();
+        defferedPrices.resolve(pricesResult);
+        mockedPriceSvc.getPrices = jasmine.createSpy('getPrices').andReturn(defferedPrices.promise);
+        mockedPriceSvc.getPricesMapForProducts = jasmine.createSpy('getPricesMapForProducts').andReturn(defferedPrices.promise);
     }));
 
     describe('Initialization', function () {
@@ -98,7 +131,7 @@ describe('BrowseProductsCtrl', function () {
 
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc, 'PriceSvc': mockedPriceSvc});
         });
 
         it('should set image placeholder', function(){
@@ -114,15 +147,15 @@ describe('BrowseProductsCtrl', function () {
 
             // trigger promise resolution:
             $scope.$digest();
-            expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
+            expect(mockedProductSvc.queryProductList).toHaveBeenCalled();
             // indirect testing via resolved promise
             expect($scope.products).toEqualData(productResult);
         });
 
         it('should use first committed URL for main image', function(){
             $scope.$digest();
-            expect($scope.products[0].product.mainImageURL).toEqualData('http://myimageurl1');
-            expect($scope.products[1].product.mainImageURL).toEqualData('http://myimageurl2');
+            expect($scope.products[0].mainImageURL).toEqualData('http://myimageurl1');
+            expect($scope.products[1].mainImageURL).toEqualData('http://myimageurl2');
         });
         
         it('should use first committed media as a category main image', function(){
@@ -136,7 +169,7 @@ describe('BrowseProductsCtrl', function () {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {'$scope': $scope, '$rootScope': $rootScope,  'ProductSvc': mockedProductSvc, 'GlobalData':mockedGlobalData,
-                    'settings': mockedSettings, 'category': {assignments:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
+                    'settings': mockedSettings, 'category': {assignments:[]}, '$state': mockedState, 'CategorySvc': mockedCategorySvc, 'PriceSvc': mockedPriceSvc});
 
         });
 
@@ -153,7 +186,7 @@ describe('BrowseProductsCtrl', function () {
         beforeEach(function () {
             browseProdCtrl = $controller('BrowseProductsCtrl',
                 {$scope: $scope, '$rootScope': $rootScope, 'ProductSvc': mockedProductSvc, 'GlobalData': mockedGlobalData,
-                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc});
+                    'settings': mockedSettings, 'category': mockedCategory, '$state': mockedState, 'CategorySvc': mockedCategorySvc, 'PriceSvc': mockedPriceSvc});
         });
 
 
@@ -163,7 +196,7 @@ describe('BrowseProductsCtrl', function () {
                 $scope.products = [];
                 $scope.addMore();
                 // validate that "add more" added products returned by query to the scope
-                expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
+                expect(mockedProductSvc.queryProductList).toHaveBeenCalled();
                 // expect($scope.products).toEqualData(products);
             });
 
@@ -180,7 +213,7 @@ describe('BrowseProductsCtrl', function () {
             it('setSortedPage should update current page and query products', function () {
 
                 $scope.setSortedPage();
-                expect(mockedProductSvc.queryProductDetailsList).toHaveBeenCalled();
+                expect(mockedProductSvc.queryProductList).toHaveBeenCalled();
                 expect($scope.setSortedPageNumber).toBe(1)
             });
         });

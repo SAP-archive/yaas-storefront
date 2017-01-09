@@ -1,0 +1,5 @@
+<div class="variants">
+    <p ng-style="{'padding-left': variant.level * levelPadding + 'px'}" ng-repeat="variant in variants" class="text-capitalize">
+        {{variant.name}}<span ng-if="variant.value">:</span> {{variant.value}}
+    </p>
+</div>

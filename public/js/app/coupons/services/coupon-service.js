@@ -27,7 +27,7 @@ angular.module('ds.coupon')
 
                 redeemCouponError: function(couponError) {
 
-                    if (couponError.status === 400) {
+                    if (couponError.status === 400 && !!couponError.data && !!couponError.data.details) {
                         // Look for the COUPON error(s) by code, defined here:
                         //https://devportal.yaas.io/services/coupon/latest/index.html#ValidateCouponRedemption
                         // This is built to work with multiple coupon errors

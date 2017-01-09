@@ -13,7 +13,7 @@
 describe('AuthModalDialogCtrl Test', function () {
     var storeTenant = '121212';
 
-    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $modalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={}, deferredSignIn, deferredSignUp, deferredSocialLogin;
+    var $scope, $rootScope, $controller, $window, AuthModalDialogCtrl, $uibModalInstanceMock, $q, MockedAuthSvc, mockedLoginOpts={}, deferredSignIn, deferredSignUp, deferredSocialLogin;
     var googleLoginDfd;
     var YGoogleSignin;
 
@@ -53,7 +53,7 @@ describe('AuthModalDialogCtrl Test', function () {
         email: email,
         password: 'secret'
     };
-    $modalInstanceMock = {
+    $uibModalInstanceMock = {
         close: jasmine.createSpy('close')
     };
 

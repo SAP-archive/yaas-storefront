@@ -115,9 +115,10 @@ angular.module('ds.router', [])
                     }
                 })
                 .state('base.product.detail', {
-                    url: ':productId/',
+                    url: ':productId',
                     params: {
-                        lastCatId: 'lastCatId'
+                        lastCatId: 'lastCatId',
+						variantId: null
                     },
                     views: {
                         'main@': {
@@ -171,6 +172,11 @@ angular.module('ds.router', [])
                                     });
                                 }
                             }],
+
+						variantId: ['$stateParams',
+							function ($stateParams) {
+								return $stateParams.variantId;
+							}],
 
                         lastCatId: function ($stateParams) {
                             if($stateParams.lastCatId !== 'lastCatId') {
@@ -302,6 +308,14 @@ angular.module('ds.router', [])
                         'main@': {
                             templateUrl: 'js/app/account/templates/change-email-confirmation.html',
                             controller: 'ChangeEmailConfirmationCtrl'
+                        }
+                    }
+                })
+                .state('base.deleteAccount', {
+                    url: '/custDelete?token',
+                    views: {
+                        'main@': {
+                            controller: 'DeleteAccountCtrl'
                         }
                     }
                 })

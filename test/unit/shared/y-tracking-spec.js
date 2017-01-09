@@ -60,6 +60,7 @@ describe('ytracking', function () {
 
     var order = {
         cart: {
+	    id : 123,
             items: [{
                 product: {
                     id: '02318421',
@@ -289,11 +290,6 @@ describe('ytracking', function () {
             expect(lengthAfter > lengthBefore).toBeTruthy();
         });
 
-
-
-
-
-
         /*Cart updated*/
         it('should call cartUpdated when user added/removed something from cart', function () {
          
@@ -317,9 +313,17 @@ describe('ytracking', function () {
 
             $scope.$emit('cart:updated', order);
 
-
             var lengthAfter = $window._paq.length;
             expect(lengthAfter > lengthBefore).toBeTruthy();
+           
+            var found = false;
+            for (var i = 0; i < lengthAfter; i++) {
+                 if (JSON.stringify($window._paq[i]) === JSON.stringify(['setCustomVariable', 1, 'cart_id', 123, 'page'])) {
+                      found = true;
+                 }
+            }
+            expect(found).toBeTruthy();
+	    
         });
 
 

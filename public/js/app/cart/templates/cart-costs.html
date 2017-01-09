@@ -85,6 +85,14 @@
             </td>
         </tr>
 
+        <!-- fees display -->
+        <tr>
+            <td>{{'FEES' | translate}}</td>
+            <td class="text-right">
+                {{ cart.feeYrnAggregate.total.subTotal | currency: currencySymbol }}
+            </td>
+        </tr>
+
         <!-- tax display -->
         <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'" >
             <td ng-if="taxLine.name">{{taxLine.name}}</td>
@@ -93,7 +101,7 @@
                 {{taxLine.amount | currency: currencySymbol}}
             </td>
         </tr>
-        
+
 
         <tr ng-show="calculateTax.taxCalculationApplied && taxType !== 'FLATRATE'" >
             <td>{{'TAX' | translate}}</td>

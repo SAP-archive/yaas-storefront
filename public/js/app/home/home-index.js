@@ -18,6 +18,7 @@ angular.module('ds.home', [
     'ds.shared',
     'ds.cart',
     'ui.bootstrap',
+    'ngAnimate',
     'ngTouch'
 ]);
 

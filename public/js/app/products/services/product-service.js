@@ -18,13 +18,24 @@
 angular.module('ds.products')
     .factory('ProductSvc', ['PriceProductREST', function(PriceProductREST){
 
-        var getProductDetailsList = function (parms) {
-            return PriceProductREST.ProductDetails.all('productdetails').getList(parms);
+        var getProductList = function (parms) {
+            return PriceProductREST.Products.all('products').getList(parms);
         };
 
         return {
-            queryProductDetailsList: function(parms) {
-               return getProductDetailsList(parms);
+            queryProductList: function(parms) {
+               return getProductList(parms);
+            },
+            getProductVariant: function(params) {
+               return PriceProductREST.Products.withConfig(function(RestangularConfigurer){
+                 RestangularConfigurer.restangularFields.options = 'restangularOptions';
+               }).one('products', params.productId).one('variants', params.variantId).get();
+            },
+            getProductVariants: function(params) {
+               return PriceProductREST.Products.one('products', params.productId).all('variants').getList();
+            },
+            getProduct:  function(params) {
+              return PriceProductREST.Products.one('products', params.productId).get();
             }
         };
 }]);

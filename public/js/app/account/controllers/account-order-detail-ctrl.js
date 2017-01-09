@@ -13,8 +13,8 @@
 'use strict';
 
 angular.module('ds.account')
-    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', '$modal',
-        function($scope, order, $stateParams, GlobalData, $modal) {
+    .controller('AccountOrderDetailCtrl', ['$scope', 'order', '$stateParams', 'GlobalData', '$uibModal',
+        function($scope, order, $stateParams, GlobalData, $uibModal) {
 
         $scope.order = order;
         $scope.order.id = $stateParams.orderId;
@@ -40,7 +40,7 @@ angular.module('ds.account')
         $scope.payment = getPaymentInfo();
 
         $scope.cancelOrder = function () {
-            $modal.open({
+            $uibModal.open({
                 templateUrl: 'js/app/account/templates/dialogs/order-cancel-dialog.html',
                 controller: 'OrderCancelDialogCtrl',
                 backdrop: 'static',

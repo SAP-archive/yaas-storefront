@@ -24,7 +24,7 @@ angular.module('ds.checkout')
                     return {
                         element: element,
                         params: params,
-                        headers: _.extend(headers, {'accept-language': GlobalData.getAcceptLanguages()}),
+                        headers: _.extend(headers, {'Accept-Language': GlobalData.getAcceptLanguages()}),
                         httpConfig: httpConfig
                     };
                 });

@@ -1,7 +1,12 @@
-<h4 ng-if="displayedName"><strong>{{displayedName}}</strong></h4>
-
 <div class="row">
-    <div class="col-md-6" ng-repeat="item in value">
-        <product-extension-item value="item" definition="definition.items"></product-extension-item>
-    </div>
+	<div class="col-md-12 array-row">
+		<span ng-if="displayedName">{{displayedName}}</span>
+		<strong>
+			<span ng-repeat="item in value track by $index" class="array-row" ng-class="{'array-row-last':$last}">
+	    		<product-extension-item value="item" definition="definition.items" islastobject="$last" ></product-extension-item>
+			</span>
+		</strong>
+	</div>
 </div>
+
+

@@ -3,10 +3,10 @@
     <h2>{{'ORDER_DETAILS' | translate}}
         <!--<span id="checkout-cart-btn"  class="glyphicon glyphicon-pencil"  ng-click="showEditCart()"  ng-if="cart.items.length"></span>-->
     </h2>
-    
+
     <!-- cart items -->
     <section class="cartItems" ng-cloak>
-        
+
         <table class="table table-striped cart-items-table">
 
             <!-- desktop view -->
@@ -31,8 +31,17 @@
                             <img ng-src="{{ item && item.product.images[0].url || ''}}" class="product-img" />
                         </a>
                     </td>
-                    <td>{{item.product.name}}</td>
-                    <td class="text-right item-effectiveAmount">{{item.price.effectiveAmount | currency: currencySymbol}}  <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span></td>
+                    <td>
+                      <ul class="list-unstyled">
+                        <li>{{item.product.name}}</li>
+                        <li ng-repeat="variant in item.variants track by $index">{{variant}}</li>                        
+                      </ul>
+                    </td>
+
+                    <td class="text-right item-effectiveAmount">
+                        {{item.price.effectiveAmount | currency: currencySymbol}}  <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span>
+                        <product-fees fees="feesInformationForProductsYrnMap[item.itemYrn]"></product-fees>
+                    </td>
                     <td class="text-center item-quantity">{{ item.quantity }}</td>
                     <td class="text-right"><strong>{{ (item.itemPrice.amount) | currency: currencySymbol}}</strong></td>
                     <td></td>
@@ -50,6 +59,7 @@
                     <td class="text-left mobile-cart-item-details">
                         {{item.product.name}} <br>
                         {{'ITEM_PRICE' | translate}}: {{item.price.effectiveAmount | currency: currencySymbol}} <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span> <br>
+                        <product-fees fees="feesInformationForProductsYrnMap[item.itemYrn]"></product-fees>
                         {{'QTY' | translate}}:{{ item.quantity }} <br>
                         <strong>{{'TOTAL_PRICE' | translate}}: {{ (item.itemPrice.amount) | currency: currencySymbol}}</strong>
                     </td>
@@ -79,6 +89,15 @@
                         <td class="text-left">{{'SHIPPING' | translate}}</td>
                         <td class="text-right">{{ cart.shipping.fee.amount | currency: currencySymbol }}</td>
                     </tr>
+
+                    <!-- fees display -->
+                    <tr ng-if="cart.feeYrnAggregate && cart.feeYrnAggregate.total.subTotal > 0">
+                        <td class="text-left">{{'FEES' | translate}}</td>
+                        <td class="text-right">
+                            {{ cart.feeYrnAggregate.total.subTotal | currency: currencySymbol }}
+                        </td>
+                    </tr>
+
                     <tr ng-repeat="taxLine in cart.taxAggregate.lines" ng-show="!!taxConfiguration && !taxConfiguration.included && !!cart.totalTax && taxType === 'FLATRATE'">
                         <td ng-if="taxLine.name" class="text-left">{{taxLine.name}}</td>
                         <td ng-if="!taxLine.name" class="text-left">{{'TAX' | translate}}</td>
@@ -101,7 +120,7 @@
                 </tfoot>
             </table>
         </div>
-        
+
     </section>
     <div ui-view="editCart"></div>
 </div>

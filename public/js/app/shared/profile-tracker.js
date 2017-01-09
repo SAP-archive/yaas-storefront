@@ -791,6 +791,10 @@
             if (_pagesFiltered) {
                 var page = _pagesFiltered[0];
 
+                if(page.pageType === 'General'){
+                    page.pageType = 'impression';
+                }
+
                 switch (page.pageType) {
                     case "detailView":
                         // product detail

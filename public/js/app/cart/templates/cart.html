@@ -58,7 +58,7 @@
         <section>
 
             <!-- Cart Item -->
-            <div 
+            <div
             ng-repeat="item in cart.items"
             ng-controller="CartNoteMixinCtrl">
 
@@ -80,13 +80,20 @@
                             <div class="col-xs-10">
 
                                 <!-- product name -->
-                                <div class="name">{{item.product.name}}</div>
+                                <div class="product-item-name name">{{item.product.name}}</div>
+
+                                <ul ng-if="item.variants" class="list-unstyled">
+                                    <li ng-repeat="variant in item.variants track by $index">{{variant}}</li>
+                                </ul>
 
                                 <!-- product price -->
                                 <div class="price item-attr">
                                     {{'ITEM_PRICE' | translate}}: <span>{{item.price.effectiveAmount | currency: currencySymbol}}</span>
                                     <span class="priceUnit" ng-if="item.price.measurementUnit">{{item.price.measurementUnit.quantity}} {{item.price.measurementUnit.unit}}</span>
                                 </div>
+
+                                <!-- product fees -->
+                                <product-fees fees="feesInformationForProductsYrnMap[item.itemYrn]"></product-fees>
 
                                 <!-- product quantity -->
                                 <div class="clearfix">
@@ -101,24 +108,24 @@
 
                                 <!-- total price -->
                                 <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
-                                
+
                                 <!-- note display -->
-                                <div id="noteMixin_area" class="noteMixin"> 
-                                    
+                                <div id="noteMixin_area" class="noteMixin">
+
                                     <!-- display the note -->
                                     <div class="note-display">
                                         {{item.mixins.note.comment}}
                                     </div>
-                                    
+
                                     <!-- note edit button -->
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="#">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
-                                    
+                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
+
                                     <!-- note delete button -->
                                     <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed">
                                         &nbsp; | &nbsp;
-                                        <a href="#"  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
+                                        <a href=""  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
                                     </span>
-                                    
+
                                 </div>
 
                             </div>
@@ -127,7 +134,7 @@
                             <div class="col-xs-2 text-right">
                                 <button id="remove-product" ng-click="removeProductFromCart(item.id)" class="btn btn-link removeCartItem"><span class="hyicon hyicon-remove"></span></button>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -143,9 +150,9 @@
                                 <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3"></textarea>
 
                                 <p class="error" ng-show="note.saveFailed">{{'UNABLE_TO_SAVE_NOTE' | translate}}</p>
-                                
-                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="#">{{'CANCEL' | translate}}</button>
-                                
+
+                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="">{{'CANCEL' | translate}}</button>
+
                                 <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right text-uppercase" type="submit">{{'SAVE' | translate}}</button>
                             </form>
                         </div>
@@ -159,4 +166,3 @@
     </div>
     <!-- /Cart Item -->
 </div>
-

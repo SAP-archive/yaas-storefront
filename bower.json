@@ -15,27 +15,29 @@
   ],
   "dependencies": {
     "jquery": "latest",
-    "angular": "~1.3.0",
+    "angular": "~1.5.9",
     "angular-resource": "latest",
     "angular-ui-router": "~0.2.11",
-    "angular-mocks": "~1.3.0",
+    "angular-mocks": "~1.5.9",
     "angular-translate": "~2.8.0",
     "angular-translate-loader-static-files": "~2.8.1",
     "angular-stripe-js": "Venturocket/angular-stripe-js#0.0.6",
-    "ngInfiniteScroll": "1.0.0",
+    "ngInfiniteScroll": "1.1.0",
     "bootstrap": "3.3.2",
     "restangular": "~1.4.0",
     "lodash": "~2.4.1",
     "spin.js": "~2.0.1",
+    "angular-animate": "~1.5.9",
     "angular-cookie": "~4.0.2",
-    "angular-bootstrap": "~0.11.0",
+    "angular-bootstrap": "^2.3.0",
     "angular-xeditable": "~0.1.8",
-    "angular-ui-select": "~0.13.2",
-    "angular-sanitize": "~1.3.0",
-    "angular-touch": "~1.3.0",
+    "angular-ui-select": "~0.19.6",
+    "angular-sanitize": "~1.5.9",
+    "angular-touch": "~1.5.9",
     "algoliasearch": "2.9.2",
     "yamm3": "1.1.0",
-    "angular-ui-notification": "^0.2.0"
+    "angular-ui-notification": "^0.2.0",
+    "angular-moment": "^1.0.0"
   },
   "install": {
     "path": {
@@ -44,6 +46,6 @@
     }
   },
   "resolutions": {
-    "angular": "~1.3.0"
+    "angular": "~1.5.9"
   }
 }

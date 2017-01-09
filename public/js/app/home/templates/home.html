@@ -1,18 +1,19 @@
 <div class="homepageContainer" match-background>
     <div class="homepageCarouselContainer">
         <!-- Top Images Carousel - Large -->
-        <carousel interval="carouselInterval" class="visible-lg">
-            <slide ng-repeat="slide in slidesLarge" active="slide.active">
+        <div uib-carousel active="0" interval="carouselInterval" no-wrap="false" class="visible-lg">
+            <div uib-slide ng-repeat="slide in slidesLarge track by $index" index="$index">
                 <site-content-image image="slide.image" image-id="{{slide.id}}"></site-content-image>
-            </slide>
-        </carousel>
+            </div>
+        </div>
 
         <!-- Top Images Carousel - Small -->
-        <carousel interval="carouselInterval" class="hidden-lg">
-            <slide ng-repeat="slide in slidesSmall" active="slide.active">
+        <div uib-carousel active="0" interval="carouselInterval" no-wrap="false" class="hidden-lg">
+            <div uib-slide ng-repeat="slide in slidesSmall track by $index" index="$index">
                 <site-content-image image="slide.image" image-id="{{slide.id}}"></site-content-image>
-            </slide>
-        </carousel>
+            </div>
+        </div>
+
         <div class="carouselImages">
             <div class="content-container clearfix">
 

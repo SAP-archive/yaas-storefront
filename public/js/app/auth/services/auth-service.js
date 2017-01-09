@@ -183,20 +183,37 @@ angular.module('ds.auth')
                  * @param user JSON object (with email, password properties), or null for anonymous user.
                  */
                 signin: function (user) {
-                    return loginAndSetToken(user).then(function () {
+                    var def = $q.defer();
+                    loginAndSetToken(user).then(function () {
                         settings.hybrisUser = user.email;
-                        SessionSvc.afterLogIn();
+                        SessionSvc.afterLogIn().then(
+                            function () {
+                                def.resolve();
+                            },
+                            function () {
+                                def.reject();
+                            }
+                        );
+                    }, function (error) {
+                        def.reject(error);
                     });
+                    return def.promise;
                 },
 
                 signup: function (user, context) {
                     var def = $q.defer();
                     AuthREST.Customers.all('signup').customPOST(user).then(function () {
                         if ($window.navigator.cookieEnabled) {
-                           loginAndSetToken(user).then(function () {
+                            loginAndSetToken(user).then(function () {
                                 settings.hybrisUser = user.email;
-                                def.resolve({});
-                                SessionSvc.afterLoginFromSignUp(context);
+                                SessionSvc.afterLoginFromSignUp(context).then(
+                                    function () {
+                                        def.resolve({});
+                                    },
+                                    function () {
+                                        def.reject();
+                                    }
+                                );
                             }, function (error) {
                                 def.reject(error);
                             });

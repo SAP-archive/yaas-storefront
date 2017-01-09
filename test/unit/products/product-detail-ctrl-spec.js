@@ -12,7 +12,7 @@
 
 describe('ProductDetailCtrl', function () {
 
-    var $scope, $rootScope, $controller, $q, mockedCartSvc, mockedShippingZones, shippingZones, cartDef, mockedGlobalData={
+    var $scope, $rootScope,  $location, $controller, $q, mockedCartSvc, mockedFeeSvc, mockedShippingZones, shippingZones, cartDef, feeDef, mockedGlobalData={
         getCurrencySymbol: jasmine.createSpy('getCurrencySymbol').andReturn('USD'),
         getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: "7", label: "Includes Tax/VAT", included: false })
     };
@@ -100,7 +100,7 @@ describe('ProductDetailCtrl', function () {
         $provide.value('shippingZones', shippingZones);
     }));
 
-    beforeEach(inject(function ($injector, _$rootScope_, _$controller_, _$q_) {
+    beforeEach(inject(function ($injector, _$rootScope_, _$controller_, _$q_, _$location_) {
         $q = _$q_;
         this.addMatchers({
             toEqualData: function (expected) {
@@ -110,6 +110,7 @@ describe('ProductDetailCtrl', function () {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         $scope = $injector.get('$rootScope').$new();
+		$location = _$location_;
 
         // creating the mocked service
         cartDef = $q.defer();
@@ -118,16 +119,22 @@ describe('ProductDetailCtrl', function () {
                 return cartDef.promise;
             })
         };
+
+        feeDef = $q.defer();
+        mockedFeeSvc = {
+            getFeesForItemYrn: jasmine.createSpy('getFeesForItemYrn').andCallFake(function(){
+                return feeDef.promise;
+            })
+        };
     }));
 
     describe('initialization', function(){
 
         beforeEach(function () {
-            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope, $location: $location,
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
-
-       it('should set the category for the breadcrumb', function(){
+			it('should set the category for the breadcrumb', function(){
           expect($scope.category).toBeTruthy();
        });
     });
@@ -135,8 +142,8 @@ describe('ProductDetailCtrl', function () {
     describe('buy published product', function () {
 
         beforeEach(function () {
-            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope, $location: $location,
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should add to cart from detail page', function () {
@@ -157,7 +164,6 @@ describe('ProductDetailCtrl', function () {
         });
 
         it('should re-enable buy button on error', function(){
-            console.log($scope.product);
             $scope.addToCartFromDetailPage();
             cartDef.reject();
             $scope.$apply();
@@ -170,8 +176,8 @@ describe('ProductDetailCtrl', function () {
 
 
         beforeEach(function () {
-            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope, $location: $location,
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should disable buy button on invalid qty', function () {
@@ -191,7 +197,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function () {
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                    'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones,  'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+                    'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockProduct),'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones,  'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
             $scope.addToCartFromDetailPage();
         });
 
@@ -228,7 +234,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': mockProductWithMain, 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should list committed images as they came', function(){
@@ -269,7 +275,7 @@ describe('ProductDetailCtrl', function () {
 
         beforeEach(function(){
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId,  'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': mockProductWithImages, 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
         });
 
         it('should list first image first', function(){
@@ -288,7 +294,7 @@ describe('ProductDetailCtrl', function () {
                 getCurrentTaxConfiguration: jasmine.createSpy('getCurrentTaxConfiguration').andReturn({ rate: '7', label: longTaxLabel, included: false })
             };
             $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope,
-                'CartSvc': mockedCartSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockProduct), 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
 
             var expectedShortenedLabel = longTaxLabel.substring(0, 59);
             expect($scope.taxConfiguration.shortenedLabel).toEqualData(expectedShortenedLabel);
@@ -296,5 +302,115 @@ describe('ProductDetailCtrl', function () {
         });
     });
 
+    describe('itemYrn Fees', function() {
+        it('GIVEN the current product is a base product with an associated fee WHEN I load the product details page THEN it should fetch the fee for this product YRN', function() {
+            // Set the required mocks for a base product
+            setBaseProduct();
+            expect(mockedFeeSvc.getFeesForItemYrn).toHaveBeenCalledWith('urn:yaas:hybris:product:product:myStore;baseProductUniqueID');
+        });
+
+        it('GIVEN the current product is a product variant with an associated fee WHEN I load the product details page THEN it should fetch the fee for this variant YRN', function() {
+            // Set the required mocks for a base product with variants
+            setBaseProductWithVariants();
+            expect(mockedFeeSvc.getFeesForItemYrn).toHaveBeenCalledWith('urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID');
+        });
+
+        it('GIVEN the user selects a new product variant WHEN this variant has a fee associated to it THEN it should fetch the fee for this newly selected variant YRN', function() {
+            // Set the required mocks for a base product with variants
+            setBaseProductWithVariants();
+            // Simulate variant update
+            $scope.onActiveVariantChanged(variants[1]);
+            expect(mockedFeeSvc.getFeesForItemYrn.mostRecentCall.args[0]).toEqual('urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID2');
+        });
+
+        // Helper functions and variables used for mocks
+
+        // Based product
+        var mockedBaseProduct = {
+            product: {
+                code: "baseProduct",
+                description: "Lorem ipsum",
+                id: "baseProductUniqueID",
+                media: [],
+                metadata: {},
+                mixins: {
+                    inventory: false
+                },
+                name: "baseProduct Name",
+                published: true,
+                yrn: "urn:yaas:hybris:product:product:myStore;baseProductUniqueID"
+            }
+        };
+
+        // Associated variants
+        var variants = [
+            {
+                code: "variantForProduct",
+                description: "Lorem ipsum",
+                id: "variantForProductUniqueID",
+                media: [],
+                metadata: {},
+                mixins: {
+                    inventory: false
+                },
+                name: "variantForProduct Name",
+                published: true,
+                yrn: "urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID"
+            },
+            {
+                code: "variantForProduct2",
+                description: "Lorem ipsum",
+                id: "variantForProductUniqueID2",
+                media: [],
+                metadata: {
+                    mixins: {}
+                },
+                mixins: {
+                    inventory: false
+                },
+                name: "variantForProduct Name",
+                published: true,
+                yrn: "urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID2"
+            }
+        ];
+
+        // Variant prices
+        var variantPrices = [
+            {
+                currency: "CAD",
+                effectiveAmount: 200,
+                group: "baseProductUniqueID",
+                itemYrn: "urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID",
+                metadata: {},
+                originalAmount: 200,
+                priceId: "priceID",
+                yrn: "urn:yaas:hybris:price:price:myStore;priceID"
+            },
+            {
+                currency: "CAD",
+                effectiveAmount: 200,
+                group: "baseProductUniqueID",
+                itemYrn: "urn:yaas:hybris:product:product-variant:myStore:baseProductUniqueID;variantForProductUniqueID2",
+                metadata: {},
+                originalAmount: 200,
+                priceId: "priceID2",
+                yrn: "urn:yaas:hybris:price:price:myStore;priceID2"
+            }
+        ];
+
+        function setBaseProduct() {
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope, $location: $location,
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockedBaseProduct), 'lastCatId': mockLastCatId, 'variantId': null, 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'variants': [], 'variantPrices': []});
+        }
+
+        function setBaseProductWithVariants() {
+            var mockedProductVariantsHelper = {
+                getSelectedVariantWithFallback: jasmine.createSpy('getSelectedVariantWithFallback')
+            };
+            mockedProductVariantsHelper.getSelectedVariantWithFallback.andReturn(variants[0]);
+            $controller('ProductDetailCtrl', { $scope: $scope, $rootScope: $rootScope, $location: $location,
+                'CartSvc': mockedCartSvc, 'FeeSvc': mockedFeeSvc, 'product': angular.copy(mockedBaseProduct), 'lastCatId': mockLastCatId, 'variantId': 'variantForProductUniqueID', 'GlobalData': mockedGlobalData, 'CategorySvc': mockCategorySvc, 'shippingZones': mockedShippingZones, 'Notification': mockedNotification, 'ProductVariantsHelper': mockedProductVariantsHelper, 'variants': variants, 'variantPrices': variantPrices});
+        }
+    });
 
 });

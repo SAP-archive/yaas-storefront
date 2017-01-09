@@ -40,7 +40,7 @@ describe('PasswordResetCtrl Test', function () {
         module('ds.auth');
 
         module(function($provide){
-            $provide.value('$modalInstance', mockedModal);
+            $provide.value('$uibModalInstance', mockedModal);
             $provide.value('AuthSvc', mockedAuthSvc);
             $provide.value('$state', mockedState);
         });

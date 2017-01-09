@@ -98,7 +98,7 @@ describe('AccountCtrl Test', function () {
     beforeEach(module('ds.account', function ($provide) {
         $provide.value('settings', mockedSettings);
         $provide.value('GlobalData', mockedGlobalData);
-        $provide.value('$modal', mockedModal);
+        $provide.value('$uibModal', mockedModal);
     }));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_, _$q_) {
@@ -112,6 +112,7 @@ describe('AccountCtrl Test', function () {
         mockedModal.result = modalPromise.promise;
         mockedModal.open =  jasmine.createSpy('open').andReturn(mockedModal);
         mockedModal.opened = {then:function(){}};
+        mockedModal.dismiss = jasmine.createSpy('dismiss');
         updatePasswordDfd = $q.defer();
 
         this.addMatchers({

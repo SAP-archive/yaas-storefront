@@ -50,7 +50,6 @@ describe('CartNoteMixinCtrl Test', function () {
     }));
     
     it('should expand the note input section', function(){
-        console.log($scope.note);
         $scope.note.expandNote();
         expect($scope.note.noteCollapsed).toBeFalsy();
     });

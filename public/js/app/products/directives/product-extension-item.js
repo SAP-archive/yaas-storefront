@@ -19,7 +19,7 @@
                 restrict: 'E',
                 templateUrl: 'js/app/products/templates/product-extension-item.html',
                 scope: {
-                    name: '@', value: '=', definition: '='
+                    name: '@', value: '=', definition: '=', islastobject: '='
                 },
                 controller: ['$scope', 'ProductExtensionItemHelper',
                     function ($scope, ProductExtensionItemHelper) {
@@ -38,6 +38,10 @@
 
                         if ($scope.type === 'string') {
                             $scope.stringFormat = $scope.definition.format;
+                            if ($.inArray($scope.stringFormat, ['date', 'time', 'date-time']) >= 0) {
+                                $scope.value = ProductExtensionItemHelper.stringToDate($scope.stringFormat, $scope.value);
+                            }
+                            
                         }
                         if ($scope.type === 'object') {
                             $scope.propertyOrder = ProductExtensionItemHelper.toOrderArray($scope.definition.properties);

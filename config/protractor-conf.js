@@ -12,7 +12,7 @@ exports.config = {
         '../test/e2e/checkout/checkout.mobile.spec.js',
         '../test/e2e/coupon/coupon.spec.js',
         '../test/e2e/account/account.spec.js',
-        '../test/e2e/product/product.spec.js'
+        '../test/e2e/product/product-list.spec.js'
     ],
 
 
@@ -40,7 +40,7 @@ exports.config = {
             new jasmine.JUnitXmlReporter(null, true, true, 'coverage/')
         );
         // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
-        
+
         // jasmine.getEnv().addReporter(new ScreenShotReporter({
         //     baseDirectory: './tmp/screenshots',
         //     takeScreenShotsOnlyForFailedSpecs: true

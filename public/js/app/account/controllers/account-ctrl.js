@@ -13,9 +13,9 @@
 
 angular.module('ds.account')
 
-    .controller('AccountCtrl', ['$scope', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$modal', 'GlobalData', '$translate',
+    .controller('AccountCtrl', ['$scope', 'addresses', 'account', 'orders', 'OrderListSvc', 'AccountSvc', '$uibModal', 'GlobalData', '$translate',
 
-        function ($scope, addresses, account, orders, OrderListSvc, AccountSvc, $modal, GlobalData, $translate) {
+        function ($scope, addresses, account, orders, OrderListSvc, AccountSvc, $uibModal, GlobalData, $translate) {
 
             var self = this;
             self.allOrdersLoaded = false;
@@ -116,7 +116,7 @@ angular.module('ds.account')
                 });
                 $scope.showPristineErrors = false;
                 $scope.errors = [];
-                modalInstance = $modal.open({
+                modalInstance = $uibModal.open({
                     templateUrl: './js/app/account/templates/address-form.html',
                     scope: $scope,
                     backdrop: 'static'
@@ -141,7 +141,7 @@ angular.module('ds.account')
             $scope.removeAddress = function (address) {
                 address.account = customerNumber;
 
-                $modal.open({
+                $uibModal.open({
                     templateUrl: 'js/app/account/templates/dialogs/address-remove-dialog.html',
                     controller: 'AddressRemoveDialogCtrl'
                 }).result.then(function (deleteAddress) {

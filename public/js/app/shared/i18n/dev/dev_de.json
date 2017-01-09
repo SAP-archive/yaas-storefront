@@ -7,16 +7,14 @@
     "fr": "Französisch",
     //XFLD
     "es": "Spanisch",
-
     //XFLD
     //-------------------------------------------------
     // Global
     //-------------------------------------------------
     //XBUT
-    "YES": "Yes",
+    "YES": "Ja",
     //XBUT
-    "NO": "No",
-
+    "NO": "Nein",
     //XFLD
     //-------------------------------------------------
     // Cart
@@ -24,32 +22,32 @@
 
     //XBUT
     "BACK_TO_CHECKOUT": "Zurück zur Kasse",
-    //XBUT
-    "CHECKOUT": "Kasse",
     //XFLD
-    "CANCEL": "Cancel",
+    "CANCEL": "Abbrechen",
+    //XBUT
+    "CHECKOUT": "Bezahlen",
     //XBUT
     "CONTINUE_SHOPPING": "Einkauf fortsetzen",
-    //XFLD
-    "NOTE": "Note",
-    //XFLD
-    "ADD_NOTE": "Add Note",
-    //XFLD
-    "EDIT_NOTE": "Edit Note",
-    //XFLD
-    "DELETE_NOTE": "Delete Note",
-    //XMSG
-    "UNABLE_TO_SAVE_NOTE": "Unable to save note",
     //XBUT
     "SHOP": "Einkaufen",
     //XFLD
+    "NOTE": "Notiz",
+    //XFLD
+    "ADD_NOTE": "Notiz hinzufügen",
+    //XFLD
+    "EDIT_NOTE": "Notiz bearbeiten",
+    //XFLD
+    "DELETE_NOTE": "Notiz löschen",
+    //XMSG
+    "UNABLE_TO_SAVE_NOTE": "Notiz kann nicht gesichert werden",
+    //XFLD
     "EST_ORDER_TOTAL": "Geschätzte Bestellsumme",
     //XFLD
-    "PREVIEW_ORDER": "Preview Order",
+    "PREVIEW_ORDER": "Bestellung in Vorschau anzeigen",
     //XFLD
-    "PAYMENT_REVIEW": "Payment & Review",
+    "PAYMENT_REVIEW": "Zahlung & Überprüfung",
     //XFLD
-    "PLEASE_CORRECT_MESSAGE_ERRORS": "Something went wrong, please try again",
+    "PLEASE_CORRECT_MESSAGE_ERRORS": "Es ist ein Problem aufgetreten, versuchen Sie es später erneut.",
     //XFLD
     "FREE_SHIPPING": "Versand und Rücksendung in den USA kostenlos",
     //XFLD
@@ -71,10 +69,9 @@
     //XFLD
     "ESTIMATE_TAX_ERROR": "Felder \"Postleitzahl\" und \"Ländercode\" sind erforderlich",
     //XMSG
-    "ADDITIONAL_SHIPPING_OPTIONS": "Additional shipping options are available in checkout.",
+    "ADDITIONAL_SHIPPING_OPTIONS": "Zusätzliche Versandoptionen stehen bei der Kaufabwicklung zur Verfügung.",
     //XMSG
     "SELECT_A_COUNTRY": "Land auswählen",
-
     //XFLD
     //-------------------------------------------------
     // Checkout
@@ -87,7 +84,7 @@
     //XFLD
     "ADDRESS_LINE_2": "Adresszeile 2",
     //XGRP
-    "CANT_BE_SHIPPED": "Items cannot be shipped to this location",
+    "CANT_BE_SHIPPED": "Positionen können nicht an diesen Standort gesendet werden",
     //XGRP
     "BILLING_ADDRESS": "Rechnungsadresse",
     //XFLD
@@ -97,7 +94,7 @@
     //XBUT
     "CONTINUE": "Weiter",
     //XBUT
-    "COST": "Cost",
+    "COST": "Kosten",
     //XFLD
     "COUNTRY": "Land",
     //XFLD
@@ -125,7 +122,7 @@
     //XFLD
     "LAST_NAME_REQUIRED": "Nachname erforderlich",
     //XFLD
-    "METHOD": "Versandart",
+    "METHOD": "Methode",
     //XFLD
     "MIDDLE_NAME": "Zweiter Vorname",
     //XFLD
@@ -155,9 +152,9 @@
     //XMSG
     "PLEASE_CORRECT_ERRORS": "Korrigieren Sie vor dem Bestellen die oben aufgeführten Fehler.",
     //XMSG
-    "PLEASE_CORRECT_ERRORS_PREVIEW": "Please correct the errors above before previewing your order.",
+    "PLEASE_CORRECT_ERRORS_PREVIEW": "Korrigieren Sie vor der Bestellungsvorschau die oben aufgeführten Fehler.",
     //XMSG
-    "PLEASE_CORRECT_ERRORS_ADDRESS": "Please correct the address details before previewing your order.",
+    "PLEASE_CORRECT_ERRORS_ADDRESS": "Korrigieren Sie vor der Bestellungsvorschau die Adressdetails.",
     //XMSG
     "PLEASE_ENTER_VALID_CC": "Geben Sie eine gültige Kreditkartennummer ein",
     //XMSG
@@ -167,27 +164,27 @@
     //XACT
     "REQUIRED": "Erforderlich",
     //XCKL
-    "SAME_AS_SHIPPING_ADDRESS": "Same As Shipping Address",
+    "SAME_AS_SHIPPING_ADDRESS": "Wie Versandadresse",
     //XTIT
     "SECURE_CHECKOUT": "Sichere Kaufabwicklung",
     //XBUT
     "SELECT_FROM_ADDRESS_BOOK": "Aus Adressbuch auswählen",
     //XBUT
-    "ADDRESS_BOOK": "Address Book",
+    "ADDRESS_BOOK": "Adressbuch",
     //XFLD
     "SHIPPING": "Versand",
     //XGRP
-    "SHIPPING_ADDRESS": "Lieferadresse",
+    "SHIPPING_ADDRESS": "Versandadresse",
     //XGRP
     "SIMPLE_3_STEP_CHECKOUT": "Einfache Kaufabwicklung in 3 Schritten",
     //XGRP
     "SIMPLE_4_STEP_CHECKOUT": "Einfache Kaufabwicklung in 4 Schritten",
     //XFLD
-    "STATE": "Bundesstaat",
+    "STATE": "Bundesland",
     //XGRP
     "STEP_1_MY_DETAILS": "Schritt 1: Meine Details",
     //XGRP
-    "STEP_2_BILLING_INFORMATION": "Schritt 2: Billing Information",
+    "STEP_2_BILLING_INFORMATION": "Schritt 2: Abrechnungsinformationen",
     //XGRP
     "STEP_3_PAYMENT": "Schritt 3: Zahlung",
     //XGRP
@@ -197,13 +194,13 @@
     //XFLD
     "DISCOUNT": "Rabatt",
     //XFLD
-    "TAX": "Steuern",
+    "TAX": "Steuer",
     //XFLD
-    "TOTAL": "Summe",
+    "FEES": "Gebühren",
+    //XFLD
+    "TOTAL": "Gesamt",
     //XFLD
     "YEAR": "Jahr",
-
-
     //XFLD
     //-------------------------------------------------
     // Addresses
@@ -231,7 +228,6 @@
     "SUBAREA": "Stadtteil",
     //XFLD
     "FURTHER_SUBAREA": "Stadtteilabschnitt, Blocknummer/Hausnummer",
-
     //XFLD
     //-------------------------------------------------
     // Coupons
@@ -242,30 +238,27 @@
     //XFLD
     "COUPON_APPLIED": "Angewendet",
     //XFLD
-    "COUPON_NOT_APPLIED": "Not Applied",
+    "COUPON_NOT_APPLIED": "Nicht angewendet",
     //XLNK
     "COUPON_CODE": "Couponcode hinzufügen",
     //XMSG
+    "COUPON_NOT_ACTIVE": "Der Coupon ist nicht aktiv",
+    //XMSG
+    "COUPON_EXPIRED": "Der Coupon ist nicht aktiv",
+    //XMSG
+    "COUPON_REDEMPTIONS_EXCEEDED": "Coupon hat maximale Einlösungsanzahl erreicht",
+    //XMSG
+    "COUPON_REDEMPTION_FORBIDDEN": "Aktueller Kunde darf Coupon nicht einlösen",
+    //XMSG
+    "COUPON_ORDER_TOTAL_TOO_LOW": "Der Bestellwert für diesen Coupon ist zu niedrig",
+    //XMSG
+    "COUPON_CURRENCY_INCORRECT": "Währung mit Coupon inkonsistent",
+    //XMSG
+    "COUPON_DISCOUNT_CURRENCY_INCORRECT": "Ungültige Rabattwährung für Coupon",
+    //XMSG
+    "COUPON_DISCOUNT_AMOUNT_INCORRECT": "Rabatthöhe übersteigt erlaubten Couponrabatt",
+    //XMSG
     "COUPON_ERROR": "Coupon nicht gültig.",
-    
-    //XMSG
-    "COUPON_NOT_ACTIVE": "The coupon is not active", 
-    //XMSG
-    "COUPON_EXPIRED": "The coupon is not active", 
-    //XMSG
-    "COUPON_REDEMPTIONS_EXCEEDED": "Coupon has reached maximum number of redemptions", 
-    //XMSG
-    "COUPON_REDEMPTION_FORBIDDEN": "Current customer is not allowed to redeem the coupon", 
-    //XMSG
-    "COUPON_ORDER_TOTAL_TOO_LOW": "The order value is too low for this coupon", 
-    //XMSG
-    "COUPON_CURRENCY_INCORRECT": "Currency inconsistent with coupon", 
-    //XMSG
-    "COUPON_DISCOUNT_CURRENCY_INCORRECT": "Discount currency invalid inconsistent coupon", 
-    //XMSG
-    "COUPON_DISCOUNT_AMOUNT_INCORRECT": "Discount amount exceeds allowed coupon discount",
-    
-    
     //XMSG
     "COUPON_ERR_CURRENCY": "Währung für Coupon ungültig",
     //XMSG
@@ -277,9 +270,11 @@
     //XMSG
     "COUPON_NOT_VALID": "Coupon nicht gültig",
     //XTIT
-    "COUPONS": "Coupon Code",
+    "COUPONS": "Couponcode",
+    //XMSG
+    "ADD_COUPON_CODE": "ADD COUPON CODE",
 
-
+    
     //XFLD
     //-------------------------------------------------
     // Confirmation
@@ -321,8 +316,6 @@
     "YOUR_CHECKOUT_HAS_BEEN_ACCEPTED_ORDER_NOT_CREATED": "Ihre Kaufabwicklung wurde angenommen, aber die Bestellung wurde nicht angelegt. Verwenden Sie zur Verfolgung folgende Kaufabwicklungs-ID-Nummer: ",
     //XMSG
     "YOUR_ORDER_WILL_BE_CREATED": "Ihre Bestellung wird so schnell wie möglich angelegt.",
-
-
     //XFLD
     //-------------------------------------------------
     // Navigation
@@ -334,8 +327,6 @@
     "BACK_TO": "Zurück zu",
     //XFLD
     "REGION": "Region",
-
-
     //XFLD
     //-------------------------------------------------
     // Product Detail Page
@@ -343,22 +334,21 @@
 
 
     //XFLD
-    "SHIPPING_INFORMATION": "Shipping information",
+    "SHIPPING_INFORMATION": "Versandinformationen",
     //XFLD
-    "SHIPPING_ZONE": "Shipping Zone",
+    "SHIPPING_ZONE": "Versandzone",
     //XFLD
-    "STANDARD_SHIPPING": "Standard Shipping",
+    "STANDARD_SHIPPING": "Standardversand",
     //XFLD
-    "SHIPPING_RATE": "Shipping Rate",
+    "SHIPPING_RATE": "Preis für den Versand",
     //XFLD
     "ZONE": "Zone",
-
     //XBUT
     "BUY": "Kaufen",
     //XBUT
     "ADD_TO_CART": "In den Warenkorb",
     //XMSG
-    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
+    "PRODUCTS_ADDED_TO_CART": "Produkt(e) erfolgreich zum Warenkorb hinzugefügt",
     //XTIT
     "PRODUCT_DESCRIPTION": "Produktbeschreibung",
     //XTIT
@@ -366,26 +356,27 @@
     //XBUT
     "OUT_OF_STOCK": "nicht vorrätig",
     //XBUT
-    "UNAVAILABLE": "Unavailable",
+    "UNAVAILABLE": "nicht vorhanden",
     //XFLD
     "QTY": "Menge",
     //XMSG
-    "INCLUDES": "Includes",
+    "EACH": "each",
     //XMSG
-    "NO_LIMIT": "No Limit",
+    "FEE": "fee",
     //XMSG
-    "DESTINATION_COUNTRY": "Destination country(s)",
+    "INCLUDES": "enthält",
+    //XMSG
+    "DESTINATION_COUNTRY": "Empfangsland/Empfangsländer",
+    //XMSG
+    "NO_LIMIT": "ohne Begrenzung",
     //XMSG
     "ERROR_ADDING_TO_CART": "Hinzufügen zum Warenkorb war nicht erfolgreich.  Versuchen Sie es noch einmal.",
-
     //XTBS
-    "DESCRIPTION_TAB": "Description",
+    "DESCRIPTION_TAB": "Beschreibung",
     //XTBS
     "DETAILS_TAB": "Details",
-
     //XBUT
-    "MORE": "More",
-
+    "MORE": "Mehr",
     //XFLD
     //-------------------------------------------------
     // Product List Page
@@ -399,12 +390,14 @@
     "PRICE_HIGH_LOW": "Preis (höchster - niedrigster)",
     //XLST
     "PRICE_LOW_HIGH": "Preis (niedrigster - höchster)",
+    //XLST
+    "NO_PRICE": "Kein Preis",
     //XFLD
     "SORT_BY": "Sortieren nach",
     //XFLD
     "VIEWING": "Anzeigen",
     //XFLD
-    "PRODUCTS_FROM_TO": "<div>{{productsFrom}}-{{productsTo}} von {{total}}</div>",
+    "PRODUCTS_FROM_TO": "<div>{{productsFrom}}-{{productsTo}} of {{total}}</div>",
     //XFLD
     "ALL_PRODUCTS": "Alle Produkte",
     //XTIT
@@ -420,23 +413,21 @@
     //XBUT
     "SIGN_IN_WITH_FACEBOOK": "Über Facebook anmelden",
     //XBUT
-    "LOG_IN_WITH_GOOGLE": "Über Google anmelden",
+    "LOG_IN_WITH_GOOGLE": "Über Google+ anmelden",
     //XBUT
     "MY_ACCOUNT": "Mein Konto",
     //XBUT
     "CREATE_ACCOUNT": "Konto anlegen",
     //XBUT
     "CONTINUE_AS_GUEST": "Weiter als Gast",
-
-
     //XFLD
     //-------------------------------------------------
     // Account Page
     //-------------------------------------------------
 
-    //XFLD
+    //XTIT
     "UPDATE_ACCOUNT_DETAILS": "Kontodetails aktualisieren",
-    //TIT
+    //XTIT
     "UPDATE_EMAIL": "E-Mail aktualisieren",
     //XBUT
     "ADD": "Hinzufügen",
@@ -445,7 +436,7 @@
     //XFLD
     "NEW_EMAIL": "Neue E-Mail",
     //XFLD
-    "CURRENT_EMAIL": "Current Email",
+    "CURRENT_EMAIL": "Aktuelle E-Mail",
     //XGRP
     "ADDRESSBOOK": "Adressbuch",
     //XMSG
@@ -459,13 +450,13 @@
     //XFLD
     "COMPANY_NAME": "Unternehmen",
     //XTIT
-    "CONFIRM_DELETE_ADDRESS_TITLE": "Delete Address",
+    "CONFIRM_DELETE_ADDRESS_TITLE": "Adresse löschen",
     //XMSG
-    "CONFIRM_ADDRESS_REMOVAL": "Are you sure you want to delete this address?",
+    "CONFIRM_ADDRESS_REMOVAL": "Möchten Sie diese Adresse wirklich löschen?",
     //XTIT
-    "CONFIRM_ORDER_CANCEL_TITLE": "Cancel Order",
+    "CONFIRM_ORDER_CANCEL_TITLE": "Bestellung stornieren",
     //XMSG
-    "CONFIRM_CANCEL_ORDER": "Are you sure you want to cancel your order?",
+    "CONFIRM_CANCEL_ORDER": "Möchten Sie Ihre Bestellung wirklich stornieren?",
     //XFLD
     "FULL_NAME": "Vollständiger Name",
     //XFLD
@@ -491,24 +482,23 @@
     //XFLD
     "ORDER_STATUS": "Bestellstatus",
     //XFLD
-    "ORDER_CANCEL": "Cancel Order",
+    "ORDER_CANCEL": "Bestellung stornieren",
     //XFLD
-    "ORDER_CANCEL_ERROR": "Cancelation failed, please contact customer service or try again later",
+    "ORDER_CANCEL_ERROR": "Stornierung fehlgeschlagen. Wenden Sie sich an den Kundendienst, oder versuchen Sie es später noch einmal.",
     //XFLD
-    "FAIL_ORDER": "Die Bestellungen sind nicht verfügbar. Versuchen Sie es später noch einmal.",
+    "FAIL_ORDER": "Stornierung fehlgeschlagen. Wenden Sie sich an den Kundendienst, oder versuchen Sie es später noch einmal.",
     //XFLD
     "NO_ORDERS": "Sie haben keine Bestellungen gespeichert",
     //XSEL
     "ORDER_ITEM_COUNT": "{{number}} Position",
     //XSEL
     "ORDER_ITEMS_COUNT": "{{number}} Positionen",
-
     //XFLD
     "SHIPPING_DETAILS": "VERSANDDETAILS",
     //XBUT
     "SAVE": "Sichern",
     //XBUT
-    "SUBMIT": "Submit",
+    "SUBMIT": "Senden",
     //XBUT
     "UPDATE_PASSWORD": "Kennwort aktualisieren",
     //XBUT
@@ -523,6 +513,18 @@
     "WRONG_CURRENT_PASSWORD": "Geben Sie ein korrektes aktuelles Kennwort an.",
     //XMSG
     "PASSWORD_TOO_SHORT": "Kennwort zu kurz",
+    //XBUT
+    "DELETE_ACCOUNT": "Delete Account",
+    //XMSG
+    "DELETE_ACCOUNT_MSG": "Are you sure you want to delete your account including all your account information and order history? In addition, if you have any orders still in process, they will no longer be linked with your account.",
+    //XMSG
+    "DELETE_ACCOUNT_CHECK_EMAIL_MSG": "... and follow the link to confirm you want to delete your account. The link will be valid for 24 hours.",
+    //XTIT
+    "ACCOUNT_DELETED": "Account Deleted",
+    //XTIT
+    "ACCOUNT_NOT_DELETED": "Account Not Deleted",
+    //XMSG
+    "ACCOUNT_DELETED_MSG": "Your account has been successfully deleted",
     //XFLD
     "SHOW_ALL": "Alles anzeigen",
     //XFLD
@@ -534,30 +536,25 @@
     //XMSG
     "REMOVE_ADDRESS_ERROR": "Löschen der Adresse fehlgeschlagen. Versuchen Sie es noch einmal.",
     //XMSG
-    "UPDATE_DEFAULT_ADDRESS_ERROR": "Aktualisieren der Standardadresse fehlgeschlagen. Versuchen Sie es noch einmal.",
-
+    "UPDATE_DEFAULT_ADDRESS_ERROR": "Updating default address failed. Please try again.Aktualisieren der Standardadresse fehlgeschlagen. Versuchen Sie es noch einmal.",
     //XTIT
-    "EDIT_EMAIL_UPDATED": "Your email is being updated...",
+    "EDIT_EMAIL_UPDATED": "Ihre E-Mail wird aktualisiert...",
     //XTIT
-    "EDIT_EMAIL_SUCESSFULLY_UPDATED": "Email sucessfully updated",
+    "EDIT_EMAIL_SUCESSFULLY_UPDATED": "E-Mail erfolgreich aktualisiert",
     //XMSG
-    "EDIT_EMAIL_CHANGED_MSG": "Your email has changed. You must sign in with your updated email",
-
+    "EDIT_EMAIL_CHANGED_MSG": "Ihre E-Mail hat sich geändert. Sie müssen sich mit der aktualisierten E-Mail anmelden.",
     //XMSG
-    "OOPS_MSG": "Oops!",
+    "OOPS_MSG": "Hoppla!",
     //XMSG
-    "EDIT_EMAIL_CHANGE_FAILED":  "Something went wrong. Please reset your email again",
+    "EDIT_EMAIL_CHANGE_FAILED": "Es ist ein Problem aufgetreten. Setzen Sie Ihre E-Mail erneut zurück",
     //XBUT
-    "RESET_EMAIL": "RESET EMAIL",
-
+    "RESET_EMAIL": "E-MAIL ZURÜCKSETZEN",
     //XMSG
-    "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Password is not correct. Try again",
+    "EDIT_EMAIL_PASSWORD_NOT_CORRECT": "Kennwort ist nicht korrekt. Versuchen Sie es noch einmal",
     //XMSG
-    "EDIT_EMAIL_ALREADY_IN_USE": "This email is already in use. Try again",
+    "EDIT_EMAIL_ALREADY_IN_USE": "Diese E-Mail wird bereits verwendet. Versuchen Sie es noch einmal",
     //XMSG
-    "EDIT_EMAIL_SOMETHING_WENT_WRONG": "Something went wrong. Try again",
-
-
+    "EDIT_EMAIL_SOMETHING_WENT_WRONG": "Es ist ein Problem aufgetreten. Versuchen Sie es noch einmal",
     //XFLD
     //-------------------------------------------------
     // Login, password, signup
@@ -590,11 +587,11 @@
     //XMSG
     "CHECK_EMAIL_INSTRUCT": "... und wählen Sie den Link, um Ihr Kennwort zurückzusetzen. Der Link ist 24 Stunden gültig.",
     //XMSG
-    "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "...and follow the link to confirm change of your email. The link will be valid for 24 hours.",
+    "CHECK_EMAIL_INSTRUCT_CHANGE_EMAIL": "... und wählen Sie den Link, um die Änderung Ihrer E-Mail zu bestätigen. Der Link ist 24 Stunden gültig.",
     //XMSG
-    "COOKIES_ENABLED_ERROR": "Cookies must be enabled in your browser to sign in. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    "COOKIES_ENABLED_ERROR": "Für die Anmeldung müssen Cookies in Ihrem Browser aktiviert werden. Mehr Informationen dazu finden Sie im Hilfe- oder Einstellungsbereich Ihres Browsers. Melden Sie sich nach der Aktivierung der Cookies an.",
     //XMSG
-    "CREATE_ACCOUNT_ERROR": "Customer account was created successfully, but cookies must be enabled to login. To find out more, see the Help or Preferences area of your browser. Once enabled, sign in.",
+    "CREATE_ACCOUNT_ERROR": "Das Kundenkonto wurde erfolgreich angelegt, für die Anmeldung müssen aber Cookies aktiviert werden. Weitere Informationen dazu finden Sie im Hilfe- oder Einstellungsbereich Ihres Browsers. Melden Sie sich nach der Aktivierung der Cookies an.",
     //XMSG
     "PASSWORD_REQUIRED": "Das Kennwort muss mindestens 6 Zeichen haben.",
     //XMSG
@@ -615,7 +612,6 @@
     "FIELD_TOO_SHORT": "Das Feld ist zu kurz.",
     //XACT
     "FIELDS_NOT_MATCHING": "Die Felder stimmen nicht überein.",
-
     //XMSG
     "SERVER_UNAVAILABLE": "Der Server ist nicht verfügbar, versuchen Sie es später erneut.",
     //XMSG
@@ -625,7 +621,7 @@
     //XMSG
     "ACCOUNT_LOCKED": "Das Konto wurde gesperrt, weil die Anzahl der ungültigen Anmeldeversuche überschritten wurde. Versuchen Sie es nach 5 Minuten noch einmal.",
     //XMSG
-    "ACCOUNT_ALREADY_EXISTS": "E-Mail-Adresse wird für das vorhandene Konto bereits verwendet.",
+    "ACCOUNT_ALREADY_EXISTS": "E-Mail-Adresse wird bereits für das vorhandene Konto verwendet.",
     //XFLD
     "FORGOT_PASSWORD": "Kennwort vergessen?",
     //XMSG
@@ -636,11 +632,8 @@
     "ENTER_EXISTING_EMAIL": "Geben Sie die E-Mail-Adresse eines vorhandenen Kontos ein",
     //XMSG
     "LOGIN_FAILED": "Anmeldung fehlgeschlagen",
-
     //XFLD
     "ACCOUNT_EMAIL": "E-Mail-Adresse für Konto",
-
-
     //XFLD
     //-------------------------------------------------
     // Dynamic Error Displays
@@ -649,21 +642,19 @@
     //XMSG
     "ERROR_TITLE": "Interner Fehler",
     //XMSG
-    "ERROR_MESSAGE": "Hoppla, es ist ein Problem aufgetreten.",
+    "ERROR_MESSAGE": "Hoppla! Es ist ein Problem aufgetreten.",
     //XMSG
     "ERROR_TITLE_401": "Keine Berechtigung",
     //XMSG
-    "ERROR_MESSAGE_401": "Hoppla, es ist ein Problem aufgetreten. Ihre Anmeldedaten lassen keinen Zugriff auf diese Seite zu.",
+    "ERROR_MESSAGE_401": "Hoppla! Es ist ein Problem aufgetreten. Ihre Anmeldedaten lassen keinen Zugriff auf diese Seite zu.",
     //XMSG
     "ERROR_TITLE_404": "Seite nicht gefunden",
     //XMSG
-    "ERROR_MESSAGE_404": "Hoppla, es ist ein Problem aufgetreten. Diese Seite ist nicht vorhanden.",
+    "ERROR_MESSAGE_404": "Hoppla! Es ist ein Problem aufgetreten. Diese Seite ist nicht vorhanden.",
     //XMSG
     "ERROR_REDIRECT": "Hier ist eine Seite, die Ihnen weiterhilft.",
     //XBUT
     "ERROR_BUTTON_TEXT": "STARTSEITE",
-
-
     //XFLD
     //-------------------------------------------------
     // Titles
@@ -678,26 +669,22 @@
     //XACT
     "MS": "Frau",
     //XACT
-    "TITLE": "Anrede",
-
-
+    "TITLE": "Titel",
     //XFLD
     //-------------------------------------------------
     // Order Statuses
     //-------------------------------------------------
 
     //XSEL
-    "COMPLETED": "Abgeschlossen",
+    "COMPLETED": "Erledigt",
     //XSEL
     "CONFIRMED": "Bestätigt",
     //XSEL
     "CREATED": "Angelegt",
     //XSEL
-    "DECLINED": "Cancelled",
+    "DECLINED": "Storniert",
     //XSEL
     "SHIPPED": "Versendet",
-
-
     //XFLD
     //-------------------------------------------------
     // Order Details
@@ -713,8 +700,6 @@
     "SHIPPED_BY_ON": "Geliefert von: <span><b>{{carrier}} am {{shippedDate}}</b></span>",
     //XFLD
     "TRACKING_NUMBER": "<span>Verfolgungsnummer: {{trackingNumber}}</span>",
-
-
     //XFLD
     //-------------------------------------------------
     // Search
@@ -723,7 +708,7 @@
     //XFLD
     "FOUND_FOR": "<strong>{{total}}</strong> gefunden für <strong>{{searchString}}</strong>",
     //XACT
-    "SEARCH": "Suchen",
+    "SEARCH": "Suche",
     //XFLD
     "SEARCH_RESULTS": "Suchergebnisse",
     //XFLD
@@ -731,15 +716,13 @@
     //XGRP
     "RESULTS": "Ergebnisse",
     //XLNK
-    "SEE_ALL": "See All Results",
+    "SEE_ALL": "Alle Ergebnisse anzeigen",
     //XMSG
     "SEARCH_UNAVAILABLE": "Die Suche ist zurzeit nicht verfügbar.",
     //XMSG
     "NO_RESULTS_FOUND": "Keine Ergebnisse gefunden.",
-
     //XFLD
-    "IN": "im",
-
+    "IN": "in",
     //XFLD
     //-------------------------------------------------
     // FOOTER
