@@ -32,6 +32,7 @@ window.app = angular.module('ds.app', [
     'ds.queue',
     'ds.router',
     'ds.httpproxy',
+    'ds.color-affinity',
     'ds.errors',
     'ds.backendMock',
     'xeditable',

@@ -1,29 +1,29 @@
-<div class="row">
-<div class="col-md-12 displayed-row">
-    
-    <span ng-if="displayedName" class="displayed-name">{{displayedName}}</span>
-    <span ng-switch="type">
-        <strong>
-            <span ng-switch-when="boolean">
-                <span ng-if="value">Yes</span>
-                <span ng-if="!value">No</span>
-            </span>
+<div class="row" ycolormapping>
+    <div class="col-md-12 displayed-row">
         
-            <span ng-switch-when="string">
-                <span ng-switch="stringFormat">
-                    <span ng-switch-when="date">{{value | formatDateWithLocale}}</span>
-                    <span ng-switch-when="time">{{value | formatTimeWithLocale}}</span>
-                    <span ng-switch-when="date-time">{{value | formatDateTimeWithLocale}}</span>
-        
-                    <span ng-switch-default>{{value}}</span>
+        <span ng-if="displayedName" class="displayed-name">{{displayedName}}</span>
+        <span ng-switch="type">
+            <strong>
+                <span ng-switch-when="boolean">
+                    <span ng-if="value">Yes</span>
+                    <span ng-if="!value">No</span>
                 </span>
-            </span>
-        
-            <span ng-switch-default>
-                {{value}}
-            </span>
-        </strong>  
-    </span>
-</div>
+            
+                <span ng-switch-when="string">
+                    <span ng-switch="stringFormat">
+                        <span ng-switch-when="date">{{value | formatDateWithLocale}}</span>
+                        <span ng-switch-when="time">{{value | formatTimeWithLocale}}</span>
+                        <span ng-switch-when="date-time">{{value | formatDateTimeWithLocale}}</span>
+            
+                        <span class="tag-color" ng-switch-default>{{value}}</span>
+                    </span>
+                </span>
+            
+                <span ng-switch-default>
+                    {{value}}
+                </span>
+            </strong>  
+        </span>
+    </div>
     
 </div>

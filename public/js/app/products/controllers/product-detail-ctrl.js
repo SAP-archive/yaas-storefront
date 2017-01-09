@@ -30,7 +30,7 @@ angular.module('ds.products')
             $scope.productMixinsDefinitions = product.product.metadata.mixins;
 
             $scope.product = productFactory.fromProduct(product.product, product.prices, variants.length === 0);
-			$scope.selectedVariant = ProductVariantsHelper.getSelectedVariantWithFallback(variantId, variants);
+			// $scope.selectedVariant = ProductVariantsHelper.getSelectedVariantWithFallback(variantId, variants);
 
             $scope.variants = variants;
 			$scope.selectedVariantId = variantId;

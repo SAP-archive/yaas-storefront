@@ -23,15 +23,16 @@
 					selectedVariant: '=',
                     onActiveVariantChanged: '&'
                 },
-                controller: ['$scope', 'ProductOptionsHelper', 'ProductVariantsHelper',
-                    function productOptionsCtrl($scope, ProductOptionsHelper, ProductVariantsHelper) {
+
+                controller: ['$scope', 'ProductOptionsHelper', 'ColorAffinitySvc', 'ProductVariantsHelper',
+                    function productOptionsCtrl($scope, ProductOptionsHelper, ColorAffinitySvc, ProductVariantsHelper) {
 
                         $scope.options = ProductOptionsHelper.prepareOptions($scope.variants);
 						
-						var variant = ProductVariantsHelper.getDefaultVariantWithFallback($scope.variants);
+						// var variant = ProductVariantsHelper.getDefaultVariantWithFallback($scope.variants);
 
 						$scope.optionsSelected = ProductOptionsHelper.selectOptionsForVariant($scope.selectedVariant, $scope.options);
-
+                        console.log($scope.optionsSelected)
 
                         function getIdsOfMatchingVariants(attributesSelected) {
                             return attributesSelected.length === 0 ?
@@ -57,9 +58,9 @@
                             $scope.onActiveVariantChanged({ activeVariant: activeVariant });
                         };
 
-						if(variant) {
-							$scope.resolveActiveVariantAndUpdateOptions();
-						}
+						// if(variant) {
+						// 	$scope.resolveActiveVariantAndUpdateOptions();
+						// }
 
                         $scope.omitSelectionAndUpdateOptions = function (omittedIndex) {
                             var omitted = _.union([], $scope.optionsSelected);
@@ -70,7 +71,87 @@
 
                             $scope.options = ProductOptionsHelper.updateOptions($scope.options, idsOfMatchingVariants);
                         };
+                        
+                        //Color variants
+                        var selectColorVariant = function(affinities, colorIndex){
+                            
+                            for(var i = 0; i < affinities.length; i++){
+                                for(var j = 0; j < $scope.options[colorIndex].attributes.length; j++){
+                                    if($scope.options[colorIndex].attributes[j].value === affinities[i].value){
+                                        //Found the correct one
+                                        $scope.optionsSelected[colorIndex] = $scope.options[colorIndex].attributes[j];
+                                        $scope.resolveActiveVariantAndUpdateOptions();
+                                        return;
+                                    }
+                                }
+                            }
+                        };
 
+                        var processColorAffinities = function(affinities){
+                            affinities = affinities || [];
+
+                            //Sort by score
+                            affinities = affinities.sort(function(a, b){
+                                if(a.score < b.score){
+                                    return 1;
+                                }
+                                if(a.score > b.score){
+                                    return -1;
+                                }
+                                return 0;
+                            });
+
+                            //Return only important stuff
+                            affinities = affinities.map(function(affinity){
+                                return {
+                                    value: affinity.tid,
+                                    score: affinity.score
+                                };
+                            });
+
+                            //Find color attribute
+                            var colorIndex = -1;
+                            for(var i = 0; i < $scope.options.length; i++){
+                                if($scope.options[i].attributeKey == 'Color'){
+                                    colorIndex = i;
+                                    break;
+                                }
+                            }
+
+                            //Check if color attribute exists
+                            if(colorIndex < 0){
+                                return;
+                            }
+
+                            //Set color variant
+                            selectColorVariant(affinities, colorIndex);
+                        };
+
+                        var getAffinities = function(){
+                            //Profile variants preference
+                            if($scope.variants && $scope.variants.length && $scope.variants.length > 0){
+                                //get color preference for this product??
+                                var piwikId = window.Y_TRACKING._id;
+                                var colors = [];
+                                
+                                colors = $scope.variants.map(function(variant){
+                                    if(variant.options && variant.options['color-7wri3aq']){
+                                        return variant.options['color-7wri3aq'].Color;
+                                    }
+                                });
+
+                                ColorAffinitySvc.getAffinities(piwikId, colors)
+                                    .then(function(res){
+                                        processColorAffinities(res);
+                                    }, function(){
+                                        console.error('Failed getting color affinities.');
+                                    });
+                            }
+                        };
+
+                        //Get color affinities
+                        getAffinities();
+                        
                     }]
             };
         }]);

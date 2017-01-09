@@ -1,8 +1,8 @@
 ---
 applications:
-- name: store-template-simple
+- name: storefront-profile-demo
   buildpack: https://github.com/drnic/staticfile-buildpack.git
-  memory: 64M
-  host: store-template-simple
+  memory: 128M
+  host: storefront-profile-demo
   instances: 1
   path: dist/public
