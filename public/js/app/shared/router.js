@@ -127,49 +127,34 @@ angular.module('ds.router', [])
                         }
                     },
                     resolve: {
-                        product: ['$stateParams', 'PriceProductREST', 'CategorySvc', 'initialized', function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                        product: ['$stateParams', 'ProductSvc', 'CategorySvc', 'initialized', function ($stateParams, ProductSvc, CategorySvc, initialized) {
                             if(initialized){
-                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
-                                    .then(function (prod) {
-                                        if(prod.categories && prod.categories.length){
-                                            return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
-                                                prod.richCategory = category;
-                                                return prod;
-                                            });
-
-                                        } else {
+                                return ProductSvc.getProduct($stateParams).then(function (prod) {
+                                    if(prod.categories && prod.categories.length){
+                                        return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
+                                            prod.richCategory = category;
                                             return prod;
-                                        }
-                                    });
+                                        });
+
+                                    } else {
+                                        return prod;
+                                    }
+                                });
                             }
 
                         }],
                         
-                        variants: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc',
-                            function ($stateParams, initialized, $http, SiteConfigSvc) {
+                        variants: ['$stateParams', 'initialized', 'ProductSvc', 'SiteConfigSvc',
+                            function ($stateParams, initialized, ProductSvc, SiteConfigSvc) {
                                 if (initialized) {
-                                    // $http used since 'option' property in response body is not handled correctly by Restangular
-                                    return $http.get(SiteConfigSvc.apis.products.baseUrl + '/products/' + $stateParams.productId + '/variants', {
-                                        params: {
-                                            pageNumber: 1, pageSize: 9999
-                                        }
-                                    }).then(function (response) {
-                                        return response.data;
-                                    });
+                                    return ProductSvc.getProductVariants($stateParams);
                                 }
                             }],
 
-                        variantPrices: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc', 'GlobalData',
-                            function ($stateParams, initialized, $http, SiteConfigSvc, GlobalData) {
+                        variantPrices: ['$stateParams', 'initialized', 'PriceSvc', 'SiteConfigSvc', 'GlobalData',
+                            function ($stateParams, initialized, PriceSvc, SiteConfigSvc, GlobalData) {
                                 if (initialized) {
-                                    return $http.get(SiteConfigSvc.apis.prices.baseUrl + '/prices', {
-                                        params: {
-                                            group: $stateParams.productId,
-                                            currency: GlobalData.getCurrencyId()
-                                        }
-                                    }).then(function (response) {
-                                        return response.data;
-                                    });
+                                    return PriceSvc.getPrices($stateParams);
                                 }
                             }],
 

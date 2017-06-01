@@ -60,24 +60,8 @@ angular.module('ds.products')
             /** Returns a promise over the category list as loaded from the service. Fires event "categories:updated".
              * @param source - indicates source/reason for update, eg. 'languageUpdate' - see setting.eventSource.
              * */
-            getCategories: function (source) {
-                var catDef = $q.defer();
-
-                PriceProductREST.Categories.all('categories').getList({ expand: 'subcategories', toplevel: true }).then(function (result) {
-                    categoryMap = {};
-                    catList = [];
-                    angular.forEach(result.plain(), function (category) {
-                        if(category.name){
-                            catList.push(category);
-                            loadCategory(category);
-                        }
-                    });
-                    $rootScope.$emit('categories:updated', {categories: catList, source: source});
-                    catDef.resolve(catList);
-                }, function (error) {
-                    catDef.reject(error);
-                });
-                return catDef.promise;
+            getCategories: function () {
+                return $q.resolve([])
             },
 
             /** Returns categories from cache.*/

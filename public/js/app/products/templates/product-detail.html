@@ -80,12 +80,6 @@
                                     </div>
                                 </div>
 
-                                <!-- add to cart -->
-                                <div class="col-md-8 col-md-offset-2">
-                                    <button id="buy-button" type="button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
-                                        ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
-                                </div>
-
                                 <!-- product fees -->
                                 <div class="col-md-8 col-md-offset-2">
                                     <product-fees fees="productFees"></product-fees>
@@ -99,7 +93,7 @@
                         </form>
 
                         <!-- unavialable button -->
-                        <div class="row" ng-if="!product.prices[0]">
+                        <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <button id="out-of-stock-btn" class="btn btn-default btn-block buyButton" disabled>{{'UNAVAILABLE' | translate}}</button>
                             </div>

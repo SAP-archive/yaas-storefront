@@ -16,26 +16,43 @@
  *  Encapsulates access to the CAAS product API.
  */
 angular.module('ds.products')
-    .factory('ProductSvc', ['PriceProductREST', function(PriceProductREST){
+    .factory('ProductSvc', ['$http', '$q', function ($http, $q) {
 
-        var getProductList = function (parms) {
-            return PriceProductREST.Products.all('products').getList(parms);
-        };
+        var listPromise = $http.get('products.json').then(function (response) {
+            return response.data;
+        });
+
+        var pricesPromise = $http.get('prices.json').then(function (response) {
+            return response.data;
+        });
 
         return {
-            queryProductList: function(parms) {
-               return getProductList(parms);
+            queryProductList: function (parms) {
+                return listPromise.then(function (data) {
+                    return data;
+                });
             },
-            getProductVariant: function(params) {
-               return PriceProductREST.Products.withConfig(function(RestangularConfigurer){
-                 RestangularConfigurer.restangularFields.options = 'restangularOptions';
-               }).one('products', params.productId).one('variants', params.variantId).get();
+            getProductVariant: function (params) {
+                return listPromise.then(function (data) {
+                    return _.findWhere(data, {id: params.productId});
+                });
             },
-            getProductVariants: function(params) {
-               return PriceProductREST.Products.one('products', params.productId).all('variants').getList();
+            getProductVariants: function (params) {
+                return listPromise.then(function (data) {
+                    return _.filter(data, function (item) {
+                        item.id === params.productId;
+                    });
+                });
             },
-            getProduct:  function(params) {
-              return PriceProductREST.Products.one('products', params.productId).get();
+            getProduct: function (params) {
+                return $q.all([listPromise, pricesPromise]).then(function (results) {
+                    return {
+                        product: _.findWhere(results[0], {id: params.productId}),
+                        prices: _.filter(results[1], function (item) {
+                            return item.productId === params.productId;
+                        })
+                    }
+                });
             }
         };
-}]);
+    }]);

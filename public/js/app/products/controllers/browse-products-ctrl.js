@@ -89,7 +89,7 @@ angular.module('ds.products')
                 ProductSvc.queryProductList(query)
                     .then(function getProducts(products) {
                         if (products) {
-                            GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                            GlobalData.products.meta.total = products.length;
                             if (concat) {
                                 $scope.products = $scope.products.concat(products);
                             } else {

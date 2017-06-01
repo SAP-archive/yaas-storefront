@@ -1,0 +1,137 @@
+[ {
+    "id" : "5810aac737e7ad001dfe622d",
+    "yrn" : "urn:yaas:hybris:product:product:quickstart;5810aac737e7ad001dfe622d",
+    "code" : "7",
+    "name" : "Eclipse aquatic blue",
+    "description" : "Eclipse aquatic blue t-shirt",
+    "published" : true,
+    "media" : [ {
+        "id" : "d8e0583a-1089-4e87-9bcd-37f82dd99b4b",
+        "yrn" : "urn:yaas:hybris:product:product-media:quickstart;5810aac737e7ad001dfe622d;d8e0583a-1089-4e87-9bcd-37f82dd99b4b",
+        "url" : "img/products/1.jpg",
+        "contentType" : "image/jpeg",
+        "createdAt" : "2016-10-26T13:08:43.970Z"
+    } ],
+    "metadata" : {
+        "variants" : {
+            "options" : { },
+            "mixins" : {
+                "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+            }
+        },
+        "version" : 5,
+        "createdAt" : "2016-10-26T13:08:23.154+0000",
+        "modifiedAt" : "2016-12-09T08:39:44.859+0000",
+        "mixins" : {
+            "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1",
+            "taxCodes" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/productTaxCodeMixin-1.0.0"
+        }
+    },
+    "mixins" : {
+        "inventory" : {
+            "inStock" : true
+        }
+    }
+}, {
+    "id" : "58108f5c37e7ad001dfe6148",
+    "yrn" : "urn:yaas:hybris:product:product:quickstart;58108f5c37e7ad001dfe6148",
+    "code" : "2",
+    "name" : "Skull 80",
+    "description" : "Skull 80 t-shirt",
+    "published" : true,
+    "media" : [ {
+        "id" : "4e0e1d7c-93fc-4ab5-8bdd-bd46ef385b7c",
+        "yrn" : "urn:yaas:hybris:product:product-media:quickstart;58108f5c37e7ad001dfe6148;4e0e1d7c-93fc-4ab5-8bdd-bd46ef385b7c",
+        "url" : "img/products/2.jpg",
+        "contentType" : "image/jpeg",
+        "createdAt" : "2016-10-26T11:11:46.642Z"
+    } ],
+    "metadata" : {
+        "variants" : {
+            "options" : { },
+            "mixins" : {
+                "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+            }
+        },
+        "version" : 4,
+        "createdAt" : "2016-10-26T11:11:24.371+0000",
+        "modifiedAt" : "2016-12-09T08:39:44.840+0000",
+        "mixins" : {
+            "taxCodes" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/productTaxCodeMixin-1.0.0",
+            "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+        }
+    },
+    "mixins" : {
+        "inventory" : {
+            "inStock" : true
+        }
+    }
+}, {
+    "id" : "58108f9a7b4041001db36ac9",
+    "yrn" : "urn:yaas:hybris:product:product:quickstart;58108f9a7b4041001db36ac9",
+    "code" : "3",
+    "name" : "Asterisk",
+    "description" : "Asterisk t-shirt",
+    "published" : true,
+    "media" : [ {
+        "id" : "350b03cf-d062-4cf2-be88-87862516fdb6",
+        "yrn" : "urn:yaas:hybris:product:product-media:quickstart;58108f9a7b4041001db36ac9;350b03cf-d062-4cf2-be88-87862516fdb6",
+        "url" : "img/products/3.jpg",
+        "contentType" : "image/jpeg",
+        "createdAt" : "2016-10-26T11:13:08.662Z"
+    } ],
+    "metadata" : {
+        "variants" : {
+            "options" : { },
+            "mixins" : {
+                "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+            }
+        },
+        "version" : 4,
+        "createdAt" : "2016-10-26T11:12:26.853+0000",
+        "modifiedAt" : "2016-12-09T08:39:44.863+0000",
+        "mixins" : {
+            "taxCodes" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/productTaxCodeMixin-1.0.0",
+            "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+        }
+    },
+    "mixins" : {
+        "inventory" : {
+            "inStock" : true
+        }
+    }
+}, {
+    "id" : "5810aa84ff10e1001d60b06a",
+    "yrn" : "urn:yaas:hybris:product:product:quickstart;5810aa84ff10e1001d60b06a",
+    "code" : "6",
+    "name" : "Thort",
+    "description" : "Thort t-shirt",
+    "published" : true,
+    "media" : [ {
+        "id" : "b21fa7e3-519f-46f3-81c4-a7a6e99e3db2",
+        "yrn" : "urn:yaas:hybris:product:product-media:quickstart;5810aa84ff10e1001d60b06a;b21fa7e3-519f-46f3-81c4-a7a6e99e3db2",
+        "url" : "img/products/4.jpg",
+        "contentType" : "image/jpeg",
+        "createdAt" : "2016-10-26T13:07:32.608Z"
+    } ],
+    "metadata" : {
+        "variants" : {
+            "options" : { },
+            "mixins" : {
+                "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1"
+            }
+        },
+        "version" : 5,
+        "createdAt" : "2016-10-26T13:07:16.406+0000",
+        "modifiedAt" : "2016-12-09T08:39:44.851+0000",
+        "mixins" : {
+            "inventory" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/inventorySchema-v1",
+            "taxCodes" : "https://api.us.yaas.io/hybris/schema/v1/hybriscommerce/productTaxCodeMixin-1.0.0"
+        }
+    },
+    "mixins" : {
+        "inventory" : {
+            "inStock" : true
+        }
+    }
+} ]

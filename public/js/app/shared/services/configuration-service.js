@@ -16,8 +16,8 @@
  *  Encapsulates access to the configuration service.
  */
 angular.module('ds.shared')
-    .factory('ConfigSvc', ['$rootScope', '$q', 'settings', 'GlobalData', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc', 'SiteSettingsREST',
-        function ($rootScope, $q, settings, GlobalData, AuthSvc, AccountSvc, CartSvc, CategorySvc, SiteSettingsREST) {
+    .factory('ConfigSvc', ['$rootScope', '$q', 'settings', 'GlobalData', 'AuthSvc', 'AccountSvc', 'CartSvc', 'CategorySvc', 'SiteSettingsREST', '$http',
+        function ($rootScope, $q, settings, GlobalData, AuthSvc, AccountSvc, CartSvc, CategorySvc, SiteSettingsREST, $http) {
             var initialized = false;
             var selectedSiteCode = '';
 
@@ -53,9 +53,12 @@ angular.module('ds.shared')
             function loadConfiguration() {
 
                 /**
-                * Get default site for the moment
-                */
-                var configPromise = SiteSettingsREST.SiteSettings.all('sites').getList({});
+                 * Get default site for the moment
+                 */
+                var configPromise = $http.get('sites.json').then(function (response) {
+                    return response.data;
+                });
+
                 configPromise.then(function (sites) {
 
                     //Check if there is already default site in memory or cookies and if that one is valid one (exists in returned array)
@@ -85,23 +88,7 @@ angular.module('ds.shared')
                 });
 
 
-                /**
-                * Get login config (Facebook and Google)
-                */
-                var loginConfigPromise = AuthSvc.getFBAndGoogleLoginKeys();
-                loginConfigPromise.then(function (result) {
-
-                    if (!!result.facebookAppId) {
-                        settings.facebookAppId = result.facebookAppId;
-                    }
-                    if (!!result.googleClientId) {
-                        settings.googleClientId = result.googleClientId;
-                    }
-                }, function (error) {
-                    console.error('Facebook and Google key retrieval failed: ' + JSON.stringify(error));
-                });
-
-                return $q.all([configPromise]);
+                return configPromise;
             }
 
 
@@ -117,7 +104,9 @@ angular.module('ds.shared')
                     } else {
                         loadConfiguration(GlobalData.store.tenant).then(function () {
 
-                            var siteSettingPromise = SiteSettingsREST.SiteSettings.one('sites', selectedSiteCode).get({ expand: 'payment:active,tax:active,mixin:*' });
+                            var siteSettingPromise = $http.get('sites.json').then(function (response) {
+                                return response.data[0]
+                            });
                             siteSettingPromise.then(function (site) {
 
                                 //Set site and load initial language
@@ -133,7 +122,7 @@ angular.module('ds.shared')
 
                                         return account;
                                     }).then(function (account) {
-                                        if(account) {
+                                        if (account) {
                                             CartSvc.refreshCartAfterLogin(account.id);
                                         }
                                     });
