@@ -17,7 +17,7 @@ where `<tenant>` is your tenant identifier.
 
 If your tenant is created in the EU region, you should start the app with:
 ```
-npm run start-eu -- --pid=<tenant> --region=eu 
+npm start -- --pid=<tenant> --region=eu 
  ```
 
 ## Using
