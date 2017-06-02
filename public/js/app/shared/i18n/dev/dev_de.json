@@ -650,7 +650,11 @@
     //XMSG
     "ERROR_TITLE_404": "Seite nicht gefunden",
     //XMSG
+    "ERROR_TITLE_409": "Please configure your tenant",
+    //XMSG
     "ERROR_MESSAGE_404": "Hoppla! Es ist ein Problem aufgetreten. Diese Seite ist nicht vorhanden.",
+    //XMSG
+    "ERROR_MESSAGE_409": "Please check if you use the right tenant and your tenant is subscribed to the required packages. Please refer the <a href=\"https://devportal.yaas.io/solutions/saphybrisprofile/index.html#Quickstartguide\" target=\"_blank\">documentation</a>.",
     //XMSG
     "ERROR_REDIRECT": "Hier ist eine Seite, die Ihnen weiterhilft.",
     //XBUT

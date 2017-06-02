@@ -22,7 +22,8 @@ angular.module('ds.httpproxy', [])
                 request: function (config) {
                     document.body.style.cursor = 'wait';
                     // skip html requests as well as anonymous login URL
-                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(siteConfig.apis.customerlogin.baseUrl) < 0) {
+                    if (config.url.indexOf('templates') < 0 && config.url.indexOf(siteConfig.apis.customerlogin.baseUrl) < 0
+                    && config.url.indexOf('lang_') < 0) {
 
                         var token = TokenSvc.getToken().getAccessToken();
                         if (token) {
