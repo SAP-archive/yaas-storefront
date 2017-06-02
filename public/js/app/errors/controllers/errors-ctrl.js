@@ -12,35 +12,40 @@
 'use strict';
 
 angular.module('ds.errors', [])
-    /**
-     *  Dynamic error display.
-     */
+/**
+ *  Dynamic error display.
+ */
     .controller('ErrorsCtrl', ['$scope', '$state', '$stateParams', '$translate',
-		function( $scope, $state, $stateParams, $translate ) {
+        function ($scope, $state, $stateParams, $translate) {
 
-			var errorType = '';
+            var errorType = '';
 
-			// if errorId is valid, then postfix dynamic message, else always generic message.
-			if($stateParams.errorId === '401' || $stateParams.errorId === '404' || $stateParams.errorId === '409'){
-				errorType = '_' + $stateParams.errorId;
-			}
+            // if errorId is valid, then postfix dynamic message, else always generic message.
+            if ($stateParams.errorId === '401' || $stateParams.errorId === '404' || $stateParams.errorId === '409') {
+                errorType = '_' + $stateParams.errorId;
+            }
 
-			$translate('ERROR_TITLE' + errorType).then(function(value){
-				$scope.errorTitle = value;
-			});
-			$translate('ERROR_MESSAGE' + errorType).then(function(value){
-				$scope.errorMessage = value;
-			});
-			$translate('ERROR_REDIRECT').then(function(value){
-				$scope.errorRedirect = value;
-			});
-			$translate('ERROR_BUTTON_TEXT').then(function(value){
-				$scope.errorButtonText = value;
-			});
+            $translate('ERROR_TITLE' + errorType).then(function (value) {
+                $scope.errorTitle = value;
+            });
+            $translate('ERROR_MESSAGE' + errorType).then(function (value) {
+                $scope.errorMessage = value;
+            });
 
-			$scope.redirect = function() {
-				$state.go('base.home');
-			};
-    }]);
+            if ($stateParams.errorId !== '409') {
+                $translate('ERROR_REDIRECT').then(function (value) {
+                    $scope.errorRedirect = value;
+                });
+
+                $translate('ERROR_BUTTON_TEXT').then(function (value) {
+                    $scope.errorButtonText = value;
+                });
+
+            }
+
+            $scope.redirect = function () {
+                $state.go('base.home');
+            };
+        }]);
 
 
