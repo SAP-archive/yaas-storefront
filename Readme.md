@@ -1,4 +1,4 @@
-TEST 2
+TEST 3
 # hybris Store Template for the Cloud-based Commerce Services
 
 This project is an e-commerce front-end written in AngularJS that is meant to showcase the available commerce services and
