@@ -184,6 +184,10 @@ module.exports = function (grunt) {
                     from: /StartBuilderUrl(.*)EndBuilderUrl/g,
                     to: 'StartBuilderUrl*/ \'' + 'https://' + PROD_DOMAIN.replace('api', 'builder').replace('{0}', '') + '/\' /*EndBuilderUrl'
                 },
+                    {
+                    from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
+                    to: 'StartConsentManagerUrl*/ \'' + 'https://' + getProdBaseUrl(REGION_CODE).concat('/hybris/customer-consent/v1') + '/\' /*EndConsentManagerUrl'
+                },
                 {
                     from: /StartPiwikUrl(.*)EndPiwikUrl/g,
                     to: 'StartPiwikUrl*/ \'' + getPiwikUrl('PROD', REGION_CODE) + '\' /*EndPiwikUrl'
@@ -220,16 +224,6 @@ module.exports = function (grunt) {
                     from: /StartUseHTTPS(.*)EndUseHTTPS/g,
                     to: 'StartUseHTTPS*/ ' + !!USE_HTTPS + ' /*EndUseHTTPS'
                 }]
-            },
-            tracing: {
-                src: INDEX_PATH,
-                overwrite: true,
-                replacements: [
-                    {
-                        from: /StartProjectId(.*)EndProjectId/g,
-                        to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
-                    }
-                ]
             }
         },
 
@@ -253,7 +247,6 @@ module.exports = function (grunt) {
             grunt.task.run('replace:clientId');
             grunt.task.run('replace:redirectURI');
             grunt.task.run('replace:useHttps');
-            grunt.task.run('replace:tracing');
 
             runDomainReplace(domainParam);
 

@@ -48,7 +48,13 @@ angular.module('ds.appconfig', [])
         redirectURI: function() {
             // Dynamic RedirectURI is configured and replaced by build script, see gruntfile.
             return /*StartRedirectURI*/ 'http://example.com' /*EndRedirectURI*/;
+        },
+
+        builderURL: function () {
+            return  /*StartBuilderUrl*/ '' /*EndBuilderUrl*/;
+        },
+
+        consentManagerURL: function () {
+            return  /*StartConsentManagerUrl*/ '' /*EndConsentManagerUrl*/
         }
-
-
     });
