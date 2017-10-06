@@ -62,6 +62,10 @@ angular.module('ds.ytracking', [])
                             "background": "#f1d600"
                         }
                     },
+                    compliance: {
+                        'opt-in': '<div class="cc-compliance cc-highlight">{{allow}}</div>',
+
+                    },
                     elements: {
                         messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>',
                     },

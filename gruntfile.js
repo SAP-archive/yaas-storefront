@@ -70,6 +70,13 @@ module.exports = function (grunt) {
         }
     };
 
+    var getCustomerConsentManagerUrl = function (regionCode) {
+        if(regionCode.toUpperCase === 'EU'){
+            return 'https://customer-manager.eu-central.stage.modules.yaas.io'
+        }
+        return 'https://customer-manager.us-east.modules.yaas.io'
+    };
+
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-angular-templates');  //combines templates into cache
@@ -108,7 +115,7 @@ module.exports = function (grunt) {
         },
         jshint: {
             options: {
-                jshintrc: '.jshintrc'
+                jshintrc: '.jshintrc',
             },
             all: [
                 'gruntfile.js',
@@ -180,18 +187,18 @@ module.exports = function (grunt) {
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
                     to: 'StartDynamicDomain*/ \'' + getProdBaseUrl(REGION_CODE) + '\' /*EndDynamicDomain'
                 },
-                {
-                    from: /StartBuilderUrl(.*)EndBuilderUrl/g,
-                    to: 'StartBuilderUrl*/ \'' + 'https://' + PROD_DOMAIN.replace('api', 'builder').replace('{0}', '') + '/\' /*EndBuilderUrl'
-                },
                     {
-                    from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
-                    to: 'StartConsentManagerUrl*/ \'' + 'https://' + getProdBaseUrl(REGION_CODE).concat('/hybris/customer-consent/v1') + '/\' /*EndConsentManagerUrl'
-                },
-                {
-                    from: /StartPiwikUrl(.*)EndPiwikUrl/g,
-                    to: 'StartPiwikUrl*/ \'' + getPiwikUrl('PROD', REGION_CODE) + '\' /*EndPiwikUrl'
-                }]
+                        from: /StartBuilderUrl(.*)EndBuilderUrl/g,
+                        to: 'StartBuilderUrl*/ \'' + 'https://' + PROD_DOMAIN.replace('api', 'builder').replace('{0}', '') + '/\' /*EndBuilderUrl'
+                    },
+                    {
+                        from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
+                        to: 'StartConsentManagerUrl*/ \'' +  getCustomerConsentManagerUrl(REGION_CODE) + '/\' /*EndConsentManagerUrl'
+                    },
+                    {
+                        from: /StartPiwikUrl(.*)EndPiwikUrl/g,
+                        to: 'StartPiwikUrl*/ \'' + getPiwikUrl('PROD', REGION_CODE) + '\' /*EndPiwikUrl'
+                    }]
             },
             projectId: {
                 src: [PROJECT_ID_PATH],
@@ -255,7 +262,6 @@ module.exports = function (grunt) {
 
     //---Specialized-Build-Behaviors--------------------------------------------------------
     grunt.registerTask('singleProjectTask', [
-        'jshint',
         'compileTranslations',
         'less:dev',
         'concurrent:singleProject'   //server.js

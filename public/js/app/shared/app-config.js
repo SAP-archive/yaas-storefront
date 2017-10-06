@@ -35,7 +35,7 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartProjectId*/ '' /*EndProjectId*/;
+                tenantId = /*StartProjectId*/ 'storksfront' /*EndProjectId*/;
             }
             return tenantId;
         },
@@ -51,10 +51,10 @@ angular.module('ds.appconfig', [])
         },
 
         builderURL: function () {
-            return  /*StartBuilderUrl*/ '' /*EndBuilderUrl*/;
+            return  /*StartBuilderUrl*/ 'https://builder.yaas.io/' /*EndBuilderUrl*/;
         },
 
         consentManagerURL: function () {
-            return  /*StartConsentManagerUrl*/ '' /*EndConsentManagerUrl*/
+            return  /*StartConsentManagerUrl*/ 'https://customer-manager.us-east.modules.yaas.io/' /*EndConsentManagerUrl*/
         }
     });
