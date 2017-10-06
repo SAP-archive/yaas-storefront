@@ -169,7 +169,7 @@ angular.module('ds.ytracking', [])
             };
         }])
     .factory('ytrackingSvc', ['yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
-        function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc, $q) {
+        function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
 
             var consentGranted = !!CookieSvc.getConsentReferenceCookie() && !!CookieSvc.getConsentReferenceTokenCookie();
