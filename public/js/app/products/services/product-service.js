@@ -27,7 +27,7 @@ angular.module('ds.products')
         });
 
         return {
-            queryProductList: function (parms) {
+            queryProductList: function () {
                 return listPromise.then(function (data) {
                     return data;
                 });
@@ -40,7 +40,7 @@ angular.module('ds.products')
             getProductVariants: function (params) {
                 return listPromise.then(function (data) {
                     return _.filter(data, function (item) {
-                        item.id === params.productId;
+                        return item.id === params.productId;
                     });
                 });
             },
@@ -51,7 +51,7 @@ angular.module('ds.products')
                         prices: _.filter(results[1], function (item) {
                             return item.productId === params.productId;
                         })
-                    }
+                    };
                 });
             }
         };

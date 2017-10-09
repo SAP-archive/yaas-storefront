@@ -19,6 +19,11 @@ If your tenant is created in the EU region, you should start the app with:
 ```
 npm start -- --pid=<tenant> --region=eu 
  ```
+ 
+If your tenant is placed on the STAGE environment, you should start the app with:
+```
+npm start -- --pid=<tenant> --env=stage 
+ ```
 
 ## Using
 Tracing debug bar should show a link to the Tracing UI. Click a product to create a "Product View" event, and get the new link. The generated links are also visible in the browser developer console.

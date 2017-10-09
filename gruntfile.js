@@ -18,56 +18,73 @@ module.exports = function (grunt) {
 
     var host = process.env.VCAP_APP_HOST || process.env.HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || process.env.PORT || 9000; //process.env.VCAP_APP_PORT is deprecated
+    
+    var ALLOWED_REGIONS = ['eu', 'us'],
+        REGION_INVALID_MSG = 'Selected region is not valid. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']';
+
+    var getRegion = function () {
+        var region = grunt.option('region');
+        if (region && ALLOWED_REGIONS.indexOf(region) < 0) {
+            grunt.warn(REGION_INVALID_MSG);
+            return 'US';
+        }
+        return grunt.option('region') ? grunt.option('region').toUpperCase() : 'US';
+    };
+
 
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
         TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
-
-        ALLOWED_REGIONS = ['eu'],
-        REGION_INVALID_MSG = 'Selected region is not valid, changing back to default region. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']',
-
+        
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
+        ENV_ID = grunt.option('env') ? grunt.option('env').toUpperCase() : 'PROD',
         PROJECT_ID = grunt.option('pid'),
-        CLIENT_ID = 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
+        CLIENT_ID = ENV_ID === 'STAGE' ? 'FACLIjPaW5IrMLyqVJ5XybBweHV9B6jx' : 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
         REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
         USE_HTTPS = grunt.option('https') || false,
-        REGION_CODE = grunt.option('region') || '',
+        REGION_CODE = getRegion(),
 
         SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
         PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         INDEX_PATH = './public/index.html',
-        PROD_DOMAIN = 'api{0}.yaas.io',
-        STAGE_DOMAIN = 'api.stage.yaas.io',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
-        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json',
-        DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:prod [:stage] to specify.';
+        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json';
 
-    var getProdBaseUrl = function getProdBaseUrl(regionCode) {
-        if (!!regionCode && ALLOWED_REGIONS.indexOf(regionCode) < 0) {
-            grunt.option('force', true);
-            grunt.warn(REGION_INVALID_MSG);
-            regionCode = '';
+    var getBuilderUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://builder.stage.yaas.io';
         }
-
-        if (!!regionCode) {
-            return PROD_DOMAIN.replace('{0}', '.' + regionCode);
-        }
-        else {
-            return PROD_DOMAIN.replace('{0}', '');
-        }
+        return 'https://builder.yaas.io';
     };
 
-    var getPiwikUrl = function (env, regionCode) {
-        if (env === 'PROD') {
-            return 'https://' + getProdBaseUrl(regionCode) + '/hybris/profile-edge/v1' + '/events';
+    var getServicesBaseUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'api.stage.yaas.io';
         }
-        else if (env === 'STAGE') {
-            return 'https://' + STAGE_DOMAIN + '/hybris/profile-edge/v1' + '/events';
+        if (REGION_CODE === 'EU') {
+            return 'api.eu.yaas.io';
         }
+        return 'api.yaas.io';
+    };
+
+
+    var getPiwikUrl = function () {
+        var serviceUrl = getServicesBaseUrl();
+        return serviceUrl + '/hybris/profile-edge/v1' + '/events';
+    };
+
+    var getCustomerConsentManagerUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://profile-manager.us-east.stage.modules.yaas.io';
+        }
+        if (REGION_CODE === 'EU') {
+            return 'https://profile-manager.eu-central.modules.yaas.io';
+        }
+        return 'https://profile-manager.us-east.modules.yaas.io';
     };
 
     require('load-grunt-tasks')(grunt);
@@ -173,21 +190,25 @@ module.exports = function (grunt) {
         },
 
         replace: {
-            prod: {
+            urls: {
                 src: [API_DOMAIN_PATH, INDEX_PATH],
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + getProdBaseUrl(REGION_CODE) + '\' /*EndDynamicDomain'
+                    to: 'StartDynamicDomain*/ \'' + getServicesBaseUrl() + '\' /*EndDynamicDomain'
                 },
-                {
-                    from: /StartBuilderUrl(.*)EndBuilderUrl/g,
-                    to: 'StartBuilderUrl*/ \'' + 'https://' + PROD_DOMAIN.replace('api', 'builder').replace('{0}', '') + '/\' /*EndBuilderUrl'
-                },
-                {
-                    from: /StartPiwikUrl(.*)EndPiwikUrl/g,
-                    to: 'StartPiwikUrl*/ \'' + getPiwikUrl('PROD', REGION_CODE) + '\' /*EndPiwikUrl'
-                }]
+                    {
+                        from: /StartBuilderUrl(.*)EndBuilderUrl/g,
+                        to: 'StartBuilderUrl*/ \'' + getBuilderUrl() + '/\' /*EndBuilderUrl'
+                    },
+                    {
+                        from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
+                        to: 'StartConsentManagerUrl*/ \'' + getCustomerConsentManagerUrl() + '/\' /*EndConsentManagerUrl'
+                    },
+                    {
+                        from: /StartPiwikUrl(.*)EndPiwikUrl/g,
+                        to: 'StartPiwikUrl*/ \'' + getPiwikUrl() + '\' /*EndPiwikUrl'
+                    }]
             },
             projectId: {
                 src: [PROJECT_ID_PATH],
@@ -220,16 +241,6 @@ module.exports = function (grunt) {
                     from: /StartUseHTTPS(.*)EndUseHTTPS/g,
                     to: 'StartUseHTTPS*/ ' + !!USE_HTTPS + ' /*EndUseHTTPS'
                 }]
-            },
-            tracing: {
-                src: INDEX_PATH,
-                overwrite: true,
-                replacements: [
-                    {
-                        from: /StartProjectId(.*)EndProjectId/g,
-                        to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
-                    }
-                ]
             }
         },
 
@@ -247,15 +258,13 @@ module.exports = function (grunt) {
     //--Tasks-With-Environment-Parameters----------------------------------------------
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
-        function (domainParam) {
+        function () {
 
             grunt.task.run('replace:projectId');
             grunt.task.run('replace:clientId');
             grunt.task.run('replace:redirectURI');
             grunt.task.run('replace:useHttps');
-            grunt.task.run('replace:tracing');
-
-            runDomainReplace(domainParam);
+            grunt.task.run('replace:urls');
 
             grunt.task.run('singleProjectTask');
         });
@@ -272,24 +281,4 @@ module.exports = function (grunt) {
         'copy:translations',        //copies translation files from dev folder to lang folder
         'json-minify:translations'  //minifies JSON translation files
     ]);
-
-    //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
-    // Read build parameter and set the dynamic domain for environment or give warning message.
-
-    function runDomainReplace(domainParam) {
-        switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam) {
-            case 'stage':
-                grunt.task.run('replace:stage');
-                break;
-            case 'prod':
-                grunt.task.run('replace:prod');
-                break;
-            default:
-                grunt.warn(DOMAIN_MSG);
-                // Default build domain if none is specified.
-                grunt.task.run('replace:prod');
-        }
-    }
-
-
 };

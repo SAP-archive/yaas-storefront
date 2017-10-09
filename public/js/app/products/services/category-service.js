@@ -23,29 +23,6 @@ angular.module('ds.products')
         var categoryMap;
         var catList;
 
-        function sluggify(name){
-            // very simplistic algorithm to handle German Umlaute - should ultimately be provided by server
-            if(name){ //ensure categories without name are not created
-              return window.encodeURIComponent(name.toLowerCase().replace(' ', '-').replace('ä', 'ae').replace('ö', 'oe').replace('ü', 'ue').replace('ß', 'ss'));
-            }
-        }
-
-        function loadCategory(cat, parent){
-            cat.path = [];
-            if(parent){
-                angular.copy(parent.path, cat.path);
-            }
-            cat.path.push(cat);
-            cat.slug = sluggify(cat.name)+'~'+cat.id;
-            categoryMap[cat.id] = cat;
-
-            if(cat.subcategories){
-                angular.forEach(cat.subcategories, function(sub){
-                    loadCategory(sub, cat);
-                });
-            }
-        }
-
         function getCategory(slug){
             var tildeIndex = slug.indexOf('~');
             if(tildeIndex < 0) {
@@ -61,7 +38,7 @@ angular.module('ds.products')
              * @param source - indicates source/reason for update, eg. 'languageUpdate' - see setting.eventSource.
              * */
             getCategories: function () {
-                return $q.resolve([])
+                return $q.resolve([]);
             },
 
             /** Returns categories from cache.*/

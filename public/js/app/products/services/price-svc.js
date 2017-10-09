@@ -15,7 +15,7 @@
 angular.module('ds.products')
     .factory('PriceSvc', ['$q', '$http', function ($q, $http) {
 
-        var getPrices = function (parms) {
+        var getPrices = function () {
             return $http.get('prices.json').then(function (response) {
                 return response.data;
             });

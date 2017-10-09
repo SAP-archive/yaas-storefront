@@ -14,6 +14,84 @@
 
 angular.module('ds.ytracking', [])
     .constant('yTrackingLocalStorageKey', 'ytracking')
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push(function ($injector, $rootScope) {
+            return {
+                'request': function (config) {
+                    var svc = $injector.get('ytrackingSvc');
+                    if (config.method === 'POST' && svc.isGranted()) {
+                        config.headers['X-B3-Sampled'] = 1;
+                    }
+                    return config;
+                },
+                'response': function (response) {
+                    if (response.headers('Hybris-Context-Trace-Id')) {
+                        $rootScope.$broadcast('tracing:response', response.headers('Hybris-Context-Trace-Id'));
+                    }
+                    return response;
+                }
+            };
+        });
+    })
+    .directive('ytrackingCookieNotice', ['ytrackingSvc', '$window', '$timeout', function (ytrackingSvc, $window, $timeout) {
+        return {
+            restrict: 'E',
+            scope: {},
+            link: function (scope) {
+
+                function grant() {
+                    ytrackingSvc.grantConsent();
+                    $timeout(function () {
+                        scope.$apply();
+                    });
+                }
+
+                function revoke() {
+                    ytrackingSvc.revoke();
+                    $timeout(function () {
+                        scope.$apply();
+                    });
+                }
+
+                window.cookieconsent.initialise({
+                    palette: {
+                        popup: {
+                            background: '#000'
+                        },
+                        button: {
+                            background: '#f1d600'
+                        }
+                    },
+                    compliance: {
+                        'opt-in': '<div class="cc-compliance cc-highlight">{{allow}}</div>'
+                    },
+                    elements: {
+                        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>'
+                    },
+                    type: 'opt-in',
+                    revokable: false,
+                    revokeBtn: '<div style="display:none"></div>',
+                    animateRevokable: false,
+                    onInitialise: function () {
+                        var didConsent = this.hasConsented();
+                        if (didConsent) {
+                            grant();
+                        }
+                    },
+                    onStatusChange: function () {
+                        var didConsent = this.hasConsented();
+                        if (didConsent) {
+                            grant();
+                        }
+                        if (!didConsent) {
+                            revoke();
+                        }
+                    }
+                });
+
+            }
+        };
+    }])
     .directive('ytracking', ['ytrackingSvc', '$rootScope', '$document',
         function (ytrackingSvc, $rootScope, $document) {
             return {
@@ -91,33 +169,28 @@ angular.module('ds.ytracking', [])
     .factory('ytrackingSvc', ['yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
         function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
+
+            var consentGranted = !!CookieSvc.getConsentReferenceCookie() && !!CookieSvc.getConsentReferenceTokenCookie();
+
             var internalCart = {};
 
             /**
-            * Url for piwik service.
-            * appConfig dependency should be refactored out maybe and tenant and domain
-            * should be provided for example as parameters to ytracking directive so this tracking
-            * can also work for any other storefront (not just this template)
-            */
+             * Url for piwik service.
+             * appConfig dependency should be refactored out maybe and tenant and domain
+             * should be provided for example as parameters to ytracking directive so this tracking
+             * can also work for any other storefront (not just this template)
+             */
             var apiPath = appConfig.dynamicDomain();
             var tenantId = appConfig.storeTenant();
-            
+
             var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/v1' + '/events';
             var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/v1/' + tenantId + '/consentReferences';
 
-            var getConsentReference = function () {
-                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
-                if (!!consentReferenceCookie) {
-                    return consentReferenceCookie;
-                } else {
-                    return '';
-                }
-            };
 
             // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
             // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
             // to fetch the consent-reference.
-            var makeOptInRequest = function() {
+            var makeOptInRequest = function () {
                 var req = {
                     method: 'POST',
                     url: consentUrl,
@@ -130,56 +203,18 @@ angular.module('ds.ytracking', [])
                 return $http(req);
             };
 
-            /**
-            * Create object from piwik GET request
-            */
-            var getPiwikQueryParameters = function (hash) {
-                var split = hash.split('&');
-
-                var obj = {};
-                for (var i = 0; i < split.length; i++) {
-                    var kv = split[i].split('=');
-                    obj[kv[0]] = decodeURIComponent(kv[1] ? kv[1].replace(/\+/g, ' ') : kv[1]);
-                }
-
-                //Set date for this request to current datetime when request processed. Needed from CDM for order of events.
-                obj.date = new Date().getTime();
-
-                return obj;
-            };
-
-            /**
-            * Function that process piwik requests
-            */
-            var processPiwikRequest = function (e) {
-
-                //Get object from query parameters
-                var obj = getPiwikQueryParameters(e);
-
-
-                /*
-                 if no consent reference cookie present, we must get the consent reference before making the
-                 first call to the tracking endpoint
-                 */
-                if (!getConsentReference()) {
-                    //noinspection JSUnusedAssignment
-                    makeOptInRequest().success(function (response) {
-                        if (!!response.id) {
-                            CookieSvc.setConsentReferenceCookie(response.id);
-                        }
-                        //Make post request to service
-                        makePiwikRequest(obj);
-                    });
-                }
-                else {
-                    //Make post request to service
-                    makePiwikRequest(obj);
+            var getConsentReference = function () {
+                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
+                if (!!consentReferenceCookie) {
+                    return consentReferenceCookie;
+                } else {
+                    return '';
                 }
             };
 
             /**
-            * Function that creates POST request to CDM endpoint
-            */
+             * Function that creates POST request to CDM endpoint
+             */
             var makePiwikRequest = function (obj) {
 
                 var req = {
@@ -212,9 +247,53 @@ angular.module('ds.ytracking', [])
 
             };
 
+            var grantConsent = function () {
+                var tenYears = 3600 * 24 * 365 * 10;
+                makeOptInRequest().success(function (response) {
+                    if (!!response.id) {
+                        CookieSvc.setConsentReferenceCookie(response.id, tenYears);
+                        CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken, tenYears);
+                    }
+                    consentGranted = true;
+                });
+            };
+
+            var isGranted = function () {
+                return consentGranted;
+            };
+
+
             /**
-            * Initialization of piwik
-            */
+             * Create object from piwik GET request
+             */
+            var getPiwikQueryParameters = function (hash) {
+                var split = hash.split('&');
+
+                var obj = {};
+                for (var i = 0; i < split.length; i++) {
+                    var kv = split[i].split('=');
+                    obj[kv[0]] = decodeURIComponent(kv[1] ? kv[1].replace(/\+/g, ' ') : kv[1]);
+                }
+
+                //Set date for this request to current datetime when request processed. Needed from CDM for order of events.
+                obj.date = new Date().getTime();
+
+                return obj;
+            };
+
+            /**
+             * Function that process piwik requests
+             */
+            var processPiwikRequest = function (e) {
+                if (consentGranted && getConsentReference()) {
+                    var obj = getPiwikQueryParameters(e);
+                    makePiwikRequest(obj);
+                }
+            };
+
+            /**
+             * Initialization of piwik
+             */
             var init = function () {
                 $window._paq = $window._paq || [];
 
@@ -238,8 +317,8 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * Method that is setting current url
-            */
+             * Method that is setting current url
+             */
             var setCustomUrl = function () {
                 if (!!$window._paq) {
                     $window._paq.push(['setCustomUrl', $window.document.URL]);
@@ -247,8 +326,8 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * User viewed product
-            */
+             * User viewed product
+             */
             var setProductViewed = function (sku, name, category, price) {
                 if (!!$window._paq) {
                     //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
@@ -268,8 +347,8 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * User viewed category
-            */
+             * User viewed category
+             */
             var setCategoryViewed = function (categoryPage) {
                 if (!!$window._paq) {
                     //Wait current digest loop to finish, and then when the page is changed update values to PIWIK
@@ -288,31 +367,31 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * User searched event
-            */
-            //Category missing? There is no way to set SearchEvent and SearchNoResultsEvent as action_view
+             * User searched event
+             */
+                //Category missing? There is no way to set SearchEvent and SearchNoResultsEvent as action_view
             var searchEvent = function (searchTerm, numberOfResults) {
-                if (!!$window._paq) {
-                    if (numberOfResults > 0) {
-                        $window._paq.push(['trackSiteSearch',
-                            searchTerm,
-                            false, //This is search category selected in our search. At the moment we dont have this
-                            numberOfResults
-                        ]);
+                    if (!!$window._paq) {
+                        if (numberOfResults > 0) {
+                            $window._paq.push(['trackSiteSearch',
+                                searchTerm,
+                                false, //This is search category selected in our search. At the moment we dont have this
+                                numberOfResults
+                            ]);
+                        }
+                        else {
+                            $window._paq.push(['trackSiteSearch',
+                                searchTerm,
+                                false, //This is search category selected in our search. At the moment we dont have this
+                                0
+                            ]);
+                        }
                     }
-                    else {
-                        $window._paq.push(['trackSiteSearch',
-                            searchTerm,
-                            false, //This is search category selected in our search. At the moment we dont have this
-                            0
-                        ]);
-                    }
-                }
-            };
+                };
 
             /**
-            * User clicked on element with class  banner
-            */
+             * User clicked on element with class  banner
+             */
             var bannerClick = function (bannerId, url) {
                 if (!!$window._paq) {
                     $timeout(function () {
@@ -323,9 +402,29 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            var getCartId = function (cart) {
+                return !!cart.id ? cart.id : '';
+            };
+
+
             /**
-            * User updated cart
-            */
+             * Function for adding item to cart
+             */
+            var addEcommerceItem = function (id, name, categoryName, unitPrice, amount) {
+                if (!!$window._paq) {
+                    $window._paq.push(['addEcommerceItem',
+                        id, // (required) SKU: Product unique identifier
+                        name, // (optional) Product name
+                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
+                        unitPrice, // (recommended) Product price
+                        amount // (optional, default to 1) Product quantity
+                    ]);
+                }
+            };
+
+            /**
+             * User updated cart
+             */
             var cartUpdated = function (cart) {
                 var i = 0;
                 //Check if there is some item that is removed in new cart??
@@ -373,24 +472,10 @@ angular.module('ds.ytracking', [])
                 internalCart = cart;
             };
 
-            /**
-            * Function for adding item to cart
-            */
-            var addEcommerceItem = function (id, name, categoryName, unitPrice, amount) {
-                if (!!$window._paq) {
-                    $window._paq.push(['addEcommerceItem',
-                        id, // (required) SKU: Product unique identifier
-                        name, // (optional) Product name
-                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
-                        unitPrice, // (recommended) Product price
-                        amount // (optional, default to 1) Product quantity
-                    ]);
-                }
-            };
 
             /**
-            * User opened checkout page
-            */
+             * User opened checkout page
+             */
             var proceedToCheckout = function (cart) {
                 if (!!$window._paq) {
                     $timeout(function () {
@@ -404,8 +489,8 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * User created order
-            */
+             * User created order
+             */
             var orderPlaced = function (orderId, orderGrandTotal, orderSubTotal, taxAmount, shippingAmount, isDiscountOffered) {
                 if (!!$window._paq) {
                     $window._paq.push(['trackEcommerceOrder',
@@ -420,16 +505,12 @@ angular.module('ds.ytracking', [])
             };
 
             /**
-            * User created order
-            */
+             * User created order
+             */
             var customerLogIn = function () {
                 if (!!$window._paq) {
                     $window._paq.push(['trackPageView', 'CustomerLogin']);
                 }
-            };
- 
-            var getCartId = function(cart) {
-                return !!cart.id ? cart.id : '';
             };
 
             return {
@@ -443,6 +524,8 @@ angular.module('ds.ytracking', [])
                 searchEvent: searchEvent,
                 bannerClick: bannerClick,
                 proceedToCheckout: proceedToCheckout,
-                customerLogIn: customerLogIn
+                customerLogIn: customerLogIn,
+                grantConsent: grantConsent,
+                isGranted: isGranted
             };
         }]);

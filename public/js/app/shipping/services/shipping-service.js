@@ -32,7 +32,7 @@ angular.module('ds.checkout')
             };
 
             var getSiteShippingZones = function () {
-                return $q.resolve([])
+                return $q.resolve([]);
             };
 
             var getMinimumShippingCost = function (costs) {

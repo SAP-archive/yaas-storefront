@@ -105,7 +105,7 @@ angular.module('ds.shared')
                         loadConfiguration(GlobalData.store.tenant).then(function () {
 
                             var siteSettingPromise = $http.get('sites.json').then(function (response) {
-                                return response.data[0]
+                                return response.data[0];
                             });
                             siteSettingPromise.then(function (site) {
 
