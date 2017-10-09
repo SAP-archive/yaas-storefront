@@ -35,14 +35,14 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartProjectId*/ 'storksfront' /*EndProjectId*/;
+                tenantId = /*StartProjectId*/ '' /*EndProjectId*/;
             }
             return tenantId;
         },
 
         clientId: function() {
             // Dynamic ClientId is configured and replaced by build script, see gruntfile.
-            return /*StartClientId*/ 'FACLIjPaW5IrMLyqVJ5XybBweHV9B6jx' /*EndClientId*/;
+            return /*StartClientId*/ '' /*EndClientId*/;
         },
 
         redirectURI: function() {
@@ -51,10 +51,10 @@ angular.module('ds.appconfig', [])
         },
 
         builderURL: function () {
-            return  /*StartBuilderUrl*/ 'https://builder.stage.yaas.io/' /*EndBuilderUrl*/;
+            return  /*StartBuilderUrl*/ '' /*EndBuilderUrl*/;
         },
 
         consentManagerURL: function () {
-            return  /*StartConsentManagerUrl*/ 'https://profile-manager.us-east.stage.modules.yaas.io/' /*EndConsentManagerUrl*/;
+            return  /*StartConsentManagerUrl*/ '' /*EndConsentManagerUrl*/;
         }
     });
