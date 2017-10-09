@@ -23,7 +23,7 @@ angular.module('ds.appconfig', [])
 
         dynamicDomain: function(){
             // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            return /*StartDynamicDomain*/ 'api.stage.yaas.io' /*EndDynamicDomain*/;
+            return /*StartDynamicDomain*/ '' /*EndDynamicDomain*/;
         },
 
         storeTenant: function(){
