@@ -18,12 +18,25 @@ module.exports = function (grunt) {
 
     var host = process.env.VCAP_APP_HOST || process.env.HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || process.env.PORT || 9000; //process.env.VCAP_APP_PORT is deprecated
+    
+    var ALLOWED_REGIONS = ['eu', 'us'],
+        REGION_INVALID_MSG = 'Selected region is not valid. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']';
+
+    var getRegion = function () {
+        var region = grunt.option('region');
+        if (region && ALLOWED_REGIONS.indexOf(region) < 0) {
+            grunt.warn(REGION_INVALID_MSG);
+            return 'US';
+        }
+        return grunt.option('region') ? grunt.option('region').toUpperCase() : 'US';
+    };
+
 
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
         TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
-
+        
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
@@ -32,7 +45,7 @@ module.exports = function (grunt) {
         CLIENT_ID = ENV_ID === 'STAGE' ? 'FACLIjPaW5IrMLyqVJ5XybBweHV9B6jx' : 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
         REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
         USE_HTTPS = grunt.option('https') || false,
-        REGION_CODE = grunt.option('region') ? grunt.option('region').toUpperCase() : '',
+        REGION_CODE = getRegion(),
 
         SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
@@ -42,22 +55,21 @@ module.exports = function (grunt) {
         TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json';
 
     var getBuilderUrl = function () {
-        if(ENV_ID === 'STAGE'){
+        if (ENV_ID === 'STAGE') {
             return 'https://builder.stage.yaas.io';
         }
         return 'https://builder.yaas.io';
     };
 
     var getServicesBaseUrl = function () {
-        if(ENV_ID === 'STAGE'){
+        if (ENV_ID === 'STAGE') {
             return 'api.stage.yaas.io';
         }
-        if(REGION_CODE === 'EU') {
+        if (REGION_CODE === 'EU') {
             return 'api.eu.yaas.io';
         }
         return 'api.yaas.io';
     };
-
 
 
     var getPiwikUrl = function () {
@@ -66,10 +78,10 @@ module.exports = function (grunt) {
     };
 
     var getCustomerConsentManagerUrl = function () {
-        if(ENV_ID === 'STAGE'){
+        if (ENV_ID === 'STAGE') {
             return 'https://profile-manager.us-east.stage.modules.yaas.io';
         }
-        if(REGION_CODE === 'EU'){
+        if (REGION_CODE === 'EU') {
             return 'https://profile-manager.eu-central.modules.yaas.io';
         }
         return 'https://profile-manager.us-east.modules.yaas.io';
@@ -191,7 +203,7 @@ module.exports = function (grunt) {
                     },
                     {
                         from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
-                        to: 'StartConsentManagerUrl*/ \'' +  getCustomerConsentManagerUrl() + '/\' /*EndConsentManagerUrl'
+                        to: 'StartConsentManagerUrl*/ \'' + getCustomerConsentManagerUrl() + '/\' /*EndConsentManagerUrl'
                     },
                     {
                         from: /StartPiwikUrl(.*)EndPiwikUrl/g,
