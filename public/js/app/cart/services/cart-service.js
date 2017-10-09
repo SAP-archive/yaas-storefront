@@ -52,7 +52,7 @@ angular.module('ds.cart')
              * (Will create a new cart if the current cart hasn't been persisted yet).
              */
             function getOrCreateCart() {
-                return $q.resolve(cart)
+                return $q.resolve(cart);
             }
 
 
@@ -68,24 +68,14 @@ angular.module('ds.cart')
                 return $q.resolve(cart);
             }
 
-            function mergeAnonymousCartIntoCurrent(anonCart) {
-                var deferred = $q.defer();
-                cart.items = cart.items.concat(anonCart.items);
-                $rootScope.$emit('cart:updated', {cart: cart});
-
-                return deferred.promise;
-            }
-
             /** Creates a new Cart Item.  If the cart hasn't been persisted yet, the
              * cart is created first.
              */
-            function createCartItem(product, prices, qty, config) {
+            function createCartItem(product, prices, qty) {
                 //product.yrn
-                var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
-                var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
 
                 var createItemDef = $q.defer();
-                getOrCreateCart().then(function (cartResult) {
+                getOrCreateCart().then(function () {
 
                     var price = {
                         'priceId': prices[0].priceId,
@@ -103,9 +93,7 @@ angular.module('ds.cart')
                     var item = new Item(product, price, qty);
 
                     cart.items.push(item);
-
-                    //refreshCart(cart.id, cartUpdateMode, closeCartAfterTimeout);
-                    createItemDef.resolve()
+                    createItemDef.resolve();
 
                 }, function () {
                     createItemDef.reject();
@@ -120,20 +108,6 @@ angular.module('ds.cart')
                         return item;
                     }
                 });
-            }
-
-            function getIdFromItemYrn(itemYrn) {
-                if (_.contains(itemYrn, 'product:product')) {
-                    return itemYrn.split(';')[1];
-                } else if (_.contains(itemYrn, 'product:product-variant')) {
-                    return itemYrn.split(';')[2];
-                }
-            }
-
-            function getProductIdsFromCart(items) {
-                return _.map(items, function (item) {
-                    return item.itemYrn ? getIdFromItemYrn(item.itemYrn) : '';
-                }).join(',');
             }
 
             function reformatCartItems(cart) {
@@ -212,12 +186,10 @@ angular.module('ds.cart')
                         // create new cart for customer so anon cart can be merged into it
 
                         _.extend(cart, {
-                            customerId: customerId,
                             currency: GlobalData.getCurrencyId(),
                             siteCode: GlobalData.getSiteCode(),
                             channel: GlobalData.getChannel()
                         });
-                        ;
                     } else { // anonymous cart was never created
                         cart.currency = GlobalData.getCurrencyId();
                         cart.siteCode = GlobalData.getSiteCode();
@@ -231,15 +203,9 @@ angular.module('ds.cart')
                 /** Persists the cart instance via PUT request (if qty > 0). Then, reloads that cart
                  * from the API for consistency and in order to display the updated calculations (line item totals, etc).
                  * @return promise to signal success/failure*/
-                updateCartItemQty: function (item, qty, config) {
-                    var closeCartAfterTimeout = (!_.isUndefined(config.closeCartAfterTimeout)) ? config.closeCartAfterTimeout : undefined;
-                    var cartUpdateMode = (!config.opencartAfterEdit) ? 'auto' : 'manual';
+                updateCartItemQty: function (item, qty) {
                     var updateDef = $q.defer();
                     if (qty > 0) {
-                        //this is a partial update, so only quantity data is needed
-                        var cartItem = {
-                            quantity: qty
-                        };
                         refreshCart(cart.id, 'manual');
                         updateDef.resolve();
                     }
@@ -291,16 +257,16 @@ angular.module('ds.cart')
                     }
                 },
 
-                redeemCoupon: function (coupon, cartId) {
+                redeemCoupon: function (coupon) {
                     coupon = parseCoupon(coupon);
                     refreshCart(cart.id, 'manual');
                 },
 
-                removeAllCoupons: function (cartId) {
+                removeAllCoupons: function () {
                     refreshCart(cart.id, 'manual');
                 },
 
-                removeCoupon: function (cartId, couponId) {
+                removeCoupon: function () {
                     refreshCart(cart.id, 'manual');
                 },
 
@@ -315,7 +281,7 @@ angular.module('ds.cart')
                     return {taxCalculationApplied: false};
                 },
 
-                setCalculateTax: function (zipCode, countryCode, cartId) {
+                setCalculateTax: function () {
                     refreshCart(cart.id, 'manual');
                 },
 
@@ -354,7 +320,7 @@ angular.module('ds.cart')
                             zoneId: shippingCostObject.zoneId
                         };
                     }
-                    return $q.resolve(data)
+                    return $q.resolve(data);
                 }
 
             };

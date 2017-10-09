@@ -161,7 +161,7 @@ angular.module('ds.products')
 
             function filterPricesForVariant(variantId) {
                 return variantPrices.filter(function (price) {
-                    var foundVariantId = price.itemYrn.split(';').pop();
+                    var foundVariantId = price.yrn.split(';').pop();
                     return variantId === foundVariantId;
                 });
             }

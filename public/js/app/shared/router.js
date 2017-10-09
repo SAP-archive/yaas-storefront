@@ -145,14 +145,14 @@ angular.module('ds.router', [])
                         }],
                         
                         variants: ['$stateParams', 'initialized', 'ProductSvc', 'SiteConfigSvc',
-                            function ($stateParams, initialized, ProductSvc, SiteConfigSvc) {
+                            function ($stateParams, initialized, ProductSvc) {
                                 if (initialized) {
                                     return ProductSvc.getProductVariants($stateParams);
                                 }
                             }],
 
                         variantPrices: ['$stateParams', 'initialized', 'PriceSvc', 'SiteConfigSvc', 'GlobalData',
-                            function ($stateParams, initialized, PriceSvc, SiteConfigSvc, GlobalData) {
+                            function ($stateParams, initialized, PriceSvc) {
                                 if (initialized) {
                                     return PriceSvc.getPrices($stateParams);
                                 }

@@ -30,57 +30,55 @@ angular.module('ds.ytracking', [])
                     }
                     return response;
                 }
-            }
+            };
         });
     })
     .directive('ytrackingCookieNotice', ['ytrackingSvc', '$window', '$timeout', function (ytrackingSvc, $window, $timeout) {
         return {
             restrict: 'E',
             scope: {},
-            link: function (scope, elem, attrs) {
+            link: function (scope) {
 
                 function grant() {
                     ytrackingSvc.grantConsent();
                     $timeout(function () {
                         scope.$apply();
-                    })
+                    });
                 }
 
                 function revoke() {
                     ytrackingSvc.revoke();
                     $timeout(function () {
                         scope.$apply();
-                    })
+                    });
                 }
 
                 window.cookieconsent.initialise({
                     palette: {
-                        "popup": {
-                            "background": "#000"
+                        popup: {
+                            background: '#000'
                         },
-                        "button": {
-                            "background": "#f1d600"
+                        button: {
+                            background: '#f1d600'
                         }
                     },
                     compliance: {
-                        'opt-in': '<div class="cc-compliance cc-highlight">{{allow}}</div>',
-
+                        'opt-in': '<div class="cc-compliance cc-highlight">{{allow}}</div>'
                     },
                     elements: {
-                        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>',
+                        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>'
                     },
-                    type: "opt-in",
+                    type: 'opt-in',
                     revokable: false,
                     revokeBtn: '<div style="display:none"></div>',
                     animateRevokable: false,
-                    onInitialise: function (status) {
+                    onInitialise: function () {
                         var didConsent = this.hasConsented();
                         if (didConsent) {
                             grant();
                         }
                     },
-                    onStatusChange: function (status, chosenBefore) {
-                        var type = this.options.type;
+                    onStatusChange: function () {
                         var didConsent = this.hasConsented();
                         if (didConsent) {
                             grant();
@@ -92,7 +90,7 @@ angular.module('ds.ytracking', [])
                 });
 
             }
-        }
+        };
     }])
     .directive('ytracking', ['ytrackingSvc', '$rootScope', '$document',
         function (ytrackingSvc, $rootScope, $document) {
@@ -189,34 +187,6 @@ angular.module('ds.ytracking', [])
             var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/v1/' + tenantId + '/consentReferences';
 
 
-            var grantConsent = function () {
-                var tenYears = 3600 * 24 * 365 * 10;
-                makeOptInRequest().success(function (response) {
-                    if (!!response.id) {
-                        CookieSvc.setConsentReferenceCookie(response.id, tenYears);
-                        CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken, tenYears);
-                    }
-                    consentGranted = true;
-                });
-            };
-
-            var isGranted = function () {
-                return consentGranted;
-            };
-
-            var revoke = function () {
-                consentGranted = false;
-            };
-
-            var getConsentReference = function () {
-                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
-                if (!!consentReferenceCookie) {
-                    return consentReferenceCookie;
-                } else {
-                    return '';
-                }
-            };
-
             // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
             // events. When done in ConfigSvc then the code should probably also detect if ytracking is enabled before attmepting
             // to fetch the consent-reference.
@@ -233,31 +203,12 @@ angular.module('ds.ytracking', [])
                 return $http(req);
             };
 
-            /**
-             * Create object from piwik GET request
-             */
-            var getPiwikQueryParameters = function (hash) {
-                var split = hash.split('&');
-
-                var obj = {};
-                for (var i = 0; i < split.length; i++) {
-                    var kv = split[i].split('=');
-                    obj[kv[0]] = decodeURIComponent(kv[1] ? kv[1].replace(/\+/g, ' ') : kv[1]);
-                }
-
-                //Set date for this request to current datetime when request processed. Needed from CDM for order of events.
-                obj.date = new Date().getTime();
-
-                return obj;
-            };
-
-            /**
-             * Function that process piwik requests
-             */
-            var processPiwikRequest = function (e) {
-                if (consentGranted && getConsentReference()) {
-                    var obj = getPiwikQueryParameters(e);
-                    makePiwikRequest(obj);
+            var getConsentReference = function () {
+                var consentReferenceCookie = CookieSvc.getConsentReferenceCookie();
+                if (!!consentReferenceCookie) {
+                    return consentReferenceCookie;
+                } else {
+                    return '';
                 }
             };
 
@@ -294,6 +245,50 @@ angular.module('ds.ytracking', [])
                     localStorage.addItemToArray(yTrackingLocalStorageKey, obj);
                 });
 
+            };
+
+            var grantConsent = function () {
+                var tenYears = 3600 * 24 * 365 * 10;
+                makeOptInRequest().success(function (response) {
+                    if (!!response.id) {
+                        CookieSvc.setConsentReferenceCookie(response.id, tenYears);
+                        CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken, tenYears);
+                    }
+                    consentGranted = true;
+                });
+            };
+
+            var isGranted = function () {
+                return consentGranted;
+            };
+
+
+            /**
+             * Create object from piwik GET request
+             */
+            var getPiwikQueryParameters = function (hash) {
+                var split = hash.split('&');
+
+                var obj = {};
+                for (var i = 0; i < split.length; i++) {
+                    var kv = split[i].split('=');
+                    obj[kv[0]] = decodeURIComponent(kv[1] ? kv[1].replace(/\+/g, ' ') : kv[1]);
+                }
+
+                //Set date for this request to current datetime when request processed. Needed from CDM for order of events.
+                obj.date = new Date().getTime();
+
+                return obj;
+            };
+
+            /**
+             * Function that process piwik requests
+             */
+            var processPiwikRequest = function (e) {
+                if (consentGranted && getConsentReference()) {
+                    var obj = getPiwikQueryParameters(e);
+                    makePiwikRequest(obj);
+                }
             };
 
             /**
@@ -407,6 +402,26 @@ angular.module('ds.ytracking', [])
                 }
             };
 
+            var getCartId = function (cart) {
+                return !!cart.id ? cart.id : '';
+            };
+
+
+            /**
+             * Function for adding item to cart
+             */
+            var addEcommerceItem = function (id, name, categoryName, unitPrice, amount) {
+                if (!!$window._paq) {
+                    $window._paq.push(['addEcommerceItem',
+                        id, // (required) SKU: Product unique identifier
+                        name, // (optional) Product name
+                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
+                        unitPrice, // (recommended) Product price
+                        amount // (optional, default to 1) Product quantity
+                    ]);
+                }
+            };
+
             /**
              * User updated cart
              */
@@ -457,20 +472,6 @@ angular.module('ds.ytracking', [])
                 internalCart = cart;
             };
 
-            /**
-             * Function for adding item to cart
-             */
-            var addEcommerceItem = function (id, name, categoryName, unitPrice, amount) {
-                if (!!$window._paq) {
-                    $window._paq.push(['addEcommerceItem',
-                        id, // (required) SKU: Product unique identifier
-                        name, // (optional) Product name
-                        categoryName, // (optional) Product category. You can also specify an array of up to 5 categories eg. ["Books", "New releases", "Biography"]
-                        unitPrice, // (recommended) Product price
-                        amount // (optional, default to 1) Product quantity
-                    ]);
-                }
-            };
 
             /**
              * User opened checkout page
@@ -510,10 +511,6 @@ angular.module('ds.ytracking', [])
                 if (!!$window._paq) {
                     $window._paq.push(['trackPageView', 'CustomerLogin']);
                 }
-            };
-
-            var getCartId = function (cart) {
-                return !!cart.id ? cart.id : '';
             };
 
             return {

@@ -19,13 +19,12 @@ angular.module('ds.yprofile', [])
             scope: {},
             templateUrl: 'js/app/shared/templates/profile-toolbox.html',
             link: function (scope) {
-                var apiPath = appConfig.dynamicDomain();
                 var tenantId = appConfig.storeTenant();
                 var builderPath = appConfig.builderURL();
                 var consentUrl = appConfig.consentManagerURL();
 
                 scope.$on('tracing:response', function (event, contextTraceId) {
-                    var tracingIdUrlPart = encodeURIComponent(JSON.stringify({"contextTraceId": contextTraceId}));
+                    var tracingIdUrlPart = encodeURIComponent(JSON.stringify({'contextTraceId': contextTraceId}));
 
                     var params = $.param({
                         project: tenantId,
@@ -63,7 +62,7 @@ angular.module('ds.yprofile', [])
                     });
                     var href = builderPath + '#?' + params;
                     return href;
-                }
+                };
 
             }
         };
@@ -72,8 +71,6 @@ angular.module('ds.yprofile', [])
         return {
             restrict: 'E',
             templateUrl: 'js/app/shared/templates/profile-header.html',
-            scope: {},
-            link: function (scope, elem, attrs) {
-            }
-        }
+            scope: {}
+        };
     }]);
