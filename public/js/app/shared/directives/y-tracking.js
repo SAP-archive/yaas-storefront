@@ -190,10 +190,11 @@ angular.module('ds.ytracking', [])
 
 
             var grantConsent = function () {
+                var tenYears = 3600 * 24 * 365 * 10;
                 makeOptInRequest().success(function (response) {
                     if (!!response.id) {
-                        CookieSvc.setConsentReferenceCookie(response.id);
-                        CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken);
+                        CookieSvc.setConsentReferenceCookie(response.id, tenYears);
+                        CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken, tenYears);
                     }
                     consentGranted = true;
                 });
@@ -254,15 +255,8 @@ angular.module('ds.ytracking', [])
              * Function that process piwik requests
              */
             var processPiwikRequest = function (e) {
-                if (!consentGranted) {
-                    return;
-                }
-
-                //Get object from query parameters
-                var obj = getPiwikQueryParameters(e);
-
-                if (getConsentReference()) {
-                    //Make post request to service
+                if (consentGranted && getConsentReference()) {
+                    var obj = getPiwikQueryParameters(e);
                     makePiwikRequest(obj);
                 }
             };

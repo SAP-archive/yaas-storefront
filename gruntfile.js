@@ -30,11 +30,12 @@ module.exports = function (grunt) {
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
+        ENV_ID = grunt.option('env') ? grunt.option('env').toUpperCase() : 'PROD',
         PROJECT_ID = grunt.option('pid'),
-        CLIENT_ID = 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
+        CLIENT_ID = ENV_ID === 'STAGE' ? 'FACLIjPaW5IrMLyqVJ5XybBweHV9B6jx' : 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
         REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
         USE_HTTPS = grunt.option('https') || false,
-        REGION_CODE = grunt.option('region') || '',
+        REGION_CODE = grunt.option('region') ? grunt.option('region').toUpperCase() : '',
 
         SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
@@ -46,35 +47,38 @@ module.exports = function (grunt) {
         TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json',
         DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:prod [:stage] to specify.';
 
-    var getProdBaseUrl = function getProdBaseUrl(regionCode) {
-        if (!!regionCode && ALLOWED_REGIONS.indexOf(regionCode) < 0) {
-            grunt.option('force', true);
-            grunt.warn(REGION_INVALID_MSG);
-            regionCode = '';
+    var getBuilderUrl = function () {
+        if(ENV_ID === 'STAGE'){
+            return 'https://builder.stage.yaas.io'
         }
-
-        if (!!regionCode) {
-            return PROD_DOMAIN.replace('{0}', '.' + regionCode);
-        }
-        else {
-            return PROD_DOMAIN.replace('{0}', '');
-        }
+        return 'https://builder.yaas.io';
     };
 
-    var getPiwikUrl = function (env, regionCode) {
-        if (env === 'PROD') {
-            return 'https://' + getProdBaseUrl(regionCode) + '/hybris/profile-edge/v1' + '/events';
+    var getServicesBaseUrl = function () {
+        if(ENV_ID === 'STAGE'){
+            return 'api.stage.yaas.io'
         }
-        else if (env === 'STAGE') {
-            return 'https://' + STAGE_DOMAIN + '/hybris/profile-edge/v1' + '/events';
+        if(REGION_CODE === 'EU') {
+            return 'api.eu.yaas.io'
         }
+        return 'api.yaas.io';
     };
 
-    var getCustomerConsentManagerUrl = function (regionCode) {
-        if(regionCode.toUpperCase === 'EU'){
-            return 'https://customer-manager.eu-central.stage.modules.yaas.io'
+
+
+    var getPiwikUrl = function () {
+        var serviceUrl = getServicesBaseUrl();
+        return serviceUrl + '/hybris/profile-edge/v1' + '/events';
+    };
+
+    var getCustomerConsentManagerUrl = function () {
+        if(ENV_ID === 'STAGE'){
+            return 'https://profile-manager.us-east.stage.modules.yaas.io'
         }
-        return 'https://customer-manager.us-east.modules.yaas.io'
+        if(REGION_CODE === 'EU'){
+            return 'https://profile-manager.eu-central.modules.yaas.io'
+        }
+        return 'https://profile-manager.us-east.modules.yaas.io'
     };
 
     require('load-grunt-tasks')(grunt);
@@ -185,19 +189,19 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [{
                     from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + getProdBaseUrl(REGION_CODE) + '\' /*EndDynamicDomain'
+                    to: 'StartDynamicDomain*/ \'' + getServicesBaseUrl() + '\' /*EndDynamicDomain'
                 },
                     {
                         from: /StartBuilderUrl(.*)EndBuilderUrl/g,
-                        to: 'StartBuilderUrl*/ \'' + 'https://' + PROD_DOMAIN.replace('api', 'builder').replace('{0}', '') + '/\' /*EndBuilderUrl'
+                        to: 'StartBuilderUrl*/ \'' + getBuilderUrl() + '/\' /*EndBuilderUrl'
                     },
                     {
                         from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
-                        to: 'StartConsentManagerUrl*/ \'' +  getCustomerConsentManagerUrl(REGION_CODE) + '/\' /*EndConsentManagerUrl'
+                        to: 'StartConsentManagerUrl*/ \'' +  getCustomerConsentManagerUrl() + '/\' /*EndConsentManagerUrl'
                     },
                     {
                         from: /StartPiwikUrl(.*)EndPiwikUrl/g,
-                        to: 'StartPiwikUrl*/ \'' + getPiwikUrl('PROD', REGION_CODE) + '\' /*EndPiwikUrl'
+                        to: 'StartPiwikUrl*/ \'' + getPiwikUrl() + '\' /*EndPiwikUrl'
                     }]
             },
             projectId: {
