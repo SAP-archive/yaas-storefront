@@ -22,7 +22,7 @@ npm start -- --pid=<tenant> --region=eu
  
 If your tenant is placed on the STAGE environment, you should start the app with:
 ```
-npm start -- --pid=<tenant> --region=stage 
+npm start -- --pid=<tenant> --env=stage 
  ```
 
 ## Using
