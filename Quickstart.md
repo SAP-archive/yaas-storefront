@@ -1,5 +1,5 @@
 # Profile Quick Start Guide
-## Step 1: Create and configure a YaaS account'
+## Step 1: Create and configure a YaaS account
 
 This section explains how to create a YaaS account, an organization, and a project.
 
