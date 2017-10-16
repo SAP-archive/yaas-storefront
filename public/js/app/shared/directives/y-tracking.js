@@ -169,8 +169,9 @@ angular.module('ds.ytracking', [])
     .factory('ytrackingSvc', ['yTrackingLocalStorageKey', '$http', 'localStorage', '$window', '$timeout', 'GlobalData', 'settings', 'appConfig', 'CookieSvc',
         function (yTrackingLocalStorageKey, $http, localStorage, $window, $timeout, GlobalData, settings, appConfig, CookieSvc) {
 
-
-            var consentGranted = !!CookieSvc.getConsentReferenceCookie() && !!CookieSvc.getConsentReferenceTokenCookie();
+            var isGranted = function () {
+                return !!CookieSvc.getConsentReferenceCookie() && !!CookieSvc.getConsentReferenceTokenCookie();
+            };
 
             var internalCart = {};
 
@@ -185,6 +186,7 @@ angular.module('ds.ytracking', [])
 
             var piwikUrl = 'https://' + apiPath + '/hybris/profile-edge/v1' + '/events';
             var consentUrl = 'https://' + apiPath + '/hybris/profile-consent/v1/' + tenantId + '/consentReferences';
+
 
 
             // We could do this in ConfigSvc. This way, consent-reference will be fetched before piwik starts tracking and sending
@@ -248,20 +250,17 @@ angular.module('ds.ytracking', [])
             };
 
             var grantConsent = function () {
+                if (isGranted()) {
+                    return;
+                }
                 var tenYears = 3600 * 24 * 365 * 10;
                 makeOptInRequest().success(function (response) {
                     if (!!response.id) {
                         CookieSvc.setConsentReferenceCookie(response.id, tenYears);
                         CookieSvc.setConsentReferenceTokenCookie(response.consentReferenceToken, tenYears);
                     }
-                    consentGranted = true;
                 });
             };
-
-            var isGranted = function () {
-                return consentGranted;
-            };
-
 
             /**
              * Create object from piwik GET request
@@ -285,7 +284,7 @@ angular.module('ds.ytracking', [])
              * Function that process piwik requests
              */
             var processPiwikRequest = function (e) {
-                if (consentGranted && getConsentReference()) {
+                if (isGranted() && getConsentReference()) {
                     var obj = getPiwikQueryParameters(e);
                     makePiwikRequest(obj);
                 }

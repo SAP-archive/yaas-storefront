@@ -36,11 +36,7 @@ angular.module('ds.yprofile', [])
                     console.log('Last event contextTraceId:', contextTraceId, 'url:', href);
                 });
 
-                scope.isGranted = function () {
-                    return ytrackingSvc.isGranted();
-                };
-
-                scope.goToConsentUI = function () {
+                function getCustomerConsentManagementServiceParams() {
                     var consentReference = CookieSvc.getConsentReferenceCookie();
                     var consentReferenceToken = CookieSvc.getConsentReferenceTokenCookie();
 
@@ -49,8 +45,26 @@ angular.module('ds.yprofile', [])
                         cr: consentReference,
                         t: tenantId
                     });
+                    return params;
+                }
+
+
+                scope.isGranted = function () {
+                    return ytrackingSvc.isGranted();
+                };
+
+                scope.goToConsentUI = function () {
+                    var params = getCustomerConsentManagementServiceParams();
 
                     var url = consentUrl + '?' + params;
+                    var win = window.open(url, '_blank');
+                    win.focus();
+                };
+
+                scope.goToVisualizationUI = function () {
+                    var params = getCustomerConsentManagementServiceParams();
+
+                    var url = consentUrl + '/profile?' + params;
                     var win = window.open(url, '_blank');
                     win.focus();
                 };
@@ -63,7 +77,6 @@ angular.module('ds.yprofile', [])
                     var href = builderPath + '#?' + params;
                     return href;
                 };
-
             }
         };
     }])
