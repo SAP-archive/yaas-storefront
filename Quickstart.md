@@ -74,9 +74,9 @@ After executing these commands, open the storefront in your browser by clicking 
 
 Now that the simplified storefront is installed locally on your machine and ready to use, you can send events to SAP Hybris Profile just by clicking on the storefront.
 
-> The simplified storefront supports two event types only: `PageViewEvent` and `ProductDetailPageViewEvent`.
+> The simplified storefront supports three event types only: `PageViewEvent`, `ProductDetailPageViewEvent` and `CategoryPageViewEvent`.
 
-Interactions with the storefront create events. Open or refresh the storefront website to create a `PageViewEvent`, or click on the product of your choice to create a `ProductDetailPageViewEvent`. The enrichers contained within the **Profile Services for Commerce** package that your tenant is subscribed to react to these events, and introduce changes to the graph, for example by creating nodes or relationships.
+Interactions with the storefront create events. Click on the product of your choice to create a `ProductDetailPageViewEvent`, click on the youtube video linkt to send a `PageViewEvent`, or switch the category to send a `CategoryPageViewEvent`. The enrichers contained within the **Profile Services for Commerce** package that your tenant is subscribed to react to these events, and introduce changes to the graph, for example by creating nodes or relationships.
 
 
 ## Step 5: Track events
@@ -85,7 +85,7 @@ You can track the events sent from the storefront to SAP Hybris Profile in the T
 
 > In the simplified storefront version, tracing is enabled by default. Therefore, no action from you is required to activate event tracking.
 
-To navigate to the Trace Explorer, click a **contextTraceId** link that appears at the top of the screen each time the storefront sends an event to SAP Hybris Profile.
+To navigate to the Trace Explorer, click a **contextTraceId** link that appears in the SAP Hybris Profile Toolbox each time the storefront sends an event to SAP Hybris Profile.
 
 ## Step 6: View the graph changes in the Graph Explorer
 

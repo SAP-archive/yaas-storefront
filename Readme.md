@@ -26,4 +26,10 @@ npm start -- --pid=<tenant> --env=stage
  ```
 
 ## Using
-Tracing debug bar should show a link to the Tracing UI. Click a product to create a "Product View" event, and get the new link. The generated links are also visible in the browser developer console.
+SAP Hybris Profile Toolbox should show links to the:
+- Consent UI
+- Profile Visualization UI
+- Profile Explorer
+- Tracing Explorer
+
+Events are send when you view the product, select category, or visit the youtube video in the "You ma also like" section. 
