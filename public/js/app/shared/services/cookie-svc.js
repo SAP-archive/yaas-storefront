@@ -33,21 +33,7 @@ angular.module('ds.shared')
                 return this.site;
             };
         };
-
-        var ConsentReferenceCookie = function(consentReference) {
-            this.consentReference = consentReference;
-            this.getConsentReference = function () {
-                return this.consentReference;
-            };
-        };
-
-        var ConsentReferenceTokenCookie = function(consentReferenceToken) {
-            this.consentReferenceToken = consentReferenceToken;
-            this.getConsentReferenceToken = function () {
-                return this.consentReferenceToken;
-            };
-        };
-
+        
         var CookieSvc = {
 
             setLanguageCookie: function (languageCode, expiresIn) {
@@ -75,34 +61,10 @@ angular.module('ds.shared')
                 return siteCookie;
             },
 
-            setConsentReferenceCookie: function(consentReference, expiresIn) {
-                ipCookie.remove(settings.consentReferenceCookie);
-                var consentReferenceCookie = new ConsentReferenceCookie(consentReference);
-                ipCookie(settings.consentReferenceCookie, JSON.stringify(consentReferenceCookie), { expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds });
-            },
-
             getConsentReferenceCookie: function() {
                 var consentReferenceCookie = ipCookie(settings.consentReferenceCookie);
-                if (consentReferenceCookie) {
-                    return consentReferenceCookie.consentReference;
-                }
                 return consentReferenceCookie;
-            },
-
-            setConsentReferenceTokenCookie: function (consentReferenceToken, expiresIn) {
-                ipCookie.remove(settings.consentReferenceTokenCookie);
-                var consentReferenceTokenCookie = new ConsentReferenceTokenCookie(consentReferenceToken);
-                ipCookie(settings.consentReferenceTokenCookie, JSON.stringify(consentReferenceTokenCookie), { expirationUnit: 'seconds', expires: expiresIn ? expiresIn : defaultExpirySeconds });
-            },
-
-            getConsentReferenceTokenCookie: function() {
-                var consentReferenceTokenCookie = ipCookie(settings.consentReferenceTokenCookie);
-                if (consentReferenceTokenCookie) {
-                    return consentReferenceTokenCookie.consentReferenceToken;
-                }
-                return consentReferenceTokenCookie;
             }
-
         };
 
         return CookieSvc;

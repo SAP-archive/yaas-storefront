@@ -1,0 +1,190 @@
+{
+  "siteId": "58d28bd24947d5000eb550f5",
+  "siteConsent": "implicit",
+  "pages": [
+    {
+      "pageId": 1,
+      "pageType": "General",
+      "consent": "inherit",
+      "selectedRegexObject": "location.href",
+      "regexValue": ".*\\/products",
+      "mappings": [
+        {
+          "postProcessing": [
+            {
+              "func": "map_get",
+              "params": [
+                "href"
+              ]
+            },
+            {
+              "func": "split",
+              "params": [
+                "/"
+              ]
+            },
+            {
+              "func": "pop",
+              "params": []
+            }
+          ],
+          "type": "js_variable",
+          "selector": "location",
+          "key": "productSku"
+        },
+        {
+          "postProcessing": [],
+          "key": "productName",
+          "selector": "h1.pageTitle",
+          "type": "text"
+        },
+        {
+          "postProcessing": [
+            {
+              "func": "split",
+              "params": [
+                "$"
+              ]
+            },
+            {
+              "func": "pop",
+              "params": []
+            }
+          ],
+          "key": "productPrice",
+          "selector": "#effective-amount",
+          "type": "text"
+        },
+        {
+          "postProcessing": [],
+          "key": "productCategory",
+          "type": "text",
+          "selector": "#product-categories > li > a"
+        },
+        {
+          "postProcessing": [],
+          "selector": ".cc-compliance.cc-highlight",
+          "type": "consent",
+          "key": "cookie"
+        }
+      ]
+    },
+    {
+      "pageId": 2,
+      "pageType": "General",
+      "consent": "inherit",
+      "selectedRegexObject": "location.href",
+      "regexValue": ".*\\/ct\\/\\w+",
+      "mappings": [
+        {
+          "postProcessing": [
+            {
+              "func": "trim",
+              "params": []
+            }
+          ],
+          "key": "productCategory",
+          "selector": "#categoryName",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "pageId": 3,
+      "pageType": "General",
+      "consent": "inherit",
+      "selectedRegexObject": "location.href",
+      "regexValue": ".*/ct/\\?",
+      "mappings": [
+        {
+          "type": "custom_interaction",
+          "interactionDetails": {
+            "domSrc": [
+              {
+                "attributeKey": "name",
+                "selector": "#asset_1 > div > div.productInfoContainer.text-center > div",
+                "attribute": "textContent"
+              },
+              {
+                "attributeKey": "assetUrl",
+                "selector": "#asset_1",
+                "attribute": "href"
+              },
+              {
+                "attributeKey": "assetId",
+                "selector": "#asset_1",
+                "attribute": "data-asset-id"
+              },
+              {
+                "attributeKey": "interest",
+                "selector": "#asset_1",
+                "attribute": "data-interest"
+              },
+              {
+                "attributeKey": "accessType",
+                "selector": "#asset_1",
+                "attribute": "data-access-type"
+              },
+              {
+                "attributeKey": "type",
+                "selector": "#asset_1",
+                "attribute": "data-type"
+              }
+            ],
+            "eventType": "PageViewEvent",
+            "domElement": "#asset_1",
+            "domElementEvent": "click",
+            "schema": "context/commerce/FrontendEntered"
+          }
+        },
+        {
+          "postProcessing": [],
+          "selector": ".cc-compliance.cc-highlight",
+          "type": "consent",
+          "key": "cookie"
+        },
+        {
+          "type": "custom_interaction",
+          "interactionDetails": {
+            "domSrc": [
+              {
+                "attributeKey": "assetUrl",
+                "selector": "#asset_2",
+                "attribute": "href"
+              },
+              {
+                "attributeKey": "assetId",
+                "selector": "#asset_2",
+                "attribute": "data-asset-id"
+              },
+              {
+                "attributeKey": "interest",
+                "selector": "#asset_2",
+                "attribute": "data-interest"
+              },
+              {
+                "attributeKey": "accessType",
+                "selector": "#asset_2",
+                "attribute": "data-access-type"
+              },
+              {
+                "attributeKey": "type",
+                "selector": "#asset_2",
+                "attribute": "data-type"
+              },
+              {
+                "attributeKey": "name",
+                "selector": "#asset_1 > div > div.productInfoContainer.text-center > div",
+                "attribute": "textContent"
+              }
+            ],
+            "domElement": "#asset_2",
+            "eventType": "PageViewEvent",
+            "domElementEvent": "click",
+            "schema": "context/commerce/FrontendEntered"
+          }
+        }
+      ]
+    }
+  ]
+}

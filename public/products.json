@@ -31,7 +31,8 @@
         "inventory" : {
             "inStock" : true
         }
-    }
+    },
+    "category": "light"
 }, {
     "id" : "58108f5c37e7ad001dfe6148",
     "yrn" : "urn:yaas:hybris:product:product:quickstart;58108f5c37e7ad001dfe6148",
@@ -65,7 +66,8 @@
         "inventory" : {
             "inStock" : true
         }
-    }
+    },
+    "category": "dark"
 }, {
     "id" : "58108f9a7b4041001db36ac9",
     "yrn" : "urn:yaas:hybris:product:product:quickstart;58108f9a7b4041001db36ac9",
@@ -99,7 +101,8 @@
         "inventory" : {
             "inStock" : true
         }
-    }
+    },
+    "category": "dark"
 }, {
     "id" : "5810aa84ff10e1001d60b06a",
     "yrn" : "urn:yaas:hybris:product:product:quickstart;5810aa84ff10e1001d60b06a",
@@ -133,5 +136,6 @@
         "inventory" : {
             "inStock" : true
         }
-    }
+    },
+    "category": "light"
 } ]

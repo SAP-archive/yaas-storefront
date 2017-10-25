@@ -39,10 +39,14 @@ angular.module('ds.products')
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             // used by breadcrumb directive
-            $scope.category = product.categories;
             $scope.breadcrumbData = angular.copy($scope.category);
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
+            CategorySvc.getCategories().then(function (categories) {
+                $scope.category = _.findWhere(categories, {slug: product.product.category}).name;
+            });
+
 
             /*
              we need to shorten the tax label if it contains more than 60 characters, and give users the option of
@@ -159,32 +163,8 @@ angular.module('ds.products')
             };
 
 
-            function filterPricesForVariant(variantId) {
-                return variantPrices.filter(function (price) {
-                    var foundVariantId = price.yrn.split(';').pop();
-                    return variantId === foundVariantId;
-                });
-            }
-
-			$scope.onActiveVariantChanged = function (activeVariant) {
-				if (_.isObject(activeVariant)) {
-					var prices = filterPricesForVariant(activeVariant.id);
-					$scope.product = productFactory.fromProductVariant(product.product, activeVariant, prices);
-                    // Update the selected variant
-					$scope.selectedVariant = activeVariant;
-                    // The selected variant was updated by the user, check if this new select variant has a fee bound to it
-                    // As this action is asynchronous, hide the fees in the front-end first
-                    $scope.productFees = [];
-                    FeeSvc.getFeesForItemYrn($scope.selectedVariant.yrn)
-                        .then(function(productFees) {
-                            $scope.productFees = productFees;
-                        })
-                        .catch(function() {
-                            $scope.productFees = [];
-                        });
-				} else {
-					$scope.product = productFactory.fromProduct(product.product, product.prices, false);
-				}
+			$scope.onActiveVariantChanged = function () {
+                $scope.product = productFactory.fromProduct(product.product, product.prices, false);
 			};
 
             // Helper functions to check if the currently displayed product is a base product or a product variant

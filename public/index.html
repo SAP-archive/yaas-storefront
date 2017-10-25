@@ -23,204 +23,321 @@
     <![endif]-->
 </head>
 <body ng-class="{'fixedLayout': showCart }">
-    <div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
-        <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation"></div>
-        <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
-            <div class="content-overlay" ng-if="showCart" ng-click="closeOffcanvas()"></div>
-            <div ui-view="topNavigation"></div>
-            <div class="main">
-                <div ui-view="main"></div>
-            </div>
-            <div ui-view="footer"></div>
-
+<div ng-class="{'right': showCart, 'left': showMobileNav}" class="off-canvas">
+    <div ui-view="sidebarNavigation" class="sidebar-offcanvas hidden-md hidden-lg" id="sidebar" role="navigation"></div>
+    <div class="mainContent" ng-class="{'main-on-top': checkoutCartEditVisible }">
+        <div class="content-overlay" ng-if="showCart" ng-click="closeOffcanvas()"></div>
+        <div ui-view="topNavigation"></div>
+        <div class="main">
+            <div ui-view="main"></div>
         </div>
-        <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+        <div ui-view="footer"></div>
+
     </div>
+    <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
+</div>
 
-    <!-- dynamic optimized script resources -->
-    <!-- build:js js/storefront.js -->
-    <script src="js/vendor-static/jquery.min.js"></script>
-    <script src="js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/vendor/cookieconsent/build/cookieconsent.min.js"></script>
-    <script src="js/vendor/angular/angular.js"></script>
-    <script src="js/vendor/angular-mocks/angular-mocks.js"></script>
-    <script src="js/vendor/angular-touch/angular-touch.js"></script>
-    <script src="js/vendor/angular-cookie/angular-cookie.min.js"></script>
-    <script src="js/vendor/restangular/dist/restangular.min.js"></script>
-    <script src="js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="js/vendor/angular-translate/angular-translate.min.js"></script>
-    <script src="js/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-    <script src="js/vendor/lodash/dist/lodash.compat.min.js"></script>
-    <script src="js/vendor/angular-stripe-js/build/angular-stripe-js.min.js"></script>
-    <script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
-    <script src="js/vendor/angular-xeditable/dist/js/xeditable.min.js"></script>
-    <script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
-    <script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
-    <script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script>
-    <script src="js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
-    <script src="js/vendor/moment/min/moment-with-locales.min.js"></script>
-    <script src="js/vendor/angular-moment/angular-moment.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/vendor/spin.js/spin.js"></script>
-    <script src="js/app/shared/shared-index.js"></script>
-    <script src="js/app/shared/settings.js"></script>
-    <script src="js/app/shared/app-config.js"></script>
-    <script src="js/app/shared/site-config.js"></script>
-    <script src="js/app/shared/http-proxy.js"></script>
-    <script src="js/app/shared/countries.js"></script>
-    <script src="js/app/shared/directives/quantity-input.js"></script>
-    <script src="js/app/shared/directives/menu-aim.js"></script>
-    <script src="js/app/shared/directives/match-background.js"></script>
-    <script src="js/app/shared/directives/sticky-navigation.js"></script>
-    <script src="js/app/shared/directives/infinite-scrolling-visible-items.js"></script>
-    <script src="js/app/shared/directives/ngRepeat-rendering-finished.js"></script>
-    <script src="js/app/shared/directives/y-breadcrumb.js"></script>
-    <script src="js/app/shared/directives/y-tracking.js"></script>
-    <script src="js/app/shared/directives/y-profile.js"></script>
-    <script src="js/app/shared/directives/y-search.js"></script>
-    <script src="js/app/shared/directives/y-inputs-dir.js"></script>
-    <script src="js/app/shared/directives/stop-event.js"></script>
-    <script src="js/app/shared/directives/force-scroll.js"></script>
-    <script src="js/app/shared/services/cookie-svc.js"></script>
-	<script src="js/app/shared/services/yrn-svc.js"></script>
-    <script src="js/app/shared/services/global-data.js"></script>
-    <script src="js/app/shared/services/site-settings-rest.js"></script>
-    <script src="js/app/shared/services/configuration-service.js"></script>
-    <script src="js/app/shared/services/http-queue.js"></script>
-    <script src="js/app/shared/services/event-service.js"></script>
-    <script src="js/app/shared/services/local-storage.js"></script>
+<script>
+    window.Y_PROFILE_INTERCEPTOR = (function (module) {
+        var onTracingResponseCallback = function () {
+            return false;
+        }
 
-    <script src="js/app/shared/directives/site-selector/site-selector-directive.js"></script>
-    <script src="js/app/shared/directives/site-selector/site-selector-ctrl.js"></script>
-    <script src="js/app/shared/directives/site-selector/site-selector-service.js"></script>
-    <script src="js/app/shared/directives/product-variants/variant-options-ctrl.js"></script>
-    <script src="js/app/shared/directives/product-variants/variant-options-svc.js"></script>
-    <script src="js/app/shared/directives/product-variants/variant-options-dir.js"></script>
+        module.onTracingResponse = function (callback) {
+            onTracingResponseCallback = callback;
+        };
 
-    <script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
-    <script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
-    <script src="js/app/shared/filters/filters.js"></script>
-    <script src="js/app/shared/filters/show-number-of-items-filter.js"></script>
-    <script src="js/app/shared/filters/sum-by-key-filter.js"></script>
-    <script src="js/app/shared/filters/date-filters.js"></script>
-    <script src="js/app/shared/i18n/i18-index.js"></script>
-    <script src="js/app/shared/i18n/i18-constants.js"></script>
-    <script src="js/app/shared/i18n/providers/translation-provider.js"></script>
+        var config =
+                {
+                    interceptors: [
+                        {
+                            url: 'hybris/profile-edge/v1/',
+                            method: 'POST',
+                            response: function (xhr) {
+                                onTracingResponseCallback(getContextTraceIdFromResponse(xhr));
+                            },
+                            request: function (xhr) {
+                                fillWithHeader(xhr)
+                            }
+                        }]
+                },
+            origOpen,
+            origSend;
 
-    <script src="js/app/shared/media/main-media-extractor.js"></script>
-    <script src="js/app/shared/media/committed-media-filter.js"></script>
+        addHttpInterceptor();
 
-    <script src="js/app/orders/orders-index.js"></script>
-    <script src="js/app/orders/services/order-list-service.js"></script>
-    <script src="js/app/orders/services/orders-rest.js"></script>
-    <script src="js/app/home/home-index.js"></script>
-    <script src="js/app/home/controllers/home-ctrl.js"></script>
-    <script src="js/app/home/directives/site-content-image-directive.js"></script>
-    <script src="js/app/home/services/home-svc.js"></script>
-    <script src="js/app/products/products-index.js"></script>
-    <script src="js/app/products/controllers/browse-products-ctrl.js"></script>
-    <script src="js/app/products/controllers/product-detail-ctrl.js"></script>
-    <script src="js/app/products/services/product-service.js"></script>
-    <script src="js/app/products/services/prices-rest.js"></script>
-    <script src="js/app/products/services/price-svc.js"></script>
-    <script src="js/app/products/services/price-product-rest.js"></script>
-    <script src="js/app/products/services/category-service.js"></script>
-    <script src="js/app/products/services/product-extension-service.js"></script>
-    <script src="js/app/products/directives/product-img-carousel.js"></script>
-    <script src="js/app/products/directives/product-extension.js"></script>
-    <script src="js/app/products/directives/product-extension-item.js"></script>
-    <script src="js/app/products/directives/price-label/price-label.js"></script>
-    <script src="js/app/products/filters/date-with-locale-filters.js"></script>
-	<script src="js/app/products/utils/product-variants-helper.js"></script>
-    <script src="js/app/products/utils/product-extension-helper.js"></script>
-    <script src="js/app/products/utils/product-extension-item-helper.js"></script>
-    <script src="js/app/products/utils/product-factory.js"></script>
-    <script src="js/app/products/options/product-options-helper.js"></script>
-    <script src="js/app/products/options/product-options.js"></script>
-    <script src="js/app/errors/controllers/errors-ctrl.js"></script>
-    <script src="js/app/cart/cart-index.js"></script>
-    <script src="js/app/cart/controllers/cart-ctrl.js"></script>
-    <script src="js/app/cart/controllers/cart-note-mixin-ctrl.js"></script>
-    <script src="js/app/cart/directives/cart-auto-toggle.js"></script>
-    <script src="js/app/cart/services/cart-rest.js"></script>
-    <script src="js/app/cart/services/cart-service.js"></script>
-    <script src="js/app/cart/services/cart-note-mixin-service.js"></script>
-    <script src="js/app/checkout/checkout-index.js"></script>
-    <script src="js/app/checkout/controllers/checkout-base-ctrl.js"></script>
-    <script src="js/app/checkout/controllers/checkout-ctrl.js"></script>
-    <script src="js/app/checkout/controllers/checkout-cart-ctrl.js"></script>
-    <script src="js/app/checkout/controllers/checkout-edit-cart-ctrl.js"></script>
-    <script src="js/app/checkout/services/checkout-service.js"></script>
-    <script src="js/app/checkout/directives/address-decorator.js"></script>
-    <script src="js/app/checkout/directives/inline-error-input.js"></script>
-    <script src="js/app/checkout/directives/mobile-checkout-wizard.js"></script>
-    <script src="js/app/checkout/services/checkout-rest.js"></script>
-    <script src="js/app/checkout/services/checkout-service.js"></script>
-    <script src="js/app/shipping/services/shipping-rest.js"></script>
-    <script src="js/app/shipping/services/shipping-service.js"></script>
-    <script src="js/app/confirmation/confirmation-index.js"></script>
-    <script src="js/app/confirmation/controllers/confirmation-ctrl.js"></script>
-    <script src="js/app/confirmation/services/order-details-svc.js"></script>
-    <script src="js/app/confirmation/services/order-details-rest.js"></script>
-    <script src="js/app/confirmation/directives/summary-align.js"></script>
-    <script src="js/app/coupons/coupon-index.js"></script>
-    <script src="js/app/coupons/controllers/coupon-ctrl.js"></script>
-    <script src="js/app/coupons/services/coupon-service.js"></script>
-    <script src="js/app/coupons/services/coupon-rest.js"></script>
-    <script src="js/app/addresses/addresses-index.js"></script>
-    <script src="js/app/addresses/directives/localized-addresses.js"></script>
-    <script src="js/app/account/account-index.js"></script>
-    <script src="js/app/account/controllers/account-ctrl.js"></script>
-    <script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
-    <script src="js/app/account/controllers/change-email-confirmation-ctrl.js"></script>
-    <script src="js/app/account/controllers/delete-account-ctrl.js"></script>
-    <script src="js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js"></script>
-    <script src="js/app/account/controllers/dialogs/order-cancel-dialog-ctrl.js"></script>
-    <script src="js/app/account/controllers/dialogs/delete-account-dialog-ctrl.js"></script>
-    <script src="js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js"></script>
-    <script src="js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js"></script>
-    <script src="js/app/account/controllers/modals/delete-account-basic-ctrl.js"></script>
-    <script src="js/app/account/directives/customer-details/customer-details-ctrl.js"></script>
-    <script src="js/app/account/directives/customer-details/customer-details-directive.js"></script>
-    <script src="js/app/account/services/account-service.js"></script>
-    <script src="js/app/auth/auth-index.js"></script>
-    <script src="js/app/auth/controllers/auth-modal-dialog-ctrl.js"></script>
-    <script src="js/app/auth/controllers/password-reset-ctrl.js"></script>
-    <script src="js/app/auth/controllers/password-update-ctrl.js"></script>
-    <script src="js/app/auth/controllers/password-reset-update-ctrl.js"></script>
-    <script src="js/app/auth/directives/confirm-input.js"></script>
-    <script src="js/app/auth/directives/create-account.js"></script>
-    <script src="js/app/auth/services/google-provider.js"></script>
-    <script src="js/app/auth/services/auth-rest.js"></script>
-    <script src="js/app/auth/services/token-service.js"></script>
-    <script src="js/app/auth/services/session-service.js"></script>
-    <script src="js/app/auth/services/auth-service.js"></script>
-    <script src="js/app/auth/services/anon-auth-service.js"></script>
-    <script src="js/app/auth/services/auth-dialog-manager.js"></script>
-    <script src="js/app/search/search-index.js"></script>
-    <script src="js/app/search/controllers/search-list-ctrl.js"></script>
-    <script src="js/app/fees/fee-index.js"></script>
-    <script src="js/app/fees/services/fee-rest.js"></script>
-    <script src="js/app/fees/services/fee-service.js"></script>
-    <script src="js/app/fees/directives/product-fees.js"></script>
+        function findInterceptorConfig(xhr) {
+            var index;
+            for (index in config.interceptors) {
+                var item = config.interceptors[index];
+                if (xhr._url.indexOf(item.url) > -1 && xhr._method === item.method) {
+                    return item;
+                }
+            }
+            return null;
+        }
 
-    <script src="js/app/errors/backendStub.js"></script>
-    <script src="js/vendor/bootstrap/js/popover.js"></script>
-    <script src="js/app/shared/directives/popover.js"></script>
-    <script src="js/app/shared/directives/refine-affix.js"></script>
-    <script src="js/vendor/angular-animate/angular-animate.js"></script>
-    <script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="js/vendor-static/jquery.menu-aim.js"></script>
-    <script src="js/app/app.js"></script>
-    <!-- endbuild -->
-    <!-- static script resources -->
-    <script src="js/app/shared/router.js"></script>
-    <script src="https://js.stripe.com/v2/"></script>
+        function addHttpInterceptor() {
+            var openDescriptor = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'open'),
+                sendDescriptor = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'send');
 
-    <script async defer src="js/vendor-static/piwik.js"></script>
-    <div ytracking></div>
-    <ytracking-cookie-notice></ytracking-cookie-notice>
-    <y-profile-toolbox></y-profile-toolbox>
+            if (!openDescriptor.writable || !sendDescriptor.writable) {
+                return;
+            }
+
+            origOpen = window.XMLHttpRequest.prototype.open;
+            origSend = window.XMLHttpRequest.prototype.send;
+
+            function openReplacement(method, url, async, user, password) {
+                this._url = url;
+                this._method = method;
+
+                var http = origOpen.apply(this, arguments);
+
+                var interceptor = findInterceptorConfig(this);
+                if (interceptor && interceptor.request) {
+                    interceptor.request(this);
+                }
+                return http;
+            }
+
+            function sendReplacement(data) {
+                if (this.onreadystatechange) {
+                    this._onreadystatechange = this.onreadystatechange;
+                }
+                this.onreadystatechange = onReadyStateChangeReplacement;
+                return origSend.apply(this, arguments);
+            }
+
+            function onReadyStateChangeReplacement() {
+                var interceptor = findInterceptorConfig(this);
+                if (interceptor && interceptor.response && this.readyState === 4) {
+                    interceptor.response(this);
+                }
+                if (this._onreadystatechange) {
+                    return this._onreadystatechange.apply(this, arguments);
+                }
+            }
+
+            window.XMLHttpRequest.prototype.open = openReplacement;
+            window.XMLHttpRequest.prototype.send = sendReplacement;
+        }
+
+        function getContextTraceIdFromResponse(httpResponse) {
+            return httpResponse.getResponseHeader("Hybris-Context-Trace-Id");
+        }
+
+        function fillWithHeader(httpRequest) {
+            httpRequest.setRequestHeader('X-B3-Sampled', 1);
+        }
+
+        return module;
+    }(window.Y_PROFILE_INTERCEPTOR || {}));
+</script>
+
+<!-- dynamic optimized script resources -->
+<!-- build:js js/storefront.js -->
+<script src="js/vendor-static/jquery.min.js"></script>
+<script src="js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/vendor/cookieconsent/build/cookieconsent.min.js"></script>
+<script src="js/vendor/angular/angular.js"></script>
+<script src="js/vendor/angular-mocks/angular-mocks.js"></script>
+<script src="js/vendor/angular-touch/angular-touch.js"></script>
+<script src="js/vendor/angular-cookie/angular-cookie.min.js"></script>
+<script src="js/vendor/restangular/dist/restangular.min.js"></script>
+<script src="js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="js/vendor/angular-translate/angular-translate.min.js"></script>
+<script src="js/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+<script src="js/vendor/lodash/dist/lodash.compat.min.js"></script>
+<script src="js/vendor/angular-stripe-js/build/angular-stripe-js.min.js"></script>
+<script src="js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+<script src="js/vendor/angular-xeditable/dist/js/xeditable.min.js"></script>
+<script src="js/vendor/angular-directive.g-signin/google-plus-signin.js"></script>
+<script src="js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="js/vendor/angular-ui-select/dist/select.min.js"></script>
+<script src="js/vendor/algoliasearch/dist/algoliasearch.angular.js"></script>
+<script src="js/vendor/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+<script src="js/vendor/moment/min/moment-with-locales.min.js"></script>
+<script src="js/vendor/angular-moment/angular-moment.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/vendor/spin.js/spin.js"></script>
+<script src="js/app/shared/shared-index.js"></script>
+<script src="js/app/shared/settings.js"></script>
+<script src="js/app/shared/app-config.js"></script>
+<script src="js/app/shared/site-config.js"></script>
+<script src="js/app/shared/http-proxy.js"></script>
+<script src="js/app/shared/countries.js"></script>
+<script src="js/app/shared/directives/quantity-input.js"></script>
+<script src="js/app/shared/directives/menu-aim.js"></script>
+<script src="js/app/shared/directives/match-background.js"></script>
+<script src="js/app/shared/directives/sticky-navigation.js"></script>
+<script src="js/app/shared/directives/infinite-scrolling-visible-items.js"></script>
+<script src="js/app/shared/directives/ngRepeat-rendering-finished.js"></script>
+<script src="js/app/shared/directives/y-breadcrumb.js"></script>
+<script src="js/app/shared/directives/y-profile.js"></script>
+<script src="js/app/shared/directives/y-search.js"></script>
+<script src="js/app/shared/directives/y-inputs-dir.js"></script>
+<script src="js/app/shared/directives/stop-event.js"></script>
+<script src="js/app/shared/directives/force-scroll.js"></script>
+<script src="js/app/shared/services/cookie-svc.js"></script>
+<script src="js/app/shared/services/yrn-svc.js"></script>
+<script src="js/app/shared/services/global-data.js"></script>
+<script src="js/app/shared/services/site-settings-rest.js"></script>
+<script src="js/app/shared/services/configuration-service.js"></script>
+<script src="js/app/shared/services/http-queue.js"></script>
+<script src="js/app/shared/services/event-service.js"></script>
+<script src="js/app/shared/services/local-storage.js"></script>
+
+<script src="js/app/shared/directives/site-selector/site-selector-directive.js"></script>
+<script src="js/app/shared/directives/site-selector/site-selector-ctrl.js"></script>
+<script src="js/app/shared/directives/site-selector/site-selector-service.js"></script>
+<script src="js/app/shared/directives/product-variants/variant-options-ctrl.js"></script>
+<script src="js/app/shared/directives/product-variants/variant-options-svc.js"></script>
+<script src="js/app/shared/directives/product-variants/variant-options-dir.js"></script>
+
+<script src="js/app/shared/controllers/sidebar-navigation-ctrl.js"></script>
+<script src="js/app/shared/controllers/top-navigation-ctrl.js"></script>
+<script src="js/app/shared/filters/filters.js"></script>
+<script src="js/app/shared/filters/show-number-of-items-filter.js"></script>
+<script src="js/app/shared/filters/sum-by-key-filter.js"></script>
+<script src="js/app/shared/filters/date-filters.js"></script>
+<script src="js/app/shared/i18n/i18-index.js"></script>
+<script src="js/app/shared/i18n/i18-constants.js"></script>
+<script src="js/app/shared/i18n/providers/translation-provider.js"></script>
+
+<script src="js/app/shared/media/main-media-extractor.js"></script>
+<script src="js/app/shared/media/committed-media-filter.js"></script>
+
+<script src="js/app/orders/orders-index.js"></script>
+<script src="js/app/orders/services/order-list-service.js"></script>
+<script src="js/app/orders/services/orders-rest.js"></script>
+<script src="js/app/home/home-index.js"></script>
+<script src="js/app/home/controllers/home-ctrl.js"></script>
+<script src="js/app/home/directives/site-content-image-directive.js"></script>
+<script src="js/app/home/services/home-svc.js"></script>
+<script src="js/app/products/products-index.js"></script>
+<script src="js/app/products/controllers/browse-products-ctrl.js"></script>
+<script src="js/app/products/controllers/product-detail-ctrl.js"></script>
+<script src="js/app/products/services/product-service.js"></script>
+<script src="js/app/products/services/prices-rest.js"></script>
+<script src="js/app/products/services/price-svc.js"></script>
+<script src="js/app/products/services/price-product-rest.js"></script>
+<script src="js/app/products/services/category-service.js"></script>
+<script src="js/app/products/services/product-extension-service.js"></script>
+<script src="js/app/products/directives/product-img-carousel.js"></script>
+<script src="js/app/products/directives/product-extension.js"></script>
+<script src="js/app/products/directives/product-extension-item.js"></script>
+<script src="js/app/products/directives/price-label/price-label.js"></script>
+<script src="js/app/products/filters/date-with-locale-filters.js"></script>
+<script src="js/app/products/utils/product-variants-helper.js"></script>
+<script src="js/app/products/utils/product-extension-helper.js"></script>
+<script src="js/app/products/utils/product-extension-item-helper.js"></script>
+<script src="js/app/products/utils/product-factory.js"></script>
+<script src="js/app/products/options/product-options-helper.js"></script>
+<script src="js/app/products/options/product-options.js"></script>
+<script src="js/app/errors/controllers/errors-ctrl.js"></script>
+<script src="js/app/cart/cart-index.js"></script>
+<script src="js/app/cart/controllers/cart-ctrl.js"></script>
+<script src="js/app/cart/controllers/cart-note-mixin-ctrl.js"></script>
+<script src="js/app/cart/directives/cart-auto-toggle.js"></script>
+<script src="js/app/cart/services/cart-rest.js"></script>
+<script src="js/app/cart/services/cart-service.js"></script>
+<script src="js/app/cart/services/cart-note-mixin-service.js"></script>
+<script src="js/app/checkout/checkout-index.js"></script>
+<script src="js/app/checkout/controllers/checkout-base-ctrl.js"></script>
+<script src="js/app/checkout/controllers/checkout-ctrl.js"></script>
+<script src="js/app/checkout/controllers/checkout-cart-ctrl.js"></script>
+<script src="js/app/checkout/controllers/checkout-edit-cart-ctrl.js"></script>
+<script src="js/app/checkout/services/checkout-service.js"></script>
+<script src="js/app/checkout/directives/address-decorator.js"></script>
+<script src="js/app/checkout/directives/inline-error-input.js"></script>
+<script src="js/app/checkout/directives/mobile-checkout-wizard.js"></script>
+<script src="js/app/checkout/services/checkout-rest.js"></script>
+<script src="js/app/checkout/services/checkout-service.js"></script>
+<script src="js/app/shipping/services/shipping-rest.js"></script>
+<script src="js/app/shipping/services/shipping-service.js"></script>
+<script src="js/app/confirmation/confirmation-index.js"></script>
+<script src="js/app/confirmation/controllers/confirmation-ctrl.js"></script>
+<script src="js/app/confirmation/services/order-details-svc.js"></script>
+<script src="js/app/confirmation/services/order-details-rest.js"></script>
+<script src="js/app/confirmation/directives/summary-align.js"></script>
+<script src="js/app/coupons/coupon-index.js"></script>
+<script src="js/app/coupons/controllers/coupon-ctrl.js"></script>
+<script src="js/app/coupons/services/coupon-service.js"></script>
+<script src="js/app/coupons/services/coupon-rest.js"></script>
+<script src="js/app/addresses/addresses-index.js"></script>
+<script src="js/app/addresses/directives/localized-addresses.js"></script>
+<script src="js/app/account/account-index.js"></script>
+<script src="js/app/account/controllers/account-ctrl.js"></script>
+<script src="js/app/account/controllers/account-order-detail-ctrl.js"></script>
+<script src="js/app/account/controllers/change-email-confirmation-ctrl.js"></script>
+<script src="js/app/account/controllers/delete-account-ctrl.js"></script>
+<script src="js/app/account/controllers/dialogs/address-remove-dialog-ctrl.js"></script>
+<script src="js/app/account/controllers/dialogs/order-cancel-dialog-ctrl.js"></script>
+<script src="js/app/account/controllers/dialogs/delete-account-dialog-ctrl.js"></script>
+<script src="js/app/account/controllers/modals/edit-user-name-dialog-ctrl.js"></script>
+<script src="js/app/account/controllers/modals/edit-user-email-dialog-ctrl.js"></script>
+<script src="js/app/account/controllers/modals/delete-account-basic-ctrl.js"></script>
+<script src="js/app/account/directives/customer-details/customer-details-ctrl.js"></script>
+<script src="js/app/account/directives/customer-details/customer-details-directive.js"></script>
+<script src="js/app/account/services/account-service.js"></script>
+<script src="js/app/auth/auth-index.js"></script>
+<script src="js/app/auth/controllers/auth-modal-dialog-ctrl.js"></script>
+<script src="js/app/auth/controllers/password-reset-ctrl.js"></script>
+<script src="js/app/auth/controllers/password-update-ctrl.js"></script>
+<script src="js/app/auth/controllers/password-reset-update-ctrl.js"></script>
+<script src="js/app/auth/directives/confirm-input.js"></script>
+<script src="js/app/auth/directives/create-account.js"></script>
+<script src="js/app/auth/services/google-provider.js"></script>
+<script src="js/app/auth/services/auth-rest.js"></script>
+<script src="js/app/auth/services/token-service.js"></script>
+<script src="js/app/auth/services/session-service.js"></script>
+<script src="js/app/auth/services/auth-service.js"></script>
+<script src="js/app/auth/services/anon-auth-service.js"></script>
+<script src="js/app/auth/services/auth-dialog-manager.js"></script>
+<script src="js/app/search/search-index.js"></script>
+<script src="js/app/search/controllers/search-list-ctrl.js"></script>
+<script src="js/app/fees/fee-index.js"></script>
+<script src="js/app/fees/services/fee-rest.js"></script>
+<script src="js/app/fees/services/fee-service.js"></script>
+<script src="js/app/fees/directives/product-fees.js"></script>
+
+<script src="js/app/errors/backendStub.js"></script>
+<script src="js/vendor/bootstrap/js/popover.js"></script>
+<script src="js/app/shared/directives/popover.js"></script>
+<script src="js/app/shared/directives/refine-affix.js"></script>
+<script src="js/vendor/angular-animate/angular-animate.js"></script>
+<script src="js/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="js/vendor-static/jquery.menu-aim.js"></script>
+<script src="js/app/app.js"></script>
+<!-- endbuild -->
+<!-- static script resources -->
+<script src="js/app/shared/router.js"></script>
+<script src="https://js.stripe.com/v2/"></script>
+
+<script>
+    (function () {
+        window.Y_TRACKING = window.Y_TRACKING || function () {
+                (window.Y_TRACKING.q = window.Y_TRACKING.q || []).push(arguments);
+            };
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = /*StartProfileTagUrl*/ '' /*EndProfileTagUrl*/;
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+    })();
+    window.Y_TRACKING({
+        tenant: /*StartProjectId*/ '' /*EndProjectId*/,
+        clientId: /*StartClientId*/ '' /*EndClientId*/,
+        configUrl: 'profiletag-config.json',
+        allowInsecureCookies: true
+    });
+</script>
+
+<!--<script async defer src="js/vendor-static/piwik.js"></script>-->
+<!--<div ytracking></div>-->
+<ytracking-cookie-notice></ytracking-cookie-notice>
+<y-profile-toolbox></y-profile-toolbox>
 </body>
 </html>

@@ -2,14 +2,16 @@
   position: fixed;
   right: 0;
   top: 40%;
-  width: 220px;
+  width: 240px;
   color: #fff;
-  background: @sapyellow;
+  background: @sapblue;
   z-index: 100;
-  padding: 10px;
+  padding: 20px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 
   & h4 {
-    color: #624907;
+    color: #fff;
   }
 
   & ul {
@@ -37,17 +39,24 @@
 
 .y-profile-header {
   width: 100%;
-  background: @sapyellow;
-  color: #fff;
-  padding: 10px;
+  background: #000;
+  color: @sapyellow;
+  padding: 10px 60px 10px 60px;
   z-index: 100001;
   font-weight: 500;
-  margin-bottom: 10px;
   & h1 {
     & a {
-      color: #624907;
+      color: #fff;
       text-decoration: none;
     }
-
+    & .logo {
+      float: right;
+      width: 183px;
+      display: block;
+      margin-top: 5px;
+    }
+  }
+  & .check {
+    color: #fff;
   }
 }

@@ -28,7 +28,9 @@ angular.module('ds.shared')
             $scope.isAuthenticated = AuthSvc.isAuthenticated;
 
             $scope.user = GlobalData.user;
-            $scope.categories = CategorySvc.getCategoriesFromCache();
+            CategorySvc.getCategories().then(function (categories) {
+                $scope.categories = categories;
+            });
             $scope.GlobalData = GlobalData;
             // binds logo in sidebar
             $scope.store = GlobalData.store;

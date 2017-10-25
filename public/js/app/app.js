@@ -1,6 +1,7 @@
 /**
  * [y] hybris Platform
  *
+ *
  * Copyright (c) 2000-2015 hybris AG
  * All rights reserved.
  *
@@ -39,7 +40,6 @@ window.app = angular.module('ds.app', [
     'ui.select',
     'ui-notification',
     'ds.ybreadcrumb',
-    'ds.ytracking',
     'ds.localstorage',
     'ds.appconfig',
     'ds.searchlist',

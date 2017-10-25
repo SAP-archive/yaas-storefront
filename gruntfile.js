@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 
     var host = process.env.VCAP_APP_HOST || process.env.HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || process.env.PORT || 9000; //process.env.VCAP_APP_PORT is deprecated
-    
+
     var ALLOWED_REGIONS = ['eu', 'us'],
         REGION_INVALID_MSG = 'Selected region is not valid. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']';
 
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
         TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
-        
+
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
@@ -49,7 +49,6 @@ module.exports = function (grunt) {
 
         SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
-        PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
         INDEX_PATH = './public/index.html',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
         TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json';
@@ -85,6 +84,16 @@ module.exports = function (grunt) {
             return 'https://profile-manager.eu-central.modules.yaas.io';
         }
         return 'https://profile-manager.us-east.modules.yaas.io';
+    };
+
+    var getProfileTagUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://s3.amazonaws.com/profile-tag/js/us-stage/profile-tag.js';
+        }
+        if (REGION_CODE === 'EU') {
+            return 'https://s3.amazonaws.com/profile-tag/js/eu-prod/profile-tag.js';
+        }
+        return 'https://s3.amazonaws.com/profile-tag/js/us-prod/profile-tag.js';
     };
 
     require('load-grunt-tasks')(grunt);
@@ -193,10 +202,11 @@ module.exports = function (grunt) {
             urls: {
                 src: [API_DOMAIN_PATH, INDEX_PATH],
                 overwrite: true,
-                replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + getServicesBaseUrl() + '\' /*EndDynamicDomain'
-                },
+                replacements: [
+                    {
+                        from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                        to: 'StartDynamicDomain*/ \'' + getServicesBaseUrl() + '\' /*EndDynamicDomain'
+                    },
                     {
                         from: /StartBuilderUrl(.*)EndBuilderUrl/g,
                         to: 'StartBuilderUrl*/ \'' + getBuilderUrl() + '/\' /*EndBuilderUrl'
@@ -208,31 +218,28 @@ module.exports = function (grunt) {
                     {
                         from: /StartPiwikUrl(.*)EndPiwikUrl/g,
                         to: 'StartPiwikUrl*/ \'' + getPiwikUrl() + '\' /*EndPiwikUrl'
-                    }]
-            },
-            projectId: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartProjectId(.*)EndProjectId/g,
-                    to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
-                }]
-            },
-            clientId: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartClientId(.*)EndClientId/g,
-                    to: 'StartClientId*/ \'' + CLIENT_ID + '\' /*EndClientId'
-                }]
-            },
-            redirectURI: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartRedirectURI(.*)EndRedirectURI/g,
-                    to: 'StartRedirectURI*/ \'' + REDIRECT_URI + '\' /*EndRedirectURI'
-                }]
+                    },
+                    {
+                        from: /StartRegion(.*)EndRegion/g,
+                        to: 'StartRegion*/ \'' + REGION_CODE + '\' /*EndRegion'
+                    },
+                    {
+                        from: /StartProfileTagUrl(.*)EndProfileTagUrl/g,
+                        to: 'StartProfileTagUrl*/ \'' + getProfileTagUrl() + '\' /*EndProfileTagUrl'
+                    },
+                    {
+                        from: /StartClientId(.*)EndClientId/g,
+                        to: 'StartClientId*/ \'' + CLIENT_ID + '\' /*EndClientId'
+                    },
+                    {
+                        from: /StartProjectId(.*)EndProjectId/g,
+                        to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
+                    },
+                    {
+                        from: /StartRedirectURI(.*)EndRedirectURI/g,
+                        to: 'StartRedirectURI*/ \'' + REDIRECT_URI + '\' /*EndRedirectURI'
+                    }
+                    ]
             },
             useHttps: {
                 src: SERVER_FILES,

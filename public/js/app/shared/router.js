@@ -108,7 +108,7 @@ angular.module('ds.router', [])
 
                         category: ['$stateParams', 'CategorySvc', 'initialized', function ($stateParams, CategorySvc, initialized) {
                             if(initialized){
-                                return CategorySvc.getCategoryWithProducts($stateParams.catName);
+                                return $stateParams.catName;
                             }
 
                         }]
