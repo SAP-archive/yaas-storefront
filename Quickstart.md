@@ -76,7 +76,7 @@ Now that the simplified storefront is installed locally on your machine and read
 
 > The simplified storefront supports three event types only: `PageViewEvent`, `ProductDetailPageViewEvent` and `CategoryPageViewEvent`.
 
-Interactions with the storefront create events. Click on the product of your choice to create a `ProductDetailPageViewEvent`, click on the youtube video link to send a `PageViewEvent`, or switch the category to send a `CategoryPageViewEvent`. The enrichers contained within the **Profile Services for Commerce** package that your tenant is subscribed to react to these events, and introduce changes to the profile, for example by creating or updating whole sections or properties.
+Interactions with the storefront create events. Click on the product of your choice to create a `ProductDetailPageViewEvent`, click on the youtube video link to send a `PageViewEvent`, or switch the category to send a `CategoryPageViewEvent`. The enrichers contained within the **Profile Services for Commerce** package that your tenant is subscribed to react to these events, and introduce changes to the profile.
 
 
 ## Step 5: Track events
@@ -85,16 +85,19 @@ You can track the events sent from the storefront to SAP Hybris Profile in the T
 
 > In the simplified storefront version, tracing is enabled by default. Therefore, no action from you is required to activate event tracking.
 
-To navigate to the Trace Explorer, click a **contextTraceId** link that appears in the SAP Hybris Profile Toolbox each time the storefront sends an event to SAP Hybris Profile.
+To navigate to the Trace Explorer, click a **Show the last event in Trace Explorer** link that appears in the SAP Hybris Profile Toolbox each time the storefront sends an event to SAP Hybris Profile.
+
+For example, by clicking on a product in the storefront, you send the `ProductDetailPageViewEvent` to SAP Hybris Profile. This event triggers the specified enricher, which modifies the profile document by adding sections such as `observations`.
 
 ## Step 6: View the profile changes in Profile Explorer
 
 The events that you send to SAP Hybris Profile from your storefront trigger the enrichers. Depending on the event type, the triggered enrichers introduce various changes to the profile document.
 
-For example, by clicking on a product in the storefront, you send the `ProductDetailPageViewEvent` to SAP Hybris Profile. This event triggers the specified enricher, which modifies the profile document by adding sections such as `observations` or `insights`.
+To navigate to the Profile Explorer, click a **Go to Profile Explorer** link that appears in the SAP Hybris Profile Toolbox each time the storefront sends an event to SAP Hybris Profile.
 
-Follow these instructions to see the profile modifications.
+Alternatively, follow these instructions to trace the path of the event in the Trace Explorer and navigate from there to the Profile Explorer.
 1. Go to the Trace Explorer to see the initial logs from context adapters that pre-process the event sent from the storefront before dispatching it to the enrichers.
 2. In the **Context Transition** component of the Trace Explorer, click one of the displayed links, which represent a given **contextTraceId**. Each storefront event triggers various enrichers. What you see is a list of enricher-generated logs resulting from the storefront activity.
 3. Find the log with a message about profile creation or updation. The log indicates that an enricher created or updated a profile with specified identifier.
 4. Click the link in that log to go to the **Profile Explorer** and view the created profile document.
+
