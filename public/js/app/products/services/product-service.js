@@ -27,8 +27,13 @@ angular.module('ds.products')
         });
 
         return {
-            queryProductList: function () {
+            queryProductList: function (query) {
                 return listPromise.then(function (data) {
+                    if(query && query.category){
+                        return _.filter(data, function (item) {
+                            return item.category.toUpperCase() === query.category.toUpperCase();
+                        });
+                    }
                     return data;
                 });
             },

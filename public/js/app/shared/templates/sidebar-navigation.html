@@ -37,49 +37,5 @@
         </li>
     </ul>
 </div>
-
-<div class="authentication-cnt">
-    <div ng-if="user.isAuthenticated" >
-        <div class="signinContainer">
-            <div class="col-xs-3 text-right">
-                <a><img ng-src="{{user.image}}" class="user-avatar socialAvatar" ng-click="myAccount()"></a>
-            </div>
-            <div class="col-xs-9 my-account-link">
-                <a href="" class="my-profile" ng-click="myAccount()" title="{{'MY_ACCOUNT' | translate}}">
-                    {{'MY_ACCOUNT' | translate}}
-                </a>
-            </div>
-            <div class="col-xs-offset-3 col-xs-9 logout-link text-left">
-                <a ng-click="logout()" class="signout">{{'SIGN_OUT' | translate}}</a>
-            </div>
-        </div>
-        
-
-    </div>
-
-    <div ng-if="!user.isAuthenticated">
-        <div class="signinContainer signinContainer-sidebar">
-            <div class="my-account-link">
-                <a class="btn btn-link navbar-btn signin" ng-click="login({windowClass:'mobileLoginModal'})">
-                    {{'SIGN_IN' | translate}}
-                </a>
-            </div>
-
-        </div>
-
-
-        <div class="dropdown ">
-            <a data-toggle="dropdown" href="" class="btn btn-link navbar-btn signin pull-right" ng-if="user.isAuthenticated" >
-                <img src="./img/user-icon_small_active.png" class="user-avatar loggedin">
-            </a>
-            <ul class="dropdown-menu" class="pull-right">
-                <li><a href="" class="logout" ng-click="logout()">{{'SIGN_OUT' | translate}}</a></li>
-                <li class="divider"></li>
-                <li><a href="" class="my-profile" ng-click="myAccount()">{{'MY_ACCOUNT' | translate}}</a></li>
-            </ul>
-        </div>
-
-    </div>
-</div>
         
 

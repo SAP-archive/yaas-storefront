@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.yprofile', [])
-    .directive('yProfileToolbox', ['appConfig', 'CookieSvc', 'ytrackingSvc', function (appConfig, CookieSvc, ytrackingSvc) {
+    .directive('yProfileToolbox', ['appConfig', 'CookieSvc', function (appConfig, CookieSvc) {
         return {
             restrict: 'E',
             scope: {},
@@ -22,6 +22,11 @@ angular.module('ds.yprofile', [])
                 var tenantId = appConfig.storeTenant();
                 var builderPath = appConfig.builderURL();
                 var consentUrl = appConfig.consentManagerURL();
+                var region = appConfig.region();
+
+                scope.isGranted = function () {
+                    return !!CookieSvc.getConsentReferenceCookie() && !!window.localStorage.getItem('yaas-consent-reference-token');
+                };
 
                 scope.$on('tracing:response', function (event, contextTraceId) {
                     var tracingIdUrlPart = encodeURIComponent(JSON.stringify({'contextTraceId': contextTraceId}));
@@ -38,7 +43,7 @@ angular.module('ds.yprofile', [])
 
                 function getCustomerConsentManagementServiceParams() {
                     var consentReference = CookieSvc.getConsentReferenceCookie();
-                    var consentReferenceToken = CookieSvc.getConsentReferenceTokenCookie();
+                    var consentReferenceToken = window.localStorage.getItem('yaas-consent-reference-token');
 
                     var params = $.param({
                         token: consentReferenceToken,
@@ -48,10 +53,6 @@ angular.module('ds.yprofile', [])
                     return params;
                 }
 
-
-                scope.isGranted = function () {
-                    return ytrackingSvc.isGranted();
-                };
 
                 scope.goToConsentUI = function () {
                     var params = getCustomerConsentManagementServiceParams();
@@ -69,14 +70,39 @@ angular.module('ds.yprofile', [])
                     win.focus();
                 };
 
-                scope.getProfileUrl = function () {
+
+                scope.goToProfileExplorer = function () {
                     var params = $.param({
+                        region: region,
                         project: tenantId,
                         selectedPath: '/Home/' + tenantId + '/Hybris Profile Developer Tools/profile-browser/' + CookieSvc.getConsentReferenceCookie()
                     });
-                    var href = builderPath + '#?' + params;
-                    return href;
+                    var url = builderPath + '#?' + params;
+                    var win = window.open(url, '_blank');
+                    win.focus();
                 };
+
+                window.Y_PROFILE_INTERCEPTOR.onTracingResponse(function (contextTraceId) {
+                    if (!contextTraceId) {
+                        return;
+                    }
+
+                    var tracingIdUrlPart = encodeURIComponent(JSON.stringify({
+                        contextTraceId: contextTraceId
+                    }));
+
+                    var params = $.param({
+                        region: region,
+                        project: tenantId,
+                        selectedPath: '/Home/' + tenantId + '/Hybris Profile Developer Tools/trace-explorer/' + tracingIdUrlPart
+                    });
+                    var url = builderPath + '#?' + params;
+
+                    console.log('Last event contextTraceId:', contextTraceId, 'url:', url);
+                    scope.lastEventUrl = url;
+                    scope.lastEventId = contextTraceId;
+                    scope.$apply();
+                });
             }
         };
     }])
@@ -85,5 +111,64 @@ angular.module('ds.yprofile', [])
             restrict: 'E',
             templateUrl: 'js/app/shared/templates/profile-header.html',
             scope: {}
+        };
+    }])
+    .directive('ytrackingCookieNotice', ['$window', '$timeout', function ($window, $timeout) {
+        return {
+            restrict: 'E',
+            scope: {},
+            link: function (scope) {
+
+                function grant() {
+                    // ytrackingSvc.grantConsent();
+                    $timeout(function () {
+                        scope.$apply();
+                    });
+                }
+
+                function revoke() {
+                    // ytrackingSvc.revoke();
+                    $timeout(function () {
+                        scope.$apply();
+                    });
+                }
+
+                window.cookieconsent.initialise({
+                    palette: {
+                        popup: {
+                            background: '#000'
+                        },
+                        button: {
+                            background: '#f1d600'
+                        }
+                    },
+                    compliance: {
+                        'opt-in': '<div class="cc-compliance cc-highlight">{{allow}}</div>'
+                    },
+                    elements: {
+                        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>'
+                    },
+                    type: 'opt-in',
+                    revokable: false,
+                    revokeBtn: '<div style="display:none"></div>',
+                    animateRevokable: false,
+                    onInitialise: function () {
+                        var didConsent = this.hasConsented();
+                        if (didConsent) {
+                            grant();
+                        }
+                    },
+                    onStatusChange: function () {
+                        var didConsent = this.hasConsented();
+                        if (didConsent) {
+                            grant();
+                        }
+                        if (!didConsent) {
+                            revoke();
+                        }
+                    }
+                });
+
+            }
         };
     }]);

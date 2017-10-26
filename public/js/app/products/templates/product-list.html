@@ -8,45 +8,28 @@
         </blockquote>
     </div>
 
+    <!-- dekstop navigation only -->
+
     <!-- refinement section -->
-    <div class="refine-section">
+    <div class="refine-section hidden-xs hidden-sm visible-md visible-lg">
         <div class="row">
             <div class="content-container">
-
-                <div class="clearfix visible-sm"></div>
-
-                <!-- sort control -->
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="sortContainer product-list-sort">
-                        <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
-                        <div class="form-group pull-left">
-                            <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
-
-                            <div class="custom-select-container">
-                                <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
-                                    <ui-select-match>
-                                        {{$select.selected.name}}
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="item.id as item in (sortParams | filter: $select.search)">
-                                        <span ng-bind="item.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
+                <div class="navbar yamm navbar-default">
+                <div class="row nav js-mainNav">
+                    <div class="content-container">
+                        <div class="navbar yamm navbar-default">
+                            <ul id="product-categories" class="nav navbar-nav">
+                                <li ng-repeat="top_category in categories" class="dropdown yamm-fw">
+                                    <!-- class="has-sub" -->
+                                    <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
+                                        {{ top_category.name  }}
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-
-                <!-- pagination control -->
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 pull-right">
-                    <div class="viewingContainer">
-                        <span class="name">{{'VIEWING' | translate}}</span>
-                        <span id="product-range-indicator" class="page-indicator"
-                             translate="PRODUCTS_FROM_TO"
-                             translate-compile
-                             translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></span>
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -59,45 +42,27 @@
         <!-- page title -->
         <div class="row">
             <div class="col-xs-12 text-center">
-                <h1 class="pageTitle productListTitle"><span ng-if="category.name">{{ category.name }}</span><span ng-if="!category.name">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
+                <h1 class="pageTitle productListTitle"><span ng-if="category">{{ category }}</span><span ng-if="!category">{{ 'ALL_PRODUCTS' | translate }}</span></h1>
+                <span id="categoryName" class="hidden-xs hidden-sm hidden-md hidden-lg">{{category}}</span>
             </div>
         </div>
 
         <!-- sticky refinements bar -->
-        <div refine-affix refine-affix-grid-element=".product-grid" refine-affix-offset="250" id="refineAffix" class="refine-section responsive-fixed">
+        <div refine-affix refine-affix-grid-element=".product-grid" refine-affix-offset="250" id="refineAffix" class="refine-section responsive-fixed hidden-xs hidden-sm visible-md visible-lg">
             <div class="row">
                 <div class="content-container">
-                    <div class="clearfix visible-sm"></div>
-
-                    <!-- sort control -->
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="sortContainer product-list-sort">
-                            <div class="name pull-left">{{'SORT_BY' | translate}}:</div>
-                            <div class="form-group pull-left">
-                                <label for="" class="sr-only">{{'SORT_BY' | translate}}:</label>
-
-                                <div>
-                                    <span class="custom-select-container">
-                                        <ui-select ng-model="sort.selected" on-select="setSortedPage($item.id)">
-                                            <ui-select-match>
-                                                {{$select.selected.name}}
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="item.id as item in (sortParams | filter: $select.search)">
-                                                <span ng-bind="item.name"></span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                    </span>
-                                </div>
+                    <div class="row nav js-mainNav">
+                        <div class="content-container">
+                            <div class="navbar yamm navbar-default">
+                                <ul id="product-categories" class="nav navbar-nav">
+                                    <li ng-repeat="top_category in categories" class="dropdown yamm-fw">
+                                        <!-- class="has-sub" -->
+                                        <a ui-sref="base.category( {catName: top_category.slug} )" class="js-megamenutoggle mainCategory categoryLevel">
+                                            {{ top_category.name  }}
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- pagination control -->
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 pull-right">
-                        <div class="viewingContainer">
-                            <div class="name">{{'VIEWING' | translate}}</div>
-                            <div class="page-indicator" translate="PRODUCTS_FROM_TO" translate-compile
-                                 translate-values="{productsFrom: '{{pagination.productsFrom}}', productsTo: '{{pagination.productsTo}}', total: '{{total}}'}"></div>
                         </div>
                     </div>
 
@@ -126,6 +91,45 @@
                 </div>
             </a>
         </div>
+        </div>
+
+
+        <div class="row" ng-if="!category">
+            <div class="col-xs-12 text-center">
+                <h1 class="pageTitle productListTitle"><span>{{ 'YOU_MAY_ALSO_LIKE' | translate }}</span></h1>
+            </div>
+        </div>
+
+        <div class="row product-grid" ng-if="!category">
+            <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3 col-md-push-3"
+                 on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
+
+                <a id="asset_1" class="asset-url" href="https://www.youtube.com/watch?v=-KEqvds5aBs" data-asset-id="-KEqvds5aBs" data-interest="SAP,video" data-access-type="VIDEO_VISIT" data-type="video" target="_blank">
+                    <div class="productContainer">
+                        <div class="thumb">
+                            <img src="https://img.youtube.com/vi/-KEqvds5aBs/0.jpg" alt="">
+                        </div>
+                        <div class="productInfoContainer text-center">
+                            <div class="name">SAP Let's Do This</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3 col-md-push-3"
+                 on-finish-render-ng-repeat on-finish-render-ng-repeat-event="initialViewportCheck">
+
+                <a id="asset_2" class="asset-url" href="https://www.youtube.com/watch?v=j_lUIwl5DlI" data-asset-id="j_lUIwl5DlI" data-interest="Profile,video" data-access-type="VIDEO_VISIT" data-type="video" target="_blank">
+                    <div class="productContainer">
+                        <div class="thumb">
+                            <img src="https://img.youtube.com/vi/j_lUIwl5DlI/0.jpg" alt="">
+                        </div>
+                        <div class="productInfoContainer text-center">
+                            <div class="name">SAP Hybris Profile</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <!-- back to top button -->

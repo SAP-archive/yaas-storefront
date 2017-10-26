@@ -416,6 +416,8 @@
     "PRODUCTS_FROM_TO": "<div>{{productsFrom}}-{{productsTo}} of {{total}}</div>",
     //XFLD
     "ALL_PRODUCTS": "All Products",
+    //XFLD
+    "YOU_MAY_ALSO_LIKE": "You may also like",
     //XTIT
     "EMPTY_MSG": "Demo Store - Coming Soon",
     //XFLD
