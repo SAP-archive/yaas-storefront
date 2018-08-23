@@ -1,9 +1,0 @@
-<div class="y-profile-toolbox" ng-if="isGranted()">
-    <h4>SAP Hybris Profile Toolbox</h4>
-    <ul>
-        <li><a ng-click="goToConsentUI()">Go to Consent UI</a></li>
-        <li><a ng-click="goToVisualizationUI()">Go to Profile Visualization UI</a></li>
-        <li><a ng-click="goToProfileExplorer()" target="_blank">Go to Profile Explorer</a></li>
-        <li ng-if="lastEventUrl"><a ng-href="{{lastEventUrl}}" target="_blank">Show the last event in Trace Explorer <span class="truncate">trace-id: {{lastEventId}}</span></a></li>
-    </ul>
-</div>

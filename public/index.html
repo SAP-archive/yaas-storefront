@@ -36,105 +36,6 @@
     </div>
     <div ui-view="cart" class="offcanvas offcanvas-right" id="cart" role="navigation"></div>
 </div>
-
-<script>
-    window.Y_PROFILE_INTERCEPTOR = (function (module) {
-        var onTracingResponseCallback = function () {
-            return false;
-        }
-
-        module.onTracingResponse = function (callback) {
-            onTracingResponseCallback = callback;
-        };
-
-        var config =
-                {
-                    interceptors: [
-                        {
-                            url: 'hybris/profile-edge/v1/',
-                            method: 'POST',
-                            response: function (xhr) {
-                                onTracingResponseCallback(getContextTraceIdFromResponse(xhr));
-                            },
-                            request: function (xhr) {
-                                fillWithHeader(xhr)
-                            }
-                        }]
-                },
-            origOpen,
-            origSend;
-
-        addHttpInterceptor();
-
-        function findInterceptorConfig(xhr) {
-            var index;
-            for (index in config.interceptors) {
-                var item = config.interceptors[index];
-                if (xhr._url.indexOf(item.url) > -1 && xhr._method === item.method) {
-                    return item;
-                }
-            }
-            return null;
-        }
-
-        function addHttpInterceptor() {
-            var openDescriptor = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'open'),
-                sendDescriptor = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'send');
-
-            if (!openDescriptor.writable || !sendDescriptor.writable) {
-                return;
-            }
-
-            origOpen = window.XMLHttpRequest.prototype.open;
-            origSend = window.XMLHttpRequest.prototype.send;
-
-            function openReplacement(method, url, async, user, password) {
-                this._url = url;
-                this._method = method;
-
-                var http = origOpen.apply(this, arguments);
-
-                var interceptor = findInterceptorConfig(this);
-                if (interceptor && interceptor.request) {
-                    interceptor.request(this);
-                }
-                return http;
-            }
-
-            function sendReplacement(data) {
-                if (this.onreadystatechange) {
-                    this._onreadystatechange = this.onreadystatechange;
-                }
-                this.onreadystatechange = onReadyStateChangeReplacement;
-                return origSend.apply(this, arguments);
-            }
-
-            function onReadyStateChangeReplacement() {
-                var interceptor = findInterceptorConfig(this);
-                if (interceptor && interceptor.response && this.readyState === 4) {
-                    interceptor.response(this);
-                }
-                if (this._onreadystatechange) {
-                    return this._onreadystatechange.apply(this, arguments);
-                }
-            }
-
-            window.XMLHttpRequest.prototype.open = openReplacement;
-            window.XMLHttpRequest.prototype.send = sendReplacement;
-        }
-
-        function getContextTraceIdFromResponse(httpResponse) {
-            return httpResponse.getResponseHeader("Hybris-Context-Trace-Id");
-        }
-
-        function fillWithHeader(httpRequest) {
-            httpRequest.setRequestHeader('X-B3-Sampled', 1);
-        }
-
-        return module;
-    }(window.Y_PROFILE_INTERCEPTOR || {}));
-</script>
-
 <!-- dynamic optimized script resources -->
 <!-- build:js js/storefront.js -->
 <script src="js/vendor-static/jquery.min.js"></script>
@@ -335,9 +236,7 @@
     });
 </script>
 
-<!--<script async defer src="js/vendor-static/piwik.js"></script>-->
-<!--<div ytracking></div>-->
+<script async="true" src="https://s3.amazonaws.com/profile-flyover/y-profile-flyover.js"></script>
 <ytracking-cookie-notice></ytracking-cookie-notice>
-<y-profile-toolbox></y-profile-toolbox>
 </body>
 </html>
