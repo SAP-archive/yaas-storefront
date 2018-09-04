@@ -13,18 +13,19 @@
 'use strict';
 
 angular.module('ds.shared')
-    .factory('SiteSelectorSvc', ['GlobalData', 'CartSvc', 'SiteSettingsREST',
-        function (GlobalData, CartSvc, SiteSettingsREST) {
-            
+    .factory('SiteSelectorSvc', ['GlobalData', 'CartSvc', '$q', '$http',
+        function (GlobalData, CartSvc, $q, $http) {
+
             return {
 
                 /**
                  * Method that is used to change current site on storefront
                  */
                 changeSite: function (site, languageCode) {
-                    SiteSettingsREST.SiteSettings.one('sites', site.code).get({ expand: 'payment:active,tax:active,mixin:*' }).then(function (result) {
-                        GlobalData.setSite(result, languageCode);
-                        GlobalData.setSiteCookie(result);
+                    $http.get('sites.json').then(function (response) {
+                       var site = response.data[0];
+                        GlobalData.setSite(site, languageCode);
+                        GlobalData.setSiteCookie(site);
                     });
 
                 }

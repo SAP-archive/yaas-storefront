@@ -23,7 +23,7 @@ angular.module('ds.appconfig', [])
 
         dynamicDomain: function(){
             // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            return /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
+            return /*StartDynamicDomain*/ '' /*EndDynamicDomain*/;
         },
 
         storeTenant: function(){
@@ -35,20 +35,29 @@ angular.module('ds.appconfig', [])
                 tenantId = window.location.pathname.substring( 1, pathLength-1 );
             } else {
                 // Dynamic ProjectId is configured and replaced by build script, see gruntfile.
-                tenantId = /*StartProjectId*/ 'saphybriscaas' /*EndProjectId*/;
+                tenantId = /*StartProjectId*/ '' /*EndProjectId*/;
             }
             return tenantId;
         },
 
         clientId: function() {
             // Dynamic ClientId is configured and replaced by build script, see gruntfile.
-            return /*StartClientId*/ 'hkpWzlQnCIe4MSTi1Ud94Q7O36aRrRrO' /*EndClientId*/;
+            return /*StartClientId*/ '' /*EndClientId*/;
         },
 
         redirectURI: function() {
             // Dynamic RedirectURI is configured and replaced by build script, see gruntfile.
-            return /*StartRedirectURI*/ 'http://example.com' /*EndRedirectURI*/;
+            return /*StartRedirectURI*/ '' /*EndRedirectURI*/;
+        },
+
+        builderURL: function () {
+            return  /*StartBuilderUrl*/ '' /*EndBuilderUrl*/;
+        },
+
+        consentManagerURL: function () {
+            return  /*StartConsentManagerUrl*/ '' /*EndConsentManagerUrl*/;
+        },
+        region: function () {
+            return /*StartRegion*/ '' /*EndRegion*/;
         }
-
-
     });

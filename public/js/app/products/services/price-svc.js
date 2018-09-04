@@ -13,10 +13,12 @@
 'use strict';
 
 angular.module('ds.products')
-    .factory('PriceSvc', ['PricesREST', '$q', function (PricesREST, $q) {
+    .factory('PriceSvc', ['$q', '$http', function ($q, $http) {
 
-        var getPrices = function (parms) {
-            return PricesREST.Prices.all('prices').customGET('', parms);
+        var getPrices = function () {
+            return $http.get('prices.json').then(function (response) {
+                return response.data;
+            });
         };
 
         return {

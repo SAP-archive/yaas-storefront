@@ -1,12 +1,12 @@
 <section class="errorPageContainer white" match-background ng-cloak>
   <h2 class="errorTitle">{{errorTitle}}</h2>
   <p>
-      {{errorMessage}}
+      <span ng-bind-html="errorMessage"></span>
       <br/>
-      {{errorRedirect}}
+      <span ng-if="errorRedirect">{{errorRedirect}}</span>
   </p>
 
-  <div class="actionButton clearfix">
+  <div class="actionButton clearfix" ng-if="errorButtonText">
     <button class="btn btn-secondary btn-g" ng-click="redirect()">
       {{errorButtonText}}
     </button>

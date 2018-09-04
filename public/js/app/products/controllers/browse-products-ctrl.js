@@ -13,10 +13,16 @@
 'use strict';
 
 angular.module('ds.products')
-    /** Controller for the 'browse products' view.  */
+/** Controller for the 'browse products' view.  */
     .controller('BrowseProductsCtrl', ['$scope', '$rootScope', 'ProductSvc', 'GlobalData', 'CategorySvc', 'settings', 'category', '$state', '$location', '$timeout', '$anchorScroll', 'MainMediaExtractor', 'PriceSvc', '$q',
         function ($scope, $rootScope, ProductSvc, GlobalData, CategorySvc, settings, category, $state, $location, $timeout, $anchorScroll, MainMediaExtractor, PriceSvc, $q) {
 
+
+            CategorySvc.getCategories().then(function (categories) {
+                var catConf = _.findWhere(categories, {slug: category});
+                $scope.categories = categories;
+                $scope.category = catConf ? catConf.name : '';
+            });
             $scope.pageSize = GlobalData.products.pageSize;
             $scope.pageNumber = 0;
             $scope.setSortedPageSize = void 0;
@@ -28,7 +34,7 @@ angular.module('ds.products')
             $scope.requestInProgress = false;
             $scope.PLACEHOLDER_IMAGE = settings.placeholderImage;
             $scope.sortParams = GlobalData.getProductRefinements();
-            $scope.sort = { selected: GlobalData.getProductRefinements()[0].id };
+            $scope.sort = {selected: GlobalData.getProductRefinements()[0].id};
             $scope.currencySymbol = GlobalData.getCurrency();
 
             $scope.pagination = {
@@ -36,40 +42,13 @@ angular.module('ds.products')
                 productsTo: 1
             };
 
-            $scope.category = category || {};
-
             if (!!category) {
                 $scope.$emit('category:opened', category);
             }
 
-            $scope.lastCatId = $scope.category.id || 'allProducts';
-
             $scope.loadedPages = 1;
             $scope.loadMorePages = false;
 
-            if (category !== null) {
-                $scope.mainCategoryImage = MainMediaExtractor.extract(category.media);
-            }
-
-            // ensure category path is localized
-            var pathSegments = $location.path().split('/');
-            if ($scope.category.slug && pathSegments[pathSegments.length - 1] !== $scope.category.slug) {
-                pathSegments[pathSegments.length - 1] = $scope.category.slug;
-                $location.path(pathSegments.join('/'));
-            }
-
-            $rootScope.$emit('category:selected', { category: category });
-
-            function getProductIdsFromAssignments(assignments) {
-
-                return assignments.map(function (assignment) {
-                    if (assignment.ref.type === 'product') {
-                        return assignment.ref.id;
-                    } else {
-                        return '';
-                    }
-                });
-            }
 
             function setMainImage(product) {
                 var mainMedia = MainMediaExtractor.extract(product.media);
@@ -89,7 +68,7 @@ angular.module('ds.products')
                 ProductSvc.queryProductList(query)
                     .then(function getProducts(products) {
                         if (products) {
-                            GlobalData.products.meta.total = parseInt(products.headers[settings.headers.paging.total.toLowerCase()], 10) || 0;
+                            GlobalData.products.meta.total = products.length;
                             if (concat) {
                                 $scope.products = $scope.products.concat(products);
                             } else {
@@ -112,7 +91,7 @@ angular.module('ds.products')
                                         product.metadata.variants &&
                                         product.metadata.variants.options &&
                                         Object.keys(product.metadata.variants.options).length > 0) {
-                                        promise = ProductSvc.getProductVariants({ productId: product.id })
+                                        promise = ProductSvc.getProductVariants({productId: product.id})
                                             .then(function (result) {
                                                 product.hasVariants = result.length > 0;
                                             });
@@ -193,19 +172,6 @@ angular.module('ds.products')
              This function is only for infinite scrolling, which is the default state.  It is disabled once a sort is applied.
              */
             $scope.addMore = function () {
-                // category selected, but no products associated with category - leave blank for time being
-                if ($scope.category.assignments && $scope.category.assignments.length === 0) {
-                    $scope.products = [];
-                    $scope.pagination = {
-                        productsFrom: 0,
-                        productsTo: 0
-                    };
-                    $scope.total = 0;
-                    return;
-                }
-                /*
-                 this function is only for infinite scrolling, which is disabled when a sort is applied.
-                 */
 
                 // prevent additional API calls if all products are retrieved
                 // infinite scroller initiates lots of API calls when scrolling to the bottom of the page
@@ -214,14 +180,13 @@ angular.module('ds.products')
                         $scope.pageNumber = $scope.pageNumber + 1;
 
                         var qSpec = 'published:true';
-                        if ($scope.category.assignments && $scope.category.assignments.length > 0) {
-                            qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromAssignments($scope.category.assignments) + ')';
-                        } // If no category assignment (rather than length = 0), we're showing "all" products
+
                         var query = {
                             pageNumber: $scope.pageNumber,
                             pageSize: $scope.pageSize,
                             q: qSpec,
-                            sort: $scope.sort.selected
+                            sort: $scope.sort.selected,
+                            category: category
                         };
                         queryProducts(query, true);
                     }
@@ -248,7 +213,7 @@ angular.module('ds.products')
             if (!!$location.search().page) {
                 $scope.loadedPages = parseInt($location.search().page);
                 $scope.pageSize = $scope.pageSize * $scope.loadedPages;
-                $scope.sort = GlobalData.products.lastSort || { selected: GlobalData.getProductRefinements()[0].id };
+                $scope.sort = GlobalData.products.lastSort || {selected: GlobalData.getProductRefinements()[0].id};
                 $scope.loadMorePages = true;
             }
 
@@ -259,37 +224,6 @@ angular.module('ds.products')
             $scope.openProductDetails = function (productId) {
                 GlobalData.products.lastViewedProductId = productId;
                 GlobalData.products.lastSort = $scope.sort;
-            };
-
-            $scope.setSortedPage = function () {
-
-                $scope.setSortedPageSize = void 0;
-                $scope.setSortedPageNumber = 1;
-                if (($scope.pageSize > $scope.total) && ($scope.total !== 0)) {
-                    $scope.setSortedPageSize = $scope.total;
-                }
-
-                //check to see if the current page number times the page size is going to be greater than the total product count
-                //if it is then we need to set caps on the pageSize and page number
-                $scope.setSortedPageSize = ($scope.pageNumber * $scope.pageSize > $scope.total) ? $scope.total : $scope.pageNumber * $scope.pageSize;
-
-                /*
-                 it is important to note that the $scope.pageNumber and $scope.pageSize are not being modified as they  need
-                 to be unmidified for the addMore() method to work for the inifinte scroll functionality
-                 */
-                //we only want to show published products on this list
-                var qSpec = 'published:true';
-                if ($scope.category.assignments && $scope.category.assignments.length > 0) {
-                    qSpec = qSpec + ' ' + 'id:(' + getProductIdsFromAssignments($scope.category.assignments) + ')';
-                }
-
-                var query = {
-                    pageNumber: $scope.setSortedPageNumber,
-                    pageSize: $scope.setSortedPageSize,
-                    sort: $scope.sort.selected,
-                    q: qSpec
-                };
-                queryProducts(query, false);
             };
 
             $scope.showRefineContainer = function () {

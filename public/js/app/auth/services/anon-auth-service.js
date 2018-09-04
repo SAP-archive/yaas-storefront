@@ -47,7 +47,7 @@ angular.module('ds.auth')
                         }, function (error) {
                             inProgress = false;
                             console.error('Unable to perform anonymous login - ensure project id is configured correctly.');
-                            $state.go('errors', { errorId: 404 });
+                            $state.go('errors', { errorId: error.status });
                         });
                     }
                 }

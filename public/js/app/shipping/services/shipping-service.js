@@ -32,15 +32,7 @@ angular.module('ds.checkout')
             };
 
             var getSiteShippingZones = function () {
-                var deferred = $q.defer();
-                var shippingZones;
-                var site = GlobalData.getSiteCode();
-                ShippingREST.ShippingZones.all(site).all('zones').getList({ expand: 'methods,fees', activeMethods: true}).then(function(zones){
-                    shippingZones = zones.length ? zones.plain() : [];
-                    deferred.resolve(shippingZones);
-                });
-
-                return deferred.promise;
+                return $q.resolve([]);
             };
 
             var getMinimumShippingCost = function (costs) {

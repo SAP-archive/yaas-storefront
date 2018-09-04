@@ -19,45 +19,81 @@ module.exports = function (grunt) {
     var host = process.env.VCAP_APP_HOST || process.env.HOST || '0.0.0.0';
     var port = process.env.VCAP_APP_PORT || process.env.PORT || 9000; //process.env.VCAP_APP_PORT is deprecated
 
+    var ALLOWED_REGIONS = ['eu', 'us'],
+        REGION_INVALID_MSG = 'Selected region is not valid. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']';
+
+    var getRegion = function () {
+        var region = grunt.option('region');
+        if (region && ALLOWED_REGIONS.indexOf(region) < 0) {
+            grunt.warn(REGION_INVALID_MSG);
+            return 'US';
+        }
+        return grunt.option('region') ? grunt.option('region').toUpperCase() : 'US';
+    };
+
+
     // Configuration Variables.
     var JS_DIR = 'public/js/app',
         LESS_DIR = 'public/less',
         TRANSLATIONS_DIR = 'public/js/app/shared/i18n/dev',
 
-        ALLOWED_REGIONS = ['eu'],
-        REGION_INVALID_MSG = 'Selected region is not valid, changing back to default region. Please provide one of valid regions: [' + ALLOWED_REGIONS.join(',') + ']',
-
         //--Set Parameters for Server Configuration----------------------------------------------------
         // Read npm argument and set the dynamic server environment or use default configuration.
         // Syntax example for npm 2.0 parameters: $ npm run-script singleProd -- --pid=xxx --cid=123 --ruri=http://example.com
-        PROJECT_ID = grunt.option('pid') || 'saphybriscaas',
-        CLIENT_ID = grunt.option('cid') || 'hkpWzlQnCIe4MSTi1Ud94Q7O36aRrRrO',
+        ENV_ID = grunt.option('env') ? grunt.option('env').toUpperCase() : 'PROD',
+        PROJECT_ID = grunt.option('pid'),
+        CLIENT_ID = ENV_ID === 'STAGE' ? 'FACLIjPaW5IrMLyqVJ5XybBweHV9B6jx' : 'NmIaB67D5XXMv9YzPUXT32X4TKQwdCM2',
         REDIRECT_URI = grunt.option('ruri') || 'http://example.com',
         USE_HTTPS = grunt.option('https') || false,
-        REGION_CODE = grunt.option('region') || '',
+        REGION_CODE = getRegion(),
 
         SERVER_FILES = ['./server.js', './server/singleProdServer.js', './multi-tenant/multi-tenant-server.js'],
 
-        PROJECT_ID_PATH = './public/js/app/shared/app-config.js',
-        PROD_DOMAIN = 'api{0}.yaas.io',
-        STAGE_DOMAIN = 'api.stage.yaas.io',
+        INDEX_PATH = './public/index.html',
         API_DOMAIN_PATH = './public/js/app/shared/app-config.js',
-        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json',
-        DOMAIN_MSG = 'Could not find environment domain in build parameter. Site is built with default API domain. Use grunt build:prod [:stage] to specify.';
+        TRANSLATE_FILES_PATH = './public/js/app/shared/i18n/lang/lang_*.json';
 
-    var getProdBaseUrl = function getProdBaseUrl(regionCode) {
-        if (!!regionCode && ALLOWED_REGIONS.indexOf(regionCode) < 0) {
-            grunt.option('force', true);
-            grunt.warn(REGION_INVALID_MSG);
-            regionCode = '';
+    var getBuilderUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://builder.stage.yaas.io';
         }
+        return 'https://builder.yaas.io';
+    };
 
-        if (!!regionCode) {
-            return PROD_DOMAIN.replace('{0}', '.' + regionCode);
+    var getServicesBaseUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'api.stage.yaas.io';
         }
-        else {
-            return PROD_DOMAIN.replace('{0}', '');
+        if (REGION_CODE === 'EU') {
+            return 'api.eu.yaas.io';
         }
+        return 'api.yaas.io';
+    };
+
+
+    var getPiwikUrl = function () {
+        var serviceUrl = getServicesBaseUrl();
+        return serviceUrl + '/hybris/profile-edge/v1' + '/events';
+    };
+
+    var getCustomerConsentManagerUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://profile-manager.us-east.stage.modules.yaas.io';
+        }
+        if (REGION_CODE === 'EU') {
+            return 'https://profile-manager.eu-central.modules.yaas.io';
+        }
+        return 'https://profile-manager.us-east.modules.yaas.io';
+    };
+
+    var getProfileTagUrl = function () {
+        if (ENV_ID === 'STAGE') {
+            return 'https://s3.amazonaws.com/profile-tag/js/us-stage/profile-tag.js';
+        }
+        if (REGION_CODE === 'EU') {
+            return 'https://s3.amazonaws.com/profile-tag/js/eu-prod/profile-tag.js';
+        }
+        return 'https://s3.amazonaws.com/profile-tag/js/us-prod/profile-tag.js';
     };
 
     require('load-grunt-tasks')(grunt);
@@ -87,33 +123,11 @@ module.exports = function (grunt) {
                 port: port,
                 hostname: host
             },
-            singleProdServer: {
-                options: {
-                    server: path.resolve('./server/singleProdServer.js'),
-                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
-                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
-                    bases: [path.resolve('./server/singleProdServer.js')]
-                }
-            },
             singleTenant: {
                 options: {
                     server: path.resolve('./server.js'),
                     livereload: 35730, // use different port to avoid collision with client 'watch' operation
                     serverreload: true,  // this will keep the server running, but may restart at a different port!!!
-                    bases: [path.resolve('./server.js')]
-                }
-            },
-            multiTenant: {  // with livereload
-                options: {
-                    server: path.resolve('./multi-tenant/multi-tenant-server.js'),
-                    livereload: 35730, // use different port to avoid collision with client 'watch' operation
-                    serverreload: true,  // this will keep the server running, but may restart at a different port!!!
-                    bases: [path.resolve('./multi-tenant/multi-tenant-server.js')]
-                }
-            },
-            production: {
-                options: {
-                    server: path.resolve('./server.js'),
                     bases: [path.resolve('./server.js')]
                 }
             }
@@ -141,16 +155,6 @@ module.exports = function (grunt) {
                 files: {
                     'public/css/app/style.css': 'public/less/main.less'
                 }
-            },
-            dist: {
-                options: {
-                    compress: true,
-                    strictImports: false,
-                    sourceMap: false
-                },
-                files: {
-                    'public/css/app/style.css': 'public/less/main.less'
-                }
             }
         },
 
@@ -160,20 +164,7 @@ module.exports = function (grunt) {
                 options: {
                     logConcurrentOutput: true
                 }
-            },
-            multiProject: {
-                tasks: ['express:multiTenant', 'watch'], //multi-tenant-server.js
-                options: {
-                    logConcurrentOutput: true
-                }
-            },
-            singleProdServer: {
-                tasks: ['express:singleProdServer', 'watch'],
-                options: {
-                    logConcurrentOutput: true
-                }
-            },
-            dist: []
+            }
         },
 
         clean: {
@@ -188,17 +179,6 @@ module.exports = function (grunt) {
         },
 
         copy: {
-            main: {
-                dot: true,
-                expand: true,
-                cwd: 'public/',
-                src: [
-                    '**', 'js/**', '!scss/**', '!css/app/**', '!less/**', '!stylesheets/**',
-                    '../.buildpacks', '../.jshintrc', '../.bowerrc', '../bower.json',
-                    '../gruntfile.js', '../License.md', '../package.json', '../products.json',
-                    '../multi-tenant/**', '../server/**', '../server.js'],
-                dest: 'dist/public/'
-            },
             translations: {
                 files: [
                     {
@@ -214,67 +194,52 @@ module.exports = function (grunt) {
             }
         },
 
-        rev: {
-            files: {
-                src: ['dist/public/**/*.{js,css}']
-            }
-        },
-
         karma: {
-            unit: { configFile: 'config/karma.conf.js', keepalive: true }
-        },
-
-        useminPrepare: {
-            html: './public/index.html',  //concat and minify all script tags in html build blocks.
-            options: {                    //concats in .tmp
-                dest: 'dist/public'         //minifies result at path in html block under this directory
-            }
-        },
-
-        usemin: {
-            html: ['dist/public/index.html']    //runs replacement tasks on index.
+            unit: {configFile: 'config/karma.conf.js', keepalive: true}
         },
 
         replace: {
-            stage: {
-                src: [API_DOMAIN_PATH],
+            urls: {
+                src: [API_DOMAIN_PATH, INDEX_PATH],
                 overwrite: true,
-                replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + STAGE_DOMAIN + '\' /*EndDynamicDomain'
-                }]
-            },
-            prod: {
-                src: [API_DOMAIN_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartDynamicDomain(.*)EndDynamicDomain/g,
-                    to: 'StartDynamicDomain*/ \'' + getProdBaseUrl(REGION_CODE) + '\' /*EndDynamicDomain'
-                }]
-            },
-            projectId: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartProjectId(.*)EndProjectId/g,
-                    to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
-                }]
-            },
-            clientId: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartClientId(.*)EndClientId/g,
-                    to: 'StartClientId*/ \'' + CLIENT_ID + '\' /*EndClientId'
-                }]
-            },
-            redirectURI: {
-                src: [PROJECT_ID_PATH],
-                overwrite: true,
-                replacements: [{
-                    from: /StartRedirectURI(.*)EndRedirectURI/g,
-                    to: 'StartRedirectURI*/ \'' + REDIRECT_URI + '\' /*EndRedirectURI'
-                }]
+                replacements: [
+                    {
+                        from: /StartDynamicDomain(.*)EndDynamicDomain/g,
+                        to: 'StartDynamicDomain*/ \'' + getServicesBaseUrl() + '\' /*EndDynamicDomain'
+                    },
+                    {
+                        from: /StartBuilderUrl(.*)EndBuilderUrl/g,
+                        to: 'StartBuilderUrl*/ \'' + getBuilderUrl() + '/\' /*EndBuilderUrl'
+                    },
+                    {
+                        from: /StartConsentManagerUrl(.*)EndConsentManagerUrl/g,
+                        to: 'StartConsentManagerUrl*/ \'' + getCustomerConsentManagerUrl() + '/\' /*EndConsentManagerUrl'
+                    },
+                    {
+                        from: /StartPiwikUrl(.*)EndPiwikUrl/g,
+                        to: 'StartPiwikUrl*/ \'' + getPiwikUrl() + '\' /*EndPiwikUrl'
+                    },
+                    {
+                        from: /StartRegion(.*)EndRegion/g,
+                        to: 'StartRegion*/ \'' + REGION_CODE + '\' /*EndRegion'
+                    },
+                    {
+                        from: /StartProfileTagUrl(.*)EndProfileTagUrl/g,
+                        to: 'StartProfileTagUrl*/ \'' + getProfileTagUrl() + '\' /*EndProfileTagUrl'
+                    },
+                    {
+                        from: /StartClientId(.*)EndClientId/g,
+                        to: 'StartClientId*/ \'' + CLIENT_ID + '\' /*EndClientId'
+                    },
+                    {
+                        from: /StartProjectId(.*)EndProjectId/g,
+                        to: 'StartProjectId*/ \'' + PROJECT_ID + '\' /*EndProjectId'
+                    },
+                    {
+                        from: /StartRedirectURI(.*)EndRedirectURI/g,
+                        to: 'StartRedirectURI*/ \'' + REDIRECT_URI + '\' /*EndRedirectURI'
+                    }
+                    ]
             },
             useHttps: {
                 src: SERVER_FILES,
@@ -283,39 +248,6 @@ module.exports = function (grunt) {
                     from: /StartUseHTTPS(.*)EndUseHTTPS/g,
                     to: 'StartUseHTTPS*/ ' + !!USE_HTTPS + ' /*EndUseHTTPS'
                 }]
-            }
-        },
-
-        ngtemplates: {
-            app: {  //compile html templates into angular min.js concatenation.
-                cwd: './public/',
-                src: [
-                    'js/app/home/templates/home.html',
-                    'js/app/shared/templates/top-navigation.html',
-                    'js/app/shared/templates/sidebar-navigation.html',
-                    'js/app/cart/templates/cart.html',
-                    'js/app/auth/templates/signup.html',
-                    'js/app/auth/templates/signin.html'
-                    //too many slows down time to render.
-                    //'js/app/auth/templates/auth.html',
-                    //'js/app/shared/templates/language-selector.html',
-                    //'js/app/shared/templates/currency-selector.html',
-                ],
-                dest: '.tmp/concat/js/template.js', //temp concatenation location.
-                htmlmin: {  // minify html configuration.
-                    collapseBooleanAttributes: true,
-                    collapseWhitespace: true,
-                    removeAttributeQuotes: true,
-                    removeComments: true,
-                    removeEmptyAttributes: true,
-                    removeRedundantAttributes: true,
-                    removeScriptTypeAttributes: true,
-                    removeStyleLinkTypeAttributes: true
-                },
-                options: {
-                    usemin: 'js/storefront.js', //concat temp with usemin output.
-                    module: 'ds.app'  //module to append templateCache code.
-                }
             }
         },
 
@@ -329,84 +261,19 @@ module.exports = function (grunt) {
 
     grunt.option('force', true);
 
-    //--Convenience-Tasks-----------------------------------------------
-    // Wrap dev build task with parameters and dynamic domain warnings.
-    grunt.registerTask('default', 'Build parameters for default',
-        function () {
-            grunt.task.run('build');
-        });
-
-    // Wrap build task with parameters and dynamic domain warnings.
-    grunt.registerTask('build', 'Build parameters for build',
-        function (domainParam) {
-
-            grunt.task.run('replace:projectId');
-            grunt.task.run('replace:clientId');
-            grunt.task.run('replace:redirectURI');
-            grunt.task.run('replace:useHttps');
-
-            runDomainReplace(domainParam);
-
-            grunt.task.run('jshint');
-            grunt.task.run('less:dev');
-            grunt.task.run('optimizeCode');
-        });
 
     //--Tasks-With-Environment-Parameters----------------------------------------------
     // Wrap build task with parameters and dynamic domain warnings.
     grunt.registerTask('singleProject', 'Build parameters for singleProject build',
-        function (domainParam) {
+        function () {
 
             grunt.task.run('replace:projectId');
             grunt.task.run('replace:clientId');
             grunt.task.run('replace:redirectURI');
             grunt.task.run('replace:useHttps');
-
-            runDomainReplace(domainParam);
+            grunt.task.run('replace:urls');
 
             grunt.task.run('singleProjectTask');
-        });
-
-    // Wrap build task with parameters and dynamic domain warnings.
-    grunt.registerTask('multiProject', 'Build parameters for multiProject build',
-        function (domainParam) {
-
-            grunt.task.run('replace:projectId');
-            grunt.task.run('replace:clientId');
-            grunt.task.run('replace:redirectURI');
-            grunt.task.run('replace:useHttps');
-
-            runDomainReplace(domainParam);
-
-            grunt.task.run('multiProjectTask');
-        });
-
-    // Wrap build task with parameters and dynamic domain warnings.
-    grunt.registerTask('prepareBuild', 'Build parameters for optimized build',
-        function (domainParam) {
-
-            grunt.task.run('replace:projectId');
-            grunt.task.run('replace:clientId');
-            grunt.task.run('replace:redirectURI');
-            grunt.task.run('replace:useHttps');
-
-            runDomainReplace(domainParam);
-
-            grunt.task.run('optimizeCode');
-        });
-
-    // Wrap build task with parameters and dynamic domain warnings.
-    grunt.registerTask('startServer', 'Start server within deploy environment',
-        function () {
-            if (grunt.option('single')) {
-                grunt.task.run('concurrent:singleProdServer');  // start a single server in deployed environment.
-
-            } else if (grunt.option('multiple')) {
-                grunt.task.run('concurrent:multiProject');   // start a multi-project server in deployed environment.
-
-            } else {
-                grunt.task.run('concurrent:multiProject');   // default server if none is specified.
-            }
         });
 
     //---Specialized-Build-Behaviors--------------------------------------------------------
@@ -417,49 +284,8 @@ module.exports = function (grunt) {
         'concurrent:singleProject'   //server.js
     ]);
 
-    grunt.registerTask('multiProjectTask', [
-        'jshint',
-        'compileTranslations',
-        'less:dev',
-        'concurrent:multiProject'  //multi-tenant-server.js
-    ]);
-
     grunt.registerTask('compileTranslations', [
         'copy:translations',        //copies translation files from dev folder to lang folder
         'json-minify:translations'  //minifies JSON translation files
     ]);
-
-    grunt.registerTask('optimizeCode', [
-        'clean:dist',           //deletes contents in the dist folder and the .tmp folder
-        'compileTranslations',  //removes comments from dev-*.json translation files and minifies them
-        'less:dev',             //generate style.css
-        'copy',                 //moves dev files to dist
-        'useminPrepare',        //starts usemin process
-        'ngtemplates',          //compile html templates into ng.
-        'concat',
-        'uglify',
-        'cssmin',
-        //'rev',                //cachebusts css and js.  //be careful was introducing first load latency.
-        'usemin'                //completes usemin process.
-    ]);
-
-    //--Dynamic-Replacement-Build-Behaviors----------------------------------------------------
-    // Read build parameter and set the dynamic domain for environment or give warning message.
-
-    function runDomainReplace(domainParam) {
-        switch ((domainParam !== undefined) ? domainParam.toLowerCase() : domainParam) {
-            case 'stage':
-                grunt.task.run('replace:stage');
-                break;
-            case 'prod':
-                grunt.task.run('replace:prod');
-                break;
-            default:
-                grunt.warn(DOMAIN_MSG);
-                // Default build domain if none is specified.
-                grunt.task.run('replace:prod');
-        }
-    }
-
-
 };

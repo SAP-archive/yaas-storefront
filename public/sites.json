@@ -1,0 +1,22 @@
+[
+  {
+    "code": "main",
+    "name": "Default Site",
+    "active": true,
+    "defaultLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "currency": "USD",
+    "homeBase": {
+      "address": {
+        "zipCode": "unknown",
+        "country": "US"
+      }
+    },
+    "shipToCountries": [
+      "US"
+    ],
+    "default": true
+  }
+]

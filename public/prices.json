@@ -1,0 +1,49 @@
+[ {
+  "priceId" : "58108f5d37e7ad001dfe6149",
+  "metadata" : {
+    "createdAt" : "2016-10-26T11:11:25.516Z",
+    "modifiedAt" : "2016-10-26T11:11:25.516Z",
+    "version" : 1
+  },
+  "productId" : "58108f5c37e7ad001dfe6148",
+  "yrn" : "urn:yaas:hybris:price:price:quickstart;58108f5d37e7ad001dfe6149",
+  "originalAmount" : 24.0,
+  "effectiveAmount" : 24.0,
+  "currency" : "USD"
+}, {
+  "priceId" : "58108f9bff10e1001d60af7d",
+  "metadata" : {
+    "createdAt" : "2016-10-26T11:12:27.890Z",
+    "modifiedAt" : "2016-10-26T11:12:27.890Z",
+    "version" : 1
+  },
+  "productId" : "58108f9a7b4041001db36ac9",
+  "yrn" : "urn:yaas:hybris:price:price:quickstart;58108f9bff10e1001d60af7d",
+  "originalAmount" : 32.0,
+  "effectiveAmount" : 32.0,
+  "currency" : "USD"
+}, {
+  "priceId" : "5810aa84c08383001dfd3258",
+  "metadata" : {
+    "createdAt" : "2016-10-26T13:07:16.689Z",
+    "modifiedAt" : "2016-10-26T13:07:16.689Z",
+    "version" : 1
+  },
+  "productId" : "5810aa84ff10e1001d60b06a",
+  "yrn" : "urn:yaas:hybris:price:price:quickstart;5810aa84c08383001dfd3258",
+  "originalAmount" : 19.0,
+  "effectiveAmount" : 19.0,
+  "currency" : "USD"
+}, {
+  "priceId" : "5810aac76e22fc001d71e79d",
+  "metadata" : {
+    "createdAt" : "2016-10-26T13:08:23.357Z",
+    "modifiedAt" : "2016-10-26T13:08:23.357Z",
+    "version" : 1
+  },
+  "productId" : "5810aac737e7ad001dfe622d",
+  "yrn" : "urn:yaas:hybris:price:price:quickstart;5810aac76e22fc001d71e79d",
+  "originalAmount" : 19.0,
+  "effectiveAmount" : 19.0,
+  "currency" : "USD"
+} ]

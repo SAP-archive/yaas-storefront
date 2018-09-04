@@ -50,9 +50,6 @@
             <!-- cart cost -->
             <div ng-include="'./js/app/cart/templates/cart-costs.html'"></div>
 
-            <!-- Apply Coupon -->
-            <div ng-include="'./js/app/coupons/templates/coupon-apply.html'" ng-controller="CouponCtrl" class="couponWrapper"></div>
-
         </section>
 
         <section>
@@ -109,25 +106,6 @@
                                 <!-- total price -->
                                 <div class="price-total item-attr">{{'TOTAL_PRICE' | translate}}: <span>{{ item.itemPrice.amount || 0 | currency: currencySymbol}}</span></div>
 
-                                <!-- note display -->
-                                <div id="noteMixin_area" class="noteMixin">
-
-                                    <!-- display the note -->
-                                    <div class="note-display">
-                                        {{item.mixins.note.comment}}
-                                    </div>
-
-                                    <!-- note edit button -->
-                                    <a id="addEditNote" ng-show="note.noteCollapsed" ng-click="note.expandNote(item.mixins.note.comment)" class="modify-note text-uppercase" href="">{{item.mixins.note.comment ? ("EDIT_NOTE" | translate) : ("ADD_NOTE" | translate)}}</a>
-
-                                    <!-- note delete button -->
-                                    <span ng-if="item.mixins.note.comment" ng-show="note.noteCollapsed">
-                                        &nbsp; | &nbsp;
-                                        <a href=""  ng-click="note.removeNote(item)" title="Delete Note" class="modify-note text-uppercase">{{'DELETE_NOTE' | translate}}</a>
-                                    </span>
-
-                                </div>
-
                             </div>
 
                             <!-- delete button -->
@@ -136,29 +114,6 @@
                             </div>
 
                         </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <!-- Note Mixin -->
-                    <div ng-show="!note.noteCollapsed" class="cart-item-note">
-                        <div class="col-md-12">
-                            <form ng-submit="note.submit(item)">
-
-                                <label>{{'NOTE' | translate}}</label>
-
-                                <textarea id="cartItemNote" ng-model="note.content" class="form-control" rows="3"></textarea>
-
-                                <p class="error" ng-show="note.saveFailed">{{'UNABLE_TO_SAVE_NOTE' | translate}}</p>
-
-                                <button ng-if="!note.noteCollapsed" type="button" ng-click="note.collapseNote()" class="btn btn-link btn-lg pull-left text-uppercase" href="">{{'CANCEL' | translate}}</button>
-
-                                <button id="saveCartItemNote" class="btn btn-primary btn-lg pull-right text-uppercase" type="submit">{{'SAVE' | translate}}</button>
-                            </form>
-                        </div>
-
-                        <div class="clearfix"></div>
-
                     </div>
                 </div>
             </div>
