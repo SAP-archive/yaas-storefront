@@ -63,7 +63,7 @@ The commerce packages are:
 
 Follow the steps outlined in the [Dev Portal](https://devportal.yaas.io/gettingstarted/setupastorefront/index.html).
 
-### 2.  Replace the default project id in the code base with your own (see project adminstration settings in the Builder).
+### 2.  Replace the default project id in the code base with your own (see project administration settings in the Builder).
 In gruntfile.js, set the **PROJECT_ID** to your own project ID. When you build the project, the default project id in bootstrap.js will be replaced with your project-id. At this time you will need to also configure the **CLIENT_ID** and **REDIRECT_URI** gruntfile variables with the values set in the application associated with your project.
 
 ### 3.  Launch a new session 
@@ -97,7 +97,7 @@ Additional parameter that can be provided is `--https` which will force https in
 
     $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com --https 
 
-Store can be used in different regions. Parameter that should be provided is `--region` which will run store in choosen region. Currently there is a default region (US) and optional region eu (EU). Below this you can find an example:
+Store can be used in different regions. Parameter that should be provided is `--region` which will run store in chosen region. Currently there is a default region (US) and optional region eu (EU). Below this you can find an example:
 
     $ npm run-script singleProd -- --pid=abc --cid=123 --ruri=http://example.com --region=eu 
 
@@ -107,7 +107,7 @@ Store can be used in different regions. Parameter that should be provided is `--
 ### 6.  Deploy application to server
 
 You can deploy your web application to any server desired.  If you have access to a CloudFoundry environment and you're running the app in single project mode (default),
-you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack) that utilizes [ngnix](http://nginx.org).  The configuration for this deployment is determined by settings in file **static-manifest.yml** (see [http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
+you can easily deploy your project using a [static buildpack](https://github.com/cloudfoundry-community/staticfile-buildpack) that utilizes [nginx](http://nginx.org).  The configuration for this deployment is determined by settings in file **static-manifest.yml** (see [http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html](http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)). You must change the name and domain of your store to match the domain given to your project. Attempting to push as is will result in error.
 
     cf push -f static-manifest.yml
 
@@ -189,7 +189,7 @@ In the multi-project setup, instead of reading the project ID from bootstrap.js,
 
 ### DevPortal Security Documentation
 
-A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at [https://devportal.yaas.io/overview/security#StorefrontSecurity](https://devportal.yaas.io/overview/security#StorefrontSecurity) Below is a brief on a few or our recomendations.
+A variety of precautions have been taken to ensure information security in the demostore. For a full list of those capabilities, please see the DevPortal Security Documentation at [https://devportal.yaas.io/overview/security#StorefrontSecurity](https://devportal.yaas.io/overview/security#StorefrontSecurity) Below is a brief on a few or our recommendations.
 
 ### y-input
 
@@ -216,13 +216,13 @@ We strongly recommend domains that are encrypted into a Secure Socket Layer (SSL
 
 ### OWASP
 
-For more information on any of these topics see OWASP. For starters, here is a good checklist of guidlines and an industry resource for Information Security best practices:
+For more information on any of these topics see OWASP. For starters, here is a good checklist of guidelines and an industry resource for Information Security best practices:
 
 [https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet](https://www.owasp.org/index.php/Web_Service_Security_Cheat_Sheet)
 
 ## Optimization
 
-Performance optimizations are included in the gruntfile to improve the initial load time of the site. There is an 'optimizeCode' grunt task which concatenates and minifies JavaScript and CSS to reduce HTTP requests and the overall page size of the application. It works by pulling all the code from the development files into the .tmp directory, where it then concatenates and minifies before moving it to a final destination in the /dist directory. The 'optimizeCode' build task conducts all operations required with producing an optimized run-time, including: cleaning of /dist, copying of dependencies, and the replacement of the concatenated and minified resources. The code within the /dist directory then contains everything needed to run an optimized store front. To deploy those optimized resources, first run a build command that will populate the /dist directory with the optimized files (like **grunt build** for example) then deploy /dist to your server of choice and run **grunt startServer**. The startServer build task gives you the choice to run either a multi-project site or a single-project site with the flags --single or --multiple. It will start the server with only the minimum build steps necessary (including server-side optimizations),  excluding unecessary build tasks like linting.
+Performance optimizations are included in the gruntfile to improve the initial load time of the site. There is an 'optimizeCode' grunt task which concatenates and minifies JavaScript and CSS to reduce HTTP requests and the overall page size of the application. It works by pulling all the code from the development files into the .tmp directory, where it then concatenates and minifies before moving it to a final destination in the /dist directory. The 'optimizeCode' build task conducts all operations required with producing an optimized run-time, including: cleaning of /dist, copying of dependencies, and the replacement of the concatenated and minified resources. The code within the /dist directory then contains everything needed to run an optimized store front. To deploy those optimized resources, first run a build command that will populate the /dist directory with the optimized files (like **grunt build** for example) then deploy /dist to your server of choice and run **grunt startServer**. The startServer build task gives you the choice to run either a multi-project site or a single-project site with the flags --single or --multiple. It will start the server with only the minimum build steps necessary (including server-side optimizations),  excluding unnecessary build tasks like linting.
 
 A short list of the performance optimizations available are: JS & CSS minification, file revisioning, http template caching, and GZip in the NodeJS server.
 
