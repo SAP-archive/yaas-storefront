@@ -1,3 +1,8 @@
+![](https://img.shields.io/badge/STATUS-NOT%20CURRENTLY%20MAINTAINED-red.svg?longCache=true&style=flat)
+
+# Important Notice
+We have decided to stop the maintenance of this public GitHub repository.
+
 # hybris Store Template for the Cloud-based Commerce Services
 
 This project is an e-commerce front-end written in AngularJS that is meant to showcase the available commerce services and
