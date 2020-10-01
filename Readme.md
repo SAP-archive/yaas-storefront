@@ -294,7 +294,7 @@ We encourage contributions in the form of pull requests against the master branc
 
 ### License
  
-See the License.md file for complete license information.
+See the LICENSE file for complete license information.
 
 
 
